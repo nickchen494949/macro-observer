@@ -1,0 +1,522 @@
+{
+  "values": [
+    {
+      "date": "2008-01-30",
+      "target_year": 2008,
+      "pce_rev": 0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.5
+    },
+    {
+      "date": "2008-04-30",
+      "target_year": 2008,
+      "pce_rev": 0.2,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.2
+    },
+    {
+      "date": "2008-06-25",
+      "target_year": 2008,
+      "pce_rev": 0.0,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2008-10-29",
+      "target_year": 2009,
+      "pce_rev": 0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": -0.5
+    },
+    {
+      "date": "2009-01-28",
+      "target_year": 2009,
+      "pce_rev": -1.6,
+      "rate_rev": 0.0,
+      "pce_next_rev": -0.4
+    },
+    {
+      "date": "2009-04-29",
+      "target_year": 2009,
+      "pce_rev": 0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.4
+    },
+    {
+      "date": "2009-06-24",
+      "target_year": 2009,
+      "pce_rev": 0.3,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.1
+    },
+    {
+      "date": "2009-11-04",
+      "target_year": 2010,
+      "pce_rev": -0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2010-01-27",
+      "target_year": 2010,
+      "pce_rev": -0.4,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.7
+    },
+    {
+      "date": "2010-04-28",
+      "target_year": 2010,
+      "pce_rev": -0.2,
+      "rate_rev": 0.0,
+      "pce_next_rev": -0.5
+    },
+    {
+      "date": "2010-06-23",
+      "target_year": 2010,
+      "pce_rev": -0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": -0.2
+    },
+    {
+      "date": "2010-11-03",
+      "target_year": 2011,
+      "pce_rev": 0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2011-01-26",
+      "target_year": 2011,
+      "pce_rev": -0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.4
+    },
+    {
+      "date": "2011-04-27",
+      "target_year": 2011,
+      "pce_rev": 0.3,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.3
+    },
+    {
+      "date": "2011-06-22",
+      "target_year": 2011,
+      "pce_rev": 0.2,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.2
+    },
+    {
+      "date": "2011-11-02",
+      "target_year": 2012,
+      "pce_rev": 0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.1
+    },
+    {
+      "date": "2012-01-25",
+      "target_year": 2012,
+      "pce_rev": -0.4,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.3
+    },
+    {
+      "date": "2012-04-25",
+      "target_year": 2012,
+      "pce_rev": 0.3,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.2
+    },
+    {
+      "date": "2012-06-20",
+      "target_year": 2012,
+      "pce_rev": -0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2012-09-13",
+      "target_year": 2013,
+      "pce_rev": -0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.1
+    },
+    {
+      "date": "2012-12-12",
+      "target_year": 2013,
+      "pce_rev": -0.2,
+      "rate_rev": 0.0,
+      "pce_next_rev": -0.1
+    },
+    {
+      "date": "2013-03-20",
+      "target_year": 2013,
+      "pce_rev": -0.2,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2013-06-19",
+      "target_year": 2013,
+      "pce_rev": -0.3,
+      "rate_rev": 0.0,
+      "pce_next_rev": -0.3
+    },
+    {
+      "date": "2013-09-18",
+      "target_year": 2014,
+      "pce_rev": -0.2,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2013-12-18",
+      "target_year": 2014,
+      "pce_rev": 0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2014-03-19",
+      "target_year": 2014,
+      "pce_rev": 0.2,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.2
+    },
+    {
+      "date": "2014-06-18",
+      "target_year": 2014,
+      "pce_rev": 0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2014-09-17",
+      "target_year": 2015,
+      "pce_rev": 0.0,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2014-12-17",
+      "target_year": 2015,
+      "pce_rev": 0.0,
+      "rate_rev": -0.75,
+      "pce_next_rev": -0.1
+    },
+    {
+      "date": "2015-03-18",
+      "target_year": 2015,
+      "pce_rev": -0.3,
+      "rate_rev": 0.0,
+      "pce_next_rev": -0.1
+    },
+    {
+      "date": "2015-06-17",
+      "target_year": 2015,
+      "pce_rev": 0.0,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2015-09-17",
+      "target_year": 2016,
+      "pce_rev": 0.0,
+      "rate_rev": 0.0,
+      "pce_next_rev": -0.2
+    },
+    {
+      "date": "2015-12-16",
+      "target_year": 2016,
+      "pce_rev": 0.0,
+      "rate_rev": 1.02,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2016-03-16",
+      "target_year": 2016,
+      "pce_rev": 0.3,
+      "rate_rev": -0.5,
+      "pce_next_rev": 0.2
+    },
+    {
+      "date": "2016-06-15",
+      "target_year": 2016,
+      "pce_rev": 0.2,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.3
+    },
+    {
+      "date": "2016-09-21",
+      "target_year": 2017,
+      "pce_rev": 0.0,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.1
+    },
+    {
+      "date": "2016-12-14",
+      "target_year": 2017,
+      "pce_rev": 0.0,
+      "rate_rev": 0.3,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2017-03-15",
+      "target_year": 2017,
+      "pce_rev": 0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2017-06-14",
+      "target_year": 2017,
+      "pce_rev": -0.4,
+      "rate_rev": 0.0,
+      "pce_next_rev": -0.3
+    },
+    {
+      "date": "2017-09-20",
+      "target_year": 2018,
+      "pce_rev": -0.2,
+      "rate_rev": 0.0,
+      "pce_next_rev": -0.1
+    },
+    {
+      "date": "2017-12-13",
+      "target_year": 2018,
+      "pce_rev": 0.0,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2018-03-21",
+      "target_year": 2018,
+      "pce_rev": 0.5,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.7
+    },
+    {
+      "date": "2018-06-13",
+      "target_year": 2018,
+      "pce_rev": 0.1,
+      "rate_rev": 0.3,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2018-09-26",
+      "target_year": 2019,
+      "pce_rev": 0.0,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2018-12-19",
+      "target_year": 2019,
+      "pce_rev": 0.0,
+      "rate_rev": -0.2,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2019-03-20",
+      "target_year": 2019,
+      "pce_rev": -0.1,
+      "rate_rev": -0.5,
+      "pce_next_rev": -0.1
+    },
+    {
+      "date": "2019-06-19",
+      "target_year": 2019,
+      "pce_rev": -0.2,
+      "rate_rev": 0.0,
+      "pce_next_rev": -0.1
+    },
+    {
+      "date": "2019-09-18",
+      "target_year": 2020,
+      "pce_rev": 0.0,
+      "rate_rev": -0.2,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2019-12-11",
+      "target_year": 2020,
+      "pce_rev": 0.0,
+      "rate_rev": -0.3,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2020-06-10",
+      "target_year": 2020,
+      "pce_rev": -0.9,
+      "rate_rev": -1.5,
+      "pce_next_rev": -0.5
+    },
+    {
+      "date": "2020-09-16",
+      "target_year": 2021,
+      "pce_rev": 0.2,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.1
+    },
+    {
+      "date": "2020-12-16",
+      "target_year": 2021,
+      "pce_rev": 0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.1
+    },
+    {
+      "date": "2021-03-17",
+      "target_year": 2021,
+      "pce_rev": 0.4,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.1
+    },
+    {
+      "date": "2021-06-16",
+      "target_year": 2021,
+      "pce_rev": 0.8,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.1
+    },
+    {
+      "date": "2021-09-22",
+      "target_year": 2022,
+      "pce_rev": 0.2,
+      "rate_rev": 0.2,
+      "pce_next_rev": 0.1
+    },
+    {
+      "date": "2021-12-15",
+      "target_year": 2022,
+      "pce_rev": 0.4,
+      "rate_rev": 0.6,
+      "pce_next_rev": 0.1
+    },
+    {
+      "date": "2022-03-16",
+      "target_year": 2022,
+      "pce_rev": 1.4,
+      "rate_rev": 1.0,
+      "pce_next_rev": 0.3
+    },
+    {
+      "date": "2022-06-15",
+      "target_year": 2022,
+      "pce_rev": 0.2,
+      "rate_rev": 1.5,
+      "pce_next_rev": 0.1
+    },
+    {
+      "date": "2022-09-21",
+      "target_year": 2023,
+      "pce_rev": 0.4,
+      "rate_rev": 0.8,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2022-12-14",
+      "target_year": 2023,
+      "pce_rev": 0.4,
+      "rate_rev": 0.5,
+      "pce_next_rev": 0.2
+    },
+    {
+      "date": "2023-03-22",
+      "target_year": 2023,
+      "pce_rev": 0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.1
+    },
+    {
+      "date": "2023-06-14",
+      "target_year": 2023,
+      "pce_rev": 0.3,
+      "rate_rev": 0.5,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2023-09-20",
+      "target_year": 2024,
+      "pce_rev": 0.0,
+      "rate_rev": 0.5,
+      "pce_next_rev": 0.1
+    },
+    {
+      "date": "2023-12-13",
+      "target_year": 2024,
+      "pce_rev": -0.2,
+      "rate_rev": -0.5,
+      "pce_next_rev": -0.1
+    },
+    {
+      "date": "2024-03-20",
+      "target_year": 2024,
+      "pce_rev": 0.2,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2024-06-12",
+      "target_year": 2024,
+      "pce_rev": 0.2,
+      "rate_rev": 0.5,
+      "pce_next_rev": 0.1
+    },
+    {
+      "date": "2024-09-18",
+      "target_year": 2025,
+      "pce_rev": -0.1,
+      "rate_rev": -0.7,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2024-12-18",
+      "target_year": 2025,
+      "pce_rev": 0.3,
+      "rate_rev": 0.5,
+      "pce_next_rev": 0.2
+    },
+    {
+      "date": "2025-03-19",
+      "target_year": 2025,
+      "pce_rev": 0.3,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2025-06-18",
+      "target_year": 2025,
+      "pce_rev": 0.3,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.2
+    },
+    {
+      "date": "2025-09-17",
+      "target_year": 2026,
+      "pce_rev": 0.2,
+      "rate_rev": -0.2,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2025-12-10",
+      "target_year": 2026,
+      "pce_rev": -0.1,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.0
+    },
+    {
+      "date": "2026-03-18",
+      "target_year": 2026,
+      "pce_rev": 0.2,
+      "rate_rev": 0.0,
+      "pce_next_rev": 0.1
+    },
+    {
+      "date": "2026-06-17",
+      "target_year": 2026,
+      "pce_rev": 0.6,
+      "rate_rev": 0.4,
+      "pce_next_rev": 0.3
+    }
+  ]
+}

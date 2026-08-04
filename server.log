@@ -1,0 +1,73 @@
+
+  ╔══════════════════════════════════════════╗
+  ║  🔭 宏观观察器 — Data Server              ║
+  ╠══════════════════════════════════════════╣
+  ║  🌐 http://localhost:8765               ║
+  ║  GET /api/data      Dashboard data       ║
+  ║  GET /api/refresh   Incremental update   ║
+  ║  GET /api/status    Download progress    ║
+  ║  GET /api/redownload Full re-download    ║
+  ╚══════════════════════════════════════════╝
+
+  📂 Loaded 98 cached files (FRED: 62, Yahoo: 26)
+  📄 Exported 88 CSV files to csv/ folder
+  ✅ All data present, ready!
+
+  ⏰ FRED + Yahoo: once per day
+
+
+  🔄 Incremental update...
+  📈 Updating Yahoo...
+  ⏭️  Update already running, skipping.
+  📈 Yahoo: 25 ok, 0 failed
+  📈 Updating Fed Funds Futures path...
+  ⚠️  Failed to fetch ZQF28.CBT: HTTP 404
+  ✅ Saved FED_PATH_HISTORY with 17 months for 2026-08-01 (total 254 days)
+  📈 Updating FOMC SEP Dot Plot...
+  ✅ Saved SEP_HISTORY with 58 meetings
+  ✅ Update done
+
+
+  🔄 Incremental update...
+  📈 Updating Yahoo...
+  📈 Yahoo: 25 ok, 0 failed
+  📈 Updating Fed Funds Futures path...
+  ⚠️  Failed to fetch ZQF28.CBT: HTTP 404
+  ✅ Saved FED_PATH_HISTORY with 17 months for 2026-08-01 (total 254 days)
+  📈 Updating FOMC SEP Dot Plot...
+  ✅ Saved SEP_HISTORY with 58 meetings
+  ✅ Update done
+
+
+  🔄 Incremental update...
+  📈 Updating Yahoo...
+  📈 Yahoo: 25 ok, 0 failed
+  📈 Updating Fed Funds Futures path...
+  ⚠️  Failed to fetch ZQF28.CBT: HTTP 404
+  ✅ Saved FED_PATH_HISTORY with 17 months for 2026-08-01 (total 254 days)
+  📈 Updating FOMC SEP Dot Plot...
+  ✅ Saved SEP_HISTORY with 58 meetings
+  ✅ Update done
+
+
+  🔄 Incremental update...
+  📈 Updating Yahoo...
+  📈 Yahoo: 25 ok, 0 failed
+  📈 Updating Fed Funds Futures path...
+  ⚠️  Failed to fetch ZQF28.CBT: HTTP 404
+  ✅ Saved FED_PATH_HISTORY with 17 months for 2026-08-01 (total 254 days)
+  📈 Updating FOMC SEP Dot Plot...
+  ✅ Saved SEP_HISTORY with 58 meetings
+  ✅ Update done
+
+
+  🔄 Incremental update...
+  📈 Updating Yahoo...
+  📈 Yahoo: 25 ok, 0 failed
+  📈 Updating Fed Funds Futures path...
+  ⚠️  Failed to fetch ZQF28.CBT: HTTP 404
+  ✅ Saved FED_PATH_HISTORY with 17 months for 2026-08-01 (total 254 days)
+  📈 Updating FOMC SEP Dot Plot...
+  ✅ Saved SEP_HISTORY with 58 meetings
+  ✅ Update done
+
