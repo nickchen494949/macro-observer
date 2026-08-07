@@ -1,0 +1,34 @@
+{
+  "name": "Phase 5 Multi-Horizon Exploratory",
+  "version": "1.0",
+  "normalization": "expanding_ecdf",
+  "weighting": "equal",
+  "composites": [
+    {
+      "id": "ShortFlow_1D",
+      "target_horizon": 1,
+      "components": [
+        { "module": "volControl", "sign": 1, "condition": "always" },
+        { "module": "pensionRebalance", "sign": -1, "condition": "active_only" }
+      ]
+    },
+    {
+      "id": "CoreFlow_5D",
+      "target_horizon": 5,
+      "components": [
+        { "module": "volControl", "sign": 1, "condition": "always" },
+        { "module": "ctaEtfProxy", "sign": 1, "condition": "always" },
+        { "module": "riskParity", "sign": 1, "condition": "always" },
+        { "module": "pensionRebalance", "sign": -1, "condition": "active_only" }
+      ]
+    },
+    {
+      "id": "MediumFlow_20D",
+      "target_horizon": 20,
+      "components": [
+        { "module": "ctaEtfProxy", "sign": 1, "condition": "always" },
+        { "module": "riskParity", "sign": 1, "condition": "always" }
+      ]
+    }
+  ]
+}
