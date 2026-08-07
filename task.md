@@ -1,0 +1,10 @@
+- `[x]` 1. **Stateful VolControl**: Fixed `previousModelState.volControl → nextModelState.volControl` passing and fixed genesis seeding.
+- `[x]` 2. **No Wall-Clock Core**: Removed `new Date()` from math core; now uses `isSeriesTooStale` properly.
+- `[x]` 3. **Strict NYSE Calendar**: Replay loop now traverses `nyse_calendar.json` explicitly.
+- `[x]` 4. **FRED Sensitivity Fixes**: Fixed `riskParity` property name, output args, and implemented true PIT count.
+- `[x]` 5. **FRED PIT Join**: Built a registry-driven `as-of` joining mechanism with `lagBusinessDays`.
+- `[x]` 6. **V3 Schema Sync**: Updated `config/schemas/flow_api_v3.schema.json` to match actual engine output fields perfectly.
+- `[x]` 7. **CTA SMA Robustness**: Engine correctly skips missing days and flags `insufficient_data` instead of silent failures.
+- `[x]` 8. **Pension Windows**: Month/quarter-end logic relative to trading calendar implemented properly.
+- `[x]` 9. **Forward Label Fixes**: Renamed `riskParity` key, computed path-dependent MDD using high-to-low logic, checked adjusted OHLC integrity, and added `insufficient_future_data` handling.
+- `[x]` 10. **Automated Hard-Gate Tests**: Built `missing_data_logic_test.js` to strictly assert missing data triggers and verified deterministic snapshot logic.
