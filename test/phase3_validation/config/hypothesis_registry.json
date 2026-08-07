@@ -1,6 +1,6 @@
 {
   "meta": {
-    "registryVersion": "1.1",
+    "registryVersion": "1.2",
     "createdBeforeOutcomeEvaluation": true,
     "frozen": true
   },
@@ -12,7 +12,7 @@
     "directionGate": "sign(beta) == expectedDirection",
     "bootstrapRequirement": "95% moving-block percentile CI must exclude zero in expected direction"
   },
-  "modulePassCondition": "ALL primary hypotheses must pass (FDR + bootstrap + OOS + Partial Rank IC direction preserved) to reach SUPPORTED status",
+  "modulePassCondition": "ALL primary hypotheses must pass (FDR + bootstrap + OOS + Partial Rank IC direction preserved) AND the module must satisfy ALL regimeRules to reach SUPPORTED status",
   "reportingRequirements": [
     "N_observations",
     "N_distinct_signals",
@@ -23,6 +23,7 @@
   ],
   "regimeRules": {
     "annualMinimumN": 30,
+    "eligibleYearDefinition": "N_year >= annualMinimumN",
     "aggregateDirectionCorrect": true,
     "eligibleYearsSameDirectionMinPct": 0.70,
     "maxYearContributionShare": 0.50,
@@ -30,7 +31,7 @@
     "yearContributionShareDefinition": "abs(yearContribution) / sum(abs(yearContribution)); if denom==0 -> inconclusive",
     "leaveOneYearOutMedianSameDirection": true,
     "maxCatastrophicSignReversals": 1,
-    "catastrophicSignReversalDefinition": "annual effect sign opposite to aggregate AND abs(annual standardized effect) >= 0.5 * abs(aggregate standardized effect)"
+    "catastrophicSignReversalDefinition": "sign(IC_year) != sign(IC_aggregate) AND abs(IC_year) >= 0.5 * abs(IC_aggregate) (for eligible years only)"
   },
   "statisticalParameters": {
     "bootstrapIterations": 5000,
@@ -39,6 +40,16 @@
     "HACMaxLag": "max(h - 1, floor(4 * (N/100)^(2/9)))",
     "minimumN": 60,
     "OOSStartRule": "expanding_window_minimum_3_years_first_eligible_test_year_2019",
+    "refitCadence": {
+      "frequency": "annual",
+      "fitTiming": "once_before_firstTestTradableSession_of_each_test_year",
+      "coefficientsHeldFixed": "entire_test_year"
+    },
+    "preprocessingSequence": {
+      "1_winsorization": "raw signal -> winsorize using TRAINING thresholds only",
+      "2_transform": "winsorized signal -> transform using TRAINING Empirical CDF (ECDF) only",
+      "3_regression": "apply to OLS. No test-period distribution fitting allowed."
+    },
     "purgeRule": {
       "trainingTestSplit": "lastLabelSession < firstTestTradableSession",
       "foldAssignment": "firstTradableSession determines the test year, not decisionDate"

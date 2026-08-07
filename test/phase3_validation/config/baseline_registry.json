@@ -1,17 +1,19 @@
 {
   "meta": {
-    "registryVersion": "1.1",
+    "registryVersion": "1.2",
     "createdBeforeOutcomeEvaluation": true,
     "frozen": true
   },
   "baselines": {
     "momentum": {
       "definition": "momentum_t = AdjClose_t / AdjClose_{t-252} - 1",
-      "missingPolicy": "exclude"
+      "missingPolicy": "exclude",
+      "baselineWinsorization": "none"
     },
     "volatility": {
       "definition": "vol20_t = sqrt(252) * sample_std(log(AdjClose_i / AdjClose_{i-1}), last 20 returns, ddof=1)",
-      "missingPolicy": "exclude"
+      "missingPolicy": "exclude",
+      "baselineWinsorization": "none"
     }
   },
   "combinedBaseline": {
@@ -29,19 +31,17 @@
     "commonSample": "baseline and enhanced must be evaluated on exactly the same train rows and test rows"
   },
   "oosMetrics": {
-    "deltaR2": {
-      "formula": "1 - (sum((y - y_hat_enhanced)^2) / sum((y - y_hat_baseline)^2))",
-      "interpretation": "> 0 = enhanced better than baseline, = 0 = no improvement, < 0 = enhanced worse"
+    "primaryOOSLoss": "squared_error",
+    "primaryOOSTest": {
+      "metric": "d_t = (y - y_hat_baseline)^2 - (y - y_hat_enhanced)^2",
+      "meanLossDifferential": "> 0",
+      "HACPValue": "< 0.05",
+      "HACTest": "two_sided",
+      "bootstrapCI": "95_percentile",
+      "bootstrapLowerBound": "> 0"
     },
-    "deltaMAE": {
-      "formula": "MAE_baseline - MAE_enhanced",
-      "interpretation": "> 0 = improvement"
+    "confirmatoryOOSMetric": {
+      "deltaMAE": "> 0 (formula: MAE_baseline - MAE_enhanced)"
     }
-  },
-  "oosSignificanceTest": {
-    "lossDifferential": "d_t = L_baseline,t - L_enhanced,t",
-    "primaryTest": "HAC-adjusted loss differential test AND moving-block bootstrap CI on d_t",
-    "primaryCondition": "Mean OOS loss improvement > 0 AND bootstrap CI / HAC evidence supports improvement",
-    "secondaryTest": "Clark-West test for nested models"
   }
 }
