@@ -1,0 +1,9 @@
+node_modules/
+.env
+data/fred/*.json
+data/yahoo/*.json
+backtest/output/
+backtest/results/
+backtest/snapshots.json
+results/
+labels.json

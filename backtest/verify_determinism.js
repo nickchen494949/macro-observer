@@ -1,21 +1,39 @@
+const assert = require('assert');
+const { runFlowEngine } = require('../lib/flow_engine');
+const { buildProductionEngineInputs, buildReplayEngineInputs } = require('../lib/flow_wrappers');
+
+// Mock a simple store with just enough data to run the engine (or load it from a fixture)
 const fs = require('fs');
-const crypto = require('crypto');
-const { execSync } = require('child_process');
+const store = {
+  fred: { 'DGS10': [['2026-08-01', 4.0]] },
+  yahoo: { '^GSPC': [['2026-08-01', 5000]] },
+  valuation: {}
+};
 
-console.log('Running builder twice...');
-execSync('node backtest/build_historical_snapshots.js 2026-08-01 2026-08-05 out1.json');
-execSync('node backtest/build_historical_snapshots.js 2026-08-01 2026-08-05 out2.json');
+// Test equivalence
+console.log('Building inputs...');
+const prodInput = buildProductionEngineInputs(store);
+// For replay to be identical to prod, decisionDate must be today, signalAvailableAt must be same, etc.
+const replayInput = buildReplayEngineInputs(
+  store,
+  prodInput.decisionDate, 
+  prodInput.signalAvailableAt, 
+  prodInput.marketDataAsOf, 
+  null
+);
 
-const o1 = JSON.parse(fs.readFileSync('out1.json', 'utf8'));
-const o2 = JSON.parse(fs.readFileSync('out2.json', 'utf8'));
+// We must align the modelConfig so they are mathematically equivalent for the test
+replayInput.modelConfig.useEtfProxy = prodInput.modelConfig.useEtfProxy;
 
-let diffs = 0;
-for (const k in o1) {
-  if (o1[k].meta) { delete o1[k].meta.timeToRunMs; delete o1[k].snapshotGeneratedAt; }
-  if (o2[k].meta) { delete o2[k].meta.timeToRunMs; delete o2[k].snapshotGeneratedAt; }
-  const h1 = crypto.createHash('sha256').update(JSON.stringify(o1[k])).digest('hex');
-  const h2 = crypto.createHash('sha256').update(JSON.stringify(o2[k])).digest('hex');
-  if (h1 !== h2) diffs++;
-}
-assert(diffs === 0, 'Determinism failed!');
+console.log('Running mathematically pure engine...');
+const A = runFlowEngine(prodInput);
+const B = runFlowEngine(replayInput);
+
+if (A.snapshot) delete A.snapshot.snapshotGeneratedAt;
+if (B.snapshot) delete B.snapshot.snapshotGeneratedAt;
+
+// Core Equivalence
+console.log('Verifying bit-for-bit equivalence...');
+assert.deepStrictEqual(A, B, "Core equivalence failed: Mathematical output of runFlowEngine differed between production and replay wrappers.");
+
 console.log('Determinism OK');

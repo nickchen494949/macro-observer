@@ -21,102 +21,104 @@ function calculateMaxDrawdown(prices) {
   return maxDd;
 }
 
-function calculateRealizedVol(returns) {
-  if (!returns || returns.length < 2) return 0;
-  const mean = returns.reduce((a, b) => a + b, 0) / returns.length;
-  const variance = returns.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / (returns.length - 1);
-  return Math.sqrt(variance) * Math.sqrt(252) * 100;
-}
-
 function main() {
   const yahooDir = path.join(__dirname, '../data/yahoo');
-  const fredDir = path.join(__dirname, '../data/fred');
-  const spx = loadJson(path.join(yahooDir, '_GSPC.json'));
-  const dgs10 = loadJson(path.join(fredDir, 'DGS10.json'));
+  const snapshotsPath = path.join(__dirname, 'snapshots.json');
   
-  if (!spx || !dgs10) {
-    console.error("Missing necessary Yahoo or Fred data for SPX or DGS10.");
+  const spx = loadJson(path.join(yahooDir, '_GSPC.json'));
+  const snapshots = loadJson(snapshotsPath);
+  
+  if (!spx || !snapshots) {
+    console.error("Missing SPX data or snapshots.json");
     process.exit(1);
   }
   
-  const spxData = spx.values;
-  const bondData = dgs10.values;
-  
-  // Index by date for O(1) lookups
+  const spxData = spx.values || spx; // Array of objects
   const spxMap = new Map();
-  spxData.forEach((d, i) => spxMap.set(d[0], { idx: i, price: d[1] }));
+  spxData.forEach((d, i) => spxMap.set(d.date, { idx: i, data: d }));
   
-  const bondMap = new Map();
-  bondData.forEach((d, i) => bondMap.set(d[0], { idx: i, yield: d[1] }));
-
   const labels = {};
   
-  for (let i = 0; i < spxData.length - 1; i++) {
-    const today = spxData[i][0];
+  for (const [date, snap] of Object.entries(snapshots)) {
+    if (!snap.modules) continue;
     
-    // T+1 is i+1, T+h is i+h
-    // Forward return uses T+1 close to T+h close.
-    // That means return = (Price(T+h) - Price(T+1)) / Price(T+1)
+    labels[date] = { decisionDate: date, modules: {}, composite: {} };
     
-    const pxT1 = spxData[i+1][1];
-    
-    const getRet = (horizon) => {
-      if (i + horizon < spxData.length) {
-        return (spxData[i+horizon][1] / pxT1) - 1;
-      }
-      return null;
-    };
-    
-    const ret1d = getRet(1);
-    const ret5d = getRet(5);
-    const ret10d = getRet(10);
-    const ret20d = getRet(20);
-    
-    // Max Drawdown 5d
-    let maxDd5d = null;
-    if (i + 5 < spxData.length) {
+    // Evaluate per-module
+    const mods = ['volControl', 'ctaEtfProxy', 'riskParityProxy', 'pensionRebalance'];
+    for (const m of mods) {
+      const mData = snap.modules[m];
+      if (!mData || !mData.firstTradableSession) continue;
+      
+      const fts = mData.firstTradableSession;
+      if (!spxMap.has(fts)) continue;
+      
+      const startIdx = spxMap.get(fts).idx;
+      if (startIdx + 4 >= spxData.length) continue;
+      
+      const adjOpen_F = spxData[startIdx].adjOpen;
+      const adjClose_F = spxData[startIdx].adjClose;
+      const adjClose_F4 = spxData[startIdx + 4].adjClose;
+      
+      const ret1d = (adjClose_F / adjOpen_F) - 1;
+      const ret5d = (adjClose_F4 / adjOpen_F) - 1;
+      
       const prices5d = [];
-      for (let j = 1; j <= 5; j++) prices5d.push(spxData[i+j][1]);
-      maxDd5d = calculateMaxDrawdown(prices5d);
-    }
-    
-    // Realized Vol 5d
-    let realVol5d = null;
-    if (i + 5 < spxData.length) {
-      const rets5d = [];
-      for (let j = 2; j <= 5; j++) {
-        rets5d.push((spxData[i+j][1] / spxData[i+j-1][1]) - 1);
+      const lows5d = [];
+      for (let j = 0; j <= 4; j++) {
+        prices5d.push(spxData[startIdx + j].adjClose);
+        lows5d.push(spxData[startIdx + j].adjLow);
       }
-      realVol5d = calculateRealizedVol(rets5d);
+      
+      // MAE_h: from entry AdjOpen_F to worst AdjLow
+      let mae = 0;
+      for (const l of lows5d) {
+        const dd = (l - adjOpen_F) / adjOpen_F;
+        if (dd < mae) mae = dd;
+      }
+      
+      const mdd = calculateMaxDrawdown(prices5d);
+      
+      labels[date].modules[m] = {
+        signalAvailableAt: mData.signalAvailableAt,
+        firstTradableSession: fts,
+        return1dOpen: ret1d,
+        return5dOpen: ret5d,
+        mae5d: mae,
+        mdd5d: mdd
+      };
     }
     
-    // Equity minus Bond 5d
-    let eqMinusBd5d = null;
-    if (i + 5 < spxData.length && bondMap.has(today)) {
-      const bondIdx = bondMap.get(today).idx;
-      if (bondIdx + 5 < bondData.length) {
-        const yieldT1 = bondData[bondIdx+1][1];
-        const yieldT5 = bondData[bondIdx+5][1];
-        // Proxy bond return: -Duration * (YieldT5 - YieldT1) / 100
-        const bondRet5d = -8 * (yieldT5 - yieldT1) / 100;
-        eqMinusBd5d = ret5d - bondRet5d;
+    // Composite evaluates from composite.firstTradableSession (max of all)
+    let compFts = null;
+    let maxSig = null;
+    for (const m of mods) {
+      const mData = snap.modules[m];
+      if (mData && mData.firstTradableSession) {
+        if (!maxSig || mData.signalAvailableAt > maxSig) {
+          maxSig = mData.signalAvailableAt;
+          compFts = mData.firstTradableSession;
+        }
       }
     }
     
-    labels[today] = {
-      futureReturn1d: ret1d,
-      futureReturn5d: ret5d,
-      futureReturn10d: ret10d,
-      futureReturn20d: ret20d,
-      futureMaxDrawdown5d: maxDd5d,
-      futureRealizedVol5d: realVol5d,
-      equityMinusBond5d: eqMinusBd5d
-    };
+    if (compFts && spxMap.has(compFts)) {
+      const startIdx = spxMap.get(compFts).idx;
+      if (startIdx + 4 < spxData.length) {
+        const adjOpen_F = spxData[startIdx].adjOpen;
+        const adjClose_F4 = spxData[startIdx + 4].adjClose;
+        const ret5d = (adjClose_F4 / adjOpen_F) - 1;
+        labels[date].composite = {
+          firstTradableSession: compFts,
+          return5dOpen: ret5d
+        };
+      }
+    }
   }
   
-  const outPath = path.join(__dirname, 'labels.json');
+  const outPath = path.join(__dirname, 'forward_labels.json');
   fs.writeFileSync(outPath, JSON.stringify(labels, null, 2));
-  console.log(`Wrote forward labels for ${Object.keys(labels).length} days to ${outPath}`);
+  console.log(`Wrote module-specific forward labels for ${Object.keys(labels).length} days to ${outPath}`);
 }
 
 main();

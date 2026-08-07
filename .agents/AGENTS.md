@@ -24,3 +24,7 @@
 - You **MUST** run a server health check and fetch the API output (`curl -s http://localhost:8765/api/data`) to verify keys match the UI expectations before concluding a task.
 - If you change variable names in the DOM manipulation scripts, you must do a full-file grep to ensure no old variable references remain.
 - There is now a `window.onerror` banner in `index.html`. If the user reports a red banner, immediately fix the line number specified.
+
+## GitHub Workflow
+- **Repository**: `https://github.com/nickchen494949/macro-observer`
+- When the user asks to "update" or "push to github", run `git add .`, `git commit -m "[Brief summary]"`, and `git push origin main` (or the active branch). If permissions are required, prompt the user or run it with sandbox bypass if requested.

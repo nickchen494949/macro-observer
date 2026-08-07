@@ -2,8 +2,7 @@
 const { getFieldForPurpose } = require('./data_validation');
 
 function runFlowEngine(config) {
-  const { decisionDate, signalAvailableAt, marketDataAsOf, inputsAsOfDecision, previousModelState, modelConfig } = config;
-  const nextModelState = {};
+  const { decisionDate, signalAvailableAt, marketDataAsOf, inputsAsOfDecision, previousState, modelConfig } = config;
   const store = inputsAsOfDecision;
   // Helpers
   const getLatest = (arr) => (arr && arr.length > 0) ? arr[arr.length - 1][1] : null;
@@ -16,7 +15,6 @@ function runFlowEngine(config) {
     const returns = [];
     const start = arr.length - days - 1;
     for (let i = start + 1; i < arr.length; i++) {
-      // Missing data compression fix: refuse to calculate return across missing days
       if (arr[i][1] == null || arr[i - 1][1] == null) return null;
       returns.push(Math.log(arr[i][1] / arr[i - 1][1]));
     }
@@ -59,97 +57,65 @@ function runFlowEngine(config) {
   };
 
 
+  // Enforce Common As-Of Date
+  const crossAssetSeries = [
+    (store.yahoo && store.yahoo['^GSPC']) ? store.yahoo['^GSPC'] : null,
+    (store.yahoo && store.yahoo['^IXIC']) ? store.yahoo['^IXIC'] : null,
+    (store.yahoo && store.yahoo['SOXX']) ? store.yahoo['SOXX'] : null,
+    (store.fred && store.fred['DGS10']) ? store.fred['DGS10'] : null,
+    (store.fred && store.fred['BAMLH0A0HYM2']) ? store.fred['BAMLH0A0HYM2'] : null,
+    (store.yahoo && store.yahoo['CL=F']) ? store.yahoo['CL=F'] : null,
+    (store.yahoo && store.yahoo['GC=F']) ? store.yahoo['GC=F'] : null,
+    (store.yahoo && store.yahoo['HG=F']) ? store.yahoo['HG=F'] : null
+  ];
   
-  // --- V3.1: Strict Module-Specific Calendars ---
-  // US Equity Calendar (for VolControl, CTA ETF, Pension, RiskParity Equity)
-  let usEquityCalendar = [];
-  try {
-    const fs = require('fs');
-    const path = require('path');
-    usEquityCalendar = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/nyse_calendar.json'), 'utf-8'));
-  } catch (err) {
-    // Fallback if file missing (should not happen in prod after this batch)
-    const equityCalSource = (store.yahoo && store.yahoo['^GSPC']) ? store.yahoo['^GSPC'] : [];
-    usEquityCalendar = equityCalSource.map(pt => pt[0]).sort();
+  let commonAsOfDate = null;
+  let isSeriesTooStale = false;
+  
+  const latestDates = crossAssetSeries.filter(s => s && s.length > 0).map(s => s[s.length - 1][0]).sort();
+  if (latestDates.length > 0) {
+      commonAsOfDate = latestDates[0]; // min of the latest dates
+      const maxDate = latestDates[latestDates.length - 1];
+      const getBusinessDays = (d1, d2) => {
+          let count = 0;
+          let cur = new Date(d1);
+          const end = new Date(d2);
+          while (cur < end) {
+              cur.setDate(cur.getDate() + 1);
+              if (cur.getDay() !== 0 && cur.getDay() !== 6) count++;
+          }
+          return count;
+      };
+      if (getBusinessDays(commonAsOfDate, maxDate) > 2) {
+          isSeriesTooStale = true;
+      }
   }
 
-  // Futures Calendar (for CTA Futures)
-  const futuresCalSource = (store.yahoo && store.yahoo['CL=F']) ? store.yahoo['CL=F'] : [];
-  let futuresCalendar = futuresCalSource.map(pt => pt[0]).sort();
-  if (futuresCalendar.length === 0) futuresCalendar = usEquityCalendar; // fallback
-
-  // FRED PIT Availability Policy Registry
-  const FRED_AVAILABILITY_POLICY = {
-    'DGS10': { method: 'fixed_business_day_lag', lagBusinessDays: 1, confidence: 'conservative_approximation' },
-    'BAMLH0A0HYM2': { method: 'fixed_business_day_lag', lagBusinessDays: 1, confidence: 'conservative_approximation' }
-  };
-
-  const getPitCalendar = (seriesKey, fredSeries) => {
-    if (!fredSeries) return [];
-    // Currently, we just return observation dates because the lag logic was handled in sliceData upstream.
-    // However, to enforce registry-based PIT, we define how it *would* be consumed.
-    // The upstream sliceData in build_historical_snapshots.js should ideally use this registry.
-    // For now, within flow_engine, we just sort dates.
-    return fredSeries.map(pt => pt[0]).sort();
-  };
-
-  const alignToCalendar = (symbol, arr, purpose, calendar) => {
-    if (!arr || !calendar || calendar.length === 0) return null;
-    const aligned = [];
-    const sourceMap = new Map();
+  const truncateToCommon = (symbol, arr, purpose) => {
+    if (!arr || !commonAsOfDate) return null;
+    const truncated = [];
     for (const pt of arr) {
-       sourceMap.set(pt[0], pt[1]);
-    }
-    
-    for (const date of calendar) {
-      if (date > marketDataAsOf) break;
-      let val = sourceMap.has(date) ? sourceMap.get(date) : null;
+      if (pt[0] > commonAsOfDate) continue;
+      let val = pt[1];
       if (val != null && typeof val === 'object' && purpose) {
         val = getFieldForPurpose(symbol, val, purpose);
       }
-      aligned.push([date, val]); // explicit missing-session insertion
+      truncated.push([pt[0], val != null ? val : null]);
     }
-    return aligned.length > 0 ? aligned : null;
+    return truncated.length > 0 ? truncated : null;
   };
 
-  // Pre-aligned assets
-  const spx = alignToCalendar('^GSPC', (store.yahoo && store.yahoo['^GSPC']) ? store.yahoo['^GSPC'] : null, 'cta_close', usEquityCalendar);
-  const vix = alignToCalendar('^VIX', (store.yahoo && store.yahoo['^VIX']) ? store.yahoo['^VIX'] : null, 'cta_close', usEquityCalendar);
-  const ndx = alignToCalendar('^IXIC', (store.yahoo && store.yahoo['^IXIC']) ? store.yahoo['^IXIC'] : null, 'cta_close', usEquityCalendar);
-  const sox = alignToCalendar('SOXX', (store.yahoo && store.yahoo['SOXX']) ? store.yahoo['SOXX'] : null, 'cta_close', usEquityCalendar);
+  const spx = truncateToCommon('^GSPC', (store.yahoo && store.yahoo['^GSPC']) ? store.yahoo['^GSPC'] : null, 'cta_close');
+  const vix = truncateToCommon('^VIX', (store.yahoo && store.yahoo['^VIX']) ? store.yahoo['^VIX'] : null, 'cta_close');
+  const ndx = truncateToCommon('^IXIC', (store.yahoo && store.yahoo['^IXIC']) ? store.yahoo['^IXIC'] : null, 'cta_close');
+  const sox = truncateToCommon('SOXX', (store.yahoo && store.yahoo['SOXX']) ? store.yahoo['SOXX'] : null, 'cta_close');
+  const dgs10 = truncateToCommon('DGS10', (store.fred && store.fred['DGS10']) ? store.fred['DGS10'] : null);
+  const hyOasData = truncateToCommon('BAMLH0A0HYM2', store.fred && store.fred['BAMLH0A0HYM2'] ? store.fred['BAMLH0A0HYM2'] : null);
   
-  // Risk Parity FRED Leg uses PIT, but joined strictly by date downstream in RiskParity.
-  // Actually, Risk Parity logic computes bond returns daily. So we must align DGS10 to usEquityCalendar so arr1 (equity) and arr2 (bond) match exactly!
-  const dgs10 = alignToCalendar('DGS10', (store.fred && store.fred['DGS10']) ? store.fred['DGS10'] : null, null, usEquityCalendar);
-  const hyOasData = alignToCalendar('BAMLH0A0HYM2', store.fred && store.fred['BAMLH0A0HYM2'] ? store.fred['BAMLH0A0HYM2'] : null, null, usEquityCalendar);
+  const spxDate = commonAsOfDate; // Using common date everywhere
+
+  const dataFreshness = isStale(spxDate) ? 'stale' : 'current';
   
-  const commonAsOfDate = marketDataAsOf; // Anchorage
-  const isSeriesTooStale = isStale(commonAsOfDate);
-
-  // Timezones and signal times
-  const getNYCloseTime = (dateStr) => {
-    const dt = new Date(dateStr + 'T12:00:00Z'); 
-    const nyString = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', timeZoneName: 'shortOffset' }).format(dt);
-    const offset = nyString.split('GMT')[1]; // -5 or -4
-    const offsetStr = offset.length === 2 ? offset.slice(0,1) + '0' + offset.slice(1) + ':00' : offset + ':00';
-    return new Date(dateStr + 'T17:00:00' + offsetStr).toISOString();
-  };
-  const getFirstTradable = (availIso, cal) => {
-    // first session whose open > signalAvailableAt
-    // open is 09:30 NY time.
-    for (const d of cal) {
-      if (d > marketDataAsOf) {
-        const dt = new Date(d + 'T12:00:00Z');
-        const nyString = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', timeZoneName: 'shortOffset' }).format(dt);
-        const offset = nyString.split('GMT')[1];
-        const offsetStr = offset.length === 2 ? offset.slice(0,1) + '0' + offset.slice(1) + ':00' : offset + ':00';
-        const openIso = new Date(d + 'T09:30:00' + offsetStr).toISOString();
-        if (openIso > availIso) return d;
-      }
-    }
-    return null; // out of bounds
-  };
-
   // 1. Leveraged ETF
   const LETF_FUNDS = [
     { name: 'SPXL/UPRO', underlying: '^GSPC', leverage: 3, aum: 12e9, aumAsOf: '2026-08-01', source: 'estimate' },
@@ -381,10 +347,9 @@ function runFlowEngine(config) {
     let aggregatePositionChange = 0;
     const ctaAssets = [];
     
-    const cal = assetsConfig === ctaFuturesAssetsConfig ? futuresCalendar : usEquityCalendar;
     for (const cfg of assetsConfig) {
       let rawArr = cfg.src ? cfg.src[cfg.key] : null;
-      let arr = alignToCalendar(cfg.key, rawArr, 'cta_close', cal);
+      let arr = truncateToCommon(cfg.key, rawArr, 'cta_close');
       if (!arr || arr.length < 201) continue;
       const price = getLatest(arr);
       const sma50 = calcSma(arr, 50);
@@ -467,9 +432,7 @@ function runFlowEngine(config) {
       flowPressure: ctaStatus === 'ok' ? ctaFlowPressure : null,
       aggregatePositionChange: ctaStatus === 'ok' ? aggregatePositionChange : null,
       assets: ctaStatus === 'ok' ? ctaAssets : null,
-      commonAsOfDate: ctaStatus === 'ok' ? commonAsOfDate : null,
-      signalAvailableAt: getNYCloseTime(commonAsOfDate), // Futures settle approx 17:00 EST
-      firstTradableSession: getFirstTradable(getNYCloseTime(commonAsOfDate), assetsConfig === ctaFuturesAssetsConfig ? futuresCalendar : usEquityCalendar)
+      commonAsOfDate: ctaStatus === 'ok' ? commonAsOfDate : null
     };
   }
 
@@ -488,7 +451,6 @@ function runFlowEngine(config) {
     const returns = [];
     const start = arr.length - days - 1;
     for (let i = start + 1; i < arr.length; i++) {
-      if (arr[i][1] == null || arr[i - 1][1] == null) return null;
       returns.push(-duration * (arr[i][1] - arr[i - 1][1]) / 100);
     }
     return returns;
@@ -881,34 +843,19 @@ function runFlowEngine(config) {
     }
   };
 
-  const snapshot = { 
+  return { 
     status: 'ok',
     schemaVersion: 3,
     snapshotQuality,
     marketDataAsOf: commonAsOfDate,
     decisionDate,
-    signalAvailableAt: [
-      volControl.signalAvailableAt, 
-      leveragedEtf.signalAvailableAt, 
-      ctaFuturesProxy.signalAvailableAt, 
-      ctaEtfProxy.signalAvailableAt, 
-      riskParityProxy.signalAvailableAt, 
-      pensionRebalance.signalAvailableAt
-    ].reduce((a, b) => (a > b ? a : b)),
-    firstTradableSession: [
-      volControl.firstTradableSession, 
-      leveragedEtf.firstTradableSession, 
-      ctaFuturesProxy.firstTradableSession, 
-      ctaEtfProxy.firstTradableSession, 
-      riskParityProxy.firstTradableSession, 
-      pensionRebalance.firstTradableSession
-    ].reduce((a, b) => (a > b ? a : b)),
+    signalAvailableAt,
     engineVersion: "flow-engine-v3.0.0",
     moduleVersions: {
-      volControl: "vol-control-v3",
+      volControl: "vol-control-v2",
       ctaFuturesProxy: "cta-futures-v1",
       ctaEtfProxy: "cta-etf-v1",
-      riskParity: "risk-parity-v3"
+      riskParity: "risk-parity-v2"
     },
     modelInputManifest: {
       ctaFuturesProxy: ["CL=F", "GC=F", "NG=F"],
@@ -926,8 +873,5 @@ function runFlowEngine(config) {
       stressConditions
     }
   };
-  
-  // Return separated UI snapshot and mathematically pure state
-  return { snapshot, nextModelState };
 }
 module.exports = { runFlowEngine };

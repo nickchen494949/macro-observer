@@ -68,9 +68,20 @@ function loadAllData() {
   return { fred, yahoo, valuation };
 }
 
+function getNYCloseTime(dateStr) {
+  const dt = new Date(dateStr + 'T12:00:00Z'); 
+  const nyString = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York',
+    timeZoneName: 'shortOffset'
+  }).format(dt);
+  const offset = nyString.split('GMT')[1]; // -5 or -4
+  const offsetStr = offset.length === 2 ? offset.slice(0,1) + '0' + offset.slice(1) + ':00' : offset + ':00';
+  return new Date(dateStr + 'T17:00:00' + offsetStr).getTime();
+}
+
 function sliceData(dataObj, maxDate, isFred = false, lagOffset = 0) {
   const sliced = {};
-  const signalAvailableAt = new Date(maxDate + 'T18:00:00Z').getTime();
+  const signalAvailableAt = getNYCloseTime(maxDate);
   
   for (const [key, arr] of Object.entries(dataObj)) {
     if (Array.isArray(arr)) {
@@ -120,8 +131,9 @@ function main() {
   const relevantTradingDays = fullTradingDays.slice(startIdx);
   
   const snapshots = {};
+  const modelStates = []; // to write to model_states.jsonl
   let c = 0;
-  let previousState = null;
+  let previousModelState = null;
   let previousStateHash = null;
   let previousModelStateHash = null;
   
@@ -136,43 +148,58 @@ function main() {
     const slicedYahoo = sliceData(yahoo, t, false, 0);
     
     const currentDate = t;
-    const signalTime = currentDate + 'T18:00:00Z';
+    const signalTime = new Date(getNYCloseTime(currentDate)).toISOString();
     
-    const summary = runReplayFlows({ fred: slicedFred, yahoo: slicedYahoo, valuation }, currentDate, signalTime, currentDate, previousState);
+    const { snapshot, nextModelState } = runReplayFlows({ fred: slicedFred, yahoo: slicedYahoo, valuation }, currentDate, signalTime, currentDate, previousModelState);
     
-    const outputStateHash = hashState(summary);
-    const modelState = summary.modules && summary.modules.volControl && summary.modules.volControl.actualExpHistory ? summary.modules.volControl.actualExpHistory : null;
-    const outputModelStateHash = hashState(modelState);
+    const outputStateHash = hashState(snapshot);
+    const outputModelStateHash = hashState(nextModelState);
     
     // Only store snapshots if within the view window
     if (t >= VIEW_START_DATE) {
-      summary.meta = summary.meta || {};
-      summary.meta.replayGenesisDate = relevantTradingDays[0];
-      summary.meta.viewStartDate = VIEW_START_DATE;
-      summary.meta.viewEndDate = VIEW_END_DATE;
-      summary.meta.warmupTradingDays = c - 1;
-      summary.meta.previousStateHash = previousStateHash;
-      summary.meta.outputStateHash = outputStateHash;
-      summary.meta.previousModelStateHash = previousModelStateHash;
-      summary.meta.outputModelStateHash = outputModelStateHash;
-      summary.meta.stateChainBreaks = 0; // Strictly enforced by the sequential loop
+      snapshot.meta = snapshot.meta || {};
+      snapshot.meta.replayGenesisDate = relevantTradingDays[0];
+      snapshot.meta.viewStartDate = VIEW_START_DATE;
+      snapshot.meta.viewEndDate = VIEW_END_DATE;
+      snapshot.meta.warmupTradingDays = c - 1;
+      snapshot.meta.previousStateHash = previousStateHash;
+      snapshot.meta.outputStateHash = outputStateHash;
+      snapshot.meta.previousModelStateHash = previousModelStateHash;
+      snapshot.meta.outputModelStateHash = outputModelStateHash;
+      snapshot.meta.stateChainBreaks = 0; // Strictly enforced by the sequential loop
       
-      snapshots[t] = summary;
+      snapshots[t] = snapshot;
+      modelStates.push({
+        decisionDate: t,
+        nextModelState
+      });
     }
     
     // Roll forward
-    previousState = summary;
+    previousModelState = nextModelState;
     previousStateHash = outputStateHash;
     previousModelStateHash = outputModelStateHash;
   }
   
   fs.writeFileSync(path.join(__dirname, 'snapshots.json'), JSON.stringify(snapshots, null, 2));
   
+  // Write separated recursive mathematical states
+  const msLines = modelStates.map(ms => JSON.stringify(ms)).join('\n');
+  fs.writeFileSync(path.join(__dirname, 'model_states.jsonl'), msLines);
+
+  
   const snapKeys = Object.keys(snapshots);
   let modelStateBreaks = 0;
+  let nullModelStateHashes = 0;
   for (let i = 1; i < snapKeys.length; i++) {
-    if (snapshots[snapKeys[i]].meta.previousModelStateHash !== snapshots[snapKeys[i-1]].meta.outputModelStateHash) {
+    const curPrevHash = snapshots[snapKeys[i]].meta.previousModelStateHash;
+    const prevOutHash = snapshots[snapKeys[i-1]].meta.outputModelStateHash;
+    if (curPrevHash !== prevOutHash) {
       modelStateBreaks++;
+    }
+    // Check for "null === null" trap post-genesis
+    if (curPrevHash === null || curPrevHash === hashState(null)) {
+      nullModelStateHashes++;
     }
   }
 
@@ -180,6 +207,7 @@ function main() {
   console.log(`Total replay sessions: ${relevantTradingDays.length}`);
   console.log(`Missing snapshot sessions: 0`);
   console.log(`Model-state chain breaks: ${modelStateBreaks}`);
+  console.log(`Null model-state hashes post-genesis: ${nullModelStateHashes}`);
   console.log(`View extraction breaks: 0`);
 }
 

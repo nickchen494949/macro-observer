@@ -10,11 +10,22 @@ const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
 const ajv = new Ajv({ allErrors: true });
 addFormats(ajv);
+
+if (!process.env.FRED_API_KEY) {
+  throw new Error('FRED_API_KEY is required in .env');
+}
+if (!process.env.LOCAL_ADMIN_TOKEN) {
+  throw new Error('LOCAL_ADMIN_TOKEN is required in .env');
+}
+
 const flowApiSchemaStr = fs.readFileSync(path.join(__dirname, 'config/schemas/flow_api_v2.schema.json'), 'utf-8');
 const validateFlowSnapshot = ajv.compile(JSON.parse(flowApiSchemaStr));
 
+const flowApiSchemaV3Str = fs.readFileSync(path.join(__dirname, 'config/schemas/flow_api_v3.schema.json'), 'utf-8');
+const validateFlowSnapshotV3 = ajv.compile(JSON.parse(flowApiSchemaV3Str));
+
 const PORT = 8765;
-const FRED_KEY = '5e8696731dbd4002c9043ea10e8fbc5f';
+const FRED_KEY = process.env.FRED_API_KEY || '';
 const DATA_DIR = path.join(__dirname, 'data');
 const FRED_DIR = path.join(DATA_DIR, 'fred');
 const YAHOO_DIR = path.join(DATA_DIR, 'yahoo');
@@ -377,10 +388,17 @@ function loadAllFromDisk() {
       try {
         const d = JSON.parse(fs.readFileSync(path.join(dir, f)));
         let vals = d.values;
+        if (!vals) return;
+        
+        // Normalize array of objects to [date, value_object] like in the snapshot builder
+        if (vals.length > 0 && !Array.isArray(vals[0])) {
+          vals = vals.map(v => [v.date, v]);
+        }
+        
         // Clip valuation data to post-1973
         if (type === 'valuation') vals = vals.filter(v => v[0] >= VALUATION_CUTOFF);
         if (process.env.TEST_DATE) vals = vals.filter(v => v[0] <= process.env.TEST_DATE);
-        store[type][d.id] = vals;
+        store[type][d.id || d.symbol] = vals;
         count++;
       } catch(e) { /* skip bad files */ }
     });
@@ -2202,6 +2220,30 @@ function generateConclusions(macroState, macroTransmission, rates) {
 // ============================================
 // HTTP SERVER
 // ============================================
+function requireLocalAdmin(req, res) {
+  const isLocal = req.socket.remoteAddress === '127.0.0.1' || req.socket.remoteAddress === '::ffff:127.0.0.1' || req.socket.remoteAddress === '::1';
+  if (!isLocal || req.method !== 'POST') {
+    res.writeHead(403);
+    res.end(JSON.stringify({ error: 'Access denied: Local POST only' }));
+    return false;
+  }
+  
+  const authHeader = req.headers['authorization'];
+  if (!authHeader || authHeader !== `Bearer ${process.env.LOCAL_ADMIN_TOKEN}`) {
+    res.writeHead(401);
+    res.end(JSON.stringify({ error: 'Unauthorized: Invalid token' }));
+    return false;
+  }
+  
+  const origin = req.headers['origin'];
+  if (origin && !origin.includes('localhost') && !origin.includes('127.0.0.1')) {
+    res.writeHead(403);
+    res.end(JSON.stringify({ error: 'Access denied: Invalid origin' }));
+    return false;
+  }
+  return true;
+}
+
 const server = http.createServer(async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -2636,16 +2678,16 @@ const server = http.createServer(async (req, res) => {
     res.end(JSON.stringify({ status:'ok', fred: Object.keys(store.fred).length, yahoo: Object.keys(store.yahoo).length }));
   } else if (p === '/api/status') {
     res.end(JSON.stringify(dlStatus));
-  } else if (p === '/api/flows') {
+  } else if (p === '/api/flows' || p === '/api/flows/v3') {
     try {
       const { runProductionFlows } = require('./lib/flow_wrappers');
       const flows = runProductionFlows(store);
       
-      const isValid = validateFlowSnapshot(flows);
+      const isValid = validateFlowSnapshotV3 ? validateFlowSnapshotV3(flows) : false;
       if (!isValid) {
-        console.error('Flow engine generated invalid snapshot schema:', validateFlowSnapshot.errors);
+        console.error('Flow engine generated invalid snapshot schema:', validateFlowSnapshotV3 ? validateFlowSnapshotV3.errors : 'V3 schema missing');
         res.writeHead(500);
-        res.end(JSON.stringify({ status: 'error', error: 'Internal API Schema Violation' }));
+        res.end(JSON.stringify({ status: 'error', error: 'Internal API Schema Violation (V3)' }));
         return;
       }
       
@@ -2654,11 +2696,18 @@ const server = http.createServer(async (req, res) => {
       console.error('Flow engine error:', e);
       res.end(JSON.stringify({ status: 'error', error: e.message }));
     }
-  } else if (p === '/api/schema/flow_v1') {
+  } else if (p === '/api/flows/v2') {
+    // V2 is frozen, returns 410 Gone or mock
+    res.writeHead(410);
+    res.end(JSON.stringify({ error: 'V2 engine is frozen and no longer supported.' }));
+  } else if (p === '/api/schema/flow_v1' || p === '/api/schema/flow_v2') {
     res.end(flowApiSchemaStr);
+  } else if (p === '/api/schema/flow_v3') {
+    res.end(flowApiSchemaV3Str);
   } else if (p === '/api/data') {
     res.end(JSON.stringify(buildDashboard()));
   } else if (p === '/api/refresh') {
+    if (!requireLocalAdmin(req, res)) return;
     if (dlStatus.state === 'downloading' || dlStatus.state === 'updating') {
       res.end(JSON.stringify({ status: 'busy', message: dlStatus.msg }));
     } else {
@@ -2666,6 +2715,7 @@ const server = http.createServer(async (req, res) => {
       smartUpdate(true).catch(e => console.error('Update error:', e));
     }
   } else if (p === '/api/redownload') {
+    if (!requireLocalAdmin(req, res)) return;
     if (dlStatus.state === 'downloading') {
       res.end(JSON.stringify({ status:'busy' }));
     } else {
@@ -2673,7 +2723,8 @@ const server = http.createServer(async (req, res) => {
       store.fred = {}; store.yahoo = {};
       downloadAll().catch(e => console.error('Download error:', e));
     }
-  } else if (p === '/api/update-bdi' && req.method === 'POST') {
+  } else if (p === '/api/update-bdi') {
+    if (!requireLocalAdmin(req, res)) return;
     let body = '';
     req.on('data', d => body += d);
     req.on('end', () => {
@@ -2720,7 +2771,7 @@ const server = http.createServer(async (req, res) => {
 // ============================================
 // STARTUP
 // ============================================
-server.listen(PORT, async () => {
+server.listen(PORT, '127.0.0.1', async () => {
   console.log('');
   console.log('  ╔══════════════════════════════════════════╗');
   console.log('  ║  🔭 宏观观察器 — Data Server              ║');

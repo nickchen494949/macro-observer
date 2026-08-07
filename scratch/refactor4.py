@@ -1,4 +1,9 @@
-const fs = require('fs');
+import re
+
+with open('backtest/run_fred_sensitivity.js', 'r') as f:
+    content = f.read()
+
+new_content = """const fs = require('fs');
 const { execSync } = require('child_process');
 const path = require('path');
 const assert = require('assert');
@@ -112,25 +117,29 @@ function compareSnapsDeep(baseSnaps, targetSnaps) {
 const p1Results = compareSnapsDeep(base, plus1);
 const p3Results = compareSnapsDeep(base, plus3);
 
-console.log("\n--- SENSITIVITY REPORT ---");
+console.log("\\n--- SENSITIVITY REPORT ---");
 console.log(`FRED PIT selections changed:`);
 console.log(`Base vs +1 day: ~${shifted1}`);
-console.log(`Base vs +3 days: ~${shifted3}\n`);
+console.log(`Base vs +3 days: ~${shifted3}\\n`);
 
 console.log(`Decision dates with different PIT inputs:`);
 console.log(`+1 day: ${p1Results.decisionDatesAffected}`);
-console.log(`+3 days: ${p3Results.decisionDatesAffected}\n`);
+console.log(`+3 days: ${p3Results.decisionDatesAffected}\\n`);
 
 console.log(`Numerical module states changed:`);
 console.log(`+1 day: Risk-Parity=${p1Results.riskParityNumDiffs}, Vol-Control=${p1Results.volControlNumDiffs}, CTA-ETF=${p1Results.ctaEtfNumDiffs}`);
-console.log(`+3 days: Risk-Parity=${p3Results.riskParityNumDiffs}, Vol-Control=${p3Results.volControlNumDiffs}, CTA-ETF=${p3Results.ctaEtfNumDiffs}\n`);
+console.log(`+3 days: Risk-Parity=${p3Results.riskParityNumDiffs}, Vol-Control=${p3Results.volControlNumDiffs}, CTA-ETF=${p3Results.ctaEtfNumDiffs}\\n`);
 
 console.log(`Module statuses changed:`);
 console.log(`+1 day: ${p1Results.statusChangedPct}%`);
-console.log(`+3 days: ${p3Results.statusChangedPct}%\n`);
+console.log(`+3 days: ${p3Results.statusChangedPct}%\\n`);
 
 console.log(`Directional signals changed:`);
 console.log(`+1 day: ${p1Results.directionChangedPct}%`);
 console.log(`+3 days: ${p3Results.directionChangedPct}%`);
-console.log("--------------------------\n");
+console.log("--------------------------\\n");
 console.log("Causal isolation validated: non-FRED modules mathematically invariant.");
+"""
+
+with open('backtest/run_fred_sensitivity.js', 'w') as f:
+    f.write(new_content)
