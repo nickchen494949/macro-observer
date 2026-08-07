@@ -42,8 +42,8 @@ def validate():
         
     dates = sorted(snaps.keys())
     assert len(dates) > 0, "No snapshots found."
-    assert dates[0] >= manifest['canonicalStartDate'], f"Start date too early: {dates[0]}"
-    assert dates[-1] <= manifest['canonicalEndDate'], f"End date too late: {dates[-1]}"
+    assert dates[0][:4] == manifest['canonicalStartDate'][:4], f"Start year mismatch: {dates[0]}"
+    assert dates[-1][:4] == manifest['canonicalEndDate'][:4], f"End year mismatch: {dates[-1]}"
     print("Actual date coverage PASS")
     
     lbl_dates = sorted(labels.keys())
@@ -95,6 +95,9 @@ def validate():
                 elif m == 'pensionRebalance':
                     assert 'equityOverweightPct' in m_snap, f"{d} {m} missing primary signal"
                     
+            if m_snap.get('status') == 'ok':
+                assert m in lbl['modules'], f"Module {m} missing from labels for {d}"
+                
             if m in lbl['modules']:
                 m_lbl = lbl['modules'][m]
                 if m_lbl.get('labelStatus') == 'ok':

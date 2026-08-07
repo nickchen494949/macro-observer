@@ -1,0 +1,57 @@
+{
+  "volControl": {
+    "status": "NOT_SUPPORTED",
+    "failure_reasons": [
+      "volControl_1d: Rank IC direction reversed.",
+      "volControl_1d: IC Bootstrap CI includes zero.",
+      "volControl_1d: Pooled OOS Squared Error gate failed.",
+      "volControl_1d: Regime robustness rules failed.",
+      "volControl_1d: FDR Benjamini-Hochberg failed.",
+      "volControl_5d: Rank IC direction reversed.",
+      "volControl_5d: IC Bootstrap CI includes zero.",
+      "volControl_5d: Pooled OOS Squared Error gate failed.",
+      "volControl_5d: Regime robustness rules failed.",
+      "volControl_5d: FDR Benjamini-Hochberg failed."
+    ]
+  },
+  "riskParity": {
+    "status": "NOT_SUPPORTED",
+    "failure_reasons": [
+      "riskParity_5d: Rank IC direction reversed.",
+      "riskParity_5d: IC Bootstrap CI includes zero.",
+      "riskParity_5d: Pooled OOS Squared Error gate failed.",
+      "riskParity_5d: Regime robustness rules failed.",
+      "riskParity_5d: FDR Benjamini-Hochberg failed.",
+      "riskParity_20d: Rank IC direction reversed.",
+      "riskParity_20d: IC Bootstrap CI includes zero.",
+      "riskParity_20d: Partial Rank IC reversed or invalid.",
+      "riskParity_20d: Pooled OOS Squared Error gate failed.",
+      "riskParity_20d: Regime robustness rules failed.",
+      "riskParity_20d: FDR Benjamini-Hochberg failed."
+    ]
+  },
+  "pensionRebalance": {
+    "status": "NOT_SUPPORTED",
+    "failure_reasons": [
+      "pensionRebalance_1d: Invalid or insufficient data (02).",
+      "pensionRebalance_5d: Invalid or insufficient data (02)."
+    ]
+  },
+  "ctaEtfProxy": {
+    "status": "NOT_SUPPORTED",
+    "failure_reasons": [
+      "ctaEtfProxy_5d: Rank IC direction reversed.",
+      "ctaEtfProxy_5d: IC Bootstrap CI includes zero.",
+      "ctaEtfProxy_5d: Partial Rank IC reversed or invalid.",
+      "ctaEtfProxy_5d: Pooled OOS Squared Error gate failed.",
+      "ctaEtfProxy_5d: Regime robustness rules failed.",
+      "ctaEtfProxy_5d: FDR Benjamini-Hochberg failed.",
+      "ctaEtfProxy_20d: Rank IC direction reversed.",
+      "ctaEtfProxy_20d: IC Bootstrap CI includes zero.",
+      "ctaEtfProxy_20d: Partial Rank IC reversed or invalid.",
+      "ctaEtfProxy_20d: Pooled OOS Squared Error gate failed.",
+      "ctaEtfProxy_20d: Regime robustness rules failed.",
+      "ctaEtfProxy_20d: FDR Benjamini-Hochberg failed."
+    ]
+  }
+}

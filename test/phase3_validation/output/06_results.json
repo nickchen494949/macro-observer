@@ -1,0 +1,66 @@
+[
+  {
+    "module": "volControl",
+    "hypothesis_id": "volControl_1d",
+    "raw_p": 0.6146425272821116,
+    "fdr_p": 1.0,
+    "fdr_pass": false,
+    "valid": true
+  },
+  {
+    "module": "volControl",
+    "hypothesis_id": "volControl_5d",
+    "raw_p": 0.5794458659426523,
+    "fdr_p": 1.0,
+    "fdr_pass": false,
+    "valid": true
+  },
+  {
+    "module": "riskParity",
+    "hypothesis_id": "riskParity_5d",
+    "raw_p": 0.8325378241368169,
+    "fdr_p": 1.0,
+    "fdr_pass": false,
+    "valid": true
+  },
+  {
+    "module": "riskParity",
+    "hypothesis_id": "riskParity_20d",
+    "raw_p": 0.858314254540996,
+    "fdr_p": 1.0,
+    "fdr_pass": false,
+    "valid": true
+  },
+  {
+    "module": "pensionRebalance",
+    "hypothesis_id": "pensionRebalance_1d",
+    "raw_p": 1.0,
+    "fdr_p": 1.0,
+    "fdr_pass": false,
+    "valid": false
+  },
+  {
+    "module": "pensionRebalance",
+    "hypothesis_id": "pensionRebalance_5d",
+    "raw_p": 1.0,
+    "fdr_p": 1.0,
+    "fdr_pass": false,
+    "valid": false
+  },
+  {
+    "module": "ctaEtfProxy",
+    "hypothesis_id": "ctaEtfProxy_5d",
+    "raw_p": 0.4063197810675353,
+    "fdr_p": 1.0,
+    "fdr_pass": false,
+    "valid": true
+  },
+  {
+    "module": "ctaEtfProxy",
+    "hypothesis_id": "ctaEtfProxy_20d",
+    "raw_p": 0.4932943695338704,
+    "fdr_p": 1.0,
+    "fdr_pass": false,
+    "valid": true
+  }
+]

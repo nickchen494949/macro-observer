@@ -1,0 +1,102 @@
+[
+  {
+    "module": "volControl",
+    "hypothesis_id": "volControl_1d",
+    "agg_rho": -0.01021331655186849,
+    "agg_correct": false,
+    "pct_correct": 0.2222222222222222,
+    "pct_pass": false,
+    "max_share_pass": true,
+    "catastrophic_reversals": 2,
+    "reversal_pass": false,
+    "loyo_median": -0.009466805164010734,
+    "loyo_pass": false,
+    "regime_pass": false,
+    "valid": true
+  },
+  {
+    "module": "volControl",
+    "hypothesis_id": "volControl_5d",
+    "agg_rho": -0.02044778767685638,
+    "agg_correct": false,
+    "pct_correct": 0.4444444444444444,
+    "pct_pass": false,
+    "max_share_pass": true,
+    "catastrophic_reversals": 4,
+    "reversal_pass": false,
+    "loyo_median": -0.01862148497921773,
+    "loyo_pass": false,
+    "regime_pass": false,
+    "valid": true
+  },
+  {
+    "module": "riskParity",
+    "hypothesis_id": "riskParity_5d",
+    "agg_rho": -0.007241995881086303,
+    "agg_correct": false,
+    "pct_correct": 0.2222222222222222,
+    "pct_pass": false,
+    "max_share_pass": true,
+    "catastrophic_reversals": 2,
+    "reversal_pass": false,
+    "loyo_median": -0.00249857083019153,
+    "loyo_pass": false,
+    "regime_pass": false,
+    "valid": true
+  },
+  {
+    "module": "riskParity",
+    "hypothesis_id": "riskParity_20d",
+    "agg_rho": -0.008359709371404024,
+    "agg_correct": false,
+    "pct_correct": 0.4444444444444444,
+    "pct_pass": false,
+    "max_share_pass": true,
+    "catastrophic_reversals": 4,
+    "reversal_pass": false,
+    "loyo_median": -0.004378578792468131,
+    "loyo_pass": false,
+    "regime_pass": false,
+    "valid": true
+  },
+  {
+    "module": "pensionRebalance",
+    "hypothesis_id": "pensionRebalance_1d",
+    "valid": false
+  },
+  {
+    "module": "pensionRebalance",
+    "hypothesis_id": "pensionRebalance_5d",
+    "valid": false
+  },
+  {
+    "module": "ctaEtfProxy",
+    "hypothesis_id": "ctaEtfProxy_5d",
+    "agg_rho": -0.017039613444220524,
+    "agg_correct": false,
+    "pct_correct": 0.25,
+    "pct_pass": false,
+    "max_share_pass": true,
+    "catastrophic_reversals": 2,
+    "reversal_pass": false,
+    "loyo_median": -0.01762633901652242,
+    "loyo_pass": false,
+    "regime_pass": false,
+    "valid": true
+  },
+  {
+    "module": "ctaEtfProxy",
+    "hypothesis_id": "ctaEtfProxy_20d",
+    "agg_rho": -0.01470681426753065,
+    "agg_correct": false,
+    "pct_correct": 0.375,
+    "pct_pass": false,
+    "max_share_pass": true,
+    "catastrophic_reversals": 3,
+    "reversal_pass": false,
+    "loyo_median": -0.016942771791373958,
+    "loyo_pass": false,
+    "regime_pass": false,
+    "valid": true
+  }
+]
