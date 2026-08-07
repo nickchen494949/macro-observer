@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "registryVersion": "1.0",
+    "createdBeforeOutcomeEvaluation": true,
+    "frozen": true
+  },
+  "modules": {
+    "volControl": {
+      "primarySignal": "nextDayEstimateIfTargetUnchanged",
+      "exactSnapshotPath": "modules.volControl.nextDayEstimateIfTargetUnchanged",
+      "economicInterpretation": "Projected total USD flow if current actual exposure target remains unchanged",
+      "expectedDirection": 1,
+      "transform": "rank",
+      "eligibleStatuses": ["ok"],
+      "eligibilityCondition": "moduleStatus == 'ok'",
+      "winsorizationPolicy": "1_99",
+      "missingPolicy": "exclude_never_fill_0"
+    },
+    "riskParity": {
+      "primarySignal": "equityAllocationChange5d",
+      "exactSnapshotPath": "modules.riskParity.equityAllocationChange5d",
+      "economicInterpretation": "Change in optimal equity allocation over the past 5 trading days",
+      "expectedDirection": 1,
+      "transform": "rank",
+      "eligibleStatuses": ["ok"],
+      "eligibilityCondition": "moduleStatus == 'ok'",
+      "winsorizationPolicy": "1_99",
+      "missingPolicy": "exclude_never_fill_0"
+    },
+    "pensionRebalance": {
+      "primarySignal": "equityOverweightPct",
+      "exactSnapshotPath": "modules.pensionRebalance.equityOverweightPct",
+      "economicInterpretation": "Difference between current equity weight and target pension equity weight",
+      "expectedDirection": -1,
+      "transform": "none",
+      "eligibleStatuses": ["ok"],
+      "eligibilityCondition": "moduleStatus == 'ok' and isRebalanceWindow == true",
+      "winsorizationPolicy": "none",
+      "missingPolicy": "exclude_never_fill_0"
+    },
+    "ctaEtfProxy": {
+      "primarySignal": "aggregatePositionChange",
+      "exactSnapshotPath": "modules.ctaEtfProxy.aggregatePositionChange",
+      "economicInterpretation": "Aggregate estimated positional change across all tracked ETFs based on momentum shifts",
+      "expectedDirection": 1,
+      "transform": "rank",
+      "eligibleStatuses": ["ok"],
+      "eligibilityCondition": "moduleStatus == 'ok'",
+      "winsorizationPolicy": "5_95",
+      "missingPolicy": "exclude_never_fill_0"
+    }
+  }
+}
