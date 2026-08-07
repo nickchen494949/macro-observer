@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "contractVersion": "1.0",
+    "description": "Implementation contract locking in all deterministic Python execution details before generating outcome statistics."
+  },
+  "01_preprocessing": {
+    "buildPanel": "Generates a raw immutable panel only. No transformations applied.",
+    "foldTransformation": "Transformations (winsorization, ECDF, z-score) occur strictly within OOS folds in scripts 03 and 04, using a shared train-only preprocessor function.",
+    "rankMethod": "average",
+    "ecdfFormula": "Count of train elements <= x / N_train",
+    "winsorizationInterpolation": "linear",
+    "stdDdof": 1,
+    "insufficientVariationPolicy": "If training variance is 0, status becomes insufficient_training_variation"
+  },
+  "02_single_factor": {
+    "icBootstrap": {
+      "iterations": 5000,
+      "seed": 20260807,
+      "blockLength": "max(h, 20)",
+      "passCondition": "95% moving-block percentile CI of Spearman IC must exclude zero in the expected direction.",
+      "outputField": "ic_bootstrap_pass"
+    }
+  },
+  "03_baseline_models": {
+    "baselineAsOfSession": "last completed ^GSPC session strictly before F (firstTradableSession). Never use F close."
+  },
+  "04_incremental_oos": {
+    "testingScheme": "Pooled OOS predictions generated via expanding window (annually refit).",
+    "pooledTest": "squared-error loss differential (d_t = e^2_baseline,t - e^2_enhanced,t) tested exactly once across the entire pooled OOS sequence.",
+    "deltaR2": "Descriptive output only. Not used for SUPPORTED gate.",
+    "oosLossBootstrap": {
+      "iterations": 5000,
+      "seed": 20260807,
+      "blockLength": "max(h, 20)",
+      "outputField": "oos_loss_bootstrap_pass"
+    }
+  },
+  "05_robustness": {
+    "grouping": "Group eligible primary-hypothesis observations by firstTradableSession year and recompute Spearman IC.",
+    "eligibleYear": "N_year >= 30",
+    "nTotalDefinition": "Sum of N for all eligible years",
+    "contributionFormula": "(N_year / N_total) * IC_year",
+    "catastrophicReversal": "sign(IC_year) != sign(IC_aggregate) AND abs(IC_year) >= 0.5 * abs(IC_aggregate)",
+    "loyo": "Drop one year, recompute aggregate Spearman IC. median(LOYO_IC) must have expected direction.",
+    "requirement": "Both primary hypotheses must independently pass all regime rules."
+  },
+  "06_multiple_testing": {
+    "fdrFamilySize": 8,
+    "insufficientDataPolicy": "If a hypothesis lacks data (N < 60, constant signal, etc.), its effective p-value is forced to 1.0. It is NOT removed from the BH family."
+  },
+  "07_evidence_gate": {
+    "verdictOutputs": ["SUPPORTED", "NOT_SUPPORTED"],
+    "secondaryHypothesisPolicy": "Secondary hypotheses are completely ignored for the gate."
+  }
+}
