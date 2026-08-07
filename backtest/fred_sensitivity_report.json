@@ -1,0 +1,5524 @@
+{
+  "plus1": {
+    "decisionDatesAffected": 240,
+    "riskParityNumDiffs": 240,
+    "volControlNumDiffs": 0,
+    "ctaEtfNumDiffs": 0,
+    "pitSelectionsChanged": 249,
+    "pitDiffLog": [
+      {
+        "decisionDate": "2022-01-03",
+        "base": {
+          "observationDate": "2021-12-31",
+          "value": 1.52
+        },
+        "target": {
+          "observationDate": "2021-12-30",
+          "value": 1.52
+        }
+      },
+      {
+        "decisionDate": "2022-01-04",
+        "base": {
+          "observationDate": "2022-01-03",
+          "value": 1.63
+        },
+        "target": {
+          "observationDate": "2021-12-31",
+          "value": 1.52
+        }
+      },
+      {
+        "decisionDate": "2022-01-05",
+        "base": {
+          "observationDate": "2022-01-04",
+          "value": 1.66
+        },
+        "target": {
+          "observationDate": "2022-01-03",
+          "value": 1.63
+        }
+      },
+      {
+        "decisionDate": "2022-01-06",
+        "base": {
+          "observationDate": "2022-01-05",
+          "value": 1.71
+        },
+        "target": {
+          "observationDate": "2022-01-04",
+          "value": 1.66
+        }
+      },
+      {
+        "decisionDate": "2022-01-07",
+        "base": {
+          "observationDate": "2022-01-06",
+          "value": 1.73
+        },
+        "target": {
+          "observationDate": "2022-01-05",
+          "value": 1.71
+        }
+      },
+      {
+        "decisionDate": "2022-01-10",
+        "base": {
+          "observationDate": "2022-01-07",
+          "value": 1.76
+        },
+        "target": {
+          "observationDate": "2022-01-06",
+          "value": 1.73
+        }
+      },
+      {
+        "decisionDate": "2022-01-11",
+        "base": {
+          "observationDate": "2022-01-10",
+          "value": 1.78
+        },
+        "target": {
+          "observationDate": "2022-01-07",
+          "value": 1.76
+        }
+      },
+      {
+        "decisionDate": "2022-01-12",
+        "base": {
+          "observationDate": "2022-01-11",
+          "value": 1.75
+        },
+        "target": {
+          "observationDate": "2022-01-10",
+          "value": 1.78
+        }
+      },
+      {
+        "decisionDate": "2022-01-13",
+        "base": {
+          "observationDate": "2022-01-12",
+          "value": 1.74
+        },
+        "target": {
+          "observationDate": "2022-01-11",
+          "value": 1.75
+        }
+      },
+      {
+        "decisionDate": "2022-01-14",
+        "base": {
+          "observationDate": "2022-01-13",
+          "value": 1.7
+        },
+        "target": {
+          "observationDate": "2022-01-12",
+          "value": 1.74
+        }
+      },
+      {
+        "decisionDate": "2022-01-18",
+        "base": {
+          "observationDate": "2022-01-14",
+          "value": 1.78
+        },
+        "target": {
+          "observationDate": "2022-01-13",
+          "value": 1.7
+        }
+      },
+      {
+        "decisionDate": "2022-01-19",
+        "base": {
+          "observationDate": "2022-01-18",
+          "value": 1.87
+        },
+        "target": {
+          "observationDate": "2022-01-14",
+          "value": 1.78
+        }
+      },
+      {
+        "decisionDate": "2022-01-20",
+        "base": {
+          "observationDate": "2022-01-19",
+          "value": 1.83
+        },
+        "target": {
+          "observationDate": "2022-01-18",
+          "value": 1.87
+        }
+      },
+      {
+        "decisionDate": "2022-01-21",
+        "base": {
+          "observationDate": "2022-01-20",
+          "value": 1.83
+        },
+        "target": {
+          "observationDate": "2022-01-19",
+          "value": 1.83
+        }
+      },
+      {
+        "decisionDate": "2022-01-24",
+        "base": {
+          "observationDate": "2022-01-21",
+          "value": 1.75
+        },
+        "target": {
+          "observationDate": "2022-01-20",
+          "value": 1.83
+        }
+      },
+      {
+        "decisionDate": "2022-01-25",
+        "base": {
+          "observationDate": "2022-01-24",
+          "value": 1.75
+        },
+        "target": {
+          "observationDate": "2022-01-21",
+          "value": 1.75
+        }
+      },
+      {
+        "decisionDate": "2022-01-26",
+        "base": {
+          "observationDate": "2022-01-25",
+          "value": 1.78
+        },
+        "target": {
+          "observationDate": "2022-01-24",
+          "value": 1.75
+        }
+      },
+      {
+        "decisionDate": "2022-01-27",
+        "base": {
+          "observationDate": "2022-01-26",
+          "value": 1.85
+        },
+        "target": {
+          "observationDate": "2022-01-25",
+          "value": 1.78
+        }
+      },
+      {
+        "decisionDate": "2022-01-28",
+        "base": {
+          "observationDate": "2022-01-27",
+          "value": 1.81
+        },
+        "target": {
+          "observationDate": "2022-01-26",
+          "value": 1.85
+        }
+      },
+      {
+        "decisionDate": "2022-01-31",
+        "base": {
+          "observationDate": "2022-01-28",
+          "value": 1.78
+        },
+        "target": {
+          "observationDate": "2022-01-27",
+          "value": 1.81
+        }
+      },
+      {
+        "decisionDate": "2022-02-01",
+        "base": {
+          "observationDate": "2022-01-31",
+          "value": 1.79
+        },
+        "target": {
+          "observationDate": "2022-01-28",
+          "value": 1.78
+        }
+      },
+      {
+        "decisionDate": "2022-02-02",
+        "base": {
+          "observationDate": "2022-02-01",
+          "value": 1.81
+        },
+        "target": {
+          "observationDate": "2022-01-31",
+          "value": 1.79
+        }
+      },
+      {
+        "decisionDate": "2022-02-03",
+        "base": {
+          "observationDate": "2022-02-02",
+          "value": 1.78
+        },
+        "target": {
+          "observationDate": "2022-02-01",
+          "value": 1.81
+        }
+      },
+      {
+        "decisionDate": "2022-02-04",
+        "base": {
+          "observationDate": "2022-02-03",
+          "value": 1.82
+        },
+        "target": {
+          "observationDate": "2022-02-02",
+          "value": 1.78
+        }
+      },
+      {
+        "decisionDate": "2022-02-07",
+        "base": {
+          "observationDate": "2022-02-04",
+          "value": 1.93
+        },
+        "target": {
+          "observationDate": "2022-02-03",
+          "value": 1.82
+        }
+      },
+      {
+        "decisionDate": "2022-02-08",
+        "base": {
+          "observationDate": "2022-02-07",
+          "value": 1.92
+        },
+        "target": {
+          "observationDate": "2022-02-04",
+          "value": 1.93
+        }
+      },
+      {
+        "decisionDate": "2022-02-09",
+        "base": {
+          "observationDate": "2022-02-08",
+          "value": 1.96
+        },
+        "target": {
+          "observationDate": "2022-02-07",
+          "value": 1.92
+        }
+      },
+      {
+        "decisionDate": "2022-02-10",
+        "base": {
+          "observationDate": "2022-02-09",
+          "value": 1.94
+        },
+        "target": {
+          "observationDate": "2022-02-08",
+          "value": 1.96
+        }
+      },
+      {
+        "decisionDate": "2022-02-11",
+        "base": {
+          "observationDate": "2022-02-10",
+          "value": 2.03
+        },
+        "target": {
+          "observationDate": "2022-02-09",
+          "value": 1.94
+        }
+      },
+      {
+        "decisionDate": "2022-02-14",
+        "base": {
+          "observationDate": "2022-02-11",
+          "value": 1.92
+        },
+        "target": {
+          "observationDate": "2022-02-10",
+          "value": 2.03
+        }
+      },
+      {
+        "decisionDate": "2022-02-15",
+        "base": {
+          "observationDate": "2022-02-14",
+          "value": 1.98
+        },
+        "target": {
+          "observationDate": "2022-02-11",
+          "value": 1.92
+        }
+      },
+      {
+        "decisionDate": "2022-02-16",
+        "base": {
+          "observationDate": "2022-02-15",
+          "value": 2.05
+        },
+        "target": {
+          "observationDate": "2022-02-14",
+          "value": 1.98
+        }
+      },
+      {
+        "decisionDate": "2022-02-17",
+        "base": {
+          "observationDate": "2022-02-16",
+          "value": 2.03
+        },
+        "target": {
+          "observationDate": "2022-02-15",
+          "value": 2.05
+        }
+      },
+      {
+        "decisionDate": "2022-02-18",
+        "base": {
+          "observationDate": "2022-02-17",
+          "value": 1.97
+        },
+        "target": {
+          "observationDate": "2022-02-16",
+          "value": 2.03
+        }
+      },
+      {
+        "decisionDate": "2022-02-22",
+        "base": {
+          "observationDate": "2022-02-18",
+          "value": 1.92
+        },
+        "target": {
+          "observationDate": "2022-02-17",
+          "value": 1.97
+        }
+      },
+      {
+        "decisionDate": "2022-02-23",
+        "base": {
+          "observationDate": "2022-02-22",
+          "value": 1.94
+        },
+        "target": {
+          "observationDate": "2022-02-18",
+          "value": 1.92
+        }
+      },
+      {
+        "decisionDate": "2022-02-24",
+        "base": {
+          "observationDate": "2022-02-23",
+          "value": 1.99
+        },
+        "target": {
+          "observationDate": "2022-02-22",
+          "value": 1.94
+        }
+      },
+      {
+        "decisionDate": "2022-02-25",
+        "base": {
+          "observationDate": "2022-02-24",
+          "value": 1.96
+        },
+        "target": {
+          "observationDate": "2022-02-23",
+          "value": 1.99
+        }
+      },
+      {
+        "decisionDate": "2022-02-28",
+        "base": {
+          "observationDate": "2022-02-25",
+          "value": 1.97
+        },
+        "target": {
+          "observationDate": "2022-02-24",
+          "value": 1.96
+        }
+      },
+      {
+        "decisionDate": "2022-03-01",
+        "base": {
+          "observationDate": "2022-02-28",
+          "value": 1.83
+        },
+        "target": {
+          "observationDate": "2022-02-25",
+          "value": 1.97
+        }
+      },
+      {
+        "decisionDate": "2022-03-02",
+        "base": {
+          "observationDate": "2022-03-01",
+          "value": 1.72
+        },
+        "target": {
+          "observationDate": "2022-02-28",
+          "value": 1.83
+        }
+      },
+      {
+        "decisionDate": "2022-03-03",
+        "base": {
+          "observationDate": "2022-03-02",
+          "value": 1.86
+        },
+        "target": {
+          "observationDate": "2022-03-01",
+          "value": 1.72
+        }
+      },
+      {
+        "decisionDate": "2022-03-04",
+        "base": {
+          "observationDate": "2022-03-03",
+          "value": 1.86
+        },
+        "target": {
+          "observationDate": "2022-03-02",
+          "value": 1.86
+        }
+      },
+      {
+        "decisionDate": "2022-03-07",
+        "base": {
+          "observationDate": "2022-03-04",
+          "value": 1.74
+        },
+        "target": {
+          "observationDate": "2022-03-03",
+          "value": 1.86
+        }
+      },
+      {
+        "decisionDate": "2022-03-08",
+        "base": {
+          "observationDate": "2022-03-07",
+          "value": 1.78
+        },
+        "target": {
+          "observationDate": "2022-03-04",
+          "value": 1.74
+        }
+      },
+      {
+        "decisionDate": "2022-03-09",
+        "base": {
+          "observationDate": "2022-03-08",
+          "value": 1.86
+        },
+        "target": {
+          "observationDate": "2022-03-07",
+          "value": 1.78
+        }
+      },
+      {
+        "decisionDate": "2022-03-10",
+        "base": {
+          "observationDate": "2022-03-09",
+          "value": 1.94
+        },
+        "target": {
+          "observationDate": "2022-03-08",
+          "value": 1.86
+        }
+      },
+      {
+        "decisionDate": "2022-03-11",
+        "base": {
+          "observationDate": "2022-03-10",
+          "value": 1.98
+        },
+        "target": {
+          "observationDate": "2022-03-09",
+          "value": 1.94
+        }
+      },
+      {
+        "decisionDate": "2022-03-14",
+        "base": {
+          "observationDate": "2022-03-11",
+          "value": 2
+        },
+        "target": {
+          "observationDate": "2022-03-10",
+          "value": 1.98
+        }
+      },
+      {
+        "decisionDate": "2022-03-15",
+        "base": {
+          "observationDate": "2022-03-14",
+          "value": 2.14
+        },
+        "target": {
+          "observationDate": "2022-03-11",
+          "value": 2
+        }
+      },
+      {
+        "decisionDate": "2022-03-16",
+        "base": {
+          "observationDate": "2022-03-15",
+          "value": 2.15
+        },
+        "target": {
+          "observationDate": "2022-03-14",
+          "value": 2.14
+        }
+      },
+      {
+        "decisionDate": "2022-03-17",
+        "base": {
+          "observationDate": "2022-03-16",
+          "value": 2.19
+        },
+        "target": {
+          "observationDate": "2022-03-15",
+          "value": 2.15
+        }
+      },
+      {
+        "decisionDate": "2022-03-18",
+        "base": {
+          "observationDate": "2022-03-17",
+          "value": 2.2
+        },
+        "target": {
+          "observationDate": "2022-03-16",
+          "value": 2.19
+        }
+      },
+      {
+        "decisionDate": "2022-03-21",
+        "base": {
+          "observationDate": "2022-03-18",
+          "value": 2.14
+        },
+        "target": {
+          "observationDate": "2022-03-17",
+          "value": 2.2
+        }
+      },
+      {
+        "decisionDate": "2022-03-22",
+        "base": {
+          "observationDate": "2022-03-21",
+          "value": 2.32
+        },
+        "target": {
+          "observationDate": "2022-03-18",
+          "value": 2.14
+        }
+      },
+      {
+        "decisionDate": "2022-03-23",
+        "base": {
+          "observationDate": "2022-03-22",
+          "value": 2.38
+        },
+        "target": {
+          "observationDate": "2022-03-21",
+          "value": 2.32
+        }
+      },
+      {
+        "decisionDate": "2022-03-24",
+        "base": {
+          "observationDate": "2022-03-23",
+          "value": 2.32
+        },
+        "target": {
+          "observationDate": "2022-03-22",
+          "value": 2.38
+        }
+      },
+      {
+        "decisionDate": "2022-03-25",
+        "base": {
+          "observationDate": "2022-03-24",
+          "value": 2.34
+        },
+        "target": {
+          "observationDate": "2022-03-23",
+          "value": 2.32
+        }
+      },
+      {
+        "decisionDate": "2022-03-28",
+        "base": {
+          "observationDate": "2022-03-25",
+          "value": 2.48
+        },
+        "target": {
+          "observationDate": "2022-03-24",
+          "value": 2.34
+        }
+      },
+      {
+        "decisionDate": "2022-03-29",
+        "base": {
+          "observationDate": "2022-03-28",
+          "value": 2.46
+        },
+        "target": {
+          "observationDate": "2022-03-25",
+          "value": 2.48
+        }
+      },
+      {
+        "decisionDate": "2022-03-30",
+        "base": {
+          "observationDate": "2022-03-29",
+          "value": 2.41
+        },
+        "target": {
+          "observationDate": "2022-03-28",
+          "value": 2.46
+        }
+      },
+      {
+        "decisionDate": "2022-03-31",
+        "base": {
+          "observationDate": "2022-03-30",
+          "value": 2.35
+        },
+        "target": {
+          "observationDate": "2022-03-29",
+          "value": 2.41
+        }
+      },
+      {
+        "decisionDate": "2022-04-01",
+        "base": {
+          "observationDate": "2022-03-31",
+          "value": 2.32
+        },
+        "target": {
+          "observationDate": "2022-03-30",
+          "value": 2.35
+        }
+      },
+      {
+        "decisionDate": "2022-04-04",
+        "base": {
+          "observationDate": "2022-04-01",
+          "value": 2.39
+        },
+        "target": {
+          "observationDate": "2022-03-31",
+          "value": 2.32
+        }
+      },
+      {
+        "decisionDate": "2022-04-05",
+        "base": {
+          "observationDate": "2022-04-04",
+          "value": 2.42
+        },
+        "target": {
+          "observationDate": "2022-04-01",
+          "value": 2.39
+        }
+      },
+      {
+        "decisionDate": "2022-04-06",
+        "base": {
+          "observationDate": "2022-04-05",
+          "value": 2.54
+        },
+        "target": {
+          "observationDate": "2022-04-04",
+          "value": 2.42
+        }
+      },
+      {
+        "decisionDate": "2022-04-07",
+        "base": {
+          "observationDate": "2022-04-06",
+          "value": 2.61
+        },
+        "target": {
+          "observationDate": "2022-04-05",
+          "value": 2.54
+        }
+      },
+      {
+        "decisionDate": "2022-04-08",
+        "base": {
+          "observationDate": "2022-04-07",
+          "value": 2.66
+        },
+        "target": {
+          "observationDate": "2022-04-06",
+          "value": 2.61
+        }
+      },
+      {
+        "decisionDate": "2022-04-11",
+        "base": {
+          "observationDate": "2022-04-08",
+          "value": 2.72
+        },
+        "target": {
+          "observationDate": "2022-04-07",
+          "value": 2.66
+        }
+      },
+      {
+        "decisionDate": "2022-04-12",
+        "base": {
+          "observationDate": "2022-04-11",
+          "value": 2.79
+        },
+        "target": {
+          "observationDate": "2022-04-08",
+          "value": 2.72
+        }
+      },
+      {
+        "decisionDate": "2022-04-13",
+        "base": {
+          "observationDate": "2022-04-12",
+          "value": 2.72
+        },
+        "target": {
+          "observationDate": "2022-04-11",
+          "value": 2.79
+        }
+      },
+      {
+        "decisionDate": "2022-04-14",
+        "base": {
+          "observationDate": "2022-04-13",
+          "value": 2.7
+        },
+        "target": {
+          "observationDate": "2022-04-12",
+          "value": 2.72
+        }
+      },
+      {
+        "decisionDate": "2022-04-18",
+        "base": {
+          "observationDate": "2022-04-14",
+          "value": 2.83
+        },
+        "target": {
+          "observationDate": "2022-04-13",
+          "value": 2.7
+        }
+      },
+      {
+        "decisionDate": "2022-04-19",
+        "base": {
+          "observationDate": "2022-04-18",
+          "value": 2.85
+        },
+        "target": {
+          "observationDate": "2022-04-14",
+          "value": 2.83
+        }
+      },
+      {
+        "decisionDate": "2022-04-20",
+        "base": {
+          "observationDate": "2022-04-19",
+          "value": 2.93
+        },
+        "target": {
+          "observationDate": "2022-04-18",
+          "value": 2.85
+        }
+      },
+      {
+        "decisionDate": "2022-04-21",
+        "base": {
+          "observationDate": "2022-04-20",
+          "value": 2.85
+        },
+        "target": {
+          "observationDate": "2022-04-19",
+          "value": 2.93
+        }
+      },
+      {
+        "decisionDate": "2022-04-22",
+        "base": {
+          "observationDate": "2022-04-21",
+          "value": 2.9
+        },
+        "target": {
+          "observationDate": "2022-04-20",
+          "value": 2.85
+        }
+      },
+      {
+        "decisionDate": "2022-04-25",
+        "base": {
+          "observationDate": "2022-04-22",
+          "value": 2.9
+        },
+        "target": {
+          "observationDate": "2022-04-21",
+          "value": 2.9
+        }
+      },
+      {
+        "decisionDate": "2022-04-26",
+        "base": {
+          "observationDate": "2022-04-25",
+          "value": 2.81
+        },
+        "target": {
+          "observationDate": "2022-04-22",
+          "value": 2.9
+        }
+      },
+      {
+        "decisionDate": "2022-04-27",
+        "base": {
+          "observationDate": "2022-04-26",
+          "value": 2.77
+        },
+        "target": {
+          "observationDate": "2022-04-25",
+          "value": 2.81
+        }
+      },
+      {
+        "decisionDate": "2022-04-28",
+        "base": {
+          "observationDate": "2022-04-27",
+          "value": 2.82
+        },
+        "target": {
+          "observationDate": "2022-04-26",
+          "value": 2.77
+        }
+      },
+      {
+        "decisionDate": "2022-04-29",
+        "base": {
+          "observationDate": "2022-04-28",
+          "value": 2.85
+        },
+        "target": {
+          "observationDate": "2022-04-27",
+          "value": 2.82
+        }
+      },
+      {
+        "decisionDate": "2022-05-02",
+        "base": {
+          "observationDate": "2022-04-29",
+          "value": 2.89
+        },
+        "target": {
+          "observationDate": "2022-04-28",
+          "value": 2.85
+        }
+      },
+      {
+        "decisionDate": "2022-05-03",
+        "base": {
+          "observationDate": "2022-05-02",
+          "value": 2.99
+        },
+        "target": {
+          "observationDate": "2022-04-29",
+          "value": 2.89
+        }
+      },
+      {
+        "decisionDate": "2022-05-04",
+        "base": {
+          "observationDate": "2022-05-03",
+          "value": 2.97
+        },
+        "target": {
+          "observationDate": "2022-05-02",
+          "value": 2.99
+        }
+      },
+      {
+        "decisionDate": "2022-05-05",
+        "base": {
+          "observationDate": "2022-05-04",
+          "value": 2.93
+        },
+        "target": {
+          "observationDate": "2022-05-03",
+          "value": 2.97
+        }
+      },
+      {
+        "decisionDate": "2022-05-06",
+        "base": {
+          "observationDate": "2022-05-05",
+          "value": 3.05
+        },
+        "target": {
+          "observationDate": "2022-05-04",
+          "value": 2.93
+        }
+      },
+      {
+        "decisionDate": "2022-05-09",
+        "base": {
+          "observationDate": "2022-05-06",
+          "value": 3.12
+        },
+        "target": {
+          "observationDate": "2022-05-05",
+          "value": 3.05
+        }
+      },
+      {
+        "decisionDate": "2022-05-10",
+        "base": {
+          "observationDate": "2022-05-09",
+          "value": 3.05
+        },
+        "target": {
+          "observationDate": "2022-05-06",
+          "value": 3.12
+        }
+      },
+      {
+        "decisionDate": "2022-05-11",
+        "base": {
+          "observationDate": "2022-05-10",
+          "value": 2.99
+        },
+        "target": {
+          "observationDate": "2022-05-09",
+          "value": 3.05
+        }
+      },
+      {
+        "decisionDate": "2022-05-12",
+        "base": {
+          "observationDate": "2022-05-11",
+          "value": 2.91
+        },
+        "target": {
+          "observationDate": "2022-05-10",
+          "value": 2.99
+        }
+      },
+      {
+        "decisionDate": "2022-05-13",
+        "base": {
+          "observationDate": "2022-05-12",
+          "value": 2.84
+        },
+        "target": {
+          "observationDate": "2022-05-11",
+          "value": 2.91
+        }
+      },
+      {
+        "decisionDate": "2022-05-16",
+        "base": {
+          "observationDate": "2022-05-13",
+          "value": 2.93
+        },
+        "target": {
+          "observationDate": "2022-05-12",
+          "value": 2.84
+        }
+      },
+      {
+        "decisionDate": "2022-05-17",
+        "base": {
+          "observationDate": "2022-05-16",
+          "value": 2.88
+        },
+        "target": {
+          "observationDate": "2022-05-13",
+          "value": 2.93
+        }
+      },
+      {
+        "decisionDate": "2022-05-18",
+        "base": {
+          "observationDate": "2022-05-17",
+          "value": 2.98
+        },
+        "target": {
+          "observationDate": "2022-05-16",
+          "value": 2.88
+        }
+      },
+      {
+        "decisionDate": "2022-05-19",
+        "base": {
+          "observationDate": "2022-05-18",
+          "value": 2.89
+        },
+        "target": {
+          "observationDate": "2022-05-17",
+          "value": 2.98
+        }
+      },
+      {
+        "decisionDate": "2022-05-20",
+        "base": {
+          "observationDate": "2022-05-19",
+          "value": 2.84
+        },
+        "target": {
+          "observationDate": "2022-05-18",
+          "value": 2.89
+        }
+      },
+      {
+        "decisionDate": "2022-05-23",
+        "base": {
+          "observationDate": "2022-05-20",
+          "value": 2.78
+        },
+        "target": {
+          "observationDate": "2022-05-19",
+          "value": 2.84
+        }
+      },
+      {
+        "decisionDate": "2022-05-24",
+        "base": {
+          "observationDate": "2022-05-23",
+          "value": 2.86
+        },
+        "target": {
+          "observationDate": "2022-05-20",
+          "value": 2.78
+        }
+      },
+      {
+        "decisionDate": "2022-05-25",
+        "base": {
+          "observationDate": "2022-05-24",
+          "value": 2.76
+        },
+        "target": {
+          "observationDate": "2022-05-23",
+          "value": 2.86
+        }
+      },
+      {
+        "decisionDate": "2022-05-26",
+        "base": {
+          "observationDate": "2022-05-25",
+          "value": 2.75
+        },
+        "target": {
+          "observationDate": "2022-05-24",
+          "value": 2.76
+        }
+      },
+      {
+        "decisionDate": "2022-05-27",
+        "base": {
+          "observationDate": "2022-05-26",
+          "value": 2.75
+        },
+        "target": {
+          "observationDate": "2022-05-25",
+          "value": 2.75
+        }
+      },
+      {
+        "decisionDate": "2022-05-31",
+        "base": {
+          "observationDate": "2022-05-27",
+          "value": 2.74
+        },
+        "target": {
+          "observationDate": "2022-05-26",
+          "value": 2.75
+        }
+      },
+      {
+        "decisionDate": "2022-06-01",
+        "base": {
+          "observationDate": "2022-05-31",
+          "value": 2.85
+        },
+        "target": {
+          "observationDate": "2022-05-27",
+          "value": 2.74
+        }
+      },
+      {
+        "decisionDate": "2022-06-02",
+        "base": {
+          "observationDate": "2022-06-01",
+          "value": 2.94
+        },
+        "target": {
+          "observationDate": "2022-05-31",
+          "value": 2.85
+        }
+      },
+      {
+        "decisionDate": "2022-06-03",
+        "base": {
+          "observationDate": "2022-06-02",
+          "value": 2.92
+        },
+        "target": {
+          "observationDate": "2022-06-01",
+          "value": 2.94
+        }
+      },
+      {
+        "decisionDate": "2022-06-06",
+        "base": {
+          "observationDate": "2022-06-03",
+          "value": 2.96
+        },
+        "target": {
+          "observationDate": "2022-06-02",
+          "value": 2.92
+        }
+      },
+      {
+        "decisionDate": "2022-06-07",
+        "base": {
+          "observationDate": "2022-06-06",
+          "value": 3.04
+        },
+        "target": {
+          "observationDate": "2022-06-03",
+          "value": 2.96
+        }
+      },
+      {
+        "decisionDate": "2022-06-08",
+        "base": {
+          "observationDate": "2022-06-07",
+          "value": 2.98
+        },
+        "target": {
+          "observationDate": "2022-06-06",
+          "value": 3.04
+        }
+      },
+      {
+        "decisionDate": "2022-06-09",
+        "base": {
+          "observationDate": "2022-06-08",
+          "value": 3.03
+        },
+        "target": {
+          "observationDate": "2022-06-07",
+          "value": 2.98
+        }
+      },
+      {
+        "decisionDate": "2022-06-10",
+        "base": {
+          "observationDate": "2022-06-09",
+          "value": 3.04
+        },
+        "target": {
+          "observationDate": "2022-06-08",
+          "value": 3.03
+        }
+      },
+      {
+        "decisionDate": "2022-06-13",
+        "base": {
+          "observationDate": "2022-06-10",
+          "value": 3.15
+        },
+        "target": {
+          "observationDate": "2022-06-09",
+          "value": 3.04
+        }
+      },
+      {
+        "decisionDate": "2022-06-14",
+        "base": {
+          "observationDate": "2022-06-13",
+          "value": 3.43
+        },
+        "target": {
+          "observationDate": "2022-06-10",
+          "value": 3.15
+        }
+      },
+      {
+        "decisionDate": "2022-06-15",
+        "base": {
+          "observationDate": "2022-06-14",
+          "value": 3.49
+        },
+        "target": {
+          "observationDate": "2022-06-13",
+          "value": 3.43
+        }
+      },
+      {
+        "decisionDate": "2022-06-16",
+        "base": {
+          "observationDate": "2022-06-15",
+          "value": 3.33
+        },
+        "target": {
+          "observationDate": "2022-06-14",
+          "value": 3.49
+        }
+      },
+      {
+        "decisionDate": "2022-06-17",
+        "base": {
+          "observationDate": "2022-06-16",
+          "value": 3.28
+        },
+        "target": {
+          "observationDate": "2022-06-15",
+          "value": 3.33
+        }
+      },
+      {
+        "decisionDate": "2022-06-21",
+        "base": {
+          "observationDate": "2022-06-17",
+          "value": 3.25
+        },
+        "target": {
+          "observationDate": "2022-06-16",
+          "value": 3.28
+        }
+      },
+      {
+        "decisionDate": "2022-06-22",
+        "base": {
+          "observationDate": "2022-06-21",
+          "value": 3.31
+        },
+        "target": {
+          "observationDate": "2022-06-17",
+          "value": 3.25
+        }
+      },
+      {
+        "decisionDate": "2022-06-23",
+        "base": {
+          "observationDate": "2022-06-22",
+          "value": 3.16
+        },
+        "target": {
+          "observationDate": "2022-06-21",
+          "value": 3.31
+        }
+      },
+      {
+        "decisionDate": "2022-06-24",
+        "base": {
+          "observationDate": "2022-06-23",
+          "value": 3.09
+        },
+        "target": {
+          "observationDate": "2022-06-22",
+          "value": 3.16
+        }
+      },
+      {
+        "decisionDate": "2022-06-27",
+        "base": {
+          "observationDate": "2022-06-24",
+          "value": 3.13
+        },
+        "target": {
+          "observationDate": "2022-06-23",
+          "value": 3.09
+        }
+      },
+      {
+        "decisionDate": "2022-06-28",
+        "base": {
+          "observationDate": "2022-06-27",
+          "value": 3.2
+        },
+        "target": {
+          "observationDate": "2022-06-24",
+          "value": 3.13
+        }
+      },
+      {
+        "decisionDate": "2022-06-29",
+        "base": {
+          "observationDate": "2022-06-28",
+          "value": 3.2
+        },
+        "target": {
+          "observationDate": "2022-06-27",
+          "value": 3.2
+        }
+      },
+      {
+        "decisionDate": "2022-06-30",
+        "base": {
+          "observationDate": "2022-06-29",
+          "value": 3.1
+        },
+        "target": {
+          "observationDate": "2022-06-28",
+          "value": 3.2
+        }
+      },
+      {
+        "decisionDate": "2022-07-01",
+        "base": {
+          "observationDate": "2022-06-30",
+          "value": 2.98
+        },
+        "target": {
+          "observationDate": "2022-06-29",
+          "value": 3.1
+        }
+      },
+      {
+        "decisionDate": "2022-07-05",
+        "base": {
+          "observationDate": "2022-07-01",
+          "value": 2.88
+        },
+        "target": {
+          "observationDate": "2022-06-30",
+          "value": 2.98
+        }
+      },
+      {
+        "decisionDate": "2022-07-06",
+        "base": {
+          "observationDate": "2022-07-05",
+          "value": 2.82
+        },
+        "target": {
+          "observationDate": "2022-07-01",
+          "value": 2.88
+        }
+      },
+      {
+        "decisionDate": "2022-07-07",
+        "base": {
+          "observationDate": "2022-07-06",
+          "value": 2.93
+        },
+        "target": {
+          "observationDate": "2022-07-05",
+          "value": 2.82
+        }
+      },
+      {
+        "decisionDate": "2022-07-08",
+        "base": {
+          "observationDate": "2022-07-07",
+          "value": 3.01
+        },
+        "target": {
+          "observationDate": "2022-07-06",
+          "value": 2.93
+        }
+      },
+      {
+        "decisionDate": "2022-07-11",
+        "base": {
+          "observationDate": "2022-07-08",
+          "value": 3.09
+        },
+        "target": {
+          "observationDate": "2022-07-07",
+          "value": 3.01
+        }
+      },
+      {
+        "decisionDate": "2022-07-12",
+        "base": {
+          "observationDate": "2022-07-11",
+          "value": 2.99
+        },
+        "target": {
+          "observationDate": "2022-07-08",
+          "value": 3.09
+        }
+      },
+      {
+        "decisionDate": "2022-07-13",
+        "base": {
+          "observationDate": "2022-07-12",
+          "value": 2.96
+        },
+        "target": {
+          "observationDate": "2022-07-11",
+          "value": 2.99
+        }
+      },
+      {
+        "decisionDate": "2022-07-14",
+        "base": {
+          "observationDate": "2022-07-13",
+          "value": 2.91
+        },
+        "target": {
+          "observationDate": "2022-07-12",
+          "value": 2.96
+        }
+      },
+      {
+        "decisionDate": "2022-07-15",
+        "base": {
+          "observationDate": "2022-07-14",
+          "value": 2.96
+        },
+        "target": {
+          "observationDate": "2022-07-13",
+          "value": 2.91
+        }
+      },
+      {
+        "decisionDate": "2022-07-18",
+        "base": {
+          "observationDate": "2022-07-15",
+          "value": 2.93
+        },
+        "target": {
+          "observationDate": "2022-07-14",
+          "value": 2.96
+        }
+      },
+      {
+        "decisionDate": "2022-07-19",
+        "base": {
+          "observationDate": "2022-07-18",
+          "value": 2.96
+        },
+        "target": {
+          "observationDate": "2022-07-15",
+          "value": 2.93
+        }
+      },
+      {
+        "decisionDate": "2022-07-20",
+        "base": {
+          "observationDate": "2022-07-19",
+          "value": 3.01
+        },
+        "target": {
+          "observationDate": "2022-07-18",
+          "value": 2.96
+        }
+      },
+      {
+        "decisionDate": "2022-07-21",
+        "base": {
+          "observationDate": "2022-07-20",
+          "value": 3.04
+        },
+        "target": {
+          "observationDate": "2022-07-19",
+          "value": 3.01
+        }
+      },
+      {
+        "decisionDate": "2022-07-22",
+        "base": {
+          "observationDate": "2022-07-21",
+          "value": 2.91
+        },
+        "target": {
+          "observationDate": "2022-07-20",
+          "value": 3.04
+        }
+      },
+      {
+        "decisionDate": "2022-07-25",
+        "base": {
+          "observationDate": "2022-07-22",
+          "value": 2.77
+        },
+        "target": {
+          "observationDate": "2022-07-21",
+          "value": 2.91
+        }
+      },
+      {
+        "decisionDate": "2022-07-26",
+        "base": {
+          "observationDate": "2022-07-25",
+          "value": 2.81
+        },
+        "target": {
+          "observationDate": "2022-07-22",
+          "value": 2.77
+        }
+      },
+      {
+        "decisionDate": "2022-07-27",
+        "base": {
+          "observationDate": "2022-07-26",
+          "value": 2.81
+        },
+        "target": {
+          "observationDate": "2022-07-25",
+          "value": 2.81
+        }
+      },
+      {
+        "decisionDate": "2022-07-28",
+        "base": {
+          "observationDate": "2022-07-27",
+          "value": 2.78
+        },
+        "target": {
+          "observationDate": "2022-07-26",
+          "value": 2.81
+        }
+      },
+      {
+        "decisionDate": "2022-07-29",
+        "base": {
+          "observationDate": "2022-07-28",
+          "value": 2.68
+        },
+        "target": {
+          "observationDate": "2022-07-27",
+          "value": 2.78
+        }
+      },
+      {
+        "decisionDate": "2022-08-01",
+        "base": {
+          "observationDate": "2022-07-29",
+          "value": 2.67
+        },
+        "target": {
+          "observationDate": "2022-07-28",
+          "value": 2.68
+        }
+      },
+      {
+        "decisionDate": "2022-08-02",
+        "base": {
+          "observationDate": "2022-08-01",
+          "value": 2.6
+        },
+        "target": {
+          "observationDate": "2022-07-29",
+          "value": 2.67
+        }
+      },
+      {
+        "decisionDate": "2022-08-03",
+        "base": {
+          "observationDate": "2022-08-02",
+          "value": 2.75
+        },
+        "target": {
+          "observationDate": "2022-08-01",
+          "value": 2.6
+        }
+      },
+      {
+        "decisionDate": "2022-08-04",
+        "base": {
+          "observationDate": "2022-08-03",
+          "value": 2.73
+        },
+        "target": {
+          "observationDate": "2022-08-02",
+          "value": 2.75
+        }
+      },
+      {
+        "decisionDate": "2022-08-05",
+        "base": {
+          "observationDate": "2022-08-04",
+          "value": 2.68
+        },
+        "target": {
+          "observationDate": "2022-08-03",
+          "value": 2.73
+        }
+      },
+      {
+        "decisionDate": "2022-08-08",
+        "base": {
+          "observationDate": "2022-08-05",
+          "value": 2.83
+        },
+        "target": {
+          "observationDate": "2022-08-04",
+          "value": 2.68
+        }
+      },
+      {
+        "decisionDate": "2022-08-09",
+        "base": {
+          "observationDate": "2022-08-08",
+          "value": 2.77
+        },
+        "target": {
+          "observationDate": "2022-08-05",
+          "value": 2.83
+        }
+      },
+      {
+        "decisionDate": "2022-08-10",
+        "base": {
+          "observationDate": "2022-08-09",
+          "value": 2.8
+        },
+        "target": {
+          "observationDate": "2022-08-08",
+          "value": 2.77
+        }
+      },
+      {
+        "decisionDate": "2022-08-11",
+        "base": {
+          "observationDate": "2022-08-10",
+          "value": 2.78
+        },
+        "target": {
+          "observationDate": "2022-08-09",
+          "value": 2.8
+        }
+      },
+      {
+        "decisionDate": "2022-08-12",
+        "base": {
+          "observationDate": "2022-08-11",
+          "value": 2.87
+        },
+        "target": {
+          "observationDate": "2022-08-10",
+          "value": 2.78
+        }
+      },
+      {
+        "decisionDate": "2022-08-15",
+        "base": {
+          "observationDate": "2022-08-12",
+          "value": 2.84
+        },
+        "target": {
+          "observationDate": "2022-08-11",
+          "value": 2.87
+        }
+      },
+      {
+        "decisionDate": "2022-08-16",
+        "base": {
+          "observationDate": "2022-08-15",
+          "value": 2.79
+        },
+        "target": {
+          "observationDate": "2022-08-12",
+          "value": 2.84
+        }
+      },
+      {
+        "decisionDate": "2022-08-17",
+        "base": {
+          "observationDate": "2022-08-16",
+          "value": 2.82
+        },
+        "target": {
+          "observationDate": "2022-08-15",
+          "value": 2.79
+        }
+      },
+      {
+        "decisionDate": "2022-08-18",
+        "base": {
+          "observationDate": "2022-08-17",
+          "value": 2.89
+        },
+        "target": {
+          "observationDate": "2022-08-16",
+          "value": 2.82
+        }
+      },
+      {
+        "decisionDate": "2022-08-19",
+        "base": {
+          "observationDate": "2022-08-18",
+          "value": 2.88
+        },
+        "target": {
+          "observationDate": "2022-08-17",
+          "value": 2.89
+        }
+      },
+      {
+        "decisionDate": "2022-08-22",
+        "base": {
+          "observationDate": "2022-08-19",
+          "value": 2.98
+        },
+        "target": {
+          "observationDate": "2022-08-18",
+          "value": 2.88
+        }
+      },
+      {
+        "decisionDate": "2022-08-23",
+        "base": {
+          "observationDate": "2022-08-22",
+          "value": 3.03
+        },
+        "target": {
+          "observationDate": "2022-08-19",
+          "value": 2.98
+        }
+      },
+      {
+        "decisionDate": "2022-08-24",
+        "base": {
+          "observationDate": "2022-08-23",
+          "value": 3.05
+        },
+        "target": {
+          "observationDate": "2022-08-22",
+          "value": 3.03
+        }
+      },
+      {
+        "decisionDate": "2022-08-25",
+        "base": {
+          "observationDate": "2022-08-24",
+          "value": 3.11
+        },
+        "target": {
+          "observationDate": "2022-08-23",
+          "value": 3.05
+        }
+      },
+      {
+        "decisionDate": "2022-08-26",
+        "base": {
+          "observationDate": "2022-08-25",
+          "value": 3.03
+        },
+        "target": {
+          "observationDate": "2022-08-24",
+          "value": 3.11
+        }
+      },
+      {
+        "decisionDate": "2022-08-29",
+        "base": {
+          "observationDate": "2022-08-26",
+          "value": 3.04
+        },
+        "target": {
+          "observationDate": "2022-08-25",
+          "value": 3.03
+        }
+      },
+      {
+        "decisionDate": "2022-08-30",
+        "base": {
+          "observationDate": "2022-08-29",
+          "value": 3.12
+        },
+        "target": {
+          "observationDate": "2022-08-26",
+          "value": 3.04
+        }
+      },
+      {
+        "decisionDate": "2022-08-31",
+        "base": {
+          "observationDate": "2022-08-30",
+          "value": 3.11
+        },
+        "target": {
+          "observationDate": "2022-08-29",
+          "value": 3.12
+        }
+      },
+      {
+        "decisionDate": "2022-09-01",
+        "base": {
+          "observationDate": "2022-08-31",
+          "value": 3.15
+        },
+        "target": {
+          "observationDate": "2022-08-30",
+          "value": 3.11
+        }
+      },
+      {
+        "decisionDate": "2022-09-02",
+        "base": {
+          "observationDate": "2022-09-01",
+          "value": 3.26
+        },
+        "target": {
+          "observationDate": "2022-08-31",
+          "value": 3.15
+        }
+      },
+      {
+        "decisionDate": "2022-09-06",
+        "base": {
+          "observationDate": "2022-09-02",
+          "value": 3.2
+        },
+        "target": {
+          "observationDate": "2022-09-01",
+          "value": 3.26
+        }
+      },
+      {
+        "decisionDate": "2022-09-07",
+        "base": {
+          "observationDate": "2022-09-06",
+          "value": 3.33
+        },
+        "target": {
+          "observationDate": "2022-09-02",
+          "value": 3.2
+        }
+      },
+      {
+        "decisionDate": "2022-09-08",
+        "base": {
+          "observationDate": "2022-09-07",
+          "value": 3.27
+        },
+        "target": {
+          "observationDate": "2022-09-06",
+          "value": 3.33
+        }
+      },
+      {
+        "decisionDate": "2022-09-09",
+        "base": {
+          "observationDate": "2022-09-08",
+          "value": 3.29
+        },
+        "target": {
+          "observationDate": "2022-09-07",
+          "value": 3.27
+        }
+      },
+      {
+        "decisionDate": "2022-09-12",
+        "base": {
+          "observationDate": "2022-09-09",
+          "value": 3.33
+        },
+        "target": {
+          "observationDate": "2022-09-08",
+          "value": 3.29
+        }
+      },
+      {
+        "decisionDate": "2022-09-13",
+        "base": {
+          "observationDate": "2022-09-12",
+          "value": 3.37
+        },
+        "target": {
+          "observationDate": "2022-09-09",
+          "value": 3.33
+        }
+      },
+      {
+        "decisionDate": "2022-09-14",
+        "base": {
+          "observationDate": "2022-09-13",
+          "value": 3.42
+        },
+        "target": {
+          "observationDate": "2022-09-12",
+          "value": 3.37
+        }
+      },
+      {
+        "decisionDate": "2022-09-15",
+        "base": {
+          "observationDate": "2022-09-14",
+          "value": 3.41
+        },
+        "target": {
+          "observationDate": "2022-09-13",
+          "value": 3.42
+        }
+      },
+      {
+        "decisionDate": "2022-09-16",
+        "base": {
+          "observationDate": "2022-09-15",
+          "value": 3.45
+        },
+        "target": {
+          "observationDate": "2022-09-14",
+          "value": 3.41
+        }
+      },
+      {
+        "decisionDate": "2022-09-19",
+        "base": {
+          "observationDate": "2022-09-16",
+          "value": 3.45
+        },
+        "target": {
+          "observationDate": "2022-09-15",
+          "value": 3.45
+        }
+      },
+      {
+        "decisionDate": "2022-09-20",
+        "base": {
+          "observationDate": "2022-09-19",
+          "value": 3.49
+        },
+        "target": {
+          "observationDate": "2022-09-16",
+          "value": 3.45
+        }
+      },
+      {
+        "decisionDate": "2022-09-21",
+        "base": {
+          "observationDate": "2022-09-20",
+          "value": 3.57
+        },
+        "target": {
+          "observationDate": "2022-09-19",
+          "value": 3.49
+        }
+      },
+      {
+        "decisionDate": "2022-09-22",
+        "base": {
+          "observationDate": "2022-09-21",
+          "value": 3.51
+        },
+        "target": {
+          "observationDate": "2022-09-20",
+          "value": 3.57
+        }
+      },
+      {
+        "decisionDate": "2022-09-23",
+        "base": {
+          "observationDate": "2022-09-22",
+          "value": 3.7
+        },
+        "target": {
+          "observationDate": "2022-09-21",
+          "value": 3.51
+        }
+      },
+      {
+        "decisionDate": "2022-09-26",
+        "base": {
+          "observationDate": "2022-09-23",
+          "value": 3.69
+        },
+        "target": {
+          "observationDate": "2022-09-22",
+          "value": 3.7
+        }
+      },
+      {
+        "decisionDate": "2022-09-27",
+        "base": {
+          "observationDate": "2022-09-26",
+          "value": 3.88
+        },
+        "target": {
+          "observationDate": "2022-09-23",
+          "value": 3.69
+        }
+      },
+      {
+        "decisionDate": "2022-09-28",
+        "base": {
+          "observationDate": "2022-09-27",
+          "value": 3.97
+        },
+        "target": {
+          "observationDate": "2022-09-26",
+          "value": 3.88
+        }
+      },
+      {
+        "decisionDate": "2022-09-29",
+        "base": {
+          "observationDate": "2022-09-28",
+          "value": 3.72
+        },
+        "target": {
+          "observationDate": "2022-09-27",
+          "value": 3.97
+        }
+      },
+      {
+        "decisionDate": "2022-09-30",
+        "base": {
+          "observationDate": "2022-09-29",
+          "value": 3.76
+        },
+        "target": {
+          "observationDate": "2022-09-28",
+          "value": 3.72
+        }
+      },
+      {
+        "decisionDate": "2022-10-03",
+        "base": {
+          "observationDate": "2022-09-30",
+          "value": 3.83
+        },
+        "target": {
+          "observationDate": "2022-09-29",
+          "value": 3.76
+        }
+      },
+      {
+        "decisionDate": "2022-10-04",
+        "base": {
+          "observationDate": "2022-10-03",
+          "value": 3.67
+        },
+        "target": {
+          "observationDate": "2022-09-30",
+          "value": 3.83
+        }
+      },
+      {
+        "decisionDate": "2022-10-05",
+        "base": {
+          "observationDate": "2022-10-04",
+          "value": 3.62
+        },
+        "target": {
+          "observationDate": "2022-10-03",
+          "value": 3.67
+        }
+      },
+      {
+        "decisionDate": "2022-10-06",
+        "base": {
+          "observationDate": "2022-10-05",
+          "value": 3.76
+        },
+        "target": {
+          "observationDate": "2022-10-04",
+          "value": 3.62
+        }
+      },
+      {
+        "decisionDate": "2022-10-07",
+        "base": {
+          "observationDate": "2022-10-06",
+          "value": 3.83
+        },
+        "target": {
+          "observationDate": "2022-10-05",
+          "value": 3.76
+        }
+      },
+      {
+        "decisionDate": "2022-10-10",
+        "base": {
+          "observationDate": "2022-10-07",
+          "value": 3.89
+        },
+        "target": {
+          "observationDate": "2022-10-06",
+          "value": 3.83
+        }
+      },
+      {
+        "decisionDate": "2022-10-12",
+        "base": {
+          "observationDate": "2022-10-11",
+          "value": 3.93
+        },
+        "target": {
+          "observationDate": "2022-10-07",
+          "value": 3.89
+        }
+      },
+      {
+        "decisionDate": "2022-10-13",
+        "base": {
+          "observationDate": "2022-10-12",
+          "value": 3.91
+        },
+        "target": {
+          "observationDate": "2022-10-11",
+          "value": 3.93
+        }
+      },
+      {
+        "decisionDate": "2022-10-14",
+        "base": {
+          "observationDate": "2022-10-13",
+          "value": 3.97
+        },
+        "target": {
+          "observationDate": "2022-10-12",
+          "value": 3.91
+        }
+      },
+      {
+        "decisionDate": "2022-10-17",
+        "base": {
+          "observationDate": "2022-10-14",
+          "value": 4
+        },
+        "target": {
+          "observationDate": "2022-10-13",
+          "value": 3.97
+        }
+      },
+      {
+        "decisionDate": "2022-10-18",
+        "base": {
+          "observationDate": "2022-10-17",
+          "value": 4.02
+        },
+        "target": {
+          "observationDate": "2022-10-14",
+          "value": 4
+        }
+      },
+      {
+        "decisionDate": "2022-10-19",
+        "base": {
+          "observationDate": "2022-10-18",
+          "value": 4.01
+        },
+        "target": {
+          "observationDate": "2022-10-17",
+          "value": 4.02
+        }
+      },
+      {
+        "decisionDate": "2022-10-20",
+        "base": {
+          "observationDate": "2022-10-19",
+          "value": 4.14
+        },
+        "target": {
+          "observationDate": "2022-10-18",
+          "value": 4.01
+        }
+      },
+      {
+        "decisionDate": "2022-10-21",
+        "base": {
+          "observationDate": "2022-10-20",
+          "value": 4.24
+        },
+        "target": {
+          "observationDate": "2022-10-19",
+          "value": 4.14
+        }
+      },
+      {
+        "decisionDate": "2022-10-24",
+        "base": {
+          "observationDate": "2022-10-21",
+          "value": 4.21
+        },
+        "target": {
+          "observationDate": "2022-10-20",
+          "value": 4.24
+        }
+      },
+      {
+        "decisionDate": "2022-10-25",
+        "base": {
+          "observationDate": "2022-10-24",
+          "value": 4.25
+        },
+        "target": {
+          "observationDate": "2022-10-21",
+          "value": 4.21
+        }
+      },
+      {
+        "decisionDate": "2022-10-26",
+        "base": {
+          "observationDate": "2022-10-25",
+          "value": 4.1
+        },
+        "target": {
+          "observationDate": "2022-10-24",
+          "value": 4.25
+        }
+      },
+      {
+        "decisionDate": "2022-10-27",
+        "base": {
+          "observationDate": "2022-10-26",
+          "value": 4.04
+        },
+        "target": {
+          "observationDate": "2022-10-25",
+          "value": 4.1
+        }
+      },
+      {
+        "decisionDate": "2022-10-28",
+        "base": {
+          "observationDate": "2022-10-27",
+          "value": 3.96
+        },
+        "target": {
+          "observationDate": "2022-10-26",
+          "value": 4.04
+        }
+      },
+      {
+        "decisionDate": "2022-10-31",
+        "base": {
+          "observationDate": "2022-10-28",
+          "value": 4.02
+        },
+        "target": {
+          "observationDate": "2022-10-27",
+          "value": 3.96
+        }
+      },
+      {
+        "decisionDate": "2022-11-01",
+        "base": {
+          "observationDate": "2022-10-31",
+          "value": 4.1
+        },
+        "target": {
+          "observationDate": "2022-10-28",
+          "value": 4.02
+        }
+      },
+      {
+        "decisionDate": "2022-11-02",
+        "base": {
+          "observationDate": "2022-11-01",
+          "value": 4.07
+        },
+        "target": {
+          "observationDate": "2022-10-31",
+          "value": 4.1
+        }
+      },
+      {
+        "decisionDate": "2022-11-03",
+        "base": {
+          "observationDate": "2022-11-02",
+          "value": 4.1
+        },
+        "target": {
+          "observationDate": "2022-11-01",
+          "value": 4.07
+        }
+      },
+      {
+        "decisionDate": "2022-11-04",
+        "base": {
+          "observationDate": "2022-11-03",
+          "value": 4.14
+        },
+        "target": {
+          "observationDate": "2022-11-02",
+          "value": 4.1
+        }
+      },
+      {
+        "decisionDate": "2022-11-07",
+        "base": {
+          "observationDate": "2022-11-04",
+          "value": 4.17
+        },
+        "target": {
+          "observationDate": "2022-11-03",
+          "value": 4.14
+        }
+      },
+      {
+        "decisionDate": "2022-11-08",
+        "base": {
+          "observationDate": "2022-11-07",
+          "value": 4.22
+        },
+        "target": {
+          "observationDate": "2022-11-04",
+          "value": 4.17
+        }
+      },
+      {
+        "decisionDate": "2022-11-09",
+        "base": {
+          "observationDate": "2022-11-08",
+          "value": 4.14
+        },
+        "target": {
+          "observationDate": "2022-11-07",
+          "value": 4.22
+        }
+      },
+      {
+        "decisionDate": "2022-11-10",
+        "base": {
+          "observationDate": "2022-11-09",
+          "value": 4.12
+        },
+        "target": {
+          "observationDate": "2022-11-08",
+          "value": 4.14
+        }
+      },
+      {
+        "decisionDate": "2022-11-11",
+        "base": {
+          "observationDate": "2022-11-10",
+          "value": 3.82
+        },
+        "target": {
+          "observationDate": "2022-11-09",
+          "value": 4.12
+        }
+      },
+      {
+        "decisionDate": "2022-11-15",
+        "base": {
+          "observationDate": "2022-11-14",
+          "value": 3.88
+        },
+        "target": {
+          "observationDate": "2022-11-10",
+          "value": 3.82
+        }
+      },
+      {
+        "decisionDate": "2022-11-16",
+        "base": {
+          "observationDate": "2022-11-15",
+          "value": 3.8
+        },
+        "target": {
+          "observationDate": "2022-11-14",
+          "value": 3.88
+        }
+      },
+      {
+        "decisionDate": "2022-11-17",
+        "base": {
+          "observationDate": "2022-11-16",
+          "value": 3.67
+        },
+        "target": {
+          "observationDate": "2022-11-15",
+          "value": 3.8
+        }
+      },
+      {
+        "decisionDate": "2022-11-18",
+        "base": {
+          "observationDate": "2022-11-17",
+          "value": 3.77
+        },
+        "target": {
+          "observationDate": "2022-11-16",
+          "value": 3.67
+        }
+      },
+      {
+        "decisionDate": "2022-11-21",
+        "base": {
+          "observationDate": "2022-11-18",
+          "value": 3.82
+        },
+        "target": {
+          "observationDate": "2022-11-17",
+          "value": 3.77
+        }
+      },
+      {
+        "decisionDate": "2022-11-22",
+        "base": {
+          "observationDate": "2022-11-21",
+          "value": 3.83
+        },
+        "target": {
+          "observationDate": "2022-11-18",
+          "value": 3.82
+        }
+      },
+      {
+        "decisionDate": "2022-11-23",
+        "base": {
+          "observationDate": "2022-11-22",
+          "value": 3.76
+        },
+        "target": {
+          "observationDate": "2022-11-21",
+          "value": 3.83
+        }
+      },
+      {
+        "decisionDate": "2022-11-25",
+        "base": {
+          "observationDate": "2022-11-23",
+          "value": 3.71
+        },
+        "target": {
+          "observationDate": "2022-11-22",
+          "value": 3.76
+        }
+      },
+      {
+        "decisionDate": "2022-11-28",
+        "base": {
+          "observationDate": "2022-11-25",
+          "value": 3.68
+        },
+        "target": {
+          "observationDate": "2022-11-23",
+          "value": 3.71
+        }
+      },
+      {
+        "decisionDate": "2022-11-29",
+        "base": {
+          "observationDate": "2022-11-28",
+          "value": 3.69
+        },
+        "target": {
+          "observationDate": "2022-11-25",
+          "value": 3.68
+        }
+      },
+      {
+        "decisionDate": "2022-11-30",
+        "base": {
+          "observationDate": "2022-11-29",
+          "value": 3.75
+        },
+        "target": {
+          "observationDate": "2022-11-28",
+          "value": 3.69
+        }
+      },
+      {
+        "decisionDate": "2022-12-01",
+        "base": {
+          "observationDate": "2022-11-30",
+          "value": 3.68
+        },
+        "target": {
+          "observationDate": "2022-11-29",
+          "value": 3.75
+        }
+      },
+      {
+        "decisionDate": "2022-12-02",
+        "base": {
+          "observationDate": "2022-12-01",
+          "value": 3.53
+        },
+        "target": {
+          "observationDate": "2022-11-30",
+          "value": 3.68
+        }
+      },
+      {
+        "decisionDate": "2022-12-05",
+        "base": {
+          "observationDate": "2022-12-02",
+          "value": 3.51
+        },
+        "target": {
+          "observationDate": "2022-12-01",
+          "value": 3.53
+        }
+      },
+      {
+        "decisionDate": "2022-12-06",
+        "base": {
+          "observationDate": "2022-12-05",
+          "value": 3.6
+        },
+        "target": {
+          "observationDate": "2022-12-02",
+          "value": 3.51
+        }
+      },
+      {
+        "decisionDate": "2022-12-07",
+        "base": {
+          "observationDate": "2022-12-06",
+          "value": 3.51
+        },
+        "target": {
+          "observationDate": "2022-12-05",
+          "value": 3.6
+        }
+      },
+      {
+        "decisionDate": "2022-12-08",
+        "base": {
+          "observationDate": "2022-12-07",
+          "value": 3.42
+        },
+        "target": {
+          "observationDate": "2022-12-06",
+          "value": 3.51
+        }
+      },
+      {
+        "decisionDate": "2022-12-09",
+        "base": {
+          "observationDate": "2022-12-08",
+          "value": 3.48
+        },
+        "target": {
+          "observationDate": "2022-12-07",
+          "value": 3.42
+        }
+      },
+      {
+        "decisionDate": "2022-12-12",
+        "base": {
+          "observationDate": "2022-12-09",
+          "value": 3.57
+        },
+        "target": {
+          "observationDate": "2022-12-08",
+          "value": 3.48
+        }
+      },
+      {
+        "decisionDate": "2022-12-13",
+        "base": {
+          "observationDate": "2022-12-12",
+          "value": 3.61
+        },
+        "target": {
+          "observationDate": "2022-12-09",
+          "value": 3.57
+        }
+      },
+      {
+        "decisionDate": "2022-12-14",
+        "base": {
+          "observationDate": "2022-12-13",
+          "value": 3.51
+        },
+        "target": {
+          "observationDate": "2022-12-12",
+          "value": 3.61
+        }
+      },
+      {
+        "decisionDate": "2022-12-15",
+        "base": {
+          "observationDate": "2022-12-14",
+          "value": 3.49
+        },
+        "target": {
+          "observationDate": "2022-12-13",
+          "value": 3.51
+        }
+      },
+      {
+        "decisionDate": "2022-12-16",
+        "base": {
+          "observationDate": "2022-12-15",
+          "value": 3.44
+        },
+        "target": {
+          "observationDate": "2022-12-14",
+          "value": 3.49
+        }
+      },
+      {
+        "decisionDate": "2022-12-19",
+        "base": {
+          "observationDate": "2022-12-16",
+          "value": 3.48
+        },
+        "target": {
+          "observationDate": "2022-12-15",
+          "value": 3.44
+        }
+      },
+      {
+        "decisionDate": "2022-12-20",
+        "base": {
+          "observationDate": "2022-12-19",
+          "value": 3.57
+        },
+        "target": {
+          "observationDate": "2022-12-16",
+          "value": 3.48
+        }
+      },
+      {
+        "decisionDate": "2022-12-21",
+        "base": {
+          "observationDate": "2022-12-20",
+          "value": 3.69
+        },
+        "target": {
+          "observationDate": "2022-12-19",
+          "value": 3.57
+        }
+      },
+      {
+        "decisionDate": "2022-12-22",
+        "base": {
+          "observationDate": "2022-12-21",
+          "value": 3.68
+        },
+        "target": {
+          "observationDate": "2022-12-20",
+          "value": 3.69
+        }
+      },
+      {
+        "decisionDate": "2022-12-23",
+        "base": {
+          "observationDate": "2022-12-22",
+          "value": 3.67
+        },
+        "target": {
+          "observationDate": "2022-12-21",
+          "value": 3.68
+        }
+      },
+      {
+        "decisionDate": "2022-12-27",
+        "base": {
+          "observationDate": "2022-12-23",
+          "value": 3.75
+        },
+        "target": {
+          "observationDate": "2022-12-22",
+          "value": 3.67
+        }
+      },
+      {
+        "decisionDate": "2022-12-28",
+        "base": {
+          "observationDate": "2022-12-27",
+          "value": 3.84
+        },
+        "target": {
+          "observationDate": "2022-12-23",
+          "value": 3.75
+        }
+      },
+      {
+        "decisionDate": "2022-12-29",
+        "base": {
+          "observationDate": "2022-12-28",
+          "value": 3.88
+        },
+        "target": {
+          "observationDate": "2022-12-27",
+          "value": 3.84
+        }
+      },
+      {
+        "decisionDate": "2022-12-30",
+        "base": {
+          "observationDate": "2022-12-29",
+          "value": 3.83
+        },
+        "target": {
+          "observationDate": "2022-12-28",
+          "value": 3.88
+        }
+      }
+    ],
+    "statusChangedPct": "0.00",
+    "directionChangedPct": "16.33"
+  },
+  "plus3": {
+    "decisionDatesAffected": 251,
+    "riskParityNumDiffs": 251,
+    "volControlNumDiffs": 0,
+    "ctaEtfNumDiffs": 0,
+    "pitSelectionsChanged": 251,
+    "pitDiffLog": [
+      {
+        "decisionDate": "2022-01-03",
+        "base": {
+          "observationDate": "2021-12-31",
+          "value": 1.52
+        },
+        "target": {
+          "observationDate": "2021-12-28",
+          "value": 1.49
+        }
+      },
+      {
+        "decisionDate": "2022-01-04",
+        "base": {
+          "observationDate": "2022-01-03",
+          "value": 1.63
+        },
+        "target": {
+          "observationDate": "2021-12-29",
+          "value": 1.55
+        }
+      },
+      {
+        "decisionDate": "2022-01-05",
+        "base": {
+          "observationDate": "2022-01-04",
+          "value": 1.66
+        },
+        "target": {
+          "observationDate": "2021-12-30",
+          "value": 1.52
+        }
+      },
+      {
+        "decisionDate": "2022-01-06",
+        "base": {
+          "observationDate": "2022-01-05",
+          "value": 1.71
+        },
+        "target": {
+          "observationDate": "2021-12-31",
+          "value": 1.52
+        }
+      },
+      {
+        "decisionDate": "2022-01-07",
+        "base": {
+          "observationDate": "2022-01-06",
+          "value": 1.73
+        },
+        "target": {
+          "observationDate": "2022-01-03",
+          "value": 1.63
+        }
+      },
+      {
+        "decisionDate": "2022-01-10",
+        "base": {
+          "observationDate": "2022-01-07",
+          "value": 1.76
+        },
+        "target": {
+          "observationDate": "2022-01-04",
+          "value": 1.66
+        }
+      },
+      {
+        "decisionDate": "2022-01-11",
+        "base": {
+          "observationDate": "2022-01-10",
+          "value": 1.78
+        },
+        "target": {
+          "observationDate": "2022-01-05",
+          "value": 1.71
+        }
+      },
+      {
+        "decisionDate": "2022-01-12",
+        "base": {
+          "observationDate": "2022-01-11",
+          "value": 1.75
+        },
+        "target": {
+          "observationDate": "2022-01-06",
+          "value": 1.73
+        }
+      },
+      {
+        "decisionDate": "2022-01-13",
+        "base": {
+          "observationDate": "2022-01-12",
+          "value": 1.74
+        },
+        "target": {
+          "observationDate": "2022-01-07",
+          "value": 1.76
+        }
+      },
+      {
+        "decisionDate": "2022-01-14",
+        "base": {
+          "observationDate": "2022-01-13",
+          "value": 1.7
+        },
+        "target": {
+          "observationDate": "2022-01-10",
+          "value": 1.78
+        }
+      },
+      {
+        "decisionDate": "2022-01-18",
+        "base": {
+          "observationDate": "2022-01-14",
+          "value": 1.78
+        },
+        "target": {
+          "observationDate": "2022-01-11",
+          "value": 1.75
+        }
+      },
+      {
+        "decisionDate": "2022-01-19",
+        "base": {
+          "observationDate": "2022-01-18",
+          "value": 1.87
+        },
+        "target": {
+          "observationDate": "2022-01-12",
+          "value": 1.74
+        }
+      },
+      {
+        "decisionDate": "2022-01-20",
+        "base": {
+          "observationDate": "2022-01-19",
+          "value": 1.83
+        },
+        "target": {
+          "observationDate": "2022-01-13",
+          "value": 1.7
+        }
+      },
+      {
+        "decisionDate": "2022-01-21",
+        "base": {
+          "observationDate": "2022-01-20",
+          "value": 1.83
+        },
+        "target": {
+          "observationDate": "2022-01-14",
+          "value": 1.78
+        }
+      },
+      {
+        "decisionDate": "2022-01-24",
+        "base": {
+          "observationDate": "2022-01-21",
+          "value": 1.75
+        },
+        "target": {
+          "observationDate": "2022-01-18",
+          "value": 1.87
+        }
+      },
+      {
+        "decisionDate": "2022-01-25",
+        "base": {
+          "observationDate": "2022-01-24",
+          "value": 1.75
+        },
+        "target": {
+          "observationDate": "2022-01-19",
+          "value": 1.83
+        }
+      },
+      {
+        "decisionDate": "2022-01-26",
+        "base": {
+          "observationDate": "2022-01-25",
+          "value": 1.78
+        },
+        "target": {
+          "observationDate": "2022-01-20",
+          "value": 1.83
+        }
+      },
+      {
+        "decisionDate": "2022-01-27",
+        "base": {
+          "observationDate": "2022-01-26",
+          "value": 1.85
+        },
+        "target": {
+          "observationDate": "2022-01-21",
+          "value": 1.75
+        }
+      },
+      {
+        "decisionDate": "2022-01-28",
+        "base": {
+          "observationDate": "2022-01-27",
+          "value": 1.81
+        },
+        "target": {
+          "observationDate": "2022-01-24",
+          "value": 1.75
+        }
+      },
+      {
+        "decisionDate": "2022-01-31",
+        "base": {
+          "observationDate": "2022-01-28",
+          "value": 1.78
+        },
+        "target": {
+          "observationDate": "2022-01-25",
+          "value": 1.78
+        }
+      },
+      {
+        "decisionDate": "2022-02-01",
+        "base": {
+          "observationDate": "2022-01-31",
+          "value": 1.79
+        },
+        "target": {
+          "observationDate": "2022-01-26",
+          "value": 1.85
+        }
+      },
+      {
+        "decisionDate": "2022-02-02",
+        "base": {
+          "observationDate": "2022-02-01",
+          "value": 1.81
+        },
+        "target": {
+          "observationDate": "2022-01-27",
+          "value": 1.81
+        }
+      },
+      {
+        "decisionDate": "2022-02-03",
+        "base": {
+          "observationDate": "2022-02-02",
+          "value": 1.78
+        },
+        "target": {
+          "observationDate": "2022-01-28",
+          "value": 1.78
+        }
+      },
+      {
+        "decisionDate": "2022-02-04",
+        "base": {
+          "observationDate": "2022-02-03",
+          "value": 1.82
+        },
+        "target": {
+          "observationDate": "2022-01-31",
+          "value": 1.79
+        }
+      },
+      {
+        "decisionDate": "2022-02-07",
+        "base": {
+          "observationDate": "2022-02-04",
+          "value": 1.93
+        },
+        "target": {
+          "observationDate": "2022-02-01",
+          "value": 1.81
+        }
+      },
+      {
+        "decisionDate": "2022-02-08",
+        "base": {
+          "observationDate": "2022-02-07",
+          "value": 1.92
+        },
+        "target": {
+          "observationDate": "2022-02-02",
+          "value": 1.78
+        }
+      },
+      {
+        "decisionDate": "2022-02-09",
+        "base": {
+          "observationDate": "2022-02-08",
+          "value": 1.96
+        },
+        "target": {
+          "observationDate": "2022-02-03",
+          "value": 1.82
+        }
+      },
+      {
+        "decisionDate": "2022-02-10",
+        "base": {
+          "observationDate": "2022-02-09",
+          "value": 1.94
+        },
+        "target": {
+          "observationDate": "2022-02-04",
+          "value": 1.93
+        }
+      },
+      {
+        "decisionDate": "2022-02-11",
+        "base": {
+          "observationDate": "2022-02-10",
+          "value": 2.03
+        },
+        "target": {
+          "observationDate": "2022-02-07",
+          "value": 1.92
+        }
+      },
+      {
+        "decisionDate": "2022-02-14",
+        "base": {
+          "observationDate": "2022-02-11",
+          "value": 1.92
+        },
+        "target": {
+          "observationDate": "2022-02-08",
+          "value": 1.96
+        }
+      },
+      {
+        "decisionDate": "2022-02-15",
+        "base": {
+          "observationDate": "2022-02-14",
+          "value": 1.98
+        },
+        "target": {
+          "observationDate": "2022-02-09",
+          "value": 1.94
+        }
+      },
+      {
+        "decisionDate": "2022-02-16",
+        "base": {
+          "observationDate": "2022-02-15",
+          "value": 2.05
+        },
+        "target": {
+          "observationDate": "2022-02-10",
+          "value": 2.03
+        }
+      },
+      {
+        "decisionDate": "2022-02-17",
+        "base": {
+          "observationDate": "2022-02-16",
+          "value": 2.03
+        },
+        "target": {
+          "observationDate": "2022-02-11",
+          "value": 1.92
+        }
+      },
+      {
+        "decisionDate": "2022-02-18",
+        "base": {
+          "observationDate": "2022-02-17",
+          "value": 1.97
+        },
+        "target": {
+          "observationDate": "2022-02-14",
+          "value": 1.98
+        }
+      },
+      {
+        "decisionDate": "2022-02-22",
+        "base": {
+          "observationDate": "2022-02-18",
+          "value": 1.92
+        },
+        "target": {
+          "observationDate": "2022-02-15",
+          "value": 2.05
+        }
+      },
+      {
+        "decisionDate": "2022-02-23",
+        "base": {
+          "observationDate": "2022-02-22",
+          "value": 1.94
+        },
+        "target": {
+          "observationDate": "2022-02-16",
+          "value": 2.03
+        }
+      },
+      {
+        "decisionDate": "2022-02-24",
+        "base": {
+          "observationDate": "2022-02-23",
+          "value": 1.99
+        },
+        "target": {
+          "observationDate": "2022-02-17",
+          "value": 1.97
+        }
+      },
+      {
+        "decisionDate": "2022-02-25",
+        "base": {
+          "observationDate": "2022-02-24",
+          "value": 1.96
+        },
+        "target": {
+          "observationDate": "2022-02-18",
+          "value": 1.92
+        }
+      },
+      {
+        "decisionDate": "2022-02-28",
+        "base": {
+          "observationDate": "2022-02-25",
+          "value": 1.97
+        },
+        "target": {
+          "observationDate": "2022-02-22",
+          "value": 1.94
+        }
+      },
+      {
+        "decisionDate": "2022-03-01",
+        "base": {
+          "observationDate": "2022-02-28",
+          "value": 1.83
+        },
+        "target": {
+          "observationDate": "2022-02-23",
+          "value": 1.99
+        }
+      },
+      {
+        "decisionDate": "2022-03-02",
+        "base": {
+          "observationDate": "2022-03-01",
+          "value": 1.72
+        },
+        "target": {
+          "observationDate": "2022-02-24",
+          "value": 1.96
+        }
+      },
+      {
+        "decisionDate": "2022-03-03",
+        "base": {
+          "observationDate": "2022-03-02",
+          "value": 1.86
+        },
+        "target": {
+          "observationDate": "2022-02-25",
+          "value": 1.97
+        }
+      },
+      {
+        "decisionDate": "2022-03-04",
+        "base": {
+          "observationDate": "2022-03-03",
+          "value": 1.86
+        },
+        "target": {
+          "observationDate": "2022-02-28",
+          "value": 1.83
+        }
+      },
+      {
+        "decisionDate": "2022-03-07",
+        "base": {
+          "observationDate": "2022-03-04",
+          "value": 1.74
+        },
+        "target": {
+          "observationDate": "2022-03-01",
+          "value": 1.72
+        }
+      },
+      {
+        "decisionDate": "2022-03-08",
+        "base": {
+          "observationDate": "2022-03-07",
+          "value": 1.78
+        },
+        "target": {
+          "observationDate": "2022-03-02",
+          "value": 1.86
+        }
+      },
+      {
+        "decisionDate": "2022-03-09",
+        "base": {
+          "observationDate": "2022-03-08",
+          "value": 1.86
+        },
+        "target": {
+          "observationDate": "2022-03-03",
+          "value": 1.86
+        }
+      },
+      {
+        "decisionDate": "2022-03-10",
+        "base": {
+          "observationDate": "2022-03-09",
+          "value": 1.94
+        },
+        "target": {
+          "observationDate": "2022-03-04",
+          "value": 1.74
+        }
+      },
+      {
+        "decisionDate": "2022-03-11",
+        "base": {
+          "observationDate": "2022-03-10",
+          "value": 1.98
+        },
+        "target": {
+          "observationDate": "2022-03-07",
+          "value": 1.78
+        }
+      },
+      {
+        "decisionDate": "2022-03-14",
+        "base": {
+          "observationDate": "2022-03-11",
+          "value": 2
+        },
+        "target": {
+          "observationDate": "2022-03-08",
+          "value": 1.86
+        }
+      },
+      {
+        "decisionDate": "2022-03-15",
+        "base": {
+          "observationDate": "2022-03-14",
+          "value": 2.14
+        },
+        "target": {
+          "observationDate": "2022-03-09",
+          "value": 1.94
+        }
+      },
+      {
+        "decisionDate": "2022-03-16",
+        "base": {
+          "observationDate": "2022-03-15",
+          "value": 2.15
+        },
+        "target": {
+          "observationDate": "2022-03-10",
+          "value": 1.98
+        }
+      },
+      {
+        "decisionDate": "2022-03-17",
+        "base": {
+          "observationDate": "2022-03-16",
+          "value": 2.19
+        },
+        "target": {
+          "observationDate": "2022-03-11",
+          "value": 2
+        }
+      },
+      {
+        "decisionDate": "2022-03-18",
+        "base": {
+          "observationDate": "2022-03-17",
+          "value": 2.2
+        },
+        "target": {
+          "observationDate": "2022-03-14",
+          "value": 2.14
+        }
+      },
+      {
+        "decisionDate": "2022-03-21",
+        "base": {
+          "observationDate": "2022-03-18",
+          "value": 2.14
+        },
+        "target": {
+          "observationDate": "2022-03-15",
+          "value": 2.15
+        }
+      },
+      {
+        "decisionDate": "2022-03-22",
+        "base": {
+          "observationDate": "2022-03-21",
+          "value": 2.32
+        },
+        "target": {
+          "observationDate": "2022-03-16",
+          "value": 2.19
+        }
+      },
+      {
+        "decisionDate": "2022-03-23",
+        "base": {
+          "observationDate": "2022-03-22",
+          "value": 2.38
+        },
+        "target": {
+          "observationDate": "2022-03-17",
+          "value": 2.2
+        }
+      },
+      {
+        "decisionDate": "2022-03-24",
+        "base": {
+          "observationDate": "2022-03-23",
+          "value": 2.32
+        },
+        "target": {
+          "observationDate": "2022-03-18",
+          "value": 2.14
+        }
+      },
+      {
+        "decisionDate": "2022-03-25",
+        "base": {
+          "observationDate": "2022-03-24",
+          "value": 2.34
+        },
+        "target": {
+          "observationDate": "2022-03-21",
+          "value": 2.32
+        }
+      },
+      {
+        "decisionDate": "2022-03-28",
+        "base": {
+          "observationDate": "2022-03-25",
+          "value": 2.48
+        },
+        "target": {
+          "observationDate": "2022-03-22",
+          "value": 2.38
+        }
+      },
+      {
+        "decisionDate": "2022-03-29",
+        "base": {
+          "observationDate": "2022-03-28",
+          "value": 2.46
+        },
+        "target": {
+          "observationDate": "2022-03-23",
+          "value": 2.32
+        }
+      },
+      {
+        "decisionDate": "2022-03-30",
+        "base": {
+          "observationDate": "2022-03-29",
+          "value": 2.41
+        },
+        "target": {
+          "observationDate": "2022-03-24",
+          "value": 2.34
+        }
+      },
+      {
+        "decisionDate": "2022-03-31",
+        "base": {
+          "observationDate": "2022-03-30",
+          "value": 2.35
+        },
+        "target": {
+          "observationDate": "2022-03-25",
+          "value": 2.48
+        }
+      },
+      {
+        "decisionDate": "2022-04-01",
+        "base": {
+          "observationDate": "2022-03-31",
+          "value": 2.32
+        },
+        "target": {
+          "observationDate": "2022-03-28",
+          "value": 2.46
+        }
+      },
+      {
+        "decisionDate": "2022-04-04",
+        "base": {
+          "observationDate": "2022-04-01",
+          "value": 2.39
+        },
+        "target": {
+          "observationDate": "2022-03-29",
+          "value": 2.41
+        }
+      },
+      {
+        "decisionDate": "2022-04-05",
+        "base": {
+          "observationDate": "2022-04-04",
+          "value": 2.42
+        },
+        "target": {
+          "observationDate": "2022-03-30",
+          "value": 2.35
+        }
+      },
+      {
+        "decisionDate": "2022-04-06",
+        "base": {
+          "observationDate": "2022-04-05",
+          "value": 2.54
+        },
+        "target": {
+          "observationDate": "2022-03-31",
+          "value": 2.32
+        }
+      },
+      {
+        "decisionDate": "2022-04-07",
+        "base": {
+          "observationDate": "2022-04-06",
+          "value": 2.61
+        },
+        "target": {
+          "observationDate": "2022-04-01",
+          "value": 2.39
+        }
+      },
+      {
+        "decisionDate": "2022-04-08",
+        "base": {
+          "observationDate": "2022-04-07",
+          "value": 2.66
+        },
+        "target": {
+          "observationDate": "2022-04-04",
+          "value": 2.42
+        }
+      },
+      {
+        "decisionDate": "2022-04-11",
+        "base": {
+          "observationDate": "2022-04-08",
+          "value": 2.72
+        },
+        "target": {
+          "observationDate": "2022-04-05",
+          "value": 2.54
+        }
+      },
+      {
+        "decisionDate": "2022-04-12",
+        "base": {
+          "observationDate": "2022-04-11",
+          "value": 2.79
+        },
+        "target": {
+          "observationDate": "2022-04-06",
+          "value": 2.61
+        }
+      },
+      {
+        "decisionDate": "2022-04-13",
+        "base": {
+          "observationDate": "2022-04-12",
+          "value": 2.72
+        },
+        "target": {
+          "observationDate": "2022-04-07",
+          "value": 2.66
+        }
+      },
+      {
+        "decisionDate": "2022-04-14",
+        "base": {
+          "observationDate": "2022-04-13",
+          "value": 2.7
+        },
+        "target": {
+          "observationDate": "2022-04-08",
+          "value": 2.72
+        }
+      },
+      {
+        "decisionDate": "2022-04-18",
+        "base": {
+          "observationDate": "2022-04-14",
+          "value": 2.83
+        },
+        "target": {
+          "observationDate": "2022-04-11",
+          "value": 2.79
+        }
+      },
+      {
+        "decisionDate": "2022-04-19",
+        "base": {
+          "observationDate": "2022-04-18",
+          "value": 2.85
+        },
+        "target": {
+          "observationDate": "2022-04-12",
+          "value": 2.72
+        }
+      },
+      {
+        "decisionDate": "2022-04-20",
+        "base": {
+          "observationDate": "2022-04-19",
+          "value": 2.93
+        },
+        "target": {
+          "observationDate": "2022-04-13",
+          "value": 2.7
+        }
+      },
+      {
+        "decisionDate": "2022-04-21",
+        "base": {
+          "observationDate": "2022-04-20",
+          "value": 2.85
+        },
+        "target": {
+          "observationDate": "2022-04-14",
+          "value": 2.83
+        }
+      },
+      {
+        "decisionDate": "2022-04-22",
+        "base": {
+          "observationDate": "2022-04-21",
+          "value": 2.9
+        },
+        "target": {
+          "observationDate": "2022-04-18",
+          "value": 2.85
+        }
+      },
+      {
+        "decisionDate": "2022-04-25",
+        "base": {
+          "observationDate": "2022-04-22",
+          "value": 2.9
+        },
+        "target": {
+          "observationDate": "2022-04-19",
+          "value": 2.93
+        }
+      },
+      {
+        "decisionDate": "2022-04-26",
+        "base": {
+          "observationDate": "2022-04-25",
+          "value": 2.81
+        },
+        "target": {
+          "observationDate": "2022-04-20",
+          "value": 2.85
+        }
+      },
+      {
+        "decisionDate": "2022-04-27",
+        "base": {
+          "observationDate": "2022-04-26",
+          "value": 2.77
+        },
+        "target": {
+          "observationDate": "2022-04-21",
+          "value": 2.9
+        }
+      },
+      {
+        "decisionDate": "2022-04-28",
+        "base": {
+          "observationDate": "2022-04-27",
+          "value": 2.82
+        },
+        "target": {
+          "observationDate": "2022-04-22",
+          "value": 2.9
+        }
+      },
+      {
+        "decisionDate": "2022-04-29",
+        "base": {
+          "observationDate": "2022-04-28",
+          "value": 2.85
+        },
+        "target": {
+          "observationDate": "2022-04-25",
+          "value": 2.81
+        }
+      },
+      {
+        "decisionDate": "2022-05-02",
+        "base": {
+          "observationDate": "2022-04-29",
+          "value": 2.89
+        },
+        "target": {
+          "observationDate": "2022-04-26",
+          "value": 2.77
+        }
+      },
+      {
+        "decisionDate": "2022-05-03",
+        "base": {
+          "observationDate": "2022-05-02",
+          "value": 2.99
+        },
+        "target": {
+          "observationDate": "2022-04-27",
+          "value": 2.82
+        }
+      },
+      {
+        "decisionDate": "2022-05-04",
+        "base": {
+          "observationDate": "2022-05-03",
+          "value": 2.97
+        },
+        "target": {
+          "observationDate": "2022-04-28",
+          "value": 2.85
+        }
+      },
+      {
+        "decisionDate": "2022-05-05",
+        "base": {
+          "observationDate": "2022-05-04",
+          "value": 2.93
+        },
+        "target": {
+          "observationDate": "2022-04-29",
+          "value": 2.89
+        }
+      },
+      {
+        "decisionDate": "2022-05-06",
+        "base": {
+          "observationDate": "2022-05-05",
+          "value": 3.05
+        },
+        "target": {
+          "observationDate": "2022-05-02",
+          "value": 2.99
+        }
+      },
+      {
+        "decisionDate": "2022-05-09",
+        "base": {
+          "observationDate": "2022-05-06",
+          "value": 3.12
+        },
+        "target": {
+          "observationDate": "2022-05-03",
+          "value": 2.97
+        }
+      },
+      {
+        "decisionDate": "2022-05-10",
+        "base": {
+          "observationDate": "2022-05-09",
+          "value": 3.05
+        },
+        "target": {
+          "observationDate": "2022-05-04",
+          "value": 2.93
+        }
+      },
+      {
+        "decisionDate": "2022-05-11",
+        "base": {
+          "observationDate": "2022-05-10",
+          "value": 2.99
+        },
+        "target": {
+          "observationDate": "2022-05-05",
+          "value": 3.05
+        }
+      },
+      {
+        "decisionDate": "2022-05-12",
+        "base": {
+          "observationDate": "2022-05-11",
+          "value": 2.91
+        },
+        "target": {
+          "observationDate": "2022-05-06",
+          "value": 3.12
+        }
+      },
+      {
+        "decisionDate": "2022-05-13",
+        "base": {
+          "observationDate": "2022-05-12",
+          "value": 2.84
+        },
+        "target": {
+          "observationDate": "2022-05-09",
+          "value": 3.05
+        }
+      },
+      {
+        "decisionDate": "2022-05-16",
+        "base": {
+          "observationDate": "2022-05-13",
+          "value": 2.93
+        },
+        "target": {
+          "observationDate": "2022-05-10",
+          "value": 2.99
+        }
+      },
+      {
+        "decisionDate": "2022-05-17",
+        "base": {
+          "observationDate": "2022-05-16",
+          "value": 2.88
+        },
+        "target": {
+          "observationDate": "2022-05-11",
+          "value": 2.91
+        }
+      },
+      {
+        "decisionDate": "2022-05-18",
+        "base": {
+          "observationDate": "2022-05-17",
+          "value": 2.98
+        },
+        "target": {
+          "observationDate": "2022-05-12",
+          "value": 2.84
+        }
+      },
+      {
+        "decisionDate": "2022-05-19",
+        "base": {
+          "observationDate": "2022-05-18",
+          "value": 2.89
+        },
+        "target": {
+          "observationDate": "2022-05-13",
+          "value": 2.93
+        }
+      },
+      {
+        "decisionDate": "2022-05-20",
+        "base": {
+          "observationDate": "2022-05-19",
+          "value": 2.84
+        },
+        "target": {
+          "observationDate": "2022-05-16",
+          "value": 2.88
+        }
+      },
+      {
+        "decisionDate": "2022-05-23",
+        "base": {
+          "observationDate": "2022-05-20",
+          "value": 2.78
+        },
+        "target": {
+          "observationDate": "2022-05-17",
+          "value": 2.98
+        }
+      },
+      {
+        "decisionDate": "2022-05-24",
+        "base": {
+          "observationDate": "2022-05-23",
+          "value": 2.86
+        },
+        "target": {
+          "observationDate": "2022-05-18",
+          "value": 2.89
+        }
+      },
+      {
+        "decisionDate": "2022-05-25",
+        "base": {
+          "observationDate": "2022-05-24",
+          "value": 2.76
+        },
+        "target": {
+          "observationDate": "2022-05-19",
+          "value": 2.84
+        }
+      },
+      {
+        "decisionDate": "2022-05-26",
+        "base": {
+          "observationDate": "2022-05-25",
+          "value": 2.75
+        },
+        "target": {
+          "observationDate": "2022-05-20",
+          "value": 2.78
+        }
+      },
+      {
+        "decisionDate": "2022-05-27",
+        "base": {
+          "observationDate": "2022-05-26",
+          "value": 2.75
+        },
+        "target": {
+          "observationDate": "2022-05-23",
+          "value": 2.86
+        }
+      },
+      {
+        "decisionDate": "2022-05-31",
+        "base": {
+          "observationDate": "2022-05-27",
+          "value": 2.74
+        },
+        "target": {
+          "observationDate": "2022-05-24",
+          "value": 2.76
+        }
+      },
+      {
+        "decisionDate": "2022-06-01",
+        "base": {
+          "observationDate": "2022-05-31",
+          "value": 2.85
+        },
+        "target": {
+          "observationDate": "2022-05-25",
+          "value": 2.75
+        }
+      },
+      {
+        "decisionDate": "2022-06-02",
+        "base": {
+          "observationDate": "2022-06-01",
+          "value": 2.94
+        },
+        "target": {
+          "observationDate": "2022-05-26",
+          "value": 2.75
+        }
+      },
+      {
+        "decisionDate": "2022-06-03",
+        "base": {
+          "observationDate": "2022-06-02",
+          "value": 2.92
+        },
+        "target": {
+          "observationDate": "2022-05-27",
+          "value": 2.74
+        }
+      },
+      {
+        "decisionDate": "2022-06-06",
+        "base": {
+          "observationDate": "2022-06-03",
+          "value": 2.96
+        },
+        "target": {
+          "observationDate": "2022-05-31",
+          "value": 2.85
+        }
+      },
+      {
+        "decisionDate": "2022-06-07",
+        "base": {
+          "observationDate": "2022-06-06",
+          "value": 3.04
+        },
+        "target": {
+          "observationDate": "2022-06-01",
+          "value": 2.94
+        }
+      },
+      {
+        "decisionDate": "2022-06-08",
+        "base": {
+          "observationDate": "2022-06-07",
+          "value": 2.98
+        },
+        "target": {
+          "observationDate": "2022-06-02",
+          "value": 2.92
+        }
+      },
+      {
+        "decisionDate": "2022-06-09",
+        "base": {
+          "observationDate": "2022-06-08",
+          "value": 3.03
+        },
+        "target": {
+          "observationDate": "2022-06-03",
+          "value": 2.96
+        }
+      },
+      {
+        "decisionDate": "2022-06-10",
+        "base": {
+          "observationDate": "2022-06-09",
+          "value": 3.04
+        },
+        "target": {
+          "observationDate": "2022-06-06",
+          "value": 3.04
+        }
+      },
+      {
+        "decisionDate": "2022-06-13",
+        "base": {
+          "observationDate": "2022-06-10",
+          "value": 3.15
+        },
+        "target": {
+          "observationDate": "2022-06-07",
+          "value": 2.98
+        }
+      },
+      {
+        "decisionDate": "2022-06-14",
+        "base": {
+          "observationDate": "2022-06-13",
+          "value": 3.43
+        },
+        "target": {
+          "observationDate": "2022-06-08",
+          "value": 3.03
+        }
+      },
+      {
+        "decisionDate": "2022-06-15",
+        "base": {
+          "observationDate": "2022-06-14",
+          "value": 3.49
+        },
+        "target": {
+          "observationDate": "2022-06-09",
+          "value": 3.04
+        }
+      },
+      {
+        "decisionDate": "2022-06-16",
+        "base": {
+          "observationDate": "2022-06-15",
+          "value": 3.33
+        },
+        "target": {
+          "observationDate": "2022-06-10",
+          "value": 3.15
+        }
+      },
+      {
+        "decisionDate": "2022-06-17",
+        "base": {
+          "observationDate": "2022-06-16",
+          "value": 3.28
+        },
+        "target": {
+          "observationDate": "2022-06-13",
+          "value": 3.43
+        }
+      },
+      {
+        "decisionDate": "2022-06-21",
+        "base": {
+          "observationDate": "2022-06-17",
+          "value": 3.25
+        },
+        "target": {
+          "observationDate": "2022-06-14",
+          "value": 3.49
+        }
+      },
+      {
+        "decisionDate": "2022-06-22",
+        "base": {
+          "observationDate": "2022-06-21",
+          "value": 3.31
+        },
+        "target": {
+          "observationDate": "2022-06-15",
+          "value": 3.33
+        }
+      },
+      {
+        "decisionDate": "2022-06-23",
+        "base": {
+          "observationDate": "2022-06-22",
+          "value": 3.16
+        },
+        "target": {
+          "observationDate": "2022-06-16",
+          "value": 3.28
+        }
+      },
+      {
+        "decisionDate": "2022-06-24",
+        "base": {
+          "observationDate": "2022-06-23",
+          "value": 3.09
+        },
+        "target": {
+          "observationDate": "2022-06-17",
+          "value": 3.25
+        }
+      },
+      {
+        "decisionDate": "2022-06-27",
+        "base": {
+          "observationDate": "2022-06-24",
+          "value": 3.13
+        },
+        "target": {
+          "observationDate": "2022-06-21",
+          "value": 3.31
+        }
+      },
+      {
+        "decisionDate": "2022-06-28",
+        "base": {
+          "observationDate": "2022-06-27",
+          "value": 3.2
+        },
+        "target": {
+          "observationDate": "2022-06-22",
+          "value": 3.16
+        }
+      },
+      {
+        "decisionDate": "2022-06-29",
+        "base": {
+          "observationDate": "2022-06-28",
+          "value": 3.2
+        },
+        "target": {
+          "observationDate": "2022-06-23",
+          "value": 3.09
+        }
+      },
+      {
+        "decisionDate": "2022-06-30",
+        "base": {
+          "observationDate": "2022-06-29",
+          "value": 3.1
+        },
+        "target": {
+          "observationDate": "2022-06-24",
+          "value": 3.13
+        }
+      },
+      {
+        "decisionDate": "2022-07-01",
+        "base": {
+          "observationDate": "2022-06-30",
+          "value": 2.98
+        },
+        "target": {
+          "observationDate": "2022-06-27",
+          "value": 3.2
+        }
+      },
+      {
+        "decisionDate": "2022-07-05",
+        "base": {
+          "observationDate": "2022-07-01",
+          "value": 2.88
+        },
+        "target": {
+          "observationDate": "2022-06-28",
+          "value": 3.2
+        }
+      },
+      {
+        "decisionDate": "2022-07-06",
+        "base": {
+          "observationDate": "2022-07-05",
+          "value": 2.82
+        },
+        "target": {
+          "observationDate": "2022-06-29",
+          "value": 3.1
+        }
+      },
+      {
+        "decisionDate": "2022-07-07",
+        "base": {
+          "observationDate": "2022-07-06",
+          "value": 2.93
+        },
+        "target": {
+          "observationDate": "2022-06-30",
+          "value": 2.98
+        }
+      },
+      {
+        "decisionDate": "2022-07-08",
+        "base": {
+          "observationDate": "2022-07-07",
+          "value": 3.01
+        },
+        "target": {
+          "observationDate": "2022-07-01",
+          "value": 2.88
+        }
+      },
+      {
+        "decisionDate": "2022-07-11",
+        "base": {
+          "observationDate": "2022-07-08",
+          "value": 3.09
+        },
+        "target": {
+          "observationDate": "2022-07-05",
+          "value": 2.82
+        }
+      },
+      {
+        "decisionDate": "2022-07-12",
+        "base": {
+          "observationDate": "2022-07-11",
+          "value": 2.99
+        },
+        "target": {
+          "observationDate": "2022-07-06",
+          "value": 2.93
+        }
+      },
+      {
+        "decisionDate": "2022-07-13",
+        "base": {
+          "observationDate": "2022-07-12",
+          "value": 2.96
+        },
+        "target": {
+          "observationDate": "2022-07-07",
+          "value": 3.01
+        }
+      },
+      {
+        "decisionDate": "2022-07-14",
+        "base": {
+          "observationDate": "2022-07-13",
+          "value": 2.91
+        },
+        "target": {
+          "observationDate": "2022-07-08",
+          "value": 3.09
+        }
+      },
+      {
+        "decisionDate": "2022-07-15",
+        "base": {
+          "observationDate": "2022-07-14",
+          "value": 2.96
+        },
+        "target": {
+          "observationDate": "2022-07-11",
+          "value": 2.99
+        }
+      },
+      {
+        "decisionDate": "2022-07-18",
+        "base": {
+          "observationDate": "2022-07-15",
+          "value": 2.93
+        },
+        "target": {
+          "observationDate": "2022-07-12",
+          "value": 2.96
+        }
+      },
+      {
+        "decisionDate": "2022-07-19",
+        "base": {
+          "observationDate": "2022-07-18",
+          "value": 2.96
+        },
+        "target": {
+          "observationDate": "2022-07-13",
+          "value": 2.91
+        }
+      },
+      {
+        "decisionDate": "2022-07-20",
+        "base": {
+          "observationDate": "2022-07-19",
+          "value": 3.01
+        },
+        "target": {
+          "observationDate": "2022-07-14",
+          "value": 2.96
+        }
+      },
+      {
+        "decisionDate": "2022-07-21",
+        "base": {
+          "observationDate": "2022-07-20",
+          "value": 3.04
+        },
+        "target": {
+          "observationDate": "2022-07-15",
+          "value": 2.93
+        }
+      },
+      {
+        "decisionDate": "2022-07-22",
+        "base": {
+          "observationDate": "2022-07-21",
+          "value": 2.91
+        },
+        "target": {
+          "observationDate": "2022-07-18",
+          "value": 2.96
+        }
+      },
+      {
+        "decisionDate": "2022-07-25",
+        "base": {
+          "observationDate": "2022-07-22",
+          "value": 2.77
+        },
+        "target": {
+          "observationDate": "2022-07-19",
+          "value": 3.01
+        }
+      },
+      {
+        "decisionDate": "2022-07-26",
+        "base": {
+          "observationDate": "2022-07-25",
+          "value": 2.81
+        },
+        "target": {
+          "observationDate": "2022-07-20",
+          "value": 3.04
+        }
+      },
+      {
+        "decisionDate": "2022-07-27",
+        "base": {
+          "observationDate": "2022-07-26",
+          "value": 2.81
+        },
+        "target": {
+          "observationDate": "2022-07-21",
+          "value": 2.91
+        }
+      },
+      {
+        "decisionDate": "2022-07-28",
+        "base": {
+          "observationDate": "2022-07-27",
+          "value": 2.78
+        },
+        "target": {
+          "observationDate": "2022-07-22",
+          "value": 2.77
+        }
+      },
+      {
+        "decisionDate": "2022-07-29",
+        "base": {
+          "observationDate": "2022-07-28",
+          "value": 2.68
+        },
+        "target": {
+          "observationDate": "2022-07-25",
+          "value": 2.81
+        }
+      },
+      {
+        "decisionDate": "2022-08-01",
+        "base": {
+          "observationDate": "2022-07-29",
+          "value": 2.67
+        },
+        "target": {
+          "observationDate": "2022-07-26",
+          "value": 2.81
+        }
+      },
+      {
+        "decisionDate": "2022-08-02",
+        "base": {
+          "observationDate": "2022-08-01",
+          "value": 2.6
+        },
+        "target": {
+          "observationDate": "2022-07-27",
+          "value": 2.78
+        }
+      },
+      {
+        "decisionDate": "2022-08-03",
+        "base": {
+          "observationDate": "2022-08-02",
+          "value": 2.75
+        },
+        "target": {
+          "observationDate": "2022-07-28",
+          "value": 2.68
+        }
+      },
+      {
+        "decisionDate": "2022-08-04",
+        "base": {
+          "observationDate": "2022-08-03",
+          "value": 2.73
+        },
+        "target": {
+          "observationDate": "2022-07-29",
+          "value": 2.67
+        }
+      },
+      {
+        "decisionDate": "2022-08-05",
+        "base": {
+          "observationDate": "2022-08-04",
+          "value": 2.68
+        },
+        "target": {
+          "observationDate": "2022-08-01",
+          "value": 2.6
+        }
+      },
+      {
+        "decisionDate": "2022-08-08",
+        "base": {
+          "observationDate": "2022-08-05",
+          "value": 2.83
+        },
+        "target": {
+          "observationDate": "2022-08-02",
+          "value": 2.75
+        }
+      },
+      {
+        "decisionDate": "2022-08-09",
+        "base": {
+          "observationDate": "2022-08-08",
+          "value": 2.77
+        },
+        "target": {
+          "observationDate": "2022-08-03",
+          "value": 2.73
+        }
+      },
+      {
+        "decisionDate": "2022-08-10",
+        "base": {
+          "observationDate": "2022-08-09",
+          "value": 2.8
+        },
+        "target": {
+          "observationDate": "2022-08-04",
+          "value": 2.68
+        }
+      },
+      {
+        "decisionDate": "2022-08-11",
+        "base": {
+          "observationDate": "2022-08-10",
+          "value": 2.78
+        },
+        "target": {
+          "observationDate": "2022-08-05",
+          "value": 2.83
+        }
+      },
+      {
+        "decisionDate": "2022-08-12",
+        "base": {
+          "observationDate": "2022-08-11",
+          "value": 2.87
+        },
+        "target": {
+          "observationDate": "2022-08-08",
+          "value": 2.77
+        }
+      },
+      {
+        "decisionDate": "2022-08-15",
+        "base": {
+          "observationDate": "2022-08-12",
+          "value": 2.84
+        },
+        "target": {
+          "observationDate": "2022-08-09",
+          "value": 2.8
+        }
+      },
+      {
+        "decisionDate": "2022-08-16",
+        "base": {
+          "observationDate": "2022-08-15",
+          "value": 2.79
+        },
+        "target": {
+          "observationDate": "2022-08-10",
+          "value": 2.78
+        }
+      },
+      {
+        "decisionDate": "2022-08-17",
+        "base": {
+          "observationDate": "2022-08-16",
+          "value": 2.82
+        },
+        "target": {
+          "observationDate": "2022-08-11",
+          "value": 2.87
+        }
+      },
+      {
+        "decisionDate": "2022-08-18",
+        "base": {
+          "observationDate": "2022-08-17",
+          "value": 2.89
+        },
+        "target": {
+          "observationDate": "2022-08-12",
+          "value": 2.84
+        }
+      },
+      {
+        "decisionDate": "2022-08-19",
+        "base": {
+          "observationDate": "2022-08-18",
+          "value": 2.88
+        },
+        "target": {
+          "observationDate": "2022-08-15",
+          "value": 2.79
+        }
+      },
+      {
+        "decisionDate": "2022-08-22",
+        "base": {
+          "observationDate": "2022-08-19",
+          "value": 2.98
+        },
+        "target": {
+          "observationDate": "2022-08-16",
+          "value": 2.82
+        }
+      },
+      {
+        "decisionDate": "2022-08-23",
+        "base": {
+          "observationDate": "2022-08-22",
+          "value": 3.03
+        },
+        "target": {
+          "observationDate": "2022-08-17",
+          "value": 2.89
+        }
+      },
+      {
+        "decisionDate": "2022-08-24",
+        "base": {
+          "observationDate": "2022-08-23",
+          "value": 3.05
+        },
+        "target": {
+          "observationDate": "2022-08-18",
+          "value": 2.88
+        }
+      },
+      {
+        "decisionDate": "2022-08-25",
+        "base": {
+          "observationDate": "2022-08-24",
+          "value": 3.11
+        },
+        "target": {
+          "observationDate": "2022-08-19",
+          "value": 2.98
+        }
+      },
+      {
+        "decisionDate": "2022-08-26",
+        "base": {
+          "observationDate": "2022-08-25",
+          "value": 3.03
+        },
+        "target": {
+          "observationDate": "2022-08-22",
+          "value": 3.03
+        }
+      },
+      {
+        "decisionDate": "2022-08-29",
+        "base": {
+          "observationDate": "2022-08-26",
+          "value": 3.04
+        },
+        "target": {
+          "observationDate": "2022-08-23",
+          "value": 3.05
+        }
+      },
+      {
+        "decisionDate": "2022-08-30",
+        "base": {
+          "observationDate": "2022-08-29",
+          "value": 3.12
+        },
+        "target": {
+          "observationDate": "2022-08-24",
+          "value": 3.11
+        }
+      },
+      {
+        "decisionDate": "2022-08-31",
+        "base": {
+          "observationDate": "2022-08-30",
+          "value": 3.11
+        },
+        "target": {
+          "observationDate": "2022-08-25",
+          "value": 3.03
+        }
+      },
+      {
+        "decisionDate": "2022-09-01",
+        "base": {
+          "observationDate": "2022-08-31",
+          "value": 3.15
+        },
+        "target": {
+          "observationDate": "2022-08-26",
+          "value": 3.04
+        }
+      },
+      {
+        "decisionDate": "2022-09-02",
+        "base": {
+          "observationDate": "2022-09-01",
+          "value": 3.26
+        },
+        "target": {
+          "observationDate": "2022-08-29",
+          "value": 3.12
+        }
+      },
+      {
+        "decisionDate": "2022-09-06",
+        "base": {
+          "observationDate": "2022-09-02",
+          "value": 3.2
+        },
+        "target": {
+          "observationDate": "2022-08-30",
+          "value": 3.11
+        }
+      },
+      {
+        "decisionDate": "2022-09-07",
+        "base": {
+          "observationDate": "2022-09-06",
+          "value": 3.33
+        },
+        "target": {
+          "observationDate": "2022-08-31",
+          "value": 3.15
+        }
+      },
+      {
+        "decisionDate": "2022-09-08",
+        "base": {
+          "observationDate": "2022-09-07",
+          "value": 3.27
+        },
+        "target": {
+          "observationDate": "2022-09-01",
+          "value": 3.26
+        }
+      },
+      {
+        "decisionDate": "2022-09-09",
+        "base": {
+          "observationDate": "2022-09-08",
+          "value": 3.29
+        },
+        "target": {
+          "observationDate": "2022-09-02",
+          "value": 3.2
+        }
+      },
+      {
+        "decisionDate": "2022-09-12",
+        "base": {
+          "observationDate": "2022-09-09",
+          "value": 3.33
+        },
+        "target": {
+          "observationDate": "2022-09-06",
+          "value": 3.33
+        }
+      },
+      {
+        "decisionDate": "2022-09-13",
+        "base": {
+          "observationDate": "2022-09-12",
+          "value": 3.37
+        },
+        "target": {
+          "observationDate": "2022-09-07",
+          "value": 3.27
+        }
+      },
+      {
+        "decisionDate": "2022-09-14",
+        "base": {
+          "observationDate": "2022-09-13",
+          "value": 3.42
+        },
+        "target": {
+          "observationDate": "2022-09-08",
+          "value": 3.29
+        }
+      },
+      {
+        "decisionDate": "2022-09-15",
+        "base": {
+          "observationDate": "2022-09-14",
+          "value": 3.41
+        },
+        "target": {
+          "observationDate": "2022-09-09",
+          "value": 3.33
+        }
+      },
+      {
+        "decisionDate": "2022-09-16",
+        "base": {
+          "observationDate": "2022-09-15",
+          "value": 3.45
+        },
+        "target": {
+          "observationDate": "2022-09-12",
+          "value": 3.37
+        }
+      },
+      {
+        "decisionDate": "2022-09-19",
+        "base": {
+          "observationDate": "2022-09-16",
+          "value": 3.45
+        },
+        "target": {
+          "observationDate": "2022-09-13",
+          "value": 3.42
+        }
+      },
+      {
+        "decisionDate": "2022-09-20",
+        "base": {
+          "observationDate": "2022-09-19",
+          "value": 3.49
+        },
+        "target": {
+          "observationDate": "2022-09-14",
+          "value": 3.41
+        }
+      },
+      {
+        "decisionDate": "2022-09-21",
+        "base": {
+          "observationDate": "2022-09-20",
+          "value": 3.57
+        },
+        "target": {
+          "observationDate": "2022-09-15",
+          "value": 3.45
+        }
+      },
+      {
+        "decisionDate": "2022-09-22",
+        "base": {
+          "observationDate": "2022-09-21",
+          "value": 3.51
+        },
+        "target": {
+          "observationDate": "2022-09-16",
+          "value": 3.45
+        }
+      },
+      {
+        "decisionDate": "2022-09-23",
+        "base": {
+          "observationDate": "2022-09-22",
+          "value": 3.7
+        },
+        "target": {
+          "observationDate": "2022-09-19",
+          "value": 3.49
+        }
+      },
+      {
+        "decisionDate": "2022-09-26",
+        "base": {
+          "observationDate": "2022-09-23",
+          "value": 3.69
+        },
+        "target": {
+          "observationDate": "2022-09-20",
+          "value": 3.57
+        }
+      },
+      {
+        "decisionDate": "2022-09-27",
+        "base": {
+          "observationDate": "2022-09-26",
+          "value": 3.88
+        },
+        "target": {
+          "observationDate": "2022-09-21",
+          "value": 3.51
+        }
+      },
+      {
+        "decisionDate": "2022-09-28",
+        "base": {
+          "observationDate": "2022-09-27",
+          "value": 3.97
+        },
+        "target": {
+          "observationDate": "2022-09-22",
+          "value": 3.7
+        }
+      },
+      {
+        "decisionDate": "2022-09-29",
+        "base": {
+          "observationDate": "2022-09-28",
+          "value": 3.72
+        },
+        "target": {
+          "observationDate": "2022-09-23",
+          "value": 3.69
+        }
+      },
+      {
+        "decisionDate": "2022-09-30",
+        "base": {
+          "observationDate": "2022-09-29",
+          "value": 3.76
+        },
+        "target": {
+          "observationDate": "2022-09-26",
+          "value": 3.88
+        }
+      },
+      {
+        "decisionDate": "2022-10-03",
+        "base": {
+          "observationDate": "2022-09-30",
+          "value": 3.83
+        },
+        "target": {
+          "observationDate": "2022-09-27",
+          "value": 3.97
+        }
+      },
+      {
+        "decisionDate": "2022-10-04",
+        "base": {
+          "observationDate": "2022-10-03",
+          "value": 3.67
+        },
+        "target": {
+          "observationDate": "2022-09-28",
+          "value": 3.72
+        }
+      },
+      {
+        "decisionDate": "2022-10-05",
+        "base": {
+          "observationDate": "2022-10-04",
+          "value": 3.62
+        },
+        "target": {
+          "observationDate": "2022-09-29",
+          "value": 3.76
+        }
+      },
+      {
+        "decisionDate": "2022-10-06",
+        "base": {
+          "observationDate": "2022-10-05",
+          "value": 3.76
+        },
+        "target": {
+          "observationDate": "2022-09-30",
+          "value": 3.83
+        }
+      },
+      {
+        "decisionDate": "2022-10-07",
+        "base": {
+          "observationDate": "2022-10-06",
+          "value": 3.83
+        },
+        "target": {
+          "observationDate": "2022-10-03",
+          "value": 3.67
+        }
+      },
+      {
+        "decisionDate": "2022-10-10",
+        "base": {
+          "observationDate": "2022-10-07",
+          "value": 3.89
+        },
+        "target": {
+          "observationDate": "2022-10-04",
+          "value": 3.62
+        }
+      },
+      {
+        "decisionDate": "2022-10-11",
+        "base": {
+          "observationDate": "2022-10-07",
+          "value": 3.89
+        },
+        "target": {
+          "observationDate": "2022-10-05",
+          "value": 3.76
+        }
+      },
+      {
+        "decisionDate": "2022-10-12",
+        "base": {
+          "observationDate": "2022-10-11",
+          "value": 3.93
+        },
+        "target": {
+          "observationDate": "2022-10-06",
+          "value": 3.83
+        }
+      },
+      {
+        "decisionDate": "2022-10-13",
+        "base": {
+          "observationDate": "2022-10-12",
+          "value": 3.91
+        },
+        "target": {
+          "observationDate": "2022-10-07",
+          "value": 3.89
+        }
+      },
+      {
+        "decisionDate": "2022-10-14",
+        "base": {
+          "observationDate": "2022-10-13",
+          "value": 3.97
+        },
+        "target": {
+          "observationDate": "2022-10-07",
+          "value": 3.89
+        }
+      },
+      {
+        "decisionDate": "2022-10-17",
+        "base": {
+          "observationDate": "2022-10-14",
+          "value": 4
+        },
+        "target": {
+          "observationDate": "2022-10-11",
+          "value": 3.93
+        }
+      },
+      {
+        "decisionDate": "2022-10-18",
+        "base": {
+          "observationDate": "2022-10-17",
+          "value": 4.02
+        },
+        "target": {
+          "observationDate": "2022-10-12",
+          "value": 3.91
+        }
+      },
+      {
+        "decisionDate": "2022-10-19",
+        "base": {
+          "observationDate": "2022-10-18",
+          "value": 4.01
+        },
+        "target": {
+          "observationDate": "2022-10-13",
+          "value": 3.97
+        }
+      },
+      {
+        "decisionDate": "2022-10-20",
+        "base": {
+          "observationDate": "2022-10-19",
+          "value": 4.14
+        },
+        "target": {
+          "observationDate": "2022-10-14",
+          "value": 4
+        }
+      },
+      {
+        "decisionDate": "2022-10-21",
+        "base": {
+          "observationDate": "2022-10-20",
+          "value": 4.24
+        },
+        "target": {
+          "observationDate": "2022-10-17",
+          "value": 4.02
+        }
+      },
+      {
+        "decisionDate": "2022-10-24",
+        "base": {
+          "observationDate": "2022-10-21",
+          "value": 4.21
+        },
+        "target": {
+          "observationDate": "2022-10-18",
+          "value": 4.01
+        }
+      },
+      {
+        "decisionDate": "2022-10-25",
+        "base": {
+          "observationDate": "2022-10-24",
+          "value": 4.25
+        },
+        "target": {
+          "observationDate": "2022-10-19",
+          "value": 4.14
+        }
+      },
+      {
+        "decisionDate": "2022-10-26",
+        "base": {
+          "observationDate": "2022-10-25",
+          "value": 4.1
+        },
+        "target": {
+          "observationDate": "2022-10-20",
+          "value": 4.24
+        }
+      },
+      {
+        "decisionDate": "2022-10-27",
+        "base": {
+          "observationDate": "2022-10-26",
+          "value": 4.04
+        },
+        "target": {
+          "observationDate": "2022-10-21",
+          "value": 4.21
+        }
+      },
+      {
+        "decisionDate": "2022-10-28",
+        "base": {
+          "observationDate": "2022-10-27",
+          "value": 3.96
+        },
+        "target": {
+          "observationDate": "2022-10-24",
+          "value": 4.25
+        }
+      },
+      {
+        "decisionDate": "2022-10-31",
+        "base": {
+          "observationDate": "2022-10-28",
+          "value": 4.02
+        },
+        "target": {
+          "observationDate": "2022-10-25",
+          "value": 4.1
+        }
+      },
+      {
+        "decisionDate": "2022-11-01",
+        "base": {
+          "observationDate": "2022-10-31",
+          "value": 4.1
+        },
+        "target": {
+          "observationDate": "2022-10-26",
+          "value": 4.04
+        }
+      },
+      {
+        "decisionDate": "2022-11-02",
+        "base": {
+          "observationDate": "2022-11-01",
+          "value": 4.07
+        },
+        "target": {
+          "observationDate": "2022-10-27",
+          "value": 3.96
+        }
+      },
+      {
+        "decisionDate": "2022-11-03",
+        "base": {
+          "observationDate": "2022-11-02",
+          "value": 4.1
+        },
+        "target": {
+          "observationDate": "2022-10-28",
+          "value": 4.02
+        }
+      },
+      {
+        "decisionDate": "2022-11-04",
+        "base": {
+          "observationDate": "2022-11-03",
+          "value": 4.14
+        },
+        "target": {
+          "observationDate": "2022-10-31",
+          "value": 4.1
+        }
+      },
+      {
+        "decisionDate": "2022-11-07",
+        "base": {
+          "observationDate": "2022-11-04",
+          "value": 4.17
+        },
+        "target": {
+          "observationDate": "2022-11-01",
+          "value": 4.07
+        }
+      },
+      {
+        "decisionDate": "2022-11-08",
+        "base": {
+          "observationDate": "2022-11-07",
+          "value": 4.22
+        },
+        "target": {
+          "observationDate": "2022-11-02",
+          "value": 4.1
+        }
+      },
+      {
+        "decisionDate": "2022-11-09",
+        "base": {
+          "observationDate": "2022-11-08",
+          "value": 4.14
+        },
+        "target": {
+          "observationDate": "2022-11-03",
+          "value": 4.14
+        }
+      },
+      {
+        "decisionDate": "2022-11-10",
+        "base": {
+          "observationDate": "2022-11-09",
+          "value": 4.12
+        },
+        "target": {
+          "observationDate": "2022-11-04",
+          "value": 4.17
+        }
+      },
+      {
+        "decisionDate": "2022-11-11",
+        "base": {
+          "observationDate": "2022-11-10",
+          "value": 3.82
+        },
+        "target": {
+          "observationDate": "2022-11-07",
+          "value": 4.22
+        }
+      },
+      {
+        "decisionDate": "2022-11-14",
+        "base": {
+          "observationDate": "2022-11-10",
+          "value": 3.82
+        },
+        "target": {
+          "observationDate": "2022-11-08",
+          "value": 4.14
+        }
+      },
+      {
+        "decisionDate": "2022-11-15",
+        "base": {
+          "observationDate": "2022-11-14",
+          "value": 3.88
+        },
+        "target": {
+          "observationDate": "2022-11-09",
+          "value": 4.12
+        }
+      },
+      {
+        "decisionDate": "2022-11-16",
+        "base": {
+          "observationDate": "2022-11-15",
+          "value": 3.8
+        },
+        "target": {
+          "observationDate": "2022-11-10",
+          "value": 3.82
+        }
+      },
+      {
+        "decisionDate": "2022-11-17",
+        "base": {
+          "observationDate": "2022-11-16",
+          "value": 3.67
+        },
+        "target": {
+          "observationDate": "2022-11-10",
+          "value": 3.82
+        }
+      },
+      {
+        "decisionDate": "2022-11-18",
+        "base": {
+          "observationDate": "2022-11-17",
+          "value": 3.77
+        },
+        "target": {
+          "observationDate": "2022-11-14",
+          "value": 3.88
+        }
+      },
+      {
+        "decisionDate": "2022-11-21",
+        "base": {
+          "observationDate": "2022-11-18",
+          "value": 3.82
+        },
+        "target": {
+          "observationDate": "2022-11-15",
+          "value": 3.8
+        }
+      },
+      {
+        "decisionDate": "2022-11-22",
+        "base": {
+          "observationDate": "2022-11-21",
+          "value": 3.83
+        },
+        "target": {
+          "observationDate": "2022-11-16",
+          "value": 3.67
+        }
+      },
+      {
+        "decisionDate": "2022-11-23",
+        "base": {
+          "observationDate": "2022-11-22",
+          "value": 3.76
+        },
+        "target": {
+          "observationDate": "2022-11-17",
+          "value": 3.77
+        }
+      },
+      {
+        "decisionDate": "2022-11-25",
+        "base": {
+          "observationDate": "2022-11-23",
+          "value": 3.71
+        },
+        "target": {
+          "observationDate": "2022-11-18",
+          "value": 3.82
+        }
+      },
+      {
+        "decisionDate": "2022-11-28",
+        "base": {
+          "observationDate": "2022-11-25",
+          "value": 3.68
+        },
+        "target": {
+          "observationDate": "2022-11-21",
+          "value": 3.83
+        }
+      },
+      {
+        "decisionDate": "2022-11-29",
+        "base": {
+          "observationDate": "2022-11-28",
+          "value": 3.69
+        },
+        "target": {
+          "observationDate": "2022-11-22",
+          "value": 3.76
+        }
+      },
+      {
+        "decisionDate": "2022-11-30",
+        "base": {
+          "observationDate": "2022-11-29",
+          "value": 3.75
+        },
+        "target": {
+          "observationDate": "2022-11-23",
+          "value": 3.71
+        }
+      },
+      {
+        "decisionDate": "2022-12-01",
+        "base": {
+          "observationDate": "2022-11-30",
+          "value": 3.68
+        },
+        "target": {
+          "observationDate": "2022-11-25",
+          "value": 3.68
+        }
+      },
+      {
+        "decisionDate": "2022-12-02",
+        "base": {
+          "observationDate": "2022-12-01",
+          "value": 3.53
+        },
+        "target": {
+          "observationDate": "2022-11-28",
+          "value": 3.69
+        }
+      },
+      {
+        "decisionDate": "2022-12-05",
+        "base": {
+          "observationDate": "2022-12-02",
+          "value": 3.51
+        },
+        "target": {
+          "observationDate": "2022-11-29",
+          "value": 3.75
+        }
+      },
+      {
+        "decisionDate": "2022-12-06",
+        "base": {
+          "observationDate": "2022-12-05",
+          "value": 3.6
+        },
+        "target": {
+          "observationDate": "2022-11-30",
+          "value": 3.68
+        }
+      },
+      {
+        "decisionDate": "2022-12-07",
+        "base": {
+          "observationDate": "2022-12-06",
+          "value": 3.51
+        },
+        "target": {
+          "observationDate": "2022-12-01",
+          "value": 3.53
+        }
+      },
+      {
+        "decisionDate": "2022-12-08",
+        "base": {
+          "observationDate": "2022-12-07",
+          "value": 3.42
+        },
+        "target": {
+          "observationDate": "2022-12-02",
+          "value": 3.51
+        }
+      },
+      {
+        "decisionDate": "2022-12-09",
+        "base": {
+          "observationDate": "2022-12-08",
+          "value": 3.48
+        },
+        "target": {
+          "observationDate": "2022-12-05",
+          "value": 3.6
+        }
+      },
+      {
+        "decisionDate": "2022-12-12",
+        "base": {
+          "observationDate": "2022-12-09",
+          "value": 3.57
+        },
+        "target": {
+          "observationDate": "2022-12-06",
+          "value": 3.51
+        }
+      },
+      {
+        "decisionDate": "2022-12-13",
+        "base": {
+          "observationDate": "2022-12-12",
+          "value": 3.61
+        },
+        "target": {
+          "observationDate": "2022-12-07",
+          "value": 3.42
+        }
+      },
+      {
+        "decisionDate": "2022-12-14",
+        "base": {
+          "observationDate": "2022-12-13",
+          "value": 3.51
+        },
+        "target": {
+          "observationDate": "2022-12-08",
+          "value": 3.48
+        }
+      },
+      {
+        "decisionDate": "2022-12-15",
+        "base": {
+          "observationDate": "2022-12-14",
+          "value": 3.49
+        },
+        "target": {
+          "observationDate": "2022-12-09",
+          "value": 3.57
+        }
+      },
+      {
+        "decisionDate": "2022-12-16",
+        "base": {
+          "observationDate": "2022-12-15",
+          "value": 3.44
+        },
+        "target": {
+          "observationDate": "2022-12-12",
+          "value": 3.61
+        }
+      },
+      {
+        "decisionDate": "2022-12-19",
+        "base": {
+          "observationDate": "2022-12-16",
+          "value": 3.48
+        },
+        "target": {
+          "observationDate": "2022-12-13",
+          "value": 3.51
+        }
+      },
+      {
+        "decisionDate": "2022-12-20",
+        "base": {
+          "observationDate": "2022-12-19",
+          "value": 3.57
+        },
+        "target": {
+          "observationDate": "2022-12-14",
+          "value": 3.49
+        }
+      },
+      {
+        "decisionDate": "2022-12-21",
+        "base": {
+          "observationDate": "2022-12-20",
+          "value": 3.69
+        },
+        "target": {
+          "observationDate": "2022-12-15",
+          "value": 3.44
+        }
+      },
+      {
+        "decisionDate": "2022-12-22",
+        "base": {
+          "observationDate": "2022-12-21",
+          "value": 3.68
+        },
+        "target": {
+          "observationDate": "2022-12-16",
+          "value": 3.48
+        }
+      },
+      {
+        "decisionDate": "2022-12-23",
+        "base": {
+          "observationDate": "2022-12-22",
+          "value": 3.67
+        },
+        "target": {
+          "observationDate": "2022-12-19",
+          "value": 3.57
+        }
+      },
+      {
+        "decisionDate": "2022-12-27",
+        "base": {
+          "observationDate": "2022-12-23",
+          "value": 3.75
+        },
+        "target": {
+          "observationDate": "2022-12-20",
+          "value": 3.69
+        }
+      },
+      {
+        "decisionDate": "2022-12-28",
+        "base": {
+          "observationDate": "2022-12-27",
+          "value": 3.84
+        },
+        "target": {
+          "observationDate": "2022-12-21",
+          "value": 3.68
+        }
+      },
+      {
+        "decisionDate": "2022-12-29",
+        "base": {
+          "observationDate": "2022-12-28",
+          "value": 3.88
+        },
+        "target": {
+          "observationDate": "2022-12-22",
+          "value": 3.67
+        }
+      },
+      {
+        "decisionDate": "2022-12-30",
+        "base": {
+          "observationDate": "2022-12-29",
+          "value": 3.83
+        },
+        "target": {
+          "observationDate": "2022-12-23",
+          "value": 3.75
+        }
+      }
+    ],
+    "statusChangedPct": "0.00",
+    "directionChangedPct": "36.65"
+  }
+}

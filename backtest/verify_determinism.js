@@ -1,39 +1,65 @@
-const assert = require('assert');
-const { runFlowEngine } = require('../lib/flow_engine');
-const { buildProductionEngineInputs, buildReplayEngineInputs } = require('../lib/flow_wrappers');
-
-// Mock a simple store with just enough data to run the engine (or load it from a fixture)
+const { execSync } = require('child_process');
 const fs = require('fs');
-const store = {
-  fred: { 'DGS10': [['2026-08-01', 4.0]] },
-  yahoo: { '^GSPC': [['2026-08-01', 5000]] },
-  valuation: {}
-};
+const crypto = require('crypto');
+const path = require('path');
 
-// Test equivalence
-console.log('Building inputs...');
-const prodInput = buildProductionEngineInputs(store);
-// For replay to be identical to prod, decisionDate must be today, signalAvailableAt must be same, etc.
-const replayInput = buildReplayEngineInputs(
-  store,
-  prodInput.decisionDate, 
-  prodInput.signalAvailableAt, 
-  prodInput.marketDataAsOf, 
-  null
-);
+function hashFile(filePath) {
+    let content = fs.readFileSync(filePath, 'utf8');
+    try {
+        if (filePath.endsWith('.json')) {
+            const parsed = JSON.parse(content);
+            for (const key of Object.keys(parsed)) {
+                if (parsed[key]) delete parsed[key].snapshotGeneratedAt;
+            }
+            content = JSON.stringify(parsed);
+        } else if (filePath.endsWith('.jsonl')) {
+            content = content.split('\n').map(line => {
+                if (!line) return line;
+                const parsed = JSON.parse(line);
+                return JSON.stringify(parsed);
+            }).join('\n');
+        }
+    } catch(e) {}
+    return crypto.createHash('sha256').update(content).digest('hex');
+}
 
-// We must align the modelConfig so they are mathematically equivalent for the test
-replayInput.modelConfig.useEtfProxy = prodInput.modelConfig.useEtfProxy;
+console.log("Starting Full Replay Determinism Test (2016-2024)");
 
-console.log('Running mathematically pure engine...');
-const A = runFlowEngine(prodInput);
-const B = runFlowEngine(replayInput);
+// 1. Run Replay A
+console.log("\nExecuting Replay A...");
+execSync('node backtest/build_historical_snapshots.js 2016-01-01 2024-01-01 snapshots_test_A.json', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
+const snapA = path.join(__dirname, 'snapshots_test_A.json');
+const stateA = path.join(__dirname, 'model_states_test_A.jsonl');
 
-if (A.snapshot) delete A.snapshot.snapshotGeneratedAt;
-if (B.snapshot) delete B.snapshot.snapshotGeneratedAt;
+// 2. Run Replay B
+console.log("\nExecuting Replay B...");
+execSync('node backtest/build_historical_snapshots.js 2016-01-01 2024-01-01 snapshots_test_B.json', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
+const snapB = path.join(__dirname, 'snapshots_test_B.json');
+const stateB = path.join(__dirname, 'model_states_test_B.jsonl');
 
-// Core Equivalence
-console.log('Verifying bit-for-bit equivalence...');
-assert.deepStrictEqual(A, B, "Core equivalence failed: Mathematical output of runFlowEngine differed between production and replay wrappers.");
+// 3. Compare Hashes
+console.log("\nVerifying Artifact Determinism...");
+const hashSnapA = hashFile(snapA);
+const hashSnapB = hashFile(snapB);
+const hashStateA = hashFile(stateA);
+const hashStateB = hashFile(stateB);
 
-console.log('Determinism OK');
+console.log(`Replay A Snapshots SHA256: ${hashSnapA}`);
+console.log(`Replay B Snapshots SHA256: ${hashSnapB}`);
+if (hashSnapA === hashSnapB) {
+    console.log("✅ snapshot sequence SHA256 identical");
+} else {
+    console.error("❌ snapshot sequence SHA256 mismatch!");
+    process.exit(1);
+}
+
+console.log(`Replay A Model States SHA256: ${hashStateA}`);
+console.log(`Replay B Model States SHA256: ${hashStateB}`);
+if (hashStateA === hashStateB) {
+    console.log("✅ model_state sequence SHA256 identical");
+} else {
+    console.error("❌ model_state sequence SHA256 mismatch!");
+    process.exit(1);
+}
+
+console.log("\n✅ Replay Determinism OK. mismatches = 0");

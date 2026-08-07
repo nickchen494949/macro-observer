@@ -147,4 +147,9 @@ console.log(`Directional signals changed:`);
 console.log(`+1 day: ${p1Results.directionChangedPct}%`);
 console.log(`+3 days: ${p3Results.directionChangedPct}%`);
 console.log("--------------------------\n");
+
+
+assert(p1Results.pitSelectionsChanged > 0, "FATAL: +1 day lag produced zero PIT selection changes. Sensitivity logic is broken.");
+assert(p3Results.pitSelectionsChanged > 0, "FATAL: +3 days lag produced zero PIT selection changes. Sensitivity logic is broken.");
+
 console.log("Causal isolation validated: non-FRED modules mathematically invariant.");

@@ -195,6 +195,8 @@ function main() {
     
     const { snapshot, nextModelState } = runReplayFlows({ fred: slicedFred, yahoo: slicedYahoo, valuation }, currentDate, signalTime, currentDate, previousModelState);
     
+    if (snapshot && snapshot.snapshotGeneratedAt) delete snapshot.snapshotGeneratedAt;
+    
     const outputStateHash = hashState(snapshot);
     const outputModelStateHash = hashState(nextModelState);
     

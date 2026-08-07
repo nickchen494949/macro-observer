@@ -1,0 +1,1264 @@
+{
+  "2015-01-02": {
+    "status": "ok",
+    "schemaVersion": 3,
+    "snapshotQuality": "partial",
+    "marketDataAsOf": "2015-01-02",
+    "decisionDate": "2015-01-02",
+    "signalAvailableAt": "2015-01-02T22:00:00.000Z",
+    "firstTradableSession": "2015-01-05",
+    "engineVersion": "flow-engine-v3.0.0",
+    "moduleVersions": {
+      "volControl": "vol-control-v3",
+      "ctaFuturesProxy": "cta-futures-v1",
+      "ctaEtfProxy": "cta-etf-v1",
+      "riskParity": "risk-parity-v3"
+    },
+    "modelInputManifest": {
+      "ctaFuturesProxy": [
+        "CL=F",
+        "GC=F",
+        "NG=F"
+      ],
+      "ctaEtfProxy": [
+        "SPY",
+        "QQQ",
+        "IWM",
+        "IEF",
+        "USO",
+        "GLD"
+      ]
+    },
+    "snapshotGeneratedAt": "2026-08-07T06:53:19.417Z",
+    "summary": {
+      "trendAmplifiers": {
+        "Vol-control —": "unavailable",
+        "CTA trend (Futures) —": "unavailable",
+        "CTA trend (ETF) —": "unavailable"
+      },
+      "dominantRegime": "no_dominant_flow",
+      "activeFlowMechanismCount": 0,
+      "activeRotationMechanismCount": 1,
+      "primaryCommonDrivers": [],
+      "supportingDataDomains": [
+        "rates",
+        "commodities",
+        "volatility",
+        "credit"
+      ],
+      "confidence": {
+        "mechanism": "low",
+        "netDirection": "low",
+        "amount": "low"
+      },
+      "excludedModules": [
+        "volControl",
+        "ctaFuturesProxy",
+        "ctaEtfProxy",
+        "stressConditions"
+      ],
+      "timelinePressures": {
+        "ongoing1To5Days": {
+          "status": "partial",
+          "direction": "unavailable",
+          "mechanisms": [],
+          "confidence": "low"
+        },
+        "recent5To20Days": {
+          "status": "ok",
+          "direction": "none",
+          "mechanisms": [],
+          "confidence": "low"
+        },
+        "conditionalFuture": {
+          "status": "partial",
+          "direction": "unavailable",
+          "mechanisms": [],
+          "confidence": "low"
+        }
+      },
+      "flowTimeline": {},
+      "crossAssetDeRisking": {
+        "Risk parity —": "rotation_null",
+        "Stress deleveraging —": "not triggered"
+      },
+      "counterCyclicalFlows": {
+        "pension": "balanced"
+      },
+      "narrative": {
+        "en": "Proxy models identify 0 active forward-looking flow mechanism(s) and 1 recent rotation mechanism(s), consistent with no dominant flow pressure.",
+        "zh": "代理模型识别0个活跃的前瞻资金流机制和1个近期轮动机制，整体资金压力偏向卖出。"
+      }
+    },
+    "modules": {
+      "volControl": {
+        "status": "insufficient_data",
+        "targetExposureToday": null,
+        "actualExposureYesterday": null,
+        "actualExposureToday": null,
+        "dailyPositionChange": null,
+        "fiveDayActualChange": null,
+        "remainingExposureGap": null,
+        "estimatedDailyFlowUsd": null,
+        "nextDayEstimateIfTargetUnchanged": null,
+        "estimatedFlowRange": null,
+        "flowPressure": "none",
+        "aggregateDirection": "neutral",
+        "stateUpdate": "paused_missing_data",
+        "signalAvailableAt": null,
+        "firstTradableSession": null
+      },
+      "leveragedEtf": {
+        "status": "ok",
+        "funds": [],
+        "totalGrossRebalanceUsd": 0,
+        "estimateRange": {
+          "low": 0,
+          "high": 0
+        },
+        "executionTiming": "Theoretical full-session gross rebalance | Closing residual: not estimable",
+        "aggregateDirection": "neutral"
+      },
+      "ctaFuturesProxy": {
+        "status": "insufficient_data",
+        "positionRegime": null,
+        "flowPressure": null,
+        "aggregatePositionChange": null,
+        "assets": null,
+        "commonAsOfDate": null,
+        "signalAvailableAt": "2015-01-02T22:00:00.000Z",
+        "firstTradableSession": "2015-01-05",
+        "predictiveSummaryEligible": false,
+        "displayRole": "descriptive_only"
+      },
+      "ctaEtfProxy": {
+        "status": "insufficient_data",
+        "positionRegime": null,
+        "flowPressure": null,
+        "aggregatePositionChange": null,
+        "assets": null,
+        "commonAsOfDate": null,
+        "signalAvailableAt": "2015-01-02T22:00:00.000Z",
+        "firstTradableSession": "2015-01-05",
+        "predictiveSummaryEligible": false
+      },
+      "riskParity": {
+        "status": "ok",
+        "equityAllocationChange5d": null,
+        "bondAllocationChange5d": null,
+        "modelLeverageChange5d": 0,
+        "allocationDirection": null,
+        "deleveragingPressure": "none",
+        "totalDeRisking": false,
+        "commonAsOfDate": "2015-01-02",
+        "signalAvailableAt": "2015-01-02T22:00:00.000Z",
+        "firstTradableSession": "2015-01-05"
+      },
+      "pensionRebalance": {
+        "status": "ok",
+        "currentEquityWeight": null,
+        "targetEquityWeight": 0.6,
+        "equityOverweightPct": null,
+        "daysToMonthEnd": 19,
+        "isRebalanceWindow": true,
+        "expectedFlow": "balanced",
+        "signalAvailableAt": "2015-01-02T22:00:00.000Z",
+        "firstTradableSession": "2015-01-05"
+      },
+      "stressConditions": {
+        "status": "insufficient_data",
+        "stressScore": null,
+        "vix": null,
+        "hyOas": null,
+        "estimatedFlowUsd": null,
+        "missingInputs": [
+          "VIX",
+          "HY_OAS"
+        ]
+      }
+    },
+    "meta": {
+      "replayGenesisDate": "2015-01-02",
+      "viewStartDate": "2015-01-02",
+      "viewEndDate": "2015-01-08",
+      "warmupTradingDays": 0,
+      "previousStateHash": null,
+      "outputStateHash": "251525cb8beb32ff097bb61a0757cc72cc67118e8b54a2b428c8b9b97db53d21",
+      "previousModelStateHash": null,
+      "outputModelStateHash": "0d8961ddc36804f2f97b4dc47cb176ac2e9f9af8d603a6ee67647658235fa28e",
+      "stateChainBreaks": 0
+    }
+  },
+  "2015-01-05": {
+    "status": "ok",
+    "schemaVersion": 3,
+    "snapshotQuality": "partial",
+    "marketDataAsOf": "2015-01-05",
+    "decisionDate": "2015-01-05",
+    "signalAvailableAt": "2015-01-05T22:00:00.000Z",
+    "firstTradableSession": "2015-01-06",
+    "engineVersion": "flow-engine-v3.0.0",
+    "moduleVersions": {
+      "volControl": "vol-control-v3",
+      "ctaFuturesProxy": "cta-futures-v1",
+      "ctaEtfProxy": "cta-etf-v1",
+      "riskParity": "risk-parity-v3"
+    },
+    "modelInputManifest": {
+      "ctaFuturesProxy": [
+        "CL=F",
+        "GC=F",
+        "NG=F"
+      ],
+      "ctaEtfProxy": [
+        "SPY",
+        "QQQ",
+        "IWM",
+        "IEF",
+        "USO",
+        "GLD"
+      ]
+    },
+    "snapshotGeneratedAt": "2026-08-07T06:53:19.439Z",
+    "summary": {
+      "trendAmplifiers": {
+        "Vol-control —": "unavailable",
+        "CTA trend (Futures) —": "unavailable",
+        "CTA trend (ETF) —": "unavailable"
+      },
+      "dominantRegime": "no_dominant_flow",
+      "activeFlowMechanismCount": 0,
+      "activeRotationMechanismCount": 1,
+      "primaryCommonDrivers": [],
+      "supportingDataDomains": [
+        "rates",
+        "commodities",
+        "volatility",
+        "credit"
+      ],
+      "confidence": {
+        "mechanism": "low",
+        "netDirection": "low",
+        "amount": "low"
+      },
+      "excludedModules": [
+        "volControl",
+        "ctaFuturesProxy",
+        "ctaEtfProxy",
+        "stressConditions"
+      ],
+      "timelinePressures": {
+        "ongoing1To5Days": {
+          "status": "partial",
+          "direction": "unavailable",
+          "mechanisms": [],
+          "confidence": "low"
+        },
+        "recent5To20Days": {
+          "status": "ok",
+          "direction": "none",
+          "mechanisms": [],
+          "confidence": "low"
+        },
+        "conditionalFuture": {
+          "status": "partial",
+          "direction": "unavailable",
+          "mechanisms": [],
+          "confidence": "low"
+        }
+      },
+      "flowTimeline": {},
+      "crossAssetDeRisking": {
+        "Risk parity —": "rotation_null",
+        "Stress deleveraging —": "not triggered"
+      },
+      "counterCyclicalFlows": {
+        "pension": "balanced"
+      },
+      "narrative": {
+        "en": "Proxy models identify 0 active forward-looking flow mechanism(s) and 1 recent rotation mechanism(s), consistent with no dominant flow pressure.",
+        "zh": "代理模型识别0个活跃的前瞻资金流机制和1个近期轮动机制，整体资金压力偏向卖出。"
+      }
+    },
+    "modules": {
+      "volControl": {
+        "status": "insufficient_data",
+        "targetExposureToday": null,
+        "actualExposureYesterday": null,
+        "actualExposureToday": null,
+        "dailyPositionChange": null,
+        "fiveDayActualChange": null,
+        "remainingExposureGap": null,
+        "estimatedDailyFlowUsd": null,
+        "nextDayEstimateIfTargetUnchanged": null,
+        "estimatedFlowRange": null,
+        "flowPressure": "none",
+        "aggregateDirection": "neutral",
+        "stateUpdate": "paused_missing_data",
+        "signalAvailableAt": null,
+        "firstTradableSession": null
+      },
+      "leveragedEtf": {
+        "status": "ok",
+        "funds": [
+          {
+            "name": "SPXL/UPRO",
+            "leverage": 3,
+            "aum": 12000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SPXS/SDS",
+            "leverage": -3,
+            "aum": 2000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SSO",
+            "leverage": 2,
+            "aum": 8000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "TQQQ",
+            "leverage": 3,
+            "aum": 28000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SQQQ",
+            "leverage": -3,
+            "aum": 5000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SOXL",
+            "leverage": 3,
+            "aum": 10000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SOXS",
+            "leverage": -3,
+            "aum": 2000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          }
+        ],
+        "totalGrossRebalanceUsd": null,
+        "estimateRange": {
+          "low": null,
+          "high": null
+        },
+        "executionTiming": "Theoretical full-session gross rebalance | Closing residual: not estimable",
+        "aggregateDirection": "neutral"
+      },
+      "ctaFuturesProxy": {
+        "status": "insufficient_data",
+        "positionRegime": null,
+        "flowPressure": null,
+        "aggregatePositionChange": null,
+        "assets": null,
+        "commonAsOfDate": null,
+        "signalAvailableAt": "2015-01-05T22:00:00.000Z",
+        "firstTradableSession": "2015-01-06",
+        "predictiveSummaryEligible": false,
+        "displayRole": "descriptive_only"
+      },
+      "ctaEtfProxy": {
+        "status": "insufficient_data",
+        "positionRegime": null,
+        "flowPressure": null,
+        "aggregatePositionChange": null,
+        "assets": null,
+        "commonAsOfDate": null,
+        "signalAvailableAt": "2015-01-05T22:00:00.000Z",
+        "firstTradableSession": "2015-01-06",
+        "predictiveSummaryEligible": false
+      },
+      "riskParity": {
+        "status": "ok",
+        "equityAllocationChange5d": null,
+        "bondAllocationChange5d": null,
+        "modelLeverageChange5d": 0,
+        "allocationDirection": null,
+        "deleveragingPressure": "none",
+        "totalDeRisking": false,
+        "commonAsOfDate": "2015-01-05",
+        "signalAvailableAt": "2015-01-05T22:00:00.000Z",
+        "firstTradableSession": "2015-01-06"
+      },
+      "pensionRebalance": {
+        "status": "ok",
+        "currentEquityWeight": null,
+        "targetEquityWeight": 0.6,
+        "equityOverweightPct": null,
+        "daysToMonthEnd": 18,
+        "isRebalanceWindow": true,
+        "expectedFlow": "balanced",
+        "signalAvailableAt": "2015-01-05T22:00:00.000Z",
+        "firstTradableSession": "2015-01-06"
+      },
+      "stressConditions": {
+        "status": "insufficient_data",
+        "stressScore": null,
+        "vix": null,
+        "hyOas": null,
+        "estimatedFlowUsd": null,
+        "missingInputs": [
+          "VIX",
+          "HY_OAS"
+        ]
+      }
+    },
+    "meta": {
+      "replayGenesisDate": "2015-01-02",
+      "viewStartDate": "2015-01-02",
+      "viewEndDate": "2015-01-08",
+      "warmupTradingDays": 1,
+      "previousStateHash": "251525cb8beb32ff097bb61a0757cc72cc67118e8b54a2b428c8b9b97db53d21",
+      "outputStateHash": "0dec139dcfc5c01c8a115ef73282ae3af458f6df317c11dc071903ca481ee35e",
+      "previousModelStateHash": "0d8961ddc36804f2f97b4dc47cb176ac2e9f9af8d603a6ee67647658235fa28e",
+      "outputModelStateHash": "0d8961ddc36804f2f97b4dc47cb176ac2e9f9af8d603a6ee67647658235fa28e",
+      "stateChainBreaks": 0
+    }
+  },
+  "2015-01-06": {
+    "status": "ok",
+    "schemaVersion": 3,
+    "snapshotQuality": "partial",
+    "marketDataAsOf": "2015-01-06",
+    "decisionDate": "2015-01-06",
+    "signalAvailableAt": "2015-01-06T22:00:00.000Z",
+    "firstTradableSession": "2015-01-07",
+    "engineVersion": "flow-engine-v3.0.0",
+    "moduleVersions": {
+      "volControl": "vol-control-v3",
+      "ctaFuturesProxy": "cta-futures-v1",
+      "ctaEtfProxy": "cta-etf-v1",
+      "riskParity": "risk-parity-v3"
+    },
+    "modelInputManifest": {
+      "ctaFuturesProxy": [
+        "CL=F",
+        "GC=F",
+        "NG=F"
+      ],
+      "ctaEtfProxy": [
+        "SPY",
+        "QQQ",
+        "IWM",
+        "IEF",
+        "USO",
+        "GLD"
+      ]
+    },
+    "snapshotGeneratedAt": "2026-08-07T06:53:19.469Z",
+    "summary": {
+      "trendAmplifiers": {
+        "Vol-control —": "unavailable",
+        "CTA trend (Futures) —": "unavailable",
+        "CTA trend (ETF) —": "unavailable"
+      },
+      "dominantRegime": "no_dominant_flow",
+      "activeFlowMechanismCount": 0,
+      "activeRotationMechanismCount": 1,
+      "primaryCommonDrivers": [],
+      "supportingDataDomains": [
+        "rates",
+        "commodities",
+        "volatility",
+        "credit"
+      ],
+      "confidence": {
+        "mechanism": "low",
+        "netDirection": "low",
+        "amount": "low"
+      },
+      "excludedModules": [
+        "volControl",
+        "ctaFuturesProxy",
+        "ctaEtfProxy",
+        "stressConditions"
+      ],
+      "timelinePressures": {
+        "ongoing1To5Days": {
+          "status": "partial",
+          "direction": "unavailable",
+          "mechanisms": [],
+          "confidence": "low"
+        },
+        "recent5To20Days": {
+          "status": "ok",
+          "direction": "none",
+          "mechanisms": [],
+          "confidence": "low"
+        },
+        "conditionalFuture": {
+          "status": "partial",
+          "direction": "unavailable",
+          "mechanisms": [],
+          "confidence": "low"
+        }
+      },
+      "flowTimeline": {},
+      "crossAssetDeRisking": {
+        "Risk parity —": "rotation_null",
+        "Stress deleveraging —": "not triggered"
+      },
+      "counterCyclicalFlows": {
+        "pension": "balanced"
+      },
+      "narrative": {
+        "en": "Proxy models identify 0 active forward-looking flow mechanism(s) and 1 recent rotation mechanism(s), consistent with no dominant flow pressure.",
+        "zh": "代理模型识别0个活跃的前瞻资金流机制和1个近期轮动机制，整体资金压力偏向卖出。"
+      }
+    },
+    "modules": {
+      "volControl": {
+        "status": "insufficient_data",
+        "targetExposureToday": null,
+        "actualExposureYesterday": null,
+        "actualExposureToday": null,
+        "dailyPositionChange": null,
+        "fiveDayActualChange": null,
+        "remainingExposureGap": null,
+        "estimatedDailyFlowUsd": null,
+        "nextDayEstimateIfTargetUnchanged": null,
+        "estimatedFlowRange": null,
+        "flowPressure": "none",
+        "aggregateDirection": "neutral",
+        "stateUpdate": "paused_missing_data",
+        "signalAvailableAt": null,
+        "firstTradableSession": null
+      },
+      "leveragedEtf": {
+        "status": "ok",
+        "funds": [
+          {
+            "name": "SPXL/UPRO",
+            "leverage": 3,
+            "aum": 12000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SPXS/SDS",
+            "leverage": -3,
+            "aum": 2000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SSO",
+            "leverage": 2,
+            "aum": 8000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "TQQQ",
+            "leverage": 3,
+            "aum": 28000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SQQQ",
+            "leverage": -3,
+            "aum": 5000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SOXL",
+            "leverage": 3,
+            "aum": 10000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SOXS",
+            "leverage": -3,
+            "aum": 2000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          }
+        ],
+        "totalGrossRebalanceUsd": null,
+        "estimateRange": {
+          "low": null,
+          "high": null
+        },
+        "executionTiming": "Theoretical full-session gross rebalance | Closing residual: not estimable",
+        "aggregateDirection": "neutral"
+      },
+      "ctaFuturesProxy": {
+        "status": "insufficient_data",
+        "positionRegime": null,
+        "flowPressure": null,
+        "aggregatePositionChange": null,
+        "assets": null,
+        "commonAsOfDate": null,
+        "signalAvailableAt": "2015-01-06T22:00:00.000Z",
+        "firstTradableSession": "2015-01-07",
+        "predictiveSummaryEligible": false,
+        "displayRole": "descriptive_only"
+      },
+      "ctaEtfProxy": {
+        "status": "insufficient_data",
+        "positionRegime": null,
+        "flowPressure": null,
+        "aggregatePositionChange": null,
+        "assets": null,
+        "commonAsOfDate": null,
+        "signalAvailableAt": "2015-01-06T22:00:00.000Z",
+        "firstTradableSession": "2015-01-07",
+        "predictiveSummaryEligible": false
+      },
+      "riskParity": {
+        "status": "ok",
+        "equityAllocationChange5d": null,
+        "bondAllocationChange5d": null,
+        "modelLeverageChange5d": 0,
+        "allocationDirection": null,
+        "deleveragingPressure": "none",
+        "totalDeRisking": false,
+        "commonAsOfDate": "2015-01-06",
+        "signalAvailableAt": "2015-01-06T22:00:00.000Z",
+        "firstTradableSession": "2015-01-07"
+      },
+      "pensionRebalance": {
+        "status": "ok",
+        "currentEquityWeight": null,
+        "targetEquityWeight": 0.6,
+        "equityOverweightPct": null,
+        "daysToMonthEnd": 17,
+        "isRebalanceWindow": true,
+        "expectedFlow": "balanced",
+        "signalAvailableAt": "2015-01-06T22:00:00.000Z",
+        "firstTradableSession": "2015-01-07"
+      },
+      "stressConditions": {
+        "status": "insufficient_data",
+        "stressScore": null,
+        "vix": null,
+        "hyOas": null,
+        "estimatedFlowUsd": null,
+        "missingInputs": [
+          "VIX",
+          "HY_OAS"
+        ]
+      }
+    },
+    "meta": {
+      "replayGenesisDate": "2015-01-02",
+      "viewStartDate": "2015-01-02",
+      "viewEndDate": "2015-01-08",
+      "warmupTradingDays": 2,
+      "previousStateHash": "0dec139dcfc5c01c8a115ef73282ae3af458f6df317c11dc071903ca481ee35e",
+      "outputStateHash": "9c65799cd684c3e40c68317cf4f43c615981e6b55031eb92e9a9df1b52f973cb",
+      "previousModelStateHash": "0d8961ddc36804f2f97b4dc47cb176ac2e9f9af8d603a6ee67647658235fa28e",
+      "outputModelStateHash": "0d8961ddc36804f2f97b4dc47cb176ac2e9f9af8d603a6ee67647658235fa28e",
+      "stateChainBreaks": 0
+    }
+  },
+  "2015-01-07": {
+    "status": "ok",
+    "schemaVersion": 3,
+    "snapshotQuality": "partial",
+    "marketDataAsOf": "2015-01-07",
+    "decisionDate": "2015-01-07",
+    "signalAvailableAt": "2015-01-07T22:00:00.000Z",
+    "firstTradableSession": "2015-01-08",
+    "engineVersion": "flow-engine-v3.0.0",
+    "moduleVersions": {
+      "volControl": "vol-control-v3",
+      "ctaFuturesProxy": "cta-futures-v1",
+      "ctaEtfProxy": "cta-etf-v1",
+      "riskParity": "risk-parity-v3"
+    },
+    "modelInputManifest": {
+      "ctaFuturesProxy": [
+        "CL=F",
+        "GC=F",
+        "NG=F"
+      ],
+      "ctaEtfProxy": [
+        "SPY",
+        "QQQ",
+        "IWM",
+        "IEF",
+        "USO",
+        "GLD"
+      ]
+    },
+    "snapshotGeneratedAt": "2026-08-07T06:53:19.489Z",
+    "summary": {
+      "trendAmplifiers": {
+        "Vol-control —": "unavailable",
+        "CTA trend (Futures) —": "unavailable",
+        "CTA trend (ETF) —": "unavailable"
+      },
+      "dominantRegime": "no_dominant_flow",
+      "activeFlowMechanismCount": 0,
+      "activeRotationMechanismCount": 1,
+      "primaryCommonDrivers": [],
+      "supportingDataDomains": [
+        "rates",
+        "commodities",
+        "volatility",
+        "credit"
+      ],
+      "confidence": {
+        "mechanism": "low",
+        "netDirection": "low",
+        "amount": "low"
+      },
+      "excludedModules": [
+        "volControl",
+        "ctaFuturesProxy",
+        "ctaEtfProxy",
+        "stressConditions"
+      ],
+      "timelinePressures": {
+        "ongoing1To5Days": {
+          "status": "partial",
+          "direction": "unavailable",
+          "mechanisms": [],
+          "confidence": "low"
+        },
+        "recent5To20Days": {
+          "status": "ok",
+          "direction": "none",
+          "mechanisms": [],
+          "confidence": "low"
+        },
+        "conditionalFuture": {
+          "status": "partial",
+          "direction": "unavailable",
+          "mechanisms": [],
+          "confidence": "low"
+        }
+      },
+      "flowTimeline": {},
+      "crossAssetDeRisking": {
+        "Risk parity —": "rotation_null",
+        "Stress deleveraging —": "not triggered"
+      },
+      "counterCyclicalFlows": {
+        "pension": "balanced"
+      },
+      "narrative": {
+        "en": "Proxy models identify 0 active forward-looking flow mechanism(s) and 1 recent rotation mechanism(s), consistent with no dominant flow pressure.",
+        "zh": "代理模型识别0个活跃的前瞻资金流机制和1个近期轮动机制，整体资金压力偏向卖出。"
+      }
+    },
+    "modules": {
+      "volControl": {
+        "status": "insufficient_data",
+        "targetExposureToday": null,
+        "actualExposureYesterday": null,
+        "actualExposureToday": null,
+        "dailyPositionChange": null,
+        "fiveDayActualChange": null,
+        "remainingExposureGap": null,
+        "estimatedDailyFlowUsd": null,
+        "nextDayEstimateIfTargetUnchanged": null,
+        "estimatedFlowRange": null,
+        "flowPressure": "none",
+        "aggregateDirection": "neutral",
+        "stateUpdate": "paused_missing_data",
+        "signalAvailableAt": null,
+        "firstTradableSession": null
+      },
+      "leveragedEtf": {
+        "status": "ok",
+        "funds": [
+          {
+            "name": "SPXL/UPRO",
+            "leverage": 3,
+            "aum": 12000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SPXS/SDS",
+            "leverage": -3,
+            "aum": 2000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SSO",
+            "leverage": 2,
+            "aum": 8000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "TQQQ",
+            "leverage": 3,
+            "aum": 28000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SQQQ",
+            "leverage": -3,
+            "aum": 5000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SOXL",
+            "leverage": 3,
+            "aum": 10000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SOXS",
+            "leverage": -3,
+            "aum": 2000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          }
+        ],
+        "totalGrossRebalanceUsd": null,
+        "estimateRange": {
+          "low": null,
+          "high": null
+        },
+        "executionTiming": "Theoretical full-session gross rebalance | Closing residual: not estimable",
+        "aggregateDirection": "neutral"
+      },
+      "ctaFuturesProxy": {
+        "status": "insufficient_data",
+        "positionRegime": null,
+        "flowPressure": null,
+        "aggregatePositionChange": null,
+        "assets": null,
+        "commonAsOfDate": null,
+        "signalAvailableAt": "2015-01-07T22:00:00.000Z",
+        "firstTradableSession": "2015-01-08",
+        "predictiveSummaryEligible": false,
+        "displayRole": "descriptive_only"
+      },
+      "ctaEtfProxy": {
+        "status": "insufficient_data",
+        "positionRegime": null,
+        "flowPressure": null,
+        "aggregatePositionChange": null,
+        "assets": null,
+        "commonAsOfDate": null,
+        "signalAvailableAt": "2015-01-07T22:00:00.000Z",
+        "firstTradableSession": "2015-01-08",
+        "predictiveSummaryEligible": false
+      },
+      "riskParity": {
+        "status": "ok",
+        "equityAllocationChange5d": null,
+        "bondAllocationChange5d": null,
+        "modelLeverageChange5d": 0,
+        "allocationDirection": null,
+        "deleveragingPressure": "none",
+        "totalDeRisking": false,
+        "commonAsOfDate": "2015-01-07",
+        "signalAvailableAt": "2015-01-07T22:00:00.000Z",
+        "firstTradableSession": "2015-01-08"
+      },
+      "pensionRebalance": {
+        "status": "ok",
+        "currentEquityWeight": null,
+        "targetEquityWeight": 0.6,
+        "equityOverweightPct": null,
+        "daysToMonthEnd": 16,
+        "isRebalanceWindow": true,
+        "expectedFlow": "balanced",
+        "signalAvailableAt": "2015-01-07T22:00:00.000Z",
+        "firstTradableSession": "2015-01-08"
+      },
+      "stressConditions": {
+        "status": "insufficient_data",
+        "stressScore": null,
+        "vix": null,
+        "hyOas": null,
+        "estimatedFlowUsd": null,
+        "missingInputs": [
+          "VIX",
+          "HY_OAS"
+        ]
+      }
+    },
+    "meta": {
+      "replayGenesisDate": "2015-01-02",
+      "viewStartDate": "2015-01-02",
+      "viewEndDate": "2015-01-08",
+      "warmupTradingDays": 3,
+      "previousStateHash": "9c65799cd684c3e40c68317cf4f43c615981e6b55031eb92e9a9df1b52f973cb",
+      "outputStateHash": "dfba622d4b09a7b3d9ca1daa88b2d5db3bb75d12ac3deb7940cc0e4a1ebcbaf4",
+      "previousModelStateHash": "0d8961ddc36804f2f97b4dc47cb176ac2e9f9af8d603a6ee67647658235fa28e",
+      "outputModelStateHash": "0d8961ddc36804f2f97b4dc47cb176ac2e9f9af8d603a6ee67647658235fa28e",
+      "stateChainBreaks": 0
+    }
+  },
+  "2015-01-08": {
+    "status": "ok",
+    "schemaVersion": 3,
+    "snapshotQuality": "partial",
+    "marketDataAsOf": "2015-01-08",
+    "decisionDate": "2015-01-08",
+    "signalAvailableAt": "2015-01-08T22:00:00.000Z",
+    "firstTradableSession": "2015-01-09",
+    "engineVersion": "flow-engine-v3.0.0",
+    "moduleVersions": {
+      "volControl": "vol-control-v3",
+      "ctaFuturesProxy": "cta-futures-v1",
+      "ctaEtfProxy": "cta-etf-v1",
+      "riskParity": "risk-parity-v3"
+    },
+    "modelInputManifest": {
+      "ctaFuturesProxy": [
+        "CL=F",
+        "GC=F",
+        "NG=F"
+      ],
+      "ctaEtfProxy": [
+        "SPY",
+        "QQQ",
+        "IWM",
+        "IEF",
+        "USO",
+        "GLD"
+      ]
+    },
+    "snapshotGeneratedAt": "2026-08-07T06:53:19.517Z",
+    "summary": {
+      "trendAmplifiers": {
+        "Vol-control —": "unavailable",
+        "CTA trend (Futures) —": "unavailable",
+        "CTA trend (ETF) —": "unavailable"
+      },
+      "dominantRegime": "no_dominant_flow",
+      "activeFlowMechanismCount": 0,
+      "activeRotationMechanismCount": 1,
+      "primaryCommonDrivers": [],
+      "supportingDataDomains": [
+        "rates",
+        "commodities",
+        "volatility",
+        "credit"
+      ],
+      "confidence": {
+        "mechanism": "low",
+        "netDirection": "low",
+        "amount": "low"
+      },
+      "excludedModules": [
+        "volControl",
+        "ctaFuturesProxy",
+        "ctaEtfProxy",
+        "stressConditions"
+      ],
+      "timelinePressures": {
+        "ongoing1To5Days": {
+          "status": "partial",
+          "direction": "unavailable",
+          "mechanisms": [],
+          "confidence": "low"
+        },
+        "recent5To20Days": {
+          "status": "ok",
+          "direction": "none",
+          "mechanisms": [],
+          "confidence": "low"
+        },
+        "conditionalFuture": {
+          "status": "partial",
+          "direction": "unavailable",
+          "mechanisms": [],
+          "confidence": "low"
+        }
+      },
+      "flowTimeline": {},
+      "crossAssetDeRisking": {
+        "Risk parity —": "rotation_null",
+        "Stress deleveraging —": "not triggered"
+      },
+      "counterCyclicalFlows": {
+        "pension": "balanced"
+      },
+      "narrative": {
+        "en": "Proxy models identify 0 active forward-looking flow mechanism(s) and 1 recent rotation mechanism(s), consistent with no dominant flow pressure.",
+        "zh": "代理模型识别0个活跃的前瞻资金流机制和1个近期轮动机制，整体资金压力偏向卖出。"
+      }
+    },
+    "modules": {
+      "volControl": {
+        "status": "insufficient_data",
+        "targetExposureToday": null,
+        "actualExposureYesterday": null,
+        "actualExposureToday": null,
+        "dailyPositionChange": null,
+        "fiveDayActualChange": null,
+        "remainingExposureGap": null,
+        "estimatedDailyFlowUsd": null,
+        "nextDayEstimateIfTargetUnchanged": null,
+        "estimatedFlowRange": null,
+        "flowPressure": "none",
+        "aggregateDirection": "neutral",
+        "stateUpdate": "paused_missing_data",
+        "signalAvailableAt": null,
+        "firstTradableSession": null
+      },
+      "leveragedEtf": {
+        "status": "ok",
+        "funds": [
+          {
+            "name": "SPXL/UPRO",
+            "leverage": 3,
+            "aum": 12000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SPXS/SDS",
+            "leverage": -3,
+            "aum": 2000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SSO",
+            "leverage": 2,
+            "aum": 8000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "TQQQ",
+            "leverage": 3,
+            "aum": 28000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SQQQ",
+            "leverage": -3,
+            "aum": 5000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SOXL",
+            "leverage": 3,
+            "aum": 10000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SOXS",
+            "leverage": -3,
+            "aum": 2000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": null,
+            "grossRebalanceUsd": null,
+            "direction": "neutral",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          }
+        ],
+        "totalGrossRebalanceUsd": null,
+        "estimateRange": {
+          "low": null,
+          "high": null
+        },
+        "executionTiming": "Theoretical full-session gross rebalance | Closing residual: not estimable",
+        "aggregateDirection": "neutral"
+      },
+      "ctaFuturesProxy": {
+        "status": "insufficient_data",
+        "positionRegime": null,
+        "flowPressure": null,
+        "aggregatePositionChange": null,
+        "assets": null,
+        "commonAsOfDate": null,
+        "signalAvailableAt": "2015-01-08T22:00:00.000Z",
+        "firstTradableSession": "2015-01-09",
+        "predictiveSummaryEligible": false,
+        "displayRole": "descriptive_only"
+      },
+      "ctaEtfProxy": {
+        "status": "insufficient_data",
+        "positionRegime": null,
+        "flowPressure": null,
+        "aggregatePositionChange": null,
+        "assets": null,
+        "commonAsOfDate": null,
+        "signalAvailableAt": "2015-01-08T22:00:00.000Z",
+        "firstTradableSession": "2015-01-09",
+        "predictiveSummaryEligible": false
+      },
+      "riskParity": {
+        "status": "ok",
+        "equityAllocationChange5d": null,
+        "bondAllocationChange5d": null,
+        "modelLeverageChange5d": 0,
+        "allocationDirection": null,
+        "deleveragingPressure": "none",
+        "totalDeRisking": false,
+        "commonAsOfDate": "2015-01-08",
+        "signalAvailableAt": "2015-01-08T22:00:00.000Z",
+        "firstTradableSession": "2015-01-09"
+      },
+      "pensionRebalance": {
+        "status": "ok",
+        "currentEquityWeight": null,
+        "targetEquityWeight": 0.6,
+        "equityOverweightPct": null,
+        "daysToMonthEnd": 15,
+        "isRebalanceWindow": true,
+        "expectedFlow": "balanced",
+        "signalAvailableAt": "2015-01-08T22:00:00.000Z",
+        "firstTradableSession": "2015-01-09"
+      },
+      "stressConditions": {
+        "status": "insufficient_data",
+        "stressScore": null,
+        "vix": null,
+        "hyOas": null,
+        "estimatedFlowUsd": null,
+        "missingInputs": [
+          "VIX",
+          "HY_OAS"
+        ]
+      }
+    },
+    "meta": {
+      "replayGenesisDate": "2015-01-02",
+      "viewStartDate": "2015-01-02",
+      "viewEndDate": "2015-01-08",
+      "warmupTradingDays": 4,
+      "previousStateHash": "dfba622d4b09a7b3d9ca1daa88b2d5db3bb75d12ac3deb7940cc0e4a1ebcbaf4",
+      "outputStateHash": "ad0ebd30fdb8e55033366938031a848386607c8abc383040ee5f8edc88cc25a7",
+      "previousModelStateHash": "0d8961ddc36804f2f97b4dc47cb176ac2e9f9af8d603a6ee67647658235fa28e",
+      "outputModelStateHash": "0d8961ddc36804f2f97b4dc47cb176ac2e9f9af8d603a6ee67647658235fa28e",
+      "stateChainBreaks": 0
+    }
+  }
+}
