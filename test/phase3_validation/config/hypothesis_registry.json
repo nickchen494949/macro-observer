@@ -1,13 +1,18 @@
 {
   "meta": {
-    "registryVersion": "1.0",
+    "registryVersion": "1.1",
     "createdBeforeOutcomeEvaluation": true,
     "frozen": true
   },
   "fdrRules": {
     "FDRFamily": "All pre-registered module x primary horizon x primary outcome hypotheses evaluated together via Benjamini-Hochberg",
-    "fdrThreshold": 0.05
+    "fdrThreshold": 0.05,
+    "effectStatistic": "Spearman rho",
+    "FDRInputPValue": "two-sided HAC-adjusted p-value from OLS regression: rank(outcome) ~ const + rank(signal)",
+    "directionGate": "sign(beta) == expectedDirection",
+    "bootstrapRequirement": "95% moving-block percentile CI must exclude zero in expected direction"
   },
+  "modulePassCondition": "ALL primary hypotheses must pass (FDR + bootstrap + OOS + Partial Rank IC direction preserved) to reach SUPPORTED status",
   "reportingRequirements": [
     "N_observations",
     "N_distinct_signals",
@@ -17,73 +22,89 @@
     "excluded_count_and_reason"
   ],
   "regimeRules": {
+    "annualMinimumN": 30,
     "aggregateDirectionCorrect": true,
     "eligibleYearsSameDirectionMinPct": 0.70,
     "maxYearContributionShare": 0.50,
-    "yearContributionShareDefinition": "abs(yearEffectWeightedContribution) / sum(abs(allYearEffectWeightedContributions))",
+    "yearContributionDefinition": "(N_year / N_total) * IC_year",
+    "yearContributionShareDefinition": "abs(yearContribution) / sum(abs(yearContribution)); if denom==0 -> inconclusive",
     "leaveOneYearOutMedianSameDirection": true,
     "maxCatastrophicSignReversals": 1,
     "catastrophicSignReversalDefinition": "annual effect sign opposite to aggregate AND abs(annual standardized effect) >= 0.5 * abs(aggregate standardized effect)"
   },
   "statisticalParameters": {
     "bootstrapIterations": 5000,
-    "bootstrapBlockLength": "h",
-    "HACMaxLag": "h - 1",
+    "bootstrapSeed": 20260807,
+    "bootstrapBlockLength": "max(h, 20)",
+    "HACMaxLag": "max(h - 1, floor(4 * (N/100)^(2/9)))",
     "minimumN": 60,
     "OOSStartRule": "expanding_window_minimum_3_years_first_eligible_test_year_2019",
-    "purgeRule": "lastLabelSession < testStartSession",
-    "OOSLossFunction": "Mean Absolute Error (MAE) and Squared Error"
+    "purgeRule": {
+      "trainingTestSplit": "lastLabelSession < firstTestTradableSession",
+      "foldAssignment": "firstTradableSession determines the test year, not decisionDate"
+    },
+    "commonEvaluationSample": "intersection(baseline_available, enhanced_available, outcome_available)"
+  },
+  "partialRankIC": {
+    "formula": "corr(resid(rank(S)), resid(rank(Y)))",
+    "description": "S and Y are residualized against rank(momentum) and rank(volatility) via OLS with intercept."
+  },
+  "outcomes": {
+    "asset": "^GSPC",
+    "forwardReturn_h": "AdjClose[F+h-1] / AdjOpen[F] - 1",
+    "mae_h": "min(AdjLow[F:F+h-1]) / AdjOpen[F] - 1"
   },
   "modules": {
     "volControl": {
       "testType": "spearman_rank_ic",
       "primaryHypotheses": [
-        { "outcome": "forwardReturn", "horizon": 1, "expectedDirection": 1 },
-        { "outcome": "forwardReturn", "horizon": 5, "expectedDirection": 1 }
+        { "outcome": "forwardReturn_h", "horizon": 1, "expectedDirection": 1 },
+        { "outcome": "forwardReturn_h", "horizon": 5, "expectedDirection": 1 }
       ],
       "secondaryHypotheses": [
-        { "outcome": "forwardReturn", "horizon": 3, "expectedDirection": 1 },
-        { "outcome": "forwardReturn", "horizon": 10, "expectedDirection": 1 },
-        { "outcome": "forwardReturn", "horizon": 20, "expectedDirection": 1 },
-        { "outcome": "mae", "horizon": 5, "expectedDirection": -1 }
+        { "outcome": "forwardReturn_h", "horizon": 3, "expectedDirection": 1 },
+        { "outcome": "forwardReturn_h", "horizon": 10, "expectedDirection": 1 },
+        { "outcome": "forwardReturn_h", "horizon": 20, "expectedDirection": 1 },
+        { "outcome": "mae_h", "horizon": 5, "expectedDirection": 1 }
       ]
     },
     "riskParity": {
       "testType": "spearman_rank_ic",
       "primaryHypotheses": [
-        { "outcome": "forwardReturn", "horizon": 5, "expectedDirection": 1 },
-        { "outcome": "forwardReturn", "horizon": 20, "expectedDirection": 1 }
+        { "outcome": "forwardReturn_h", "horizon": 5, "expectedDirection": 1 },
+        { "outcome": "forwardReturn_h", "horizon": 20, "expectedDirection": 1 }
       ],
       "secondaryHypotheses": [
-        { "outcome": "forwardReturn", "horizon": 1, "expectedDirection": 1 },
-        { "outcome": "forwardReturn", "horizon": 3, "expectedDirection": 1 },
-        { "outcome": "forwardReturn", "horizon": 10, "expectedDirection": 1 },
-        { "outcome": "mae", "horizon": 20, "expectedDirection": -1 }
+        { "outcome": "forwardReturn_h", "horizon": 1, "expectedDirection": 1 },
+        { "outcome": "forwardReturn_h", "horizon": 3, "expectedDirection": 1 },
+        { "outcome": "forwardReturn_h", "horizon": 10, "expectedDirection": 1 },
+        { "outcome": "mae_h", "horizon": 20, "expectedDirection": 1 }
       ]
     },
     "pensionRebalance": {
-      "testType": "conditional_event_study",
+      "testType": "conditional_spearman_rank_ic",
+      "testUniverse": "moduleStatus == 'ok' AND isRebalanceWindow == true",
       "primaryHypotheses": [
-        { "outcome": "forwardReturn", "horizon": 1, "expectedDirection": -1 },
-        { "outcome": "forwardReturn", "horizon": 5, "expectedDirection": -1 }
+        { "outcome": "forwardReturn_h", "horizon": 1, "expectedDirection": -1 },
+        { "outcome": "forwardReturn_h", "horizon": 5, "expectedDirection": -1 }
       ],
       "secondaryHypotheses": [
-        { "outcome": "forwardReturn", "horizon": 3, "expectedDirection": -1 },
-        { "outcome": "forwardReturn", "horizon": 10, "expectedDirection": -1 },
-        { "outcome": "forwardReturn", "horizon": 20, "expectedDirection": -1 }
+        { "outcome": "forwardReturn_h", "horizon": 3, "expectedDirection": -1 },
+        { "outcome": "forwardReturn_h", "horizon": 10, "expectedDirection": -1 },
+        { "outcome": "forwardReturn_h", "horizon": 20, "expectedDirection": -1 }
       ]
     },
     "ctaEtfProxy": {
       "testType": "spearman_rank_ic",
       "primaryHypotheses": [
-        { "outcome": "forwardReturn", "horizon": 5, "expectedDirection": 1 },
-        { "outcome": "forwardReturn", "horizon": 20, "expectedDirection": 1 }
+        { "outcome": "forwardReturn_h", "horizon": 5, "expectedDirection": 1 },
+        { "outcome": "forwardReturn_h", "horizon": 20, "expectedDirection": 1 }
       ],
       "secondaryHypotheses": [
-        { "outcome": "forwardReturn", "horizon": 1, "expectedDirection": 1 },
-        { "outcome": "forwardReturn", "horizon": 3, "expectedDirection": 1 },
-        { "outcome": "forwardReturn", "horizon": 10, "expectedDirection": 1 },
-        { "outcome": "mae", "horizon": 5, "expectedDirection": -1 }
+        { "outcome": "forwardReturn_h", "horizon": 1, "expectedDirection": 1 },
+        { "outcome": "forwardReturn_h", "horizon": 3, "expectedDirection": 1 },
+        { "outcome": "forwardReturn_h", "horizon": 10, "expectedDirection": 1 },
+        { "outcome": "mae_h", "horizon": 5, "expectedDirection": 1 }
       ]
     }
   }

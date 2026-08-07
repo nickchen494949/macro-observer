@@ -1,30 +1,32 @@
 {
   "meta": {
-    "registryVersion": "1.0",
+    "registryVersion": "1.1",
     "createdBeforeOutcomeEvaluation": true,
     "frozen": true
   },
   "baselines": {
     "momentum": {
-      "inputs": ["SPX"],
-      "lookbacks": [252],
-      "transformations": ["SPX 12M trailing return scaled by 252-session trend strength"],
-      "normalization": "expanding_window",
-      "winsorization": "1_99",
+      "definition": "momentum_t = AdjClose_t / AdjClose_{t-252} - 1",
       "missingPolicy": "exclude"
     },
     "volatility": {
-      "inputs": ["SPX"],
-      "lookbacks": [20],
-      "transformations": ["20D realized volatility"],
-      "normalization": "expanding_window",
-      "winsorization": "1_99",
+      "definition": "vol20_t = sqrt(252) * sample_std(log(AdjClose_i / AdjClose_{i-1}), last 20 returns, ddof=1)",
       "missingPolicy": "exclude"
     }
   },
   "combinedBaseline": {
-    "modelSpecification": "standardized momentum - standardized volatility",
-    "trainingOnlyFit": true
+    "definition": "baselineScore = z_mom - z_vol (z_mom and z_vol computed via training-window-only mean/std)",
+    "baselineModel": "y = alpha + beta * baselineScore",
+    "enhancedModel": "y = alpha + beta * baselineScore + gamma * moduleSignalFeature",
+    "estimator": {
+      "type": "OLS with intercept",
+      "interactions": "No interactions",
+      "regularization": "No regularization",
+      "hyperparameterTuning": "No hyperparameter tuning"
+    }
+  },
+  "evaluationConstraints": {
+    "commonSample": "baseline and enhanced must be evaluated on exactly the same train rows and test rows"
   },
   "oosMetrics": {
     "deltaR2": {

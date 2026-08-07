@@ -1,6 +1,6 @@
 {
   "meta": {
-    "registryVersion": "1.0",
+    "registryVersion": "1.1",
     "createdBeforeOutcomeEvaluation": true,
     "frozen": true
   },
@@ -10,10 +10,10 @@
       "exactSnapshotPath": "modules.volControl.nextDayEstimateIfTargetUnchanged",
       "economicInterpretation": "Projected total USD flow if current actual exposure target remains unchanged",
       "expectedDirection": 1,
-      "transform": "rank",
+      "transform": "rank_training_empirical_cdf",
       "eligibleStatuses": ["ok"],
       "eligibilityCondition": "moduleStatus == 'ok'",
-      "winsorizationPolicy": "1_99",
+      "winsorizationPolicy": "1_99_training_only",
       "missingPolicy": "exclude_never_fill_0"
     },
     "riskParity": {
@@ -21,10 +21,10 @@
       "exactSnapshotPath": "modules.riskParity.equityAllocationChange5d",
       "economicInterpretation": "Change in optimal equity allocation over the past 5 trading days",
       "expectedDirection": 1,
-      "transform": "rank",
+      "transform": "rank_training_empirical_cdf",
       "eligibleStatuses": ["ok"],
       "eligibilityCondition": "moduleStatus == 'ok'",
-      "winsorizationPolicy": "1_99",
+      "winsorizationPolicy": "1_99_training_only",
       "missingPolicy": "exclude_never_fill_0"
     },
     "pensionRebalance": {
@@ -39,14 +39,14 @@
       "missingPolicy": "exclude_never_fill_0"
     },
     "ctaEtfProxy": {
-      "primarySignal": "aggregatePositionChange",
-      "exactSnapshotPath": "modules.ctaEtfProxy.aggregatePositionChange",
-      "economicInterpretation": "Aggregate estimated positional change across all tracked ETFs based on momentum shifts",
+      "primarySignal": "equityAggregatePositionChange",
+      "exactSnapshotPath": "modules.ctaEtfProxy.equityAggregatePositionChange",
+      "economicInterpretation": "Aggregate estimated positional change across US Equity ETFs (SPY, QQQ, IWM)",
       "expectedDirection": 1,
-      "transform": "rank",
+      "transform": "rank_training_empirical_cdf",
       "eligibleStatuses": ["ok"],
       "eligibilityCondition": "moduleStatus == 'ok'",
-      "winsorizationPolicy": "5_95",
+      "winsorizationPolicy": "5_95_training_only",
       "missingPolicy": "exclude_never_fill_0"
     }
   }
