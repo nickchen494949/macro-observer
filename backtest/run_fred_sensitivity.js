@@ -74,23 +74,23 @@ function compareSnapsDeep(baseSnaps, targetSnaps) {
     const bStatuses = JSON.stringify({
       v: b.modules?.volControl?.status,
       c: b.modules?.ctaEtfProxy?.status,
-      r: b.modules?.riskParityProxy?.status
+      r: b.modules?.riskParity?.status
     });
     const tStatuses = JSON.stringify({
       v: t.modules?.volControl?.status,
       c: t.modules?.ctaEtfProxy?.status,
-      r: t.modules?.riskParityProxy?.status
+      r: t.modules?.riskParity?.status
     });
     if (bStatuses !== tStatuses) statusDiffs++;
     
     // Check aggregate directions
     const bDir = JSON.stringify({
       v: b.modules?.volControl?.nextDayEstimateIfTargetUnchanged,
-      r: b.modules?.riskParityProxy?.allocationDirection
+      r: b.modules?.riskParity?.allocationDirection
     });
     const tDir = JSON.stringify({
       v: t.modules?.volControl?.nextDayEstimateIfTargetUnchanged,
-      r: t.modules?.riskParityProxy?.allocationDirection
+      r: t.modules?.riskParity?.allocationDirection
     });
     if (bDir !== tDir) directionDiffs++;
   }
