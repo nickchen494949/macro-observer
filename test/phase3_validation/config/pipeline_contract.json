@@ -1,55 +1,45 @@
 {
   "meta": {
-    "contractVersion": "1.0",
+    "contractVersion": "1.1",
     "description": "Implementation contract locking in all deterministic Python execution details before generating outcome statistics."
   },
-  "01_preprocessing": {
-    "buildPanel": "Generates a raw immutable panel only. No transformations applied.",
-    "foldTransformation": "Transformations (winsorization, ECDF, z-score) occur strictly within OOS folds in scripts 03 and 04, using a shared train-only preprocessor function.",
-    "rankMethod": "average",
-    "ecdfFormula": "Count of train elements <= x / N_train",
-    "winsorizationInterpolation": "linear",
-    "stdDdof": 1,
-    "insufficientVariationPolicy": "If training variance is 0, status becomes insufficient_training_variation"
+  "01_ic_and_preprocessing": {
+    "icSignal": "02 and 05 IC calculations一律使用 raw eligible signal (no winsor/ECDF). rank(method='average'). Pension uses only eligible rebalance rows.",
+    "oosPreprocessing": "03/04 OOS preprocessing strictly follows signal registry per-module. VC/RP/CTA use TRAIN-only winsor -> TRAIN ECDF. Pension (transform: none / winsor: none) remains unchanged."
   },
-  "02_single_factor": {
-    "icBootstrap": {
-      "iterations": 5000,
-      "seed": 20260807,
-      "blockLength": "max(h, 20)",
-      "passCondition": "95% moving-block percentile CI of Spearman IC must exclude zero in the expected direction.",
-      "outputField": "ic_bootstrap_pass"
-    }
+  "02_partial_rank_ic": {
+    "sample": "Strict complete-case intersection of (S, Y, momentum, vol).",
+    "procedure": "rank(method='average') for all 4. OLS residualization with intercept. Then correlation.",
+    "gate": "sign(partialIC) == expectedDirection. 0 or NaN/undefined directly FAIL. No extra significance gate required."
   },
-  "03_baseline_models": {
-    "baselineAsOfSession": "last completed ^GSPC session strictly before F (firstTradableSession). Never use F close."
+  "03_moving_block_bootstrap": {
+    "iterations": 5000,
+    "seed": 20260807,
+    "blockLength": "max(h, 20)",
+    "procedure": "Sort by firstTradableSession then decisionDate. Construct all continuous overlapping blocks of length L. Sample with replacement, concatenate, truncate to N. DO NOT circular wrap.",
+    "separation": "02 bootstraps Spearman IC. 04 bootstraps mean loss differential (d_t). The passes must not be mixed."
   },
-  "04_incremental_oos": {
-    "testingScheme": "Pooled OOS predictions generated via expanding window (annually refit).",
-    "pooledTest": "squared-error loss differential (d_t = e^2_baseline,t - e^2_enhanced,t) tested exactly once across the entire pooled OOS sequence.",
-    "deltaR2": "Descriptive output only. Not used for SUPPORTED gate.",
-    "oosLossBootstrap": {
-      "iterations": 5000,
-      "seed": 20260807,
-      "blockLength": "max(h, 20)",
-      "outputField": "oos_loss_bootstrap_pass"
-    }
+  "04_hac_definitions": {
+    "singleFactor": "rank(Y) = alpha + beta * rank(S). Two-sided HAC test on beta=0.",
+    "oosLoss": "intercept-only regression: d_t = alpha + epsilon_t. Two-sided HAC test on alpha=0.",
+    "maxLag": "max(h - 1, floor(4 * (N/100)^(2/9)))"
   },
-  "05_robustness": {
-    "grouping": "Group eligible primary-hypothesis observations by firstTradableSession year and recompute Spearman IC.",
-    "eligibleYear": "N_year >= 30",
-    "nTotalDefinition": "Sum of N for all eligible years",
-    "contributionFormula": "(N_year / N_total) * IC_year",
-    "catastrophicReversal": "sign(IC_year) != sign(IC_aggregate) AND abs(IC_year) >= 0.5 * abs(IC_aggregate)",
-    "loyo": "Drop one year, recompute aggregate Spearman IC. median(LOYO_IC) must have expected direction.",
-    "requirement": "Both primary hypotheses must independently pass all regime rules."
+  "05_oos_fold_semantics": {
+    "fitFrequency": "Parameters fit strictly once per testYear per primary hypothesis.",
+    "purge": "Horizon-specific lastLabelSession < first tradable test session.",
+    "sample": "Baseline and enhanced models use exact same train/test common sample.",
+    "trainingStats": "Baseline mean/std, signal winsor thresholds, ECDF computed strictly on train.",
+    "baselineTiming": "t = last completed ^GSPC session strictly before F (firstTradableSession). Never F close.",
+    "deduplication": "Multiple decision rows with the same firstTradableSession MUST NOT be artificially deduplicated."
   },
-  "06_multiple_testing": {
-    "fdrFamilySize": 8,
-    "insufficientDataPolicy": "If a hypothesis lacks data (N < 60, constant signal, etc.), its effective p-value is forced to 1.0. It is NOT removed from the BH family."
+  "06_oos_formal_gate": {
+    "pooledTest": "Test applied EXACTLY ONCE on the pooled OOS predictions across all test years.",
+    "squaredErrorGate": "Mean(d_t) > 0 AND p_HAC < 0.05 AND CI_95_lower > 0.",
+    "confirmatoryMetrics": "Delta MAE > 0 is calculated and reported as confirmatory ONLY. Delta R2 is descriptive ONLY. Neither can override the squared-error gate."
   },
-  "07_evidence_gate": {
-    "verdictOutputs": ["SUPPORTED", "NOT_SUPPORTED"],
-    "secondaryHypothesisPolicy": "Secondary hypotheses are completely ignored for the gate."
+  "07_fail_closed_and_family": {
+    "regime": "05 uses raw-Spearman. N_total counts ONLY eligible years (N >= 30). LOYO drops one eligible year and recomputes aggregate IC.",
+    "fdrFamily": "Strictly 8 primary hypotheses. Invalid/insufficient (N < 60, constant signal, undefined rho/HAC) -> effective p = 1.0, hypothesis_pass = false. MUST NOT be removed from BH family.",
+    "evidenceGate": "07 reads ONLY primary results. Secondary results strictly for display. Output is SUPPORTED or NOT_SUPPORTED."
   }
 }
