@@ -20,9 +20,35 @@ function calculateMaxDrawdown(prices, adjOpen_F) {
   return maxDd;
 }
 
+function calcRealizedVol(spxData, startIdx, h) {
+  if (h < 2) return null;
+  const logRets = [];
+  for (let j = 0; j < h; j++) {
+    const todayClose = spxData[startIdx + j].adjClose;
+    const prevClose = startIdx + j - 1 >= 0 ? spxData[startIdx + j - 1].adjClose : spxData[startIdx + j].adjOpen;
+    logRets.push(Math.log(todayClose / prevClose));
+  }
+  const mean = logRets.reduce((a, b) => a + b, 0) / logRets.length;
+  let sumSq = 0;
+  for (const r of logRets) {
+    sumSq += Math.pow(r - mean, 2);
+  }
+  const variance = sumSq / (logRets.length - 1); // ddof=1
+  return Math.sqrt(variance * 252);
+}
+
 function main() {
   const yahooDir = path.join(__dirname, '../data/yahoo');
-  const snapshotsPath = path.join(__dirname, 'snapshots.json');
+  const phase3Dir = path.join(__dirname, 'phase3');
+  
+  // Try to use phase3 snapshots if available, fallback to snapshots_base.json
+  let snapshotsPath = path.join(phase3Dir, 'snapshots_phase3.json');
+  if (!fs.existsSync(snapshotsPath)) {
+      snapshotsPath = path.join(__dirname, 'snapshots_base.json');
+  }
+  if (!fs.existsSync(snapshotsPath)) {
+      snapshotsPath = path.join(__dirname, 'snapshots.json');
+  }
   
   const spx = loadJson(path.join(yahooDir, '_GSPC.json'));
   const snapshots = loadJson(snapshotsPath);
@@ -54,8 +80,8 @@ function main() {
       
       const startIdx = spxMap.get(fts).idx;
       
-      // Insufficient future data check
-      if (startIdx + 4 >= spxData.length) {
+      // Insufficient future data check (max horizon is 20)
+      if (startIdx + 19 >= spxData.length) {
           labels[date].modules[m] = {
               signalAvailableAt: mData.signalAvailableAt,
               firstTradableSession: fts,
@@ -77,40 +103,50 @@ function main() {
       }
 
       const adjOpen_F = spxData[startIdx].adjOpen;
-      const adjClose_F = spxData[startIdx].adjClose;
-      const adjClose_F4 = spxData[startIdx + 4].adjClose;
       
-      const ret1d = (adjClose_F / adjOpen_F) - 1;
-      const ret5d = (adjClose_F4 / adjOpen_F) - 1;
-      
-      const prices5d = [];
-      const lows5d = [];
-      for (let j = 0; j <= 4; j++) {
-        prices5d.push({
-           adjHigh: spxData[startIdx + j].adjHigh,
-           adjLow: spxData[startIdx + j].adjLow
-        });
-        lows5d.push(spxData[startIdx + j].adjLow);
-      }
-      
-      // MAE_h: from entry AdjOpen_F to worst AdjLow
-      let mae = 0;
-      for (const l of lows5d) {
-        const dd = (l - adjOpen_F) / adjOpen_F;
-        if (dd < mae) mae = dd;
-      }
-      
-      const mdd = calculateMaxDrawdown(prices5d, adjOpen_F);
-      
-      labels[date].modules[m] = {
+      const res = {
         signalAvailableAt: mData.signalAvailableAt,
         firstTradableSession: fts,
-        labelStatus: "ok",
-        return1dOpen: Number(ret1d.toFixed(4)),
-        return5dOpen: Number(ret5d.toFixed(4)),
-        mae5d: Number(mae.toFixed(4)),
-        mdd5d: Number(mdd.toFixed(4))
+        labelStatus: "ok"
       };
+
+      const horizons = [1, 3, 5, 10, 20];
+      for (const h of horizons) {
+        const hKey = h + 'd';
+        const adjClose_Fh = spxData[startIdx + h - 1].adjClose;
+        const ret = (adjClose_Fh / adjOpen_F) - 1;
+        
+        const prices = [];
+        const lows = [];
+        for (let j = 0; j < h; j++) {
+          prices.push({
+             adjHigh: spxData[startIdx + j].adjHigh,
+             adjLow: spxData[startIdx + j].adjLow
+          });
+          lows.push(spxData[startIdx + j].adjLow);
+        }
+        
+        let mae = 0;
+        for (const l of lows) {
+          const dd = (l / adjOpen_F) - 1;
+          if (dd < mae) mae = dd;
+        }
+        
+        const mdd = calculateMaxDrawdown(prices, adjOpen_F);
+        
+        res['return' + hKey + 'Open'] = Number(ret.toFixed(4));
+        res['mae' + hKey] = Number(mae.toFixed(4));
+        res['mdd' + hKey] = Number(mdd.toFixed(4));
+        
+        if (h >= 5) {
+            const vol = calcRealizedVol(spxData, startIdx, h);
+            if (vol !== null) {
+                res['vol' + hKey] = Number(vol.toFixed(4));
+            }
+        }
+      }
+      
+      labels[date].modules[m] = res;
     }
     
     // Composite evaluates from composite.firstTradableSession (max of all)
@@ -128,21 +164,23 @@ function main() {
     
     if (compFts && spxMap.has(compFts)) {
       const startIdx = spxMap.get(compFts).idx;
-      if (startIdx + 4 < spxData.length) {
+      if (startIdx + 19 < spxData.length) {
         const adjOpen_F = spxData[startIdx].adjOpen;
-        const adjClose_F4 = spxData[startIdx + 4].adjClose;
-        const ret5d = (adjClose_F4 / adjOpen_F) - 1;
-        labels[date].composite = {
-          firstTradableSession: compFts,
-          return5dOpen: ret5d
-        };
+        const resComp = { firstTradableSession: compFts };
+        const horizons = [1, 3, 5, 10, 20];
+        for (const h of horizons) {
+            const adjClose_Fh = spxData[startIdx + h - 1].adjClose;
+            resComp['return' + h + 'dOpen'] = Number(((adjClose_Fh / adjOpen_F) - 1).toFixed(4));
+        }
+        labels[date].composite = resComp;
       }
     }
   }
   
-  const outPath = path.join(__dirname, 'forward_labels.json');
+  if (!fs.existsSync(phase3Dir)) fs.mkdirSync(phase3Dir, { recursive: true });
+  const outPath = path.join(phase3Dir, 'forward_labels_phase3.json');
   fs.writeFileSync(outPath, JSON.stringify(labels, null, 2));
-  console.log(`Wrote module-specific forward labels for ${Object.keys(labels).length} days to ${outPath}`);
+  console.log(`Wrote module-specific expanded forward labels for ${Object.keys(labels).length} days to ${outPath}`);
 }
 
 main();

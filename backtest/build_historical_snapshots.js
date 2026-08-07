@@ -226,7 +226,12 @@ function main() {
     previousModelStateHash = outputModelStateHash;
   }
   
-  fs.writeFileSync(path.join(__dirname, OUT_FILE), JSON.stringify(snapshots, null, 2));
+  const outPath = path.join(__dirname, OUT_FILE);
+  const outDir = path.dirname(outPath);
+  if (!fs.existsSync(outDir)) {
+    fs.mkdirSync(outDir, { recursive: true });
+  }
+  fs.writeFileSync(outPath, JSON.stringify(snapshots, null, 2));
   
   // Write separated recursive mathematical states
   const msLines = modelStates.map(ms => JSON.stringify(ms)).join('\n');
