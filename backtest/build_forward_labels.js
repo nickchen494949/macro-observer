@@ -6,17 +6,18 @@ function loadJson(p) {
   return JSON.parse(fs.readFileSync(p, 'utf-8'));
 }
 
+// True Intraday Path-Dependent Drawdown
 function calculateMaxDrawdown(prices) {
   if (!prices || prices.length === 0) return 0;
-  let maxPx = prices[0];
+  // prices should be an array of objects: { high, low, adjHigh, adjLow }
+  let maxPx = prices[0].adjHigh;
   let maxDd = 0;
   for (let i = 1; i < prices.length; i++) {
-    if (prices[i] > maxPx) {
-      maxPx = prices[i];
-    } else {
-      const dd = (prices[i] - maxPx) / maxPx;
-      if (dd < maxDd) maxDd = dd;
+    if (prices[i].adjHigh > maxPx) {
+      maxPx = prices[i].adjHigh;
     }
+    const dd = (prices[i].adjLow - maxPx) / maxPx;
+    if (dd < maxDd) maxDd = dd;
   }
   return maxDd;
 }

@@ -5,27 +5,27 @@ const assert = require('assert');
 
 console.log("Running FRED sensitivity scenarios (+0, +1, +3)...");
 
-// Check if files exist or build them
-if (!fs.existsSync(path.join(__dirname, 'snapshots_base.json'))) {
-  console.log("Building base scenario (+0 days lag)...");
-  execSync('node backtest/build_historical_snapshots.js 2022-01-03 2022-12-31 snapshots_base.json 0', { stdio: 'pipe' });
-}
-if (!fs.existsSync(path.join(__dirname, 'snapshots_plus1.json'))) {
-  console.log("Building +1 day lag scenario...");
-  execSync('node backtest/build_historical_snapshots.js 2022-01-03 2022-12-31 snapshots_plus1.json 1', { stdio: 'pipe' });
-}
-if (!fs.existsSync(path.join(__dirname, 'snapshots_plus3.json'))) {
-  console.log("Building +3 day lag scenario...");
-  execSync('node backtest/build_historical_snapshots.js 2022-01-03 2022-12-31 snapshots_plus3.json 3', { stdio: 'pipe' });
-}
+// ALWAYS rebuild to prove causality right now
+console.log("Building base scenario (+0 days lag)...");
+execSync('node backtest/build_historical_snapshots.js 2022-01-03 2022-12-31 snapshots_base.json 0', { stdio: 'pipe' });
+console.log("Building +1 day lag scenario...");
+execSync('node backtest/build_historical_snapshots.js 2022-01-03 2022-12-31 snapshots_plus1.json 1', { stdio: 'pipe' });
+console.log("Building +3 day lag scenario...");
+execSync('node backtest/build_historical_snapshots.js 2022-01-03 2022-12-31 snapshots_plus3.json 3', { stdio: 'pipe' });
 
 const base = JSON.parse(fs.readFileSync(path.join(__dirname, 'snapshots_base.json')));
 const plus1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'snapshots_plus1.json')));
 const plus3 = JSON.parse(fs.readFileSync(path.join(__dirname, 'snapshots_plus3.json')));
 
-// Estimate shifted observations
+// Estimate shifted observations properly
 const fredRaw = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/fred/DGS10.json')));
-let shifted1 = fredRaw.length, shifted3 = fredRaw.length;
+let fredArray = fredRaw;
+if (!Array.isArray(fredArray)) fredArray = fredArray.values || [];
+let shifted1 = fredArray.filter(v => {
+    let d = Array.isArray(v) ? v[0] : v.date;
+    return d >= '2022-01-03' && d <= '2022-12-31';
+}).length;
+let shifted3 = shifted1;
 
 function compareSnapsDeep(baseSnaps, targetSnaps) {
   let totalKeys = 0;
@@ -47,8 +47,8 @@ function compareSnapsDeep(baseSnaps, targetSnaps) {
     let dateAffected = false;
 
     // Check numerical isolation
-    const bRP = JSON.stringify(b.modules?.riskParityProxy || {});
-    const tRP = JSON.stringify(t.modules?.riskParityProxy || {});
+    const bRP = JSON.stringify(b.modules?.riskParity || {});
+    const tRP = JSON.stringify(t.modules?.riskParity || {});
     if (bRP !== tRP) {
         riskParityNumDiffs++;
         dateAffected = true;

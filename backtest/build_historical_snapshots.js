@@ -5,24 +5,48 @@ const { runReplayFlows } = require('../lib/flow_wrappers');
 const { PRICE_FIELD_POLICY, getModelPrice } = require('../lib/data_validation');
 
 const FRED_AVAILABILITY_POLICY = {
-  // Universal conservative mapping (T+1/7/35/90) will be mapped here
+  'DGS10': { method: 'fixed_business_day_lag', lagBusinessDays: 1, confidence: 'conservative_approximation' },
+  'BAMLH0A0HYM2': { method: 'fixed_business_day_lag', lagBusinessDays: 1, confidence: 'conservative_approximation' },
+  'DFF': { method: 'fixed_business_day_lag', lagBusinessDays: 1, confidence: 'conservative_approximation' },
+  'WALCL': { method: 'fixed_business_day_lag', lagBusinessDays: 5, confidence: 'conservative_approximation' },
+  'ICSA': { method: 'fixed_business_day_lag', lagBusinessDays: 5, confidence: 'conservative_approximation' },
+  'CCSA': { method: 'fixed_business_day_lag', lagBusinessDays: 5, confidence: 'conservative_approximation' }
 };
 
+// Load strict US equity calendar
+let usEquityCalendar = [];
+try {
+  usEquityCalendar = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/nyse_calendar.json'), 'utf-8'));
+} catch (e) {
+  console.error('Failed to load nyse_calendar.json');
+}
+
 function getFredAvailableAt(seriesId, observationDateStr, lagSensitivityOffset = 0) {
-  // Conservative publication-lag approximation
-  // This is a naive calendar-day lag fallback
-  // Returns ISO string of exact available time.
+  // True registry-driven PIT calculation
+  const policy = FRED_AVAILABILITY_POLICY[seriesId];
+  let lagBusinessDays = policy ? policy.lagBusinessDays : 25; // default 25 b-days approx 1 month
+
+  lagBusinessDays += lagSensitivityOffset;
+
+  if (usEquityCalendar.length > 0) {
+    const idx = usEquityCalendar.indexOf(observationDateStr);
+    if (idx !== -1) {
+       // It's a trading day, add business days
+       const availableIdx = idx + lagBusinessDays;
+       if (availableIdx < usEquityCalendar.length) {
+          return new Date(usEquityCalendar[availableIdx] + 'T17:00:00Z').toISOString();
+       }
+    } else {
+       // Fallback for non-trading days
+       const d = new Date(observationDateStr);
+       d.setUTCDate(d.getUTCDate() + lagBusinessDays * 1.4); // approx calendar days
+       return d.toISOString();
+    }
+  }
+
+  // Final naive fallback if no calendar
   const d = new Date(observationDateStr);
-  let lagDays = 35; // Default monthly
-  
-  // Basic frequency heuristic from series ID if not explicitly known:
-  if (seriesId === 'DFF' || seriesId.startsWith('DGS') || seriesId === 'BAMLH0A0HYM2') lagDays = 1; // Daily
-  if (seriesId === 'WALCL' || seriesId === 'ICSA' || seriesId === 'CCSA') lagDays = 7; // Weekly
-  if (seriesId === 'GDP' || seriesId === 'GDPNOW') lagDays = 90; // Quarterly
-  
-  lagDays += lagSensitivityOffset;
-  
-  d.setUTCDate(d.getUTCDate() + lagDays);
+  d.setUTCDate(d.getUTCDate() + lagBusinessDays * 1.4);
   return d.toISOString();
 }
 
@@ -122,13 +146,17 @@ function main() {
   const VIEW_END_DATE = process.argv[3] || new Date().toISOString().split('T')[0];
   const SENSITIVITY_LAG_OFFSET = parseInt(process.argv[5] || '0', 10);
   
-  // We ALWAYS start the chain from the very first available trading day (2015-01-01 or earlier)
-  const fullTradingDays = spxData.map(d => d[0]).sort();
+  // Traversal MUST be driven by the actual nyse_calendar.json universe, not SPX availability!
+  const fullTradingDays = usEquityCalendar.length > 0 ? usEquityCalendar : spxData.map(d => d[0]).sort();
   const startIdx = fullTradingDays.findIndex(d => d >= '2015-01-01'); // Inception
   
   if (startIdx === -1) throw new Error("No trading days found after 2015");
   
   const relevantTradingDays = fullTradingDays.slice(startIdx);
+  
+  // Output targets
+  const OUT_FILE = process.argv[4] || 'snapshots.json';
+
   
   const snapshots = {};
   const modelStates = []; // to write to model_states.jsonl
@@ -181,7 +209,7 @@ function main() {
     previousModelStateHash = outputModelStateHash;
   }
   
-  fs.writeFileSync(path.join(__dirname, 'snapshots.json'), JSON.stringify(snapshots, null, 2));
+  fs.writeFileSync(path.join(__dirname, OUT_FILE), JSON.stringify(snapshots, null, 2));
   
   // Write separated recursive mathematical states
   const msLines = modelStates.map(ms => JSON.stringify(ms)).join('\n');
