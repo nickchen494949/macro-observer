@@ -6,6 +6,13 @@ const path = require('path');
 const { execFile } = require('child_process');
 const { evaluateDiagnostics } = require('./macro_engine');
 
+const Ajv = require('ajv');
+const addFormats = require('ajv-formats');
+const ajv = new Ajv({ allErrors: true });
+addFormats(ajv);
+const flowApiSchemaStr = fs.readFileSync(path.join(__dirname, 'config/schemas/flow_api_v2.schema.json'), 'utf-8');
+const validateFlowSnapshot = ajv.compile(JSON.parse(flowApiSchemaStr));
+
 const PORT = 8765;
 const FRED_KEY = '5e8696731dbd4002c9043ea10e8fbc5f';
 const DATA_DIR = path.join(__dirname, 'data');
@@ -15,6 +22,10 @@ const VALUATION_DIR = path.join(DATA_DIR, 'valuation');
 const CSV_DIR = path.join(__dirname, 'csv');
 const CSV_FRED = path.join(CSV_DIR, 'fred');
 const CSV_YAHOO = path.join(CSV_DIR, 'yahoo');
+// Feature flags
+const USE_RULE_ENGINE_V2 = true;
+const ENABLE_PCA = false;
+const ENABLE_INFLATION_FORECAST = false;
 
 // ============================================
 // ALL INDICATORS
@@ -203,11 +214,11 @@ const MACRO_TRANSMISSION_ROWS = [
 
 const STOCK_GROUPS = [
   { name:'主要指数 Major Indices', items:[
-    { label:'Dow Jones', series:'DJIA', yahoo:'^DJI' },
-    { label:'S&P 500', series:'SP500', yahoo:'^GSPC' },
-    { label:'VIX', yahoo:'^VIX' },
-    { label:'Nasdaq', series:'NASDAQCOM', yahoo:'^IXIC' },
-    { label:'Russell 2000', yahoo:'^RUT' },
+    { id: 'dow_jones', label:'Dow Jones', series:'DJIA', yahoo:'^DJI' },
+    { id: 'sp500', label:'S&P 500', series:'SP500', yahoo:'^GSPC' },
+    { id: 'VIX', label:'VIX', yahoo:'^VIX' },
+    { id: 'nasdaq', label:'Nasdaq', series:'NASDAQCOM', yahoo:'^IXIC' },
+    { id: 'russell2000', label:'Russell 2000', yahoo:'^RUT' },
   ]},
   { name:'💻 信息技术 Info Tech', items:[
     { label:'XLK 科技股', yahoo:'XLK' },
@@ -546,8 +557,13 @@ async function smartUpdate(includeYahoo = false) {
     fs.readdirSync(YAHOO_DIR).filter(f => f.endsWith('.json')).forEach(f => {
       try {
         const d = JSON.parse(fs.readFileSync(path.join(YAHOO_DIR, f)));
-        if (!store.yahoo[d.id] || d.values.length > store.yahoo[d.id].length) {
-          store.yahoo[d.id] = d.values;
+        const key = d.id || d.symbol;
+        if (key && (!store.yahoo[key] || d.values.length > store.yahoo[key].length)) {
+          const arr = [];
+          for (const v of d.values) {
+            arr.push(Array.isArray(v) ? v : [v.date, v]);
+          }
+          store.yahoo[key] = arr;
         }
       } catch(e) {}
     });
@@ -1138,17 +1154,80 @@ function buildDashboard() {
       const vals = pickBest(i.series, i.yahoo);
       const m = calcMetrics(vals);
       const chartKey = i.yahoo || i.series || '';
-      items.push({ label: i.label, unit: '$', chartKey, ...(m || { current:null, zscore:null, zscoreAll:null, changes:{} }) });
+      const fallbackId = i.yahoo ? i.yahoo.replace('^', '').toLowerCase() : null;
+      items.push({ id: i.id || fallbackId, label: i.label, unit: '$', chartKey, ...(m || { current:null, zscore:null, zscoreAll:null, changes:{} }) });
 
       // Inject valuation rows after S&P 500
+      // Synthesize daily PE and CAPE using daily S&P price + last known EPS/CAPE anchor
       if (i.label === 'S&P 500') {
+        const spDaily = store.yahoo['^GSPC'];
+        
+        // --- Daily PE Synthesis ---
+        const peMonthly = store.valuation['SP500_PE'];
+        let peDailyVals = peMonthly; // fallback to monthly
+        if (spDaily && spDaily.length > 20 && peMonthly && peMonthly.length > 5) {
+          // Find last known PE anchor point and derive implied trailing EPS
+          // EPS = Price / PE at anchor date
+          const lastPeDate = peMonthly[peMonthly.length - 1][0];
+          const lastPeVal = peMonthly[peMonthly.length - 1][1];
+          // Find S&P price on or near last PE date
+          let anchorPrice = null;
+          for (let k = spDaily.length - 1; k >= 0; k--) {
+            if (spDaily[k][0] <= lastPeDate) { anchorPrice = spDaily[k][1]; break; }
+          }
+          if (anchorPrice && lastPeVal > 0) {
+            const impliedEps = anchorPrice / lastPeVal;
+            // Build daily PE = daily_price / implied_EPS
+            // Keep monthly history, then append daily estimates after last PE date
+            const dailyPe = [...peMonthly];
+            const peSet = new Set(peMonthly.map(v => v[0]));
+            for (const [d, p] of spDaily) {
+              if (d > lastPeDate && !peSet.has(d)) {
+                dailyPe.push([d, +(p / impliedEps).toFixed(2)]);
+              }
+            }
+            dailyPe.sort((a, b) => a[0].localeCompare(b[0]));
+            peDailyVals = dailyPe;
+          }
+        }
+        
+        // --- Daily CAPE Synthesis ---
+        const capeMonthly = store.valuation['SHILLER_CAPE'];
+        let capeDailyVals = capeMonthly; // fallback to monthly
+        if (spDaily && spDaily.length > 20 && capeMonthly && capeMonthly.length > 5) {
+          const lastCapeDate = capeMonthly[capeMonthly.length - 1][0];
+          const lastCapeVal = capeMonthly[capeMonthly.length - 1][1];
+          // Find S&P price on or near last CAPE date
+          let capeAnchorPrice = null;
+          for (let k = spDaily.length - 1; k >= 0; k--) {
+            if (spDaily[k][0] <= lastCapeDate) { capeAnchorPrice = spDaily[k][1]; break; }
+          }
+          if (capeAnchorPrice && capeAnchorPrice > 0 && lastCapeVal > 0) {
+            // daily CAPE ≈ last_CAPE × (today_price / anchor_price)
+            // because CAPE denominator (10yr avg earnings) barely changes day-to-day
+            const dailyCape = [...capeMonthly];
+            const capeSet = new Set(capeMonthly.map(v => v[0]));
+            for (const [d, p] of spDaily) {
+              if (d > lastCapeDate && !capeSet.has(d)) {
+                dailyCape.push([d, +(lastCapeVal * (p / capeAnchorPrice)).toFixed(2)]);
+              }
+            }
+            dailyCape.sort((a, b) => a[0].localeCompare(b[0]));
+            capeDailyVals = dailyCape;
+          }
+        }
+        
+        // Build lookup for synthesized series
+        const synthVals = { 'SP500_PE': peDailyVals, 'SHILLER_CAPE': capeDailyVals };
+        
         for (const vi of VALUATION_ITEMS) {
-          let vvals = store.valuation[vi.id];
+          let vvals = synthVals[vi.id] || store.valuation[vi.id];
           const vm = calcMetrics(vvals, !!vi.absoluteChanges);
           const unit = vi.unit;
           const lastObsDate = vvals && vvals.length ? vvals[vvals.length - 1][0] : null;
           const daysSinceObs = lastObsDate ? Math.floor((Date.now() - new Date(lastObsDate + 'T00:00:00Z').getTime()) / 86400000) : null;
-          items.push({ id: vi.id, label: vi.label, unit, chartKey: 'val:' + vi.id, lastObsDate, daysSinceObs, ...(vm || { current:null, zscore:null, zscoreAll:null, changes:{} }) });
+          const isSynthesized = synthVals[vi.id] && synthVals[vi.id] !== store.valuation[vi.id];
+          items.push({ id: vi.id, label: vi.label, unit, chartKey: 'val:' + vi.id, lastObsDate, daysSinceObs, synthesized: isSynthesized || undefined, ...(vm || { current:null, zscore:null, zscoreAll:null, changes:{} }) });
         }
       }
     }
@@ -1169,11 +1248,38 @@ function buildDashboard() {
     }
   }
   const bankEquityStressInd = { id: 'bank_equity_stress', current: bank_equity_stress_val, daysSinceObs: kreItem ? kreItem.daysSinceObs : null, lastObsDate: kreItem ? kreItem.lastObsDate : null, label: 'Bank Equity Stress (SP500 - KRE)' };
+  
+  const vixItem = stocks.flatMap(g => g.items).find(i => i.id === 'VIX');
 
   const allDataList = [...economy, ...macroTransmission, ...rates, ...valItems, bankEquityStressInd];
+  if (vixItem) allDataList.push(vixItem);
+  // Add stock and commodity items for V2 horizon engine
+  const allStockItems = stocks.flatMap(g => g.items).filter(i => i.id !== 'VIX'); // VIX already added
+  allDataList.push(...allStockItems);
+  allDataList.push(...commodities);
+  
   const diagnosticEngineOutput = evaluateDiagnostics(allDataList);
 
-  return {
+  const resPayload = {
+    meta: {
+      schemaVersion: '2.0.0',
+      rulebookVersion: '2.0.0',
+      engineVersion: '2.0.0',
+      generatedAt: new Date().toISOString(),
+      asOf: new Date().toISOString().split('T')[0],
+      vintageMode: 'latest_available',
+      featureFlags: {
+        ruleEngineV2: true,
+        eventAttribution: true,
+        pca: false,
+        inflationForecast: false
+      }
+    },
+    engineStatus: {
+      coreDiagnosis: 'ok',
+      eventAttribution: 'unavailable',
+      qqqStrategy: 'ok'
+    },
     updated: new Date().toISOString(),
     fredLoaded: Object.keys(store.fred).length,
     yahooLoaded: Object.keys(store.yahoo).length,
@@ -1183,10 +1289,213 @@ function buildDashboard() {
     macroState: economy, economy, macroTransmission,
     conclusions: generateConclusions(economy, macroTransmission, rates),
     cycleAnalysis: generateCycleAnalysis(economy, macroTransmission, rates),
-    diagnostics: diagnosticEngineOutput,
-    factorModel: loadFactorModel(),
-    inflationForecast: loadInflationForecast()
+    diagnostics: diagnosticEngineOutput
   };
+  
+  if (ENABLE_PCA) {
+    resPayload.factorModel = loadFactorModel();
+  }
+  if (ENABLE_INFLATION_FORECAST) {
+    resPayload.inflationForecast = loadInflationForecast();
+  }
+
+  // V2 Rule Engine Injection (Shadow Run)
+  if (USE_RULE_ENGINE_V2) {
+    try {
+      const ruleEngine = require('./lib/rule_engine');
+      const horizonEngine = require('./lib/horizon_engine');
+      const registryPath = require('path').join(__dirname, 'config/indicator_registry.json');
+      let registry = {};
+      try { registry = JSON.parse(require('fs').readFileSync(registryPath, 'utf8')); } catch(e){}
+
+      const v2Classified = {};
+      
+      // allDataList is just current snapshot (an array of metric objects), we need the historical series for percentiles
+      // So we use store.fred and store.yahoo 
+      for (const item of allDataList) {
+        if (!item.id) continue;
+        const storeRef = store.fred[item.id] || store.yahoo[item.id] || store.valuation[item.id] || (item.chartKey && store.yahoo[item.chartKey]) || (item.chartKey && store.fred[item.chartKey]);
+        const series = Array.isArray(storeRef) ? storeRef : (storeRef ? storeRef.values : []) || [];
+        const indicatorData = {
+          current: item.current,
+          lastObsDate: item.lastObsDate,
+          daysSinceObs: item.daysSinceObs,
+          series: series
+        };
+        
+        // 1. Rule Layer (Level / Extremity)
+        const ruleEval = ruleEngine.evaluateIndicator(item.id, indicatorData);
+        
+        // 2. Multi-Horizon Layer (Trend Coherence)
+        let horizonEval = null;
+        if (series && series.length > 0) {
+           const regInfo = registry[item.id];
+           if (regInfo && regInfo.frequency && regInfo.horizonMethod) {
+              try {
+                horizonEval = horizonEngine.calculateTrend({
+                  series: series,
+                  type: regInfo.horizonMethod,
+                  frequency: regInfo.frequency,
+                  transformation: regInfo.transformation || 'level',
+                  horizonScale: regInfo.horizonScale || 1,
+                  changes: item.changes || {},
+                  current: item.current
+                });
+              } catch(e){ console.error(`Horizon error for ${item.id}:`, e.message); }
+           }
+        }
+        
+        v2Classified[item.id] = {
+           level: ruleEval,
+           trend: horizonEval
+        };
+      }
+      
+      const actionContextEngine = require('./lib/action_context_engine');
+      
+      // Map legacy diagnostics to V2 four-module layout for coverage calculation
+      const legDiag = resPayload.diagnostics || {};
+      const v2ModuleMapping = {
+        growth:          [legDiag.recession],
+        inflation:       [legDiag.inflation],
+        financialSystem: [legDiag.credit, legDiag.longEnd, legDiag.liquidity],
+        marketRisk:      [legDiag.stagflation, legDiag.valuation]
+      };
+      
+      const v2Diagnostics = {};
+      let implementedCount = 0;
+      let totalEvidenceCov = 0;
+      let totalStageCount = 0;
+      let maxPressureSev = 0;
+      let maxDamageSev = 0;
+      let hasDamage = false;
+      
+      // Only recession (growth) module damage counts as systemic stress
+      const systemicModules = new Set(['growth']);
+      // Only growth + credit damage counts as private-economy damage
+      // longEnd damage = fiscal burden, valuation damage = market pricing — tracked separately
+      const privateEconomyDamageModules = new Set(['growth']);
+      // Which legacy diagnostics count as private damage: recession, credit
+      const privateDamageDiags = new Set(['recession', 'credit']);
+      
+      for (const [modName, legacySources] of Object.entries(v2ModuleMapping)) {
+        const validSources = legacySources.filter(s => s && s.stages);
+        if (validSources.length > 0) {
+          implementedCount++;
+          let hasPressureRed = false;
+          let hasDamageRed = false;
+          for (const src of validSources) {
+            const srcQuestion = (src.question || '').toLowerCase();
+            // Detect if this source is a private-economy diagnostic
+            const isPrivateDamage = privateDamageDiags.has(
+              srcQuestion.includes('recession') ? 'recession' :
+              srcQuestion.includes('credit') ? 'credit' : ''
+            );
+            for (const st of src.stages) {
+              totalEvidenceCov += (st.coverage || 0);
+              totalStageCount++;
+              const sev = st.status === 'red' ? 3 : st.status === 'yellow' ? 2 : st.status === 'green' ? 1 : 0;
+              // Track pressure severity (all modules)
+              if (st.name && /pressure/i.test(st.name)) {
+                if (sev > maxPressureSev) maxPressureSev = sev;
+                if (st.status === 'red') hasPressureRed = true;
+              }
+              // Only count private-economy damage for the damage label
+              if (st.name && /damage/i.test(st.name) && isPrivateDamage) {
+                if (sev > maxDamageSev) maxDamageSev = sev;
+                if (st.status === 'red') hasDamageRed = true;
+              }
+            }
+          }
+          // Only count as systemic damage if full cascade in growth
+          if (systemicModules.has(modName) && hasPressureRed && hasDamageRed) {
+            hasDamage = true;
+          }
+          v2Diagnostics[modName] = { status: 'implemented', sources: validSources.length };
+        } else {
+          v2Diagnostics[modName] = { status: 'not_implemented' };
+        }
+      }
+      
+      const moduleCoverage = implementedCount / 4; // 0 to 1
+      const evidenceCoverage = totalStageCount > 0 ? Math.round(totalEvidenceCov / totalStageCount) : 0;
+      
+      // Fiscal burden: tracked from longEnd (separate from private-economy damage)
+      const longEndDiag = legDiag.longEnd;
+      let fiscalBurden = 'unknown';
+      if (longEndDiag && longEndDiag.stages) {
+        const dmgStage = longEndDiag.stages.find(s => /fiscal burden/i.test(s.name) || /damage/i.test(s.name));
+        if (dmgStage) {
+          fiscalBurden = dmgStage.status === 'red' ? 'confirmed' : dmgStage.status === 'yellow' ? 'elevated' : 'not_confirmed';
+        }
+      }
+      
+      // Critical coverage: key indicators that are still missing
+      const criticalMissing = [];
+      const criticalIndicators = [
+        { id: 'treasury_net_issuance', label: 'Treasury Net Issuance' },
+        { id: 'repo_fails', label: 'Repo Fails / SRF Usage' },
+        { id: 'market_breadth', label: 'Market Breadth' },
+      ];
+      // Check if any critical indicator is missing from allDataList or has null value
+      for (const ci of criticalIndicators) {
+        const found = allDataList.find(d => d.id === ci.id);
+        if (!found || found.current == null) criticalMissing.push(ci.label);
+      }
+      const criticalCoverage = criticalMissing.length === 0 ? 'complete' : 'partial';
+      
+      // Overall risk: based on private-economy damage, not fiscal burden or valuation
+      const pressureLabel = maxPressureSev >= 3 ? 'high' : maxPressureSev >= 2 ? 'elevated' : 'low';
+      const damageLabel = maxDamageSev >= 3 ? 'confirmed' : maxDamageSev >= 2 ? 'moderate' : 'not_confirmed';
+      const overallRisk = hasDamage ? 'high' : (maxDamageSev >= 3 ? 'elevated' : (maxPressureSev >= 3 ? 'elevated' : (maxPressureSev >= 2 ? 'moderate' : 'low')));
+      
+      // Use legacy contradictions if available
+      const hasContradiction = (resPayload.conclusions?.contradictions?.length || 0) > 0;
+      
+      const actionContextOutput = actionContextEngine.generateActionContext({
+         maxRiskSeverity: maxPressureSev,
+         hasDamage,
+         hasContradiction,
+         diagnosticCoverage: moduleCoverage
+      });
+
+      resPayload.v2 = {
+        classified: v2Classified,
+        diagnostics: v2Diagnostics,
+        moduleCoverage: Math.round(moduleCoverage * 100),
+        evidenceCoverage,
+        criticalCoverage,
+        criticalMissing,
+        risk: {
+          overall: overallRisk,
+          pressure: pressureLabel,
+          damage: damageLabel,
+          fiscalBurden,
+          systemic: hasDamage ? 'confirmed' : 'not_confirmed'
+        },
+        summary: {},
+        rulebookVersion: "2.0.0"
+      };
+      
+      // Top-level extensions for V2 frontend — Event Attribution (shadow/read-only)
+      try {
+        const EventScanner = require('./lib/event_scanner');
+        const scanner = new EventScanner({ store, indicatorRegistry: null });
+        resPayload.eventAttribution = scanner.scan({ lookbackDays: 90 });
+      } catch (eaError) {
+        resPayload.eventAttribution = {
+          status: 'scanner_error',
+          events: [],
+          error: eaError.message
+        };
+      }
+      resPayload.actionContext = actionContextOutput;
+    } catch (e) {
+      console.error("V2 Engine Error:", e);
+    }
+  }
+
+  return resPayload;
 }
 
 function loadInflationForecast() {
@@ -1565,9 +1874,9 @@ function generateCycleAnalysis(macroState, macroTransmission, rates) {
         '若招聘和投资降温进一步扩散至消费与总体产出，而Core PCE继续维持高位，滞胀风险将上升'
       ], tf, 'high', 'Core PCE连续3月低于2.5% 或 住房CPI明显回落则降级为传导顺畅');
     } else if (!econSlowing && inflHigh) {
-      a3 = arrow('flowing', [
-        '经济仍强，通胀维持高位，两者方向一致（过热状态）'
-      ], tf, 'medium', '经济明显放缓后重新评估');
+      a3 = arrow('partially_offset', [
+        '总量增长强，但就业需求降温；通胀水平高，但传导不完整'
+      ], tf, 'medium', '经济明显放缓或通胀实质降温后重新评估');
     } else if (!econSlowing && !inflHigh) {
       a3 = arrow('flowing', [
         '经济温和，通胀接近目标，软着陆状态'
@@ -1626,7 +1935,7 @@ function generateCycleAnalysis(macroState, macroTransmission, rates) {
       ], tf, 'medium', '通胀明显回落后背离消除');
     } else {
       a4 = arrow('flowing', [
-        '通胀与就业信号均指向当前政策立场合理'
+        '当前通胀与就业组合支持维持限制性政策立场，但增长—就业分化提高后续调整的不确定性。'
       ], tf, 'medium', '数据明显偏离后重新评估');
     }
   }
@@ -2327,6 +2636,26 @@ const server = http.createServer(async (req, res) => {
     res.end(JSON.stringify({ status:'ok', fred: Object.keys(store.fred).length, yahoo: Object.keys(store.yahoo).length }));
   } else if (p === '/api/status') {
     res.end(JSON.stringify(dlStatus));
+  } else if (p === '/api/flows') {
+    try {
+      const { runProductionFlows } = require('./lib/flow_wrappers');
+      const flows = runProductionFlows(store);
+      
+      const isValid = validateFlowSnapshot(flows);
+      if (!isValid) {
+        console.error('Flow engine generated invalid snapshot schema:', validateFlowSnapshot.errors);
+        res.writeHead(500);
+        res.end(JSON.stringify({ status: 'error', error: 'Internal API Schema Violation' }));
+        return;
+      }
+      
+      res.end(JSON.stringify(flows));
+    } catch (e) {
+      console.error('Flow engine error:', e);
+      res.end(JSON.stringify({ status: 'error', error: e.message }));
+    }
+  } else if (p === '/api/schema/flow_v1') {
+    res.end(flowApiSchemaStr);
   } else if (p === '/api/data') {
     res.end(JSON.stringify(buildDashboard()));
   } else if (p === '/api/refresh') {
@@ -2367,9 +2696,11 @@ const server = http.createServer(async (req, res) => {
       } catch(e) { res.writeHead(400); res.end(JSON.stringify({ error: e.message })); }
     });
   } else {
-    // Serve index.html for root and any non-API path
+    // Serve HTML pages
     const fs = require('fs');
-    const htmlPath = require('path').join(__dirname, 'index.html');
+    let htmlFile = 'index.html';
+    if (p === '/flow' || p === '/flow.html') htmlFile = 'flow.html';
+    const htmlPath = require('path').join(__dirname, htmlFile);
     try {
       const html = fs.readFileSync(htmlPath);
       res.writeHead(200, { 
@@ -2381,7 +2712,7 @@ const server = http.createServer(async (req, res) => {
       res.end(html);
     } catch(e) {
       res.writeHead(404);
-      res.end(JSON.stringify({ error:'index.html not found' }));
+      res.end(JSON.stringify({ error: htmlFile + ' not found' }));
     }
   }
 });

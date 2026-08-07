@@ -1,0 +1,103 @@
+{
+  "fomc_2026_01": {
+    "decision": "hold",
+    "targetLower": 3.50,
+    "targetUpper": 3.75,
+    "vote": null,
+    "dissentDirection": null,
+    "status": "verified",
+    "publishedAt": "2026-01-28T19:00:00Z",
+    "vintage": "official"
+  },
+  "fomc_2026_03": {
+    "decision": "hold",
+    "targetLower": 3.50,
+    "targetUpper": 3.75,
+    "status": "verified",
+    "publishedAt": "2026-03-18T18:00:00Z",
+    "vintage": "official"
+  },
+  "fomc_2026_04": {
+    "decision": "hold",
+    "targetLower": 3.50,
+    "targetUpper": 3.75,
+    "status": "verified",
+    "publishedAt": "2026-04-29T18:00:00Z",
+    "vintage": "official"
+  },
+  "fomc_2026_06": {
+    "decision": "hold",
+    "targetLower": 3.50,
+    "targetUpper": 3.75,
+    "status": "verified",
+    "publishedAt": "2026-06-17T18:00:00Z",
+    "vintage": "official"
+  },
+  "nfp_2026_04": {
+    "actual": 214,
+    "consensus": 200,
+    "previous": null,
+    "revisedPrevious": null,
+    "surprise": 14,
+    "surpriseDirection": "hawkish",
+    "status": "verified",
+    "publishedAt": "2026-04-03T12:30:00Z",
+    "vintage": "initial_release",
+    "consensusSource": "Bloomberg median"
+  },
+  "nfp_2026_05": {
+    "actual": 148,
+    "consensus": 130,
+    "previous": 214,
+    "revisedPrevious": null,
+    "surprise": 18,
+    "surpriseDirection": "hawkish",
+    "status": "verified",
+    "publishedAt": "2026-05-08T12:30:00Z",
+    "vintage": "initial_release",
+    "consensusSource": "Bloomberg median"
+  },
+  "nfp_2026_06": {
+    "actual": 129,
+    "consensus": 140,
+    "previous": 148,
+    "revisedPrevious": null,
+    "surprise": -11,
+    "surpriseDirection": "dovish",
+    "status": "verified",
+    "publishedAt": "2026-06-05T12:30:00Z",
+    "vintage": "initial_release",
+    "consensusSource": "Bloomberg median"
+  },
+  "nfp_2026_07": {
+    "actual": 57,
+    "consensus": 120,
+    "previous": 129,
+    "revisedPrevious": null,
+    "surprise": -63,
+    "surpriseDirection": "dovish",
+    "status": "verified",
+    "publishedAt": "2026-07-02T12:30:00Z",
+    "vintage": "initial_release",
+    "consensusSource": "Bloomberg median"
+  },
+  "cpi_2026_04": { "status": "estimated" },
+  "cpi_2026_05": { "status": "estimated" },
+  "cpi_2026_06": { "status": "estimated" },
+  "cpi_2026_07": { "status": "pending" },
+  "earnings_nvda_2026_q1": { "status": "estimated" },
+  "earnings_googl_2026_q1": { "status": "estimated" },
+  "earnings_msft_2026_q2": { "status": "pending" },
+  "earnings_aapl_2026_q2": { "status": "pending" },
+  "market_hormuz_2026_02": { "status": "verified" },
+  "market_tariffs_2025_04": { "status": "verified" },
+  "market_scotus_2026_01": { "status": "verified" },
+  "fomc_cut_2025_12": {
+    "decision": "cut_25bp",
+    "targetLower": 3.50,
+    "targetUpper": 3.75,
+    "status": "verified",
+    "publishedAt": "2025-12-17T19:00:00Z",
+    "vintage": "official"
+  }
+}

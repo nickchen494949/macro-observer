@@ -1,0 +1,346 @@
+[
+  {
+    "id": "fomc_2026_01",
+    "scheduled": {
+      "date": "2026-01-28",
+      "time": "14:00",
+      "timezone": "America/New_York",
+      "releaseSession": "MARKET_HOURS",
+      "type": "FOMC_DECISION",
+      "label": "FOMC January 2026",
+      "hasSEP": false,
+      "source": "Federal Reserve",
+      "status": "confirmed",
+      "manual": false
+    },
+    "reactionWindow": "fomc_daily",
+    "affectedMarkets": ["rates", "equities", "fed_path", "gold", "vix"]
+  },
+  {
+    "id": "fomc_2026_03",
+    "scheduled": {
+      "date": "2026-03-18",
+      "time": "14:00",
+      "timezone": "America/New_York",
+      "releaseSession": "MARKET_HOURS",
+      "type": "FOMC_DECISION",
+      "label": "FOMC March 2026",
+      "hasSEP": true,
+      "source": "Federal Reserve",
+      "status": "confirmed",
+      "manual": false
+    },
+    "reactionWindow": "fomc_daily",
+    "affectedMarkets": ["rates", "equities", "fed_path", "gold", "vix"]
+  },
+  {
+    "id": "fomc_2026_04",
+    "scheduled": {
+      "date": "2026-04-29",
+      "time": "14:00",
+      "timezone": "America/New_York",
+      "releaseSession": "MARKET_HOURS",
+      "type": "FOMC_DECISION",
+      "label": "FOMC April 2026",
+      "hasSEP": false,
+      "source": "Federal Reserve",
+      "status": "confirmed",
+      "manual": false
+    },
+    "reactionWindow": "fomc_daily",
+    "affectedMarkets": ["rates", "equities", "fed_path", "gold", "vix"]
+  },
+  {
+    "id": "fomc_2026_06",
+    "scheduled": {
+      "date": "2026-06-17",
+      "time": "14:00",
+      "timezone": "America/New_York",
+      "releaseSession": "MARKET_HOURS",
+      "type": "FOMC_DECISION",
+      "label": "FOMC June 2026",
+      "hasSEP": true,
+      "source": "Federal Reserve",
+      "status": "confirmed",
+      "manual": false
+    },
+    "reactionWindow": "fomc_daily",
+    "affectedMarkets": ["rates", "equities", "fed_path", "gold", "vix"]
+  },
+  {
+    "id": "nfp_2026_04",
+    "scheduled": {
+      "date": "2026-04-03",
+      "time": "08:30",
+      "timezone": "America/New_York",
+      "releaseSession": "PRE_MARKET",
+      "type": "NFP_RELEASE",
+      "label": "NFP April 2026",
+      "hasSEP": false,
+      "source": "BLS",
+      "status": "confirmed",
+      "manual": false
+    },
+    "reactionWindow": "premarket_macro",
+    "affectedMarkets": ["rates", "equities", "fed_path", "gold", "vix"]
+  },
+  {
+    "id": "nfp_2026_05",
+    "scheduled": {
+      "date": "2026-05-08",
+      "time": "08:30",
+      "timezone": "America/New_York",
+      "releaseSession": "PRE_MARKET",
+      "type": "NFP_RELEASE",
+      "label": "NFP May 2026",
+      "hasSEP": false,
+      "source": "BLS",
+      "status": "confirmed",
+      "manual": false
+    },
+    "reactionWindow": "premarket_macro",
+    "affectedMarkets": ["rates", "equities", "fed_path", "gold", "vix"]
+  },
+  {
+    "id": "nfp_2026_06",
+    "scheduled": {
+      "date": "2026-06-05",
+      "time": "08:30",
+      "timezone": "America/New_York",
+      "releaseSession": "PRE_MARKET",
+      "type": "NFP_RELEASE",
+      "label": "NFP June 2026",
+      "hasSEP": false,
+      "source": "BLS",
+      "status": "confirmed",
+      "manual": false
+    },
+    "reactionWindow": "premarket_macro",
+    "affectedMarkets": ["rates", "equities", "fed_path", "gold", "vix"]
+  },
+  {
+    "id": "nfp_2026_07",
+    "scheduled": {
+      "date": "2026-07-02",
+      "time": "08:30",
+      "timezone": "America/New_York",
+      "releaseSession": "PRE_MARKET",
+      "type": "NFP_RELEASE",
+      "label": "NFP July 2026",
+      "hasSEP": false,
+      "source": "BLS",
+      "status": "confirmed",
+      "manual": false
+    },
+    "reactionWindow": "premarket_macro",
+    "affectedMarkets": ["rates", "equities", "fed_path", "gold", "vix"]
+  },
+  {
+    "id": "cpi_2026_04",
+    "scheduled": {
+      "date": "2026-04-10",
+      "time": "08:30",
+      "timezone": "America/New_York",
+      "releaseSession": "PRE_MARKET",
+      "type": "CPI_RELEASE",
+      "label": "CPI April 2026",
+      "hasSEP": false,
+      "source": "BLS",
+      "status": "confirmed",
+      "manual": false
+    },
+    "reactionWindow": "premarket_macro",
+    "affectedMarkets": ["rates", "equities", "fed_path", "gold", "vix"]
+  },
+  {
+    "id": "cpi_2026_05",
+    "scheduled": {
+      "date": "2026-05-12",
+      "time": "08:30",
+      "timezone": "America/New_York",
+      "releaseSession": "PRE_MARKET",
+      "type": "CPI_RELEASE",
+      "label": "CPI May 2026",
+      "hasSEP": false,
+      "source": "BLS",
+      "status": "confirmed",
+      "manual": false
+    },
+    "reactionWindow": "premarket_macro",
+    "affectedMarkets": ["rates", "equities", "fed_path", "gold", "vix"]
+  },
+  {
+    "id": "cpi_2026_06",
+    "scheduled": {
+      "date": "2026-06-10",
+      "time": "08:30",
+      "timezone": "America/New_York",
+      "releaseSession": "PRE_MARKET",
+      "type": "CPI_RELEASE",
+      "label": "CPI June 2026",
+      "hasSEP": false,
+      "source": "BLS",
+      "status": "confirmed",
+      "manual": false
+    },
+    "reactionWindow": "premarket_macro",
+    "affectedMarkets": ["rates", "equities", "fed_path", "gold", "vix"]
+  },
+  {
+    "id": "cpi_2026_07",
+    "scheduled": {
+      "date": "2026-07-14",
+      "time": "08:30",
+      "timezone": "America/New_York",
+      "releaseSession": "PRE_MARKET",
+      "type": "CPI_RELEASE",
+      "label": "CPI July 2026",
+      "hasSEP": false,
+      "source": "BLS",
+      "status": "confirmed",
+      "manual": false
+    },
+    "reactionWindow": "premarket_macro",
+    "affectedMarkets": ["rates", "equities", "fed_path", "gold", "vix"]
+  },
+  {
+    "id": "earnings_nvda_2026_q1",
+    "scheduled": {
+      "date": "2026-05-20",
+      "time": "16:15",
+      "timezone": "America/New_York",
+      "releaseSession": "AFTER_HOURS",
+      "type": "EARNINGS",
+      "label": "NVDA Q1 2026 Earnings",
+      "hasSEP": false,
+      "source": "Company",
+      "status": "confirmed",
+      "manual": false,
+      "indexExposure": {"^IXIC": 0.085, "^GSPC": 0.07, "SOXX": 0.10, "XLK": 0.09}
+    },
+    "reactionWindow": "after_hours_earnings",
+    "affectedMarkets": ["equities", "equities_tech", "vix"]
+  },
+  {
+    "id": "earnings_googl_2026_q1",
+    "scheduled": {
+      "date": "2026-04-29",
+      "time": "16:15",
+      "timezone": "America/New_York",
+      "releaseSession": "AFTER_HOURS",
+      "type": "EARNINGS",
+      "label": "GOOGL Q1 2026 Earnings",
+      "hasSEP": false,
+      "source": "Company",
+      "status": "confirmed",
+      "manual": false,
+      "indexExposure": {"^IXIC": 0.06, "^GSPC": 0.04}
+    },
+    "reactionWindow": "after_hours_earnings",
+    "affectedMarkets": ["equities", "equities_tech", "vix"]
+  },
+  {
+    "id": "earnings_msft_2026_q2",
+    "scheduled": {
+      "date": "2026-07-29",
+      "time": "16:15",
+      "timezone": "America/New_York",
+      "releaseSession": "AFTER_HOURS",
+      "type": "EARNINGS",
+      "label": "MSFT Q2 2026 Earnings",
+      "hasSEP": false,
+      "source": "Company",
+      "status": "confirmed",
+      "manual": false,
+      "indexExposure": {"^IXIC": 0.08, "^GSPC": 0.065, "XLK": 0.10}
+    },
+    "reactionWindow": "after_hours_earnings",
+    "affectedMarkets": ["equities", "equities_tech", "vix"]
+  },
+  {
+    "id": "earnings_aapl_2026_q2",
+    "scheduled": {
+      "date": "2026-07-30",
+      "time": "16:15",
+      "timezone": "America/New_York",
+      "releaseSession": "AFTER_HOURS",
+      "type": "EARNINGS",
+      "label": "AAPL Q2 2026 Earnings",
+      "hasSEP": false,
+      "source": "Company",
+      "status": "confirmed",
+      "manual": false,
+      "indexExposure": {"^IXIC": 0.09, "^GSPC": 0.07, "XLK": 0.11}
+    },
+    "reactionWindow": "after_hours_earnings",
+    "affectedMarkets": ["equities", "equities_tech", "vix"]
+  },
+  {
+    "id": "market_hormuz_2026_02",
+    "scheduled": {
+      "date": "2026-02-25",
+      "time": "12:00",
+      "timezone": "America/New_York",
+      "releaseSession": "MARKET_HOURS",
+      "type": "MARKET_EVENT",
+      "label": "Strait of Hormuz escalation",
+      "hasSEP": false,
+      "source": "News",
+      "status": "confirmed",
+      "manual": true
+    },
+    "reactionWindow": "geopolitical_multi_day",
+    "affectedMarkets": ["commodities_energy", "gold", "vix"]
+  },
+  {
+    "id": "market_tariffs_2025_04",
+    "scheduled": {
+      "date": "2025-04-02",
+      "time": "12:00",
+      "timezone": "America/New_York",
+      "releaseSession": "MARKET_HOURS",
+      "type": "MARKET_EVENT",
+      "label": "Trump reciprocal tariffs",
+      "hasSEP": false,
+      "source": "News",
+      "status": "confirmed",
+      "manual": true
+    },
+    "reactionWindow": "geopolitical_multi_day",
+    "affectedMarkets": ["equities", "commodities_energy", "vix", "gold"]
+  },
+  {
+    "id": "market_scotus_2026_01",
+    "scheduled": {
+      "date": "2026-01-15",
+      "time": "12:00",
+      "timezone": "America/New_York",
+      "releaseSession": "MARKET_HOURS",
+      "type": "MARKET_EVENT",
+      "label": "SCOTUS IEEPA tariff ruling",
+      "hasSEP": false,
+      "source": "News",
+      "status": "confirmed",
+      "manual": true
+    },
+    "reactionWindow": "geopolitical_multi_day",
+    "affectedMarkets": ["equities", "gold"]
+  },
+  {
+    "id": "fomc_cut_2025_12",
+    "scheduled": {
+      "date": "2025-12-17",
+      "time": "14:00",
+      "timezone": "America/New_York",
+      "releaseSession": "MARKET_HOURS",
+      "type": "FOMC_DECISION",
+      "label": "Fed rate cut 25bp",
+      "hasSEP": true,
+      "source": "Federal Reserve",
+      "status": "confirmed",
+      "manual": true
+    },
+    "reactionWindow": "fomc_daily",
+    "affectedMarkets": ["rates", "equities", "fed_path", "gold", "vix"]
+  }
+]

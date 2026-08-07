@@ -1,0 +1,68 @@
+{
+  "rates": {
+    "indicators": ["DGS2", "DGS5", "DGS10", "DGS30", "DFII10", "T10Y3M"],
+    "changeMethod": "difference_bp",
+    "absoluteThreshold": 5,
+    "zThreshold": 1.25,
+    "rollingWindow": 20
+  },
+  "equities": {
+    "indicators": ["^GSPC", "^IXIC", "^DJI", "^RUT"],
+    "changeMethod": "percent_return",
+    "absoluteThreshold": 0.75,
+    "zThreshold": 1.25,
+    "rollingWindow": 20
+  },
+  "equities_cyclical": {
+    "indicators": ["^RUT", "XLF", "XLY", "XLB"],
+    "changeMethod": "percent_return",
+    "absoluteThreshold": 1.0,
+    "zThreshold": 1.25,
+    "rollingWindow": 20
+  },
+  "equities_tech": {
+    "indicators": ["^IXIC", "XLK", "SOXX", "IGV", "MAGS"],
+    "changeMethod": "percent_return",
+    "absoluteThreshold": 1.0,
+    "zThreshold": 1.25,
+    "rollingWindow": 20
+  },
+  "gold": {
+    "indicators": ["GC=F", "GDX"],
+    "changeMethod": "percent_return",
+    "absoluteThreshold": 1.0,
+    "zThreshold": 1.25,
+    "rollingWindow": 20
+  },
+  "vix": {
+    "indicators": ["^VIX"],
+    "changeMethod": "percent_return",
+    "absoluteThreshold": 10,
+    "zThreshold": 1.25,
+    "rollingWindow": 20,
+    "alsoReportPointChange": true
+  },
+  "commodities_energy": {
+    "indicators": ["CL=F", "NG=F", "XLE"],
+    "changeMethod": "percent_return",
+    "absoluteThreshold": 2.0,
+    "zThreshold": 1.25,
+    "rollingWindow": 20,
+    "qualityWarning": "front_month_roll_possible"
+  },
+  "credit": {
+    "indicators": ["BAMLH0A0HYM2"],
+    "label": "US High Yield OAS",
+    "changeMethod": "difference_bp",
+    "absoluteThreshold": 10,
+    "zThreshold": 1.25,
+    "rollingWindow": 20
+  },
+  "fed_path": {
+    "indicators": ["FED_PATH_HISTORY"],
+    "changeMethod": "difference_bp",
+    "absoluteThreshold": 5,
+    "zThreshold": 1.25,
+    "rollingWindow": 20
+  }
+}

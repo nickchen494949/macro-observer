@@ -49,11 +49,12 @@ const SIMPLE_CLUSTERS = [
     { id: 'srf_usage', bad: (v)=>v>1, good: (v)=>v<0, w:1, label: 'SRF Usage' }
   ] },
 
-  
   // Valuation
-  { id: 'valuation', indicators: [
+  { id: 'valuation_level', indicators: [
     { id: 'SP500_PE', bad: (v)=>v>22, good: (v)=>v<18, w:1 },
-    { id: 'SHILLER_CAPE', bad: (v)=>v>30, good: (v)=>v<25, w:1 },
+    { id: 'SHILLER_CAPE', bad: (v)=>v>30, good: (v)=>v<25, w:1 }
+  ] },
+  { id: 'valuation_counterweight', indicators: [
     { id: 'SP500_EPS_GROWTH', bad: (v)=>v<5, good: (v)=>v>10, w:1 }
   ] },
   { id: 'asset_transmission', indicators: [{ id: 'tip_yield_10y_tips', bad: (v)=>v>2.0, good: (v)=>v<1.5, w:1 }, { id: '-_hy-ig', bad: (v)=>v>400, good: (v)=>v<250, w:1 }] }
@@ -97,9 +98,9 @@ SIMPLE_CLUSTERS.forEach(sc => {
           
           if (ind.bad(d.current)) {
             score += ind.w;
-            ev.push(`${d.label} bad (${d.current.toFixed?d.current.toFixed(1):d.current})`);
+            ev.push(`${d.label} flagged (${d.current.toFixed?d.current.toFixed(1):d.current})`);
           } else if (ind.good(d.current)) {
-            cev.push(ind.labelGood ? ind.labelGood : `${d.label} good (${d.current.toFixed?d.current.toFixed(1):d.current})`);
+            cev.push(ind.labelGood ? ind.labelGood : `${d.label} stable (${d.current.toFixed?d.current.toFixed(1):d.current})`);
           } else {
             score += ind.w * 0.5;
           }
@@ -176,7 +177,7 @@ Object.assign(CLUSTER_REGISTRY, {
         obsDate = sahm.lastObsDate;
         if (sahm.current >= 0.5) { score += 2; ev.push(`Sahm Rule Triggered (${sahm.current}pp)`); }
         else if (sahm.current >= 0.3) { score += 1; ev.push(`Sahm Rule Elevated (${sahm.current}pp)`); }
-        else { cev.push(`Sahm Rule safe (${sahm.current}pp)`); }
+        else { cev.push(`Sahm Rule normal (${sahm.current}pp)`); }
       } else { miss.push('Sahm Rule'); }
 
       const unrate = dataMap.get('unemployment');
@@ -315,14 +316,17 @@ Object.assign(CLUSTER_REGISTRY, {
       let ev = [], cev = [], miss = [];
       let latestDay = null;
       let obsDate = null;
-      const vix = dataMap.get('^vix');
+      const vix = dataMap.get('VIX');
       if (vix && vix.current !== null) {
         maxScore += 1;
         latestDay = vix.daysSinceObs;
         obsDate = vix.lastObsDate;
+        // VIX >30 = confirmed damage/panic
+        // VIX 25-30 = elevated stress, partial score
+        // VIX <25 = calm, counter-evidence of damage
         if (vix.current > 30) { score += 1; ev.push(`VIX High (${vix.current.toFixed(1)})`); }
-        else if (vix.current < 15) { cev.push(`VIX Low (${vix.current.toFixed(1)})`); }
-        else { score += 0.5; }
+        else if (vix.current > 25) { score += 0.5; ev.push(`VIX Elevated (${vix.current.toFixed(1)})`); }
+        else { cev.push(`VIX Calm (${vix.current.toFixed(1)})`); }
       } else {
         miss.push('VIX');
       }
@@ -397,16 +401,34 @@ function evaluateDiagnostics(allDataList) {
   const inflation = {
     question: "Inflation Dynamics (通胀动态)",
     stages: [
-      { name: "Level (水平)", ...aggregateStages([clusters.trend_inflation, clusters.housing_inflation, clusters.inflation_breadth]) },
+      { name: "Level (水平)", ...(() => {
+        const res = aggregateStages([clusters.trend_inflation, clusters.housing_inflation, clusters.inflation_breadth]);
+        // Core PCE is the primary Level indicator — override dilution from breadth
+        // ≤2.5% = near target, 2.5-3.0% = elevated, 3.0-4.0% = high, >4.0% = very high
+        const corePCE = allDataList.find(d => d.id === 'core_pce_yoy')?.current;
+        if (corePCE != null) {
+          if (corePCE > 3.0) {
+            // 3.0%+ = at least red (Elevated/High) — breadth cannot dilute headline below this
+            if (res.status !== 'red') { res.status = 'red'; res.score = Math.max(res.score, 0.7); }
+          } else if (corePCE > 2.5) {
+            // 2.5-3.0% = at least yellow (Moderate/Elevated)
+            if (res.status === 'green') { res.status = 'yellow'; res.score = Math.max(res.score, 0.5); }
+          }
+        }
+        return res;
+      })() },
       { name: "Direction (方向)", ...aggregateStages([clusters.inflationMomentum, clusters.cost_push]) },
       { name: "Transmission (传导)", ...(() => {
         const res = aggregateStages([clusters.wages, clusters.market_exp]);
-        if (res.evidence.length === 0 && res.counterEvidence.length === 0) {
+        if (res.evidence.length === 0) {
           const w = allDataList.find(d => d.id === 'avg_hourly_wage_yoy')?.current;
           const u = allDataList.find(d => d.id === 'unit_labor_cost_yoy')?.current;
           const b = allDataList.find(d => d.id === '10y_breakeven_inflation')?.current;
           const f = allDataList.find(d => d.id === '5y5y_inflation_forward')?.current;
           res.counterEvidence = [`Transmission limited: wages moderate (${w ? w.toFixed(2) : '—'}%), ULC low (${u ? u.toFixed(2) : '—'}%), expectations anchored (BE ${b ? b.toFixed(2) : '—'}%, 5Y5Y ${f ? f.toFixed(2) : '—'}%)`];
+          // FIX: No evidence + explicit counter-evidence = transmission NOT confirmed
+          res.status = 'green';
+          res.score = 0.2;
         }
         return res;
       })() }
@@ -424,8 +446,11 @@ function evaluateDiagnostics(allDataList) {
   };
 
   // Cap Credit confidence if missing critical damage indicators
-  if (credit.stages[2].missing.includes('charge_offs') || credit.stages[2].missing.includes('bank_equity_stress')) {
-    credit.stages.forEach(s => s.confidence = Math.min(s.confidence, 60)); // Medium
+  if (credit.stages[2].missing.includes('Charge-offs') || credit.stages[2].missing.includes('Bank Equity Stress')) {
+    credit.stages.forEach(s => {
+      s.confidence = Math.min(s.confidence, 60);
+      s.confidenceReason = 'Critical variable missing: Charge-offs / Bank Equity Stress';
+    });
   }
 
   // 4. Long-End Financing Pressure
@@ -434,13 +459,16 @@ function evaluateDiagnostics(allDataList) {
     stages: [
       { name: "Pressure", ...aggregateStages([clusters.supply_pressure, clusters.term_premium]) },
       { name: "Transmission", ...aggregateStages([clusters.real_financing, clusters.curve_steepness]) },
-      { name: "Damage", ...aggregateStages([clusters.fiscal_sustainability]) }
+      { name: "Fiscal Burden", ...aggregateStages([clusters.fiscal_sustainability]) }
     ]
   };
   
   // Cap Long-End confidence due to proxy/model-based data and missing issuance
-  if (longEnd.stages[0].missing.includes('treasury_net_issuance')) {
-    longEnd.stages.forEach(s => s.confidence = Math.min(s.confidence, 80)); // Medium-High
+  if (longEnd.stages[0].missing.includes('Treasury Net Issuance')) {
+    longEnd.stages.forEach(s => {
+      s.confidence = Math.min(s.confidence, 60);
+      s.confidenceReason = 'Critical variable missing: Treasury Net Issuance';
+    });
   }
 
   // 5. Liquidity Pressure
@@ -451,8 +479,10 @@ function evaluateDiagnostics(allDataList) {
       { name: "Transmission", ...aggregateStages([clusters.bank_liquidity, clusters.funding_stress]) },
       { name: "Damage", ...(() => {
         const res = aggregateStages([clusters.liquidity_damage]);
-        if (res.status === 'unknown') {
+        if (res.status === 'unknown' || res.status === 'green') {
+          res.status = 'unknown'; // Override to unknown because data is pending
           res.evidence = ['Unknown — insufficient market-functioning data (Repo/SRF pending)'];
+          res.confidence = 0;
         }
         return res;
       })() }
@@ -519,9 +549,10 @@ function evaluateDiagnostics(allDataList) {
   const valuation = {
     question: "Asset Valuation Vulnerability (资产估值脆弱性)",
     stages: [
-      { name: "Pressure", ...aggregateStages([clusters.valuation]) },
-      { name: "Transmission", ...aggregateStages([clusters.asset_transmission]) },
-      { name: "Damage", ...(() => {
+      { name: "Level", ...aggregateStages([clusters.valuation_level]) },
+      { name: "Counterweight", ...aggregateStages([clusters.valuation_counterweight]) },
+      { name: "Transmission Pressure", ...aggregateStages([clusters.asset_transmission]) },
+      { name: "Repricing Damage", ...(() => {
         const res = aggregateStages([clusters.asset_damage]);
         if (res.status !== 'red' && res.status !== 'yellow') {
           res.counterEvidence = ['No repricing damage yet — S&P near highs'];

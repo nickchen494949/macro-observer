@@ -1,0 +1,864 @@
+{
+  "recession": {
+    "question": "Demand-driven Recession (需求型衰退)",
+    "stages": [
+      {
+        "name": "Pressure",
+        "status": "yellow",
+        "score": 0.42142857142857143,
+        "evidence": [
+          "Private Payrolls weak (+49k)",
+          "NFP confirms weak (+57k)",
+          "Quits weak",
+          "Consumer Sentiment bad (49.5)"
+        ],
+        "counterEvidence": [
+          "Agg Weekly Hours 总工时 (YoY) good (0.9)",
+          "Mfg P&NS Avg Weekly Hrs good (41.6)",
+          "Initial Claims good (197.0)",
+          "Core Capex Orders (YoY, NSA) good (12.5)"
+        ],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 60,
+        "obsDate": "2026-07-25"
+      },
+      {
+        "name": "Transmission",
+        "status": "red",
+        "score": 1,
+        "evidence": [
+          "Agg Weekly Payrolls 实际总周薪 (YoY) bad (0.7)"
+        ],
+        "counterEvidence": [],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 60,
+        "obsDate": "2026-06-01"
+      },
+      {
+        "name": "Damage",
+        "status": "green",
+        "score": 0.0625,
+        "evidence": [],
+        "counterEvidence": [
+          "Real PCE (MoM) good (0.4)",
+          "Industrial Production (YoY) good (1.1)",
+          "Sahm Rule safe (0.07pp)",
+          "Unemployment Low (4.2%)",
+          "Atlanta Fed GDPNow 亚特兰大联储 good (5.9)"
+        ],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 60,
+        "obsDate": "2026-07-01"
+      }
+    ]
+  },
+  "inflation": {
+    "question": "Inflation Dynamics (通胀动态)",
+    "stages": [
+      {
+        "name": "Level (水平)",
+        "status": "yellow",
+        "score": 0.6666666666666666,
+        "evidence": [
+          "Core PCE 通胀 (YoY) bad (3.3)"
+        ],
+        "counterEvidence": [],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 100,
+        "obsDate": "2026-06-01"
+      },
+      {
+        "name": "Direction (方向)",
+        "status": "yellow",
+        "score": 0.5833333333333333,
+        "evidence": [
+          "PCE 6M Hot (3.8%)",
+          "Import Prices 进口价格 (YoY) bad (7.1)",
+          "PPI Final Demand (YoY) bad (5.5)"
+        ],
+        "counterEvidence": [
+          "Median CPI 1M Ann Low",
+          "16% Trimmed CPI 1M Ann Low",
+          "CPI Core Goods (YoY) good (0.8)"
+        ],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 60,
+        "obsDate": "2026-06-01"
+      },
+      {
+        "name": "Transmission (传导)",
+        "status": "yellow",
+        "score": 0.5,
+        "evidence": [],
+        "counterEvidence": [
+          "Transmission limited: wages moderate (3.52%), ULC low (0.49%), expectations anchored (BE 2.28%, 5Y5Y 2.31%)"
+        ],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 100,
+        "obsDate": "2026-06-01"
+      }
+    ]
+  },
+  "credit": {
+    "question": "Credit Tightening (信贷紧缩)",
+    "stages": [
+      {
+        "name": "Pressure",
+        "status": "green",
+        "score": 0.125,
+        "evidence": [],
+        "counterEvidence": [
+          "Standards unchanged/easing",
+          "Demand strengthening/stable"
+        ],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 100,
+        "obsDate": "2026-07-01"
+      },
+      {
+        "name": "Transmission",
+        "status": "green",
+        "score": 0,
+        "evidence": [],
+        "counterEvidence": [
+          "(垃圾-优质) 利差 HY-IG good (206.0)",
+          "Chicago Fed NFCI good (-0.6)",
+          "C&I Loans (YoY) good (8.0)",
+          "Consumer Loans (YoY) good (3.7)"
+        ],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 100,
+        "obsDate": "2026-07-24"
+      },
+      {
+        "name": "Damage",
+        "status": "green",
+        "score": 0.25,
+        "evidence": [
+          "Charge-Off Rate bad (3.8)"
+        ],
+        "counterEvidence": [
+          "CC Delinquency Rate good (2.9)",
+          "Mortgage Delinquency Rate good (1.9)",
+          "Bank Equity Stress (SP500 - KRE) good (4.2)"
+        ],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 60,
+        "obsDate": "2026-01-01"
+      }
+    ]
+  },
+  "longEnd": {
+    "question": "Long-End Financing Pressure (长端融资压力)",
+    "stages": [
+      {
+        "name": "Pressure",
+        "status": "red",
+        "score": 1,
+        "evidence": [
+          "10Y ACM Term Premium (Model Est.) bad (0.8)"
+        ],
+        "counterEvidence": [],
+        "missing": [
+          "Treasury Net Issuance"
+        ],
+        "coverage": 50,
+        "confidence": 50,
+        "obsDate": null
+      },
+      {
+        "name": "Transmission",
+        "status": "red",
+        "score": 0.75,
+        "evidence": [
+          "TIP Yield (10Y TIPS) bad (2.5)"
+        ],
+        "counterEvidence": [],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 100,
+        "obsDate": null
+      },
+      {
+        "name": "Damage",
+        "status": "red",
+        "score": 1,
+        "evidence": [
+          "Federal Interest Exp / GDP bad (3.8)",
+          "Federal Interest Exp / Receipts bad (34.2)"
+        ],
+        "counterEvidence": [],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 100,
+        "obsDate": "2026-04-01"
+      }
+    ]
+  },
+  "liquidity": {
+    "question": "Liquidity Pressure (流动性压力)",
+    "stages": [
+      {
+        "name": "Pressure",
+        "status": "yellow",
+        "score": 0.5,
+        "evidence": [
+          "RRP Buffer limited (2B)"
+        ],
+        "counterEvidence": [],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 100,
+        "obsDate": "2026-08-03"
+      },
+      {
+        "name": "Transmission",
+        "status": "green",
+        "score": 0.25,
+        "evidence": [],
+        "counterEvidence": [
+          "(SOFR-IORB) 利差 good (0.0)"
+        ],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 100,
+        "obsDate": "2026-07-29"
+      },
+      {
+        "name": "Damage",
+        "status": "unknown",
+        "evidence": [
+          "Unknown — insufficient market-functioning data (Repo/SRF pending)"
+        ],
+        "counterEvidence": [],
+        "missing": [
+          "Repo Fails",
+          "SRF Usage"
+        ],
+        "coverage": 0,
+        "confidence": 0,
+        "obsDate": null
+      }
+    ]
+  },
+  "stagflation": {
+    "question": "Stagflation Risk (滞胀风险)",
+    "stages": [
+      {
+        "name": "Macro Divergence",
+        "status": "yellow",
+        "score": 0.5023809523809524,
+        "evidence": [
+          "Private Payrolls weak (+49k)",
+          "NFP confirms weak (+57k)",
+          "Quits weak",
+          "Consumer Sentiment bad (49.5)",
+          "PCE 6M Hot (3.8%)",
+          "Import Prices 进口价格 (YoY) bad (7.1)",
+          "PPI Final Demand (YoY) bad (5.5)"
+        ],
+        "counterEvidence": [
+          "Agg Weekly Hours 总工时 (YoY) good (0.9)",
+          "Mfg P&NS Avg Weekly Hrs good (41.6)",
+          "Initial Claims good (197.0)",
+          "Core Capex Orders (YoY, NSA) good (12.5)",
+          "Median CPI 1M Ann Low",
+          "16% Trimmed CPI 1M Ann Low",
+          "CPI Core Goods (YoY) good (0.8)"
+        ],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 60,
+        "obsDate": "2026-07-25"
+      },
+      {
+        "name": "Policy Constraint (Inference)",
+        "status": "yellow",
+        "score": 0.5,
+        "evidence": [
+          "Constraint: Moderate"
+        ],
+        "counterEvidence": [],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 100,
+        "obsDate": null
+      },
+      {
+        "name": "Stagflation Status",
+        "status": "green",
+        "score": 0.3645833333333333,
+        "evidence": [
+          "Risk: Low"
+        ],
+        "counterEvidence": [],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 100,
+        "obsDate": null
+      }
+    ]
+  },
+  "valuation": {
+    "question": "Asset Valuation Vulnerability (资产估值脆弱性)",
+    "stages": [
+      {
+        "name": "Pressure",
+        "status": "yellow",
+        "score": 0.6666666666666666,
+        "evidence": [
+          "  └ S&P 500 PE Ratio bad (28.1)",
+          "  └ Shiller CAPE Ratio bad (41.9)"
+        ],
+        "counterEvidence": [
+          "  └ S&P 500 EPS Growth (YoY) good (16.9)"
+        ],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 50,
+        "obsDate": "2026-07-16"
+      },
+      {
+        "name": "Transmission",
+        "status": "yellow",
+        "score": 0.5,
+        "evidence": [
+          "TIP Yield (10Y TIPS) bad (2.5)"
+        ],
+        "counterEvidence": [
+          "(垃圾-优质) 利差 HY-IG good (206.0)"
+        ],
+        "missing": [],
+        "coverage": 100,
+        "confidence": 50,
+        "obsDate": null
+      },
+      {
+        "name": "Damage",
+        "status": "unknown",
+        "evidence": [],
+        "counterEvidence": [
+          "No repricing damage yet — S&P near highs"
+        ],
+        "missing": [
+          "VIX",
+          "Market Breadth"
+        ],
+        "coverage": 0,
+        "confidence": 0,
+        "obsDate": null
+      }
+    ]
+  },
+  "clusters": {
+    "layoffs": {
+      "status": "green",
+      "score": 0.25,
+      "value": 0.25,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 10,
+      "obsDate": "2026-07-25",
+      "evidence": [],
+      "counterEvidence": [
+        "Initial Claims good (197.0)"
+      ],
+      "missing": []
+    },
+    "hours": {
+      "status": "green",
+      "score": 0,
+      "value": 0,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 64,
+      "obsDate": "2026-06-01",
+      "evidence": [],
+      "counterEvidence": [
+        "Agg Weekly Hours 总工时 (YoY) good (0.9)",
+        "Mfg P&NS Avg Weekly Hrs good (41.6)"
+      ],
+      "missing": []
+    },
+    "income": {
+      "status": "red",
+      "score": 1,
+      "value": 1,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 64,
+      "obsDate": "2026-06-01",
+      "evidence": [
+        "Agg Weekly Payrolls 实际总周薪 (YoY) bad (0.7)"
+      ],
+      "counterEvidence": [],
+      "missing": []
+    },
+    "demand": {
+      "status": "green",
+      "score": 0.25,
+      "value": 0.25,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 64,
+      "obsDate": "2026-06-01",
+      "evidence": [],
+      "counterEvidence": [
+        "Real PCE (MoM) good (0.4)"
+      ],
+      "missing": []
+    },
+    "production": {
+      "status": "green",
+      "score": 0,
+      "value": 0,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 64,
+      "obsDate": "2026-06-01",
+      "evidence": [],
+      "counterEvidence": [
+        "Industrial Production (YoY) good (1.1)"
+      ],
+      "missing": []
+    },
+    "investment": {
+      "status": "green",
+      "score": 0,
+      "value": 0,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 64,
+      "obsDate": "2026-06-01",
+      "evidence": [],
+      "counterEvidence": [
+        "Core Capex Orders (YoY, NSA) good (12.5)"
+      ],
+      "missing": []
+    },
+    "sentiment": {
+      "status": "red",
+      "score": 1,
+      "value": 1,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 64,
+      "obsDate": "2026-06-01",
+      "evidence": [
+        "Consumer Sentiment bad (49.5)"
+      ],
+      "counterEvidence": [],
+      "missing": []
+    },
+    "output": {
+      "status": "green",
+      "score": 0,
+      "value": 0,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 34,
+      "obsDate": "2026-07-01",
+      "evidence": [],
+      "counterEvidence": [
+        "Atlanta Fed GDPNow 亚特兰大联储 good (5.9)"
+      ],
+      "missing": []
+    },
+    "trend_inflation": {
+      "status": "red",
+      "score": 1,
+      "value": 1,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 64,
+      "obsDate": "2026-06-01",
+      "evidence": [
+        "Core PCE 通胀 (YoY) bad (3.3)"
+      ],
+      "counterEvidence": [],
+      "missing": []
+    },
+    "inflation_breadth": {
+      "status": "yellow",
+      "score": 0.5,
+      "value": 0.5,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 64,
+      "obsDate": "2026-06-01",
+      "evidence": [],
+      "counterEvidence": [],
+      "missing": []
+    },
+    "wages": {
+      "status": "yellow",
+      "score": 0.5,
+      "value": 0.5,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 64,
+      "obsDate": "2026-06-01",
+      "evidence": [],
+      "counterEvidence": [],
+      "missing": []
+    },
+    "cost_push": {
+      "status": "yellow",
+      "score": 0.6666666666666666,
+      "value": 0.6666666666666666,
+      "coverage": 100,
+      "confidence": 60,
+      "freshnessDays": 64,
+      "obsDate": "2026-06-01",
+      "evidence": [
+        "Import Prices 进口价格 (YoY) bad (7.1)",
+        "PPI Final Demand (YoY) bad (5.5)"
+      ],
+      "counterEvidence": [
+        "CPI Core Goods (YoY) good (0.8)"
+      ],
+      "missing": []
+    },
+    "housing_inflation": {
+      "status": "yellow",
+      "score": 0.5,
+      "value": 0.5,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 64,
+      "obsDate": "2026-06-01",
+      "evidence": [],
+      "counterEvidence": [],
+      "missing": []
+    },
+    "market_exp": {
+      "status": "yellow",
+      "score": 0.5,
+      "value": 0.5,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": null,
+      "obsDate": null,
+      "evidence": [],
+      "counterEvidence": [],
+      "missing": []
+    },
+    "lending_standards": {
+      "status": "green",
+      "score": 0.25,
+      "value": 0.25,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 34,
+      "obsDate": "2026-07-01",
+      "evidence": [],
+      "counterEvidence": [
+        "Standards unchanged/easing"
+      ],
+      "missing": []
+    },
+    "lending_demand": {
+      "status": "green",
+      "score": 0,
+      "value": 0,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 34,
+      "obsDate": "2026-07-01",
+      "evidence": [],
+      "counterEvidence": [
+        "Demand strengthening/stable"
+      ],
+      "missing": []
+    },
+    "credit_pricing": {
+      "status": "green",
+      "score": 0,
+      "value": 0,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": null,
+      "obsDate": null,
+      "evidence": [],
+      "counterEvidence": [
+        "(垃圾-优质) 利差 HY-IG good (206.0)"
+      ],
+      "missing": []
+    },
+    "bank_lending": {
+      "status": "green",
+      "score": 0,
+      "value": 0,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 64,
+      "obsDate": "2026-06-01",
+      "evidence": [],
+      "counterEvidence": [
+        "C&I Loans (YoY) good (8.0)",
+        "Consumer Loans (YoY) good (3.7)"
+      ],
+      "missing": []
+    },
+    "broad_fincon": {
+      "status": "green",
+      "score": 0,
+      "value": 0,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 11,
+      "obsDate": "2026-07-24",
+      "evidence": [],
+      "counterEvidence": [
+        "Chicago Fed NFCI good (-0.6)"
+      ],
+      "missing": []
+    },
+    "credit_damage": {
+      "status": "green",
+      "score": 0.25,
+      "value": 0.25,
+      "coverage": 100,
+      "confidence": 60,
+      "freshnessDays": null,
+      "obsDate": "2026-01-01",
+      "evidence": [
+        "Charge-Off Rate bad (3.8)"
+      ],
+      "counterEvidence": [
+        "CC Delinquency Rate good (2.9)",
+        "Mortgage Delinquency Rate good (1.9)",
+        "Bank Equity Stress (SP500 - KRE) good (4.2)"
+      ],
+      "missing": []
+    },
+    "supply_pressure": {
+      "status": "unknown",
+      "score": 0,
+      "value": null,
+      "coverage": 0,
+      "confidence": 0,
+      "freshnessDays": null,
+      "obsDate": null,
+      "evidence": [],
+      "counterEvidence": [],
+      "missing": [
+        "Treasury Net Issuance"
+      ]
+    },
+    "term_premium": {
+      "status": "red",
+      "score": 1,
+      "value": 1,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": null,
+      "obsDate": null,
+      "evidence": [
+        "10Y ACM Term Premium (Model Est.) bad (0.8)"
+      ],
+      "counterEvidence": [],
+      "missing": []
+    },
+    "real_financing": {
+      "status": "red",
+      "score": 1,
+      "value": 1,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": null,
+      "obsDate": null,
+      "evidence": [
+        "TIP Yield (10Y TIPS) bad (2.5)"
+      ],
+      "counterEvidence": [],
+      "missing": []
+    },
+    "fiscal_sustainability": {
+      "status": "red",
+      "score": 1,
+      "value": 1,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 125,
+      "obsDate": "2026-04-01",
+      "evidence": [
+        "Federal Interest Exp / GDP bad (3.8)",
+        "Federal Interest Exp / Receipts bad (34.2)"
+      ],
+      "counterEvidence": [],
+      "missing": []
+    },
+    "funding_stress": {
+      "status": "green",
+      "score": 0,
+      "value": 0,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": null,
+      "obsDate": null,
+      "evidence": [],
+      "counterEvidence": [
+        "(SOFR-IORB) 利差 good (0.0)"
+      ],
+      "missing": []
+    },
+    "bank_liquidity": {
+      "status": "yellow",
+      "score": 0.5,
+      "value": 0.5,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 6,
+      "obsDate": "2026-07-29",
+      "evidence": [],
+      "counterEvidence": [],
+      "missing": []
+    },
+    "liquidity_damage": {
+      "status": "unknown",
+      "score": 0,
+      "value": null,
+      "coverage": 0,
+      "confidence": 0,
+      "freshnessDays": null,
+      "obsDate": null,
+      "evidence": [],
+      "counterEvidence": [],
+      "missing": [
+        "Repo Fails",
+        "SRF Usage"
+      ]
+    },
+    "valuation": {
+      "status": "yellow",
+      "score": 0.6666666666666666,
+      "value": 0.6666666666666666,
+      "coverage": 100,
+      "confidence": 60,
+      "freshnessDays": 19,
+      "obsDate": "2026-07-16",
+      "evidence": [
+        "  └ S&P 500 PE Ratio bad (28.1)",
+        "  └ Shiller CAPE Ratio bad (41.9)"
+      ],
+      "counterEvidence": [
+        "  └ S&P 500 EPS Growth (YoY) good (16.9)"
+      ],
+      "missing": []
+    },
+    "asset_transmission": {
+      "status": "yellow",
+      "score": 0.5,
+      "value": 0.5,
+      "coverage": 100,
+      "confidence": 60,
+      "freshnessDays": null,
+      "obsDate": null,
+      "evidence": [
+        "TIP Yield (10Y TIPS) bad (2.5)"
+      ],
+      "counterEvidence": [
+        "(垃圾-优质) 利差 HY-IG good (206.0)"
+      ],
+      "missing": []
+    },
+    "hiring": {
+      "status": "red",
+      "score": 0.8571428571428571,
+      "value": 0.8571428571428571,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 64,
+      "obsDate": "2026-06-01",
+      "evidence": [
+        "Private Payrolls weak (+49k)",
+        "NFP confirms weak (+57k)",
+        "Quits weak"
+      ],
+      "counterEvidence": [],
+      "missing": []
+    },
+    "unemployment": {
+      "status": "green",
+      "score": 0,
+      "value": 0,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 64,
+      "obsDate": "2026-06-01",
+      "evidence": [],
+      "counterEvidence": [
+        "Sahm Rule safe (0.07pp)",
+        "Unemployment Low (4.2%)"
+      ],
+      "missing": []
+    },
+    "inflationMomentum": {
+      "status": "yellow",
+      "score": 0.5,
+      "value": 0.5,
+      "coverage": 100,
+      "confidence": 60,
+      "freshnessDays": 64,
+      "obsDate": "2026-06-01",
+      "evidence": [
+        "PCE 6M Hot (3.8%)"
+      ],
+      "counterEvidence": [
+        "Median CPI 1M Ann Low",
+        "16% Trimmed CPI 1M Ann Low"
+      ],
+      "missing": []
+    },
+    "reserve_supply_drivers": {
+      "status": "yellow",
+      "score": 0.5,
+      "value": 0.5,
+      "coverage": 100,
+      "confidence": 100,
+      "freshnessDays": 1,
+      "obsDate": "2026-08-03",
+      "evidence": [
+        "RRP Buffer limited (2B)"
+      ],
+      "counterEvidence": [],
+      "missing": []
+    },
+    "curve_steepness": {
+      "status": "yellow",
+      "score": 0.5,
+      "value": 0.5,
+      "coverage": 100,
+      "confidence": 100,
+      "obsDate": null,
+      "evidence": [],
+      "counterEvidence": [],
+      "missing": []
+    },
+    "asset_damage": {
+      "status": "unknown",
+      "score": 0,
+      "value": null,
+      "coverage": 0,
+      "confidence": 0,
+      "freshnessDays": null,
+      "obsDate": null,
+      "evidence": [],
+      "counterEvidence": [],
+      "missing": [
+        "VIX",
+        "Market Breadth"
+      ]
+    }
+  }
+}

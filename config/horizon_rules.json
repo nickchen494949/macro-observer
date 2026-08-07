@@ -1,0 +1,98 @@
+{
+  "frequencies": {
+    "daily_markets": {
+      "shortTerm": 5,
+      "mediumTerm": 21,
+      "longTerm": 126
+    },
+    "weekly": {
+      "shortTerm": 4,
+      "mediumTerm": 13,
+      "longTerm": 26
+    },
+    "monthly_macro": {
+      "shortTerm": 1,
+      "mediumTerm": 3,
+      "longTerm": 12
+    },
+    "quarterly_macro": {
+      "shortTerm": 1,
+      "mediumTerm": 2,
+      "longTerm": 4
+    }
+  },
+  "materialityFilters": {
+    "rates": {
+      "unit": "bp",
+      "thresholds": {
+        "shortTerm": 3,
+        "mediumTerm": 10,
+        "longTerm": 25
+      }
+    },
+    "equities": {
+      "unit": "pct",
+      "thresholds": {
+        "shortTerm": 0.4,
+        "mediumTerm": 2.0,
+        "longTerm": 5.0
+      }
+    },
+    "commodities": {
+      "unit": "pct",
+      "thresholds": {
+        "shortTerm": 1.0,
+        "mediumTerm": 3.0,
+        "longTerm": 10.0
+      }
+    },
+    "macro_pct_point": {
+      "unit": "abs",
+      "thresholds": {
+        "shortTerm": 0.2,
+        "mediumTerm": 0.5,
+        "longTerm": 1.0
+      }
+    },
+    "flows_absolute": {
+      "unit": "abs",
+      "thresholds": {
+        "shortTerm": 10,
+        "mediumTerm": 30,
+        "longTerm": 50
+      }
+    },
+    "flows_large": {
+      "unit": "abs",
+      "thresholds": {
+        "shortTerm": 20000,
+        "mediumTerm": 50000,
+        "longTerm": 100000
+      }
+    },
+    "flows_billions": {
+      "unit": "abs",
+      "thresholds": {
+        "shortTerm": 20,
+        "mediumTerm": 50,
+        "longTerm": 100
+      }
+    },
+    "nowcast": {
+      "unit": "abs",
+      "thresholds": {
+        "shortTerm": 0.3,
+        "mediumTerm": 0.5,
+        "longTerm": 1.0
+      }
+    },
+    "sentiment": {
+      "unit": "abs",
+      "thresholds": {
+        "shortTerm": 2.0,
+        "mediumTerm": 5.0,
+        "longTerm": 10.0
+      }
+    }
+  }
+}

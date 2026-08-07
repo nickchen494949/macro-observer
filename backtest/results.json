@@ -1,0 +1,128 @@
+{
+  "volControl": {
+    "name": "Vol-Control",
+    "count": 2908,
+    "ic5d": -0.04526626142919878,
+    "buckets": [
+      {
+        "bucket": 1,
+        "name": "Strong Sell",
+        "count": 581,
+        "avgRet5d": 0.0018950981755867108,
+        "avgRet20d": 0.01012651384357095
+      },
+      {
+        "bucket": 2,
+        "name": "Mild Sell",
+        "count": 581,
+        "avgRet5d": 0.0033266772183578523,
+        "avgRet20d": 0.01315876111900438
+      },
+      {
+        "bucket": 3,
+        "name": "Neutral",
+        "count": 581,
+        "avgRet5d": 0.001944071203696554,
+        "avgRet20d": 0.008747866980829539
+      },
+      {
+        "bucket": 4,
+        "name": "Mild Buy",
+        "count": 581,
+        "avgRet5d": 0.0012654307398384374,
+        "avgRet20d": 0.007400263866243973
+      },
+      {
+        "bucket": 5,
+        "name": "Strong Buy",
+        "count": 584,
+        "avgRet5d": 0.001783613262695148,
+        "avgRet20d": 0.008139752622504014
+      }
+    ]
+  },
+  "cta": {
+    "name": "CTA Trend",
+    "count": 2908,
+    "ic5d": -0.0009697709535381579,
+    "buckets": [
+      {
+        "bucket": 1,
+        "name": "Strong Sell",
+        "count": 581,
+        "avgRet5d": 0.0007301508915292666,
+        "avgRet20d": 0.005026817865174572
+      },
+      {
+        "bucket": 2,
+        "name": "Mild Sell",
+        "count": 581,
+        "avgRet5d": 0.00248995466077799,
+        "avgRet20d": 0.010841089400514946
+      },
+      {
+        "bucket": 3,
+        "name": "Neutral",
+        "count": 581,
+        "avgRet5d": 0.0036931057077785813,
+        "avgRet20d": 0.013115369501155529
+      },
+      {
+        "bucket": 4,
+        "name": "Mild Buy",
+        "count": 581,
+        "avgRet5d": 0.003250410466200883,
+        "avgRet20d": 0.012559409736850064
+      },
+      {
+        "bucket": 5,
+        "name": "Strong Buy",
+        "count": 584,
+        "avgRet5d": 0.00006016790328253938,
+        "avgRet20d": 0.006041307274488828
+      }
+    ]
+  },
+  "riskParity": {
+    "name": "Risk Parity (Target: Eq-Bond 5d Return)",
+    "count": 2887,
+    "ic5d": -0.016676898797725083,
+    "buckets": [
+      {
+        "bucket": 1,
+        "name": "Strong Sell",
+        "count": 577,
+        "avgRet5d": 0.002107190742342595,
+        "avgRet20d": 0.0060981710244814025
+      },
+      {
+        "bucket": 2,
+        "name": "Mild Sell",
+        "count": 577,
+        "avgRet5d": 0.0026351098351155696,
+        "avgRet20d": 0.010654684400033428
+      },
+      {
+        "bucket": 3,
+        "name": "Neutral",
+        "count": 577,
+        "avgRet5d": 0.002295936342086618,
+        "avgRet20d": 0.008647833114658516
+      },
+      {
+        "bucket": 4,
+        "name": "Mild Buy",
+        "count": 577,
+        "avgRet5d": 0.0023724083493530616,
+        "avgRet20d": 0.010715824397128398
+      },
+      {
+        "bucket": 5,
+        "name": "Strong Buy",
+        "count": 579,
+        "avgRet5d": 0.0022824635472644805,
+        "avgRet20d": 0.011192261776162971
+      }
+    ]
+  }
+}

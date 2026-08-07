@@ -1,0 +1,27 @@
+{
+  "premarket_macro": {
+    "description": "CPI, NFP, PCE released 08:30 ET before open",
+    "immediate": { "before": "previous_close", "after": "same_day_close" },
+    "followThrough": { "before": "previous_close", "after": "plus_3_trading_days_close" }
+  },
+  "fomc_daily": {
+    "description": "FOMC at 14:00 ET, daily data only",
+    "immediate": { "before": "previous_close", "after": "same_day_close" },
+    "followThrough": { "before": "previous_close", "after": "next_day_close" }
+  },
+  "after_hours_earnings": {
+    "description": "Earnings after 16:00 ET, reaction is next trading day",
+    "immediate": { "before": "same_day_close", "after": "next_trading_day_close" },
+    "followThrough": { "before": "same_day_close", "after": "plus_3_trading_days_close" }
+  },
+  "ism_intraday": {
+    "description": "ISM at 10:00 ET during market hours",
+    "immediate": { "before": "previous_close", "after": "same_day_close" },
+    "followThrough": { "before": "previous_close", "after": "plus_3_trading_days_close" }
+  },
+  "geopolitical_multi_day": {
+    "description": "Unscheduled shock, wider window",
+    "immediate": { "before": "previous_close", "after": "next_trading_day_close" },
+    "followThrough": { "before": "previous_close", "after": "plus_5_trading_days_close" }
+  }
+}

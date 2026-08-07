@@ -1,0 +1,134 @@
+{
+  "status": "ok",
+  "schemaVersion": 2,
+  "snapshotQuality": "complete",
+  "marketDataAsOf": "2026-08-04",
+  "snapshotGeneratedAt": "2026-08-06T18:00:00.000Z",
+  "summary": {
+    "dominantRegime": "conflicting",
+    "mechanismCount": 4,
+    "driverCount": 4,
+    "duplicatedDriverCount": 1,
+    "independentDataDomains": [
+      "equity_price",
+      "bond_market",
+      "credit"
+    ],
+    "confidence": "medium",
+    "timelinePressures": {
+      "retrospectiveSameDay": {
+        "status": "ok",
+        "direction": "buy",
+        "mechanisms": [
+          "leveragedEtf"
+        ],
+        "confidence": "medium"
+      },
+      "ongoing1To5Days": {
+        "status": "ok",
+        "direction": "conflicting",
+        "mechanisms": [
+          "volControl",
+          "ctaTrend"
+        ],
+        "confidence": "medium_low"
+      },
+      "recent5To20Days": {
+        "status": "ok",
+        "direction": "equity_to_bonds",
+        "mechanisms": [
+          "riskParity"
+        ],
+        "confidence": "medium"
+      },
+      "conditionalFuture": {
+        "status": "ok",
+        "direction": "selling",
+        "mechanisms": [
+          "stressConditions"
+        ],
+        "confidence": "low"
+      }
+    },
+    "flowTimeline": {},
+    "narrative": {
+      "en": "Test",
+      "zh": "测试"
+    },
+    "trendAmplifiers": {},
+    "crossAssetDeRisking": {},
+    "counterCyclicalFlows": {},
+    "excludedModules": []
+  },
+  "modules": {
+    "volControl": {
+      "status": "ok",
+      "targetExposureToday": 0.65,
+      "actualExposureYesterday": 0.7,
+      "actualExposureToday": 0.68,
+      "dailyPositionChange": -0.02,
+      "fiveDayActualChange": -0.05,
+      "remainingExposureGap": -0.03,
+      "estimatedDailyFlowUsd": -8000000000,
+      "nextDayEstimateIfTargetUnchanged": -2400000000,
+      "estimatedFlowRange": {
+        "low": -12000000000,
+        "high": -4000000000
+      },
+      "flowPressure": "selling",
+      "aggregateDirection": "sell"
+    },
+    "leveragedEtf": {
+      "status": "ok",
+      "totalGrossRebalanceUsd": 13700000000,
+      "estimateRange": {
+        "low": 10000000000,
+        "high": 16000000000
+      },
+      "funds": [
+        {
+          "name": "UPRO",
+          "grossRebalanceUsd": 5000000000
+        },
+        {
+          "name": "TQQQ",
+          "grossRebalanceUsd": 8700000000
+        }
+      ],
+      "aggregateDirection": "buy"
+    },
+    "ctaTrend": {
+      "status": "ok",
+      "positionRegime": "buy",
+      "flowPressure": "buying",
+      "aggregatePositionChange": 0.15,
+      "assets": [],
+      "commonAsOfDate": "2026-08-04"
+    },
+    "riskParity": {
+      "status": "ok",
+      "equityAllocationChange5d": -0.0375,
+      "bondAllocationChange5d": 0.0375,
+      "modelLeverageChange5d": 0,
+      "allocationDirection": "equity_to_bonds",
+      "deleveragingPressure": "none",
+      "commonAsOfDate": "2026-08-04"
+    },
+    "pensionRebalance": {
+      "status": "not_in_window",
+      "currentEquityWeight": 0.61,
+      "targetEquityWeight": 0.6,
+      "equityOverweightPct": 1,
+      "daysToMonthEnd": 15,
+      "isRebalanceWindow": false,
+      "expectedFlow": "none"
+    },
+    "stressConditions": {
+      "status": "stress",
+      "stressScore": 55,
+      "vix": 28.5,
+      "hyOas": 450,
+      "estimatedFlowUsd": null
+    }
+  }
+}

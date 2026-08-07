@@ -1,0 +1,1563 @@
+{
+  "core_pce_yoy": {
+    "id": "core_pce_yoy",
+    "label": "Core PCE 通胀 (YoY)",
+    "aliases": [
+      "PCEPILFE",
+      "core_pce_yoy"
+    ],
+    "source": "fred",
+    "ticker": "PCEPILFE",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "pce_yoy": {
+    "id": "pce_yoy",
+    "label": "PCE Price 通胀 (YoY)",
+    "aliases": [
+      "PCEPI",
+      "pce_yoy"
+    ],
+    "source": "fred",
+    "ticker": "PCEPI",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "core_pce_1m_ann": {
+    "id": "core_pce_1m_ann",
+    "label": "Core PCE 1M Ann 月化",
+    "aliases": [
+      "PCEPILFE",
+      "core_pce_1m_ann"
+    ],
+    "source": "fred",
+    "ticker": "PCEPILFE",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "ann_1m",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "core_pce_3m_ann": {
+    "id": "core_pce_3m_ann",
+    "label": "Core PCE 3M Ann 季化",
+    "aliases": [
+      "PCEPILFE",
+      "core_pce_3m_ann"
+    ],
+    "source": "fred",
+    "ticker": "PCEPILFE",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "ann_3m",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "core_pce_6m_ann": {
+    "id": "core_pce_6m_ann",
+    "label": "Core PCE 6M Ann 半年化",
+    "aliases": [
+      "PCEPILFE",
+      "core_pce_6m_ann"
+    ],
+    "source": "fred",
+    "ticker": "PCEPILFE",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "ann_6m",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "trimmed_pce_yoy": {
+    "id": "trimmed_pce_yoy",
+    "label": "Trimmed Mean PCE 12M",
+    "aliases": [
+      "PCETRIM12M159SFRBDAL",
+      "trimmed_pce_yoy"
+    ],
+    "source": "fred",
+    "ticker": "PCETRIM12M159SFRBDAL",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "median_cpi_1m_ann": {
+    "id": "median_cpi_1m_ann",
+    "label": "Median CPI 1M Ann",
+    "aliases": [
+      "MEDCPIM158SFRBCLE",
+      "median_cpi_1m_ann"
+    ],
+    "source": "fred",
+    "ticker": "MEDCPIM158SFRBCLE",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "median_cpi_yoy": {
+    "id": "median_cpi_yoy",
+    "label": "Median CPI YoY 中位CPI",
+    "aliases": [
+      "MEDCPIM159SFRBCLE",
+      "median_cpi_yoy"
+    ],
+    "source": "fred",
+    "ticker": "MEDCPIM159SFRBCLE",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "trimmed_cpi_1m_ann": {
+    "id": "trimmed_cpi_1m_ann",
+    "label": "16% Trimmed CPI 1M Ann",
+    "aliases": [
+      "TRMMEANCPIM158SFRBCLE",
+      "trimmed_cpi_1m_ann"
+    ],
+    "source": "fred",
+    "ticker": "TRMMEANCPIM158SFRBCLE",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "trimmed_cpi_yoy": {
+    "id": "trimmed_cpi_yoy",
+    "label": "16% Trimmed CPI YoY",
+    "aliases": [
+      "TRMMEANCPIM159SFRBCLE",
+      "trimmed_cpi_yoy"
+    ],
+    "source": "fred",
+    "ticker": "TRMMEANCPIM159SFRBCLE",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "import_prices_yoy": {
+    "id": "import_prices_yoy",
+    "label": "Import Prices 进口价格 (YoY)",
+    "aliases": [
+      "IR",
+      "import_prices_yoy"
+    ],
+    "source": "fred",
+    "ticker": "IR",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "nominal_pce_yoy": {
+    "id": "nominal_pce_yoy",
+    "label": "Nominal PCE 名义消费支出 (YoY)",
+    "aliases": [
+      "PCE",
+      "nominal_pce_yoy"
+    ],
+    "source": "fred",
+    "ticker": "PCE",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "neutral"
+  },
+  "avg_hourly_wage_yoy": {
+    "id": "avg_hourly_wage_yoy",
+    "label": "Avg Hourly Wage (YoY)",
+    "aliases": [
+      "CES0500000003",
+      "avg_hourly_wage_yoy"
+    ],
+    "source": "fred",
+    "ticker": "CES0500000003",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "neutral"
+  },
+  "m2_yoy": {
+    "id": "m2_yoy",
+    "label": "M2 增速 (YoY)",
+    "aliases": [
+      "WM2NS",
+      "m2_yoy"
+    ],
+    "source": "fred",
+    "ticker": "WM2NS",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "neutral"
+  },
+  "real_pce_mom": {
+    "id": "real_pce_mom",
+    "label": "Real PCE (MoM)",
+    "aliases": [
+      "DPCERAM1M225NBEA",
+      "real_pce_mom"
+    ],
+    "source": "fred",
+    "ticker": "DPCERAM1M225NBEA",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "improving"
+  },
+  "retail_sales_control_mom": {
+    "id": "retail_sales_control_mom",
+    "label": "Retail Sales Control (MoM)",
+    "aliases": [
+      "MARTSMPCSM44X72USS",
+      "retail_sales_control_mom"
+    ],
+    "source": "fred",
+    "ticker": "MARTSMPCSM44X72USS",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "improving"
+  },
+  "industrial_production_yoy": {
+    "id": "industrial_production_yoy",
+    "label": "Industrial Production (YoY)",
+    "aliases": [
+      "INDPRO",
+      "industrial_production_yoy"
+    ],
+    "source": "fred",
+    "ticker": "INDPRO",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "improving"
+  },
+  "core_capex_orders_yoy_nsa": {
+    "id": "core_capex_orders_yoy_nsa",
+    "label": "Core Capex Orders (YoY, NSA)",
+    "aliases": [
+      "NEWORDER",
+      "core_capex_orders_yoy_nsa"
+    ],
+    "source": "fred",
+    "ticker": "NEWORDER",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "improving"
+  },
+  "atlanta_fed_gdpnow": {
+    "id": "atlanta_fed_gdpnow",
+    "label": "Atlanta Fed GDPNow 亚特兰大联储",
+    "aliases": [
+      "GDPNOW",
+      "atlanta_fed_gdpnow"
+    ],
+    "source": "fred",
+    "ticker": "GDPNOW",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "nowcast",
+    "risingMeaning": "improving"
+  },
+  "nfp_mom": {
+    "id": "nfp_mom",
+    "label": "Nonfarm Payrolls (MoM Δ)",
+    "aliases": [
+      "PAYEMS",
+      "nfp_mom"
+    ],
+    "source": "fred",
+    "ticker": "PAYEMS",
+    "frequency": "monthly_macro",
+    "unit": "k",
+    "transformation": "mom_abs",
+    "horizonMethod": "flows_absolute",
+    "risingMeaning": "improving"
+  },
+  "private_payrolls_mom": {
+    "id": "private_payrolls_mom",
+    "label": "Private Payrolls 私人部门 (MoM Δ)",
+    "aliases": [
+      "USPRIV",
+      "private_payrolls_mom"
+    ],
+    "source": "fred",
+    "ticker": "USPRIV",
+    "frequency": "monthly_macro",
+    "unit": "k",
+    "transformation": "mom_abs",
+    "horizonMethod": "flows_absolute",
+    "risingMeaning": "improving"
+  },
+  "real_income_yoy": {
+    "id": "real_income_yoy",
+    "label": "Agg Weekly Payrolls 实际总周薪 (YoY)",
+    "aliases": [
+      "real_income_yoy"
+    ],
+    "source": "computed",
+    "ticker": "real_income_yoy",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "flows"
+  },
+  "agg_weekly_hours_yoy": {
+    "id": "agg_weekly_hours_yoy",
+    "label": "Agg Weekly Hours 总工时 (YoY)",
+    "aliases": [
+      "AWHAE",
+      "agg_weekly_hours_yoy"
+    ],
+    "source": "fred",
+    "ticker": "AWHAE",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "improving"
+  },
+  "sahm_rule": {
+    "id": "sahm_rule",
+    "label": "Sahm Rule 衰退指标",
+    "aliases": [
+      "SAHMREALTIME",
+      "sahm_rule"
+    ],
+    "source": "fred",
+    "ticker": "SAHMREALTIME",
+    "frequency": "monthly_macro",
+    "unit": "pp",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "unemployment": {
+    "id": "unemployment",
+    "label": "Unemployment 失业率",
+    "aliases": [
+      "UNRATE",
+      "unemployment"
+    ],
+    "source": "fred",
+    "ticker": "UNRATE",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "initial_claims": {
+    "id": "initial_claims",
+    "label": "Initial Claims",
+    "aliases": [
+      "ICSA",
+      "initial_claims"
+    ],
+    "source": "fred",
+    "ticker": "ICSA",
+    "frequency": "monthly_macro",
+    "unit": "k",
+    "transformation": "÷1000",
+    "horizonMethod": "flows_large",
+    "risingMeaning": "deteriorating"
+  },
+  "continuing_claims": {
+    "id": "continuing_claims",
+    "label": "Continuing Claims",
+    "aliases": [
+      "CCSA",
+      "continuing_claims"
+    ],
+    "source": "fred",
+    "ticker": "CCSA",
+    "frequency": "monthly_macro",
+    "unit": "k",
+    "transformation": "÷1000",
+    "horizonMethod": "flows_large",
+    "risingMeaning": "deteriorating"
+  },
+  "mfg_pns_avg_weekly_hrs": {
+    "id": "mfg_pns_avg_weekly_hrs",
+    "label": "Mfg P&NS Avg Weekly Hrs",
+    "aliases": [
+      "AWHMAN",
+      "mfg_pns_avg_weekly_hrs"
+    ],
+    "source": "fred",
+    "ticker": "AWHMAN",
+    "frequency": "monthly_macro",
+    "unit": "hrs",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "improving"
+  },
+  "temp_help_employment_yoy": {
+    "id": "temp_help_employment_yoy",
+    "label": "Temp Help Employment (YoY)",
+    "aliases": [
+      "TEMPHELPS",
+      "temp_help_employment_yoy"
+    ],
+    "source": "fred",
+    "ticker": "TEMPHELPS",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "improving"
+  },
+  "jolts_openings": {
+    "id": "jolts_openings",
+    "label": "JOLTS Openings",
+    "aliases": [
+      "JTSJOL",
+      "jolts_openings"
+    ],
+    "source": "fred",
+    "ticker": "JTSJOL",
+    "frequency": "monthly_macro",
+    "unit": "M",
+    "transformation": "÷1000",
+    "horizonMethod": "flows_large",
+    "risingMeaning": "improving"
+  },
+  "quits_rate": {
+    "id": "quits_rate",
+    "label": "Quits Rate",
+    "aliases": [
+      "JTSQUR",
+      "quits_rate"
+    ],
+    "source": "fred",
+    "ticker": "JTSQUR",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "improving"
+  },
+  "gov_debt_yoy": {
+    "id": "gov_debt_yoy",
+    "label": "Gov Debt 增速 (YoY)",
+    "aliases": [
+      "GFDEBTN",
+      "gov_debt_yoy"
+    ],
+    "source": "fred",
+    "ticker": "GFDEBTN",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "fed": {
+    "id": "fed",
+    "label": "Fed 资产负债表",
+    "aliases": [
+      "WALCL",
+      "fed"
+    ],
+    "source": "fred",
+    "ticker": "WALCL",
+    "frequency": "monthly_macro",
+    "unit": "T$",
+    "transformation": "M→T",
+    "horizonMethod": "flows_large"
+  },
+  "money_market_funds": {
+    "id": "money_market_funds",
+    "label": "Money Market Funds 现金",
+    "aliases": [
+      "MMMFFAQ027S",
+      "money_market_funds"
+    ],
+    "source": "fred",
+    "ticker": "MMMFFAQ027S",
+    "frequency": "monthly_macro",
+    "unit": "T$",
+    "transformation": "M→T",
+    "horizonMethod": "flows_large",
+    "risingMeaning": "neutral"
+  },
+  "consumer_sentiment": {
+    "id": "consumer_sentiment",
+    "label": "Consumer Sentiment",
+    "aliases": [
+      "UMCSENT",
+      "consumer_sentiment"
+    ],
+    "source": "fred",
+    "ticker": "UMCSENT",
+    "frequency": "monthly_macro",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "sentiment",
+    "risingMeaning": "improving"
+  },
+  "ci_loans_yoy": {
+    "id": "ci_loans_yoy",
+    "label": "C&I Loans (YoY)",
+    "aliases": [
+      "BUSLOANS",
+      "ci_loans_yoy"
+    ],
+    "source": "fred",
+    "ticker": "BUSLOANS",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "improving"
+  },
+  "consumer_loans_yoy": {
+    "id": "consumer_loans_yoy",
+    "label": "Consumer Loans (YoY)",
+    "aliases": [
+      "CONSUMER",
+      "consumer_loans_yoy"
+    ],
+    "source": "fred",
+    "ticker": "CONSUMER",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "improving"
+  },
+  "cc_delinquency_rate": {
+    "id": "cc_delinquency_rate",
+    "label": "CC Delinquency Rate",
+    "aliases": [
+      "DRCCLACBS",
+      "cc_delinquency_rate"
+    ],
+    "source": "fred",
+    "ticker": "DRCCLACBS",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "mortgage_delinquency_rate": {
+    "id": "mortgage_delinquency_rate",
+    "label": "Mortgage Delinquency Rate",
+    "aliases": [
+      "DRSFRMACBS",
+      "mortgage_delinquency_rate"
+    ],
+    "source": "fred",
+    "ticker": "DRSFRMACBS",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "chicago_fed_nfci": {
+    "id": "chicago_fed_nfci",
+    "label": "Chicago Fed NFCI",
+    "aliases": [
+      "NFCI",
+      "chicago_fed_nfci"
+    ],
+    "source": "fred",
+    "ticker": "NFCI",
+    "frequency": "monthly_macro",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "sloos_ci_standards": {
+    "id": "sloos_ci_standards",
+    "label": "SLOOS C&I Standards",
+    "aliases": [
+      "DRTSCILM",
+      "sloos_ci_standards"
+    ],
+    "source": "fred",
+    "ticker": "DRTSCILM",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "sloos_ci_demand": {
+    "id": "sloos_ci_demand",
+    "label": "SLOOS C&I Demand",
+    "aliases": [
+      "DRSDCILM",
+      "sloos_ci_demand"
+    ],
+    "source": "fred",
+    "ticker": "DRSDCILM",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "improving"
+  },
+  "sloos_small_biz_standards": {
+    "id": "sloos_small_biz_standards",
+    "label": "SLOOS Small Biz Standards",
+    "aliases": [
+      "DRTSCIS",
+      "sloos_small_biz_standards"
+    ],
+    "source": "fred",
+    "ticker": "DRTSCIS",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "charge_offs": {
+    "id": "charge_offs",
+    "label": "Charge-Off Rate",
+    "aliases": [
+      "CORCCACBS",
+      "charge_offs"
+    ],
+    "source": "fred",
+    "ticker": "CORCCACBS",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "fiscal_deficit_gdp": {
+    "id": "fiscal_deficit_gdp",
+    "label": "Fiscal Deficit % GDP",
+    "aliases": [
+      "FYFSGDA188S",
+      "fiscal_deficit_gdp"
+    ],
+    "source": "fred",
+    "ticker": "FYFSGDA188S",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "federal_expenditures_yoy": {
+    "id": "federal_expenditures_yoy",
+    "label": "Federal Expenditures (YoY)",
+    "aliases": [
+      "FGEXPND",
+      "federal_expenditures_yoy"
+    ],
+    "source": "fred",
+    "ticker": "FGEXPND",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "neutral"
+  },
+  "federal_interest_exp_gdp": {
+    "id": "federal_interest_exp_gdp",
+    "label": "Federal Interest Exp / GDP",
+    "aliases": [
+      "federal_interest_exp_gdp"
+    ],
+    "source": "computed",
+    "ticker": "federal_interest_exp_gdp",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "flows",
+    "risingMeaning": "deteriorating"
+  },
+  "federal_interest_exp_receipts": {
+    "id": "federal_interest_exp_receipts",
+    "label": "Federal Interest Exp / Receipts",
+    "aliases": [
+      "federal_interest_exp_receipts"
+    ],
+    "source": "computed",
+    "ticker": "federal_interest_exp_receipts",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "flows",
+    "risingMeaning": "deteriorating"
+  },
+  "treasury_net_issuance": {
+    "id": "treasury_net_issuance",
+    "label": "Treasury Net Issuance",
+    "aliases": [
+      "treasury_net_issuance"
+    ],
+    "source": "computed",
+    "ticker": "treasury_net_issuance",
+    "frequency": "monthly_macro",
+    "unit": "$B",
+    "transformation": "level",
+    "horizonMethod": "flows"
+  },
+  "tga_balance": {
+    "id": "tga_balance",
+    "label": "TGA Balance",
+    "aliases": [
+      "WTREGEN",
+      "tga_balance"
+    ],
+    "source": "fred",
+    "ticker": "WTREGEN",
+    "frequency": "monthly_macro",
+    "unit": "$B",
+    "transformation": "÷1000",
+    "horizonMethod": "flows_billions",
+    "risingMeaning": "neutral"
+  },
+  "rrp_overnight": {
+    "id": "rrp_overnight",
+    "label": "RRP Overnight",
+    "aliases": [
+      "RRPONTSYD",
+      "rrp_overnight"
+    ],
+    "source": "fred",
+    "ticker": "RRPONTSYD",
+    "frequency": "monthly_macro",
+    "unit": "$B",
+    "transformation": "level",
+    "horizonMethod": "flows_billions",
+    "risingMeaning": "neutral"
+  },
+  "bank_reserves": {
+    "id": "bank_reserves",
+    "label": "Bank Reserves",
+    "aliases": [
+      "WRESBAL",
+      "bank_reserves"
+    ],
+    "source": "fred",
+    "ticker": "WRESBAL",
+    "frequency": "monthly_macro",
+    "unit": "$B",
+    "transformation": "÷1000",
+    "horizonMethod": "flows_billions",
+    "risingMeaning": "neutral"
+  },
+  "ppi_final_demand_yoy": {
+    "id": "ppi_final_demand_yoy",
+    "label": "PPI Final Demand (YoY)",
+    "aliases": [
+      "PPIFIS",
+      "ppi_final_demand_yoy"
+    ],
+    "source": "fred",
+    "ticker": "PPIFIS",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "cpi_core_goods_yoy": {
+    "id": "cpi_core_goods_yoy",
+    "label": "CPI Core Goods (YoY)",
+    "aliases": [
+      "CUSR0000SACL1E",
+      "cpi_core_goods_yoy"
+    ],
+    "source": "fred",
+    "ticker": "CUSR0000SACL1E",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "cpi_housing_yoy": {
+    "id": "cpi_housing_yoy",
+    "label": "CPI Housing (YoY)",
+    "aliases": [
+      "CUSR0000SAH1",
+      "cpi_housing_yoy"
+    ],
+    "source": "fred",
+    "ticker": "CUSR0000SAH1",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "unit_labor_cost_yoy": {
+    "id": "unit_labor_cost_yoy",
+    "label": "Unit Labor Cost (YoY)",
+    "aliases": [
+      "ULCNFB",
+      "unit_labor_cost_yoy"
+    ],
+    "source": "fred",
+    "ticker": "ULCNFB",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "deteriorating"
+  },
+  "productivity_yoy": {
+    "id": "productivity_yoy",
+    "label": "Productivity (YoY)",
+    "aliases": [
+      "OPHNFB",
+      "productivity_yoy"
+    ],
+    "source": "fred",
+    "ticker": "OPHNFB",
+    "frequency": "monthly_macro",
+    "unit": "%",
+    "transformation": "yoy",
+    "horizonMethod": "macro_pct_point",
+    "risingMeaning": "improving"
+  },
+  "tip_yield_10y_tips": {
+    "id": "tip_yield_10y_tips",
+    "label": "TIP Yield (10Y TIPS)",
+    "aliases": [
+      "DFII10",
+      "tip_yield_10y_tips"
+    ],
+    "source": "fred",
+    "ticker": "DFII10",
+    "frequency": "daily_markets",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "rates",
+    "horizonScale": 100,
+    "risingMeaning": "deteriorating"
+  },
+  "-_hy-ig": {
+    "id": "-_hy-ig",
+    "label": "(垃圾-优质) 利差 HY-IG",
+    "aliases": [
+      "-_hy-ig"
+    ],
+    "source": "computed",
+    "ticker": "-_hy-ig",
+    "frequency": "daily_markets",
+    "unit": "bp",
+    "transformation": "level",
+    "horizonMethod": "flows"
+  },
+  "sofr-iorb": {
+    "id": "sofr-iorb",
+    "label": "(SOFR-IORB) 利差",
+    "aliases": [
+      "sofr-iorb"
+    ],
+    "source": "computed",
+    "ticker": "sofr-iorb",
+    "frequency": "daily_markets",
+    "unit": "bp",
+    "transformation": "level",
+    "horizonMethod": "flows"
+  },
+  "fed_fund_rate": {
+    "id": "fed_fund_rate",
+    "label": "Fed Fund Rate",
+    "aliases": [
+      "DFF",
+      "fed_fund_rate"
+    ],
+    "source": "fred",
+    "ticker": "DFF",
+    "frequency": "daily_markets",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "rates",
+    "horizonScale": 100,
+    "risingMeaning": "deteriorating"
+  },
+  "fed_path_12m": {
+    "id": "fed_path_12m",
+    "label": "Fed Fund Futures (12M Path)",
+    "aliases": [
+      "fed_path_12m"
+    ],
+    "source": "computed",
+    "ticker": "fed_path_12m",
+    "frequency": "daily_markets",
+    "unit": "bp",
+    "transformation": "level",
+    "horizonMethod": "flows"
+  },
+  "03m": {
+    "id": "03m",
+    "label": "03M",
+    "aliases": [
+      "DGS3MO",
+      "03m"
+    ],
+    "source": "fred",
+    "ticker": "DGS3MO",
+    "frequency": "daily_markets",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "rates",
+    "horizonScale": 100,
+    "risingMeaning": "deteriorating"
+  },
+  "1y": {
+    "id": "1y",
+    "label": "1Y",
+    "aliases": [
+      "DGS1",
+      "1y"
+    ],
+    "source": "fred",
+    "ticker": "DGS1",
+    "frequency": "daily_markets",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "rates",
+    "horizonScale": 100,
+    "risingMeaning": "deteriorating"
+  },
+  "2y": {
+    "id": "2y",
+    "label": "2Y",
+    "aliases": [
+      "DGS2",
+      "2y"
+    ],
+    "source": "fred",
+    "ticker": "DGS2",
+    "frequency": "daily_markets",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "rates",
+    "horizonScale": 100,
+    "risingMeaning": "deteriorating"
+  },
+  "3y": {
+    "id": "3y",
+    "label": "3Y",
+    "aliases": [
+      "DGS3",
+      "3y"
+    ],
+    "source": "fred",
+    "ticker": "DGS3",
+    "frequency": "daily_markets",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "rates",
+    "horizonScale": 100,
+    "risingMeaning": "deteriorating"
+  },
+  "5y": {
+    "id": "5y",
+    "label": "5Y",
+    "aliases": [
+      "DGS5",
+      "5y"
+    ],
+    "source": "fred",
+    "ticker": "DGS5",
+    "frequency": "daily_markets",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "rates",
+    "horizonScale": 100,
+    "risingMeaning": "deteriorating"
+  },
+  "7y": {
+    "id": "7y",
+    "label": "7Y",
+    "aliases": [
+      "DGS7",
+      "7y"
+    ],
+    "source": "fred",
+    "ticker": "DGS7",
+    "frequency": "daily_markets",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "rates",
+    "horizonScale": 100,
+    "risingMeaning": "deteriorating"
+  },
+  "10y": {
+    "id": "10y",
+    "label": "10Y",
+    "aliases": [
+      "DGS10",
+      "10y"
+    ],
+    "source": "fred",
+    "ticker": "DGS10",
+    "frequency": "daily_markets",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "rates",
+    "horizonScale": 100,
+    "risingMeaning": "deteriorating"
+  },
+  "20y": {
+    "id": "20y",
+    "label": "20Y",
+    "aliases": [
+      "DGS20",
+      "20y"
+    ],
+    "source": "fred",
+    "ticker": "DGS20",
+    "frequency": "daily_markets",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "rates",
+    "horizonScale": 100,
+    "risingMeaning": "deteriorating"
+  },
+  "30y": {
+    "id": "30y",
+    "label": "30Y",
+    "aliases": [
+      "DGS30",
+      "30y"
+    ],
+    "source": "fred",
+    "ticker": "DGS30",
+    "frequency": "daily_markets",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "rates",
+    "horizonScale": 100,
+    "risingMeaning": "deteriorating"
+  },
+  "03m-10y_spread": {
+    "id": "03m-10y_spread",
+    "label": "03M-10Y Spread",
+    "aliases": [
+      "T10Y3M",
+      "03m-10y_spread"
+    ],
+    "source": "fred",
+    "ticker": "T10Y3M",
+    "frequency": "daily_markets",
+    "unit": "bp",
+    "transformation": "level",
+    "horizonMethod": "rates",
+    "horizonScale": 100
+  },
+  "10y_breakeven_inflation": {
+    "id": "10y_breakeven_inflation",
+    "label": "10Y Breakeven Inflation",
+    "aliases": [
+      "T10YIE",
+      "10y_breakeven_inflation"
+    ],
+    "source": "fred",
+    "ticker": "T10YIE",
+    "frequency": "daily_markets",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "rates",
+    "horizonScale": 100,
+    "risingMeaning": "neutral"
+  },
+  "5y5y_inflation_forward": {
+    "id": "5y5y_inflation_forward",
+    "label": "5Y5Y Inflation Forward",
+    "aliases": [
+      "T5YIFR",
+      "5y5y_inflation_forward"
+    ],
+    "source": "fred",
+    "ticker": "T5YIFR",
+    "frequency": "daily_markets",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "rates",
+    "horizonScale": 100,
+    "risingMeaning": "neutral"
+  },
+  "10y_acm_term_premium_model_est": {
+    "id": "10y_acm_term_premium_model_est",
+    "label": "10Y ACM Term Premium (Model Est.)",
+    "aliases": [
+      "THREEFYTP10",
+      "10y_acm_term_premium_model_est"
+    ],
+    "source": "fred",
+    "ticker": "THREEFYTP10",
+    "frequency": "daily_markets",
+    "unit": "%",
+    "transformation": "level",
+    "horizonMethod": "rates",
+    "horizonScale": 100,
+    "risingMeaning": "deteriorating"
+  },
+  "cl_oil": {
+    "id": "cl_oil",
+    "label": "CL Oil 原油",
+    "aliases": [
+      "DCOILWTICO",
+      "CL=F",
+      "cl_oil"
+    ],
+    "source": "yahoo",
+    "ticker": "CL=F",
+    "frequency": "daily_markets",
+    "unit": "$",
+    "transformation": "level",
+    "horizonMethod": "commodities",
+    "risingMeaning": "neutral"
+  },
+  "ng_gas": {
+    "id": "ng_gas",
+    "label": "NG Gas 天然气",
+    "aliases": [
+      "DHHNGSP",
+      "NG=F",
+      "ng_gas"
+    ],
+    "source": "yahoo",
+    "ticker": "NG=F",
+    "frequency": "daily_markets",
+    "unit": "$",
+    "transformation": "level",
+    "horizonMethod": "commodities",
+    "risingMeaning": "neutral"
+  },
+  "gc_gold": {
+    "id": "gc_gold",
+    "label": "GC Gold 黄金",
+    "aliases": [
+      "GC=F",
+      "gc_gold"
+    ],
+    "source": "yahoo",
+    "ticker": "GC=F",
+    "frequency": "daily_markets",
+    "unit": "$",
+    "transformation": "level",
+    "horizonMethod": "commodities",
+    "risingMeaning": "neutral"
+  },
+  "hg_copper": {
+    "id": "hg_copper",
+    "label": "HG Copper 铜",
+    "aliases": [
+      "HG=F",
+      "hg_copper"
+    ],
+    "source": "yahoo",
+    "ticker": "HG=F",
+    "frequency": "daily_markets",
+    "unit": "$",
+    "transformation": "level",
+    "horizonMethod": "commodities",
+    "risingMeaning": "neutral"
+  },
+  "zw_wheat": {
+    "id": "zw_wheat",
+    "label": "ZW Wheat 小麦",
+    "aliases": [
+      "ZW=F",
+      "zw_wheat"
+    ],
+    "source": "yahoo",
+    "ticker": "ZW=F",
+    "frequency": "daily_markets",
+    "unit": "$",
+    "transformation": "level",
+    "horizonMethod": "commodities",
+    "risingMeaning": "neutral"
+  },
+  "zs_soybean": {
+    "id": "zs_soybean",
+    "label": "ZS Soybean 大豆",
+    "aliases": [
+      "ZS=F",
+      "zs_soybean"
+    ],
+    "source": "yahoo",
+    "ticker": "ZS=F",
+    "frequency": "daily_markets",
+    "unit": "$",
+    "transformation": "level",
+    "horizonMethod": "commodities",
+    "risingMeaning": "neutral"
+  },
+  "baltic_dry_index": {
+    "id": "baltic_dry_index",
+    "label": "Baltic Dry Index",
+    "aliases": [
+      "baltic_dry_index"
+    ],
+    "source": "computed",
+    "ticker": "baltic_dry_index",
+    "frequency": "daily_markets",
+    "unit": "pt",
+    "transformation": "level",
+    "horizonMethod": "flows"
+  },
+  "VIX": {
+    "id": "VIX",
+    "label": "VIX",
+    "aliases": [
+      "^VIX",
+      "VIX"
+    ],
+    "source": "yahoo",
+    "ticker": "^VIX",
+    "frequency": "daily_markets",
+    "unit": "index",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "deteriorating"
+  },
+  "xlk": {
+    "id": "xlk",
+    "label": "XLK 科技股",
+    "aliases": [
+      "XLK",
+      "xlk"
+    ],
+    "source": "yahoo",
+    "ticker": "XLK",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "soxx": {
+    "id": "soxx",
+    "label": "SOXX 半导体",
+    "aliases": [
+      "SOXX",
+      "soxx"
+    ],
+    "source": "yahoo",
+    "ticker": "SOXX",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "igv": {
+    "id": "igv",
+    "label": "IGV 软件股",
+    "aliases": [
+      "IGV",
+      "igv"
+    ],
+    "source": "yahoo",
+    "ticker": "IGV",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "mags": {
+    "id": "mags",
+    "label": "MAGS 7巨头",
+    "aliases": [
+      "MAGS",
+      "mags"
+    ],
+    "source": "yahoo",
+    "ticker": "MAGS",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "xlv": {
+    "id": "xlv",
+    "label": "XLV 医疗保健",
+    "aliases": [
+      "XLV",
+      "xlv"
+    ],
+    "source": "yahoo",
+    "ticker": "XLV",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "ibb": {
+    "id": "ibb",
+    "label": "IBB 生物科技",
+    "aliases": [
+      "IBB",
+      "ibb"
+    ],
+    "source": "yahoo",
+    "ticker": "IBB",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "xly": {
+    "id": "xly",
+    "label": "XLY 非必需消费",
+    "aliases": [
+      "XLY",
+      "xly"
+    ],
+    "source": "yahoo",
+    "ticker": "XLY",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "xrt": {
+    "id": "xrt",
+    "label": "XRT 零售",
+    "aliases": [
+      "XRT",
+      "xrt"
+    ],
+    "source": "yahoo",
+    "ticker": "XRT",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "xlp": {
+    "id": "xlp",
+    "label": "XLP 必需消费",
+    "aliases": [
+      "XLP",
+      "xlp"
+    ],
+    "source": "yahoo",
+    "ticker": "XLP",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "xle": {
+    "id": "xle",
+    "label": "XLE 石油天然气",
+    "aliases": [
+      "XLE",
+      "xle"
+    ],
+    "source": "yahoo",
+    "ticker": "XLE",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "icln": {
+    "id": "icln",
+    "label": "ICLN 清洁能源",
+    "aliases": [
+      "ICLN",
+      "icln"
+    ],
+    "source": "yahoo",
+    "ticker": "ICLN",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "xlb": {
+    "id": "xlb",
+    "label": "XLB 原材料",
+    "aliases": [
+      "XLB",
+      "xlb"
+    ],
+    "source": "yahoo",
+    "ticker": "XLB",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "gdx": {
+    "id": "gdx",
+    "label": "GDX 黄金矿业",
+    "aliases": [
+      "GDX",
+      "gdx"
+    ],
+    "source": "yahoo",
+    "ticker": "GDX",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "neutral"
+  },
+  "xlre": {
+    "id": "xlre",
+    "label": "XLRE 房产信托",
+    "aliases": [
+      "XLRE",
+      "xlre"
+    ],
+    "source": "yahoo",
+    "ticker": "XLRE",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "xlf": {
+    "id": "xlf",
+    "label": "XLF 金融股",
+    "aliases": [
+      "XLF",
+      "xlf"
+    ],
+    "source": "yahoo",
+    "ticker": "XLF",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "kre": {
+    "id": "kre",
+    "label": "KRE 区域银行",
+    "aliases": [
+      "KRE",
+      "kre"
+    ],
+    "source": "yahoo",
+    "ticker": "KRE",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "kbe": {
+    "id": "kbe",
+    "label": "KBE 银行业",
+    "aliases": [
+      "KBE",
+      "kbe"
+    ],
+    "source": "yahoo",
+    "ticker": "KBE",
+    "frequency": "daily_markets",
+    "unit": "",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "dow_jones": {
+    "id": "dow_jones",
+    "label": "Dow Jones",
+    "aliases": [
+      "^DJI",
+      "dow_jones"
+    ],
+    "source": "yahoo",
+    "ticker": "^DJI",
+    "frequency": "daily_markets",
+    "unit": "$",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "sp500": {
+    "id": "sp500",
+    "label": "S&P 500",
+    "aliases": [
+      "^GSPC",
+      "sp500"
+    ],
+    "source": "yahoo",
+    "ticker": "^GSPC",
+    "frequency": "daily_markets",
+    "unit": "$",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "nasdaq": {
+    "id": "nasdaq",
+    "label": "Nasdaq Composite",
+    "aliases": [
+      "^IXIC",
+      "nasdaq"
+    ],
+    "source": "yahoo",
+    "ticker": "^IXIC",
+    "frequency": "daily_markets",
+    "unit": "$",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  },
+  "russell2000": {
+    "id": "russell2000",
+    "label": "Russell 2000",
+    "aliases": [
+      "^RUT",
+      "russell2000"
+    ],
+    "source": "yahoo",
+    "ticker": "^RUT",
+    "frequency": "daily_markets",
+    "unit": "$",
+    "transformation": "level",
+    "horizonMethod": "equities",
+    "risingMeaning": "improving"
+  }
+}

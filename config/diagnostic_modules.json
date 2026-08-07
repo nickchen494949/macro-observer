@@ -1,0 +1,44 @@
+{
+  "recession": {
+    "pressure": ["PAYEMS", "USPRIV", "JTSQUR", "UMCSENT", "TEMPHELPS"],
+    "transmission": ["AWHMAN", "real_aggregate_payrolls", "CCSA", "NEWORDER"],
+    "damage": ["DPCERAM1M225NBEA", "INDPRO", "SAHMREALTIME", "UNRATE", "GDPNOW"],
+    "critical": ["SAHMREALTIME", "DPCERAM1M225NBEA", "PAYEMS"]
+  },
+  "inflation": {
+    "level": ["PCEPILFE", "TRMMEANCPIM158SFRBCLE", "MEDCPIM158SFRBCLE"],
+    "direction": ["PCEPILFE_1M", "PCEPILFE_3M", "PCEPILFE_6M", "inflation_ensemble"],
+    "transmission": ["CES0500000003", "ULCNFB", "CUSR0000SAH1", "T10YIE", "T5YIFR"],
+    "critical": ["PCEPILFE", "CES0500000003", "T10YIE"]
+  },
+  "credit": {
+    "pressure": ["DRTSCIS", "DRSDCILM", "DRTSCILM"],
+    "transmission": ["NFCI", "HY_IG_SPREAD", "BUSLOANS", "CONSUMER"],
+    "damage": ["CORCCACBS", "DRCCLACBS", "DRSFRMACBS", "KRE_RELATIVE"],
+    "critical": ["NFCI", "HY_IG_SPREAD", "DRTSCIS"]
+  },
+  "rates": {
+    "pressure": ["TREASURY_ISSUANCE", "THREEFYTP10", "FYFSGDA188S"],
+    "transmission": ["DFII10", "DGS10", "MORTGAGE30US", "BAMLC0A0CM"],
+    "damage": ["FYOINT_GDP", "FYOINT_RECEIPTS", "CREDIT_SPREAD", "CAPEX_WEAKNESS"],
+    "critical": ["TREASURY_ISSUANCE", "THREEFYTP10", "DFII10"]
+  },
+  "liquidity": {
+    "pressure": ["RRPONTSYD", "WRESBAL", "WTREGEN"],
+    "transmission": ["SOFR_IORB", "REPO_RATES", "FUNDING_SPREADS"],
+    "damage": ["REPO_FAILS", "SRF_USAGE", "SETTLEMENT_ISSUES", "MARKET_FUNCTIONING"],
+    "critical": ["RRPONTSYD", "WRESBAL", "SOFR_IORB"]
+  },
+  "stagflation": {
+    "growth_damage": ["SAHMREALTIME", "DPCERAM1M225NBEA", "INDPRO", "GDPNOW"],
+    "inflation_level": ["PCEPILFE", "TRMMEANCPIM158SFRBCLE"],
+    "inflation_transmission": ["CES0500000003", "T10YIE"],
+    "critical": ["SAHMREALTIME", "PCEPILFE", "CES0500000003"]
+  },
+  "valuation": {
+    "pressure": ["SP500_PE", "SHILLER_CAPE", "EQUITY_RISK_PREMIUM"],
+    "transmission": ["DFII10", "THREEFYTP10", "HY_IG_SPREAD"],
+    "damage": ["SP500_DRAWDOWN", "VIXCLS", "BREADTH", "RSP_VS_SPY", "QQQ_VS_MTUM", "SOXX"],
+    "critical": ["SP500_PE", "DFII10", "VIXCLS"]
+  }
+}

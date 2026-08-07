@@ -157,6 +157,42 @@
     .bt-chart-action { padding:4px 10px; border-radius:6px; border:1px solid var(--border); background:#fff; color:var(--text2); cursor:pointer; font-size:11px; font-family:var(--font); transition:all .12s; }
     .bt-chart-action:hover { border-color:var(--neg); color:var(--neg); }
 
+    /* EVENT ATTRIBUTION TIMELINE */
+    .ea-range-btn { padding:4px 12px; border-radius:6px; border:1px solid var(--border); background:#fff; color:var(--text2); cursor:pointer; font-size:11px; font-family:var(--font); font-weight:500; transition:all .12s; }
+    .ea-range-btn:hover { border-color:#f59e0b; color:#f59e0b; }
+    .ea-range-btn.ea-active { background:#fef3c7; color:#92400e; border-color:#fcd34d; font-weight:700; }
+    .ea-timeline { display:flex; flex-direction:column; gap:0; }
+    .ea-event { border-left:3px solid var(--border); padding:12px 0 12px 16px; margin-left:8px; position:relative; transition:background .15s; cursor:pointer; }
+    .ea-event:hover { background:#fefce8; }
+    .ea-event::before { content:''; position:absolute; left:-7px; top:18px; width:11px; height:11px; border-radius:50%; border:2px solid #e5e7eb; background:#fff; }
+    .ea-event.ea-fomc::before { border-color:#3b82f6; background:#dbeafe; }
+    .ea-event.ea-macro::before { border-color:#10b981; background:#d1fae5; }
+    .ea-event.ea-earnings::before { border-color:#8b5cf6; background:#ede9fe; }
+    .ea-event.ea-shock::before { border-color:#ef4444; background:#fee2e2; }
+    .ea-event.ea-unmatched::before { border-color:#f59e0b; background:#fef3c7; }
+    .ea-event.ea-unmatched { border-left-color:#f59e0b; }
+    .ea-header { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .ea-icon { font-size:14px; }
+    .ea-date { font-size:11px; color:var(--text2); font-weight:600; min-width:56px; }
+    .ea-label { font-size:13px; font-weight:600; color:var(--text); }
+    .ea-conf-badge { font-size:10px; padding:2px 8px; border-radius:10px; font-weight:600; margin-left:auto; }
+    .ea-conf-high { background:#d1fae5; color:#065f46; }
+    .ea-conf-likely { background:#dbeafe; color:#1e40af; }
+    .ea-conf-mixed { background:#fef3c7; color:#92400e; }
+    .ea-conf-low { background:#f3f4f6; color:#6b7280; }
+    .ea-conf-unmatched { background:#fee2e2; color:#991b1b; }
+    .ea-conf-nomat { background:#f3f4f6; color:#9ca3af; }
+    .ea-moves { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+    .ea-move-chip { font-size:11px; padding:2px 8px; border-radius:4px; background:#f8fafc; border:1px solid #e2e8f0; color:var(--text); font-weight:500; }
+    .ea-move-chip.ea-up { border-color:#bbf7d0; color:#166534; background:#f0fdf4; }
+    .ea-move-chip.ea-down { border-color:#fecaca; color:#991b1b; background:#fef2f2; }
+    .ea-detail { margin-top:8px; display:none; }
+    .ea-event.ea-expanded .ea-detail { display:block; }
+    .ea-detail-row { font-size:11px; color:var(--text2); padding:3px 0; line-height:1.5; }
+    .ea-detail-section { font-size:11px; font-weight:600; color:var(--text); margin-top:6px; margin-bottom:2px; }
+    .ea-narrative { font-size:12px; color:#475569; line-height:1.5; margin-top:6px; padding:8px 10px; background:#f8fafc; border-radius:6px; border-left:3px solid #cbd5e1; }
+    .ea-warning { font-size:10px; color:#92400e; margin-top:4px; }
+
     /* FOOTER */
     .footer { text-align:center; padding:20px 28px 36px; font-size:12px; color:var(--text3); }
 
@@ -504,6 +540,7 @@
         <button class="lang-btn" id="btnZH" onclick="setLang('zh')">中文</button>
       </div>
       <button class="bt-btn" onclick="runBacktrack()" id="btBtn" title="Find similar historical macro environments">🔍 Backtrack</button>
+      <a href="/flow" class="bt-btn" style="text-decoration:none;" title="Mechanical Flow Engine">🔧 Flows</a>
       <button class="btn-icon" onclick="doRefresh()" id="refBtn" title="Refresh (incremental)">🔄</button>
     </div>
   </div>
@@ -691,40 +728,75 @@
     <div id="conclusionsBody"></div>
   </div>
 
-  <!-- DIAGNOSTIC CARDS (V1 ENGINE) -->
-  <div class="layer-header" style="margin-top:24px; border-top:none;">
-    <div class="layer-num" style="background:#fce7f3; color:#9d174d;">🎯</div>
-    <div>
-      <div class="layer-title">Diagnostic Engine (V1)</div>
-      <div class="layer-sub">Automated evaluation of structural macro questions</div>
+  <!-- ==========================================
+       V2 FRONTEND ARCHITECTURE
+       ========================================== -->
+  
+  <div id="v2-dashboard">
+    <!-- Meta & Status -->
+    <div style="display:flex; justify-content:space-between; margin-bottom: 20px; font-family:var(--mono); font-size:11px; color:var(--text3);">
+      <span id="v2-meta">Schema: -- | Generated: --</span>
+      <span id="v2-engine-status">Engine Status: --</span>
     </div>
-  </div>
-  <div id="diagnosticCards" class="diag-container"></div>
 
-  <!-- SHADOW: Statistical Factor Model -->
-  <div id="factorModelPanel" style="display:none; margin:16px 0 24px 0;">
-    <div class="layer-header" style="border-top:none; margin-top:8px;">
-      <div class="layer-num" style="background:#ede9fe; color:#6d28d9;">📐</div>
+    <!-- QQQ Macro Context -->
+    <div class="layer-header">
+      <div class="layer-num l3">QQQ</div>
       <div>
-        <div class="layer-title">PCA Shadow Factors <span style="font-weight:400;color:var(--text2)">PCA 影子因子</span></div>
-        <div class="layer-sub">PCA latent factors with smoothing — informational only, does NOT alter diagnostic lights</div>
+        <div class="layer-title">QQQ Macro Context</div>
+        <div class="layer-sub">Action context translation</div>
       </div>
     </div>
-    <div id="factorModelCards" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; padding:0 8px;"></div>
-  </div>
+    <div class="card" style="padding: 16px 22px;">
+      <div id="qqqContextBody">Loading QQQ strategy signal...</div>
+    </div>
 
-  <!-- FORECAST: Inflation Prediction -->
-  <div id="inflationForecastPanel" style="display:none; margin:0 0 24px 0;">
-    <div class="layer-header" style="border-top:none; margin-top:8px;">
-      <div class="layer-num" style="background:#fef3c7; color:#92400e;">🎯</div>
+    <!-- 4 Core Diagnostic Cards -->
+    <div class="layer-header">
+      <div class="layer-num l1">🎯</div>
       <div>
-        <div class="layer-title">Inflation Forecast <span style="font-weight:400;color:var(--text2)">通胀预测</span></div>
-        <div class="layer-sub">AR(3) + Ridge + Random Forest ensemble — walk-forward OOS validated</div>
+        <div class="layer-title">Core Diagnostics</div>
+        <div class="layer-sub">Growth, Inflation, Financial System, Market Risk</div>
       </div>
     </div>
-    <div id="inflationForecastCard" style="padding:0 8px;"></div>
-  </div>
+    <div id="v2DiagnosticCards" class="diag-container">
+      <div class="diag-card"><h3>📈 Growth</h3><div id="v2-diag-growth">Loading...</div></div>
+      <div class="diag-card"><h3>🔥 Inflation</h3><div id="v2-diag-infl">Loading...</div></div>
+      <div class="diag-card"><h3>🏦 Financial System</h3><div id="v2-diag-fin">Loading...</div></div>
+      <div class="diag-card"><h3>⚠️ Market Risk</h3><div id="v2-diag-risk">Loading...</div></div>
+    </div>
 
+    <!-- Multi-Horizon Matrix -->
+    <div class="layer-header">
+      <div class="layer-num l2">⏳</div>
+      <div>
+        <div class="layer-title">Multi-Horizon Matrix</div>
+        <div class="layer-sub">Short, Medium, Long term trends coherence</div>
+      </div>
+    </div>
+    <div class="card" style="padding: 16px 22px; margin-bottom:24px;">
+      <div id="multiHorizonMatrix">Loading matrix...</div>
+    </div>
+
+    <!-- Event Attribution Timeline -->
+    <div class="layer-header">
+      <div class="layer-num" style="background:#fef3c7; color:#92400e;">📅</div>
+      <div>
+        <div class="layer-title">事件归因 <span style="font-weight:400;color:var(--text2)">Event Attribution</span></div>
+        <div class="layer-sub">重要事件前后，市场发生了什么？ · What changed around key events?</div>
+      </div>
+    </div>
+    <div class="card" style="padding: 16px 22px; margin-bottom:24px;">
+      <div id="eventAttrControls" style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+        <button class="ea-range-btn ea-active" data-days="30">30D</button>
+        <button class="ea-range-btn" data-days="90">90D</button>
+        <button class="ea-range-btn" data-days="180">6M</button>
+        <button class="ea-range-btn" data-days="365">1Y</button>
+        <span id="eaSummary" style="margin-left:auto;font-size:0.75em;color:var(--text2);"></span>
+      </div>
+      <div id="whyTodayModule">Loading event attribution...</div>
+    </div>
+  </div>
   <!-- LAYER 1: MACRO STATE -->
   <div class="layer-header">
     <div class="layer-num l1">Ⅰ</div>
@@ -1036,6 +1108,7 @@ function row(item) {
   </tr>`;
 }
 
+
 function groupRow(name) {
   return `<tr class="group-row"><td colspan="10">${name}</td></tr>`;
 }
@@ -1049,6 +1122,7 @@ function groupRow(name) {
 function renderInflationForecast(fc) {
   const panel = document.getElementById('inflationForecastPanel');
   const container = document.getElementById('inflationForecastCard');
+  if (!panel || !container) return;
   if (!fc || !fc.prediction) { panel.style.display = 'none'; return; }
   panel.style.display = '';
 
@@ -1134,6 +1208,7 @@ function renderInflationForecast(fc) {
 function renderFactorModel(fm) {
   const panel = document.getElementById('factorModelPanel');
   const container = document.getElementById('factorModelCards');
+  if (!panel || !container) return;
   if (!fm || !fm.factors) { panel.style.display = 'none'; return; }
   panel.style.display = '';
   container.innerHTML = '';
@@ -1184,8 +1259,8 @@ function renderFactorModel(fm) {
           contraction_yellow: 'Factor sees deeper weakness than rules currently show',
         },
         inflation: {
-          high_inflation_red: 'Consistent — broad price pressure with full propagation',
-          high_inflation_yellow: 'Factor level high, but wages/expectations not fully propagating',
+          high_inflation_red: 'Consistent — broad price pressure',
+          high_inflation_yellow: 'Factor level high, wages/expectations moderate',
           rising_yellow: 'Consistent — moderate inflation with partial transmission',
           rising_green: 'Factor sees building pressure that hasn\'t crossed rule thresholds',
           disinflationary_green: 'Consistent — broad disinflation',
@@ -1202,7 +1277,8 @@ function renderFactorModel(fm) {
       };
       const key = `${factorSig}_${ruleExpect}`;
       const interpText = interps[name]?.[key] || `Factor: ${factorSig} · Rule expects: ${ruleExpect}`;
-      const ruleColor = ruleExpect==='red'?'#ef4444':ruleExpect==='yellow'?'#eab308':'#10b981';
+      // Use informational blue colors instead of trading red/green
+      const ruleColor = ruleExpect==='red'?'#3b82f6':ruleExpect==='yellow'?'#60a5fa':'#93c5fd';
       interpHTML = `<div style="margin-top:8px;padding:6px 8px;border-radius:8px;background:#f8fafc;font-size:11px;color:#475569;line-height:1.5;">
         <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${barColor};margin-right:4px"></span>Factor: ${factorSig}
         &nbsp;·&nbsp;
@@ -1496,10 +1572,14 @@ function render(data) {
   if (data.diagnostics) renderDiagnostics(data.diagnostics);
   if (data.factorModel) renderFactorModel(data.factorModel);
   if (data.inflationForecast) renderInflationForecast(data.inflationForecast);
+  
+  // Cache for event attribution re-render
+  window._lastDashboardData = data;
 }
 
 function renderDiagnostics(diag) {
   const container = document.getElementById('diagnosticCards');
+  if (!container) return;
   container.innerHTML = '';
   if (!diag) return;
 
@@ -2668,10 +2748,337 @@ async function submitBdi() {
     } else {
       alert('Error: ' + result.error);
     }
-  } catch(e) {
+} catch(e) {
     alert('Failed: ' + e.message);
   }
 }
+
+// ==========================================
+// V2 FRONTEND ARCHITECTURE - EXTENSIONS
+// ==========================================
+const originalRender = render;
+render = function(data) {
+  window._v2Classified = (data.v2 && data.v2.classified) ? data.v2.classified : {};
+  originalRender(data);
+  // V2 mapping
+  if (data.meta) {
+    const v2Meta = document.getElementById('v2-meta');
+    if (v2Meta) v2Meta.innerText = 'Schema: ' + (data.meta.schemaVersion||'--') + ' | Generated: ' + (data.meta.generatedAt ? new Date(data.meta.generatedAt).toLocaleString() : '--');
+  }
+  if (data.engineStatus) {
+    const v2Status = document.getElementById('v2-engine-status');
+    if (v2Status && data.v2) {
+      const modCov = (data.v2.moduleCoverage || 0) + '%';
+      const evCov = (data.v2.evidenceCoverage || 0) + '%';
+      const critCov = (data.v2.criticalCoverage || 'unknown').replace(/_/g, ' ');
+      const risk = data.v2.risk || {};
+      const riskIcons = { 'high': '🔴', 'elevated': '🟠', 'moderate': '🟡', 'low': '🟢' };
+      const riskLabel = (risk.overall || 'unknown').toUpperCase();
+      const riskIcon = riskIcons[risk.overall] || '⚪';
+      const fb = (risk.fiscalBurden || 'unknown').replace(/_/g, ' ');
+      const dmg = (risk.damage || 'unknown').replace(/_/g, ' ');
+      const sys = (risk.systemic || 'unknown').replace(/_/g, ' ');
+      v2Status.innerText = 'Engine: ' + (data.engineStatus.coreDiagnosis||'--')
+        + ' · Modules: ' + modCov + ' · Evidence: ' + evCov + ' · Critical: ' + critCov
+        + ' · ' + riskIcon + ' ' + riskLabel
+        + ' · Fiscal: ' + fb + ' · Growth/Credit/Market Damage: ' + dmg + ' · Liquidity Functioning: unknown · Systemic: ' + sys;
+    }
+  }
+  // V2 Diagnostic Cards — wire legacy diagnostics into the 4-card layout
+  const legacyDiag = data.diagnostics || {};
+  const v2d = (data.v2 && data.v2.diagnostics) ? data.v2.diagnostics : {};
+  
+  function renderStageCard(el, label, modules) {
+    if (!el) return;
+    const validMods = modules.filter(m => m && m.stages);
+    if (validMods.length === 0) {
+      el.innerHTML = '<div style="padding:12px;color:#94a3b8;font-size:11px;text-align:center;"><span style="font-size:18px">🚧</span><br>Not yet implemented</div>';
+      return;
+    }
+    
+    function stateLabel(st) {
+      if (st.name.includes('Level') && st.status === 'red') return '<span style="color:#dc2626;font-weight:600">High</span>';
+      if (st.name.includes('Damage') || st.name.includes('Fiscal Burden')) {
+        if (st.status === 'red') return '<span style="color:#dc2626;font-weight:600">Confirmed</span>';
+        // yellow falls through to Moderate
+      }
+      if (st.status === 'red') return '<span style="color:#dc2626;font-weight:600">Elevated</span>';
+      if (st.status === 'yellow') return '<span style="color:#d97706;font-weight:600">Moderate</span>';
+      if (st.status === 'green') return '<span style="color:#16a34a;font-weight:600">Not confirmed</span>';
+      return '<span style="color:#94a3b8;font-weight:600">Unknown</span>';
+    }
+    
+    function confLabel(st) {
+      const cov = st.coverage != null ? st.coverage + '%' : '—';
+      const conf = st.confidence != null ? st.confidence + '%' : '—';
+      return '<span style="color:#94a3b8;font-size:9px">Cov ' + cov + ' · Conf ' + conf + '</span>';
+    }
+    
+    let html = '';
+    for (const mod of validMods) {
+      if (validMods.length > 1) {
+        html += '<div style="font-size:9px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:0.5px;margin:6px 0 2px;border-bottom:1px solid #f1f5f9;padding-bottom:2px;">' + (mod.question || '') + '</div>';
+      }
+      for (const st of mod.stages) {
+        const dotColor = st.status === 'red' ? '#ef4444' : st.status === 'yellow' ? '#eab308' : st.status === 'green' ? '#22c55e' : '#94a3b8';
+        
+        html += '<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:11px;">';
+        html += '<span style="width:8px;height:8px;border-radius:50%;background:' + dotColor + ';flex-shrink:0;box-shadow:0 0 3px ' + dotColor + '40"></span>';
+        html += '<span style="font-weight:500;min-width:80px;">' + st.name + '</span>';
+        html += stateLabel(st);
+        html += '</div>';
+        html += '<div style="margin-left:14px;margin-bottom:4px;">' + confLabel(st) + '</div>';
+        
+        if (st.evidence && st.evidence.length > 0) {
+          html += '<div style="margin-left:14px;font-size:9px;color:#dc2626;line-height:1.4;">';
+          for (const e of st.evidence.slice(0, 3)) html += '▲ ' + e + '<br>';
+          html += '</div>';
+        }
+        if (st.counterEvidence && st.counterEvidence.length > 0) {
+          html += '<div style="margin-left:14px;font-size:9px;color:#16a34a;line-height:1.4;">';
+          for (const e of st.counterEvidence.slice(0, 2)) html += '▽ ' + e + '<br>';
+          html += '</div>';
+        }
+      }
+    }
+    el.innerHTML = html;
+  }
+  
+  renderStageCard(document.getElementById('v2-diag-growth'), 'Growth', [legacyDiag.recession]);
+  renderStageCard(document.getElementById('v2-diag-infl'), 'Inflation', [legacyDiag.inflation]);
+  renderStageCard(document.getElementById('v2-diag-fin'), 'Financial System', [legacyDiag.credit, legacyDiag.longEnd, legacyDiag.liquidity]);
+  renderStageCard(document.getElementById('v2-diag-risk'), 'Market Risk', [legacyDiag.stagflation, legacyDiag.valuation]);
+  
+  const multiHorizon = document.getElementById('multiHorizonMatrix');
+  if (multiHorizon && window._v2Classified) {
+      let hHtml = '<table style="width:100%; font-size:12px; border-collapse:collapse; table-layout:fixed;">';
+      hHtml += '<colgroup><col style="width:36%"><col style="width:8%"><col style="width:8%"><col style="width:8%"><col style="width:20%"><col style="width:20%"></colgroup>';
+      hHtml += '<thead><tr style="border-bottom:2px solid var(--border); text-align:center;">';
+      hHtml += '<th style="padding:8px 8px 8px 12px; text-align:left;">Indicator</th>';
+      hHtml += '<th style="padding:8px;">Short</th>';
+      hHtml += '<th style="padding:8px;">Medium</th>';
+      hHtml += '<th style="padding:8px;">Long</th>';
+      hHtml += '<th style="padding:8px; text-align:left;">Coherence</th>';
+      hHtml += '<th style="padding:8px; text-align:left;">Implication</th>';
+      hHtml += '</tr></thead><tbody>';
+      
+      const horizonKeys = Object.keys(window._v2Classified).filter(k => {
+          const t = window._v2Classified[k].trend;
+          return t && t.coherence && t.coherence !== 'insufficient_data';
+      });
+      
+      function arrowBadge(dir) {
+        if (dir === 'rising')  return '<span style="color:#ef4444;font-size:16px;font-weight:700">↑</span>';
+        if (dir === 'falling') return '<span style="color:#22c55e;font-size:16px;font-weight:700">↓</span>';
+        if (dir === 'neutral') return '<span style="color:#888;font-size:16px;font-weight:700">→</span>';
+        return '<span style="color:#aaa;font-size:12px">?</span>';
+      }
+      
+      function coherenceBadge(c) {
+        const label = (c || '').split('_').join(' ');
+        const colors = {
+          'confirmed uptrend':  'background:#fef2f2;color:#dc2626;border:1px solid #fecaca',
+          'confirmed downtrend':'background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0',
+          'upward bias':        'background:#fff7ed;color:#ea580c;border:1px solid #fed7aa',
+          'downward bias':      'background:#ecfdf5;color:#059669;border:1px solid #a7f3d0',
+          'stable':             'background:#f8fafc;color:#64748b;border:1px solid #e2e8f0',
+          'horizon divergence': 'background:#fffbeb;color:#d97706;border:1px solid #fde68a',
+          'mixed':              'background:#fefce8;color:#a16207;border:1px solid #fef08a',
+        };
+        const style = colors[label] || 'background:#f1f5f9;color:#475569;border:1px solid #e2e8f0';
+        return '<span style="'+style+';padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;white-space:nowrap">'+label+'</span>';
+      }
+      
+      const lowerBetter = new Set(['initial_claims', 'continuing_claims', 'unemployment', 'sloos_ci_standards', 'sloos_small_biz_standards', 'charge_offs', 'cc_delinquency_rate', 'mortgage_delinquency_rate', 'chicago_fed_nfci', 'sahm_rule', 'core_pce_yoy', 'core_pce_1m_ann', 'core_pce_3m_ann', 'core_pce_6m_ann', 'trimmed_pce_yoy', 'pce_yoy', 'median_cpi_1m_ann', 'median_cpi_yoy', 'trimmed_cpi_1m_ann', 'trimmed_cpi_yoy', 'cpi_core_goods_yoy', 'cpi_housing_yoy', 'ppi_final_demand_yoy', 'import_prices_yoy', 'avg_hourly_wage_yoy', 'tip_yield_10y_tips', '10y', '20y', '30y', '5y', '7y', '3y', '2y', '1y', '03m', '03m_10y_spread', 'fed_fund_rate', '10y_acm_term_premium_model_est', 'vix']);
+      const higherBetter = new Set(['nfp_mom', 'private_payrolls_mom', 'atlanta_fed_gdpnow', 'industrial_production_yoy', 'core_capex_orders_yoy_nsa', 'consumer_sentiment', 'real_pce_mom', 'retail_sales_control_mom', 'jolts_openings', 'quits_rate', 'sloos_ci_demand', 'mfg_pns_avg_weekly_hrs', 'agg_weekly_hours_yoy', 'temp_help_employment_yoy', 'sp500', 'dow_jones', 'nasdaq', 'russell2000', 'xlk', 'soxx', 'igv', 'mags', 'xlv', 'ibb', 'xly', 'xrt', 'xlp', 'xle', 'icln', 'xlb', 'gdx', 'xlre', 'xlf', 'kre', 'kbe', 'hg_copper', 'm2_yoy', 'ci_loans_yoy', 'consumer_loans_yoy']);
+
+      if (horizonKeys.length > 0) {
+          for (const k of horizonKeys) {
+              const t = window._v2Classified[k].trend;
+              const lbl = (window._v2Classified[k].level?.label || k).replace(/_/g, ' ');
+              
+              let impl = '<span style="color:#64748b;font-size:11px">Context-dependent</span>';
+              if (t.coherence.includes('uptrend') || t.coherence.includes('upward')) {
+                  if (lowerBetter.has(k)) impl = '<span style="color:#dc2626;font-size:11px;font-weight:500">Deteriorating</span>';
+                  else if (higherBetter.has(k)) impl = '<span style="color:#16a34a;font-size:11px;font-weight:500">Improving</span>';
+              } else if (t.coherence.includes('downtrend') || t.coherence.includes('downward')) {
+                  if (lowerBetter.has(k)) impl = '<span style="color:#16a34a;font-size:11px;font-weight:500">Improving</span>';
+                  else if (higherBetter.has(k)) impl = '<span style="color:#dc2626;font-size:11px;font-weight:500">Deteriorating</span>';
+              } else if (t.coherence === 'stable') {
+                  impl = '<span style="color:#64748b;font-size:11px">Neutral</span>';
+              } else if (t.coherence.includes('divergence') || t.coherence === 'mixed') {
+                  impl = '<span style="color:#d97706;font-size:11px">Mixed</span>';
+              }
+
+              hHtml += '<tr style="border-bottom:1px solid rgba(241,245,249,0.5);">';
+              hHtml += '<td style="padding:6px 8px 6px 12px; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="'+k+'">'+lbl+'</td>';
+              hHtml += '<td style="padding:6px 8px; text-align:center;">'+arrowBadge(t.shortTerm)+'</td>';
+              hHtml += '<td style="padding:6px 8px; text-align:center;">'+arrowBadge(t.mediumTerm)+'</td>';
+              hHtml += '<td style="padding:6px 8px; text-align:center;">'+arrowBadge(t.longTerm)+'</td>';
+              hHtml += '<td style="padding:6px 8px;">'+coherenceBadge(t.coherence)+'</td>';
+              hHtml += '<td style="padding:6px 8px;">'+impl+'</td>';
+              hHtml += '</tr>';
+          }
+      } else {
+          hHtml += '<tr><td colspan="6" style="padding:12px; color:var(--text3); text-align:center;">No horizon data available</td></tr>';
+      }
+      hHtml += '</tbody></table>';
+      multiHorizon.innerHTML = hHtml;
+  }
+  
+  const whyToday = document.getElementById('whyTodayModule');
+  if (whyToday && data.eventAttribution && data.eventAttribution.status === 'ok') {
+      const ea = data.eventAttribution;
+      const isZh = document.documentElement.lang === 'zh' || document.querySelector('.lang-btn.active')?.textContent?.includes('中文');
+      
+      // Summary bar
+      const sumEl = document.getElementById('eaSummary');
+      if (sumEl) sumEl.textContent = `${ea.eventsScanned} events · ${ea.materialEvents} material · ${ea.unmatchedMoveClusters} unmatched`;
+      
+      // Filter by selected range
+      const activeBtn = document.querySelector('.ea-range-btn.ea-active');
+      const rangeDays = parseInt(activeBtn?.dataset?.days || '90');
+      const cutoff = new Date(Date.now() - rangeDays * 86400000).toISOString().slice(0, 10);
+      const filtered = (ea.events || []).filter(e => e.event.date >= cutoff);
+      
+      if (filtered.length === 0) {
+        whyToday.innerHTML = '<div style="color:var(--text2);font-size:13px;padding:12px 0;">No events found in this time range.</div>';
+        return;
+      }
+      
+      let html = '<div class="ea-timeline">';
+      for (const evt of filtered) {
+        const e = evt.event;
+        const typeClass = e.type === 'FOMC_DECISION' ? 'ea-fomc' :
+                          (e.type === 'NFP_RELEASE' || e.type === 'CPI_RELEASE' || e.type === 'PCE_RELEASE' || e.type === 'GDP_RELEASE' || e.type === 'ISM_RELEASE') ? 'ea-macro' :
+                          e.type === 'EARNINGS' ? 'ea-earnings' :
+                          e.type === 'UNMATCHED_MOVE' ? 'ea-unmatched' : 'ea-shock';
+        const icon = e.type === 'FOMC_DECISION' ? '🏛' :
+                     e.type === 'NFP_RELEASE' ? '👷' :
+                     e.type === 'CPI_RELEASE' ? '📊' :
+                     e.type === 'EARNINGS' ? '💰' :
+                     e.type === 'UNMATCHED_MOVE' ? '⚠️' :
+                     e.type === 'MARKET_EVENT' ? '⚡' : '📋';
+        
+        // Confidence badge
+        const conf = evt.attribution;
+        let confBadge = '';
+        if (conf.classification === 'high_confidence') confBadge = '<span class="ea-conf-badge ea-conf-high">🟢 High confidence</span>';
+        else if (conf.classification === 'likely_related') confBadge = '<span class="ea-conf-badge ea-conf-likely">🔵 Likely related</span>';
+        else if (conf.classification === 'mixed') confBadge = '<span class="ea-conf-badge ea-conf-mixed">🟡 Mixed</span>';
+        else if (conf.classification === 'low_confidence') confBadge = '<span class="ea-conf-badge ea-conf-low">⚪ Low confidence</span>';
+        else if (conf.classification === 'unmatched_move') confBadge = '<span class="ea-conf-badge ea-conf-unmatched">🔴 No matched catalyst</span>';
+        else if (conf.reactionStatus === 'no_material_reaction') confBadge = '<span class="ea-conf-badge ea-conf-nomat">— No material reaction</span>';
+        else if (conf.reactionStatus === 'insufficient_data') confBadge = '<span class="ea-conf-badge ea-conf-nomat">— Insufficient data</span>';
+        
+        // Date formatting
+        const d = new Date(e.date + 'T12:00:00');
+        const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        
+        // Move chips
+        const reactions = evt.reactions || [];
+        let moveChips = '';
+        if (reactions.length > 0) {
+          moveChips = '<div class="ea-moves">' + reactions.map(r => {
+            const cls = r.change > 0 ? 'ea-up' : r.change < 0 ? 'ea-down' : '';
+            return `<span class="ea-move-chip ${cls}">${r.label}: ${r.formattedChange}</span>`;
+          }).join('') + '</div>';
+        }
+        
+        // Event result summary (for expandable detail)
+        let resultHtml = '';
+        if (evt.result && e.type !== 'UNMATCHED_MOVE') {
+          const r = evt.result;
+          if (e.type === 'FOMC_DECISION') {
+            resultHtml = `<div class="ea-detail-section">Event Result</div>`;
+            resultHtml += `<div class="ea-detail-row">Decision: ${r.decision || '?'} ${r.vote ? '· Vote: ' + r.vote : ''} ${r.dissentDirection ? '· Dissent: ' + r.dissentDirection : ''}</div>`;
+            if (r.targetLower != null) resultHtml += `<div class="ea-detail-row">Target: ${r.targetLower}–${r.targetUpper}%</div>`;
+          } else if (e.type === 'NFP_RELEASE') {
+            resultHtml = `<div class="ea-detail-section">Event Data</div>`;
+            resultHtml += `<div class="ea-detail-row">Actual: ${r.actual != null ? r.actual + 'k' : '?'} · Consensus: ${r.consensus != null ? r.consensus + 'k' : '?'} · Surprise: ${r.surprise != null ? (r.surprise > 0 ? '+' : '') + r.surprise + 'k' : '?'}</div>`;
+            if (r.previousAsReported != null || r.previous != null) resultHtml += `<div class="ea-detail-row">Previous: ${r.previousAsReported || r.previous}k${r.revisedPrevious != null || r.previousRevisedInThisRelease != null ? ' (revised: ' + (r.previousRevisedInThisRelease || r.revisedPrevious) + 'k)' : ''}</div>`;
+          } else if (e.type === 'CPI_RELEASE') {
+            resultHtml = `<div class="ea-detail-section">Event Data</div>`;
+            if (r.headline_yoy != null) resultHtml += `<div class="ea-detail-row">Headline YoY: ${r.headline_yoy}%</div>`;
+            if (r.core_yoy != null) resultHtml += `<div class="ea-detail-row">Core YoY: ${r.core_yoy}%</div>`;
+          }
+        }
+        
+        // Competing events
+        let competingHtml = '';
+        if (evt.competingEvents && evt.competingEvents.length > 0) {
+          competingHtml = `<div class="ea-detail-section">⚠ Competing Events</div>`;
+          competingHtml += evt.competingEvents.map(c => `<div class="ea-detail-row">${c.date} · ${c.label} (${c.type})</div>`).join('');
+        }
+        
+        // Narrative
+        const narrative = evt.narrative ? (isZh ? (evt.narrative.zh || evt.narrative.en) : evt.narrative.en) : '';
+        
+        // Warnings
+        let warningHtml = '';
+        if (evt.dataWarnings && evt.dataWarnings.length > 0) {
+          warningHtml = evt.dataWarnings.map(w => `<div class="ea-warning">⚠ ${w}</div>`).join('');
+        }
+        
+        html += `
+        <div class="ea-event ${typeClass}" onclick="this.classList.toggle('ea-expanded')">
+          <div class="ea-header">
+            <span class="ea-icon">${icon}</span>
+            <span class="ea-date">${dateStr}</span>
+            <span class="ea-label">${e.label}</span>
+            ${confBadge}
+          </div>
+          ${moveChips}
+          <div class="ea-detail">
+            ${resultHtml}
+            ${narrative ? `<div class="ea-narrative">${narrative}</div>` : ''}
+            ${competingHtml}
+            ${warningHtml}
+            ${conf.score != null ? `<div class="ea-detail-row" style="margin-top:6px;">Attribution score: ${conf.score} · Classification: ${conf.classification}</div>` : ''}
+          </div>
+        </div>`;
+      }
+      html += '</div>';
+      whyToday.innerHTML = html;
+  } else if (whyToday && data.eventAttribution) {
+      whyToday.innerHTML = `<div style="color:var(--text2);font-size:12px;">Event attribution: ${data.eventAttribution.status || 'unavailable'}${data.eventAttribution.error ? ' — ' + data.eventAttribution.error : ''}</div>`;
+  }
+  
+  const qqq = document.getElementById('qqqContextBody');
+  if (qqq && data.actionContext) {
+      qqq.innerHTML = `<pre style="font-size:10px;overflow-x:auto;padding:8px;background:#f8fafc;border-radius:6px;color:#334155;">${JSON.stringify(data.actionContext, null, 2)}</pre>`;
+  }
+};
+
+// Data tables expanded by default — click to collapse
+window.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll('.tbl-wrap').forEach(el => {
+    const details = document.createElement('details');
+    details.open = true;
+    const summary = document.createElement('summary');
+    summary.style.cssText = 'padding:10px; cursor:pointer; color:var(--text2); font-size:12px; font-weight:600; outline:none; background:#f8fafc; border-radius:6px; margin-bottom:8px; display:inline-block; border:1px solid var(--border);';
+    summary.innerText = 'Collapse Data Table / 收起数据表';
+    el.parentNode.insertBefore(details, el);
+    details.appendChild(summary);
+    details.appendChild(el);
+    details.addEventListener('toggle', () => {
+      summary.innerText = details.open ? 'Collapse Data Table / 收起数据表' : 'Expand Data Table / 展开数据表';
+    });
+  });
+  
+  // Event Attribution range buttons
+  document.querySelectorAll('.ea-range-btn').forEach(btn => {
+    btn.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      document.querySelectorAll('.ea-range-btn').forEach(b => b.classList.remove('ea-active'));
+      btn.classList.add('ea-active');
+      // Re-render by re-calling renderDiagnostics with cached data
+      if (window._lastDashboardData) {
+        renderDiagnostics(window._lastDashboardData.diagnostics);
+      }
+    });
+  });
+});
 </script>
 </body>
 </html>

@@ -1,0 +1,208 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Systematic Flow Proxy Engine v1 API Schema",
+  "type": "object",
+  "required": [
+    "status",
+    "schemaVersion",
+    "snapshotQuality",
+    "marketDataAsOf",
+    "snapshotGeneratedAt",
+    "summary",
+    "volControl",
+    "leveragedEtf",
+    "ctaTrend",
+    "riskParityProxy",
+    "pensionRebalance",
+    "stressConditions"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["ok", "error"]
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "snapshotQuality": {
+      "type": "string",
+      "enum": ["complete", "partial"]
+    },
+    "marketDataAsOf": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "snapshotGeneratedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "dominantRegime",
+        "mechanismCount",
+        "driverCount",
+        "duplicatedDriverCount",
+        "independentDataDomains",
+        "confidence",
+        "flowTimeline",
+        "narrative"
+      ],
+      "properties": {
+        "dominantRegime": { "type": "string" },
+        "mechanismCount": { "type": "integer", "minimum": 0 },
+        "driverCount": { "type": "integer", "minimum": 0 },
+        "duplicatedDriverCount": { "type": "integer", "minimum": 0 },
+        "independentDataDomains": { "type": "array", "items": { "type": "string" } },
+        "confidence": { "type": "string" },
+        "excludedModules": { "type": "array", "items": { "type": "string" } },
+        "flowTimeline": { "type": "object" },
+        "narrative": { "type": "object" },
+        "trendAmplifiers": { "type": "object" },
+        "crossAssetDeRisking": { "type": "object" },
+        "counterCyclicalFlows": { "type": "object" }
+      }
+    },
+    "volControl": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "type": "string", "enum": ["ok", "insufficient_data", "calculation_error", "series_too_stale"] },
+        "targetExposureToday": { "type": ["number", "null"] },
+        "actualExposureYesterday": { "type": ["number", "null"] },
+        "actualExposureToday": { "type": ["number", "null"] },
+        "dailyPositionChange": { "type": ["number", "null"] },
+        "fiveDayActualChange": { "type": ["number", "null"] },
+        "remainingExposureGap": { "type": ["number", "null"] },
+        "estimatedDailyFlowUsd": { "type": ["number", "null"] },
+        "nextDayEstimateIfTargetUnchanged": { "type": ["number", "null"] },
+        "estimatedFlowRange": {
+          "type": ["object", "null"],
+          "properties": {
+            "low": { "type": "number" },
+            "high": { "type": "number" }
+          },
+          "required": ["low", "high"]
+        }
+      },
+      "if": {
+        "properties": { "status": { "const": "ok" } }
+      },
+      "then": {
+        "required": [
+          "targetExposureToday",
+          "actualExposureToday",
+          "dailyPositionChange",
+          "estimatedDailyFlowUsd",
+          "remainingExposureGap",
+          "estimatedFlowRange"
+        ]
+      }
+    },
+    "leveragedEtf": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "type": "string", "enum": ["ok", "insufficient_data", "calculation_error", "series_too_stale"] },
+        "totalGrossRebalanceUsd": { "type": ["number", "null"] },
+        "estimateRange": {
+          "type": ["object", "null"],
+          "properties": {
+            "low": { "type": "number" },
+            "high": { "type": "number" }
+          },
+          "required": ["low", "high"]
+        }
+      },
+      "if": {
+        "properties": { "status": { "const": "ok" } }
+      },
+      "then": {
+        "required": ["totalGrossRebalanceUsd", "estimateRange"]
+      }
+    },
+    "ctaTrend": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "type": "string", "enum": ["ok", "insufficient_data", "calculation_error", "series_too_stale"] },
+        "positionRegime": { "type": ["string", "null"] },
+        "flowPressure": { "type": ["string", "null"] },
+        "aggregatePositionChange": { "type": ["number", "null"] },
+        "assets": { "type": ["array", "null"] },
+        "commonAsOfDate": { "type": ["string", "null"] }
+      },
+      "if": {
+        "properties": { "status": { "const": "ok" } }
+      },
+      "then": {
+        "required": ["positionRegime", "flowPressure", "aggregatePositionChange", "assets", "commonAsOfDate"]
+      }
+    },
+    "riskParityProxy": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "type": "string", "enum": ["ok", "insufficient_data", "calculation_error", "series_too_stale"] },
+        "equityAllocationChange5d": { "type": ["number", "null"] },
+        "bondAllocationChange5d": { "type": ["number", "null"] },
+        "modelLeverageChange5d": { "type": ["number", "null"] },
+        "allocationDirection": { "type": ["string", "null"] },
+        "deleveragingPressure": { "type": ["string", "null"] },
+        "commonAsOfDate": { "type": ["string", "null"] }
+      },
+      "if": {
+        "properties": { "status": { "const": "ok" } }
+      },
+      "then": {
+        "required": [
+          "equityAllocationChange5d",
+          "bondAllocationChange5d",
+          "modelLeverageChange5d",
+          "allocationDirection",
+          "deleveragingPressure",
+          "commonAsOfDate"
+        ]
+      }
+    },
+    "pensionRebalance": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "type": "string", "enum": ["ok", "insufficient_data", "calculation_error", "not_in_window"] },
+        "currentEquityWeight": { "type": ["number", "null"] },
+        "targetEquityWeight": { "type": ["number", "null"] },
+        "equityOverweightPct": { "type": ["number", "null"] },
+        "daysToMonthEnd": { "type": ["integer", "null"], "minimum": 0 },
+        "isRebalanceWindow": { "type": ["boolean", "null"] }
+      }
+    },
+    "stressConditions": {
+      "type": "object",
+      "required": ["status", "stressScore", "vix", "hyOas"],
+      "properties": {
+        "status": { "type": "string", "enum": ["calm", "watch", "elevated", "stress", "crisis", "insufficient_data", "calculation_error", "series_too_stale"] },
+        "stressScore": { "type": ["integer", "null"] },
+        "vix": { "type": ["number", "null"] },
+        "hyOas": { "type": ["number", "null"] },
+        "estimatedFlowUsd": { "type": "null" },
+        "missingInputs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "if": {
+        "properties": { "status": { "const": "insufficient_data" } }
+      },
+      "then": {
+        "properties": {
+          "stressScore": { "type": "null" },
+          "missingInputs": { "type": "array", "minItems": 1 }
+        },
+        "required": ["missingInputs"]
+      }
+    }
+  },
+  "additionalProperties": true
+}

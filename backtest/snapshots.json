@@ -1,0 +1,1372 @@
+{
+  "2026-08-03": {
+    "status": "ok",
+    "schemaVersion": 2,
+    "snapshotQuality": "complete",
+    "marketDataAsOf": "2026-07-31",
+    "decisionDate": "2026-08-03",
+    "signalAvailableAt": "2026-08-03T18:00:00Z",
+    "engineVersion": "flow-engine-v2.0.0",
+    "moduleVersions": {
+      "volControl": "vol-control-v2",
+      "ctaFuturesProxy": "cta-futures-v1",
+      "ctaEtfProxy": "cta-etf-v1",
+      "riskParity": "risk-parity-v2"
+    },
+    "modelInputManifest": {
+      "ctaFuturesProxy": [
+        "CL=F",
+        "GC=F",
+        "NG=F"
+      ],
+      "ctaEtfProxy": [
+        "SPY",
+        "QQQ",
+        "IWM",
+        "IEF",
+        "USO",
+        "GLD"
+      ]
+    },
+    "snapshotGeneratedAt": "2026-08-06T15:11:17.200Z",
+    "summary": {
+      "trendAmplifiers": {
+        "Vol-control —": "selling",
+        "CTA trend (Futures) —": "neutral",
+        "CTA trend (ETF) —": "neutral"
+      },
+      "dominantRegime": "procyclical_sell",
+      "activeFlowMechanismCount": 1,
+      "activeRotationMechanismCount": 2,
+      "primaryCommonDrivers": [
+        "equity_price"
+      ],
+      "supportingDataDomains": [
+        "rates",
+        "commodities",
+        "volatility",
+        "credit"
+      ],
+      "confidence": {
+        "mechanism": "medium",
+        "netDirection": "high",
+        "amount": "low"
+      },
+      "excludedModules": [],
+      "timelinePressures": {
+        "ongoing1To5Days": {
+          "status": "ok",
+          "direction": "selling",
+          "mechanisms": [
+            "volControl"
+          ],
+          "confidence": "medium_low"
+        },
+        "recent5To20Days": {
+          "status": "ok",
+          "direction": "equity_to_bonds",
+          "mechanisms": [
+            "riskParity"
+          ],
+          "confidence": "medium"
+        },
+        "conditionalFuture": {
+          "status": "ok",
+          "direction": "none",
+          "mechanisms": [
+            "pensionRebalance",
+            "stressConditions"
+          ],
+          "confidence": "low"
+        }
+      },
+      "flowTimeline": {},
+      "crossAssetDeRisking": {
+        "Risk parity —": "rotation_equity to bonds rotation",
+        "Stress deleveraging —": "not triggered"
+      },
+      "counterCyclicalFlows": {
+        "pension": "sell_equities_buy_bonds"
+      },
+      "narrative": {
+        "en": "Proxy models identify 1 active forward-looking flow mechanism(s) and 2 recent rotation mechanism(s), consistent with procyclical sell pressure.",
+        "zh": "代理模型识别1个活跃的前瞻资金流机制和2个近期轮动机制，整体资金压力偏向卖出。"
+      }
+    },
+    "modules": {
+      "volControl": {
+        "status": "ok",
+        "targetExposureToday": 0.7761,
+        "actualExposureYesterday": 0.8595,
+        "actualExposureToday": 0.8386,
+        "dailyPositionChange": -0.0209,
+        "fiveDayActualChange": -0.0308,
+        "remainingExposureGap": -0.0626,
+        "estimatedDailyFlowUsd": -8342408851.548688,
+        "nextDayEstimateIfTargetUnchanged": -6256806638.661505,
+        "estimatedFlowRange": {
+          "low": -4171204425.774344,
+          "high": -12513613277.323032
+        },
+        "flowPressure": "selling",
+        "aggregateDirection": "sell"
+      },
+      "leveragedEtf": {
+        "status": "ok",
+        "funds": [
+          {
+            "name": "SPXL/UPRO",
+            "leverage": 3,
+            "aum": 12000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.007003619811609907,
+            "grossRebalanceUsd": 504260626.4359133,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SPXS/SDS",
+            "leverage": -3,
+            "aum": 2000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.007003619811609907,
+            "grossRebalanceUsd": 168086875.47863775,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SSO",
+            "leverage": 2,
+            "aum": 8000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.007003619811609907,
+            "grossRebalanceUsd": 112057916.98575851,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "TQQQ",
+            "leverage": 3,
+            "aum": 28000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.010017837788184325,
+            "grossRebalanceUsd": 1682996748.4149666,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SQQQ",
+            "leverage": -3,
+            "aum": 5000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.010017837788184325,
+            "grossRebalanceUsd": 601070267.2910595,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SOXL",
+            "leverage": 3,
+            "aum": 10000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.0007135670836493357,
+            "grossRebalanceUsd": 42814025.01896015,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SOXS",
+            "leverage": -3,
+            "aum": 2000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.0007135670836493357,
+            "grossRebalanceUsd": 17125610.007584058,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          }
+        ],
+        "totalGrossRebalanceUsd": 3128412069.6328797,
+        "estimateRange": {
+          "low": 1877047241.7797277,
+          "high": 3754094483.5594554
+        },
+        "executionTiming": "Theoretical full-session gross rebalance | Closing residual: not estimable",
+        "aggregateDirection": "buy"
+      },
+      "ctaFuturesProxy": {
+        "status": "ok",
+        "positionRegime": "neutral",
+        "flowPressure": "neutral",
+        "aggregatePositionChange": 0.08318859381313955,
+        "assets": [
+          {
+            "asset": "S&P 500",
+            "label": "S&P 500",
+            "observationDate": "2026-07-31",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 1,
+            "signalYesterday": 0.3333,
+            "volScaleToday": 0.8015,
+            "volScaleYesterday": 0.8193,
+            "signalEffect": 0.5462,
+            "volScalingEffect": -0.0178,
+            "positionChange": 0.5284,
+            "distanceToSma50Pct": 0.24
+          },
+          {
+            "asset": "Nasdaq",
+            "label": "Nasdaq",
+            "observationDate": "2026-07-31",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 0.3333,
+            "signalYesterday": 0.3333,
+            "volScaleToday": 0.4943,
+            "volScaleYesterday": 0.5011,
+            "signalEffect": 0,
+            "volScalingEffect": -0.0023,
+            "positionChange": -0.0023,
+            "distanceToSma50Pct": -2.26
+          },
+          {
+            "asset": "Russell 2000",
+            "label": "Russell 2000",
+            "observationDate": "2026-07-31",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 0.3333,
+            "signalYesterday": 1,
+            "volScaleToday": 0.7404,
+            "volScaleYesterday": 0.7393,
+            "signalEffect": -0.4929,
+            "volScalingEffect": 0.0003,
+            "positionChange": -0.4925,
+            "distanceToSma50Pct": -0.41
+          },
+          {
+            "asset": "10Y Yield Trend Signal (short-duration bias)",
+            "label": "10Y Yield Trend Signal (short-duration bias)",
+            "observationDate": "2026-07-31",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -1,
+            "volScaleToday": 0.7543,
+            "volScaleYesterday": 0.8018,
+            "signalEffect": 0,
+            "volScalingEffect": 0.0475,
+            "positionChange": 0.0475,
+            "distanceToSma50Pct": 4.57
+          },
+          {
+            "asset": "Oil",
+            "label": "Oil",
+            "observationDate": "2026-07-31",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 0.3333,
+            "signalYesterday": 0.3333,
+            "volScaleToday": 0.1615,
+            "volScaleYesterday": 0.1614,
+            "signalEffect": 0,
+            "volScalingEffect": 0.0001,
+            "positionChange": 0.0001,
+            "distanceToSma50Pct": 2.91
+          },
+          {
+            "asset": "Gold",
+            "label": "Gold",
+            "observationDate": "2026-07-31",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -1,
+            "volScaleToday": 0.4571,
+            "volScaleYesterday": 0.459,
+            "signalEffect": 0,
+            "volScalingEffect": 0.0019,
+            "positionChange": 0.0019,
+            "distanceToSma50Pct": -3.75
+          },
+          {
+            "asset": "Natural Gas",
+            "label": "Natural Gas",
+            "observationDate": "2026-07-31",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -1,
+            "volScaleToday": 0.2774,
+            "volScaleYesterday": 0.2775,
+            "signalEffect": 0,
+            "volScalingEffect": 0.0002,
+            "positionChange": 0.0002,
+            "distanceToSma50Pct": -11.64
+          }
+        ],
+        "commonAsOfDate": "2026-07-31",
+        "predictiveSummaryEligible": false,
+        "displayRole": "descriptive_only"
+      },
+      "ctaEtfProxy": {
+        "status": "ok",
+        "positionRegime": "neutral",
+        "flowPressure": "neutral",
+        "aggregatePositionChange": 0.045231301692977344,
+        "assets": [
+          {
+            "asset": "S&P 500 ETF",
+            "label": "S&P 500 ETF",
+            "observationDate": "2026-07-31",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 1,
+            "signalYesterday": 0.3333,
+            "volScaleToday": 0.7877,
+            "volScaleYesterday": 0.8047,
+            "signalEffect": 0.5365,
+            "volScalingEffect": -0.017,
+            "positionChange": 0.5195,
+            "distanceToSma50Pct": 0.38
+          },
+          {
+            "asset": "Nasdaq ETF",
+            "label": "Nasdaq ETF",
+            "observationDate": "2026-07-31",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 0.3333,
+            "signalYesterday": 0.3333,
+            "volScaleToday": 0.4205,
+            "volScaleYesterday": 0.4132,
+            "signalEffect": 0,
+            "volScalingEffect": 0.0024,
+            "positionChange": 0.0024,
+            "distanceToSma50Pct": -3.89
+          },
+          {
+            "asset": "Russell 2000 ETF",
+            "label": "Russell 2000 ETF",
+            "observationDate": "2026-07-31",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 0.3333,
+            "signalYesterday": 1,
+            "volScaleToday": 0.7418,
+            "volScaleYesterday": 0.7394,
+            "signalEffect": -0.4929,
+            "volScalingEffect": 0.0008,
+            "positionChange": -0.4921,
+            "distanceToSma50Pct": -0.36
+          },
+          {
+            "asset": "7-10 Yr Treasury ETF",
+            "label": "7-10 Yr Treasury ETF",
+            "observationDate": "2026-07-31",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -1,
+            "volScaleToday": 2.3976,
+            "volScaleYesterday": 2.4246,
+            "signalEffect": 0,
+            "volScalingEffect": 0.027,
+            "positionChange": 0.027,
+            "distanceToSma50Pct": -0.8
+          },
+          {
+            "asset": "Oil ETF",
+            "label": "Oil ETF",
+            "observationDate": "2026-07-31",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 1,
+            "signalYesterday": 1,
+            "volScaleToday": 0.1588,
+            "volScaleYesterday": 0.1587,
+            "signalEffect": 0,
+            "volScalingEffect": 0,
+            "positionChange": 0,
+            "distanceToSma50Pct": 4.55
+          },
+          {
+            "asset": "Gold ETF",
+            "label": "Gold ETF",
+            "observationDate": "2026-07-31",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -1,
+            "volScaleToday": 0.465,
+            "volScaleYesterday": 0.4535,
+            "signalEffect": 0,
+            "volScalingEffect": -0.0115,
+            "positionChange": -0.0115,
+            "distanceToSma50Pct": -3.7
+          }
+        ],
+        "commonAsOfDate": "2026-07-31",
+        "predictiveSummaryEligible": true
+      },
+      "riskParity": {
+        "status": "ok",
+        "equityAllocationChange5d": -0.008259653294293456,
+        "bondAllocationChange5d": 0.008259653294293456,
+        "modelLeverageChange5d": 0,
+        "allocationDirection": "equity_to_bonds",
+        "deleveragingPressure": "none",
+        "totalDeRisking": false,
+        "commonAsOfDate": "2026-07-31"
+      },
+      "pensionRebalance": {
+        "status": "ok",
+        "currentEquityWeight": 0.6057,
+        "targetEquityWeight": 0.6,
+        "equityOverweightPct": 0.5704,
+        "daysToMonthEnd": 0,
+        "isRebalanceWindow": true,
+        "expectedFlow": "sell_equities_buy_bonds"
+      },
+      "stressConditions": {
+        "status": "calm",
+        "stressScore": 0,
+        "vix": 15.99,
+        "hyOas": 285,
+        "estimatedFlowUsd": null
+      }
+    },
+    "meta": {
+      "replayGenesisDate": "2016-08-08",
+      "viewStartDate": "2026-08-01",
+      "viewEndDate": "2026-08-05",
+      "warmupTradingDays": 2509,
+      "previousStateHash": "70243961623486f63a5587ad63ccfa3e8014a1a90c901fc9fbef4e092a73a76a",
+      "outputStateHash": "64e0c758548535721c689c6af3416990d217f4dd8ae4bbeb1d0e81ed688f2b3a",
+      "previousModelStateHash": null,
+      "outputModelStateHash": null,
+      "stateChainBreaks": 0
+    }
+  },
+  "2026-08-04": {
+    "status": "ok",
+    "schemaVersion": 2,
+    "snapshotQuality": "complete",
+    "marketDataAsOf": "2026-08-03",
+    "decisionDate": "2026-08-04",
+    "signalAvailableAt": "2026-08-04T18:00:00Z",
+    "engineVersion": "flow-engine-v2.0.0",
+    "moduleVersions": {
+      "volControl": "vol-control-v2",
+      "ctaFuturesProxy": "cta-futures-v1",
+      "ctaEtfProxy": "cta-etf-v1",
+      "riskParity": "risk-parity-v2"
+    },
+    "modelInputManifest": {
+      "ctaFuturesProxy": [
+        "CL=F",
+        "GC=F",
+        "NG=F"
+      ],
+      "ctaEtfProxy": [
+        "SPY",
+        "QQQ",
+        "IWM",
+        "IEF",
+        "USO",
+        "GLD"
+      ]
+    },
+    "snapshotGeneratedAt": "2026-08-06T15:11:17.467Z",
+    "summary": {
+      "trendAmplifiers": {
+        "Vol-control —": "selling",
+        "CTA trend (Futures) —": "buying",
+        "CTA trend (ETF) —": "buying"
+      },
+      "dominantRegime": "conflicting",
+      "activeFlowMechanismCount": 2,
+      "activeRotationMechanismCount": 1,
+      "primaryCommonDrivers": [
+        "equity_price"
+      ],
+      "supportingDataDomains": [
+        "rates",
+        "commodities",
+        "volatility",
+        "credit"
+      ],
+      "confidence": {
+        "mechanism": "medium",
+        "netDirection": "low",
+        "amount": "low"
+      },
+      "excludedModules": [],
+      "timelinePressures": {
+        "ongoing1To5Days": {
+          "status": "ok",
+          "direction": "conflicting",
+          "mechanisms": [
+            "volControl",
+            "ctaEtfProxy"
+          ],
+          "confidence": "medium_low"
+        },
+        "recent5To20Days": {
+          "status": "ok",
+          "direction": "equity_to_bonds",
+          "mechanisms": [
+            "riskParity"
+          ],
+          "confidence": "medium"
+        },
+        "conditionalFuture": {
+          "status": "ok",
+          "direction": "none",
+          "mechanisms": [
+            "pensionRebalance",
+            "stressConditions"
+          ],
+          "confidence": "low"
+        }
+      },
+      "flowTimeline": {},
+      "crossAssetDeRisking": {
+        "Risk parity —": "rotation_equity to bonds rotation",
+        "Stress deleveraging —": "not triggered"
+      },
+      "counterCyclicalFlows": {
+        "pension": "outside window | bias: sell equities / buy bonds | current pressure: none"
+      },
+      "narrative": {
+        "en": "Proxy models identify 2 active forward-looking flow mechanism(s) and 1 recent rotation mechanism(s), consistent with conflicting pressure.",
+        "zh": "代理模型识别2个活跃的前瞻资金流机制和1个近期轮动机制，整体资金压力互相冲突。"
+      }
+    },
+    "modules": {
+      "volControl": {
+        "status": "ok",
+        "targetExposureToday": 0.7449,
+        "actualExposureYesterday": 0.8386,
+        "actualExposureToday": 0.8152,
+        "dailyPositionChange": -0.0234,
+        "fiveDayActualChange": -0.0575,
+        "remainingExposureGap": -0.0703,
+        "estimatedDailyFlowUsd": -9369594888.755861,
+        "nextDayEstimateIfTargetUnchanged": -7027196166.5668955,
+        "estimatedFlowRange": {
+          "low": -4684797444.377931,
+          "high": -14054392333.133793
+        },
+        "flowPressure": "selling",
+        "aggregateDirection": "sell"
+      },
+      "leveragedEtf": {
+        "status": "ok",
+        "funds": [
+          {
+            "name": "SPXL/UPRO",
+            "leverage": 3,
+            "aum": 12000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.01479091098465024,
+            "grossRebalanceUsd": 1064945590.8948174,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SPXS/SDS",
+            "leverage": -3,
+            "aum": 2000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.01479091098465024,
+            "grossRebalanceUsd": 354981863.6316058,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SSO",
+            "leverage": 2,
+            "aum": 8000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.01479091098465024,
+            "grossRebalanceUsd": 236654575.75440386,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "TQQQ",
+            "leverage": 3,
+            "aum": 28000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.021283754350323036,
+            "grossRebalanceUsd": 3575670730.85427,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SQQQ",
+            "leverage": -3,
+            "aum": 5000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.021283754350323036,
+            "grossRebalanceUsd": 1277025261.0193822,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SOXL",
+            "leverage": 3,
+            "aum": 10000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.005525912410844658,
+            "grossRebalanceUsd": 331554744.65067947,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SOXS",
+            "leverage": -3,
+            "aum": 2000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.005525912410844658,
+            "grossRebalanceUsd": 132621897.86027178,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          }
+        ],
+        "totalGrossRebalanceUsd": 6973454664.665431,
+        "estimateRange": {
+          "low": 4184072798.799258,
+          "high": 8368145597.598516
+        },
+        "executionTiming": "Theoretical full-session gross rebalance | Closing residual: not estimable",
+        "aggregateDirection": "buy"
+      },
+      "ctaFuturesProxy": {
+        "status": "ok",
+        "positionRegime": "neutral",
+        "flowPressure": "buying",
+        "aggregatePositionChange": 0.2929302866165738,
+        "assets": [
+          {
+            "asset": "S&P 500",
+            "label": "S&P 500",
+            "observationDate": "2026-08-03",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 1,
+            "signalYesterday": 1,
+            "volScaleToday": 0.7518,
+            "volScaleYesterday": 0.8015,
+            "signalEffect": 0,
+            "volScalingEffect": -0.0496,
+            "positionChange": -0.0496,
+            "distanceToSma50Pct": 1.65
+          },
+          {
+            "asset": "Nasdaq",
+            "label": "Nasdaq",
+            "observationDate": "2026-08-03",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 0.3333,
+            "signalYesterday": 0.3333,
+            "volScaleToday": 0.4696,
+            "volScaleYesterday": 0.4943,
+            "signalEffect": 0,
+            "volScalingEffect": -0.0082,
+            "positionChange": -0.0082,
+            "distanceToSma50Pct": -0.11
+          },
+          {
+            "asset": "Russell 2000",
+            "label": "Russell 2000",
+            "observationDate": "2026-08-03",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 1,
+            "signalYesterday": 0.3333,
+            "volScaleToday": 0.6724,
+            "volScaleYesterday": 0.7404,
+            "signalEffect": 0.4936,
+            "volScalingEffect": -0.068,
+            "positionChange": 0.4256,
+            "distanceToSma50Pct": 1.18
+          },
+          {
+            "asset": "10Y Yield Trend Signal (short-duration bias)",
+            "label": "10Y Yield Trend Signal (short-duration bias)",
+            "observationDate": "2026-08-03",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -1,
+            "volScaleToday": 0.7148,
+            "volScaleYesterday": 0.7543,
+            "signalEffect": 0,
+            "volScalingEffect": 0.0395,
+            "positionChange": 0.0395,
+            "distanceToSma50Pct": 3.5
+          },
+          {
+            "asset": "Oil",
+            "label": "Oil",
+            "observationDate": "2026-08-03",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -0.3333,
+            "signalYesterday": 0.3333,
+            "volScaleToday": 0.1521,
+            "volScaleYesterday": 0.1615,
+            "signalEffect": -0.1077,
+            "volScalingEffect": 0.0031,
+            "positionChange": -0.1046,
+            "distanceToSma50Pct": -1.88
+          },
+          {
+            "asset": "Gold",
+            "label": "Gold",
+            "observationDate": "2026-08-03",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -1,
+            "volScaleToday": 0.4651,
+            "volScaleYesterday": 0.4571,
+            "signalEffect": 0,
+            "volScalingEffect": -0.008,
+            "positionChange": -0.008,
+            "distanceToSma50Pct": -3.9
+          },
+          {
+            "asset": "Natural Gas",
+            "label": "Natural Gas",
+            "observationDate": "2026-08-03",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -1,
+            "volScaleToday": 0.2791,
+            "volScaleYesterday": 0.2774,
+            "signalEffect": 0,
+            "volScalingEffect": -0.0018,
+            "positionChange": -0.0018,
+            "distanceToSma50Pct": -10.11
+          }
+        ],
+        "commonAsOfDate": "2026-08-03",
+        "predictiveSummaryEligible": false,
+        "displayRole": "descriptive_only"
+      },
+      "ctaEtfProxy": {
+        "status": "ok",
+        "positionRegime": "neutral",
+        "flowPressure": "buying",
+        "aggregatePositionChange": 0.21782399754855233,
+        "assets": [
+          {
+            "asset": "S&P 500 ETF",
+            "label": "S&P 500 ETF",
+            "observationDate": "2026-08-03",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 1,
+            "signalYesterday": 1,
+            "volScaleToday": 0.7511,
+            "volScaleYesterday": 0.7877,
+            "signalEffect": 0,
+            "volScalingEffect": -0.0366,
+            "positionChange": -0.0366,
+            "distanceToSma50Pct": 1.73
+          },
+          {
+            "asset": "Nasdaq ETF",
+            "label": "Nasdaq ETF",
+            "observationDate": "2026-08-03",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 0.3333,
+            "signalYesterday": 0.3333,
+            "volScaleToday": 0.4151,
+            "volScaleYesterday": 0.4205,
+            "signalEffect": 0,
+            "volScalingEffect": -0.0018,
+            "positionChange": -0.0018,
+            "distanceToSma50Pct": -2.06
+          },
+          {
+            "asset": "Russell 2000 ETF",
+            "label": "Russell 2000 ETF",
+            "observationDate": "2026-08-03",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 1,
+            "signalYesterday": 0.3333,
+            "volScaleToday": 0.6735,
+            "volScaleYesterday": 0.7418,
+            "signalEffect": 0.4945,
+            "volScalingEffect": -0.0683,
+            "positionChange": 0.4262,
+            "distanceToSma50Pct": 1.22
+          },
+          {
+            "asset": "7-10 Yr Treasury ETF",
+            "label": "7-10 Yr Treasury ETF",
+            "observationDate": "2026-08-03",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -1,
+            "volScaleToday": 2.3502,
+            "volScaleYesterday": 2.3976,
+            "signalEffect": 0,
+            "volScalingEffect": 0.0474,
+            "positionChange": 0.0474,
+            "distanceToSma50Pct": -0.59
+          },
+          {
+            "asset": "Oil ETF",
+            "label": "Oil ETF",
+            "observationDate": "2026-08-03",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -0.3333,
+            "signalYesterday": 1,
+            "volScaleToday": 0.1486,
+            "volScaleYesterday": 0.1588,
+            "signalEffect": -0.2117,
+            "volScalingEffect": 0.0034,
+            "positionChange": -0.2083,
+            "distanceToSma50Pct": -0.6
+          },
+          {
+            "asset": "Gold ETF",
+            "label": "Gold ETF",
+            "observationDate": "2026-08-03",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -1,
+            "volScaleToday": 0.4742,
+            "volScaleYesterday": 0.465,
+            "signalEffect": 0,
+            "volScalingEffect": -0.0092,
+            "positionChange": -0.0092,
+            "distanceToSma50Pct": -3.41
+          }
+        ],
+        "commonAsOfDate": "2026-08-03",
+        "predictiveSummaryEligible": true
+      },
+      "riskParity": {
+        "status": "ok",
+        "equityAllocationChange5d": -0.018141888578239118,
+        "bondAllocationChange5d": 0.018141888578239118,
+        "modelLeverageChange5d": 0,
+        "allocationDirection": "equity_to_bonds",
+        "deleveragingPressure": "none",
+        "totalDeRisking": false,
+        "commonAsOfDate": "2026-08-03"
+      },
+      "pensionRebalance": {
+        "status": "not_in_window",
+        "currentEquityWeight": 0.6026,
+        "targetEquityWeight": 0.6,
+        "equityOverweightPct": 0.2563,
+        "daysToMonthEnd": 28,
+        "isRebalanceWindow": false,
+        "expectedFlow": "sell_equities_buy_bonds"
+      },
+      "stressConditions": {
+        "status": "calm",
+        "stressScore": 0,
+        "vix": 15.86,
+        "hyOas": 278,
+        "estimatedFlowUsd": null
+      }
+    },
+    "meta": {
+      "replayGenesisDate": "2016-08-08",
+      "viewStartDate": "2026-08-01",
+      "viewEndDate": "2026-08-05",
+      "warmupTradingDays": 2510,
+      "previousStateHash": "64e0c758548535721c689c6af3416990d217f4dd8ae4bbeb1d0e81ed688f2b3a",
+      "outputStateHash": "0b1e7d74d3b412bca5708f8a3a55eff2297d8a43b227d2c3cbebca35f5fba073",
+      "previousModelStateHash": null,
+      "outputModelStateHash": null,
+      "stateChainBreaks": 0
+    }
+  },
+  "2026-08-05": {
+    "status": "ok",
+    "schemaVersion": 2,
+    "snapshotQuality": "complete",
+    "marketDataAsOf": "2026-08-04",
+    "decisionDate": "2026-08-05",
+    "signalAvailableAt": "2026-08-05T18:00:00Z",
+    "engineVersion": "flow-engine-v2.0.0",
+    "moduleVersions": {
+      "volControl": "vol-control-v2",
+      "ctaFuturesProxy": "cta-futures-v1",
+      "ctaEtfProxy": "cta-etf-v1",
+      "riskParity": "risk-parity-v2"
+    },
+    "modelInputManifest": {
+      "ctaFuturesProxy": [
+        "CL=F",
+        "GC=F",
+        "NG=F"
+      ],
+      "ctaEtfProxy": [
+        "SPY",
+        "QQQ",
+        "IWM",
+        "IEF",
+        "USO",
+        "GLD"
+      ]
+    },
+    "snapshotGeneratedAt": "2026-08-06T15:11:17.756Z",
+    "summary": {
+      "trendAmplifiers": {
+        "Vol-control —": "selling",
+        "CTA trend (Futures) —": "buying",
+        "CTA trend (ETF) —": "buying"
+      },
+      "dominantRegime": "conflicting",
+      "activeFlowMechanismCount": 2,
+      "activeRotationMechanismCount": 1,
+      "primaryCommonDrivers": [
+        "equity_price"
+      ],
+      "supportingDataDomains": [
+        "rates",
+        "commodities",
+        "volatility",
+        "credit"
+      ],
+      "confidence": {
+        "mechanism": "medium",
+        "netDirection": "low",
+        "amount": "low"
+      },
+      "excludedModules": [],
+      "timelinePressures": {
+        "ongoing1To5Days": {
+          "status": "ok",
+          "direction": "conflicting",
+          "mechanisms": [
+            "volControl",
+            "ctaEtfProxy"
+          ],
+          "confidence": "medium_low"
+        },
+        "recent5To20Days": {
+          "status": "ok",
+          "direction": "equity_to_bonds",
+          "mechanisms": [
+            "riskParity"
+          ],
+          "confidence": "medium"
+        },
+        "conditionalFuture": {
+          "status": "ok",
+          "direction": "none",
+          "mechanisms": [
+            "pensionRebalance",
+            "stressConditions"
+          ],
+          "confidence": "low"
+        }
+      },
+      "flowTimeline": {},
+      "crossAssetDeRisking": {
+        "Risk parity —": "rotation_equity to bonds rotation",
+        "Stress deleveraging —": "not triggered"
+      },
+      "counterCyclicalFlows": {
+        "pension": "outside window | bias: sell equities / buy bonds | current pressure: none"
+      },
+      "narrative": {
+        "en": "Proxy models identify 2 active forward-looking flow mechanism(s) and 1 recent rotation mechanism(s), consistent with conflicting pressure.",
+        "zh": "代理模型识别2个活跃的前瞻资金流机制和1个近期轮动机制，整体资金压力互相冲突。"
+      }
+    },
+    "modules": {
+      "volControl": {
+        "status": "ok",
+        "targetExposureToday": 0.6969,
+        "actualExposureYesterday": 0.8152,
+        "actualExposureToday": 0.7856,
+        "dailyPositionChange": -0.0296,
+        "fiveDayActualChange": -0.1021,
+        "remainingExposureGap": -0.0887,
+        "estimatedDailyFlowUsd": -11831739629.268333,
+        "nextDayEstimateIfTargetUnchanged": -8873804721.951273,
+        "estimatedFlowRange": {
+          "low": -5915869814.634167,
+          "high": -17747609443.9025
+        },
+        "flowPressure": "selling",
+        "aggregateDirection": "sell"
+      },
+      "leveragedEtf": {
+        "status": "ok",
+        "funds": [
+          {
+            "name": "SPXL/UPRO",
+            "leverage": 3,
+            "aum": 12000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.017896193671468996,
+            "grossRebalanceUsd": 1288525944.3457677,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SPXS/SDS",
+            "leverage": -3,
+            "aum": 2000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.017896193671468996,
+            "grossRebalanceUsd": 429508648.1152559,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SSO",
+            "leverage": 2,
+            "aum": 8000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.017896193671468996,
+            "grossRebalanceUsd": 286339098.7435039,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "TQQQ",
+            "leverage": 3,
+            "aum": 28000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.025896906018558097,
+            "grossRebalanceUsd": 4350680211.117761,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SQQQ",
+            "leverage": -3,
+            "aum": 5000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.025896906018558097,
+            "grossRebalanceUsd": 1553814361.1134858,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SOXL",
+            "leverage": 3,
+            "aum": 10000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.06801534327944259,
+            "grossRebalanceUsd": 4080920596.7665553,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          },
+          {
+            "name": "SOXS",
+            "leverage": -3,
+            "aum": 2000000000,
+            "aumAsOf": "2026-08-01",
+            "underlyingReturn": 0.06801534327944259,
+            "grossRebalanceUsd": 1632368238.7066221,
+            "direction": "buy",
+            "confidence": "medium",
+            "note": "Gross mechanical estimate before ETF creations/redemptions"
+          }
+        ],
+        "totalGrossRebalanceUsd": 13622157098.90895,
+        "estimateRange": {
+          "low": 8173294259.34537,
+          "high": 16346588518.69074
+        },
+        "executionTiming": "Theoretical full-session gross rebalance | Closing residual: not estimable",
+        "aggregateDirection": "buy"
+      },
+      "ctaFuturesProxy": {
+        "status": "ok",
+        "positionRegime": "neutral",
+        "flowPressure": "buying",
+        "aggregatePositionChange": 0.12718578159143018,
+        "assets": [
+          {
+            "asset": "S&P 500",
+            "label": "S&P 500",
+            "observationDate": "2026-08-04",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 1,
+            "signalYesterday": 1,
+            "volScaleToday": 0.6896,
+            "volScaleYesterday": 0.7518,
+            "signalEffect": 0,
+            "volScalingEffect": -0.0622,
+            "positionChange": -0.0622,
+            "distanceToSma50Pct": 3.31
+          },
+          {
+            "asset": "Nasdaq",
+            "label": "Nasdaq",
+            "observationDate": "2026-08-04",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 1,
+            "signalYesterday": 0.3333,
+            "volScaleToday": 0.4398,
+            "volScaleYesterday": 0.4696,
+            "signalEffect": 0.3131,
+            "volScalingEffect": -0.0298,
+            "positionChange": 0.2833,
+            "distanceToSma50Pct": 2.4
+          },
+          {
+            "asset": "Russell 2000",
+            "label": "Russell 2000",
+            "observationDate": "2026-08-04",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 1,
+            "signalYesterday": 1,
+            "volScaleToday": 0.6285,
+            "volScaleYesterday": 0.6724,
+            "signalEffect": 0,
+            "volScalingEffect": -0.0439,
+            "positionChange": -0.0439,
+            "distanceToSma50Pct": 2.84
+          },
+          {
+            "asset": "10Y Yield Trend Signal (short-duration bias)",
+            "label": "10Y Yield Trend Signal (short-duration bias)",
+            "observationDate": "2026-08-04",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -1,
+            "volScaleToday": 0.6951,
+            "volScaleYesterday": 0.7148,
+            "signalEffect": 0,
+            "volScalingEffect": 0.0196,
+            "positionChange": 0.0196,
+            "distanceToSma50Pct": 2.01
+          },
+          {
+            "asset": "Oil",
+            "label": "Oil",
+            "observationDate": "2026-08-04",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -0.3333,
+            "volScaleToday": 0.1442,
+            "volScaleYesterday": 0.1521,
+            "signalEffect": -0.1014,
+            "volScalingEffect": 0.0079,
+            "positionChange": -0.0935,
+            "distanceToSma50Pct": -7.48
+          },
+          {
+            "asset": "Gold",
+            "label": "Gold",
+            "observationDate": "2026-08-04",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -1,
+            "volScaleToday": 0.4486,
+            "volScaleYesterday": 0.4651,
+            "signalEffect": 0,
+            "volScalingEffect": 0.0165,
+            "positionChange": 0.0165,
+            "distanceToSma50Pct": -2.12
+          },
+          {
+            "asset": "Natural Gas",
+            "label": "Natural Gas",
+            "observationDate": "2026-08-04",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -1,
+            "volScaleToday": 0.2718,
+            "volScaleYesterday": 0.2791,
+            "signalEffect": 0,
+            "volScalingEffect": 0.0074,
+            "positionChange": 0.0074,
+            "distanceToSma50Pct": -13.93
+          }
+        ],
+        "commonAsOfDate": "2026-08-04",
+        "predictiveSummaryEligible": false,
+        "displayRole": "descriptive_only"
+      },
+      "ctaEtfProxy": {
+        "status": "ok",
+        "positionRegime": "neutral",
+        "flowPressure": "buying",
+        "aggregatePositionChange": 0.1448957988441839,
+        "assets": [
+          {
+            "asset": "S&P 500 ETF",
+            "label": "S&P 500 ETF",
+            "observationDate": "2026-08-04",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 1,
+            "signalYesterday": 1,
+            "volScaleToday": 0.689,
+            "volScaleYesterday": 0.7511,
+            "signalEffect": 0,
+            "volScalingEffect": -0.0621,
+            "positionChange": -0.0621,
+            "distanceToSma50Pct": 3.39
+          },
+          {
+            "asset": "Nasdaq ETF",
+            "label": "Nasdaq ETF",
+            "observationDate": "2026-08-04",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 1,
+            "signalYesterday": 0.3333,
+            "volScaleToday": 0.3818,
+            "volScaleYesterday": 0.4151,
+            "signalEffect": 0.2768,
+            "volScalingEffect": -0.0333,
+            "positionChange": 0.2434,
+            "distanceToSma50Pct": 1.26
+          },
+          {
+            "asset": "Russell 2000 ETF",
+            "label": "Russell 2000 ETF",
+            "observationDate": "2026-08-04",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": 1,
+            "signalYesterday": 1,
+            "volScaleToday": 0.6294,
+            "volScaleYesterday": 0.6735,
+            "signalEffect": 0,
+            "volScalingEffect": -0.0441,
+            "positionChange": -0.0441,
+            "distanceToSma50Pct": 2.89
+          },
+          {
+            "asset": "7-10 Yr Treasury ETF",
+            "label": "7-10 Yr Treasury ETF",
+            "observationDate": "2026-08-04",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -1,
+            "volScaleToday": 2.3388,
+            "volScaleYesterday": 2.3502,
+            "signalEffect": 0,
+            "volScalingEffect": 0.0114,
+            "positionChange": 0.0114,
+            "distanceToSma50Pct": -0.14
+          },
+          {
+            "asset": "Oil ETF",
+            "label": "Oil ETF",
+            "observationDate": "2026-08-04",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -0.3333,
+            "signalYesterday": -0.3333,
+            "volScaleToday": 0.1443,
+            "volScaleYesterday": 0.1486,
+            "signalEffect": 0,
+            "volScalingEffect": 0.0014,
+            "positionChange": 0.0014,
+            "distanceToSma50Pct": -5.65
+          },
+          {
+            "asset": "Gold ETF",
+            "label": "Gold ETF",
+            "observationDate": "2026-08-04",
+            "session": "regular_close",
+            "isFinal": true,
+            "signalToday": -1,
+            "signalYesterday": -1,
+            "volScaleToday": 0.4794,
+            "volScaleYesterday": 0.4742,
+            "signalEffect": 0,
+            "volScalingEffect": -0.0052,
+            "positionChange": -0.0052,
+            "distanceToSma50Pct": -2.5
+          }
+        ],
+        "commonAsOfDate": "2026-08-04",
+        "predictiveSummaryEligible": true
+      },
+      "riskParity": {
+        "status": "ok",
+        "equityAllocationChange5d": -0.05891860311873626,
+        "bondAllocationChange5d": 0.05891860311873626,
+        "modelLeverageChange5d": 0,
+        "allocationDirection": "equity_to_bonds",
+        "deleveragingPressure": "none",
+        "totalDeRisking": false,
+        "commonAsOfDate": "2026-08-04"
+      },
+      "pensionRebalance": {
+        "status": "not_in_window",
+        "currentEquityWeight": 0.6055,
+        "targetEquityWeight": 0.6,
+        "equityOverweightPct": 0.5475,
+        "daysToMonthEnd": 27,
+        "isRebalanceWindow": false,
+        "expectedFlow": "sell_equities_buy_bonds"
+      },
+      "stressConditions": {
+        "status": "calm",
+        "stressScore": 0,
+        "vix": 16.5,
+        "hyOas": 273,
+        "estimatedFlowUsd": null
+      }
+    },
+    "meta": {
+      "replayGenesisDate": "2016-08-08",
+      "viewStartDate": "2026-08-01",
+      "viewEndDate": "2026-08-05",
+      "warmupTradingDays": 2511,
+      "previousStateHash": "0b1e7d74d3b412bca5708f8a3a55eff2297d8a43b227d2c3cbebca35f5fba073",
+      "outputStateHash": "d50a6ce27a2d8f3ca09108b30feedb06adaca984a1f64568e782b0c8241f4a5e",
+      "previousModelStateHash": null,
+      "outputModelStateHash": null,
+      "stateChainBreaks": 0
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "FOMC_MEETING": {
+    "description": "Federal Reserve policy decision and press conference.",
+    "requiredSignals": ["FED_FUNDS_RATE_CHANGE", "FED_FUNDS_TARGET_MAINTAINED"],
+    "supportingSignals": ["BOND_YIELD_MOVE", "USD_INDEX_MOVE", "EQUITY_MARKET_VOLATILITY"],
+    "optionalSignals": ["FORWARD_GUIDANCE_CHANGE", "DOT_PLOT_REVISION"],
+    "contradictingSignals": ["BOND_YIELDS_UNCHANGED", "LOW_VOLATILITY"],
+    "penaltyWeights": {
+      "BOND_YIELDS_UNCHANGED": 0.4,
+      "LOW_VOLATILITY": 0.3
+    }
+  },
+  "CPI_RELEASE": {
+    "description": "Consumer Price Index data release.",
+    "requiredSignals": ["INFLATION_DATA_PUBLISHED"],
+    "supportingSignals": ["BOND_YIELD_MOVE", "RATE_EXPECTATION_SHIFT", "USD_INDEX_MOVE"],
+    "optionalSignals": ["GOLD_PRICE_MOVE", "EQUITY_GROWTH_FACTOR_MOVE"],
+    "contradictingSignals": ["OPPOSITE_YIELD_MOVE", "OPPOSITE_USD_MOVE"],
+    "penaltyWeights": {
+      "OPPOSITE_YIELD_MOVE": 0.6,
+      "OPPOSITE_USD_MOVE": 0.4
+    }
+  },
+  "NFP_RELEASE": {
+    "description": "Nonfarm Payrolls and Employment Situation report.",
+    "requiredSignals": ["EMPLOYMENT_DATA_PUBLISHED"],
+    "supportingSignals": ["BOND_YIELD_MOVE", "EQUITY_CYCLICAL_MOVE"],
+    "optionalSignals": ["UNEMPLOYMENT_RATE_CHANGE", "WAGE_GROWTH_CHANGE"],
+    "contradictingSignals": ["OPPOSITE_YIELD_MOVE"],
+    "penaltyWeights": {
+      "OPPOSITE_YIELD_MOVE": 0.5
+    }
+  },
+  "GEOPOLITICAL_SHOCK": {
+    "description": "Unexpected geopolitical event.",
+    "requiredSignals": ["NEWS_HEADLINE_BURST"],
+    "supportingSignals": ["OIL_PRICE_SPIKE", "GOLD_PRICE_SPIKE", "VIX_SPIKE", "SAFE_HAVEN_FLOWS"],
+    "optionalSignals": ["DEFENSE_EQUITY_MOVE"],
+    "contradictingSignals": ["RISK_ON_FLOWS", "VIX_DROP"],
+    "penaltyWeights": {
+      "RISK_ON_FLOWS": 0.8,
+      "VIX_DROP": 0.9
+    }
+  }
+}

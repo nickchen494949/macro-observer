@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔧 系统化资金流代理引擎 Systematic Flow Proxy Engine</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f1419;
+      --card: #1a1f2e;
+      --card-border: #2a3040;
+      --text: #e8eaed;
+      --text2: #8b95a5;
+      --green: #00c853;
+      --green-bg: rgba(0, 200, 83, 0.15);
+      --red: #ff1744;
+      --red-bg: rgba(255, 23, 68, 0.15);
+      --amber: #ffab00;
+      --blue: #448aff;
+      --blue-bg: rgba(68, 138, 255, 0.15);
+      --purple: #7c4dff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, sans-serif;
+      line-height: 1.5;
+      padding: 20px;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .top-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .top-subtitle {
+      font-size: 14px;
+      color: var(--text2);
+    }
+    .back-link {
+      color: var(--blue);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+    .meta-info {
+      text-align: right;
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    /* Banner */
+    .summary-banner {
+      background: linear-gradient(135deg, rgba(26, 31, 46, 0.8), rgba(42, 48, 64, 0.8));
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 24px;
+      backdrop-filter: blur(10px);
+    }
+    .score-section {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      border-right: 1px solid var(--card-border);
+      padding-right: 24px;
+    }
+    .forces-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: center;
+    }
+    .pill-list {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .pill {
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .pill.buy { background: var(--green-bg); color: var(--green); border: 1px solid var(--green); }
+    .pill.sell { background: var(--red-bg); color: var(--red); border: 1px solid var(--red); }
+    .pill.stabilizer { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue); }
+    .pill.neutral { background: #333; color: var(--text); border: 1px solid var(--card-border); }
+    
+    .narrative {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--text2);
+      font-style: italic;
+    }
+
+    /* Grid layout */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+      .summary-banner { grid-template-columns: 1fr; }
+      .score-section { border-right: none; border-bottom: 1px solid var(--card-border); padding-right: 0; padding-bottom: 24px; }
+    }
+
+    /* Cards */
+    .card {
+      background-color: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 20px;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      border-color: rgba(68, 138, 255, 0.3);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 12px;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: #333;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Elements */
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .data-label {
+      color: var(--text2);
+      font-size: 13px;
+    }
+    .data-value {
+      font-family: monospace;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .big-value {
+      font-size: 28px;
+      font-weight: 800;
+      font-family: monospace;
+    }
+    
+    /* Gauges & Bars */
+    .bar-container {
+      width: 100%;
+      height: 8px;
+      background: #333;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s ease-out;
+    }
+    
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .table th, .table td {
+      padding: 8px;
+      text-align: right;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .table th:first-child, .table td:first-child {
+      text-align: left;
+    }
+    .table th {
+      color: var(--text2);
+      font-weight: 500;
+    }
+    .table td {
+      font-family: monospace;
+    }
+
+    /* Colors */
+    .text-green { color: var(--green); }
+    .text-red { color: var(--red); }
+    .text-muted { color: var(--text2); }
+
+    .error-banner {
+      display: none;
+      background: var(--red-bg);
+      color: var(--red);
+      padding: 12px;
+      text-align: center;
+      border-radius: 8px;
+      border: 1px solid var(--red);
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+
+    /* Skeleton Loading */
+    .skeleton {
+      background: linear-gradient(90deg, #2a3040 25%, #32394c 50%, #2a3040 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+      border-radius: 4px;
+      color: transparent !important;
+    }
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .stale-badge { background: var(--red-bg) !important; color: var(--red) !important; border: 1px solid var(--red); }
+    .asof-badge { font-size: 10px; color: var(--text2); background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; }
+
+  </style>
+    
+  
+  
+  
+    </head>
+<body>
+
+  <div class="top-bar">
+    <div>
+      <a href="/" class="back-link">← 返回宏观观察器</a>
+      <h1 class="top-title">🔧 系统化资金流代理引擎 Systematic Flow Proxy Engine</h1>
+      <div class="top-subtitle">估算系统化策略的仓位变化与机械资金流 · Position change & mechanical flow estimates</div>
+    </div>
+    <div class="meta-info">
+      <div style="font-weight: bold; font-size: 14px; margin-bottom: 4px;">Market observations through: <span id="global-asof">--</span> close <span id="global-asof-status"></span></div>
+      <div style="margin-bottom: 2px;">Market freshness: <strong id="hdr-market-freshness">--</strong></div>
+      <div style="margin-bottom: 2px;">Data quality: <strong id="hdr-data-quality">--</strong></div>
+      <div style="margin-bottom: 2px;">Snapshot status: <strong id="hdr-snapshot-status">--</strong></div>
+      <div style="margin-bottom: 2px;">Last API response: <strong id="hdr-last-api">--</strong></div>
+    </div>
+  </div>
+
+  <div id="error-banner" class="error-banner">
+    ⚠️ Connection lost. Retrying...
+  </div>
+  
+  <div id="stale-summary-banner" class="error-banner" style="display:none; background:rgba(255,160,0,0.1); border-color:var(--amber); color:var(--amber);">
+    ⚠️ <strong>All conclusions below are from the last successful snapshot and have not refreshed.</strong>
+  </div>
+
+  <div class="summary-banner">
+    <div class="score-section">
+      <div class="data-label">Dominant Regime</div>
+      <div id="dominant-regime" class="big-value skeleton" style="font-size: 24px; margin-bottom: 8px; text-transform: capitalize;">Loading...</div>
+      <div class="data-label">Mechanisms / Drivers</div>
+      <div id="evidence-count" class="data-value skeleton">--</div>
+
+        <div class="data-label">Medium Horizon (1–20 Days)</div>
+        <div id="medium-pressure" class="data-value" style="font-size: 14px; text-transform: capitalize;">--</div>
+      </div>
+    </div>
+    <div class="forces-section">
+      <div>
+        <div class="data-label" style="margin-bottom: 8px;">Execution Horizon Timeline</div>
+        <div id="flow-timeline" style="font-size: 13px; line-height: 2;">
+          <span class="skeleton" style="display:block;">Loading timeline...</span>
+        </div>
+      </div>
+      <div style="margin-top: 12px;">
+        <div class="data-label" style="margin-bottom: 8px;">Trend Amplifiers (趋势放大器)</div>
+        <div id="trend-amplifiers" class="pill-list"></div>
+      </div>
+      <div>
+        <div class="data-label" style="margin-bottom: 8px;">Cross-Asset Allocation & De-Risking</div>
+        <div id="cross-asset" class="pill-list"></div>
+      </div>
+      <div>
+        <div class="data-label" style="margin-bottom: 8px;">Counter-Cyclical Flows (逆周期资金)</div>
+        <div id="counter-cyclical" class="pill-list"></div>
+      </div>
+      <div>
+        <div class="data-label" style="margin-bottom: 8px;">Primary Common Driver</div>
+        <div id="primary-drivers" class="pill-list" style="margin-bottom: 12px;"></div>
+        <div class="data-label" style="margin-bottom: 8px;">Supporting Data Domains</div>
+        <div id="data-domains" class="pill-list"></div>
+      </div>
+      <div id="narrative-text" class="narrative skeleton">
+        Loading narrative...
+      </div>
+      <div id="narrative-zh" class="narrative skeleton" style="margin-top: 4px;">
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- Card 1: Vol Control -->
+    <div class="card" id="card-vol">
+      <div class="card-header">
+        <div>
+          <div class="card-title">📉 模型波控仓位调整</div>
+          <div style="font-size: 12px; color: var(--text2);">Model-Implied Vol-Control Adjustment</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+          <div id="vol-asof" class="asof-badge">--</div>
+          <div id="vol-stale" class="badge stale-badge" style="display:none;">STALE</div>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="data-label">Daily Position Change</div>
+        <div class="big-value" id="vol-change-prominent">--</div>
+      </div>
+      <div class="row" style="margin-bottom: 16px;">
+        <div class="data-label">Estimated Flow USD</div>
+        <div class="data-value" id="vol-est-flow">--</div>
+      </div>
+      
+      <div style="margin-top: 8px;">
+        <div class="row"><span class="data-label">Target Exposure Today</span><span class="data-value" id="vol-exposure">--</span></div>
+        <div class="row"><span class="data-label">Actual Exposure Today</span><span class="data-value" id="vol-actual">--</span></div>
+        <div class="row"><span class="data-label">Flow Pressure / Regime</span><span class="data-value" id="vol-pressure">--</span></div>
+      </div>
+    </div>
+
+    <!-- Card 2: Leveraged ETF -->
+    <div class="card" id="card-letf">
+      <div class="card-header">
+        <div>
+          <div class="card-title">📖 Retrospective Mechanical Flow Attribution</div>
+          <div style="font-size: 12px; color: var(--text2);">Leveraged ETF theoretical daily rebalance</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+          <div id="letf-asof" class="asof-badge">--</div>
+          <div id="letf-stale" class="badge stale-badge" style="display:none;">STALE</div>
+        </div>
+      </div>
+      <table class="table" style="margin-top: -8px;">
+        <thead>
+          <tr>
+            <th>Fund</th>
+            <th>Lev</th>
+            <th>Ret</th>
+            <th>Gross Reb</th>
+          </tr>
+        </thead>
+        <tbody id="letf-tbody">
+          <tr><td colspan="4" class="skeleton">Loading...</td></tr>
+        </tbody>
+      </table>
+      <div class="row" style="margin-top: 8px;">
+        <div class="data-label">Total Est. Flow (Range)</div>
+        <div class="big-value" id="letf-total" style="font-size: 18px;">--</div>
+      </div>
+      <div style="margin-top: 12px; font-size: 12px; color: var(--text2); display: flex; flex-direction: column; gap: 4px;">
+        <div>Gross estimate before creations/redemptions • <span id="letf-window"></span></div>
+        <div style="color: var(--amber); font-style: italic;">Predictive relevance: none after market close</div>
+      </div>
+    </div>
+
+    <!-- Card 3: CTA Trend -->
+    <div class="card" id="card-cta">
+      <div class="card-header">
+        <div>
+          <div class="card-title">📈 CTA趋势仓位代理</div>
+          <div style="font-size: 12px; color: var(--text2);">CTA Trend Positioning Proxy</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+          <div id="cta-asof" class="asof-badge">--</div>
+          <div id="cta-stale" class="badge stale-badge" style="display:none;">STALE</div>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="data-label">Agg. Model Position Δ</div>
+        <div class="big-value" id="cta-agg-change">--</div>
+      </div>
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="data-label">Position Regime / Flow Pressure</div>
+        <div class="data-value" id="cta-pressure" style="text-transform: capitalize;">--</div>
+      </div>
+      <table class="table" style="margin-top: -8px;">
+        <thead>
+          <tr>
+            <th>Asset</th>
+            <th>Model Δ</th>
+            <th>Dist 50d</th>
+          </tr>
+        </thead>
+        <tbody id="cta-list">
+          <tr><td colspan="3" class="skeleton">Loading...</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size: 10px; color: var(--text2); margin-top: 4px; text-align: right;">Model Δ = model exposure adjustment, not asset return</div>
+    </div>
+
+    <!-- Card 4: Risk Parity -->
+    <div class="card" id="card-rp">
+      <div class="card-header">
+        <div>
+          <div class="card-title">🛡️ 风险平价配置与去风险代理</div>
+          <div style="font-size: 12px; color: var(--text2);">Risk-Parity Allocation & De-Risking Proxy</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+          <div id="rp-asof" class="asof-badge">--</div>
+          <div id="rp-stale" class="badge stale-badge" style="display:none;">STALE</div>
+        </div>
+      </div>
+      <div id="rp-warning" style="display:none; background: var(--red-bg); color: var(--red); padding: 8px; border-radius: 4px; font-size: 13px; font-weight: 600; text-align: center; margin-bottom: 12px; border: 1px solid var(--red);">
+        ⚠️ Dual Selloff Risk Active
+      </div>
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="data-label">Allocation Shift (5D, pp)</div>
+        <div class="big-value" id="rp-alloc-change">--</div>
+      </div>
+      <div class="row" style="border-top: 1px solid var(--card-border); padding-top: 8px; margin-top: 8px;">
+        <span class="data-label">Total De-Risking</span>
+        <span class="data-value" id="rp-deleverage" style="text-transform: capitalize;">--</span>
+      </div>
+    </div>
+
+    <!-- Card 5: Month-End -->
+    <div class="card" id="card-me">
+      <div class="card-header">
+        <div>
+          <div class="card-title">📅 平衡基金潜在再平衡</div>
+          <div style="font-size: 12px; color: var(--text2);">Potential Balanced-Fund Rebalance</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+          <div id="me-asof" class="asof-badge">--</div>
+          <div id="me-stale" class="badge stale-badge" style="display:none;">STALE</div>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="data-label">Days to Month End</div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div id="me-window-badge" class="badge" style="display:none; background: var(--amber); color: #000;">Rebalance Window</div>
+          <div class="big-value" id="me-days">--</div>
+        </div>
+      </div>
+      <div class="row">
+        <span class="data-label">Current / Target Eq Wt</span>
+        <span class="data-value text-muted" id="me-weights" style="font-size: 12px;">--</span>
+      </div>
+      <div class="row">
+        <span class="data-label">Overweight Pct</span>
+        <span class="data-value" id="me-overweight">--</span>
+      </div>
+      <div class="row" style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--card-border);">
+        <span class="data-label">Current Bias</span>
+        <span class="data-value" id="me-bias" style="font-size: 14px; text-transform: capitalize;">--</span>
+      </div>
+      <div class="row">
+        <span class="data-label">Execution Status</span>
+        <span class="data-value" id="me-exec-status" style="font-size: 12px; color: var(--text2);">--</span>
+      </div>
+      <div class="row">
+        <span class="data-label">Flow Pressure Now</span>
+        <span class="data-value" id="me-flow" style="font-size: 16px; text-transform: capitalize;">--</span>
+      </div>
+    </div>
+
+    <!-- Card 6: Deleveraging -->
+    <div class="card" id="card-del">
+      <div class="card-header">
+        <div>
+          <div class="card-title">💥 强制卖出风险条件</div>
+          <div style="font-size: 12px; color: var(--text2);">Forced-Selling Risk Conditions</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+          <div id="del-asof" class="asof-badge">--</div>
+          <div id="del-stale" class="badge stale-badge" style="display:none;">STALE</div>
+        </div>
+      </div>
+      <div style="text-align: center; margin: 12px 0;">
+        <div class="data-label">Stress Score (0-100)</div>
+        <div class="big-value" id="del-score" style="font-size: 36px;">--</div>
+      </div>
+      <div class="bar-container" style="margin-bottom: 16px;">
+        <div id="del-bar" class="bar-fill" style="width: 0%; background: var(--red);"></div>
+      </div>
+      <div class="row">
+        <span class="data-label">Status</span>
+        <span class="data-value" id="del-status" style="text-transform: capitalize;">--</span>
+      </div>
+      <div class="row">
+        <span class="data-label">VIX Level</span>
+        <span class="data-value" id="del-vix">--</span>
+      </div>
+      <div class="row">
+        <span class="data-label">HY OAS Level</span>
+        <span class="data-value" id="del-hy">--</span>
+      </div>
+      <div class="row" style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--card-border);">
+        <span class="data-label">Estimated Flow USD</span>
+        <span class="data-value text-muted" id="stress-flow" style="font-size: 12px;">—</span>
+      </div>
+      <div id="del-flashing" style="margin-top: 12px; font-size: 12px; color: var(--amber);">
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+            
+    // Formatting utilities
+    function formatFiniteNumber(num, decimals=2) {
+      if (num == null || !Number.isFinite(num)) return '—';
+      return Number(num).toFixed(decimals);
+    }
+    function formatText(str) {
+      if (str == null || str === '') return '—';
+      return str;
+    }
+    
+    function formatUsd(value) {
+      if (value == null || !Number.isFinite(value)) return '—';
+      const abs = Math.abs(value);
+      const sign = value < 0 ? '-' : '+';
+      if (abs >= 1e9) return sign + '$' + (abs / 1e9).toFixed(1) + 'B';
+      if (abs >= 1e6) return sign + '$' + (abs / 1e6).toFixed(0) + 'M';
+      return sign + '$' + abs.toFixed(0);
+    }
+    function formatUsdAbs(value) {
+      if (value == null || !Number.isFinite(value)) return '—';
+      const abs = Math.abs(value);
+      if (abs >= 1e12) return '$' + (abs / 1e12).toFixed(1) + 'T';
+      if (abs >= 1e9) return '$' + (abs / 1e9).toFixed(0) + 'B';
+      if (abs >= 1e6) return '$' + (abs / 1e6).toFixed(0) + 'M';
+      return '$' + abs.toFixed(0);
+    }
+    
+    function colorize(val, isInverse = false) {
+      if (val == null) return 'text-muted';
+      let num = parseFloat(val);
+      if (!Number.isFinite(num)) return '';
+      if (num > 0) return isInverse ? 'text-red' : 'text-green';
+      if (num < 0) return isInverse ? 'text-green' : 'text-red';
+      return 'text-muted';
+    }
+
+    function removeSkeletons() {
+      document.querySelectorAll('.skeleton').forEach(el => el.classList.remove('skeleton'));
+    }
+
+    // View State & Quality Management
+    var lastCompleteSnapshot = null;
+    var lastValidSnapshot = null; // keeps the latest valid snapshot (partial or complete)
+    var lastRenderedSnapshotTimestamp = 0;
+    var currentAbortController = null;
+    var globalAsOfDate = '--';
+
+    // Helper: Calculate trading days between two dates
+    function getTradingDaysBetween(startStr, endStr) {
+      let start = new Date(startStr);
+      let end = new Date(endStr);
+      let count = 0;
+      let curr = new Date(start);
+      while (curr < end) {
+        curr.setDate(curr.getDate() + 1);
+        if (curr.getDay() !== 0 && curr.getDay() !== 6) count++;
+      }
+      return count;
+    }
+
+    function determineViewState(snapshot, apiConnectionFailed = false) {
+      if (!snapshot) return { apiStatus: 'unavailable', marketFreshness: 'unavailable', quality: null };
+      
+      const asOfStr = snapshot.marketDataAsOf;
+      const genAtStr = snapshot.snapshotGeneratedAt;
+      const todayStr = new Date().toISOString().split('T')[0];
+      
+      let marketFreshness = 'current';
+      if (asOfStr) {
+        const lag = getTradingDaysBetween(asOfStr, todayStr);
+        if (lag > 2) marketFreshness = 'outdated';
+      }
+      
+      let apiStatus = 'current';
+      if (apiConnectionFailed) {
+         apiStatus = 'expired'; // we treat failed fetch as expired/stale depending on time, but fallback always shows banner
+      }
+      if (genAtStr) {
+        const genTime = new Date(genAtStr).getTime();
+        const now = Date.now();
+        const hoursOld = (now - genTime) / (1000 * 60 * 60);
+        if (hoursOld > 2) {
+          apiStatus = 'stale';
+        }
+      }
+      return { apiStatus, marketFreshness, quality: snapshot.snapshotQuality };
+    }
+
+    function updateFreshness(prefix, moduleData, viewState, globalDate) {
+      const asOfEl = document.getElementById(`${prefix}-asof`);
+      if(asOfEl) {
+        asOfEl.textContent = (moduleData && moduleData.asOf) ? moduleData.asOf : (globalDate || '--');
+      }
+    }
+
+    function getPillClass(val) {
+      if (!val) return 'neutral';
+      const s = String(val).toLowerCase();
+      if (s.includes('buy')) return 'buy';
+      if (s.includes('sell')) return 'sell';
+      if (s.includes('stabilizer')) return 'stabilizer';
+      return 'neutral';
+    }
+
+    function renderSummary(data, viewState) {
+      if(!data) return;
+      const summary = data.summary || {};
+      if(!data) return;
+      document.getElementById('dominant-regime').textContent = formatText(summary?.dominantRegime?.replace(/_/g, ' '));
+      
+      const activeFlow = summary?.activeFlowMechanismCount ?? 0;
+      const activeRot = summary?.activeRotationMechanismCount ?? 0;
+      const primaryDriver = summary?.primaryCommonDrivers?.[0]?.replace('_', ' ') ?? 'None';
+      
+      const mechText = `${activeFlow} flow, ${activeRot} rotation`;
+      
+      const conf = summary?.confidence || { mechanism: 'low', netDirection: 'low', amount: 'low' };
+      const cap = (s) => (s || 'low').charAt(0).toUpperCase() + (s || 'low').slice(1);
+      
+      document.getElementById('evidence-count').innerHTML = `
+        ${mechText} (Primary driver: ${primaryDriver})<br>
+        <span style="font-size: 11px; margin-right: 8px;">Mechanism Confidence: <strong style="color:var(--text);">${cap(conf.mechanism)}</strong></span>
+        <span style="font-size: 11px; margin-right: 8px;">Net-direction Confidence: <strong style="color:var(--text);">${cap(conf.netDirection)}</strong></span>
+        <span style="font-size: 11px;">Amount Confidence: <strong style="color:var(--text);">${cap(conf.amount)}</strong></span>
+      `;
+      
+      const pressureColor = (p) => {
+        const ps = String(p).toLowerCase();
+        if (ps.includes('sell') || ps.includes('deleverage')) return 'var(--red)';
+        if (ps.includes('buy') || ps === 'bonds_to_equity') return 'var(--green)';
+        if (ps.includes('equity_to_bonds')) return 'var(--amber)';
+        return 'var(--text2)';
+      };
+      
+      const isForwardDisabled = viewState.apiStatus === 'expired' || viewState.marketFreshness === 'outdated';
+      
+      const medEl = document.getElementById('medium-pressure');
+      if (isForwardDisabled) {
+        medEl.textContent = 'Disabled (Data Outdated)';
+        medEl.style.color = 'var(--text2)';
+      } else {
+        medEl.textContent = formatText(summary?.timelinePressures?.ongoing1To5Days?.direction);
+        medEl.style.color = pressureColor(summary?.timelinePressures?.ongoing1To5Days?.direction);
+      }
+
+      
+      const tl = summary?.timelinePressures;
+      const timelineEl = document.getElementById('flow-timeline');
+      if (tl) {
+        const dirIcon = (d) => {
+          const ds = String(d).toLowerCase();
+          if (ds.includes('sell') || ds.includes('deleverage')) return '🔴';
+          if (ds.includes('buy') || ds === 'bonds_to_equity') return '🟢';
+          if (ds.includes('equity_to_bonds')) return '🟠';
+          return '⚪';
+        };
+        const formatTimelineItem = (mech, d, horizonStatus) => {
+           const moduleStatus = data[mech]?.status || 'unknown';
+           if (moduleStatus !== 'ok' && moduleStatus !== 'not_in_window' && moduleStatus !== 'calm' && moduleStatus !== 'watch' && moduleStatus !== 'elevated' && moduleStatus !== 'stress' && moduleStatus !== 'crisis') {
+             return { label: mech + ' unavailable', detail: '', conditional: '' };
+           }
+           if (mech === 'leveragedEtf') {
+             return {
+               icon: dirIcon(data.leveragedEtf.aggregateDirection),
+               label: `Leveraged ETF gross rebalance (${globalAsOfDate} close)`,
+               detail: data.leveragedEtf.totalGrossRebalanceUsd != null ? ' ' + formatUsd(data.leveragedEtf.totalGrossRebalanceUsd) : ''
+             };
+           }
+           if (mech === 'volControl') {
+             const gap = data.volControl.remainingExposureGap;
+             const gapDir = gap != null ? (gap > 0 ? 'addition' : 'reduction') : '';
+             const gapAbs = data.volControl.remainingExposureGap != null ? Math.abs(data.volControl.remainingExposureGap * 400e9) : null;
+             return {
+               icon: dirIcon(data.volControl.flowPressure),
+               label: data.volControl.flowPressure === 'selling' ? 'Vol-control reducing exposure' : 'Vol-control increasing exposure',
+               detail: `Latest daily adjustment: ${data.volControl.estimatedDailyFlowUsd != null ? formatUsd(data.volControl.estimatedDailyFlowUsd) : '—'}. Remaining model exposure gap: ~${gapAbs != null ? formatUsdAbs(gapAbs) : '—'} of potential ${gapDir} if target remains unchanged.`,
+               conditional: `Execution path: decaying, conditional on realized volatility`
+             };
+           }
+           if (mech === 'ctaTrend') {
+             return { icon: dirIcon(data.ctaTrend.flowPressure), label: 'CTA trend-following adjustment', detail: '', conditional: 'Manager-dependent timing' };
+           }
+           if (mech === 'riskParity') {
+             const shift = data.riskParity.equityAllocationChange5d;
+             return {
+               icon: dirIcon(d),
+               label: `Risk parity model: ${d === 'equity_to_bonds' ? 'equity → bonds' : 'bonds → equity'}`,
+               detail: `${shift != null ? formatFiniteNumber(Math.abs(shift)*100, 2) + 'pp' : '—'} over past 5D`
+             };
+           }
+           if (mech === 'stressConditions') {
+             const triggered = data.stressConditions?.status === 'triggered';
+             return {
+               icon: '⚪',
+               label: triggered ? 'Stress-driven forced selling' : 'Stress-driven forced selling not triggered',
+               detail: ''
+             };
+           }
+           if (mech === 'pensionRebalance') {
+             if (data.pensionRebalance?.status === 'not_in_window') {
+               return { 
+                 icon: '⚪', 
+                 label: 'Balanced-fund rebalance: not triggered', 
+                 detail: `Potential bias: ${data.pensionRebalance.expectedFlow.replace('sell_equities_buy_bonds', 'sell equities / buy bonds').replace('buy_equities_sell_bonds', 'buy equities / sell bonds')}`,
+                 conditional: 'Outside execution window'
+               };
+             } else {
+               return { icon: '⚪', label: 'Balanced-fund rebalance', detail: '' };
+             }
+           }
+           if (mech === 'stressConditions') {
+             return { label: 'Stress-driven forced selling', detail: '' };
+           }
+           return { label: mech, detail: '' };
+        };
+
+        const tiers = [
+          { title: '⏳ Ongoing Model Adjustment', subtitle: 'Active position changes, conditional on market', item: tl.ongoing1To5Days, emptyText: 'No active adjustment' },
+          { title: '🔄 Recent Medium-Horizon Rotation', subtitle: 'Observed model configuration shifts', item: tl.recent5To20Days, emptyText: 'No recent structural rotation detected' },
+          { title: '🔔 Conditional Future Pressure', subtitle: 'Requires conditions to materialize', item: tl.conditionalFuture, emptyText: 'No conditional pressure' }
+        ];
+        let html = '';
+        for (const tier of tiers) {
+          html += `<div style="margin-bottom: 10px; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 6px;">`;
+          html += `<div style="font-weight: 600; font-size: 12px; color: var(--text); margin-bottom: 2px;">${tier.title}</div>`;
+          html += `<div style="font-size: 10px; color: var(--text2); margin-bottom: 4px;">${tier.subtitle}</div>`;
+          if (tier.item && (tier.item.mechanisms.length > 0 || tier.item.status !== 'ok')) {
+            const mechs = tier.item.mechanisms.length > 0 ? tier.item.mechanisms : ['data'];
+            for (const mech of mechs) {
+              const formatted = formatTimelineItem(mech, tier.item.direction, tier.item.status);
+              html += `<div style="display: flex; align-items: flex-start; margin-bottom: 6px;">`;
+              html += `<div style="margin-right: 6px; margin-top: 1px; font-size: 10px;">${tier.item.status === 'ok' ? (formatted.icon || '⚪') : '⚪'}</div>`;
+              html += `<div>${formatText(formatted.label)}${formatted.detail && mech==='leveragedEtf' ? formatted.detail : ''}</div></div>`;
+              if (formatted.detail && mech !== 'leveragedEtf') {
+                html += `<div style="margin-left: 24px; font-size: 11px; color: var(--text2);">${formatText(formatted.detail)}</div>`;
+              }
+              if (formatted.conditional) {
+                html += `<div style="margin-left: 24px; font-size: 10px; color: var(--text2); font-style: italic;">${formatText(formatted.conditional)}</div>`;
+              }
+            }
+          } else {
+            html += `<div style="margin-left: 8px; color: var(--text2);">⚪ ${tier.emptyText}</div>`;
+          }
+          html += '</div>';
+        }
+        timelineEl.innerHTML = html;
+      }
+
+      
+      
+      const fillPills = (id, arr, type) => {
+         const el = document.getElementById(id);
+         if (!arr || arr.length === 0) { el.innerHTML = '<span class="pill neutral">None</span>'; return; }
+         el.innerHTML = arr.map(a => `<span class="pill ${type}">${a.replace(/_/g, ' ')}</span>`).join('');
+      };
+      const fillPillDict = (id, dict) => {
+         const el = document.getElementById(id);
+         const keys = Object.keys(dict || {});
+         if (keys.length === 0) { el.innerHTML = '<span class="pill neutral">None</span>'; return; }
+         el.innerHTML = keys.map(k => {
+           let val = dict[k];
+           let type = 'neutral';
+           if (val.includes('buy') || val === 'equity_to_bonds') type = 'buy';
+           if (val.includes('sell') || val === 'bonds_to_equity') type = 'sell';
+           return `<span class="pill ${type}">${k} ${val.replace(/_/g, ' ')}</span>`;
+         }).join('');
+      };
+      fillPills('primary-drivers', summary?.primaryCommonDrivers, 'neutral');
+      fillPills('data-domains', summary?.supportingDataDomains, 'neutral');
+      fillPillDict('trend-amplifiers', summary?.trendAmplifiers);
+      fillPillDict('cross-asset', summary?.crossAssetDeRisking);
+      fillPillDict('counter-cyclical', summary?.counterCyclicalFlows);
+
+      document.getElementById('narrative-text').textContent = formatText(summary?.narrative?.en);
+      document.getElementById('narrative-zh').textContent = formatText(summary?.narrative?.zh);
+    }
+
+    function renderVolControl(data, viewState, globalDate) {
+      if(!data) return;
+      updateFreshness('vol', data, viewState, globalDate);
+      
+      const change = data?.dailyPositionChange;
+      const changeEl = document.getElementById('vol-change-prominent');
+      changeEl.textContent = change != null ? ((change>0?'+':'') + formatFiniteNumber(change * 100, 2) + '%') : '—';
+      changeEl.className = 'big-value ' + colorize(change);
+
+      let flowStr = '—';
+      if(data?.estimatedDailyFlowUsd != null) {
+        flowStr = formatUsd(data.estimatedDailyFlowUsd);
+        if(data?.estimatedFlowRange?.low != null && data?.estimatedFlowRange?.high != null) {
+          const lo = Math.min(data.estimatedFlowRange.low, data.estimatedFlowRange.high);
+          const hi = Math.max(data.estimatedFlowRange.low, data.estimatedFlowRange.high);
+          flowStr += ` (${formatUsd(lo)} to ${formatUsd(hi)})`;
+        }
+      }
+      const flowEl = document.getElementById('vol-est-flow');
+      flowEl.textContent = flowStr;
+      flowEl.className = 'data-value ' + colorize(data?.estimatedDailyFlowUsd);
+      
+      const tgt = data?.targetExposureToday;
+      document.getElementById('vol-exposure').textContent = tgt != null ? formatFiniteNumber(tgt * 100, 1) + '%' : '—';
+      
+      const act = data?.actualExposureToday;
+      document.getElementById('vol-actual').textContent = act != null ? formatFiniteNumber(act * 100, 1) + '%' : '—';
+      
+      const p = data?.flowPressure || '—';
+      document.getElementById('vol-pressure').textContent = formatText(p);
+
+    }
+
+    function renderLetf(data, viewState, globalDate) {
+      if(!data) return;
+      updateFreshness('letf', data, viewState, globalDate);
+
+      const tbody = document.getElementById('letf-tbody');
+      if(data.status !== 'ok') { tbody.innerHTML = '<tr><td colspan="4" class="text-muted" style="text-align:center;">Unavailable</td></tr>'; } else 
+      if(!data?.funds || !data.funds.length) {
+        tbody.innerHTML = '<tr><td colspan="4" class="text-muted" style="text-align:center;">No data</td></tr>';
+      } else {
+        tbody.innerHTML = data.funds.map(f => {
+          return `
+            <tr>
+              <td style="text-align:left;">${formatText(f?.name)}</td>
+              <td>${f?.leverage != null ? f.leverage + 'x' : '—'}</td>
+              <td class="${colorize(f?.underlyingReturn)}">${f?.underlyingReturn != null ? (f.underlyingReturn>0?'+':'') + formatFiniteNumber(f.underlyingReturn * 100, 2) + '%' : '—'}</td>
+              <td class="${colorize(f?.grossRebalanceUsd)}">${f?.grossRebalanceUsd != null ? formatUsd(f.grossRebalanceUsd) : '—'}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+      let totStr = '—';
+      const tot = data?.totalGrossRebalanceUsd;
+      if (tot != null) {
+         totStr = formatUsd(tot);
+         if(data?.estimateRange?.low != null && data?.estimateRange?.high != null) {
+           const lo = Math.min(data.estimateRange.low, data.estimateRange.high);
+           const hi = Math.max(data.estimateRange.low, data.estimateRange.high);
+           totStr += ` (${formatUsd(lo)} to ${formatUsd(hi)})`;
+         }
+      }
+      const totEl = document.getElementById('letf-total');
+      totEl.textContent = totStr;
+      totEl.className = 'big-value ' + colorize(tot);
+      
+      document.getElementById('letf-window').textContent = data?.executionTiming || '—';
+    }
+
+    function renderCta(data, viewState, globalDate) {
+      if(!data) return;
+      updateFreshness('cta', data, viewState, globalDate);
+      
+      const aggChange = data?.aggregatePositionChange;
+      const aggEl = document.getElementById('cta-agg-change');
+      aggEl.textContent = aggChange != null ? (aggChange > 0 ? '+' : '') + formatFiniteNumber(aggChange, 4) : '—';
+      aggEl.className = 'big-value ' + colorize(aggChange);
+
+      const regimeMap = { 'strong_buy': 'Strong Long', 'buy': 'Long', 'neutral': 'Neutral', 'sell': 'Short', 'strong_sell': 'Strong Short' };
+      const regimeLabel = regimeMap[data?.positionRegime] || formatText(data?.positionRegime);
+      document.getElementById('cta-pressure').textContent = `${regimeLabel} / ${formatText(data?.flowPressure)}`;
+      
+      const list = document.getElementById('cta-list');
+      if(data?.assets && data.assets.length) {
+        list.innerHTML = data.assets.map(a => {
+          let nameHtml = formatText(a?.asset);
+          if (nameHtml === '10Y Yield Trend Signal') {
+            nameHtml = `10Y Yield Trend <span style="font-size: 10px; color: var(--text2); margin-left: 4px;">(short-duration bias)</span>`;
+          }
+          return `
+            <tr>
+              <td style="text-align:left;">${nameHtml}</td>
+              <td class="${colorize(a?.positionChange)}">${a?.positionChange != null ? (a.positionChange>0?'+':'') + formatFiniteNumber(a.positionChange, 4) : '—'}</td>
+              <td class="${colorize(a?.distanceToSma50Pct)}">${a?.distanceToSma50Pct != null ? (a.distanceToSma50Pct>0?'+':'') + formatFiniteNumber(a.distanceToSma50Pct, 1) + '%' : '—'}</td>
+            </tr>
+          `;
+        }).join('');
+      } else {
+        list.innerHTML = '<tr><td colspan="3" class="text-muted" style="text-align:center;">No data</td></tr>';
+      }
+    }
+
+    function renderRiskParity(data, viewState, globalDate) {
+      if(!data) return;
+      updateFreshness('rp', data, viewState, globalDate);
+
+      const allocChange = data?.equityAllocationChange5d;
+      const allocEl = document.getElementById('rp-alloc-change');
+      allocEl.textContent = allocChange != null ? (allocChange > 0 ? '+' : '') + formatFiniteNumber(allocChange * 100, 2) + ' pp' : '—';
+      allocEl.className = 'big-value ' + colorize(allocChange);
+
+      const dirMap = { 'equity_to_bonds': 'Equity → Bonds', 'bonds_to_equity': 'Bonds → Equity', 'stable': 'Stable' };
+      const dirLabel = dirMap[data?.allocationDirection] || '—';
+      if (allocEl.parentElement) {
+        let dirSpan = document.getElementById('rp-alloc-dir');
+        if (!dirSpan) {
+          dirSpan = document.createElement('div');
+          dirSpan.id = 'rp-alloc-dir';
+          dirSpan.style.cssText = 'font-size: 12px; color: var(--text2); margin-top: 2px;';
+          allocEl.parentElement.appendChild(dirSpan);
+        }
+        dirSpan.textContent = dirLabel;
+        if (data?.allocationDirection === 'equity_to_bonds') dirSpan.style.color = 'var(--amber)';
+        else if (data?.allocationDirection === 'bonds_to_equity') dirSpan.style.color = 'var(--green)';
+        else dirSpan.style.color = 'var(--text2)';
+      }
+
+      const delEl = document.getElementById('rp-deleverage');
+      const dp = data?.deleveragingPressure || 'none';
+      delEl.textContent = dp === 'none' ? 'None detected' : formatText(dp);
+      delEl.style.color = (dp === 'broad_deleveraging') ? 'var(--red)' : (dp === 'moderate_deleveraging' ? 'var(--amber)' : 'var(--text2)');
+    }
+
+    function renderMonthEnd(data, viewState, globalDate) {
+      if(!data) return;
+      updateFreshness('me', data, viewState, globalDate);
+      
+      document.getElementById('me-days').textContent = data?.daysToMonthEnd != null ? data.daysToMonthEnd : '—';
+      if(data?.isRebalanceWindow) {
+        document.getElementById('me-window-badge').style.display = 'block';
+      } else {
+        document.getElementById('me-window-badge').style.display = 'none';
+      }
+
+      const cw = data?.currentEquityWeight;
+      const tw = data?.targetEquityWeight || 0.60;
+      document.getElementById('me-weights').textContent = `${cw != null ? formatFiniteNumber(cw * 100, 1)+'%' : '—'} / ${tw != null ? formatFiniteNumber(tw * 100, 1)+'%' : '—'}`;
+
+      const ovr = data?.equityOverweightPct;
+      const dEl = document.getElementById('me-overweight');
+      dEl.textContent = ovr != null ? ((ovr>0?'+':'') + formatFiniteNumber(ovr, 2) + '%') : '—';
+      dEl.className = 'data-value ' + colorize(ovr);
+      
+      const biasEl = document.getElementById('me-bias');
+      if (ovr != null && Math.abs(ovr) > 0.1) {
+        const biasText = ovr > 0 ? 'Potential equity selling' : 'Potential equity buying';
+        biasEl.textContent = biasText;
+        biasEl.style.color = ovr > 0 ? 'var(--red)' : 'var(--green)';
+      } else {
+        biasEl.textContent = 'Near target';
+        biasEl.style.color = 'var(--text2)';
+      }
+
+      const execEl = document.getElementById('me-exec-status');
+      execEl.textContent = data?.isRebalanceWindow ? 'In rebalance window' : `Outside window (${data?.daysToMonthEnd ?? '—'} days to month end)`;
+
+      const flow = document.getElementById('me-flow');
+      if (data?.isRebalanceWindow && ovr != null && Math.abs(ovr) > 0.2) {
+        flow.textContent = ovr > 0 ? 'Selling equity' : 'Buying equity';
+        flow.style.color = ovr > 0 ? 'var(--red)' : 'var(--green)';
+      } else {
+        flow.textContent = 'None';
+        flow.style.color = 'var(--text2)';
+      }
+    }
+
+    function renderDeleveraging(data, viewState, globalDate) {
+      if(!data) return;
+      updateFreshness('del', data, viewState, globalDate);
+      
+      const score = data?.stressScore;
+      document.getElementById('del-score').textContent = score != null ? formatFiniteNumber(score, 0) : '—';
+      
+      if(score != null && Number.isFinite(score)) {
+        const bar = document.getElementById('del-bar');
+        bar.style.width = Math.min(score, 100) + '%';
+        bar.style.background = score > 80 ? 'var(--red)' : (score > 50 ? 'var(--amber)' : 'var(--green)');
+      }
+      
+      document.getElementById('del-status').textContent = formatText(data?.status);
+      
+      const f = data?.estimatedFlowUsd;
+      document.getElementById('stress-flow').textContent = f != null ? formatUsd(f) : 'Not estimable from available data';
+      
+      document.getElementById('del-vix').textContent = data?.vix != null ? formatFiniteNumber(data.vix, 2) : '—';
+      document.getElementById('del-hy').textContent = data?.hyOas != null ? formatFiniteNumber(data.hyOas,0)+'bp' : '—';
+      
+      if (data?.status === 'insufficient_data') {
+         document.getElementById('del-flashing').innerHTML = '⚠️ Unavailable — insufficient data<br>Missing inputs: ' + (data?.missingInputs || []).join(', ');
+      } else if (data?.status === 'series_too_stale') {
+         document.getElementById('del-flashing').innerHTML = '⚠️ Data is too stale to assess stress';
+      } else {
+         document.getElementById('del-flashing').innerHTML = '';
+      }
+    }
+
+    function renderAll(data, apiConnectionFailed = false, isPartialOverlay = false) {
+      removeSkeletons();
+      const viewState = determineViewState(data, apiConnectionFailed);
+      globalAsOfDate = data?.marketDataAsOf || '--';
+      document.getElementById('global-asof').textContent = globalAsOfDate;
+      
+      const cap = (s) => (s || 'unknown').charAt(0).toUpperCase() + (s || 'unknown').slice(1);
+      document.getElementById('hdr-market-freshness').textContent = viewState.marketFreshness === 'current' ? 'Current within alignment tolerance' : cap(viewState.marketFreshness);
+      document.getElementById('hdr-data-quality').textContent = cap(viewState.quality);
+      document.getElementById('hdr-snapshot-status').textContent = cap(viewState.apiStatus);
+      document.getElementById('hdr-last-api').textContent = data?.snapshotGeneratedAt ? new Date(data.snapshotGeneratedAt).toLocaleString() : '--';
+      
+      const headerStatus = document.getElementById('global-asof-status');
+      if (viewState.apiStatus === 'stale' || viewState.apiStatus === 'expired' || viewState.marketFreshness === 'outdated' || viewState.quality === 'partial' || isPartialOverlay) {
+         let statuses = [];
+         if (viewState.apiStatus !== 'current') statuses.push(`API ${viewState.apiStatus.toUpperCase()}`);
+         if (viewState.marketFreshness !== 'current') statuses.push(`Market ${viewState.marketFreshness.toUpperCase()}`);
+         if (viewState.quality === 'partial') statuses.push(`PARTIAL`);
+         if (isPartialOverlay) statuses.push(`PARTIAL API OVERLAY`);
+         
+         if (headerStatus) headerStatus.innerHTML = `<span style="color:var(--amber);">Data Status: ${statuses.join(', ')}</span>`;
+         document.getElementById('stale-summary-banner').style.display = 'block';
+         
+         if (apiConnectionFailed && data?.snapshotGeneratedAt) {
+           document.getElementById('error-banner').style.display = 'block';
+           document.getElementById('error-banner').innerHTML = `⚠️ Connection lost.<br><span style="font-size:12px; font-weight:normal;">Showing last successful snapshot from ${new Date(data.snapshotGeneratedAt).toLocaleString()}. No values have been refreshed since then.</span>`;
+         } else if (isPartialOverlay) {
+           const banner = document.getElementById('stale-summary-banner');
+           banner.style.display = 'block';
+           banner.innerHTML = `⚠️ Warning: Latest API update was partial. Showing previous complete snapshot from ${data?.snapshotGeneratedAt ? new Date(data.snapshotGeneratedAt).toLocaleString() : 'unknown'}.`;
+         } else {
+           document.getElementById('error-banner').style.display = 'none';
+         }
+      } else {
+         document.getElementById('stale-summary-banner').style.display = 'none';
+         document.getElementById('error-banner').style.display = 'none';
+         if (headerStatus) headerStatus.innerHTML = `Current Validated Snapshot`;
+      }
+
+      renderSummary(data, viewState);
+      renderVolControl(data.volControl, viewState, globalAsOfDate);
+      renderLetf(data.leveragedEtf, viewState, globalAsOfDate);
+      renderCta(data.ctaTrend, viewState, globalAsOfDate);
+      renderRiskParity(data.riskParity, viewState, globalAsOfDate);
+      renderMonthEnd(data.pensionRebalance, viewState, globalAsOfDate);
+      renderDeleveraging(data.stressConditions, viewState, globalAsOfDate);
+    }
+
+        window.fetchFlows = async function() {
+      if (currentAbortController) {
+        currentAbortController.abort();
+      }
+      currentAbortController = new AbortController();
+
+      try {
+        const res = await fetch('/api/flows', { signal: currentAbortController.signal });
+        if(!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (data.schemaVersion !== 2) throw new Error('Unsupported flow API schema');
+        const { volControl, leveragedEtf, ctaTrend, riskParity, pensionRebalance, stressConditions } = data.modules || {};
+        // attach back to data for legacy functions
+        data.volControl = volControl;
+        data.leveragedEtf = leveragedEtf;
+        data.ctaTrend = ctaTrend;
+        data.riskParity = riskParity;
+        data.pensionRebalance = pensionRebalance;
+        data.stressConditions = stressConditions;
+
+        
+        const incomingTime = new Date(data.snapshotGeneratedAt || Date.now()).getTime();
+        if (incomingTime < lastRenderedSnapshotTimestamp) {
+           console.warn("Rejecting older response received out of order", data.snapshotGeneratedAt);
+           return;
+        }
+        lastRenderedSnapshotTimestamp = incomingTime;
+        lastValidSnapshot = data;
+        
+        if (data.snapshotQuality === 'complete') {
+           lastCompleteSnapshot = data;
+           renderAll(data);
+        } else {
+           if (lastCompleteSnapshot) {
+               // Render old complete snapshot but warn that latest fetch was partial
+               renderAll(lastCompleteSnapshot, false, true);
+           } else {
+               // Render partial
+               renderAll(data);
+           }
+        }
+      } catch(e) {
+        if (e.name === 'AbortError') return;
+        console.error("Failed to fetch flows data:", e);
+        
+        const banner = document.getElementById('error-banner');
+        banner.style.display = 'block';
+        if (lastCompleteSnapshot || lastValidSnapshot) {
+          const snapToRender = lastCompleteSnapshot || lastValidSnapshot;
+          renderAll(snapToRender, true);
+        } else {
+          banner.innerHTML = `⚠️ Flow data unavailable. No valid snapshot has been loaded.`;
+          removeSkeletons();
+        }
+      }
+    };
+    // Initialize
+    (async function() {
+            await window.fetchFlows();
+      setInterval(window.fetchFlows, 60000);
+    })();
+
+  </script>
+</body>
+</html>

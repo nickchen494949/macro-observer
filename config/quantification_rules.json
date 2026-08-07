@@ -1,0 +1,151 @@
+{
+  "__meta__": {
+    "version": "1.0.0",
+    "description": "Single source of truth for all indicator quantification rules. Used by Rule Engine V2."
+  },
+  "rules": {
+    "sahm_rule": {
+      "type": "official_anchor",
+      "thresholds": [
+        { "condition": ">= 0.50", "level": "extreme", "color": "red", "implication": "recession_triggered" },
+        { "condition": ">= 0.30", "level": "high", "color": "orange", "implication": "recession_watch" },
+        { "condition": "< 0.30", "level": "normal", "color": "green", "implication": "safe" }
+      ],
+      "direction_window": "3m"
+    },
+    "real_pce_mom": {
+      "type": "economic_threshold",
+      "description": "Real PCE MoM",
+      "thresholds": [
+        { "condition": "< 0.1", "level": "low", "color": "red", "implication": "demand_contraction" },
+        { "condition": "> 0.3", "level": "high", "color": "green", "implication": "demand_expansion" },
+        { "condition": "default", "level": "normal", "color": "yellow", "implication": "demand_moderate" }
+      ],
+      "direction_window": "3m"
+    },
+    "nfp_mom": {
+      "type": "economic_threshold",
+      "description": "Nonfarm Payrolls MoM Change",
+      "thresholds": [
+        { "condition": "< 100", "level": "low", "color": "red", "implication": "hiring_weak" },
+        { "condition": "> 200", "level": "high", "color": "green", "implication": "hiring_strong" },
+        { "condition": "default", "level": "normal", "color": "yellow", "implication": "hiring_moderate" }
+      ],
+      "direction_window": "3m"
+    },
+    "unemployment": {
+      "type": "economic_threshold",
+      "thresholds": [
+        { "condition": ">= 4.4", "level": "high", "color": "red", "implication": "labor_slack_high" },
+        { "condition": "<= 4.1", "level": "low", "color": "green", "implication": "labor_tight" },
+        { "condition": "default", "level": "normal", "color": "yellow", "implication": "labor_balanced" }
+      ],
+      "direction_window": "3m"
+    },
+    "core_pce_yoy": {
+      "type": "official_anchor_plus_band",
+      "description": "Core PCE YoY",
+      "anchor": 2.0,
+      "thresholds": [
+        { "condition": ">= 4.0", "level": "extreme", "color": "red", "implication": "inflation_extreme" },
+        { "condition": ">= 3.0", "level": "high", "color": "orange", "implication": "inflation_high" },
+        { "condition": ">= 2.5", "level": "elevated", "color": "yellow", "implication": "inflation_elevated" },
+        { "condition": "< 2.5", "level": "normal", "color": "green", "implication": "inflation_target" }
+      ],
+      "direction_window": "3m"
+    },
+    "avg_hourly_wage_yoy": {
+      "type": "economic_threshold",
+      "description": "Average Hourly Earnings YoY",
+      "thresholds": [
+        { "condition": ">= 4.5", "level": "high", "color": "red", "implication": "wage_pressure_high" },
+        { "condition": "<= 3.5", "level": "normal", "color": "green", "implication": "wage_pressure_contained" },
+        { "condition": "default", "level": "elevated", "color": "yellow", "implication": "wage_pressure_moderate" }
+      ],
+      "direction_window": "3m"
+    },
+    "10y_breakeven_inflation": {
+      "type": "economic_threshold",
+      "description": "10Y Breakeven Inflation",
+      "thresholds": [
+        { "condition": ">= 2.5", "level": "high", "color": "red", "implication": "inflation_expectations_unanchored" },
+        { "condition": "<= 2.2", "level": "normal", "color": "green", "implication": "inflation_expectations_anchored" },
+        { "condition": "default", "level": "elevated", "color": "yellow", "implication": "inflation_expectations_elevated" }
+      ],
+      "direction_window": "1m"
+    },
+    "chicago_fed_nfci": {
+      "type": "economic_threshold",
+      "description": "Chicago Fed NFCI",
+      "thresholds": [
+        { "condition": ">= 0.5", "level": "extreme", "color": "red", "implication": "financial_conditions_tight" },
+        { "condition": ">= 0.0", "level": "elevated", "color": "orange", "implication": "financial_conditions_tightening" },
+        { "condition": "< 0.0", "level": "normal", "color": "green", "implication": "financial_conditions_loose" }
+      ],
+      "direction_window": "4w"
+    },
+    "-_hy-ig": {
+      "type": "expanding_percentile",
+      "description": "HY minus IG Spread",
+      "percentiles": [
+        { "condition": ">= 95", "level": "extreme", "color": "red", "implication": "credit_stress_extreme" },
+        { "condition": ">= 80", "level": "high", "color": "orange", "implication": "credit_stress_high" },
+        { "condition": ">= 60", "level": "elevated", "color": "yellow", "implication": "credit_stress_elevated" },
+        { "condition": "< 60", "level": "normal", "color": "green", "implication": "credit_loose" }
+      ],
+      "direction_window": "4w"
+    },
+    "treasury_net_issuance": {
+      "type": "economic_threshold",
+      "description": "Treasury Net Issuance (Billions)",
+      "thresholds": [
+        { "condition": ">= 500", "level": "high", "color": "red", "implication": "supply_pressure_high" },
+        { "condition": "<= 200", "level": "normal", "color": "green", "implication": "supply_pressure_low" },
+        { "condition": "default", "level": "elevated", "color": "yellow", "implication": "supply_pressure_moderate" }
+      ],
+      "direction_window": "3m"
+    },
+    "tip_yield_10y_tips": {
+      "type": "expanding_percentile",
+      "description": "10Y TIPS Real Yield",
+      "percentiles": [
+        { "condition": ">= 95", "level": "extreme", "color": "red", "implication": "real_rate_extreme" },
+        { "condition": ">= 80", "level": "high", "color": "orange", "implication": "real_rate_high" },
+        { "condition": ">= 60", "level": "elevated", "color": "yellow", "implication": "real_rate_elevated" },
+        { "condition": "< 60", "level": "normal", "color": "green", "implication": "real_rate_normal" }
+      ],
+      "direction_window": "4w"
+    },
+    "rrp_overnight": {
+      "type": "economic_threshold",
+      "description": "Reverse Repo Facility (Billions)",
+      "thresholds": [
+        { "condition": "<= 200", "level": "low", "color": "red", "implication": "liquidity_buffer_depleted" },
+        { "condition": "<= 500", "level": "elevated", "color": "yellow", "implication": "liquidity_buffer_low" },
+        { "condition": "> 500", "level": "normal", "color": "green", "implication": "liquidity_buffer_ample" }
+      ],
+      "direction_window": "4w"
+    },
+    "sofr-iorb": {
+      "type": "economic_threshold",
+      "description": "SOFR - IORB Spread (bps)",
+      "thresholds": [
+        { "condition": ">= 10", "level": "high", "color": "red", "implication": "funding_stress_high" },
+        { "condition": ">= 5", "level": "elevated", "color": "yellow", "implication": "funding_stress_elevated" },
+        { "condition": "< 5", "level": "normal", "color": "green", "implication": "funding_stress_low" }
+      ],
+      "direction_window": "4w"
+    },
+    "SP500_PE": {
+      "type": "expanding_percentile",
+      "description": "S&P 500 P/E Ratio",
+      "percentiles": [
+        { "condition": ">= 95", "level": "extreme", "color": "red", "implication": "valuation_extreme" },
+        { "condition": ">= 80", "level": "high", "color": "orange", "implication": "valuation_high" },
+        { "condition": ">= 60", "level": "elevated", "color": "yellow", "implication": "valuation_elevated" },
+        { "condition": "< 60", "level": "normal", "color": "green", "implication": "valuation_normal" }
+      ],
+      "direction_window": "4w"
+    }
+  }
+}
