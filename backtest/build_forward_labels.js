@@ -41,13 +41,9 @@ function main() {
   const yahooDir = path.join(__dirname, '../data/yahoo');
   const phase3Dir = path.join(__dirname, 'phase3');
   
-  // Try to use phase3 snapshots if available, fallback to snapshots_base.json
   let snapshotsPath = path.join(phase3Dir, 'snapshots_phase3.json');
   if (!fs.existsSync(snapshotsPath)) {
-      snapshotsPath = path.join(__dirname, 'snapshots_base.json');
-  }
-  if (!fs.existsSync(snapshotsPath)) {
-      snapshotsPath = path.join(__dirname, 'snapshots.json');
+      throw new Error("Canonical Phase 3 snapshots missing: " + snapshotsPath);
   }
   
   const spx = loadJson(path.join(yahooDir, '_GSPC.json'));
@@ -134,14 +130,15 @@ function main() {
         
         const mdd = calculateMaxDrawdown(prices, adjOpen_F);
         
-        res['return' + hKey + 'Open'] = Number(ret.toFixed(4));
-        res['mae' + hKey] = Number(mae.toFixed(4));
-        res['mdd' + hKey] = Number(mdd.toFixed(4));
+        res['return' + hKey + 'Open'] = ret;
+        res['mae' + hKey] = mae;
+        res['mdd' + hKey] = mdd;
+        res['lastLabelSession' + hKey] = spxData[startIdx + h - 1].date;
         
         if (h >= 5) {
             const vol = calcRealizedVol(spxData, startIdx, h);
             if (vol !== null) {
-                res['vol' + hKey] = Number(vol.toFixed(4));
+                res['vol' + hKey] = vol;
             }
         }
       }
@@ -170,7 +167,8 @@ function main() {
         const horizons = [1, 3, 5, 10, 20];
         for (const h of horizons) {
             const adjClose_Fh = spxData[startIdx + h - 1].adjClose;
-            resComp['return' + h + 'dOpen'] = Number(((adjClose_Fh / adjOpen_F) - 1).toFixed(4));
+            resComp['return' + h + 'dOpen'] = (adjClose_Fh / adjOpen_F) - 1;
+            resComp['lastLabelSession' + h + 'd'] = spxData[startIdx + h - 1].date;
         }
         labels[date].composite = resComp;
       }

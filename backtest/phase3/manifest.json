@@ -1,12 +1,15 @@
 {
-  "codeCommit": "1d5c051",
   "registryFreezeCommit": "1d5c051",
+  "artifactGenerationCommit": "4c9cf1829da3532f7b80232e6680503062494e57",
   "signalRegistrySHA256": "16d95da57066496e6d63d706a8a0a4ebdf181836bac06e642c588b905f40c32f",
   "hypothesisRegistrySHA256": "ee009b4649157f163b0170a527385e91f032d26e9eab624621a05e52643aa667",
   "baselineRegistrySHA256": "e6cef6d45b6a6c46743f7f35cce0548dc5b2c661bd5d492d0f8d0bd7cb95140a",
+  "snapshotsSHA256": "e6a75a3fb77011e45747e6c99742c6fcd56e5f3072dcfab63eec04d1b630e507",
+  "modelStatesSHA256": "7f0946a4d242abb6347931d0db609c8267b82ec277c206efe9b5ae6c1f4925ce",
+  "forwardLabelsSHA256": "0c51eda1722425191b7a99e56fcdc573e8fa3a1263416c494210abeb39cdf95e",
   "canonicalStartDate": "2016-01-01",
   "canonicalEndDate": "2025-01-01",
   "snapshotSchemaVersion": 3,
-  "labelSchemaVersion": 1,
+  "labelSchemaVersion": 2,
   "fredLagScenario": 0
 }
