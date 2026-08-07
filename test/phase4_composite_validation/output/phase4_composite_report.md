@@ -1,23 +1,31 @@
-# Phase 4 Composite Pipeline Results
+# Phase 4 Composite Validation
 
-The Phase 4 Systematic Flow Composite has been rigorously evaluated over the canonical Phase 3 dataset (2016-2024 as Development/Diagnostic) and the true Phase 4 Holdout (2025-2026).
+**Final verdict: NOT_SUPPORTED**
 
-## Final Verdict
-**Composite Status**: `NOT_SUPPORTED`
+Primary hypothesis: equal-weight Systematic Flow Composite vs 5D SPX forward return.
+Phase 3 module verdicts remain unchanged and are not overridden by Phase 4.
 
-## Summary of Gate Failures
-1. **Primary 5D HAC Rank-Regression**: Failed. The single-factor model yielded a statistically insignificant Spearman IC ($p=0.91$).
-2. **Primary 5D IC Moving-Block Bootstrap**: Failed. The 5000-iteration overlapping block bootstrap 95% Confidence Interval for the IC was $[-0.068, 0.071]$, cleanly straddling zero.
-3. **True 2025-2026 Pooled OOS Squared-Error Gate**: Failed. The composite provided exactly zero predictive power out of sample. $\Delta R^2 = -0.02$, $\Delta MAE = -0.00018$, and the OOS loss differential $d_t$ bootstrap failed to exclude zero.
+## Failure reasons
+- Primary 5D HAC rank-regression gate failed.
+- Primary 5D IC moving-block bootstrap CI includes zero/wrong direction.
+-3. **True 2025-2026 Pooled OOS Squared-Error Gate**: Failed. Even with the CTA missing data hole repaired, the composite provided exactly zero predictive power out of sample. $\Delta R^2 = -0.0117$, $\Delta MAE = -0.000115$, and the OOS loss differential $d_t$ bootstrap lower bound failed to exclude zero ($p \approx 0.073$).
 4. **Development Annual/LOYO Robustness**: Failed. The composite only achieved the correct direction in $37.5\%$ of eligible years (failed the $\ge 70\%$ gate), and triggered 5 catastrophic sign reversals (exceeded the limit of 1).
 
 ## Independent Audit Manifest
 **Code Commit**: `1ab0566834a8f37de912e00d3e6f3401006aa837`
 **Composite Registry Hash**: `e61841acaa7632701cc7720f4e8df13bb06d23373ef274643f3c969a79766305`
-**Holdout Snapshots Hash**: `c8fe261244a604b7b60c14bbe3a188c0583e31afe4dd30e5a7da07968746938f`
+**Holdout Snapshots Hash**: `e9cbc81e5d6002194fb8ac15a36ab1d8fce71dbb001ab0b5da39c165c8f2c47c`
 **Holdout Labels Hash**: `4906a8da30a90f326355c03b8a0f5327b601aacc73ec58de98e47657d8221321`
 
-## Conclusion
-The hypothesis that aggregating the weak signals into an equal-weight composite would reveal true systemic buying pressure is completely rejected by the data. The composite behaves as pure noise on an out-of-sample basis, performing worse than the simple momentum/volatility baseline.
+## Gate components
+- Development IC valid: True
+- Development IC direction: True
+- Development HAC gate: False
+- Development IC bootstrap: False
+- Development Partial IC: True
+- True holdout OOS valid: True
+- True holdout OOS squared-error gate: False
+- Development robustness valid: True
+- Development robustness gate: False
 
-We fail to reject the null hypothesis. Production behavior in `lib/flow_engine.js` remains untouched.
+Production flow_engine.js remains untouched unless verdict is SUPPORTED.
