@@ -20,8 +20,8 @@ def bootstrap_ic(df, iterations=5000, seed=20260807, block_length=20):
     for _ in range(iterations):
         indices = []
         while len(indices) < n:
-            start = rng.integers(0, n)
-            indices.extend(range(start, min(start + block_length, n)))
+            start = rng.integers(0, max(1, n - block_length + 1))
+            indices.extend(range(start, start + block_length))
         indices = indices[:n]
         
         samp_score = score_arr[indices]
