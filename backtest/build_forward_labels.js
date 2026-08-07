@@ -7,17 +7,15 @@ function loadJson(p) {
 }
 
 // True Intraday Path-Dependent Drawdown
-function calculateMaxDrawdown(prices) {
+function calculateMaxDrawdown(prices, adjOpen_F) {
   if (!prices || prices.length === 0) return 0;
   // prices should be an array of objects: { high, low, adjHigh, adjLow }
-  let maxPx = prices[0].adjHigh;
+  let runningPeak = adjOpen_F;
   let maxDd = 0;
-  for (let i = 1; i < prices.length; i++) {
-    if (prices[i].adjHigh > maxPx) {
-      maxPx = prices[i].adjHigh;
-    }
-    const dd = (prices[i].adjLow - maxPx) / maxPx;
+  for (const day of prices) {
+    const dd = (day.adjLow / runningPeak) - 1;
     if (dd < maxDd) maxDd = dd;
+    runningPeak = Math.max(runningPeak, day.adjHigh);
   }
   return maxDd;
 }
@@ -102,7 +100,7 @@ function main() {
         if (dd < mae) mae = dd;
       }
       
-      const mdd = calculateMaxDrawdown(prices5d);
+      const mdd = calculateMaxDrawdown(prices5d, adjOpen_F);
       
       labels[date].modules[m] = {
         signalAvailableAt: mData.signalAvailableAt,

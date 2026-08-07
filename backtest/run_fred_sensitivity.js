@@ -5,7 +5,6 @@ const assert = require('assert');
 
 console.log("Running FRED sensitivity scenarios (+0, +1, +3)...");
 
-// ALWAYS rebuild to prove causality right now
 console.log("Building base scenario (+0 days lag)...");
 execSync('node backtest/build_historical_snapshots.js 2022-01-03 2022-12-31 snapshots_base.json 0', { stdio: 'pipe' });
 console.log("Building +1 day lag scenario...");
@@ -17,16 +16,6 @@ const base = JSON.parse(fs.readFileSync(path.join(__dirname, 'snapshots_base.jso
 const plus1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'snapshots_plus1.json')));
 const plus3 = JSON.parse(fs.readFileSync(path.join(__dirname, 'snapshots_plus3.json')));
 
-// Estimate shifted observations properly
-const fredRaw = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/fred/DGS10.json')));
-let fredArray = fredRaw;
-if (!Array.isArray(fredArray)) fredArray = fredArray.values || [];
-let shifted1 = fredArray.filter(v => {
-    let d = Array.isArray(v) ? v[0] : v.date;
-    return d >= '2022-01-03' && d <= '2022-12-31';
-}).length;
-let shifted3 = shifted1;
-
 function compareSnapsDeep(baseSnaps, targetSnaps) {
   let totalKeys = 0;
   let statusDiffs = 0;
@@ -36,6 +25,9 @@ function compareSnapsDeep(baseSnaps, targetSnaps) {
   let volControlNumDiffs = 0;
   let ctaEtfNumDiffs = 0;
   let decisionDatesAffected = 0;
+  
+  let pitSelectionsChanged = 0;
+  let pitDiffLog = [];
 
   for (const date of Object.keys(baseSnaps)) {
     if (!targetSnaps[date]) continue;
@@ -44,11 +36,29 @@ function compareSnapsDeep(baseSnaps, targetSnaps) {
     const b = baseSnaps[date];
     const t = targetSnaps[date];
     
+    const bObsDate = b.modules?.riskParity?.dgs10ObservationDate;
+    const tObsDate = t.modules?.riskParity?.dgs10ObservationDate;
+    const bVal = b.modules?.riskParity?.dgs10Value;
+    const tVal = t.modules?.riskParity?.dgs10Value;
+    
+    if (bObsDate !== tObsDate || bVal !== tVal) {
+        pitSelectionsChanged++;
+        pitDiffLog.push({
+            decisionDate: date,
+            base: { observationDate: bObsDate, value: bVal },
+            target: { observationDate: tObsDate, value: tVal }
+        });
+    }
+
     let dateAffected = false;
 
-    // Check numerical isolation
-    const bRP = JSON.stringify(b.modules?.riskParity || {});
-    const tRP = JSON.stringify(t.modules?.riskParity || {});
+    const extractNumState = (rp) => {
+        const { dgs10ObservationDate, dgs10Value, ...rest } = rp || {};
+        return JSON.stringify(rest);
+    };
+
+    const bRP = extractNumState(b.modules?.riskParity);
+    const tRP = extractNumState(t.modules?.riskParity);
     if (bRP !== tRP) {
         riskParityNumDiffs++;
         dateAffected = true;
@@ -70,7 +80,6 @@ function compareSnapsDeep(baseSnaps, targetSnaps) {
 
     if (dateAffected) decisionDatesAffected++;
     
-    // Check module statuses
     const bStatuses = JSON.stringify({
       v: b.modules?.volControl?.status,
       c: b.modules?.ctaEtfProxy?.status,
@@ -83,7 +92,6 @@ function compareSnapsDeep(baseSnaps, targetSnaps) {
     });
     if (bStatuses !== tStatuses) statusDiffs++;
     
-    // Check aggregate directions
     const bDir = JSON.stringify({
       v: b.modules?.volControl?.nextDayEstimateIfTargetUnchanged,
       r: b.modules?.riskParity?.allocationDirection
@@ -95,7 +103,6 @@ function compareSnapsDeep(baseSnaps, targetSnaps) {
     if (bDir !== tDir) directionDiffs++;
   }
   
-  // Hard Gate
   assert(volControlNumDiffs === 0, 'Vol-Control numerical states changed! Causal isolation broken.');
   assert(ctaEtfNumDiffs === 0, 'CTA ETF numerical states changed! Causal isolation broken.');
 
@@ -104,6 +111,8 @@ function compareSnapsDeep(baseSnaps, targetSnaps) {
     riskParityNumDiffs,
     volControlNumDiffs,
     ctaEtfNumDiffs,
+    pitSelectionsChanged,
+    pitDiffLog,
     statusChangedPct: totalKeys > 0 ? (statusDiffs / totalKeys * 100).toFixed(2) : 0,
     directionChangedPct: totalKeys > 0 ? (directionDiffs / totalKeys * 100).toFixed(2) : 0
   };
@@ -112,10 +121,15 @@ function compareSnapsDeep(baseSnaps, targetSnaps) {
 const p1Results = compareSnapsDeep(base, plus1);
 const p3Results = compareSnapsDeep(base, plus3);
 
+fs.writeFileSync(path.join(__dirname, 'fred_sensitivity_report.json'), JSON.stringify({
+    plus1: p1Results,
+    plus3: p3Results
+}, null, 2));
+
 console.log("\n--- SENSITIVITY REPORT ---");
 console.log(`FRED PIT selections changed:`);
-console.log(`Base vs +1 day: ~${shifted1}`);
-console.log(`Base vs +3 days: ~${shifted3}\n`);
+console.log(`Base vs +1 day: ${p1Results.pitSelectionsChanged}`);
+console.log(`Base vs +3 days: ${p3Results.pitSelectionsChanged}\n`);
 
 console.log(`Decision dates with different PIT inputs:`);
 console.log(`+1 day: ${p1Results.decisionDatesAffected}`);

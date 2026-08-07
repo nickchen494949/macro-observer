@@ -109,17 +109,32 @@ function sliceData(dataObj, maxDate, isFred = false, lagOffset = 0) {
   
   for (const [key, arr] of Object.entries(dataObj)) {
     if (Array.isArray(arr)) {
-      const filtered = arr.filter(d => {
-        const dateStr = Array.isArray(d) ? d[0] : d.date;
-        if (isFred) {
-          // Point-in-time quality: approximate (Conservative publication-lag)
-          const availableAtTime = new Date(getFredAvailableAt(key, dateStr, lagOffset)).getTime();
-          return availableAtTime <= signalAvailableAt;
-        } else {
-          return dateStr <= maxDate;
-        }
-      });
-      sliced[key] = filtered;
+      let low = 0;
+      let high = arr.length - 1;
+      let endIdx = -1;
+      
+      while (low <= high) {
+         let mid = Math.floor((low + high) / 2);
+         const d = arr[mid];
+         const dateStr = Array.isArray(d) ? d[0] : d.date;
+         
+         let isAvailable = false;
+         if (isFred) {
+             const availableAtTime = new Date(getFredAvailableAt(key, dateStr, lagOffset)).getTime();
+             isAvailable = availableAtTime <= signalAvailableAt;
+         } else {
+             isAvailable = dateStr <= maxDate;
+         }
+         
+         if (isAvailable) {
+             endIdx = mid;
+             low = mid + 1; // Try to find a later one
+         } else {
+             high = mid - 1; // Need an earlier one
+         }
+      }
+      
+      sliced[key] = endIdx >= 0 ? arr.slice(0, endIdx + 1) : [];
     } else {
       sliced[key] = arr;
     }
@@ -199,7 +214,7 @@ function main() {
       snapshots[t] = snapshot;
       modelStates.push({
         decisionDate: t,
-        nextModelState
+        nextModelState: structuredClone(nextModelState)
       });
     }
     
@@ -213,7 +228,8 @@ function main() {
   
   // Write separated recursive mathematical states
   const msLines = modelStates.map(ms => JSON.stringify(ms)).join('\n');
-  fs.writeFileSync(path.join(__dirname, 'model_states.jsonl'), msLines);
+  const msFileName = OUT_FILE.replace('snapshots', 'model_states').replace('.json', '.jsonl');
+  fs.writeFileSync(path.join(__dirname, msFileName), msLines);
 
   
   const snapKeys = Object.keys(snapshots);
