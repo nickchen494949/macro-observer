@@ -336,11 +336,11 @@ async function fetchFred(seriesId, startDate) {
 // ============================================
 // YAHOO FETCH (via Python subprocess — bypasses Node.js TLS block)
 // ============================================
-const FETCH_YAHOO_PY = path.join(__dirname, 'fetch_yahoo.py');
+const FETCH_YAHOO_JS = path.join(__dirname, 'fetch_yahoo.js');
 
 function fetchYahoo(symbol, range = '5d') {
   return new Promise((resolve, reject) => {
-    execFile('python3', [FETCH_YAHOO_PY, symbol, range], { timeout: 20000 }, (err, stdout, stderr) => {
+    execFile('node', [FETCH_YAHOO_JS, symbol, range], { timeout: 20000 }, (err, stdout, stderr) => {
       if (err) return reject(new Error(err.message || stderr));
       try {
         const result = JSON.parse(stdout.trim());
@@ -701,6 +701,7 @@ async function smartUpdate(includeYahoo = false) {
 function calcMetrics(values, absoluteChanges = false) {
   if (!values || values.length < 5) return null;
   const current = values[values.length - 1][1];
+  if (current == null || !Number.isFinite(current)) return null;
   const currentDate = new Date(values[values.length - 1][0] + 'T00:00:00Z');
 
   // Z-score percentile (4 years ≈ 1008 trading days)
