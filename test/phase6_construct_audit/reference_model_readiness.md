@@ -4,10 +4,14 @@ This document outlines our ability to faithfully reconstruct the official S&P me
 
 ## Part A: S&P 500 Daily Risk Control 10%
 **Can we faithfully reproduce S&P Vol Control?**
-Yes. The mathematical formulation (EWMA or 20/40-day Simple Variance) and the required data series (S&P 500 daily price return / total return, and daily SOFR/DFF rates) are well within our current repository's capabilities.
+UNKNOWN. The exact methodology parameters (formula, cap, lag, underlying) cannot currently be sourced from an official S&P document. 
 
-**Reconstruction Feasibility**: `NEAR_EXACT_REPLICA_FEASIBLE`
-*(Note: It is "near-exact" rather than strictly exact only because we may use the SPY ETF adjusted close as a proxy for the S&P 500 Total Return index, or DFF instead of exact SOFR spreads prior to 2021, but mathematically it will be essentially identical to the official behavior).*
+Additionally:
+- **DFF is not an exact substitute for SOFR/LIBOR.**
+- **SPY adjusted close is not an exact S&P 500 Total Return series.**
+- **Cash rates are unnecessary for the first exposure-mechanics comparison.**
+
+**Reconstruction Feasibility**: `NOT_FEASIBLE` (Until the exact methodology is sourced).
 
 ---
 
@@ -33,7 +37,7 @@ No. The official S&P Risk Parity indices employ a highly complex, 26-constituent
 1. **What new market datasets are required?**
    - For a true exact S&P Risk Parity replica, we would need to build a massive new pipeline downloading daily historical continuous futures data for 26 global instruments, plus daily FX rates. This is deemed out of scope.
 2. **Which comparisons against V1 would actually be scientifically valid?**
-   - **Vol Control**: We can safely compare our existing V1 exposure against the `NEAR_EXACT_REPLICA` we build here. If our V1 behaves like the S&P Average Daily Risk Control 10%, it validates our Vol Control proxy as a mature vol-targeting algorithm.
+   - **Vol Control**: Cannot be built until the exact official parameters are verified.
    - **Risk Parity**: We can only build a **Simplified 2-Asset Reference** (SPY + DGS10 or TLT) using inverse volatility weighting. We must explicitly label this as a "Simplified Reduced Reference" rather than an S&P replica. We can compare our RP V1 against this simplified reference to ensure basic parity mechanics (inverse-vol weighting, constant vol targeting) are functioning correctly.
 
 *(Note: We will not ingest CFTC data or write V2 proxies until these reference comparisons are complete).*
