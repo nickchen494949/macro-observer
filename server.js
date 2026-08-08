@@ -701,6 +701,7 @@ async function smartUpdate(includeYahoo = false) {
 function calcMetrics(values, absoluteChanges = false) {
   if (!values || values.length < 5) return null;
   const current = values[values.length - 1][1];
+  if (current == null || !Number.isFinite(current)) return null;
   const currentDate = new Date(values[values.length - 1][0] + 'T00:00:00Z');
 
   // Z-score percentile (4 years ≈ 1008 trading days)
