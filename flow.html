@@ -1077,13 +1077,14 @@
       dirEl.style.opacity = isStale ? '0.6' : '1';
 
       // --- Target Leverage ---
-      document.getElementById('rpm-leverage').textContent = data.targetLeverage != null ? formatFiniteNumber(data.targetLeverage, 2) + 'x' : '—';
+      const levEl = document.getElementById('rpm-leverage');
+      levEl.textContent = data.targetLeverage != null ? formatFiniteNumber(data.targetLeverage, 2) + 'x' : '—';
 
       // --- Delta Leverage 1d ---
       const dLevEl = document.getElementById('rpm-delta-lev');
       if (data.leverageChange1d != null) {
         dLevEl.textContent = (data.leverageChange1d > 0 ? '+' : '') + formatFiniteNumber(data.leverageChange1d, 3);
-        dLevEl.className = 'data-value ' + colorize(data.leverageChange1d);
+        dLevEl.className = 'data-value ' + (isStale ? '' : colorize(data.leverageChange1d));
       } else {
         dLevEl.textContent = '—';
         dLevEl.className = 'data-value';
@@ -1093,7 +1094,7 @@
       const dLev5El = document.getElementById('rpm-delta-lev5');
       if (data.leverageChange5d != null) {
         dLev5El.textContent = (data.leverageChange5d > 0 ? '+' : '') + formatFiniteNumber(data.leverageChange5d, 3);
-        dLev5El.className = 'data-value ' + colorize(data.leverageChange5d);
+        dLev5El.className = 'data-value ' + (isStale ? '' : colorize(data.leverageChange5d));
       } else {
         dLev5El.textContent = '—';
         dLev5El.className = 'data-value';
@@ -1113,7 +1114,9 @@
       if (data.stockBondCorrelation != null) {
         const c = data.stockBondCorrelation;
         corrEl.textContent = formatFiniteNumber(c, 2);
-        if (c > 0.3) {
+        if (isStale) {
+          corrEl.style.color = 'var(--text2)';
+        } else if (c > 0.3) {
           corrEl.style.color = 'var(--red)';
           corrEl.title = 'High positive corr — RP diversification severely degraded';
         } else if (c > 0.1) {
@@ -1131,14 +1134,29 @@
         corrEl.style.color = 'var(--text2)';
       }
 
-      // --- Broad Deleveraging ---
+      // --- Broad Deleveraging (stale-aware) ---
       const bdEl = document.getElementById('rpm-broad-delev');
       if (data.broadDeleveraging1d) {
-        bdEl.textContent = '⚠️ YES';
-        bdEl.className = 'data-value negative';
+        bdEl.textContent = isStale ? 'Last valid: YES' : '⚠️ YES';
+        bdEl.className = 'data-value ' + (isStale ? '' : 'negative');
       } else {
         bdEl.textContent = 'No';
         bdEl.className = 'data-value';
+      }
+
+      // --- Dim all data values when stale ---
+      if (isStale) {
+        const staleIds = ['rpm-leverage','rpm-delta-lev','rpm-delta-lev5','rpm-portvol','rpm-weights','rpm-corr','rpm-broad-delev'];
+        staleIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.opacity = '0.6';
+        });
+      } else {
+        const freshIds = ['rpm-leverage','rpm-delta-lev','rpm-delta-lev5','rpm-portvol','rpm-weights','rpm-corr','rpm-broad-delev'];
+        freshIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.opacity = '1';
+        });
       }
     }
 
