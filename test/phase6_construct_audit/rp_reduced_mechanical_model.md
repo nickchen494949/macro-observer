@@ -1,156 +1,165 @@
-# Phase 6.7 — Reduced Risk Parity Mechanical Model
+# Phase 6.7a — RP Model Consistency Fix
 
-> **Date**: 2026-08-09
-> **Commit baseline**: `e83c98b` on `agent/phase4-composite-validation`
-> **Diagnostic script**: [`rp_v2_diagnostic.js`](file:///Users/happygolucky/Desktop/宏观观察器/test/phase6_construct_audit/rp_v2_diagnostic.js)
+> **Date**: 2026-08-10
+> **Commit baseline**: `69a39f1` on `agent/phase4-composite-validation`
 
 ---
 
-## Model Architecture
+## Problem
 
-```
-Layer 1: Inverse-Vol Relative Weights (same as V1)
-  w_eq = (1/σ_eq) / (1/σ_eq + 1/σ_bond)
-  ↓
-Layer 2: Portfolio Covariance & Volatility
-  σ_p² = w_eq²·σ_eq² + w_bond²·σ_bond² + 2·w_eq·w_bond·Cov(eq,bond)
-  ↓
-Layer 3: Target-Vol Implied Leverage
-  leverage = targetVol / σ_p   (capped at 3.0x, floored at 0.2x)
-  ↓
-Layer 4: Gross Exposures & Deleveraging Detection
-  eqGross = w_eq × leverage
-  bondGross = w_bond × leverage
-  broadDeleveraging = (ΔeqGross < 0) AND (ΔbondGross < 0)
-```
+The Phase 6.7 RP mechanical model had **two different implementations** computing portfolio volatility:
 
-### Configuration (ASSUMPTIONS — NOT VERIFIED)
-
-| Parameter | Value | Source |
+| Component | Portfolio Vol Formula | Source |
 |---|---|---|
-| Vol lookback | 20 business days | Standard short-term estimate |
-| Correlation lookback | 60 business days | ~3 months, captures regime transitions |
-| Bond duration | 8 | Approximate 10Y Treasury modified duration |
-| **Target portfolio vol** | **10% annualized** | ASSUMPTION — S&P Risk Parity 10% reference |
-| **Leverage cap** | **3.0×** | ASSUMPTION — conservative upper bound |
-| Leverage floor | 0.2× | Prevent near-zero gross exposure |
+| **Diagnostic** (`rp_v2_diagnostic.js`) | 60d coherent covariance matrix: `w²·Var_60d(eq) + w²·Var_60d(bond) + 2·w·w·Cov_60d` | Lines 87-112 |
+| **Production** (`flow_engine.js`) | Mixed: `w²·Vol_20d(eq)² + w²·Vol_20d(bond)² + 2·w·w·Corr_60d·Vol_20d(eq)·Vol_20d(bond)` | Lines 674-677 |
+
+These are **mathematically different models**. The mixed formula (20d vol × 60d corr) creates an incoherent matrix where the variance and correlation come from different samples.
+
+### Consequences
+
+The old production code reported `broadDeleveraging=true` on 2026-08-09 while the old diagnostic showed `broadDeleveraging=false` on 2026-08-04 — not just because of date differences, but because the formulas diverged.
 
 ---
 
-## Diagnostic Results (10 years: 2016-11 to 2026-08)
+## Fix: Single Canonical Function
 
-### Current State (2026-08-04)
+### Architecture
 
-| Metric | Value |
-|---|---|
-| Equity Vol (20d) | 13.3% |
-| Bond Vol (20d) | 5.2% |
-| Stock-Bond Corr (60d) | +0.510 |
-| Inv-Vol Equity Weight | 28.0% |
-| Portfolio Vol | 6.84% |
-| Target Leverage | 1.462× |
-| Equity Gross Exposure | 41.0% |
-| Bond Gross Exposure | 105.2% |
-| Total Gross | 146.2% |
-| Pressure Direction | leveraging |
+```
+lib/rp_mechanical.js           ← SINGLE SOURCE OF TRUTH
+  ├── computeRpSnapshot()       ← one point-in-time calculation
+  ├── computeRpMechanicalPressure() ← snapshot + deltas (1d, 5d)
+  ├── buildAlignedReturns()     ← date-align SPX + DGS10
+  └── (pure math helpers)
 
-### Correlation Impact (the key mechanism V1 missed)
+flow_engine.js                  ← production: calls rp_mechanical.js
+rp_v2_diagnostic.js             ← backtest: calls rp_mechanical.js
+rp_consistency_test.js          ← equality test: proves they match
+```
 
-| Corr Bucket | Days | Avg PortVol | Avg Leverage | Avg Total Gross |
-|---|---|---|---|---|
-| Strong negative (<−0.3) | 888 | 4.4% | 2.44× | 244% |
-| Weak negative (−0.3 to −0.1) | 593 | 5.4% | 2.03× | 203% |
-| Near zero (−0.1 to +0.1) | 308 | 6.7% | 1.66× | 166% |
-| Weak positive (+0.1 to +0.3) | 348 | 7.5% | 1.42× | 142% |
-| Strong positive (>+0.3) | 290 | 9.3% | 1.15× | 115% |
+### Frozen Covariance Convention
+
+| Layer | Lookback | Window | Purpose |
+|---|---|---|---|
+| **Allocation** (inverse-vol weights) | 20 business days | Separate from risk | More reactive to recent vol changes |
+| **Portfolio Risk** (full covariance matrix) | 60 business days | **Coherent** — Var(eq), Var(bond), Cov(eq,bond) ALL from same 60d window | Stable, principled risk estimate |
 
 > [!IMPORTANT]
-> **Correlation is the primary driver of leverage changes.** When stock-bond correlation flips from negative to positive, portfolio vol doubles (4.4% → 9.3%), and implied leverage drops by half (2.44× → 1.15×). This is the mechanism V1 completely lacked.
+> The covariance matrix for portfolio volatility is computed entirely from the 60d `riskLookback` window.
+> We do NOT mix 20d asset vol with 60d correlation. That was the bug in the Phase 6.7 production code.
 
-### Top Deleveraging Episodes
+### Formula
 
-| Date | ΔLev (5d) | Leverage | PortVol | Corr | EqVol | BondVol | Context |
-|---|---|---|---|---|---|---|---|
-| 2021-03-04 | −0.951 | 1.73× | 5.8% | +0.11 | 15.7% | 6.6% | Bond tantrum / reflation trade |
-| 2021-03-03 | −0.906 | 1.77× | 5.6% | +0.08 | 15.6% | 6.6% | Same episode |
-| 2020-03-13 | −0.759 | 1.43× | 7.0% | −0.41 | 59.5% | 11.8% | COVID crash |
-| 2020-03-18 | −0.664 | 1.32× | 7.6% | −0.57 | 85.4% | 16.1% | COVID peak volatility |
-| 2020-11-12 | −0.748 | 1.88× | 5.3% | −0.14 | 22.4% | 6.0% | Post-election vol spike |
-
-### V1 vs V2 Comparison
-
-| Metric | V1 | V2 |
-|---|---|---|
-| Deleveraging detection days | 0 (100% miss rate) | 619 days (25.6% of sample) |
-| Leverage model | Hardcoded `null` | Target-vol implied, 0.2×–3.0× |
-| Correlation in allocation | Computed but unused | Drives portfolio vol → leverage |
-| Broad deleveraging (both assets sold) | Heuristic label only | Quantitative: 224 days (9.2%) |
-
-> [!CAUTION]
-> **V1 missed 100% of deleveraging events.** Every single day where the V2 leverage model detected meaningful deleveraging (5d change < −5%), V1's heuristic (`eqVol>20% AND bondVol>15% AND corr>0.3`) returned `none`. The thresholds were too high to ever trigger in practice.
-
----
-
-## Plain-Language Answers
-
-### 1. Does V1 get the relative stock/bond allocation broadly right?
-
-**Partially.** Average weight difference between inverse-vol and true equal-risk-contribution (ERC) is **10.6 pp**, with a max of **52.1 pp**. The two formulas diverge significantly when correlation is far from zero. When correlation is strongly negative, ERC gives MORE weight to equities (because the diversification benefit makes equities less risky to the portfolio); inverse-vol ignores this.
-
-However, for a 2-asset portfolio, the relative allocation is much less important than the leverage decision. Even with 10 pp weight error, the directional signal (equity weight rising/falling) is usually correct.
-
-### 2. How often does V2 leverage produce meaningful deleveraging that V1 completely missed?
-
-**100% of the time.** V2 detected 619 days of meaningful deleveraging (25.6% of the sample). V1's hard-coded thresholds never triggered. The V1 thresholds (eqVol>20%, bondVol>15%, corr>0.3) represent extremely stressed conditions — basically requiring a simultaneous stock crash AND bond crash with positive correlation. This combination is rare.
-
-The V2 model detects subtler but economically important deleveraging: portfolio vol rising from 5% to 7% causes leverage to drop from 2× to 1.4×, forcing mechanical selling even when neither asset individually crosses V1's thresholds.
-
-### 3. During stock-bond correlation spikes, how much does portfolio vol and leverage change?
-
-**Dramatically.** Moving from strong negative correlation (−0.3 or below) to strong positive correlation (+0.3 or above):
-- Portfolio vol: 4.4% → 9.3% (+112%)
-- Leverage: 2.44× → 1.15× (−53%)
-- Total gross exposure: 244% → 115% (−53%)
-
-This is the defining mechanism of Risk Parity deleveraging: when diversification breaks down (correlation turns positive), the portfolio becomes much riskier, and the leverage overlay forces selling of ALL assets.
-
-### 4. Which historical stress periods show the biggest mechanical deleveraging?
-
-1. **2021 Feb-Mar Bond Tantrum**: Largest single-episode leverage drop (−0.95× in 5 days). Bond yields spiked, correlation flipped positive, equity vol elevated. This is the textbook "RP selling both stocks and bonds."
-2. **2020 March COVID**: Extreme equity vol (85%!) drove massive deleveraging despite negative stock-bond correlation. Even with diversification benefit, the sheer magnitude of equity vol overwhelmed the portfolio.
-3. **2020 November**: Post-election vol spike with correlation near zero — a moderate deleveraging event.
-4. **2023 November**: Brief 3-day broad deleveraging, leverage hit 1.12×.
-
----
-
-## Implementation Recommendation
-
-The V2 model should be integrated into `flow_engine.js` as a new parallel module `rpMechanicalPressure`, following the pattern of `vcMechanicalPressure`. Key output fields:
-
-```javascript
-{
-  status: 'ok',
-  equityWeight: 0.280,           // inverse-vol relative weight
-  bondWeight: 0.720,
-  portfolioVol: 0.0684,          // annualized
-  stockBondCorrelation: 0.510,
-  targetLeverage: 1.462,
-  leverageChange1d: 0.0134,
-  leverageChange5d: 0.0120,
-  equityGrossExposure: 0.410,
-  bondGrossExposure: 1.052,
-  equityExposureChange5d: ...,
-  bondExposureChange5d: ...,
-  pressureDirection: 'leveraging',   // leveraging | deleveraging | neutral
-  broadDeleveraging: false,          // true when BOTH exposures shrink
-  observationDate: '2026-08-04',
-  assumptions: {
-    targetPortfolioVol: 0.10,        // ASSUMPTION
-    leverageCap: 3.0,                // ASSUMPTION
-    volLookback: 20,
-    corrLookback: 60,
-    bondDuration: 8,
-  },
-  disclaimer: 'Reduced 2-asset RP proxy. Does not represent actual RP fund positions or AUM.'
-}
 ```
+Layer 1:  w_eq = (1/σ_eq_20d) / (1/σ_eq_20d + 1/σ_bond_20d)
+
+Layer 2:  σ_p² = w_eq²·Var_60d(eq)·252 + w_bond²·Var_60d(bond)·252 + 2·w_eq·w_bond·Cov_60d(eq,bond)·252
+
+Layer 3:  leverage = min(max(targetVol / σ_p, 0.2), 3.0)
+
+Layer 4:  eqGross = w_eq × leverage
+          bondGross = w_bond × leverage
+```
+
+### Assumptions (NOT VERIFIED)
+
+| Parameter | Value | Label |
+|---|---|---|
+| Target portfolio vol | 10% annualized | ASSUMPTION |
+| Leverage cap | 3.0× | ASSUMPTION |
+| Leverage floor | 0.2× | ASSUMPTION |
+| Bond duration | 8 | ASSUMPTION |
+
+---
+
+## Latest-State Mismatch: Root Cause
+
+| | Production | Diagnostic |
+|---|---|---|
+| **Last date** | 2026-08-09 | 2026-08-04 |
+| **SPX data through** | 2026-08-07 (+ calendar-aligned to 08-09) | 2026-08-07 |
+| **DGS10 data through** | 2026-08-04 (carry-forwarded to 08-09) | 2026-08-04 (no carry) |
+| **portfolioVol** | 6.89% | 6.97% |
+| **targetLeverage** | 1.451× | 1.435× |
+| **pressureDirection5d** | neutral | leveraging |
+| **broadDeleveraging5d** | false | false |
+
+**Root cause**: NOT a formula difference. Both now use `rp_mechanical.js`. The date gap comes from:
+1. Production's calendar-alignment carry-forwards DGS10 yield (08-04 value) into 08-05, 08-06, 08-07, 08-09
+2. Diagnostic's `buildAlignedReturns` only uses dates where BOTH series have actual observations (stops at 08-04)
+3. Production therefore has ~3 extra days of SPX returns paired with stale bond yields
+
+Both approaches are **correct for their use case**:
+- Production: should show the latest available signal even with carry-forwarded FRED data
+- Diagnostic: should only compute on days with fresh observations for clean historical analysis
+
+---
+
+## Corrected Deleveraging Counts
+
+### Fixed Terminology
+
+| Term | Definition | Old (wrong) count |
+|---|---|---|
+| `leverageReduction5d` | Target leverage fell > 0.01× in 5 days | Was called "619 deleveraging days" |
+| `broadDeleveraging5d` | BOTH equity AND bond gross exposures fell > 0.005 in 5 days | Was "224 days" |
+
+### Corrected Counts (canonical model, 2433 days)
+
+| Metric | Days | % of sample |
+|---|---|---|
+| Leverage reduction (1d) | 668 | 27.5% |
+| Leverage reduction (5d) | 984 | 40.4% |
+| **Broad deleveraging (1d)** | **113** | **4.6%** |
+| **Broad deleveraging (5d)** | **227** | **9.3%** |
+
+### Sustained Broad Deleveraging Episodes (≥3 consecutive days, sorted by severity)
+
+| Period | Duration | Min Leverage | Context |
+|---|---|---|---|
+| 2022-10-03 → 10-11 | 6d | 0.811× | UK gilt crisis / global rates shock |
+| 2022-06-10 → 06-16 | 5d | 0.880× | Fed 75bp hike, CPI shock |
+| 2020-03-12 → 04-01 | **15d** | 1.065× | COVID crash (longest episode) |
+| 2023-11-03 → 11-08 | 4d | 1.094× | Term premium spike |
+| 2025-04-22 → 04-30 | 7d | 1.341× | Recent stress |
+| 2026-03-20 → 04-01 | 9d | 1.532× | Recent stress |
+
+### V1 Comparison (corrected framing)
+
+> [!WARNING]
+> V1 had no leverage model at all. Comparing "V1 miss rate = 100%" is **tautological**, not validation evidence.
+> The correct statement is: "The leverage layer detects a mechanism that V1 was not designed to model."
+
+---
+
+## Equality Test Results
+
+```
+=== TEST 1: Function purity (same input → same output) ===
+  19 passed, 0 failed
+
+=== TEST 2: buildAlignedReturns consistency ===
+  23 passed, 0 failed
+
+=== TEST 3: Date-by-date equality (204 historical dates) ===
+  204 matched, 0 mismatched
+
+=== TEST 4: Edge cases ===
+  3 passed, 0 failed
+
+TOTAL: 28 passed, 0 failed
+✅ ALL CONSISTENCY TESTS PASSED
+```
+
+---
+
+## Files Changed
+
+| File | Change |
+|---|---|
+| [rp_mechanical.js](file:///Users/happygolucky/Desktop/宏观观察器/lib/rp_mechanical.js) | **NEW** — canonical RP model function |
+| [flow_engine.js](file:///Users/happygolucky/Desktop/宏观观察器/lib/flow_engine.js) | Replaced 100-line inline RP with 10-line call to `rp_mechanical.js` |
+| [flow_api_v3.schema.json](file:///Users/happygolucky/Desktop/宏观观察器/config/schemas/flow_api_v3.schema.json) | Updated rpMechanicalPressure: 1d/5d split, leverageReduction, broadDeleveraging |
+| [rp_v2_diagnostic.js](file:///Users/happygolucky/Desktop/宏观观察器/test/phase6_construct_audit/rp_v2_diagnostic.js) | Rewritten to call canonical function; corrected terminology |
+| [rp_consistency_test.js](file:///Users/happygolucky/Desktop/宏观观察器/test/phase6_construct_audit/rp_consistency_test.js) | **NEW** — 28-assertion equality test |
