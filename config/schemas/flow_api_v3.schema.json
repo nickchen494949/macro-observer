@@ -334,7 +334,9 @@
                 "spxLastDate": { "type": ["string", "null"] },
                 "dgs10LastDate": { "type": ["string", "null"] },
                 "alignedObservations": { "type": ["integer", "null"] },
-                "lagDays": { "type": ["integer", "null"] }
+                "lagTradingDays": { "type": ["integer", "null"] },
+                "isStale": { "type": ["boolean", "null"] },
+                "staleThreshold": { "type": ["integer", "null"] }
               }
             },
             "assumptions": { "type": "object" },
