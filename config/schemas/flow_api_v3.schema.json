@@ -300,6 +300,28 @@
             "methodology": { "type": "string" },
             "disclaimer": { "type": "string" }
           }
+        },
+        "rpMechanicalPressure": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "type": "string", "enum": ["ok", "insufficient_data", "series_too_stale"] },
+            "equityWeight": { "type": ["number", "null"] },
+            "bondWeight": { "type": ["number", "null"] },
+            "portfolioVol": { "type": ["number", "null"] },
+            "stockBondCorrelation": { "type": ["number", "null"] },
+            "targetLeverage": { "type": ["number", "null"] },
+            "leverageChange5d": { "type": ["number", "null"] },
+            "equityGrossExposure": { "type": ["number", "null"] },
+            "bondGrossExposure": { "type": ["number", "null"] },
+            "equityExposureChange5d": { "type": ["number", "null"] },
+            "bondExposureChange5d": { "type": ["number", "null"] },
+            "pressureDirection": { "type": ["string", "null"], "enum": ["leveraging", "deleveraging", "neutral", null] },
+            "broadDeleveraging": { "type": ["boolean", "null"] },
+            "observationDate": { "type": ["string", "null"] },
+            "assumptions": { "type": "object" },
+            "disclaimer": { "type": "string" }
+          }
         }
       }
     }
