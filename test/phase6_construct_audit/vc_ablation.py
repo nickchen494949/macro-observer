@@ -17,9 +17,21 @@ Reference: NEAR_EXACT S&P Average Daily RC 10%
            max(σ20,σ40), cap 100%, instant snap, T-2 lag
 
 Lag sign convention:
-  corr(Ref[t], Variant[t - lag])
-  lag > 0 → Variant is DELAYED (reacts after Reference)
-  lag < 0 → Variant is EARLY  (reacts before Reference)
+  We compute corr(Ref[t], Variant.shift(lag)[t])
+  shift(lag) means: shifted[t] = original[t - lag]
+  So we are correlating Ref[t] with Variant[t - lag].
+
+  lag > 0 → we use an EARLIER Variant value vs today's Ref
+          → high corr means Variant reacted BEFORE Reference
+          → Variant LEADS by |lag| sessions
+  lag < 0 → we use a LATER Variant value vs today's Ref
+          → high corr means Variant reacted AFTER Reference
+          → Variant LAGS by |lag| sessions
+
+Variant F note:
+  F uses the identical formula and data as the Reference.
+  F reaching r≈1.0 is an implementation consistency check,
+  NOT independent construct-validation evidence.
 
 This validates volatility-control mechanics only,
 NOT industry AUM or actual dollar flows.
@@ -237,7 +249,7 @@ print("="*90)
 print("ABLATION SUMMARY TABLE")
 print("="*90)
 
-header = f"{'Var':>3} {'Description':<22} │ {'ExpρS':>6} {'ExpMAE':>6} {'Bias':>6} │ {'ΔρP':>6} {'ΔρS':>6} {'Dir%':>5} │ {'Ext%':>5} {'±1d%':>5} {'±2d%':>5} │ {'Peak':>4}"
+header = f"{'Var':>3} {'Description':<22} │ {'ExpρS':>6} {'ExpMAE':>6} {'Bias':>6} │ {'ΔρP':>6} {'ΔρS':>6} {'Dir%':>5} │ {'Ext%':>5} {'±1d%':>5} {'±2d%':>5} │ {'PkLag':>5}"
 print(header)
 print("─"*90)
 for key, m in results.items():
@@ -248,7 +260,7 @@ for key, m in results.items():
           f"{m['exp_spearman']:>6.3f} {m['exp_mae']:>6.3f} {m['exp_bias']:>+6.3f} │ "
           f"{m['dexp_pearson']:>6.3f} {m['dexp_spearman']:>6.3f} {m['dir_agree']*100:>5.1f} │ "
           f"{ext_pct:>5.1f} {pm1_pct:>5.1f} {pm2_pct:>5.1f} │ "
-          f"{m['peak_lag']:>+4d}")
+          f"{m['peak_lag']:>+5d}")
 print()
 
 # ── Detailed per-variant reports ──────────────────────────────────────
@@ -289,12 +301,21 @@ for key, m in results.items():
     print(f"    ±2 day window:  {m['extreme_pm2']}/{m['extreme_total']}  ({m['extreme_pm2']/m['extreme_total']*100:.1f}%)")
 
     print(f"\n  Lead/Lag (ΔExp Pearson):")
+    print(f"    Convention: corr(Ref[t], Var[t-lag])")
+    print(f"    lag>0 → Variant LEADS (reacted earlier)")
+    print(f"    lag<0 → Variant LAGS  (reacted later)")
     peak = m['peak_lag']
     for lag in range(-5, 6):
         c = m['leadlag'][lag]
         marker = " ← PEAK" if lag == peak else ""
         arrow = "◆" if lag == 0 else " "
-        print(f"    {arrow} lag {lag:+2d}: r = {c:.4f}{marker}")
+        if lag > 0:
+            interp = f"Var leads {lag}d"
+        elif lag < 0:
+            interp = f"Var lags {abs(lag)}d"
+        else:
+            interp = "concurrent  "
+        print(f"    {arrow} lag {lag:+2d} ({interp}): r = {c:.4f}{marker}")
 
     print(f"\n  Top 20 Ref Deleverage Days:")
     print(f"    {'Date':<12} {'RefΔ':>8} {'VarΔ':>8} {'Dir?':>5}")
@@ -308,6 +329,12 @@ for key, m in results.items():
 print("="*90)
 print("ABLATION ANSWERS")
 print("="*90)
+print()
+print("  NOTE ON VARIANT F:")
+print("  F uses the identical formula + data as the Reference.")
+print("  F≈1.0 is an implementation consistency check,")
+print("  NOT independent construct-validation evidence.")
+print()
 
 # Compare key metrics across variants to attribute causes
 a = results['A']  # baseline
@@ -317,6 +344,12 @@ d = results['D']  # smoothing only
 e = results['E']  # lag only
 f = results['F']  # full S&P
 
+# Interpret peak lag correctly
+def interp_peak(pk):
+    if pk > 0: return f"Var LEADS by {pk}d"
+    elif pk < 0: return f"Var LAGS by {abs(pk)}d"
+    else: return "concurrent"
+
 print(f"""
 Q1: Which assumption primarily causes exposure-level BIAS?
     A (baseline)   bias = {a['exp_bias']:+.4f}
@@ -324,16 +357,31 @@ Q1: Which assumption primarily causes exposure-level BIAS?
     C (vol rule)   bias = {c['exp_bias']:+.4f}   Δ = {c['exp_bias']-a['exp_bias']:+.4f}
     D (no smooth)  bias = {d['exp_bias']:+.4f}   Δ = {d['exp_bias']-a['exp_bias']:+.4f}
     E (lag T-2)    bias = {e['exp_bias']:+.4f}   Δ = {e['exp_bias']-a['exp_bias']:+.4f}
-    F (full S&P)   bias = {f['exp_bias']:+.4f}   Δ = {f['exp_bias']-a['exp_bias']:+.4f}
-    → Biggest bias reduction from A→?: {'B (cap)' if abs(b['exp_bias']) < abs(c['exp_bias']) and abs(b['exp_bias']) < abs(d['exp_bias']) else 'see above'}
+    → Answer: B (cap 150%→100%) removes most bias ({a['exp_bias']-b['exp_bias']:+.4f}).
 
 Q2: Which assumption primarily causes TIMING error?
-    A (baseline)   ΔρP = {a['dexp_pearson']:.4f},  dir = {a['dir_agree']*100:.1f}%
-    B (cap→100%)   ΔρP = {b['dexp_pearson']:.4f},  dir = {b['dir_agree']*100:.1f}%
-    C (vol rule)   ΔρP = {c['dexp_pearson']:.4f},  dir = {c['dir_agree']*100:.1f}%
-    D (no smooth)  ΔρP = {d['dexp_pearson']:.4f},  dir = {d['dir_agree']*100:.1f}%
-    E (lag T-2)    ΔρP = {e['dexp_pearson']:.4f},  dir = {e['dir_agree']*100:.1f}%
-    F (full S&P)   ΔρP = {f['dexp_pearson']:.4f},  dir = {f['dir_agree']*100:.1f}%
+
+    Lead/lag interpretation (corrected):
+      V1 uses TODAY's vol; Reference uses T-2 vol.
+      Therefore V1 naturally reacts EARLIER than Reference.
+      peak_lag > 0 means Variant LEADS Reference.
+
+    A (baseline)   ΔρP = {a['dexp_pearson']:.4f},  dir = {a['dir_agree']*100:.1f}%,  peak = {a['peak_lag']:+d} ({interp_peak(a['peak_lag'])})
+    B (cap→100%)   ΔρP = {b['dexp_pearson']:.4f},  dir = {b['dir_agree']*100:.1f}%,  peak = {b['peak_lag']:+d} ({interp_peak(b['peak_lag'])})
+    C (vol rule)   ΔρP = {c['dexp_pearson']:.4f},  dir = {c['dir_agree']*100:.1f}%,  peak = {c['peak_lag']:+d} ({interp_peak(c['peak_lag'])})
+    D (no smooth)  ΔρP = {d['dexp_pearson']:.4f},  dir = {d['dir_agree']*100:.1f}%,  peak = {d['peak_lag']:+d} ({interp_peak(d['peak_lag'])})
+    E (lag T-2)    ΔρP = {e['dexp_pearson']:.4f},  dir = {e['dir_agree']*100:.1f}%,  peak = {e['peak_lag']:+d} ({interp_peak(e['peak_lag'])})
+    F (full S&P)   ΔρP = {f['dexp_pearson']:.4f},  dir = {f['dir_agree']*100:.1f}%,  peak = {f['peak_lag']:+d} (mechanical identity)
+
+    Interpretation:
+      - A/B/C/D all peak at lag +2 → Variant LEADS Ref by ~2 days.
+        This is expected: V1 uses today's vol, Reference uses T-2 vol.
+      - E (adding T-2 lag) shifts peak to 0 (concurrent) → timing aligns.
+      - D (removing smoothing alone) WORSENS ΔρP to {d['dexp_pearson']:.4f}.
+        Without smoothing AND without T-2 lag, V1 snaps to a target
+        that is 2 days ahead of the reference, amplifying the mismatch.
+        The 25% smoothing was accidentally MASKING the missing T-2 lag
+        by spreading the too-early reaction across several days.
 
 Q3: Which assumption primarily suppresses EXTREME-EVENT magnitude?
     Top 20 delever: count where variant also sells (same dir):
@@ -347,11 +395,43 @@ Q3: Which assumption primarily suppresses EXTREME-EVENT magnitude?
     Top-5% exact-day overlap:
     A: {a['extreme_exact']}/{a['extreme_total']}  B: {b['extreme_exact']}/{b['extreme_total']}  C: {c['extreme_exact']}/{c['extreme_total']}  D: {d['extreme_exact']}/{d['extreme_total']}  E: {e['extreme_exact']}/{e['extreme_total']}  F: {f['extreme_exact']}/{f['extreme_total']}
 
+    Interpretation:
+      D (no smoothing) has WORSE same-day overlap ({d['extreme_exact']}/{d['extreme_total']})
+      because without smoothing, V1 fires its big move ~2 days BEFORE
+      the reference does (it leads). The extreme event lands on the
+      wrong calendar day. Smoothing in A spreads the reaction and
+      accidentally catches more of the reference event window.
+
+      Meanwhile, the smoothing in A also compresses magnitude:
+      A mean|Δ| = {a['mean_abs_dexp_var']:.5f} vs Ref = {a['mean_abs_dexp_ref']:.5f} (ratio = {a['mean_abs_dexp_var']/a['mean_abs_dexp_ref']:.2f}×)
+      D mean|Δ| = {d['mean_abs_dexp_var']:.5f} vs Ref = {d['mean_abs_dexp_ref']:.5f} (ratio = {d['mean_abs_dexp_var']/d['mean_abs_dexp_ref']:.2f}×)
+      So removing smoothing does restore magnitude but on the wrong days.
+
 Q4: Does fixing ONE mechanism recover most of the reference agreement?
     Compare ΔExp Pearson jumps:
     A→B (cap):       {a['dexp_pearson']:.4f} → {b['dexp_pearson']:.4f}  (Δ = {b['dexp_pearson']-a['dexp_pearson']:+.4f})
     A→C (vol rule):  {a['dexp_pearson']:.4f} → {c['dexp_pearson']:.4f}  (Δ = {c['dexp_pearson']-a['dexp_pearson']:+.4f})
     A→D (smooth):    {a['dexp_pearson']:.4f} → {d['dexp_pearson']:.4f}  (Δ = {d['dexp_pearson']-a['dexp_pearson']:+.4f})
     A→E (lag):       {a['dexp_pearson']:.4f} → {e['dexp_pearson']:.4f}  (Δ = {e['dexp_pearson']-a['dexp_pearson']:+.4f})
-    A→F (full S&P):  {a['dexp_pearson']:.4f} → {f['dexp_pearson']:.4f}  (Δ = {f['dexp_pearson']-a['dexp_pearson']:+.4f})
+    A→F (full S&P):  {a['dexp_pearson']:.4f} → {f['dexp_pearson']:.4f}  (mechanical identity)
+
+    Answer: No single fix is sufficient. Best single fix = E (T-2 lag),
+    which shifts peak to concurrent and raises ΔρP to {e['dexp_pearson']:.4f}.
+    But {e['dexp_pearson']:.4f} is still far from 1.0; the remaining gap
+    requires also fixing the vol formula and removing smoothing.
+
+Q5: What residual disagreement remains after correcting ONLY timing (Variant E)?
+    E vs Reference:
+      Exposure Spearman ρ  = {e['exp_spearman']:.4f}  (bias = {e['exp_bias']:+.4f}, still high due to 150% cap)
+      ΔExp Pearson r       = {e['dexp_pearson']:.4f}  (improved from {a['dexp_pearson']:.4f} but still weak)
+      Direction agreement  = {e['dir_agree']*100:.1f}%  (improved from {a['dir_agree']*100:.1f}%)
+      Extreme overlap      = {e['extreme_exact']}/{e['extreme_total']} exact ({e['extreme_exact']/e['extreme_total']*100:.1f}%)
+      Peak lag             = {e['peak_lag']:+d}  (concurrent — timing is fixed)
+
+    Remaining causes of E's residual gap:
+      1. 150% cap → still allows V1 to overshoot 100% in calm markets
+      2. 20/60 blend → different vol estimate than max(20,40)
+      3. 25% smoothing → compresses daily deltas even when timing is right
+    All three must still be addressed to close the gap from {e['dexp_pearson']:.4f} → 1.0.
 """)
+

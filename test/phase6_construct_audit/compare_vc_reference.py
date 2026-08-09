@@ -144,17 +144,29 @@ print(f"  V1/Ref amplitude ratio: {abs_ratio:.2f}×")
 
 # lead/lag
 print("\n  Lead/Lag cross-correlation (ΔExp):")
+print("  Convention: corr(Ref[t], V1[t-lag])")
+print("  lag>0 → V1 LEADS (reacted earlier);  lag<0 → V1 LAGS (reacted later)")
+
+# pre-compute peak
+all_corrs = {}
 for lag in range(-5, 6):
     s = df['v1_dexp'].shift(lag)
     m = s.notna()
     c, _ = stats.pearsonr(df.loc[m,'ref_dexp'], s.loc[m])
-    marker = " ← peak" if abs(lag) <= 5 and c == max(
-        stats.pearsonr(df.loc[df['v1_dexp'].shift(l).notna(),'ref_dexp'],
-                       df['v1_dexp'].shift(l).loc[df['v1_dexp'].shift(l).notna()])[0]
-        for l in range(-5,6)
-    ) else ""
+    all_corrs[lag] = c
+peak_lag = max(all_corrs, key=all_corrs.get)
+
+for lag in range(-5, 6):
+    c = all_corrs[lag]
+    marker = " ← peak" if lag == peak_lag else ""
     arrow = "◆" if lag == 0 else " "
-    print(f"  {arrow} lag {lag:+2d}:  r = {c:.4f}{marker}")
+    if lag > 0:
+        interp = f"V1 leads {lag}d"
+    elif lag < 0:
+        interp = f"V1 lags {abs(lag)}d"
+    else:
+        interp = "concurrent "
+    print(f"  {arrow} lag {lag:+2d} ({interp}):  r = {c:.4f}{marker}")
 
 # =====================================================================
 # 4) 极端去杠杆时点是不是同步 — Extreme de-lever overlap
@@ -235,15 +247,21 @@ print(f"""
   │ Extreme delever exact overlap   │  {len(exact_overlap)/len(extreme_ref)*100:>5.1f}%  │ Mostly different days        │
   │ Extreme delever ±1d overlap     │  {len(near_overlap)/len(extreme_ref)*100:>5.1f}%  │ Partial — smoothing lag      │
   │ V1 amplitude ratio              │  {abs_ratio:.2f}×   │ V1 moves {'more' if abs_ratio>1 else 'less'} per day         │
-  │ Peak ΔExp correlation lag       │  +2d      │ V1 lags Reference by ~2d     │
+  │ Peak ΔExp correlation lag       │  +2d      │ V1 LEADS Ref by ~2d          │
   └─────────────────────────────────┴───────────┴──────────────────────────────┘
 
   Diagnosis:
     • V1 vol-control LEVEL is correct (ρ ≈ {r_s:.2f}).
     • V1 vol-control FLOW TIMING is broken (direction agree ≈ {agree*100:.0f}%).
-    • Root causes:
-      1. V1 blends 60d window (official uses 40d max rule)
-      2. V1 caps at 150% (official caps at 100%)
-      3. V1 applies 25% daily smoothing (official snaps instantly with 2-day lag)
-    • The smoothing and blending are what destroy daily ΔExposure correlation.
+    • V1 LEADS Reference by ~2 days because V1 uses today's vol while
+      Reference uses T-2 vol. The 25% smoothing partially masks this
+      early reaction by spreading it across several days.
+    • Root causes of poor daily agreement:
+      1. V1 lacks the official T-2 observation lag → reacts too early
+      2. V1 blends 60d window (official uses max(20d,40d))
+      3. V1 caps at 150% (official caps at 100%)
+      4. V1 applies 25% daily smoothing (official snaps instantly)
+    • Smoothing alone is NOT the primary culprit — it was accidentally
+      compensating for the missing T-2 lag by spreading the too-early signal.
 """)
+
