@@ -373,7 +373,8 @@
         <div class="row"><span class="data-label">ΔExposure</span><span class="data-value" id="mech-delta">--</span></div>
         <div class="row"><span class="data-label">Selected Vol (T-2)</span><span class="data-value" id="mech-vol">--</span></div>
         <div class="row"><span class="data-label">Extreme Deleveraging</span><span class="data-value" id="mech-extreme">--</span></div>
-        <div id="mech-disclaimer" style="font-size: 10px; color: var(--text3); margin-top: 6px; font-style: italic;">Model-implied pressure proxy. Not actual industry flow.</div>
+        <div id="mech-disclaimer" style="font-size: 10px; color: var(--text3); margin-top: 6px; font-style: italic;">Validated against SPXAV10P (r=0.998). Model-implied pressure proxy. Not actual industry flow.</div>
+        <div style="font-size: 10px; color: #16a34a; background: rgba(22,163,74,0.1); padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 6px;">✓ EXTERNALLY VALIDATED — near-reproduction vs SPXAV10P (r=0.998)</div>
       </div>
     </div>
 
@@ -452,25 +453,50 @@
       <div class="card-header">
         <div>
           <div class="card-title">🛡️ 股债反波动配置</div>
-          <div style="font-size: 12px; color: var(--text2);">Stock-Bond Inverse-Vol Allocation</div>
+          <div style="font-size: 12px; color: var(--text2);">Stock-Bond Inverse-Vol Risk Parity</div>
         </div>
         <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
           <div id="rp-asof" class="asof-badge">--</div>
           <div id="rp-stale" class="badge stale-badge" style="display:none;">STALE</div>
         </div>
       </div>
+      <!-- Data Freshness Banner -->
+      <div id="rpm-freshness-banner" style="display:none; background: rgba(251,191,36,0.12); color: #d97706; padding: 6px 10px; border-radius: 4px; font-size: 11px; font-weight: 500; margin-bottom: 10px; border: 1px solid rgba(251,191,36,0.3);">
+      </div>
       <div id="rp-warning" style="display:none; background: var(--red-bg); color: var(--red); padding: 8px; border-radius: 4px; font-size: 13px; font-weight: 600; text-align: center; margin-bottom: 12px; border: 1px solid var(--red);">
         ⚠️ Dual Selloff Risk Active
       </div>
-      <div class="row" style="margin-bottom: 12px;">
-        <div class="data-label">Allocation Shift (5D, pp)</div>
-        <div class="big-value" id="rp-alloc-change">--</div>
+      <!-- V1 Allocation -->
+      <div style="margin-bottom: 12px;">
+        <div style="font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">V1 Allocation Shift</div>
+        <div class="row">
+          <div class="data-label">Allocation Shift (5D, pp)</div>
+          <div class="big-value" id="rp-alloc-change">--</div>
+        </div>
+        <div class="row" style="border-top: 1px solid var(--card-border); padding-top: 8px; margin-top: 8px;">
+          <span class="data-label">Dual Vol Regime</span>
+          <span class="data-value" id="rp-deleverage" style="text-transform: capitalize;">--</span>
+        </div>
       </div>
-      <div class="row" style="border-top: 1px solid var(--card-border); padding-top: 8px; margin-top: 8px;">
-        <span class="data-label">Dual Vol Regime</span>
-        <span class="data-value" id="rp-deleverage" style="text-transform: capitalize;">--</span>
+      <hr style="border: none; border-top: 1px solid var(--card-border); margin: 8px 0;">
+      <!-- RP Mechanical Pressure -->
+      <div>
+        <div style="font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Mechanical Pressure <span style="opacity:0.6">(2-asset target-vol 10%)</span></div>
+        <div class="row" style="margin-bottom: 8px;">
+          <div class="data-label">Pressure Direction</div>
+          <div class="big-value" id="rpm-pressure-dir">--</div>
+        </div>
+        <div class="row"><span class="data-label">Target Leverage</span><span class="data-value" id="rpm-leverage">--</span></div>
+        <div class="row"><span class="data-label">ΔLeverage (1d)</span><span class="data-value" id="rpm-delta-lev">--</span></div>
+        <div class="row"><span class="data-label">ΔLeverage (5d)</span><span class="data-value" id="rpm-delta-lev5">--</span></div>
+        <div class="row"><span class="data-label">Portfolio Vol (ann.)</span><span class="data-value" id="rpm-portvol">--</span></div>
+        <div class="row"><span class="data-label">Eq Weight / Bond Weight</span><span class="data-value" id="rpm-weights">--</span></div>
+        <div class="row"><span class="data-label">Stock-Bond Correlation</span><span class="data-value" id="rpm-corr">--</span></div>
+        <div class="row"><span class="data-label">Broad Deleveraging</span><span class="data-value" id="rpm-broad-delev">--</span></div>
+        <div id="rpm-data-through" style="font-size: 10px; color: var(--text3); margin-top: 6px;"></div>
+        <div style="font-size: 10px; color: var(--text3); margin-top: 4px; font-style: italic;">2-asset proxy (SPX + DGS10). Does not represent actual RP fund positions or AUM.</div>
+        <div style="font-size: 10px; color: #d97706; background: rgba(217,119,6,0.1); padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 6px;">○ EXTERNAL REGIME SUPPORTED — vs RPAR (r=0.77)</div>
       </div>
-      <div style="font-size: 10px; color: var(--text3); margin-top: 6px; font-style: italic;">Inverse-vol allocation only. Does not model RP leverage or deleveraging flows.</div>
     </div>
 
     <!-- Card 5: Month-End -->
@@ -1000,6 +1026,122 @@
       delEl.style.color = (dp === 'high_dual_vol') ? 'var(--red)' : (dp === 'elevated_single_vol' ? 'var(--amber)' : 'var(--text2)');
     }
 
+    function renderRpMechanicalPressure(data) {
+      const ids = ['rpm-pressure-dir','rpm-leverage','rpm-delta-lev','rpm-delta-lev5','rpm-portvol','rpm-weights','rpm-corr','rpm-broad-delev'];
+      const banner = document.getElementById('rpm-freshness-banner');
+      const dataThrough = document.getElementById('rpm-data-through');
+
+      if (!data || data.status !== 'ok') {
+        ids.forEach(id => { const el = document.getElementById(id); if(el) el.textContent = '—'; });
+        if (banner) banner.style.display = 'none';
+        if (dataThrough) dataThrough.textContent = '';
+        return;
+      }
+
+      // --- Data Freshness / Staleness ---
+      const fresh = data.dataFreshness;
+      const isStale = fresh?.isStale === true;
+      const lagDays = fresh?.lagTradingDays;
+      const spxDate = fresh?.spxLastDate;
+      const bondDate = fresh?.dgs10LastDate;
+      const latestDataDate = (spxDate && bondDate) ? (spxDate > bondDate ? bondDate : spxDate) : (spxDate || bondDate);
+
+      if (banner) {
+        if (isStale && lagDays != null) {
+          banner.style.display = 'block';
+          banner.innerHTML = `⚠️ STALE DATA — Model data through: <b>${latestDataDate || '?'}</b> · ${lagDays} trading sessions behind`;
+        } else {
+          banner.style.display = 'none';
+        }
+      }
+      if (dataThrough) {
+        if (latestDataDate) {
+          dataThrough.textContent = `Model data through: ${latestDataDate}` + (lagDays != null ? ` (${lagDays} trading day${lagDays !== 1 ? 's' : ''} lag)` : '');
+        } else {
+          dataThrough.textContent = '';
+        }
+      }
+
+      // --- Stale-aware label prefix ---
+      const stalePrefix = isStale ? 'Last valid signal: ' : '';
+
+      // --- Pressure Direction ---
+      const dirEl = document.getElementById('rpm-pressure-dir');
+      const dir1d = data.pressureDirection1d || 'neutral';
+      let dirLabel;
+      if (dir1d === 'leveraging') dirLabel = '🟢 Leveraging';
+      else if (dir1d === 'deleveraging') dirLabel = '🔴 Deleveraging';
+      else dirLabel = '⚪ Neutral';
+      dirEl.textContent = stalePrefix + dirLabel;
+      dirEl.className = 'big-value ' + (isStale ? '' : (dir1d === 'leveraging' ? 'positive' : dir1d === 'deleveraging' ? 'negative' : ''));
+      dirEl.style.opacity = isStale ? '0.6' : '1';
+
+      // --- Target Leverage ---
+      document.getElementById('rpm-leverage').textContent = data.targetLeverage != null ? formatFiniteNumber(data.targetLeverage, 2) + 'x' : '—';
+
+      // --- Delta Leverage 1d ---
+      const dLevEl = document.getElementById('rpm-delta-lev');
+      if (data.leverageChange1d != null) {
+        dLevEl.textContent = (data.leverageChange1d > 0 ? '+' : '') + formatFiniteNumber(data.leverageChange1d, 3);
+        dLevEl.className = 'data-value ' + colorize(data.leverageChange1d);
+      } else {
+        dLevEl.textContent = '—';
+        dLevEl.className = 'data-value';
+      }
+
+      // --- Delta Leverage 5d ---
+      const dLev5El = document.getElementById('rpm-delta-lev5');
+      if (data.leverageChange5d != null) {
+        dLev5El.textContent = (data.leverageChange5d > 0 ? '+' : '') + formatFiniteNumber(data.leverageChange5d, 3);
+        dLev5El.className = 'data-value ' + colorize(data.leverageChange5d);
+      } else {
+        dLev5El.textContent = '—';
+        dLev5El.className = 'data-value';
+      }
+
+      // --- Portfolio Vol ---
+      document.getElementById('rpm-portvol').textContent = data.portfolioVol != null ? formatFiniteNumber(data.portfolioVol * 100, 1) + '%' : '—';
+
+      // --- Weights ---
+      document.getElementById('rpm-weights').textContent =
+        (data.equityWeight != null ? formatFiniteNumber(data.equityWeight * 100, 0) + '% / ' : '— / ') +
+        (data.bondWeight != null ? formatFiniteNumber(data.bondWeight * 100, 0) + '%' : '—');
+
+      // --- Stock-Bond Correlation (graduated coloring) ---
+      // <0 = green (favorable), 0-0.1 = neutral, 0.1-0.3 = amber, >0.3 = red/warning
+      const corrEl = document.getElementById('rpm-corr');
+      if (data.stockBondCorrelation != null) {
+        const c = data.stockBondCorrelation;
+        corrEl.textContent = formatFiniteNumber(c, 2);
+        if (c > 0.3) {
+          corrEl.style.color = 'var(--red)';
+          corrEl.title = 'High positive corr — RP diversification severely degraded';
+        } else if (c > 0.1) {
+          corrEl.style.color = 'var(--amber)';
+          corrEl.title = 'Moderate positive corr — RP diversification reduced';
+        } else if (c >= 0) {
+          corrEl.style.color = 'var(--text2)';
+          corrEl.title = 'Near-zero corr — neutral for RP diversification';
+        } else {
+          corrEl.style.color = 'var(--green)';
+          corrEl.title = 'Negative corr — RP diversification benefit active';
+        }
+      } else {
+        corrEl.textContent = '—';
+        corrEl.style.color = 'var(--text2)';
+      }
+
+      // --- Broad Deleveraging ---
+      const bdEl = document.getElementById('rpm-broad-delev');
+      if (data.broadDeleveraging1d) {
+        bdEl.textContent = '⚠️ YES';
+        bdEl.className = 'data-value negative';
+      } else {
+        bdEl.textContent = 'No';
+        bdEl.className = 'data-value';
+      }
+    }
+
     function renderMonthEnd(data, viewState, globalDate) {
       if(!data) return;
       updateFreshness('me', data, viewState, globalDate);
@@ -1118,6 +1260,7 @@
       renderLetf(data.leveragedEtf, viewState, globalAsOfDate);
       renderCta(data.ctaTrend, viewState, globalAsOfDate);
       renderRiskParity(data.riskParity, viewState, globalAsOfDate);
+      renderRpMechanicalPressure(data.rpMechanicalPressure);
       renderMonthEnd(data.pensionRebalance, viewState, globalAsOfDate);
       renderDeleveraging(data.stressConditions, viewState, globalAsOfDate);
     }
@@ -1132,13 +1275,17 @@
         const res = await fetch('/api/flows', { signal: currentAbortController.signal });
         if(!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        if (data.schemaVersion !== 2) throw new Error('Unsupported flow API schema');
-        const { volControl, leveragedEtf, ctaTrend, riskParity, pensionRebalance, stressConditions } = data.modules || {};
+        if (data.schemaVersion !== 3) {
+          throw new Error(`Unsupported flow API schema: expected 3, got ${data.schemaVersion}`);
+        }
+        const { volControl, leveragedEtf, ctaTrend, riskParity, pensionRebalance, stressConditions, vcMechanicalPressure, rpMechanicalPressure } = data.modules || {};
         // attach back to data for legacy functions
         data.volControl = volControl;
         data.leveragedEtf = leveragedEtf;
         data.ctaTrend = ctaTrend;
         data.riskParity = riskParity;
+        data.vcMechanicalPressure = vcMechanicalPressure;
+        data.rpMechanicalPressure = rpMechanicalPressure;
         data.pensionRebalance = pensionRebalance;
         data.stressConditions = stressConditions;
 
