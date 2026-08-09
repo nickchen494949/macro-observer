@@ -326,6 +326,17 @@
             "broadDeleveraging1d": { "type": ["boolean", "null"] },
             "broadDeleveraging5d": { "type": ["boolean", "null"] },
             "observationDate": { "type": ["string", "null"] },
+            "modelDataAsOf": { "type": ["string", "null"] },
+            "dashboardAsOf": { "type": ["string", "null"] },
+            "dataFreshness": {
+              "type": ["object", "null"],
+              "properties": {
+                "spxLastDate": { "type": ["string", "null"] },
+                "dgs10LastDate": { "type": ["string", "null"] },
+                "alignedObservations": { "type": ["integer", "null"] },
+                "lagDays": { "type": ["integer", "null"] }
+              }
+            },
             "assumptions": { "type": "object" },
             "disclaimer": { "type": "string" }
           }
