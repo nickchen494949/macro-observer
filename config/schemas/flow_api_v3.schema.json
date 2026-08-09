@@ -228,7 +228,8 @@
             "bondAllocationChange5d": { "type": ["number", "null"] },
             "modelLeverageChange5d": { "type": ["number", "null"] },
             "allocationDirection": { "type": ["string", "null"] },
-            "deleveragingPressure": { "type": ["string", "null"] },
+            "dualVolatilityRegime": { "type": ["string", "null"] },
+            "disclaimer": { "type": "string" },
             "commonAsOfDate": { "type": ["string", "null"] }
           },
           "if": {
@@ -240,7 +241,7 @@
               "bondAllocationChange5d",
               "modelLeverageChange5d",
               "allocationDirection",
-              "deleveragingPressure",
+              "dualVolatilityRegime",
               "commonAsOfDate"
             ]
           }

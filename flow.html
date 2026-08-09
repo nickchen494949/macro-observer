@@ -451,8 +451,8 @@
     <div class="card" id="card-rp">
       <div class="card-header">
         <div>
-          <div class="card-title">🛡️ 风险平价配置与去风险代理</div>
-          <div style="font-size: 12px; color: var(--text2);">Risk-Parity Allocation & De-Risking Proxy</div>
+          <div class="card-title">🛡️ 股债反波动配置</div>
+          <div style="font-size: 12px; color: var(--text2);">Stock-Bond Inverse-Vol Allocation</div>
         </div>
         <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
           <div id="rp-asof" class="asof-badge">--</div>
@@ -467,9 +467,10 @@
         <div class="big-value" id="rp-alloc-change">--</div>
       </div>
       <div class="row" style="border-top: 1px solid var(--card-border); padding-top: 8px; margin-top: 8px;">
-        <span class="data-label">Total De-Risking</span>
+        <span class="data-label">Dual Vol Regime</span>
         <span class="data-value" id="rp-deleverage" style="text-transform: capitalize;">--</span>
       </div>
+      <div style="font-size: 10px; color: var(--text3); margin-top: 6px; font-style: italic;">Inverse-vol allocation only. Does not model RP leverage or deleveraging flows.</div>
     </div>
 
     <!-- Card 5: Month-End -->
@@ -994,9 +995,9 @@
       }
 
       const delEl = document.getElementById('rp-deleverage');
-      const dp = data?.deleveragingPressure || 'none';
-      delEl.textContent = dp === 'none' ? 'None detected' : formatText(dp);
-      delEl.style.color = (dp === 'broad_deleveraging') ? 'var(--red)' : (dp === 'moderate_deleveraging' ? 'var(--amber)' : 'var(--text2)');
+      const dp = data?.dualVolatilityRegime || 'none';
+      delEl.textContent = dp === 'none' ? 'Normal' : dp === 'high_dual_vol' ? 'High Dual Vol' : dp === 'elevated_single_vol' ? 'Elevated Single Vol' : formatText(dp);
+      delEl.style.color = (dp === 'high_dual_vol') ? 'var(--red)' : (dp === 'elevated_single_vol' ? 'var(--amber)' : 'var(--text2)');
     }
 
     function renderMonthEnd(data, viewState, globalDate) {
