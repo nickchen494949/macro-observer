@@ -135,7 +135,8 @@
                 "high": { "type": "number" }
               },
               "required": ["low", "high"]
-            }
+            },
+            "dollarEstimateValidation": { "type": "string" }
           },
           "if": {
             "properties": { "status": { "const": "ok" } }
@@ -279,6 +280,24 @@
               "missingInputs": { "type": "array", "minItems": 1 }
             },
             "required": ["missingInputs"]
+          }
+        },
+        "vcMechanicalPressure": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "type": "string", "enum": ["ok", "insufficient_data"] },
+            "targetExposure": { "type": ["number", "null"] },
+            "deltaExposure": { "type": ["number", "null"] },
+            "pressureDirection": { "type": "string", "enum": ["buying", "selling", "neutral"] },
+            "pressureMagnitudePct": { "type": ["number", "null"] },
+            "extremeDeleveraging": { "type": "boolean" },
+            "selectedVol": { "type": ["number", "null"] },
+            "vol20": { "type": ["number", "null"] },
+            "vol40": { "type": ["number", "null"] },
+            "observationDate": { "type": ["string", "null"] },
+            "methodology": { "type": "string" },
+            "disclaimer": { "type": "string" }
           }
         }
       }

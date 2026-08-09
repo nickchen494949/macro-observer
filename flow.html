@@ -354,19 +354,26 @@
           <div id="vol-stale" class="badge stale-badge" style="display:none;">STALE</div>
         </div>
       </div>
-      <div class="row" style="margin-bottom: 12px;">
-        <div class="data-label">Daily Position Change</div>
-        <div class="big-value" id="vol-change-prominent">--</div>
+      <!-- V1 Regime State -->
+      <div style="margin-bottom: 12px;">
+        <div style="font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">V1 Regime State <span style="opacity:0.6">(ρ=0.97 vs S&P ref)</span></div>
+        <div class="row"><span class="data-label">Target Exposure (V1)</span><span class="data-value" id="vol-exposure">--</span></div>
+        <div class="row"><span class="data-label">Smoothed Exposure (V1)</span><span class="data-value" id="vol-actual">--</span></div>
+        <div class="row"><span class="data-label">Regime</span><span class="data-value" id="vol-pressure">--</span></div>
       </div>
-      <div class="row" style="margin-bottom: 16px;">
-        <div class="data-label">Estimated Flow USD</div>
-        <div class="data-value" id="vol-est-flow">--</div>
-      </div>
-      
-      <div style="margin-top: 8px;">
-        <div class="row"><span class="data-label">Target Exposure Today</span><span class="data-value" id="vol-exposure">--</span></div>
-        <div class="row"><span class="data-label">Actual Exposure Today</span><span class="data-value" id="vol-actual">--</span></div>
-        <div class="row"><span class="data-label">Flow Pressure / Regime</span><span class="data-value" id="vol-pressure">--</span></div>
+      <hr style="border: none; border-top: 1px solid var(--border); margin: 8px 0;">
+      <!-- Mechanical Pressure (S&P-style) -->
+      <div>
+        <div style="font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Mechanical Pressure <span style="opacity:0.6">(S&P 10% RC rules)</span></div>
+        <div class="row" style="margin-bottom: 8px;">
+          <div class="data-label">Pressure Direction</div>
+          <div class="big-value" id="mech-pressure-dir">--</div>
+        </div>
+        <div class="row"><span class="data-label">Target Exposure (Mech.)</span><span class="data-value" id="mech-target">--</span></div>
+        <div class="row"><span class="data-label">ΔExposure</span><span class="data-value" id="mech-delta">--</span></div>
+        <div class="row"><span class="data-label">Selected Vol (T-2)</span><span class="data-value" id="mech-vol">--</span></div>
+        <div class="row"><span class="data-label">Extreme Deleveraging</span><span class="data-value" id="mech-extreme">--</span></div>
+        <div id="mech-disclaimer" style="font-size: 10px; color: var(--text3); margin-top: 6px; font-style: italic;">Model-implied pressure proxy. Not actual industry flow.</div>
       </div>
     </div>
 
@@ -718,16 +725,27 @@
              };
            }
            if (mech === 'volControl') {
-             const gap = data.volControl.remainingExposureGap;
-             const gapDir = gap != null ? (gap > 0 ? 'addition' : 'reduction') : '';
-             const gapAbs = data.volControl.remainingExposureGap != null ? Math.abs(data.volControl.remainingExposureGap * 400e9) : null;
-             return {
-               icon: dirIcon(data.volControl.flowPressure),
-               label: data.volControl.flowPressure === 'selling' ? 'Vol-control reducing exposure' : 'Vol-control increasing exposure',
-               detail: `Latest daily adjustment: ${data.volControl.estimatedDailyFlowUsd != null ? formatUsd(data.volControl.estimatedDailyFlowUsd) : '—'}. Remaining model exposure gap: ~${gapAbs != null ? formatUsdAbs(gapAbs) : '—'} of potential ${gapDir} if target remains unchanged.`,
-               conditional: `Execution path: decaying, conditional on realized volatility`
-             };
-           }
+              // Use mechanical pressure if available, fall back to V1 regime
+              const mech_p = data.vcMechanicalPressure;
+              if (mech_p && mech_p.status === 'ok') {
+                const mechDir = mech_p.pressureDirection;
+                const mechDelta = mech_p.deltaExposure;
+                const mechDeltaStr = mechDelta != null ? ((mechDelta > 0 ? '+' : '') + formatFiniteNumber(mechDelta * 100, 2) + '%') : '—';
+                return {
+                  icon: dirIcon(mechDir),
+                  label: mechDir === 'selling' ? 'Vol-control mechanical: reducing exposure' : mechDir === 'buying' ? 'Vol-control mechanical: increasing exposure' : 'Vol-control mechanical: neutral',
+                  detail: `ΔExposure: ${mechDeltaStr}. Target: ${formatFiniteNumber(mech_p.targetExposure * 100, 1)}%. Vol(T-2): ${formatFiniteNumber(mech_p.selectedVol, 1)}%.${mech_p.extremeDeleveraging ? ' ⚠️ EXTREME DELEVERAGING' : ''}`,
+                  conditional: 'S&P RC 10% reference mechanics. Model-implied, not actual industry flow.'
+                };
+              }
+              // Fallback to V1 regime state (no dollar amounts)
+              return {
+                icon: dirIcon(data.volControl.flowPressure),
+                label: data.volControl.flowPressure === 'selling' ? 'Vol-control reducing exposure' : 'Vol-control increasing exposure',
+                detail: `Regime: ${formatText(data.volControl.flowPressure)}. V1 exposure: ${data.volControl.actualExposureToday != null ? formatFiniteNumber(data.volControl.actualExposureToday * 100, 1) + '%' : '—'}`,
+                conditional: 'V1 regime indicator. Dollar estimates removed (unvalidated).'
+              };
+            }
            if (mech === 'ctaTrend') {
              return { icon: dirIcon(data.ctaTrend.flowPressure), label: 'CTA trend-following adjustment', detail: '', conditional: 'Manager-dependent timing' };
            }
@@ -830,24 +848,7 @@
       if(!data) return;
       updateFreshness('vol', data, viewState, globalDate);
       
-      const change = data?.dailyPositionChange;
-      const changeEl = document.getElementById('vol-change-prominent');
-      changeEl.textContent = change != null ? ((change>0?'+':'') + formatFiniteNumber(change * 100, 2) + '%') : '—';
-      changeEl.className = 'big-value ' + colorize(change);
-
-      let flowStr = '—';
-      if(data?.estimatedDailyFlowUsd != null) {
-        flowStr = formatUsd(data.estimatedDailyFlowUsd);
-        if(data?.estimatedFlowRange?.low != null && data?.estimatedFlowRange?.high != null) {
-          const lo = Math.min(data.estimatedFlowRange.low, data.estimatedFlowRange.high);
-          const hi = Math.max(data.estimatedFlowRange.low, data.estimatedFlowRange.high);
-          flowStr += ` (${formatUsd(lo)} to ${formatUsd(hi)})`;
-        }
-      }
-      const flowEl = document.getElementById('vol-est-flow');
-      flowEl.textContent = flowStr;
-      flowEl.className = 'data-value ' + colorize(data?.estimatedDailyFlowUsd);
-      
+      // V1 Regime State
       const tgt = data?.targetExposureToday;
       document.getElementById('vol-exposure').textContent = tgt != null ? formatFiniteNumber(tgt * 100, 1) + '%' : '—';
       
@@ -856,7 +857,45 @@
       
       const p = data?.flowPressure || '—';
       document.getElementById('vol-pressure').textContent = formatText(p);
+    }
 
+    function renderVcMechanicalPressure(data) {
+      if(!data || data.status !== 'ok') {
+        document.getElementById('mech-pressure-dir').textContent = '—';
+        document.getElementById('mech-target').textContent = '—';
+        document.getElementById('mech-delta').textContent = '—';
+        document.getElementById('mech-vol').textContent = '—';
+        document.getElementById('mech-extreme').textContent = '—';
+        return;
+      }
+
+      const dirEl = document.getElementById('mech-pressure-dir');
+      const dir = data.pressureDirection || 'neutral';
+      const dirLabel = dir === 'buying' ? '🟢 Buying' : dir === 'selling' ? '🔴 Selling' : '⚪ Neutral';
+      const magStr = data.pressureMagnitudePct != null ? ` (${formatFiniteNumber(data.pressureMagnitudePct, 2)}%)` : '';
+      dirEl.textContent = dirLabel + magStr;
+      dirEl.className = 'big-value ' + (dir === 'buying' ? 'positive' : dir === 'selling' ? 'negative' : '');
+
+      document.getElementById('mech-target').textContent = data.targetExposure != null ? formatFiniteNumber(data.targetExposure * 100, 1) + '%' : '—';
+      
+      const deltaEl = document.getElementById('mech-delta');
+      if (data.deltaExposure != null) {
+        deltaEl.textContent = (data.deltaExposure > 0 ? '+' : '') + formatFiniteNumber(data.deltaExposure * 100, 2) + '%';
+        deltaEl.className = 'data-value ' + colorize(data.deltaExposure);
+      } else {
+        deltaEl.textContent = '—';
+      }
+
+      document.getElementById('mech-vol').textContent = data.selectedVol != null ? formatFiniteNumber(data.selectedVol, 1) + '%' : '—';
+      
+      const extEl = document.getElementById('mech-extreme');
+      if (data.extremeDeleveraging) {
+        extEl.textContent = '⚠️ YES';
+        extEl.className = 'data-value negative';
+      } else {
+        extEl.textContent = 'No';
+        extEl.className = 'data-value';
+      }
     }
 
     function renderLetf(data, viewState, globalDate) {
@@ -1074,6 +1113,7 @@
 
       renderSummary(data, viewState);
       renderVolControl(data.volControl, viewState, globalAsOfDate);
+      renderVcMechanicalPressure(data.vcMechanicalPressure);
       renderLetf(data.leveragedEtf, viewState, globalAsOfDate);
       renderCta(data.ctaTrend, viewState, globalAsOfDate);
       renderRiskParity(data.riskParity, viewState, globalAsOfDate);
