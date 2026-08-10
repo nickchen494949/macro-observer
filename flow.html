@@ -524,6 +524,32 @@
         <div style="font-size: 10px; color: var(--text3); margin-top: 4px; font-style: italic;">2-asset proxy (SPX + DGS10). Does not represent actual RP fund positions or AUM.</div>
         <div style="font-size: 10px; color: #d97706; background: rgba(217,119,6,0.1); padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 6px;">○ EXTERNAL REGIME SUPPORTED — vs RPAR (r=0.77)</div>
       </div>
+      <!-- RP Forward Mechanical Pressure -->
+      <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--border);">
+        <div style="font-size: 12px; font-weight: 700; color: var(--text1); margin-bottom: 8px;">
+          🔮 FORWARD DECAY PATH
+          <span id="rpf-model-date" style="font-size: 10px; font-weight: 500; color: var(--text2); margin-left: 6px;">Model: --</span>
+        </div>
+        <div id="rpf-dominant" style="font-size: 11px; font-weight: 600; margin-bottom: 8px; color: var(--text2);">—</div>
+        <table class="table" style="font-size: 11px;">
+          <thead>
+            <tr>
+              <th style="width:44px;">Horizon</th>
+              <th style="width:60px;">Type</th>
+              <th>Leverage</th>
+              <th>vs Today</th>
+              <th>Daily Flow</th>
+              <th style="width:70px;">Port Vol</th>
+              <th style="width:70px;">Corr</th>
+              <th style="width:26%;">Roll-Off</th>
+            </tr>
+          </thead>
+          <tbody id="rpf-horizons">
+            <tr><td colspan="8" style="text-align:center; color:var(--text3);">Loading...</td></tr>
+          </tbody>
+        </table>
+        <div style="font-size: 9px; color: var(--text3); margin-top: 4px; font-style: italic;">Zero-shock decay path: equity return = 0, yield change = 0. NOT a market forecast.</div>
+      </div>
     </div>
 
     <!-- Card 5: Month-End -->
@@ -1296,6 +1322,128 @@
       }
     }
 
+    function renderRpForwardPressure(data) {
+      var tbody = document.getElementById('rpf-horizons');
+      var modelEl = document.getElementById('rpf-model-date');
+      var dominantEl = document.getElementById('rpf-dominant');
+
+      if (!data || data.status !== 'ok' || !data.horizons || !data.horizons.length) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:var(--text3);">Unavailable</td></tr>';
+        modelEl.textContent = 'Model: \u2014';
+        dominantEl.textContent = '\u2014';
+        return;
+      }
+
+      modelEl.textContent = 'Model: ' + (data.modelDate || '\u2014');
+
+      // Dominant signal
+      var sig = data.dominantForwardSignal || '';
+      var sigLabel = '\u26AA Neutral under zero-return path';
+      var sigClass = '';
+      if (sig.indexOf('leveraging') >= 0 && sig.indexOf('deleveraging') < 0) { sigLabel = '\uD83D\uDFE2 Net mechanical leveraging under zero-shock path'; sigClass = 'positive'; }
+      else if (sig.indexOf('deleveraging') >= 0) { sigLabel = '\uD83D\uDD34 Net mechanical deleveraging under zero-shock path'; sigClass = 'negative'; }
+      dominantEl.innerHTML = '<span class="' + sigClass + '">' + sigLabel + '</span>';
+
+      var rowsHtml = '';
+      for (var idx = 0; idx < data.horizons.length; idx++) {
+        var h = data.horizons[idx];
+        if (h.status === 'insufficient_data') {
+          rowsHtml += '<tr><td>' + (h.label || 'T+' + h.horizon) + '</td><td colspan="7" style="color:var(--text3);">Insufficient data</td></tr>';
+          continue;
+        }
+
+        // Type badge — never LOCKED
+        var typeBadge;
+        if (h.certaintyLevel === 'PARTIAL_SCENARIO') {
+          typeBadge = '<span style="font-size:9px; padding:1px 5px; border-radius:3px; background:rgba(251,191,36,0.12); color:#d97706; font-weight:600;">PARTIAL</span>';
+        } else if (h.certaintyLevel === 'OBSERVED') {
+          typeBadge = '<span style="font-size:9px; padding:1px 5px; border-radius:3px; background:rgba(22,163,74,0.12); color:#16a34a; font-weight:600;">OBSERVED</span>';
+        } else {
+          typeBadge = '<span style="font-size:9px; padding:1px 5px; border-radius:3px; background:rgba(59,130,246,0.12); color:#2563eb; font-weight:600;">SCENARIO</span>';
+        }
+
+        // Leverage
+        var levStr = h.targetLeverage != null ? formatFiniteNumber(h.targetLeverage, 2) + 'x' : '\u2014';
+
+        // Cumulative vs today
+        var cumLev = h.leverageDeltaFromCurrent;
+        var cumStr = '\u2014';
+        var cumClass = '';
+        if (cumLev != null) {
+          cumStr = (cumLev > 0 ? '+' : '') + formatFiniteNumber(cumLev, 3);
+          if (cumLev > 0.01) cumClass = 'positive';
+          else if (cumLev < -0.01) cumClass = 'negative';
+        }
+
+        // Daily flow
+        var dailyDir = h.dailyPressureDirection || 'neutral';
+        var dailyLev = h.dailyLeverageDelta;
+        var dailyIcon = dailyDir === 'leveraging' ? '\uD83D\uDFE2' : dailyDir === 'deleveraging' ? '\uD83D\uDD34' : '\u26AA';
+        var dailyStr = '\u26AA Flat';
+        var dailyClass = '';
+        if (dailyLev != null && dailyDir !== 'neutral') {
+          dailyStr = dailyIcon + ' ' + (dailyLev > 0 ? '+' : '') + formatFiniteNumber(dailyLev, 3);
+          if (dailyDir === 'leveraging') dailyClass = 'positive';
+          else if (dailyDir === 'deleveraging') dailyClass = 'negative';
+        }
+
+        // Portfolio vol
+        var volStr = '\u2014';
+        if (h.portfolioVol != null) {
+          var pvPrev = h.prevPortfolioVol != null ? formatFiniteNumber(h.prevPortfolioVol * 100, 1) : '?';
+          var pvCurr = formatFiniteNumber(h.portfolioVol * 100, 1);
+          var volArrow = '';
+          var volColor = 'var(--text2)';
+          if (h.portfolioVolDirection === 'falling') { volArrow = '\u2193'; volColor = '#16a34a'; }
+          else if (h.portfolioVolDirection === 'rising') { volArrow = '\u2191'; volColor = '#dc2626'; }
+          volStr = '<span style="color:' + volColor + ';">' + pvPrev + '\u2192' + pvCurr + '%' + (volArrow ? ' ' + volArrow : '') + '</span>';
+        }
+
+        // Correlation
+        var corrStr = '\u2014';
+        if (h.stockBondCorrelation != null) {
+          var cPrev = h.prevCorrelation != null ? formatFiniteNumber(h.prevCorrelation, 2) : '?';
+          var cCurr = formatFiniteNumber(h.stockBondCorrelation, 2);
+          var corrColor = 'var(--text2)';
+          if (h.correlationDirection === 'increasing') corrColor = '#dc2626';
+          else if (h.correlationDirection === 'decreasing') corrColor = '#16a34a';
+          corrStr = '<span style="color:' + corrColor + ';">' + cPrev + '\u2192' + cCurr + '</span>';
+          if (h.diversificationStatus === 'deteriorating') corrStr += ' <span style="font-size:8px; color:#dc2626;">\u26A0</span>';
+        }
+
+        // Roll-off (two layers)
+        var rollStr = '';
+        var ar = h.allocRollOff || {};
+        var rr = h.riskRollOff || {};
+        if (ar.primaryEq) {
+          var eqRet = (ar.primaryEq.returnPct > 0 ? '+' : '') + formatFiniteNumber(ar.primaryEq.returnPct, 1) + '%';
+          rollStr += '<span style="color:var(--text3);">20D:</span> eq ' + eqRet;
+        }
+        if (rr.primaryEq) {
+          if (rollStr) rollStr += '<br>';
+          var eqR = (rr.primaryEq.returnPct > 0 ? '+' : '') + formatFiniteNumber(rr.primaryEq.returnPct, 1) + '%';
+          rollStr += '<span style="color:var(--text3);">60D:</span> eq ' + eqR;
+          if (rr.primaryBond) {
+            var bdR = (rr.primaryBond.returnPct > 0 ? '+' : '') + formatFiniteNumber(rr.primaryBond.returnPct, 1) + '%';
+            rollStr += ' bd ' + bdR;
+          }
+        }
+        if (!rollStr) rollStr = '<span style="color:var(--text3);">\u2014</span>';
+
+        rowsHtml += '<tr>'
+          + '<td style="font-weight:600;">' + h.label + '</td>'
+          + '<td>' + typeBadge + '</td>'
+          + '<td style="font-weight:600;">' + levStr + '</td>'
+          + '<td class="' + cumClass + '">' + cumStr + '</td>'
+          + '<td class="' + dailyClass + '" style="font-weight:600;">' + dailyStr + '</td>'
+          + '<td style="font-size:10px;">' + volStr + '</td>'
+          + '<td style="font-size:10px;">' + corrStr + '</td>'
+          + '<td style="font-size:9px;">' + rollStr + '</td>'
+          + '</tr>';
+      }
+      tbody.innerHTML = rowsHtml;
+    }
+
     function renderMonthEnd(data, viewState, globalDate) {
       if(!data) return;
       updateFreshness('me', data, viewState, globalDate);
@@ -1416,6 +1564,7 @@
       renderCta(data.ctaTrend, viewState, globalAsOfDate);
       renderRiskParity(data.riskParity, viewState, globalAsOfDate);
       renderRpMechanicalPressure(data.rpMechanicalPressure);
+      renderRpForwardPressure(data.rpForwardPressure);
       renderMonthEnd(data.pensionRebalance, viewState, globalAsOfDate);
       renderDeleveraging(data.stressConditions, viewState, globalAsOfDate);
     }
