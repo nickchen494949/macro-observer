@@ -1,0 +1,16 @@
+{
+  "runnerVersion": 1,
+  "jobId": "20260810-1417-recover-main-yahoo-cache",
+  "action": "node_script",
+  "status": "passed",
+  "exitCode": 0,
+  "signal": null,
+  "error": "",
+  "stdout": "{\n  \"migrated\": 11,\n  \"report\": [\n    {\n      \"symbol\": \"GC=F\",\n      \"before\": 2516,\n      \"after\": 2512,\n      \"field\": \"close\"\n    },\n    {\n      \"symbol\": \"GLD\",\n      \"before\": 2514,\n      \"after\": 2514,\n      \"field\": \"adjClose\"\n    },\n    {\n      \"symbol\": \"IEF\",\n      \"before\": 2514,\n      \"after\": 2514,\n      \"field\": \"adjClose\"\n    },\n    {\n      \"symbol\": \"IWM\",\n      \"before\": 2514,\n      \"after\": 2514,\n      \"field\": \"adjClose\"\n    },\n    {\n      \"symbol\": \"NG=F\",\n      \"before\": 2516,\n      \"after\": 2514,\n      \"field\": \"close\"\n    },\n    {\n      \"symbol\": \"SOXX\",\n      \"before\": 2514,\n      \"after\": 2514,\n      \"field\": \"close\"\n    },\n    {\n      \"symbol\": \"SPY\",\n      \"before\": 2514,\n      \"after\": 2514,\n      \"field\": \"adjClose\"\n    },\n    {\n      \"symbol\": \"TLT\",\n      \"before\": 2514,\n      \"after\": 2514,\n      \"field\": \"close\"\n    },\n    {\n      \"symbol\": \"^GSPC\",\n      \"before\": 2514,\n      \"after\": 2514,\n      \"field\": \"close\"\n    },\n    {\n      \"symbol\": \"^IXIC\",\n      \"before\": 2514,\n      \"after\": 2514,\n      \"field\": \"close\"\n    },\n    {\n      \"symbol\": \"^VIX\",\n      \"before\": 2610,\n      \"after\": 2515,\n      \"field\": \"close\"\n    }\n  ]\n}\nPASS: main Yahoo cache restored to pure numeric series; rich source preserved separately; dashboard restarted.\n",
+  "stderr": "",
+  "startedAt": "2026-08-10T06:15:16.074Z",
+  "finishedAt": "2026-08-10T06:15:19.331Z",
+  "durationMs": 3257,
+  "localHeadBefore": "2331a66f2fa2",
+  "codeWorktreeStatusAfter": ""
+}
