@@ -35,8 +35,13 @@ if [ "$CURRENT_BRANCH" != "$BRANCH" ]; then
   git checkout "$BRANCH"
 fi
 
-if [ -n "$(git status --porcelain)" ]; then
-  echo "ERROR: local worktree has uncommitted changes. Commit/stash them before installing auto-sync."
+BLOCKING_CHANGES="$(git status --porcelain --untracked-files=all -- \
+  . \
+  ':(exclude)data' ':(exclude)data/**' \
+  ':(exclude)csv' ':(exclude)csv/**')"
+if [ -n "$BLOCKING_CHANGES" ]; then
+  echo "ERROR: local code/config worktree has uncommitted changes. Commit/stash those before installing auto-sync."
+  echo "$BLOCKING_CHANGES"
   exit 1
 fi
 
@@ -143,8 +148,9 @@ echo "   Check:  every 30 seconds"
 echo "   Server: http://localhost:8765"
 echo ""
 echo "Safety rules:"
-echo "  • Uncommitted local changes => auto-pull SKIPS"
-echo "  • Diverged local branch => auto-pull SKIPS"
+echo "  • Runtime data changes in data/ and csv/ do NOT block auto-pull"
+echo "  • Uncommitted code/config changes => auto-pull SKIPS"
+echo "  • Local commits/diverged branch => auto-pull SKIPS"
 echo "  • Updates are fast-forward only"
 echo ""
 echo "Logs:"
