@@ -1,0 +1,8 @@
+{
+  "id": "20260810-1452-save-dashboard-chat-proof",
+  "enabled": true,
+  "action": "node_script",
+  "path": "scripts/save_dashboard_chat_proof.js",
+  "args": [],
+  "timeoutMs": 120000
+}
