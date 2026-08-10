@@ -366,6 +366,37 @@ function fetchYahoo(symbol, range = '5d') {
 // ============================================
 function safeName(id) { return id.replace(/[^a-zA-Z0-9._=-]/g, '_'); }
 
+// Compatibility layer: validated Yahoo downloader may store rich OHLC objects,
+// while the main macro dashboard expects numeric [date, value] series.
+// Keep CTA ETF proxies on adjusted close; keep displayed indices/futures on regular close.
+const CTA_ADJ_CLOSE_SYMBOLS = new Set(CTA_ETF_UPDATE_SYMBOLS);
+function yahooNumericValue(symbol, raw) {
+  if (Number.isFinite(raw)) return raw;
+  if (!raw || typeof raw !== 'object') return null;
+  if (CTA_ADJ_CLOSE_SYMBOLS.has(symbol) && Number.isFinite(raw.adjClose)) return raw.adjClose;
+  if (Number.isFinite(raw.close)) return raw.close;
+  if (Number.isFinite(raw.adjClose)) return raw.adjClose;
+  return null;
+}
+function normalizeYahooSeries(symbol, values) {
+  if (!Array.isArray(values)) return [];
+  const out = [];
+  for (const row of values) {
+    let date = null;
+    let raw = null;
+    if (Array.isArray(row)) {
+      date = row[0];
+      raw = row[1];
+    } else if (row && typeof row === 'object') {
+      date = row.date;
+      raw = row;
+    }
+    const value = yahooNumericValue(symbol, raw);
+    if (typeof date === 'string' && Number.isFinite(value)) out.push([date, value]);
+  }
+  return out;
+}
+
 function saveFile(type, id, values) {
   // Save JSON cache
   const dir = type === 'fred' ? FRED_DIR : YAHOO_DIR;
@@ -392,18 +423,22 @@ function loadAllFromDisk() {
     fs.readdirSync(dir).filter(f => f.endsWith('.json')).forEach(f => {
       try {
         const d = JSON.parse(fs.readFileSync(path.join(dir, f)));
+        const key = d.id || d.symbol;
         let vals = d.values;
-        if (!vals) return;
+        if (!vals || !key) return;
         
-        // Normalize array of objects to [date, value_object] like in the snapshot builder
-        if (vals.length > 0 && !Array.isArray(vals[0])) {
+        // Yahoo may be either legacy numeric rows or validated rich OHLC objects.
+        // Normalize to numbers before exposing the series to the macro dashboard.
+        if (type === 'yahoo') {
+          vals = normalizeYahooSeries(key, vals);
+        } else if (vals.length > 0 && !Array.isArray(vals[0])) {
           vals = vals.map(v => [v.date, v]);
         }
         
         // Clip valuation data to post-1973
         if (type === 'valuation') vals = vals.filter(v => v[0] >= VALUATION_CUTOFF);
         if (process.env.TEST_DATE) vals = vals.filter(v => v[0] <= process.env.TEST_DATE);
-        store[type][d.id || d.symbol] = vals;
+        store[type][key] = vals;
         count++;
       } catch(e) { /* skip bad files */ }
     });
@@ -581,12 +616,8 @@ async function smartUpdate(includeYahoo = false) {
       try {
         const d = JSON.parse(fs.readFileSync(path.join(YAHOO_DIR, f)));
         const key = d.id || d.symbol;
-        if (key && (!store.yahoo[key] || d.values.length > store.yahoo[key].length)) {
-          const arr = [];
-          for (const v of d.values) {
-            arr.push(Array.isArray(v) ? v : [v.date, v]);
-          }
-          store.yahoo[key] = arr;
+        if (key && Array.isArray(d.values) && (!store.yahoo[key] || d.values.length > store.yahoo[key].length)) {
+          store.yahoo[key] = normalizeYahooSeries(key, d.values);
         }
       } catch(e) {}
     });
