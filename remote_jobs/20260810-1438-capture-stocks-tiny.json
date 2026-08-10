@@ -1,0 +1,8 @@
+{
+  "id": "20260810-1438-capture-stocks-tiny",
+  "enabled": true,
+  "action": "node_script",
+  "path": "scripts/capture_dashboard_tiny.js",
+  "args": ["stocks"],
+  "timeoutMs": 120000
+}
