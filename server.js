@@ -262,11 +262,16 @@ const STOCK_GROUPS = [
   ]},
 ];
 
+const CTA_ETF_UPDATE_SYMBOLS = ['SPY', 'QQQ', 'IWM', 'IEF', 'USO', 'GLD'];
+
 function allYahooSymbols() {
   const s = new Set();
   for (const r of RATE_ROWS) { if (r.yahoo) s.add(r.yahoo); }
   for (const r of COMMODITY_ROWS) { if (r.yahoo) s.add(r.yahoo); }
   for (const g of STOCK_GROUPS) { for (const i of g.items) { if (i.yahoo) s.add(i.yahoo); } }
+  // Flow-engine CTA ETF proxies are model inputs even when they are not rendered
+  // as standalone dashboard rows. Keep them in the same hourly Yahoo refresh.
+  for (const sym of CTA_ETF_UPDATE_SYMBOLS) s.add(sym);
   return [...s];
 }
 
