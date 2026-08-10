@@ -27,16 +27,23 @@ Two macOS `launchd` agents are installed:
    - Restarts the managed dashboard server after an update.
    - Best-effort refreshes open Chrome/Safari tabs pointing at localhost:8765.
 
-## Safety behavior
+## Runtime data vs code safety
 
-Auto-sync refuses to pull when:
+The dashboard is expected to update files under `data/` and `csv/` during normal operation. Those uncommitted runtime-data changes do **not** block auto-sync.
 
-- the local working tree has uncommitted changes;
+Auto-sync still refuses to pull when:
+
+- there are uncommitted changes outside `data/` and `csv/` (for example JS, HTML, schema, config, scripts, docs, or other code files);
 - the local checkout is on a different branch;
+- the local branch has local commits that are not already contained in the remote branch;
 - the local branch has diverged from the remote branch;
 - `git fetch` or fast-forward pull fails.
 
-It never uses `git reset --hard`, never force-pulls, and never overwrites local edits.
+If a remote commit would overwrite a locally modified runtime-data file, Git itself refuses the pull. Auto-sync logs the failure and leaves the local files untouched.
+
+It never uses `git reset --hard`, never force-pulls, and never auto-stashes local edits.
+
+Important: daily `data/` / `csv/` refreshes should normally remain uncommitted local runtime changes. If you intentionally create a local commit, that commit is **not** ignored by auto-sync; push/reconcile it normally before automatic code pulls can continue.
 
 ## Logs
 
