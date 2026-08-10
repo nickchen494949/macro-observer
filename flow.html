@@ -537,8 +537,8 @@
               <th style="width:44px;">Horizon</th>
               <th style="width:60px;">Type</th>
               <th>Leverage</th>
-              <th>vs Today</th>
-              <th>Daily Flow</th>
+              <th>vs Model</th>
+              <th>Daily ΔLev / Realloc</th>
               <th style="width:70px;">Port Vol</th>
               <th style="width:70px;">Corr</th>
               <th style="width:26%;">Roll-Off</th>
@@ -1355,7 +1355,7 @@
         // Type badge — never LOCKED
         var typeBadge;
         if (h.certaintyLevel === 'PARTIAL_SCENARIO') {
-          typeBadge = '<span style="font-size:9px; padding:1px 5px; border-radius:3px; background:rgba(251,191,36,0.12); color:#d97706; font-weight:600;">PARTIAL</span>';
+          typeBadge = '<span style="font-size:9px; padding:1px 5px; border-radius:3px; background:rgba(251,191,36,0.12); color:#d97706; font-weight:600; display:inline-block; line-height:1.2;">PARTIAL<br><span style="font-size:8px;">(RECON)</span></span>';
         } else if (h.certaintyLevel === 'OBSERVED') {
           typeBadge = '<span style="font-size:9px; padding:1px 5px; border-radius:3px; background:rgba(22,163,74,0.12); color:#16a34a; font-weight:600;">OBSERVED</span>';
         } else {
@@ -1378,13 +1378,19 @@
         // Daily flow
         var dailyDir = h.dailyPressureDirection || 'neutral';
         var dailyLev = h.dailyLeverageDelta;
-        var dailyIcon = dailyDir === 'leveraging' ? '\uD83D\uDFE2' : dailyDir === 'deleveraging' ? '\uD83D\uDD34' : '\u26AA';
-        var dailyStr = '\u26AA Flat';
+        var dailyStr = '\u2014';
         var dailyClass = '';
-        if (dailyLev != null && dailyDir !== 'neutral') {
-          dailyStr = dailyIcon + ' ' + (dailyLev > 0 ? '+' : '') + formatFiniteNumber(dailyLev, 3);
-          if (dailyDir === 'leveraging') dailyClass = 'positive';
-          else if (dailyDir === 'deleveraging') dailyClass = 'negative';
+        if (dailyLev != null) {
+          var dLevStr = (dailyLev > 0 ? '+' : '') + formatFiniteNumber(dailyLev, 3);
+          if (dailyDir === 'leveraging') { dailyClass = 'positive'; dailyStr = '\uD83D\uDFE2 ' + dLevStr; }
+          else if (dailyDir === 'deleveraging') { dailyClass = 'negative'; dailyStr = '\uD83D\uDD34 ' + dLevStr; }
+          else { dailyStr = '\u26AA ' + dLevStr; }
+          
+          if (h.dailyEqExposureDelta != null && h.dailyBondExposureDelta != null) {
+            var eqd = (h.dailyEqExposureDelta * 100 > 0 ? '+' : '') + formatFiniteNumber(h.dailyEqExposureDelta * 100, 1) + 'pp';
+            var bdd = (h.dailyBondExposureDelta * 100 > 0 ? '+' : '') + formatFiniteNumber(h.dailyBondExposureDelta * 100, 1) + 'pp';
+            dailyStr += '<br><span style="font-size:9px; color:var(--text3); font-weight:normal;">Eq ' + eqd + ' / Bd ' + bdd + '</span>';
+          }
         }
 
         // Portfolio vol
@@ -1418,6 +1424,10 @@
         if (ar.primaryEq) {
           var eqRet = (ar.primaryEq.returnPct > 0 ? '+' : '') + formatFiniteNumber(ar.primaryEq.returnPct, 1) + '%';
           rollStr += '<span style="color:var(--text3);">20D:</span> eq ' + eqRet;
+          if (ar.primaryBond) {
+            var bdRet = (ar.primaryBond.returnPct > 0 ? '+' : '') + formatFiniteNumber(ar.primaryBond.returnPct, 1) + '%';
+            rollStr += ' bd ' + bdRet;
+          }
         }
         if (rr.primaryEq) {
           if (rollStr) rollStr += '<br>';
@@ -1430,8 +1440,17 @@
         }
         if (!rollStr) rollStr = '<span style="color:var(--text3);">\u2014</span>';
 
+        var horizonLabel = h.label;
+        if (h.targetDate) {
+          var dParts = h.targetDate.split('-');
+          if (dParts.length === 3) {
+            var mth = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(dParts[1],10)-1];
+            horizonLabel += ' \u00B7 <span style="font-weight:normal; font-size:10px; color:var(--text2);">' + mth + ' ' + parseInt(dParts[2],10) + '</span>';
+          }
+        }
+
         rowsHtml += '<tr>'
-          + '<td style="font-weight:600;">' + h.label + '</td>'
+          + '<td style="font-weight:600;">' + horizonLabel + '</td>'
           + '<td>' + typeBadge + '</td>'
           + '<td style="font-weight:600;">' + levStr + '</td>'
           + '<td class="' + cumClass + '">' + cumStr + '</td>'
