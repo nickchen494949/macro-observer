@@ -375,6 +375,32 @@
         <div class="row"><span class="data-label">Extreme Deleveraging</span><span class="data-value" id="mech-extreme">--</span></div>
         <div id="mech-disclaimer" style="font-size: 10px; color: var(--text3); margin-top: 6px; font-style: italic;">Validated against SPXAV10P (r=0.998). Model-implied pressure proxy. Not actual industry flow.</div>
         <div style="font-size: 10px; color: #16a34a; background: rgba(22,163,74,0.1); padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 6px;">✓ EXTERNALLY VALIDATED — near-reproduction vs SPXAV10P (r=0.998)</div>
+
+        <!-- Forward Mechanical Pressure Section -->
+        <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--border);">
+          <div style="font-size: 12px; font-weight: 700; color: var(--text1); margin-bottom: 8px;">
+            🔮 FORWARD MECHANICAL PRESSURE
+            <span id="vcf-binding" style="font-size: 10px; font-weight: 500; color: var(--text2); margin-left: 6px;">Binding: --</span>
+          </div>
+          <div id="vcf-transition-banner" style="display:none; font-size: 10px; padding: 3px 8px; margin-bottom: 6px; border-radius: 4px; background: rgba(59,130,246,0.08); color: #2563eb; border: 1px solid rgba(59,130,246,0.2);">⚡ Binding window transition detected</div>
+          <div id="vcf-dominant" style="font-size: 11px; font-weight: 600; margin-bottom: 8px; color: var(--text2);">—</div>
+          <table class="table" style="font-size: 11px;">
+            <thead>
+              <tr>
+                <th style="width:50px;">Horizon</th>
+                <th style="width:60px;">Type</th>
+                <th>Direction</th>
+                <th>ΔExp</th>
+                <th>Target</th>
+                <th style="width:40%;">Primary Roll-Off</th>
+              </tr>
+            </thead>
+            <tbody id="vcf-horizons">
+              <tr><td colspan="6" style="text-align:center; color:var(--text3);">Loading...</td></tr>
+            </tbody>
+          </table>
+          <div id="vcf-disclaimer" style="font-size: 9px; color: var(--text3); margin-top: 4px; font-style: italic;">T+1/T+2: deterministic from known data. T+3/T+5: conditional on zero future SPX returns.</div>
+        </div>
       </div>
     </div>
 
@@ -925,6 +951,98 @@
       }
     }
 
+    function renderVcForwardPressure(data) {
+      const tbody = document.getElementById('vcf-horizons');
+      const bindingEl = document.getElementById('vcf-binding');
+      const dominantEl = document.getElementById('vcf-dominant');
+      const transitionBanner = document.getElementById('vcf-transition-banner');
+
+      if (!data || data.status !== 'ok' || !data.horizons || !data.horizons.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text3);">Unavailable</td></tr>';
+        bindingEl.textContent = 'Binding: —';
+        dominantEl.textContent = '—';
+        transitionBanner.style.display = 'none';
+        return;
+      }
+
+      // Binding window
+      bindingEl.textContent = 'Binding: ' + (data.currentBindingWindow || '—');
+
+      // Binding window transition
+      if (data.bindingWindowTransition) {
+        const bt = data.bindingWindowTransition;
+        transitionBanner.textContent = '\u26A1 Binding window shifts ' + bt.from + ' \u2192 ' + bt.to + ' at ' + bt.transitAt;
+        transitionBanner.style.display = 'block';
+      } else {
+        transitionBanner.style.display = 'none';
+      }
+
+      // Dominant signal
+      const sig = data.dominantForwardSignal || '';
+      let sigLabel = '\u26AA Neutral under zero-return path';
+      let sigClass = '';
+      if (sig.includes('buying')) { sigLabel = '\uD83D\uDFE2 Mechanical buying under zero-return path'; sigClass = 'positive'; }
+      else if (sig.includes('selling')) { sigLabel = '\uD83D\uDD34 Mechanical selling under zero-return path'; sigClass = 'negative'; }
+      dominantEl.innerHTML = '<span class="' + sigClass + '">' + sigLabel + '</span>';
+
+      // Horizon rows
+      let rowsHtml = '';
+      for (let idx = 0; idx < data.horizons.length; idx++) {
+        const h = data.horizons[idx];
+        if (h.status === 'insufficient_data') {
+          rowsHtml += '<tr><td>' + (h.label || 'T+' + h.horizon) + '</td><td colspan="5" style="color:var(--text3);">Insufficient data</td></tr>';
+          continue;
+        }
+
+        // Certainty badge
+        const isLocked = h.certaintyLevel === 'LOCKED';
+        const typeBadge = isLocked
+          ? '<span style="font-size:9px; padding:1px 5px; border-radius:3px; background:rgba(22,163,74,0.12); color:#16a34a; font-weight:600;">LOCKED</span>'
+          : '<span style="font-size:9px; padding:1px 5px; border-radius:3px; background:rgba(59,130,246,0.12); color:#2563eb; font-weight:600;">SCENARIO</span>';
+
+        // Direction icon
+        const dir = h.pressureDirection || 'neutral';
+        const dirIcon = dir === 'buying' ? '\uD83D\uDFE2' : dir === 'selling' ? '\uD83D\uDD34' : '\u26AA';
+        const dirLabel = dir.charAt(0).toUpperCase() + dir.slice(1);
+
+        // Delta
+        const delta = h.deltaFromCurrentPct;
+        let deltaStr = '—';
+        let deltaClass = '';
+        if (delta != null) {
+          deltaStr = (delta > 0 ? '+' : '') + formatFiniteNumber(delta, 2) + 'pp';
+          if (delta > 0.5) deltaClass = 'positive';
+          else if (delta < -0.5) deltaClass = 'negative';
+        }
+
+        // Target
+        const targetStr = h.targetExposure != null ? formatFiniteNumber(h.targetExposure * 100, 1) + '%' : '—';
+
+        // Roll-off
+        let rollOffStr = '<span style="color:var(--text3);">—</span>';
+        if (h.primaryRollOff) {
+          const ro = h.primaryRollOff;
+          const retStr = (ro.returnPct > 0 ? '+' : '') + formatFiniteNumber(ro.returnPct, 2) + '%';
+          const retColor = Math.abs(ro.returnPct) > 1 ? (ro.returnPct < 0 ? '#dc2626' : '#16a34a') : 'var(--text2)';
+          const dateStr = ro.date || '';
+          rollOffStr = '<span style="color:' + retColor + '; font-weight:600;">' + retStr + '</span> <span style="color:var(--text3);">(' + dateStr + ')</span>';
+          if (h.allDroppedReturns && h.allDroppedReturns.length > 1) {
+            rollOffStr += ' <span style="font-size:9px; color:var(--text3);">+' + (h.allDroppedReturns.length - 1) + ' more</span>';
+          }
+        }
+
+        rowsHtml += '<tr>'
+          + '<td style="font-weight:600;">' + h.label + '</td>'
+          + '<td>' + typeBadge + '</td>'
+          + '<td>' + dirIcon + ' ' + dirLabel + '</td>'
+          + '<td class="' + deltaClass + '" style="font-weight:600;">' + deltaStr + '</td>'
+          + '<td>' + targetStr + '</td>'
+          + '<td style="font-size:10px;">' + rollOffStr + '</td>'
+          + '</tr>';
+      }
+      tbody.innerHTML = rowsHtml;
+    }
+
     function renderLetf(data, viewState, globalDate) {
       if(!data) return;
       updateFreshness('letf', data, viewState, globalDate);
@@ -1275,6 +1393,7 @@
       renderSummary(data, viewState);
       renderVolControl(data.volControl, viewState, globalAsOfDate);
       renderVcMechanicalPressure(data.vcMechanicalPressure);
+      renderVcForwardPressure(data.vcForwardPressure);
       renderLetf(data.leveragedEtf, viewState, globalAsOfDate);
       renderCta(data.ctaTrend, viewState, globalAsOfDate);
       renderRiskParity(data.riskParity, viewState, globalAsOfDate);
@@ -1296,13 +1415,14 @@
         if (data.schemaVersion !== 3) {
           throw new Error(`Unsupported flow API schema: expected 3, got ${data.schemaVersion}`);
         }
-        const { volControl, leveragedEtf, ctaTrend, riskParity, pensionRebalance, stressConditions, vcMechanicalPressure, rpMechanicalPressure } = data.modules || {};
+        const { volControl, leveragedEtf, ctaTrend, riskParity, pensionRebalance, stressConditions, vcMechanicalPressure, vcForwardPressure, rpMechanicalPressure } = data.modules || {};
         // attach back to data for legacy functions
         data.volControl = volControl;
         data.leveragedEtf = leveragedEtf;
         data.ctaTrend = ctaTrend;
         data.riskParity = riskParity;
         data.vcMechanicalPressure = vcMechanicalPressure;
+        data.vcForwardPressure = vcForwardPressure;
         data.rpMechanicalPressure = rpMechanicalPressure;
         data.pensionRebalance = pensionRebalance;
         data.stressConditions = stressConditions;

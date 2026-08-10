@@ -301,6 +301,24 @@
             "disclaimer": { "type": "string" }
           }
         },
+        "vcForwardPressure": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "type": "string", "enum": ["ok", "insufficient_data"] },
+            "currentTargetExposure": { "type": ["number", "null"] },
+            "currentSelectedVol": { "type": ["number", "null"] },
+            "currentBindingWindow": { "type": ["string", "null"] },
+            "horizons": {
+              "type": "array",
+              "items": { "type": "object" }
+            },
+            "dominantForwardSignal": { "type": "string" },
+            "bindingWindowTransition": { "type": ["object", "null"] },
+            "methodology": { "type": "string" },
+            "disclaimer": { "type": "string" }
+          }
+        },
         "rpMechanicalPressure": {
           "type": "object",
           "required": ["status"],
