@@ -1,0 +1,8 @@
+{
+  "id": "20260810-1335-apply-cta-etf-update-patch",
+  "enabled": true,
+  "action": "node_script",
+  "path": "scripts/apply_cta_etf_update_patch.js",
+  "args": [],
+  "timeoutMs": 120000
+}
