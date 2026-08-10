@@ -387,16 +387,17 @@
           <table class="table" style="font-size: 11px;">
             <thead>
               <tr>
-                <th style="width:50px;">Horizon</th>
-                <th style="width:60px;">Type</th>
-                <th>Direction</th>
-                <th>ΔExp</th>
+                <th style="width:44px;">Horizon</th>
+                <th style="width:56px;">Type</th>
                 <th>Target</th>
-                <th style="width:40%;">Primary Roll-Off</th>
+                <th>vs Today</th>
+                <th>Daily Flow</th>
+                <th style="width:80px;">Vol</th>
+                <th style="width:32%;">Today's Roll-Off</th>
               </tr>
             </thead>
             <tbody id="vcf-horizons">
-              <tr><td colspan="6" style="text-align:center; color:var(--text3);">Loading...</td></tr>
+              <tr><td colspan="7" style="text-align:center; color:var(--text3);">Loading...</td></tr>
             </tbody>
           </table>
           <div id="vcf-disclaimer" style="font-size: 9px; color: var(--text3); margin-top: 4px; font-style: italic;">T+1/T+2: deterministic from known data. T+3/T+5: conditional on zero future SPX returns.</div>
@@ -958,74 +959,90 @@
       const transitionBanner = document.getElementById('vcf-transition-banner');
 
       if (!data || data.status !== 'ok' || !data.horizons || !data.horizons.length) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text3);">Unavailable</td></tr>';
-        bindingEl.textContent = 'Binding: —';
-        dominantEl.textContent = '—';
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--text3);">Unavailable</td></tr>';
+        bindingEl.textContent = 'Binding: \u2014';
+        dominantEl.textContent = '\u2014';
         transitionBanner.style.display = 'none';
         return;
       }
 
       // Binding window
-      bindingEl.textContent = 'Binding: ' + (data.currentBindingWindow || '—');
+      bindingEl.textContent = 'Binding: ' + (data.currentBindingWindow || '\u2014');
 
       // Binding window transition
       if (data.bindingWindowTransition) {
-        const bt = data.bindingWindowTransition;
+        var bt = data.bindingWindowTransition;
         transitionBanner.textContent = '\u26A1 Binding window shifts ' + bt.from + ' \u2192 ' + bt.to + ' at ' + bt.transitAt;
         transitionBanner.style.display = 'block';
       } else {
         transitionBanner.style.display = 'none';
       }
 
-      // Dominant signal
-      const sig = data.dominantForwardSignal || '';
-      let sigLabel = '\u26AA Neutral under zero-return path';
-      let sigClass = '';
-      if (sig.includes('buying')) { sigLabel = '\uD83D\uDFE2 Mechanical buying under zero-return path'; sigClass = 'positive'; }
-      else if (sig.includes('selling')) { sigLabel = '\uD83D\uDD34 Mechanical selling under zero-return path'; sigClass = 'negative'; }
+      // Dominant signal (now based on daily pressure, not cumulative)
+      var sig = data.dominantForwardSignal || '';
+      var sigLabel = '\u26AA Neutral under zero-return path';
+      var sigClass = '';
+      if (sig.indexOf('buying') >= 0) { sigLabel = '\uD83D\uDFE2 Net daily mechanical buying under zero-return path'; sigClass = 'positive'; }
+      else if (sig.indexOf('selling') >= 0) { sigLabel = '\uD83D\uDD34 Net daily mechanical selling under zero-return path'; sigClass = 'negative'; }
       dominantEl.innerHTML = '<span class="' + sigClass + '">' + sigLabel + '</span>';
 
       // Horizon rows
-      let rowsHtml = '';
-      for (let idx = 0; idx < data.horizons.length; idx++) {
-        const h = data.horizons[idx];
+      var rowsHtml = '';
+      for (var idx = 0; idx < data.horizons.length; idx++) {
+        var h = data.horizons[idx];
         if (h.status === 'insufficient_data') {
-          rowsHtml += '<tr><td>' + (h.label || 'T+' + h.horizon) + '</td><td colspan="5" style="color:var(--text3);">Insufficient data</td></tr>';
+          rowsHtml += '<tr><td>' + (h.label || 'T+' + h.horizon) + '</td><td colspan="6" style="color:var(--text3);">Insufficient data</td></tr>';
           continue;
         }
 
         // Certainty badge
-        const isLocked = h.certaintyLevel === 'LOCKED';
-        const typeBadge = isLocked
+        var typeBadge = h.certaintyLevel === 'LOCKED'
           ? '<span style="font-size:9px; padding:1px 5px; border-radius:3px; background:rgba(22,163,74,0.12); color:#16a34a; font-weight:600;">LOCKED</span>'
           : '<span style="font-size:9px; padding:1px 5px; border-radius:3px; background:rgba(59,130,246,0.12); color:#2563eb; font-weight:600;">SCENARIO</span>';
 
-        // Direction icon
-        const dir = h.pressureDirection || 'neutral';
-        const dirIcon = dir === 'buying' ? '\uD83D\uDFE2' : dir === 'selling' ? '\uD83D\uDD34' : '\u26AA';
-        const dirLabel = dir.charAt(0).toUpperCase() + dir.slice(1);
+        // Target exposure
+        var targetStr = h.targetExposure != null ? formatFiniteNumber(h.targetExposure * 100, 1) + '%' : '\u2014';
 
-        // Delta
-        const delta = h.deltaFromCurrentPct;
-        let deltaStr = '—';
-        let deltaClass = '';
-        if (delta != null) {
-          deltaStr = (delta > 0 ? '+' : '') + formatFiniteNumber(delta, 2) + 'pp';
-          if (delta > 0.5) deltaClass = 'positive';
-          else if (delta < -0.5) deltaClass = 'negative';
+        // Cumulative vs today (position path)
+        var cumDelta = h.deltaFromCurrentPct;
+        var cumStr = '\u2014';
+        var cumClass = '';
+        if (cumDelta != null) {
+          cumStr = (cumDelta > 0 ? '+' : '') + formatFiniteNumber(cumDelta, 2) + 'pp';
+          if (cumDelta > 0.5) cumClass = 'positive';
+          else if (cumDelta < -0.5) cumClass = 'negative';
         }
 
-        // Target
-        const targetStr = h.targetExposure != null ? formatFiniteNumber(h.targetExposure * 100, 1) + '%' : '—';
+        // Daily mechanical flow (THE key signal)
+        var dailyDir = h.dailyPressureDirection || 'neutral';
+        var dailyDelta = h.dailyDeltaPct;
+        var dailyIcon = dailyDir === 'buying' ? '\uD83D\uDFE2' : dailyDir === 'selling' ? '\uD83D\uDD34' : '\u26AA';
+        var dailyStr = '\u26AA Flat';
+        var dailyClass = '';
+        if (dailyDelta != null && dailyDir !== 'neutral') {
+          dailyStr = dailyIcon + ' ' + (dailyDelta > 0 ? '+' : '') + formatFiniteNumber(dailyDelta, 2) + 'pp';
+          if (dailyDir === 'buying') dailyClass = 'positive';
+          else if (dailyDir === 'selling') dailyClass = 'negative';
+        }
 
-        // Roll-off
-        let rollOffStr = '<span style="color:var(--text3);">—</span>';
+        // Vol with direction
+        var volStr = '\u2014';
+        if (h.selectedVol != null) {
+          var volArrow = '';
+          var volColor = 'var(--text2)';
+          if (h.volDirection === 'falling') { volArrow = ' \u2193'; volColor = '#16a34a'; }
+          else if (h.volDirection === 'rising') { volArrow = ' \u2191'; volColor = '#dc2626'; }
+          volStr = '<span style="color:' + volColor + ';">' + formatFiniteNumber(h.prevSelectedVol, 1) + '\u2192' + formatFiniteNumber(h.selectedVol, 1) + '%' + volArrow + '</span>';
+        }
+
+        // Horizon-specific roll-off (what drops off on THIS day)
+        var rollOffStr = '<span style="color:var(--text3);">\u2014</span>';
         if (h.primaryRollOff) {
-          const ro = h.primaryRollOff;
-          const retStr = (ro.returnPct > 0 ? '+' : '') + formatFiniteNumber(ro.returnPct, 2) + '%';
-          const retColor = Math.abs(ro.returnPct) > 1 ? (ro.returnPct < 0 ? '#dc2626' : '#16a34a') : 'var(--text2)';
-          const dateStr = ro.date || '';
-          rollOffStr = '<span style="color:' + retColor + '; font-weight:600;">' + retStr + '</span> <span style="color:var(--text3);">(' + dateStr + ')</span>';
+          var ro = h.primaryRollOff;
+          var retStr = (ro.returnPct > 0 ? '+' : '') + formatFiniteNumber(ro.returnPct, 2) + '%';
+          var retColor = Math.abs(ro.returnPct) > 1 ? (ro.returnPct < 0 ? '#dc2626' : '#16a34a') : 'var(--text2)';
+          var dateStr = ro.date || '';
+          rollOffStr = '<span style="color:' + retColor + '; font-weight:600;">' + retStr + '</span> <span style="color:var(--text3);">\xB7 ' + dateStr + '</span>';
           if (h.allDroppedReturns && h.allDroppedReturns.length > 1) {
             rollOffStr += ' <span style="font-size:9px; color:var(--text3);">+' + (h.allDroppedReturns.length - 1) + ' more</span>';
           }
@@ -1034,9 +1051,10 @@
         rowsHtml += '<tr>'
           + '<td style="font-weight:600;">' + h.label + '</td>'
           + '<td>' + typeBadge + '</td>'
-          + '<td>' + dirIcon + ' ' + dirLabel + '</td>'
-          + '<td class="' + deltaClass + '" style="font-weight:600;">' + deltaStr + '</td>'
-          + '<td>' + targetStr + '</td>'
+          + '<td style="font-weight:600;">' + targetStr + '</td>'
+          + '<td class="' + cumClass + '">' + cumStr + '</td>'
+          + '<td class="' + dailyClass + '" style="font-weight:600;">' + dailyStr + '</td>'
+          + '<td style="font-size:10px;">' + volStr + '</td>'
           + '<td style="font-size:10px;">' + rollOffStr + '</td>'
           + '</tr>';
       }
