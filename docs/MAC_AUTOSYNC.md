@@ -5,7 +5,7 @@ This setup keeps the local dashboard at `http://localhost:8765` synchronized wit
 ## One-time install
 
 ```bash
-cd /Users/happygolucky/Desktop/宏观观察器
+cd /Users/happygolucky/Projects/宏观观察器
 git pull --ff-only origin agent/phase4-composite-validation
 bash scripts/install_autosync.sh
 ```
@@ -64,8 +64,12 @@ tail -f ~/Library/Logs/macro-observer/autosync.log
 ## Uninstall
 
 ```bash
-cd /Users/happygolucky/Desktop/宏观观察器
+cd /Users/happygolucky/Projects/宏观观察器
 bash scripts/uninstall_autosync.sh
 ```
 
 The uninstall command removes the launchd agents but keeps logs and repository files.
+
+## Auto-sync test marker
+
+Remote test pushed at `2026-08-10T12:51+08:00`. If auto-sync is healthy, this commit should appear locally within about 30 seconds and trigger a dashboard server restart.
