@@ -73,3 +73,5 @@ The uninstall command removes the launchd agents but keeps logs and repository f
 ## Auto-sync test marker
 
 Remote test pushed at `2026-08-10T12:51+08:00`. If auto-sync is healthy, this commit should appear locally within about 30 seconds and trigger a dashboard server restart.
+
+Second live test pushed at `2026-08-10T12:54+08:00`. If the closed loop is healthy, this newer commit should also appear locally automatically without any manual `git pull`.
