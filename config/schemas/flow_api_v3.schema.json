@@ -360,6 +360,26 @@
             "assumptions": { "type": "object" },
             "disclaimer": { "type": "string" }
           }
+        },
+        "rpForwardPressure": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "type": "string", "enum": ["ok", "insufficient_data", "error"] },
+            "currentTargetLeverage": { "type": ["number", "null"] },
+            "currentPortfolioVol": { "type": ["number", "null"] },
+            "currentCorrelation": { "type": ["number", "null"] },
+            "currentEqExposure": { "type": ["number", "null"] },
+            "currentBondExposure": { "type": ["number", "null"] },
+            "modelDate": { "type": ["string", "null"] },
+            "spxLastDate": { "type": ["string", "null"] },
+            "dgs10LastDate": { "type": ["string", "null"] },
+            "horizons": { "type": "array" },
+            "dominantForwardSignal": { "type": "string" },
+            "methodology": { "type": "string" },
+            "disclaimer": { "type": "string" },
+            "error": { "type": "string" }
+          }
         }
       }
     }
