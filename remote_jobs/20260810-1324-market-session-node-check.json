@@ -1,0 +1,10 @@
+{
+  "id": "20260810-1324-market-session-node-check",
+  "enabled": true,
+  "action": "node_check",
+  "files": [
+    "lib/flow_wrappers.js",
+    "test/production_market_session_test.js"
+  ],
+  "timeoutMs": 60000
+}
