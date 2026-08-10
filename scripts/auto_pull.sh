@@ -16,6 +16,15 @@ log() {
   printf '%s %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*" >> "$LOG_FILE"
 }
 
+# Runtime data is expected to change as the dashboard refreshes market data.
+# Ignore ONLY these paths when deciding whether local edits should block a pull.
+blocking_worktree_changes() {
+  git status --porcelain --untracked-files=all -- \
+    . \
+    ':(exclude)data' ':(exclude)data/**' \
+    ':(exclude)csv' ':(exclude)csv/**'
+}
+
 if ! mkdir "$LOCK_DIR" 2>/dev/null; then
   exit 0
 fi
@@ -29,8 +38,12 @@ if [ "$CURRENT_BRANCH" != "$BRANCH" ]; then
   exit 0
 fi
 
-if [ -n "$(git status --porcelain)" ]; then
-  log "SKIP: local worktree has uncommitted changes; refusing to overwrite"
+BLOCKING_CHANGES="$(blocking_worktree_changes)"
+if [ -n "$BLOCKING_CHANGES" ]; then
+  log "SKIP: local CODE/config worktree changes detected; refusing to overwrite"
+  while IFS= read -r line; do
+    [ -n "$line" ] && log "  $line"
+  done <<< "$BLOCKING_CHANGES"
   exit 0
 fi
 
@@ -46,13 +59,17 @@ if [ "$LOCAL" = "$REMOTE" ]; then
   exit 0
 fi
 
+# Local commits are never ignored, even if they contain only runtime data.
+# If local HEAD is not an ancestor of remote, require manual review.
 if ! git merge-base --is-ancestor "$LOCAL" "$REMOTE"; then
   log "SKIP: local branch has diverged from origin/$BRANCH; manual review required"
   exit 0
 fi
 
+# Uncommitted data/csv changes are allowed. Git itself will still refuse the pull
+# if a remote commit would overwrite one of those modified runtime files.
 if ! git pull --ff-only --quiet origin "$BRANCH"; then
-  log "ERROR: fast-forward pull failed"
+  log "ERROR: fast-forward pull failed (possible overlap with local runtime data changes)"
   exit 0
 fi
 
