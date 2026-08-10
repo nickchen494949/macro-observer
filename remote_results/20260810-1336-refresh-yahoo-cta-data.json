@@ -1,0 +1,16 @@
+{
+  "runnerVersion": 1,
+  "jobId": "20260810-1336-refresh-yahoo-cta-data",
+  "action": "node_script",
+  "status": "passed",
+  "exitCode": 0,
+  "signal": null,
+  "error": "",
+  "stdout": "\n📈 Downloading 16 CANARY symbols...\n\n     SPY: ✅ Passed (2514 pts)\n     QQQ: ✅ Passed (2514 pts)\n     IWM: ✅ Passed (2514 pts)\n     IEF: ✅ Passed (2514 pts)\n     USO: ✅ Passed (2514 pts)\n     GLD: ✅ Passed (2514 pts)\n     TLT: ✅ Passed (2514 pts)\n     ^VIX: ✅ Passed (2610 pts)\n     CL=F: ✅ Passed (2515 pts)\n     GC=F: ✅ Passed (2515 pts)\n     NG=F: ✅ Passed (2515 pts)\n     ^GSPC: ✅ Passed (2514 pts)\n     ^IXIC: ✅ Passed (2514 pts)\n     SOXX: ✅ Passed (2514 pts)\n     ^RUT: ✅ Passed (2514 pts)\n     HG=F: ⚠️ Full-OHLC failed, Close-series passed (2515 pts)\n\n==========================================\nCORPORATE ACTION AUDIT REPORT\n==========================================\nAdjustment changes checked:     401\nMatched dividend/split events:  401\nUnexplained material changes:   0\nMinor tolerance exceptions:     0\n==========================================\n\n⚠️ Intraday/path-dependent OHLC validation failed for the following symbols:\n  - HG=F on 2019-05-17: high_below_open_or_close\n  Close-only CTA signal: Passed and usable (if closeValid).\n  Full-OHLC path validation: Excluded.\n\n✅ Phase 0.5 Data Check: Complete (16 succeeded, 0 failed)\n\nPASS: Yahoo canary/CTA data refreshed and dashboard restart requested.\n",
+  "stderr": "",
+  "startedAt": "2026-08-10T05:37:33.203Z",
+  "finishedAt": "2026-08-10T05:37:54.040Z",
+  "durationMs": 20836,
+  "localHeadBefore": "c78f3d6c942b",
+  "codeWorktreeStatusAfter": ""
+}
