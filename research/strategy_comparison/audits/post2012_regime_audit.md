@@ -13,7 +13,7 @@ This test asks a critical question: **In the modern era of explicit forward guid
   - `Buy&Hold`: QQQ passive holding.
   - `V6 (Cond)`: Hawkish Path exit + Conditional EPS state recovery entry.
   - `V5 (Pure EPS)`: Hawkish Path exit + Pure EPS recovery entry.
-  - `Pure SEP`: Exit when median dot > neutral dot + 0.25; enter when median dot <= neutral dot + 0.25.
+  - `Pure SEP`: Exit when the Fed hikes median rate projection AND Core PCE > 2.0% AND Core PCE projection is revised up. Enter when the Fed stops hiking the median rate projection.
 
 ## 3. Performance Results
 
