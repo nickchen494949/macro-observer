@@ -17,17 +17,15 @@ from datetime import timedelta
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJ_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
-KW_URL = "https://www.federalreserve.gov/data/yield-curve-tables/feds200533.csv"
+KW_CSV = os.path.join(SCRIPT_DIR, 'static_data', 'kw_feds200533_snapshot.csv')
 LSEG_CSV = os.path.join(SCRIPT_DIR, 'lseg_backtest_results_v3.csv')
 SEP_REV_JSON = os.path.join(PROJ_DIR, 'data', 'valuation', 'sep_revisions.json')
 SEP_HIST_JSON = os.path.join(PROJ_DIR, 'data', 'valuation', 'SEP_HISTORY.json')
 
 print("Loading data...", flush=True)
 
-req = urllib.request.Request(KW_URL, headers={'User-Agent': 'Mozilla/5.0'})
-resp = urllib.request.urlopen(req, timeout=30)
-raw = resp.read().decode('utf-8')
-lines = raw.strip().split('\n')
+with open(KW_CSV, 'r', encoding='utf-8') as f:
+    lines = f.read().strip().split('\n')
 header_idx = next(i for i, l in enumerate(lines) if l.startswith('Date,'))
 reader = csv.DictReader(lines[header_idx:])
 kw_rows = []
@@ -40,7 +38,7 @@ kw = pd.DataFrame(kw_rows); kw['date'] = pd.to_datetime(kw['date'])
 kw['exp_short_1y'] = kw['fwd_1y'] - kw['tp_1y']
 kw = kw.sort_values('date').reset_index(drop=True)
 
-dff_json = os.path.join(PROJ_DIR, 'data', 'fred', 'DFF.json')
+dff_json = os.path.join(SCRIPT_DIR, 'static_data', 'DFF.json')
 with open(dff_json) as f: dff_data = json.load(f)
 dff_raw = dff_data.get('values', dff_data) if isinstance(dff_data, dict) else dff_data
 dff = pd.DataFrame(dff_raw, columns=['date', 'value'])
@@ -64,7 +62,7 @@ sep_df['date'] = pd.to_datetime(sep_df['date'])
 sep_df = sep_df.sort_values('date').reset_index(drop=True)
 print(f"  SEP revisions: {len(sep_df)} meetings, {sep_df['date'].min().date()} -> {sep_df['date'].max().date()}")
 
-ypath = os.path.join(PROJ_DIR, 'data', 'yahoo', 'QQQ.json')
+ypath = os.path.join(SCRIPT_DIR, 'static_data', 'QQQ.json')
 if os.path.exists(ypath):
     with open(ypath) as f: yd = json.load(f)
     vals = yd.get('values', yd) if isinstance(yd, dict) else yd

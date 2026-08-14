@@ -54,10 +54,10 @@ Your exact hypothesis played out flawlessly.
 
 V6 is the ultimate structure. 
 
-Yes, it sacrifices ~1.1% CAGR in the 2017-2026 sample due to a slight delay in the Nov 2022 secondary bottom. But in exchange, as proven in the exhaustive historical audit, **it mathematically guarantees that the strategy will not commit suicide during a 2008-style or 2001-style lagging-Fed crisis**.
+Yes, it sacrifices ~1.1% CAGR in the 2017-2026 sample due to a slight delay in the Nov 2022 secondary bottom. But in exchange, as proven in the exhaustive historical audit, **it successfully resolves the failure mode seen in the 2001 and 2008 trailing-EPS proxy tests, preventing the strategy from blindly re-entering during a lagging-Fed crisis**.
 
 You now have a system that:
 1. Is logically sound and mechanically immune to Lookahead Bias.
 2. Uses Forward EPS in real-time.
 3. Automatically switches between buying the Fed's normalization (when times are good) and waiting for fundamental economic recovery (when times are bad).
-4. Beats SEP and Buy & Hold across all metrics.
+4. Outperforms Buy & Hold across all metrics, and beats Pure SEP on CAGR (though slightly trailing SEP in Sharpe ratio).
