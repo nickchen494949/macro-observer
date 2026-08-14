@@ -18,7 +18,8 @@ import sys, os, csv, json, urllib.request
 import pandas as pd, numpy as np
 from datetime import timedelta
 
-PROJ_DIR = '/Users/happygolucky/projects/宏观观察器'
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJ_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
 KW_URL = "https://www.federalreserve.gov/data/yield-curve-tables/feds200533.csv"
 
 # ═══════════════════════════════════════════════════════════════════

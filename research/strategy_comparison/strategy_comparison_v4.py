@@ -18,18 +18,19 @@ import sys, os, csv, json, urllib.request
 import pandas as pd, numpy as np
 from datetime import timedelta
 
-PROJ_DIR = '/Users/happygolucky/projects/宏观观察器'
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJ_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
 KW_URL = "https://www.federalreserve.gov/data/yield-curve-tables/feds200533.csv"
-LSEG_CSV = '/Users/happygolucky/projects/宏观观察器/research/strategy_comparison/lseg_backtest_results_v3.csv'
+LSEG_CSV = os.path.join(SCRIPT_DIR, 'lseg_backtest_results_v3.csv')
 
 # ═══════════════════════════════════════════════════════════════════
 # STEP 0: Import canonical SEP signals from strategy_engine.py
 # ═══════════════════════════════════════════════════════════════════
 print("Loading canonical SEP signals from strategy_engine.py...", flush=True)
-sys.path.insert(0, '/Users/happygolucky/Desktop/QQQ_Risk_Strategy/tools')
+sys.path.insert(0, SCRIPT_DIR)
 from strategy_engine import parse_sep_pdfs, build_sep_signals
 
-SEP_DIR = '/Users/happygolucky/Desktop/QQQ_Risk_Strategy/fomc_sep'
+SEP_DIR = os.path.join(PROJ_DIR, 'data', 'fomc_sep')
 sep_raw = parse_sep_pdfs(SEP_DIR)
 sep_signals = build_sep_signals(sep_raw)
 

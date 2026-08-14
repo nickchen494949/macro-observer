@@ -11,7 +11,8 @@ from datetime import timedelta
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-PROJ_DIR = '/Users/happygolucky/projects/宏观观察器'
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJ_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
 KW_URL = "https://www.federalreserve.gov/data/yield-curve-tables/feds200533.csv"
 
 # STEP 1: Load data

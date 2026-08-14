@@ -15,9 +15,10 @@ import urllib.request, csv, json, os
 import pandas as pd, numpy as np
 from datetime import timedelta
 
-PROJ_DIR = '/Users/happygolucky/projects/宏观观察器'
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJ_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
 KW_URL = "https://www.federalreserve.gov/data/yield-curve-tables/feds200533.csv"
-LSEG_CSV = '/Users/happygolucky/projects/宏观观察器/research/strategy_comparison/lseg_backtest_results_v3.csv'
+LSEG_CSV = os.path.join(SCRIPT_DIR, 'lseg_backtest_results_v3.csv')
 SEP_REV_JSON = os.path.join(PROJ_DIR, 'data', 'valuation', 'sep_revisions.json')
 SEP_HIST_JSON = os.path.join(PROJ_DIR, 'data', 'valuation', 'SEP_HISTORY.json')
 
