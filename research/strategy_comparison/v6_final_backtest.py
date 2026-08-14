@@ -15,15 +15,22 @@ from datetime import timedelta
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-PROJ_DIR = '/Users/happygolucky/projects/宏观观察器'
+# Dynamic paths
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJ_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
 KW_URL = "https://www.federalreserve.gov/data/yield-curve-tables/feds200533.csv"
-LSEG_CSV = '/Users/happygolucky/projects/宏观观察器/research/strategy_comparison/lseg_backtest_results_v3.csv'
+LSEG_CSV = os.path.join(SCRIPT_DIR, 'lseg_backtest_results_v3.csv')
+SEP_DIR = os.path.join(PROJ_DIR, 'data', 'fomc_sep')
+
+# Export paths
+OUT_RESULTS = os.path.join(SCRIPT_DIR, 'v6_final_results.csv')
+OUT_TRADES = os.path.join(SCRIPT_DIR, 'v6_final_trades.csv')
+OUT_REPORT = os.path.join(SCRIPT_DIR, 'v6_final_report.md')
 
 # STEP 0: Canonical SEP signals
-sys.path.insert(0, '/Users/happygolucky/Desktop/QQQ_Risk_Strategy/tools')
+sys.path.insert(0, SCRIPT_DIR)
 from strategy_engine import parse_sep_pdfs, build_sep_signals
 
-SEP_DIR = '/Users/happygolucky/Desktop/QQQ_Risk_Strategy/fomc_sep'
 sep_raw = parse_sep_pdfs(SEP_DIR)
 sep_signals = build_sep_signals(sep_raw)
 
@@ -250,55 +257,43 @@ configs = [
 print(f"{'Strategy':<20} {'CAGR':>7} {'Sharpe':>7} {'MDD':>8} {'Calmar':>7} {'InMkt':>6} {'#Tr':>4} {'$1->':>7}")
 print("-" * 80)
 all_results = {}
+m_list = []
 for name, exit_fn, entry_fn in configs:
     eq, trades = run_strategy(name, qqq_sample, exit_fn, entry_fn)
     m = metrics(name, eq, qqq_sample, trades)
     print(f"{m['name']:<20} {m['cagr']:>+6.1%} {m['sharpe']:>7.2f} {m['mdd']:>+7.1%} {m['calmar']:>7.2f} "
           f"{m['in_mkt']:>5.0%} {m['n_trades']:>4} ${m['final']:>6.2f}")
+    m_list.append(m)
     all_results[name] = trades
 
-print(f"\n{'='*110}")
-print(f"TRADE DETAIL: V6 (Cond)")
-print(f"{'='*110}")
-trades_v6 = all_results['V6 (Cond)']
-print(f"{'Exit Date':>12} {'Exit QQQ':>9} {'EPSatExit':>10} | {'Entry Date':>12} {'Entry QQQ':>9} "
-      f"{'Days':>5} {'B&H':>7} {'Reason':>15}")
-print(f"{'-'*12} {'-'*9} {'-'*10} | {'-'*12} {'-'*9} {'-'*5} {'-'*7} {'-'*15}")
-for t in trades_v6:
-    days = (t['entry_date'] - t['exit_date']).days
-    bh = t['entry_price']/t['exit_price']-1 if t['exit_price']>0 else 0
-    eps_exit = f"{t.get('eps_at_exit', 0):+.1f}%" if pd.notna(t.get('eps_at_exit')) else "N/A"
-    reason = t.get('entry_reason', '?')
-    still = ' ⏳' if t.get('still_out') else ''
-    print(f"{t['exit_date'].strftime('%Y-%m-%d'):>12} ${t['exit_price']:>7.0f} {eps_exit:>10} | "
-          f"{t['entry_date'].strftime('%Y-%m-%d'):>12} ${t['entry_price']:>7.0f} "
-          f"{days:>4}d {bh:>+6.1%} {reason:>15}{still}")
+# Output results CSV
+pd.DataFrame(m_list).to_csv(OUT_RESULTS, index=False)
 
-print(f"\n{'='*110}")
-print(f"TRADE DETAIL: V5 (Pure EPS)")
-print(f"{'='*110}")
-trades_v5 = all_results['V5 (Pure EPS)']
-for t in trades_v5:
-    days = (t['entry_date'] - t['exit_date']).days
-    bh = t['entry_price']/t['exit_price']-1 if t['exit_price']>0 else 0
-    eps_exit = f"{t.get('eps_at_exit', 0):+.1f}%" if pd.notna(t.get('eps_at_exit')) else "N/A"
-    reason = t.get('entry_reason', '?')
-    still = ' ⏳' if t.get('still_out') else ''
-    print(f"{t['exit_date'].strftime('%Y-%m-%d'):>12} ${t['exit_price']:>7.0f} {eps_exit:>10} | "
-          f"{t['entry_date'].strftime('%Y-%m-%d'):>12} ${t['entry_price']:>7.0f} "
-          f"{days:>4}d {bh:>+6.1%} {reason:>15}{still}")
+# Output trades CSV
+flat_trades = []
+for name, trades in all_results.items():
+    for t in trades:
+        t_copy = t.copy()
+        t_copy['strategy'] = name
+        flat_trades.append(t_copy)
+if flat_trades:
+    pd.DataFrame(flat_trades).to_csv(OUT_TRADES, index=False)
 
-print(f"\n{'='*110}")
-print(f"TRADE DETAIL: Pure SEP")
-print(f"{'='*110}")
-trades_sep = all_results['Pure SEP']
-for t in trades_sep:
-    days = (t['entry_date'] - t['exit_date']).days
-    bh = t['entry_price']/t['exit_price']-1 if t['exit_price']>0 else 0
-    eps_exit = "N/A"
-    reason = "SEP_ENTER"
-    still = ' ⏳' if t.get('still_out') else ''
-    print(f"{t['exit_date'].strftime('%Y-%m-%d'):>12} ${t['exit_price']:>7.0f} {eps_exit:>10} | "
-          f"{t['entry_date'].strftime('%Y-%m-%d'):>12} ${t['entry_price']:>7.0f} "
-          f"{days:>4}d {bh:>+6.1%} {reason:>15}{still}")
+# Output Report MD
+with open(OUT_REPORT, 'w') as f:
+    f.write("# Final V6 Tradability Report\n\n")
+    f.write("## Performance Metrics\n\n")
+    f.write(pd.DataFrame(m_list).to_markdown(index=False) + "\n\n")
+    f.write("## Trade Log\n\n")
+    if flat_trades:
+        cols = ['strategy', 'exit_date', 'entry_date', 'exit_price', 'entry_price', 'entry_reason']
+        df_trades = pd.DataFrame(flat_trades)[cols]
+        df_trades['days_out'] = (df_trades['entry_date'] - df_trades['exit_date']).dt.days
+        df_trades['return_avoided'] = df_trades['entry_price'] / df_trades['exit_price'] - 1
+        df_trades['exit_date'] = df_trades['exit_date'].dt.strftime('%Y-%m-%d')
+        df_trades['entry_date'] = df_trades['entry_date'].dt.strftime('%Y-%m-%d')
+        f.write(df_trades.to_markdown(index=False) + "\n")
+    else:
+        f.write("No trades generated.\n")
 
+print(f"\nExported artifacts to:\n  - {OUT_RESULTS}\n  - {OUT_TRADES}\n  - {OUT_REPORT}")
