@@ -1,16 +1,8 @@
 #!/usr/bin/env python3
 """
-Historical Falsification Test v6 — Conditional Fallback
+Historical Falsification Test v6.1 — Exhaustive Episode Table
 ========================================================
-Purpose: NOT validation. Testing the "house is already on fire" hypothesis.
-
-Logic:
-- Hawkish pulse -> EXIT
-- If EPS at exit > -3%: (Early Warning)
-    -> Re-enter on New EPS distress OR Hawk normalize
-- If EPS at exit <= -3%: (Late Arrival / House on Fire)
-    -> Suppress Hawk normalize
-    -> Wait for EPS to recover > -3% to re-enter
+Runs every Hawkish pulse independently as a virtual trade.
 """
 
 import sys, os, csv, json, urllib.request
@@ -23,7 +15,7 @@ PROJ_DIR = '/Users/happygolucky/projects/宏观观察器'
 KW_URL = "https://www.federalreserve.gov/data/yield-curve-tables/feds200533.csv"
 
 # STEP 1: Load data
-# --- Kim-Wright ---
+print("Loading data...")
 req = urllib.request.Request(KW_URL, headers={'User-Agent': 'Mozilla/5.0'})
 resp = urllib.request.urlopen(req, timeout=30)
 raw = resp.read().decode('utf-8')
@@ -40,7 +32,6 @@ kw = pd.DataFrame(kw_rows); kw['date'] = pd.to_datetime(kw['date'])
 kw['exp_short_1y'] = kw['fwd_1y'] - kw['tp_1y']
 kw = kw.sort_values('date').reset_index(drop=True)
 
-# --- DFF ---
 dff_json = os.path.join(PROJ_DIR, 'data', 'fred', 'DFF.json')
 with open(dff_json) as f: dff_data = json.load(f)
 dff_raw = dff_data.get('values', dff_data) if isinstance(dff_data, dict) else dff_data
@@ -54,7 +45,6 @@ merged['hawkish_path'] = merged['exp_short_1y'] - merged['dff']
 merged['delta_exp_4w'] = merged['exp_short_1y'] - merged['exp_short_1y'].shift(20)
 merged['is_strong_hawk'] = (merged['hawkish_path'] > 0.5) & (merged['delta_exp_4w'] > 0.25)
 
-# --- QQQ ---
 ypath = os.path.join(PROJ_DIR, 'data', 'yahoo', 'QQQ.json')
 if os.path.exists(ypath):
     with open(ypath) as f: yd = json.load(f)
@@ -66,7 +56,6 @@ qqq = qqq.dropna().sort_values('date').reset_index(drop=True)
 qqq['daily_ret'] = qqq['close'].pct_change()
 qqq_dates = pd.DatetimeIndex(qqq['date'].values)
 
-# --- S&P 500 Trailing EPS ---
 eps_path = os.path.join(PROJ_DIR, 'data', 'valuation', 'SP500_EPS.json')
 with open(eps_path) as f: eps_data = json.load(f)
 eps_vals = eps_data if isinstance(eps_data, list) else eps_data.get('values', [])
@@ -114,133 +103,99 @@ hawk_ff['hawk_strong_pulse'] = hawk_ff['hawk_strong_raw'] & ~hawk_ff['hawk_stron
 eps_ff = pd.DataFrame(index=qqq['date'])
 eps_ff['eps_mom_6m'] = np.nan
 for _, row in eps_df.iterrows():
+    # Simulated 45-day publication lag to ensure point-in-time availability
     pub_date = row['date'] + timedelta(days=45)
     td = next_td(pub_date, qqq_dates)
     if td is not None and pd.notna(row['eps_mom_6m']):
         eps_ff.loc[td, 'eps_mom_6m'] = row['eps_mom_6m']
 eps_ff['eps_mom_6m'] = eps_ff['eps_mom_6m'].ffill()
 
-# STEP 3: Strategy Engine
-SAMPLE_START = pd.Timestamp('2000-01-01')
-SAMPLE_END = min(qqq['date'].max(), eps_df['date'].max() + timedelta(days=90))
-mask = (qqq['date'] >= SAMPLE_START) & (qqq['date'] <= SAMPLE_END)
-qqq_sample = qqq[mask].copy().reset_index(drop=True)
-
+# STEP 3: Virtual Trade Engine
 EPS_THRESHOLD = -3.0
 
-def run_strategy(name, qqq_df, exit_fn, entry_fn):
-    equity = 1.0; state = 'IN'; trade_log = []; equity_curve = []; current_trade = None
-    ctx = {'exit_date': None, 'eps_at_exit': None, 'eps_was_above_since_exit': False}
-    for i, row in qqq_df.iterrows():
-        date = row['date']; daily_ret = row['daily_ret'] if pd.notna(row['daily_ret']) else 0.0
-        hawk = hawk_ff.loc[date] if date in hawk_ff.index else pd.Series({'hawk_hp': np.nan, 'hawk_strong_pulse': False})
-        eps_mom = eps_ff.loc[date, 'eps_mom_6m'] if date in eps_ff.index else np.nan
-        
-        if state == 'IN':
-            equity *= (1 + daily_ret)
-            if exit_fn(date, hawk, eps_mom, ctx):
-                state = 'OUT'
-                ctx['exit_date'] = date
-                ctx['eps_at_exit'] = eps_mom
-                if pd.notna(eps_mom) and eps_mom > EPS_THRESHOLD:
-                    ctx['eps_was_above_since_exit'] = True
-                else:
-                    ctx['eps_was_above_since_exit'] = False
-                current_trade = {'exit_date': date, 'exit_price': row['close'],
-                                 'exit_equity': equity, 'eps_at_exit': eps_mom}
-        elif state == 'OUT':
-            if pd.notna(eps_mom) and eps_mom > EPS_THRESHOLD:
-                ctx['eps_was_above_since_exit'] = True
-            if entry_fn(date, hawk, eps_mom, ctx):
-                state = 'IN'
-                if current_trade:
-                    current_trade['entry_date'] = date; current_trade['entry_price'] = row['close']
-                    current_trade['entry_reason'] = ctx.get('entry_reason', '?')
-                    trade_log.append(current_trade); current_trade = None
-        equity_curve.append({'date': date, 'equity': equity, 'state': state})
-    if current_trade:
-        last = qqq_df.iloc[-1]
-        current_trade['entry_date'] = last['date']; current_trade['entry_price'] = last['close']
-        current_trade['still_out'] = True; current_trade['entry_reason'] = 'STILL_OUT'
-        trade_log.append(current_trade)
-    return pd.DataFrame(equity_curve), trade_log
-
-def hawk_pulse_exit(date, hawk, eps_mom, ctx): return hawk['hawk_strong_pulse']
-def hawk_normalize(date, hawk, eps_mom, ctx): hp = hawk['hawk_hp']; return pd.notna(hp) and hp < 0.5
-def eps_new_event_entry(date, hawk, eps_mom, ctx):
-    if not ctx.get('eps_was_above_since_exit', False): return False
-    if pd.notna(eps_mom) and eps_mom <= EPS_THRESHOLD:
-        ctx['entry_reason'] = 'EPS_NEW'
-        return True
-    return False
-
-# Old logic
-def entry_new_eps_or_hawk(date, hawk, eps_mom, ctx):
-    if eps_new_event_entry(date, hawk, eps_mom, ctx): return True
-    if hawk_normalize(date, hawk, eps_mom, ctx):
-        ctx['entry_reason'] = 'HAWK_NORMALIZE'
-        return True
-    return False
-
-# v6 logic
-def entry_v6_conditional(date, hawk, eps_mom, ctx):
-    eps_at_exit = ctx.get('eps_at_exit')
-    is_late_arrival = pd.notna(eps_at_exit) and eps_at_exit <= EPS_THRESHOLD
+def evaluate_pulse(pulse_date, qqq_df, eps_ff, hawk_ff):
+    exit_mask = qqq_df['date'] >= pulse_date
+    if not exit_mask.any(): return None
+    exit_idx = qqq_df[exit_mask].index[0]
+    exit_date = qqq_df.loc[exit_idx, 'date']
+    exit_price = qqq_df.loc[exit_idx, 'close']
     
-    if is_late_arrival:
-        # Suppress hawk normalize. Wait for EPS to recover > -3%
+    eps_at_exit = eps_ff.loc[exit_date, 'eps_mom_6m'] if exit_date in eps_ff.index else np.nan
+    is_late_arrival = pd.notna(eps_at_exit) and eps_at_exit <= EPS_THRESHOLD
+    classification = "Late (House on Fire)" if is_late_arrival else "Early Warning"
+    
+    eps_was_above_since_exit = False if is_late_arrival else (pd.notna(eps_at_exit) and eps_at_exit > EPS_THRESHOLD)
+    
+    entry_date, entry_price, entry_reason, entry_idx = None, None, None, None
+    
+    for idx in range(exit_idx + 1, len(qqq_df)):
+        curr_date = qqq_df.loc[idx, 'date']
+        curr_price = qqq_df.loc[idx, 'close']
+        
+        hawk = hawk_ff.loc[curr_date] if curr_date in hawk_ff.index else pd.Series({'hawk_hp': np.nan})
+        eps_mom = eps_ff.loc[curr_date, 'eps_mom_6m'] if curr_date in eps_ff.index else np.nan
+        
         if pd.notna(eps_mom) and eps_mom > EPS_THRESHOLD:
-            ctx['entry_reason'] = 'EPS_RECOVERY'
-            return True
-    else:
-        # Normal path
-        if eps_new_event_entry(date, hawk, eps_mom, ctx): return True
-        if hawk_normalize(date, hawk, eps_mom, ctx):
-            ctx['entry_reason'] = 'HAWK_NORMALIZE'
-            return True
-    return False
+            eps_was_above_since_exit = True
+            
+        if is_late_arrival:
+            if pd.notna(eps_mom) and eps_mom > EPS_THRESHOLD:
+                entry_date, entry_price, entry_reason, entry_idx = curr_date, curr_price, 'EPS_RECOVERY', idx
+                break
+        else:
+            if eps_was_above_since_exit and pd.notna(eps_mom) and eps_mom <= EPS_THRESHOLD:
+                entry_date, entry_price, entry_reason, entry_idx = curr_date, curr_price, 'EPS_NEW', idx
+                break
+            
+            hp = hawk['hawk_hp']
+            if pd.notna(hp) and hp < 0.5:
+                entry_date, entry_price, entry_reason, entry_idx = curr_date, curr_price, 'HAWK_NORMALIZE', idx
+                break
+                
+    if entry_date is None:
+        entry_date, entry_price, entry_reason, entry_idx = qqq_df['date'].iloc[-1], qqq_df['close'].iloc[-1], 'STILL_OUT', len(qqq_df) - 1
+        
+    days_out = (entry_date - exit_date).days
+    bh_return = entry_price / exit_price - 1
+    
+    out_slice = qqq_df.loc[exit_idx:entry_idx, 'close']
+    min_price = out_slice.min()
+    max_price = out_slice.max()
+    avoided_dd = (min_price - exit_price) / exit_price
+    missed_up = (max_price - exit_price) / exit_price
+    
+    sub_3m_ret, sub_6m_ret = np.nan, np.nan
+    if entry_idx + 63 < len(qqq_df):
+        sub_3m_ret = qqq_df.loc[entry_idx + 63, 'close'] / entry_price - 1
+    if entry_idx + 126 < len(qqq_df):
+        sub_6m_ret = qqq_df.loc[entry_idx + 126, 'close'] / entry_price - 1
+        
+    return {
+        'pulse_date': pulse_date,
+        'eps_at_exit': eps_at_exit,
+        'classification': classification,
+        're_entry_date': entry_date,
+        'reason': entry_reason,
+        'days_out': days_out,
+        'bh_return': bh_return,
+        'avoided_dd': avoided_dd,
+        'missed_up': missed_up,
+        'sub_3m': sub_3m_ret,
+        'sub_6m': sub_6m_ret
+    }
 
-def metrics(name, eq_curve, qqq_df, trade_log):
-    eq = eq_curve['equity'].values; n = len(eq); years = n / 252
-    cagr = (eq[-1]/eq[0])**(1/years) - 1
-    dr = np.diff(eq)/eq[:-1]
-    sharpe = np.mean(dr)/np.std(dr)*np.sqrt(252) if np.std(dr)>0 else 0
-    peak = np.maximum.accumulate(eq); dd = (eq-peak)/peak; mdd = dd.min()
-    calmar = cagr/abs(mdd) if mdd != 0 else np.inf
-    in_mkt = (eq_curve['state']=='IN').mean()
-    return {'name': name, 'cagr': cagr, 'sharpe': sharpe, 'mdd': mdd, 'calmar': calmar,
-            'in_mkt': in_mkt, 'n_trades': len(trade_log), 'final': eq[-1]}
+pulses = hawk_ff[hawk_ff['hawk_strong_pulse']].index.tolist()
+results = []
+for p in pulses:
+    if p >= pd.Timestamp('2000-01-01'):
+        res = evaluate_pulse(p, qqq, eps_ff, hawk_ff)
+        if res: results.append(res)
 
-configs = [
-    ('Buy&Hold',                  lambda d,h,e,c: False,     lambda d,h,e,c: True),
-    ('Hp→(NewEPS|H)',             hawk_pulse_exit,           entry_new_eps_or_hawk),
-    ('Hp→v6(Conditional)',        hawk_pulse_exit,           entry_v6_conditional),
-]
-
-print(f"{'Strategy':<22} {'CAGR':>7} {'Sharpe':>7} {'MDD':>8} {'Calmar':>7} {'InMkt':>6} {'#Tr':>4} {'$1->':>8}")
-print("-" * 82)
-all_results = {}
-for name, exit_fn, entry_fn in configs:
-    eq, trades = run_strategy(name, qqq_sample, exit_fn, entry_fn)
-    m = metrics(name, eq, qqq_sample, trades)
-    print(f"{m['name']:<22} {m['cagr']:>+6.1%} {m['sharpe']:>7.2f} {m['mdd']:>+7.1%} {m['calmar']:>7.2f} "
-          f"{m['in_mkt']:>5.0%} {m['n_trades']:>4} ${m['final']:>7.2f}")
-    all_results[name] = trades
-
-print(f"\n{'='*120}")
-print(f"TRADE DETAIL: Hp→v6(Conditional)")
-print(f"{'='*120}")
-trades = all_results['Hp→v6(Conditional)']
-print(f"{'Exit Date':>12} {'Exit QQQ':>9} {'EPSatExit':>10} | {'Entry Date':>12} {'Entry QQQ':>9} "
-      f"{'Days':>5} {'B&H':>7} {'Reason':>15}")
-print(f"{'-'*12} {'-'*9} {'-'*10} | {'-'*12} {'-'*9} {'-'*5} {'-'*7} {'-'*15}")
-for t in trades:
-    days = (t['entry_date'] - t['exit_date']).days
-    bh = t['entry_price']/t['exit_price']-1 if t['exit_price']>0 else 0
-    eps_exit = f"{t.get('eps_at_exit', 0):+.1f}%" if pd.notna(t.get('eps_at_exit')) else "N/A"
-    reason = t.get('entry_reason', '?')
-    still = ' ⏳' if t.get('still_out') else ''
-    print(f"{t['exit_date'].strftime('%Y-%m-%d'):>12} ${t['exit_price']:>7.0f} {eps_exit:>10} | "
-          f"{t['entry_date'].strftime('%Y-%m-%d'):>12} ${t['entry_price']:>7.0f} "
-          f"{days:>4}d {bh:>+6.1%} {reason:>15}{still}")
-
+print(f"{'Pulse Date':>10} | {'EPS@Exit':>9} | {'Class':>15} | {'Re-entry':>10} | {'Reason':>15} | {'Days':>4} | {'B&H':>7} | {'AvoidDD':>7} | {'MissUp':>7} | {'Sub3M':>7} | {'Sub6M':>7}")
+print("-" * 125)
+for r in results:
+    eps_str = f"{r['eps_at_exit']:+.1f}%" if pd.notna(r['eps_at_exit']) else "N/A"
+    c_str = "Late" if "Late" in r['classification'] else "Early"
+    s3 = f"{r['sub_3m']:+.1%}" if pd.notna(r['sub_3m']) else "N/A"
+    s6 = f"{r['sub_6m']:+.1%}" if pd.notna(r['sub_6m']) else "N/A"
+    print(f"{r['pulse_date'].strftime('%Y-%m-%d'):>10} | {eps_str:>9} | {c_str:>15} | {r['re_entry_date'].strftime('%Y-%m-%d'):>10} | {r['reason']:>15} | {r['days_out']:>4} | {r['bh_return']:>+7.1%} | {r['avoided_dd']:>+7.1%} | {r['missed_up']:>+7.1%} | {s3:>7} | {s6:>7}")
