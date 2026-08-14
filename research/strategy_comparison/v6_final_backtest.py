@@ -9,7 +9,7 @@ Rules Frozen.
 4. Buy & Hold
 """
 
-import sys, os, csv, json, urllib.request
+import sys, os, csv, json
 import pandas as pd, numpy as np
 from datetime import timedelta
 import warnings
@@ -18,7 +18,12 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 # Dynamic paths
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJ_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
-KW_URL = "https://www.federalreserve.gov/data/yield-curve-tables/feds200533.csv"
+
+# Use purely local, snapshotted static data to ensure 100% future reproducibility
+STATIC_DIR = os.path.join(SCRIPT_DIR, 'static_data')
+KW_CSV = os.path.join(STATIC_DIR, 'kw_feds200533_snapshot.csv')
+DFF_JSON = os.path.join(STATIC_DIR, 'DFF.json')
+QQQ_JSON = os.path.join(STATIC_DIR, 'QQQ.json')
 LSEG_CSV = os.path.join(SCRIPT_DIR, 'lseg_backtest_results_v3.csv')
 SEP_DIR = os.path.join(PROJ_DIR, 'data', 'fomc_sep')
 
@@ -41,10 +46,9 @@ for r in sep_signals:
     elif r['signal'] == 'ENTER': sep_enter_dates.append(pd.Timestamp(r['date']))
 
 # STEP 1: Load Data
-req = urllib.request.Request(KW_URL, headers={'User-Agent': 'Mozilla/5.0'})
-resp = urllib.request.urlopen(req, timeout=30)
-raw = resp.read().decode('utf-8')
-lines = raw.strip().split('\n')
+# Kim-Wright
+with open(KW_CSV, 'r', encoding='utf-8') as f:
+    lines = f.read().strip().split('\n')
 header_idx = next(i for i, l in enumerate(lines) if l.startswith('Date,'))
 reader = csv.DictReader(lines[header_idx:])
 kw_rows = []
@@ -57,8 +61,8 @@ kw = pd.DataFrame(kw_rows); kw['date'] = pd.to_datetime(kw['date'])
 kw['exp_short_1y'] = kw['fwd_1y'] - kw['tp_1y']
 kw = kw.sort_values('date').reset_index(drop=True)
 
-dff_json = os.path.join(PROJ_DIR, 'data', 'fred', 'DFF.json')
-with open(dff_json) as f: dff_data = json.load(f)
+# DFF
+with open(DFF_JSON) as f: dff_data = json.load(f)
 dff_raw = dff_data.get('values', dff_data) if isinstance(dff_data, dict) else dff_data
 dff = pd.DataFrame(dff_raw, columns=['date', 'value'])
 dff['date'] = pd.to_datetime(dff['date']); dff['dff'] = pd.to_numeric(dff['value'], errors='coerce')
@@ -70,13 +74,14 @@ merged['hawkish_path'] = merged['exp_short_1y'] - merged['dff']
 merged['delta_exp_4w'] = merged['exp_short_1y'] - merged['exp_short_1y'].shift(20)
 merged['is_strong_hawk'] = (merged['hawkish_path'] > 0.5) & (merged['delta_exp_4w'] > 0.25)
 
+# LSEG
 lseg = pd.read_csv(LSEG_CSV)
 lseg['date'] = pd.to_datetime(lseg['date'])
 lseg = lseg.sort_values('date').reset_index(drop=True)
 
-ypath = os.path.join(PROJ_DIR, 'data', 'yahoo', 'QQQ.json')
-if os.path.exists(ypath):
-    with open(ypath) as f: yd = json.load(f)
+# QQQ
+if os.path.exists(QQQ_JSON):
+    with open(QQQ_JSON) as f: yd = json.load(f)
     vals = yd.get('values', yd) if isinstance(yd, dict) else yd
     qqq = pd.DataFrame(vals, columns=['date', 'close'])
     qqq['date'] = pd.to_datetime(qqq['date']); qqq['close'] = pd.to_numeric(qqq['close'], errors='coerce')
