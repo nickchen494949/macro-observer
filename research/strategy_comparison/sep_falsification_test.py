@@ -79,7 +79,7 @@ def custom_build_sep_signals(sep_raw, pce_thresh=2.0, rate_thresh=0.0):
         signal = None
         if sep_in and is_exit:
             signal = 'EXIT'; sep_in = False
-        elif not sep_in and reenter and same_ty:
+        elif not sep_in and reenter:
             signal = 'ENTER'; sep_in = True
             
         sep_signals.append({
@@ -155,7 +155,7 @@ def run_sep_backtest(pce_thresh, rate_thresh):
     transitions = (eq_df['state'] != eq_df['state'].shift(1)).sum() - 1 # minus initial state
     trades = max(0, transitions // 2 + (transitions % 2))
     
-    return cagr, sharpe, mdd, in_mkt, trades
+    return cagr, sharpe, mdd, in_mkt, trades, exit_dates, enter_dates
 
 print("\n================================================================================")
 print("PART 2: PARAMETER SWEEP (2012-2026)")
@@ -176,9 +176,28 @@ print(f"{'B&H (QQQ)':<10} | {'N/A':<11} | {bh_cagr:>7.1%} | {bh_sharpe:>6.2f} | 
 pce_grid = [1.5, 1.8, 2.0, 2.2, 2.5]
 rate_grid = [-0.25, 0.0, 0.25, 0.5]
 
+results = []
 for p in pce_grid:
     for r in rate_grid:
-        cagr, sharpe, mdd, inmkt, tr = run_sep_backtest(p, r)
+        cagr, sharpe, mdd, inmkt, tr, exit_dates, enter_dates = run_sep_backtest(p, r)
         marker = " <=== CANONICAL" if (p == 2.0 and r == 0.0) else ""
         print(f"{p:>10.1f} | {r:>11.2f} | {cagr:>7.1%} | {sharpe:>6.2f} | {mdd:>7.1%} | {inmkt:>5.0%} | {tr:>3}{marker}")
+        results.append({
+            'pce': p, 'rate': r, 'trades': tr,
+            'exit_dates': exit_dates, 'enter_dates': enter_dates
+        })
+
+print("\n================================================================================")
+print("PART 3: TRADE LOGS BY THRESHOLD COMBINATION")
+print("================================================================================")
+for res in results:
+    p, r = res['pce'], res['rate']
+    marker = " (CANONICAL)" if (p == 2.0 and r == 0.0) else ""
+    print(f"\n--- PCE > {p:.1f}%, Rate Hike > {r:.2f}% {marker} ---")
+    exits = sorted([d.strftime('%Y-%m-%d') for d in res['exit_dates']])
+    enters = sorted([d.strftime('%Y-%m-%d') for d in res['enter_dates']])
+    
+    # Simple pairing for display
+    print(f"Exits:  {exits}")
+    print(f"Enters: {enters}")
 
