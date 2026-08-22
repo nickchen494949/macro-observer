@@ -144,26 +144,35 @@ z_df = pd.DataFrame(z_shocks).set_index('date').dropna()
 
 # ── SECTOR EXECUTION RETURNS (T+2) ──
 exec_rets = []
-for sec in MACRO_SECTORS:
-    sec_daily = daily[sec]['adj_close']
-    for dt in z_df.index:
-        start_ts = pd.Timestamp(dt.end_time)
-        end_ts = pd.Timestamp((dt+1).end_time)
-        
-        # Get data for exactly the month following the signal (T+2 is day 2 of next month)
-        m_data = sec_daily.loc[(sec_daily.index >= start_ts) & (sec_daily.index <= end_ts)]
-        if len(m_data) < 3: continue
-        entry_px = m_data.iloc[2]
-        
-        next_dt = dt + 1
-        n_start_ts = pd.Timestamp(next_dt.end_time)
-        n_end_ts = pd.Timestamp((next_dt+1).end_time)
-        n_m_data = sec_daily.loc[(sec_daily.index >= n_start_ts) & (sec_daily.index <= n_end_ts)]
-        if len(n_m_data) < 3: continue
-        exit_px = n_m_data.iloc[2]
-        
-        exec_ret = exit_px / entry_px - 1
-        exec_rets.append({'date': dt, 'ticker': sec, 'exec_ret': exec_ret})
+spy_daily = daily['SPY']['adj_close']
+for dt in z_df.index:
+    start_ts = pd.Timestamp(dt.end_time)
+    end_ts = pd.Timestamp((dt+1).end_time)
+    spy_m_data = spy_daily.loc[(spy_daily.index >= start_ts) & (spy_daily.index <= end_ts)]
+    if len(spy_m_data) < 2: continue
+    # iloc[0] is T+1, iloc[1] is T+2
+    entry_date = spy_m_data.index[1]
+    
+    next_dt = dt + 1
+    n_start_ts = pd.Timestamp(next_dt.end_time)
+    n_end_ts = pd.Timestamp((next_dt+1).end_time)
+    spy_n_m_data = spy_daily.loc[(spy_daily.index >= n_start_ts) & (spy_daily.index <= n_end_ts)]
+    if len(spy_n_m_data) < 2: continue
+    exit_date = spy_n_m_data.index[1]
+    
+    # Require ALL 11 sectors to have prices on BOTH entry_date and exit_date
+    month_valid = True
+    sec_prices = {}
+    for sec in MACRO_SECTORS:
+        if entry_date not in daily[sec]['adj_close'].index or exit_date not in daily[sec]['adj_close'].index:
+            month_valid = False
+            break
+        sec_prices[sec] = (daily[sec]['adj_close'].loc[entry_date], daily[sec]['adj_close'].loc[exit_date])
+    
+    if month_valid:
+        for sec, (entry_px, exit_px) in sec_prices.items():
+            exec_ret = exit_px / entry_px - 1
+            exec_rets.append({'date': dt, 'ticker': sec, 'exec_ret': exec_ret})
 
 ret_df = pd.DataFrame(exec_rets)
 
@@ -184,15 +193,23 @@ for dt in valid_dates:
     
     for _, row in m_ret.iterrows():
         sec = row['ticker']
-        exps = norm_exposure[sec]
+        n_exps = norm_exposure[sec]
+        r_exps = EXPOSURE_MATRIX[sec]
         
-        ry_s = exps[0] * z_row['ry_z']
-        gr_s = exps[1] * z_row['growth_z']
-        oi_s = exps[2] * z_row['oil_z']
-        cr_s = exps[3] * z_row['credit_z']
-        us_s = exps[4] * z_row['usd_z']
+        # Composite uses Normalized Exposure
+        ry_s_n = n_exps[0] * z_row['ry_z']
+        gr_s_n = n_exps[1] * z_row['growth_z']
+        oi_s_n = n_exps[2] * z_row['oil_z']
+        cr_s_n = n_exps[3] * z_row['credit_z']
+        us_s_n = n_exps[4] * z_row['usd_z']
+        comp = ry_s_n + gr_s_n + oi_s_n + cr_s_n + us_s_n
         
-        comp = ry_s + gr_s + oi_s + cr_s + us_s
+        # Individuals use Raw Exposure
+        ry_s = r_exps[0] * z_row['ry_z']
+        gr_s = r_exps[1] * z_row['growth_z']
+        oi_s = r_exps[2] * z_row['oil_z']
+        cr_s = r_exps[3] * z_row['credit_z']
+        us_s = r_exps[4] * z_row['usd_z']
         
         m_ret.loc[m_ret['ticker'] == sec, 'ry_score'] = ry_s
         m_ret.loc[m_ret['ticker'] == sec, 'growth_score'] = gr_s
