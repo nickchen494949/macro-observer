@@ -5,9 +5,11 @@ Monthly sector rotation using **Valuation + EPS Revision + Momentum**, tested vi
 
 ## ⚠️ Research Only — Not Production Alpha
 
-This is an audit trail for a research experiment. Results are promising but not
-validated for live trading. Key remaining risk: Koyfin PE data may not be strictly
-point-in-time.
+This is an audit trail for a research experiment. **Status: 🟡 Promising, not proven.**
+
+Key remaining risks:
+- Koyfin PE data may not be strictly point-in-time
+- Sample is short (~89 months OOS)
 
 ---
 
@@ -15,22 +17,72 @@ point-in-time.
 
 | Source | What | Coverage |
 |--------|------|----------|
-| **Koyfin f_pe** | Daily Forward PE, 11 S&P sectors | 2003→2026 |
-| **Yahoo / yfinance** | Daily ETF prices (XLK, XLC, etc.) | 1998→2026 |
+| **Koyfin f_pe** | Daily Forward PE, 11 S&P sectors | See per-sector below |
+| **yfinance** | Daily **split-adjusted** ETF prices | 1998→2026 |
 | **TLT** | Long bond ETF for rate regime | 2002→2026 |
 
-PE files downloaded from [AlphaLabX1/forward-pe-viewer](https://github.com/AlphaLabX1/forward-pe-viewer/tree/main/data).
-No synthetic data. No made-up numbers.
+### Per-Sector PE Coverage (actual start dates)
+| Sector | ETF | PE Start | Notes |
+|--------|-----|----------|-------|
+| Technology | XLK | 2003-06 | |
+| Financials | XLF | 2003-06 | |
+| Consumer Disc | XLY | 2003-06 | |
+| Energy | XLE | 2003-06 | |
+| Health Care | XLV | 2003-06 | |
+| Consumer Staples | XLP | 2003-06 | |
+| Materials | XLB | 2003-06 | |
+| Industrials | XLI | 2003-06 | |
+| Utilities | XLU | 2003-06 | |
+| **Real Estate** | **XLRE** | **2016-01** | Spun out of Financials |
+| **Comm Services** | **XLC** | **2018-06** | Reconstituted from Telecom; first-day anomaly (10.13x) dropped |
+
+**Full 11-sector universe common start: 2018-06.**
+
+PE files from [AlphaLabX1/forward-pe-viewer](https://github.com/AlphaLabX1/forward-pe-viewer/tree/main/data).
+No synthetic data.
+
+---
+
+## Architecture (v3)
+
+All scripts share a single `engine.py`:
+
+```
+engine.py
+  ├── load_adjusted_prices()    ← yfinance auto_adjust=True, cached
+  ├── load_pe()                 ← Koyfin CSVs, XLC anomaly dropped
+  ├── build_features()          ← explicit ratio (no pct_change NaN bug)
+  │     ├── PE capped at 50x
+  │     ├── EPS revision winsorized ±50%/±30%
+  │     └── exec_ret via daily prices (next-trading-day)
+  ├── walk_forward_purged()     ← 3M embargo, label-overlap exclusion
+  │     ├── cross-sectional placebo (shuffle within month)
+  │     └── proper group permutation (shared row indices)
+  └── calc_metrics()
+
+rf_backtest.py  ─── imports engine ─── model comparison
+rf_audit.py     ─── imports engine ─── 5-knife audit
+run_backtest.py ─── standalone Phase 1 (simple ranking, legacy)
+```
+
+### Fixes Applied (v3)
+| Issue | Fix |
+|-------|-----|
+| 🔴 Same-close execution | `exec_ret` uses daily prices: entry at first trading day after signal |
+| 🔴 Raw close (split bug) | `yfinance auto_adjust=True` for all prices |
+| 🔴 `pct_change()` NaN ffill | Replaced with explicit `a / a.shift(n) - 1` |
+| 🔴 Placebo only 1 iteration | 500 iterations with per-iteration seeds |
+| 🟠 Group permutation | Same row permutation for all features in group |
+| 🟠 Exclude-2022 training | `exclude_labels_overlapping` removes labels touching 2022 |
+| 🟠 XLC first-day anomaly | Dropped 10.13x entry |
 
 ---
 
 ## Experiment Timeline
 
-### Phase 1: Simple Ranking Backtest (`run_backtest.py`)
+### Phase 1: Simple Ranking (`run_backtest.py`)
 
 Signals ranked cross-sectionally, buy Top 3 / short Bottom 3.
-
-**2023-01 → 2026-06 (1M holding):**
 
 | Signal | Ann Spread | t-stat | Win Rate |
 |--------|-----------|--------|----------|
@@ -40,107 +92,39 @@ Signals ranked cross-sectionally, buy Top 3 / short Bottom 3.
 
 **Key finding:** Weak. Momentum negative. Valuation marginal.
 
-### Phase 2: Robustness Audit on EPS Revision
+### Phase 2: EPS Revision Robustness
 
-Tested whether EPS revision alpha was real or an XLE artifact:
+Tested whether EPS revision alpha was an XLE artifact:
 
-| Variant | Top1 CAGR | vs SPY 16.1% |
-|---------|-----------|-------------|
+| Variant | Top1 CAGR | vs SPY |
+|---------|-----------|--------|
 | Original | +18.1% | ✅ |
 | PE>50 → NaN | +10.1% | ❌ |
 | **Exclude XLE** | **+10.7%** | **❌** |
 
-**Verdict:** Simple EPS revision alpha collapsed without XLE. The signal was
-dominated by Energy's PE denominator instability in 2020-2022.
+**Verdict:** Simple EPS revision collapsed without XLE.
 
-### Phase 3: Random Forest (`rf_backtest.py`)
+### Phase 3: RF Model Comparison (`rf_backtest.py`)
 
-Walk-forward expanding-window RF using 9 features (valuation, EPS revision,
-momentum variants, PE level/change, distance from high).
+Walk-forward RF with purge and next-day execution. **v2 results (same-close)**
+showed +21.7% CAGR / Sortino 2.13 but had execution bias.
 
-**2019-01 → 2026-06 — Model Comparison:**
+**v3 results (next-day execution): PENDING — run `rf_backtest.py`**
 
-| Model | CAGR | Sharpe | Sortino | MaxDD |
-|-------|------|--------|---------|-------|
-| QQQ | +23.5% | 1.14 | 1.93 | -33.1% |
-| **RF Top1 (no XLE)** | **+21.7%** | **1.03** | **2.13** | -22.1% |
-| SPY | +16.1% | 0.98 | 1.48 | -24.8% |
-| RF Top3 | +15.4% | 0.94 | 1.39 | -20.8% |
-| Ridge Top1 | +11.0% | 0.59 | 0.99 | -21.4% |
+### Phase 4: 5-Knife Audit (`rf_audit.py`)
 
-**Key finding:** RF survives XLE removal. Ridge dies. Non-linear interactions matter.
+**v3 results: PENDING — run `rf_audit.py`**
 
-### Phase 4: 5-Knife Audit (`rf_audit.py`) — **4/4 PASSED**
-
-| Test | Result | Status |
-|------|--------|--------|
-| **Purged walk-forward** (3M embargo) | CAGR +21.7%, Sharpe 1.03 | ✅ |
-| **Leave-one-sector-out** | Mean CAGR +14.1%, range +6.1%→+21.7% | ✅ |
-| **Exclude 2022** | CAGR +25.2% (better without it!) | ✅ |
-| **Placebo** (shuffled labels) | Real spread +13.0% vs placebo -0.2% | ✅ |
-
-#### Purge Impact
-```
-Without purge (leaky):  CAGR +35.1%, spread +41.7%
-With 3M purge:          CAGR +21.7%, spread +12.3%
-```
-The unpurged version had significant leakage. Purged results are ~40% lower but still strong.
-
-#### Leave-One-Sector-Out
-```
-excl XLK:   +9.2%   (most dependent)
-excl XLP:   +6.1%   (second most)
-excl XLF:  +14.8%
-excl XLY:  +12.2%
-mean:      +14.1%
-```
-No single sector removal kills the strategy (unlike simple EPS which died without XLE).
-
-#### OOS Permutation Importance
-```
-momentum 1M:    🔴 critical (spread drops from +13% to -5%)
-momentum 3M:    🔴 critical
-EPS revision:   🔴 critical
-pe_change:      🔴 critical
-valuation:      🟡 important
-pe_level:       ⚪ minor
-```
-Multiple features contribute — not single-variable alpha.
-
-#### Feature Importance Stability
-```
-eps_rev:     CV=0.25  ✅ stable
-mom3:        CV=0.22  ✅ stable
-mom1:        CV=0.30  ✅ stable
-valuation:   CV=0.54  ⚠️ unstable
-mom6:        CV=0.34  ⚠️ unstable
-```
+Previous v2 results (with bugs) showed 4/4 pass. v3 with all fixes may differ.
 
 ---
 
 ## Remaining Risks
 
-1. **Point-in-time PE data**: Koyfin f_pe may have been revised retroactively. This audit cannot address data integrity — only FactSet/Bloomberg PIT data can resolve this.
-
-2. **Short sample**: 89 months (2019-2026) is limited. Full sample (2005-2026) shows weaker but positive results.
-
-3. **XLK concentration**: RF Top1 picks XLK 26% of the time. Strategy partially functions as a "Tech timing model."
-
-4. **Sector universe**: Only 11 sectors. Cross-sectional breadth is inherently limited.
-
----
-
-## Current Assessment
-
-```
-Status: 🟢 Candidate signal — worth serious validation
-        NOT 🟢🟢 Proven alpha
-```
-
-The RF model captures non-linear interactions (EPS revision + momentum confirmation)
-that simple ranking and linear models miss. It survives purging, LOSO, year removal,
-and placebo tests. But 89-month OOS with questionable PE data quality means this
-needs real PIT data before any allocation decision.
+1. **Point-in-time PE**: Koyfin f_pe may have been revised retroactively
+2. **Short sample**: ~89 months OOS (2019-2026)
+3. **Sector concentration**: RF Top1 may favor XLK (~26%)
+4. **PE denominator instability**: EPS ≈ 0 → PE explodes → false EPS revision signal
 
 ---
 
@@ -149,42 +133,36 @@ needs real PIT data before any allocation decision.
 ### Code
 | File | Purpose |
 |------|---------|
-| `run_backtest.py` | Phase 1: Simple ranking backtest (val, eps_rev, momentum) |
-| `rf_backtest.py` | Phase 3: RF vs Ridge vs Simple — walk-forward comparison |
-| `rf_audit.py` | Phase 4: 5-knife audit (purge, LOSO, exclude 2022, permutation, placebo) |
+| `engine.py` | **Shared engine** — data, features, walk-forward, metrics |
+| `rf_audit.py` | 5-knife audit (purge, LOSO, excl-2022, permutation, placebo) |
+| `rf_backtest.py` | RF vs Ridge model comparison |
+| `run_backtest.py` | Phase 1: Simple ranking (legacy, standalone) |
 | `fetch_sector_data.py` | Data download utility |
 
 ### Data
-| File | Source |
-|------|--------|
-| `pe_data/*.csv` | Koyfin Forward PE (daily, 2003→2026) |
-| `pe_data/combined_legacy.csv` | Legacy MacroMicro Forward PE (monthly, 1999→2026) |
+| Dir | Contents |
+|-----|----------|
+| `pe_data/*.csv` | Koyfin Forward PE (daily) |
+| `pe_data/combined_legacy.csv` | Legacy MacroMicro PE |
+| `adj_prices/*.csv` | yfinance split-adjusted daily close (auto-generated) |
 
 ### Results
-| File | Contents |
-|------|----------|
-| `backtest_results.csv` | Simple ranking backtest results |
-| `rf_backtest_results.csv` | RF model comparison results |
-| `detail_*.csv` | Month-by-month position details |
+| File | Status |
+|------|--------|
+| `backtest_results.csv` | Phase 1 results |
+| `rf_backtest_results.csv` | v2 results (superseded) |
 
 ---
 
 ## Usage
 
 ```bash
-# Simple ranking backtest
-python3 run_backtest.py
-python3 run_backtest.py --start 2005-07 --holding 3
+# Download adjusted prices (first run only, ~30s)
+python3 -c "from engine import load_adjusted_prices; load_adjusted_prices()"
 
-# RF model comparison
+# Model comparison
 python3 rf_backtest.py
 
-# 5-knife audit (takes ~10 minutes)
+# 5-knife audit (~15-20 min due to 500 placebo iterations)
 python3 rf_audit.py
 ```
-
-## Data Sources
-
-- Forward PE: https://github.com/AlphaLabX1/forward-pe-viewer/tree/main/data
-- Koyfin migration: https://github.com/AlphaLabX1/forward-pe-viewer/commit/d289ca6
-- MacroMicro chart: https://en.macromicro.me/charts/48243/s5cond-forward-pe-ratio
