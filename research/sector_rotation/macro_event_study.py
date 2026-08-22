@@ -42,20 +42,23 @@ rise_mask = (ry_diff > ry_std)
 raw_drop_events = drop_mask[drop_mask].index
 raw_rise_events = rise_mask[rise_mask].index
 
-def decluster_events(dates, min_gap_days=5):
+daily = load_prices()
+spy_px = daily['SPY']['adj_close']
+trading_days = spy_px.index
+
+def decluster_events(dates, min_gap_trading_days=5):
     if len(dates) == 0: return dates
     clean = [dates[0]]
     for dt in dates[1:]:
-        if (dt - clean[-1]).days >= min_gap_days:
+        if dt not in trading_days or clean[-1] not in trading_days: continue
+        loc_curr = trading_days.get_loc(dt)
+        loc_prev = trading_days.get_loc(clean[-1])
+        if (loc_curr - loc_prev) >= min_gap_trading_days:
             clean.append(dt)
     return pd.DatetimeIndex(clean)
 
 drop_events = decluster_events(raw_drop_events)
 rise_events = decluster_events(raw_rise_events)
-
-daily = load_prices()
-spy_px = daily['SPY']['adj_close']
-trading_days = spy_px.index
 
 def get_event_returns(event_dates, label):
     results = []
@@ -76,7 +79,10 @@ def get_event_returns(event_dates, label):
         t5 = trading_days[loc + 5]
         t20 = trading_days[loc + 20]
         
-        res = {'date': t0, 'ry_diff': ry_diff.loc[t0]}
+        res = {'date': t0, 'ry_diff_0': ry_diff.loc[t0]}
+        
+        # Calculate what Real Yield did from Day 1 to Day 5 (T+5 value - T0 value)
+        res['ry_diff_1_to_5'] = ry_diff.loc[(ry_diff.index > t0) & (ry_diff.index <= t5)].sum()
         
         valid = True
         sec_px = {}
@@ -116,7 +122,7 @@ rise_df = get_event_returns(rise_events, "Yield Rise")
 
 print("="*80)
 print("⏱️  MACRO EVENT STUDY: REACTION TIME TO REAL YIELD SHOCKS")
-print("Using Past-252-Day Rolling 1 Std Dev Threshold & 5-Day Declustering")
+print("Using Past-252-Day Rolling 1 Std Dev Threshold & 5-Trading-Day Declustering")
 print(f"Median Daily Std Dev of Real Yield: {ry_std.median() * 100:.1f} bps")
 print("="*80)
 
@@ -140,9 +146,26 @@ def print_study(df, label, expected_dir):
     print(f"{'Day 1-5':<15s} | {d5:>18.1f} | {w5:>17.1f}%")
     print(f"{'Day 1-20':<15s} | {d20:>18.1f} | {w20:>17.1f}%")
 
-# For Drops, sensitive should beat rest (Spread > 0, so expected '+')
 print_study(drop_df, "REAL YIELD DROPS (Expected Spread: POSITIVE)", '+')
-
-# For Rises, sensitive should underperform rest (Spread < 0, so expected '-')
 print_study(rise_df, "REAL YIELD RISES (Expected Spread: NEGATIVE)", '-')
+
+print("\n" + "="*80)
+print("🔍 ASYMMETRY CHECK: IS IT DELAYED REACTION OR CONTINUED STIMULUS?")
+print("Sub-dividing the 1-5 Day horizon for Yield Drops based on future yield movement.")
+print("="*80)
+
+# Group 1: Yield continued to fall (stimulus continued)
+drop_cont = drop_df[drop_df['ry_diff_1_to_5'] < 0]
+# Group 2: Yield stopped falling or rose (stimulus stopped)
+drop_stop = drop_df[drop_df['ry_diff_1_to_5'] >= 0]
+
+def print_subgroup(df, label):
+    n = len(df)
+    d5 = df['Day5_Spread'].mean() * 10000
+    w5 = np.mean(df['Day5_Spread'] > 0) * 100
+    print(f"[{label}] N = {n:3d} | Mean Day 1-5 Spread: {d5:>6.1f} bps | Hit Rate: {w5:>4.1f}%")
+
+print_subgroup(drop_cont, "Group 1: Yield Continued to Drop  ")
+print_subgroup(drop_stop, "Group 2: Yield Stopped/Reversed   ")
+
 
