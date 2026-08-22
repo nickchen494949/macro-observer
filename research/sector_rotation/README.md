@@ -119,11 +119,11 @@ Tested whether EPS revision alpha was an XLE artifact:
 
 ### Phase 3: RF Model Comparison (`rf_backtest.py`)
 
-**v7 results: PENDING — run `rf_backtest.py`**
+**v8.1 results: PENDING — run `rf_backtest.py`**
 
 ### Phase 4: 5-Knife Audit (`rf_audit.py`)
 
-**v7 results: PENDING — run `rf_audit.py`**
+**v8.1 results: PENDING — run `rf_audit.py`**
 
 v7 pass criteria (7 checks, all excess-based):
 1. Top1 > aligned SPY

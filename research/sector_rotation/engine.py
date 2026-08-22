@@ -393,6 +393,7 @@ def walk_forward_purged(df, feat_xs, top_n=1, start='2019-01', end='2026-06',
 
     results = []
     rng = np.random.RandomState(permutation_seed)
+    first_deployed = False
 
     for pred_date in dates:
         test_all = df[df['date'] == pred_date].copy()
@@ -401,7 +402,8 @@ def walk_forward_purged(df, feat_xs, top_n=1, start='2019-01', end='2026-06',
         
         is_valid = test_all['universe_valid'].iloc[0] if ('universe_valid' in test_all and len(test_all) > 0) else True
 
-        train = df[df['target_exit_date'] <= pred_date].dropna(subset=feat_xs + ['target']).copy()
+        # v8.1 FIX: STRICT TRAIN UNIVERSE
+        train = df[(df['target_exit_date'] <= pred_date) & (df['universe_valid'])].dropna(subset=feat_xs + ['target']).copy()
         if train_start:
             ts = pd.Period(train_start, 'M').start_time
             train = train[train['date'] >= ts]
@@ -415,8 +417,16 @@ def walk_forward_purged(df, feat_xs, top_n=1, start='2019-01', end='2026-06',
 
         test = test_all.dropna(subset=feat_xs).copy()
 
-        # v8 FIX: If insufficient history or incomplete universe, strategy holds CASH. Calendar is preserved.
-        if not is_valid or len(train) < 100 or len(test) < 4:
+        has_data = len(train) >= 100 and len(test) >= 4
+        
+        if not first_deployed:
+            if is_valid and has_data:
+                first_deployed = True
+            else:
+                continue  # PRE-LAUNCH WARMUP -> Skip completely
+                
+        # Post-launch -> CASH if invalid
+        if not is_valid or not has_data:
             if pd.isna(month_entry) or pd.isna(month_exit):
                 t_ret, ew_ret = np.nan, np.nan
             else:
