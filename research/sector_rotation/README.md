@@ -43,20 +43,24 @@ No synthetic data.
 
 ---
 
-## Architecture (v3)
+## Architecture (v4)
 
 All scripts share a single `engine.py`:
 
 ```
 engine.py
-  ├── load_adjusted_prices()    ← yfinance auto_adjust=True, cached
-  ├── load_pe()                 ← Koyfin CSVs, XLC anomaly dropped
+  ├── load_prices()             ← TWO series per ticker:
+  │     ├── adj_close            — split + dividend adjusted (P&L, momentum)
+  │     └── split_adj_close      — split-only adjusted (EPS proxy)
+  ├── load_pe()                 ← Koyfin CSVs, XLC anomaly dropped, coverage reported
   ├── build_features()          ← explicit ratio (no pct_change NaN bug)
+  │     ├── EPS = split_adj_close / PE  (no dividend contamination)
+  │     ├── Momentum = adj_close        (total return)
   │     ├── PE capped at 50x
-  │     ├── EPS revision winsorized ±50%/±30%
-  │     └── exec_ret via daily prices (next-trading-day)
-  ├── walk_forward_purged()     ← 3M embargo, label-overlap exclusion
-  │     ├── cross-sectional placebo (shuffle within month)
+  │     └── exec_ret via daily adj_close (next-trading-day entry/exit)
+  ├── make_placebo_df()         ← fixed fake history per seed (cross-sectional)
+  ├── compute_benchmark_returns() ← same execution dates as strategy
+  ├── walk_forward_purged()     ← 3M embargo, exec-date year exclusion
   │     └── proper group permutation (shared row indices)
   └── calc_metrics()
 
@@ -65,16 +69,19 @@ rf_audit.py     ─── imports engine ─── 5-knife audit
 run_backtest.py ─── standalone Phase 1 (simple ranking, legacy)
 ```
 
-### Fixes Applied (v3)
+### Fixes Applied (v4)
 | Issue | Fix |
 |-------|-----|
-| 🔴 Same-close execution | `exec_ret` uses daily prices: entry at first trading day after signal |
-| 🔴 Raw close (split bug) | `yfinance auto_adjust=True` for all prices |
-| 🔴 `pct_change()` NaN ffill | Replaced with explicit `a / a.shift(n) - 1` |
-| 🔴 Placebo only 1 iteration | 500 iterations with per-iteration seeds |
+| 🔴 Same-close execution | `exec_ret` via daily prices: next-trading-day entry/exit |
+| 🔴 Split + dividend conflation | Two price series: `split_adj_close` for EPS, `adj_close` for P&L |
+| 🔴 `pct_change()` NaN ffill | Replaced with explicit `_safe_ratio()` |
+| 🔴 Placebo: 1 iter, reshuffled per month | 500 seeds, `make_placebo_df()` creates fixed fake history |
 | 🟠 Group permutation | Same row permutation for all features in group |
 | 🟠 Exclude-2022 training | `exclude_labels_overlapping` removes labels touching 2022 |
+| 🟠 Exclude-2022 test | Checks `entry_date`/`exit_date` overlap, not just signal year |
+| 🟠 Benchmark alignment | `compute_benchmark_returns()` uses exact same execution dates |
 | 🟠 XLC first-day anomaly | Dropped 10.13x entry |
+| 🟠 p-value formula | `(1 + n_ge) / (N + 1)` — conservative correction |
 
 ---
 
@@ -106,16 +113,21 @@ Tested whether EPS revision alpha was an XLE artifact:
 
 ### Phase 3: RF Model Comparison (`rf_backtest.py`)
 
-Walk-forward RF with purge and next-day execution. **v2 results (same-close)**
-showed +21.7% CAGR / Sortino 2.13 but had execution bias.
+Walk-forward RF with purge, next-trading-day execution, split-only EPS prices.
 
-**v3 results (next-day execution): PENDING — run `rf_backtest.py`**
+**v4 results: PENDING — run `rf_backtest.py`**
+
+(v2 results showed +21.7% CAGR but had same-close bias + dividend contamination in EPS)
 
 ### Phase 4: 5-Knife Audit (`rf_audit.py`)
 
-**v3 results: PENDING — run `rf_audit.py`**
+**v4 results: PENDING — run `rf_audit.py`**
 
-Previous v2 results (with bugs) showed 4/4 pass. v3 with all fixes may differ.
+v4 audit uses:
+- Split-only prices for EPS proxy
+- Fixed fake history per placebo seed
+- Execution-date overlap for 2022 exclusion
+- Aligned benchmark (same entry/exit dates)
 
 ---
 
