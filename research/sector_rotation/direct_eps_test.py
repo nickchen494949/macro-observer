@@ -20,11 +20,6 @@ pe, pe_cov = load_pe()
 STRICT_N = len(SECTORS) - 1
 df, _, _ = build_features(daily, (pe, pe_cov), exclude_tickers=['XLE'], execution_lag=2, strict_universe_n=STRICT_N)
 
-# Filter for STRICT UNIVERSE ONLY
-df = df[df['universe_valid']].copy()
-MASTER_START = df['date'].min().strftime('%Y-%m')
-df = df[df['date'] >= pd.Period(MASTER_START, 'M').start_time].copy()
-
 def _ratio(series, periods):
     shifted = series.shift(periods)
     res = series / shifted - 1
@@ -45,6 +40,11 @@ for t in df['ticker'].unique():
     signals.append(s)
 
 df_sig = pd.concat(signals)
+
+# Filter AFTER calculations
+valid_mask = df_sig['universe_valid']
+MASTER_START = df_sig[valid_mask]['date'].min().strftime('%Y-%m')
+df_sig = df_sig[(df_sig['date'] >= pd.Period(MASTER_START, 'M').start_time) & valid_mask].copy()
 
 results = []
 dates = sorted(df_sig['date'].unique())

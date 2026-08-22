@@ -33,9 +33,9 @@ for dt in sorted(dfs[2]['date'].unique()):
     if len(m1) == STRICT_N and len(m2) == STRICT_N and len(m3) == STRICT_N:
         valid_dates.append(dt)
 
-df_main = dfs[2][dfs[2]['date'].isin(valid_dates)].copy()
-df_lag1 = dfs[1][dfs[1]['date'].isin(valid_dates)].copy()
-df_lag3 = dfs[3][dfs[3]['date'].isin(valid_dates)].copy()
+df_main = dfs[2][dfs[2]['date'].isin(valid_dates)].sort_values(['date', 'ticker']).reset_index(drop=True)
+df_lag1 = dfs[1][dfs[1]['date'].isin(valid_dates)].sort_values(['date', 'ticker']).reset_index(drop=True)
+df_lag3 = dfs[3][dfs[3]['date'].isin(valid_dates)].sort_values(['date', 'ticker']).reset_index(drop=True)
 
 h1_mask = df_main['date'] <= '2022-12-31'
 h2_mask = df_main['date'] >= '2023-01-01'
