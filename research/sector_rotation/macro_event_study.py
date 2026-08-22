@@ -32,13 +32,26 @@ ry = ry.set_index('date')['value'].dropna()
 
 # Daily real yield changes
 ry_diff = ry.diff().dropna()
-ry_std = ry_diff.std()
+# Rolling 252-day std dev (shifted by 1 to be past-only)
+ry_std = ry_diff.rolling(252).std().shift(1)
 
-# Define shocks: > 1 std dev move in a single day
-# Drop means Real Yield went DOWN (ry_diff < -std) -> Sensitive sectors should OUTPERFORM (Spread > 0)
-drop_events = ry_diff[ry_diff < -ry_std].index
-# Rise means Real Yield went UP (ry_diff > std) -> Sensitive sectors should UNDERPERFORM (Spread < 0)
-rise_events = ry_diff[ry_diff > ry_std].index
+# Define shocks: > 1 std dev move in a single day based on PAST 1 YEAR
+drop_mask = (ry_diff < -ry_std)
+rise_mask = (ry_diff > ry_std)
+
+raw_drop_events = drop_mask[drop_mask].index
+raw_rise_events = rise_mask[rise_mask].index
+
+def decluster_events(dates, min_gap_days=5):
+    if len(dates) == 0: return dates
+    clean = [dates[0]]
+    for dt in dates[1:]:
+        if (dt - clean[-1]).days >= min_gap_days:
+            clean.append(dt)
+    return pd.DatetimeIndex(clean)
+
+drop_events = decluster_events(raw_drop_events)
+rise_events = decluster_events(raw_rise_events)
 
 daily = load_prices()
 spy_px = daily['SPY']['adj_close']
@@ -53,8 +66,8 @@ def get_event_returns(event_dates, label):
             
         loc = trading_days.get_loc(dt)
         
-        # Need enough forward data
-        if loc + 20 >= len(trading_days):
+        # Need enough forward data and past data
+        if loc + 20 >= len(trading_days) or loc - 1 < 0:
             continue
             
         t0 = trading_days[loc]
@@ -103,7 +116,8 @@ rise_df = get_event_returns(rise_events, "Yield Rise")
 
 print("="*80)
 print("⏱️  MACRO EVENT STUDY: REACTION TIME TO REAL YIELD SHOCKS")
-print(f"Daily Std Dev of Real Yield: {ry_std:.3f} bps (using 1 Std Dev Threshold)")
+print("Using Past-252-Day Rolling 1 Std Dev Threshold & 5-Day Declustering")
+print(f"Median Daily Std Dev of Real Yield: {ry_std.median() * 100:.1f} bps")
 print("="*80)
 
 def print_study(df, label, expected_dir):
