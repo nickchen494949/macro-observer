@@ -43,45 +43,46 @@ No synthetic data.
 
 ---
 
-## Architecture (v4)
-
-All scripts share a single `engine.py`:
+## Architecture (v5)
 
 ```
 engine.py
-  ├── load_prices()             ← TWO series per ticker:
-  │     ├── adj_close            — split + dividend adjusted (P&L, momentum)
-  │     └── split_adj_close      — split-only adjusted (EPS proxy)
-  ├── load_pe()                 ← Koyfin CSVs, XLC anomaly dropped, coverage reported
-  ├── build_features()          ← explicit ratio (no pct_change NaN bug)
+  ├── load_prices()             ← TWO series per ticker (CACHE_VERSION=5):
+  │     ├── split_adj_close      — Yahoo Close (already split-adjusted, no dividends)
+  │     └── adj_close            — Yahoo Adj Close (split + dividend adjusted)
+  ├── load_pe()                 ← Koyfin CSVs, coverage dict
+  ├── build_features()
   │     ├── EPS = split_adj_close / PE  (no dividend contamination)
   │     ├── Momentum = adj_close        (total return)
-  │     ├── PE capped at 50x
-  │     └── exec_ret via daily adj_close (next-trading-day entry/exit)
-  ├── make_placebo_df()         ← fixed fake history per seed (cross-sectional)
-  ├── compute_benchmark_returns() ← same execution dates as strategy
-  ├── walk_forward_purged()     ← 3M embargo, exec-date year exclusion
-  │     └── proper group permutation (shared row indices)
-  └── calc_metrics()
+  │     ├── _safe_ratio()               (explicit, no pct_change NaN)
+  │     └── exec_ret + entry_date/exit_date via daily adj_close
+  ├── common_feature_start()    ← auto-detect fixed universe start
+  ├── compute_benchmark_aligned() ← reuses exact strategy entry/exit dates
+  ├── make_placebo_df()         ← fixed fake history per seed
+  └── walk_forward_purged()     ← returns entry/exit dates per row
 
-rf_backtest.py  ─── imports engine ─── model comparison
-rf_audit.py     ─── imports engine ─── 5-knife audit
-run_backtest.py ─── standalone Phase 1 (simple ranking, legacy)
+rf_backtest.py  ─── model comparison (imports engine)
+rf_audit.py     ─── 5-knife audit (imports engine)
+run_backtest.py ─── Phase 1 legacy (standalone)
 ```
 
-### Fixes Applied (v4)
+### Fixes (v5 cumulative)
 | Issue | Fix |
 |-------|-----|
-| 🔴 Same-close execution | `exec_ret` via daily prices: next-trading-day entry/exit |
-| 🔴 Split + dividend conflation | Two price series: `split_adj_close` for EPS, `adj_close` for P&L |
-| 🔴 `pct_change()` NaN ffill | Replaced with explicit `_safe_ratio()` |
-| 🔴 Placebo: 1 iter, reshuffled per month | 500 seeds, `make_placebo_df()` creates fixed fake history |
-| 🟠 Group permutation | Same row permutation for all features in group |
-| 🟠 Exclude-2022 training | `exclude_labels_overlapping` removes labels touching 2022 |
-| 🟠 Exclude-2022 test | Checks `entry_date`/`exit_date` overlap, not just signal year |
-| 🟠 Benchmark alignment | `compute_benchmark_returns()` uses exact same execution dates |
-| 🟠 XLC first-day anomaly | Dropped 10.13x entry |
-| 🟠 p-value formula | `(1 + n_ge) / (N + 1)` — conservative correction |
+| 🔴 Same-close | Next-trading-day entry/exit via daily prices |
+| 🔴 Double split adjust | Yahoo Close IS split-adjusted; removed manual `tk.splits` math |
+| 🔴 Dividend in EPS | `split_adj_close` (no dividends) for EPS proxy |
+| 🔴 `pct_change` NaN | `_safe_ratio()` explicit |
+| 🔴 Placebo 1 iter / reshuffled | `make_placebo_df()` fixed history per seed, 500 seeds |
+| 🔴 Benchmark not aligned | `compute_benchmark_aligned()` reuses exact strategy dates |
+| 🟠 Pass criteria absolute | Now excess-based: Top1 vs SPY, vs EW, Rank IC |
+| 🟠 Group permutation | Same row perm for grouped features |
+| 🟠 Strict 2022 test | Checks entry/exit date overlap with excluded year |
+| 🟠 Strict 2022 train | Removes labels whose 3M horizon touches excluded year |
+| 🟠 Fixed universe | `common_feature_start()` auto-detects |
+| 🟠 XLC anomaly | First-day 10.13x dropped |
+| 🟠 p-value formula | `(1+n_ge)/(N+1)` conservative |
+| 🟠 Cache versioning | `CACHE_VERSION=5` auto-invalidates old data |
 
 ---
 
@@ -113,21 +114,22 @@ Tested whether EPS revision alpha was an XLE artifact:
 
 ### Phase 3: RF Model Comparison (`rf_backtest.py`)
 
-Walk-forward RF with purge, next-trading-day execution, split-only EPS prices.
+Walk-forward RF with purge, next-trading-day execution, split-only EPS.
 
-**v4 results: PENDING — run `rf_backtest.py`**
-
-(v2 results showed +21.7% CAGR but had same-close bias + dividend contamination in EPS)
+**v5 results: PENDING — run `rf_backtest.py`**
 
 ### Phase 4: 5-Knife Audit (`rf_audit.py`)
 
-**v4 results: PENDING — run `rf_audit.py`**
+**v5 results: PENDING — run `rf_audit.py`**
 
-v4 audit uses:
-- Split-only prices for EPS proxy
-- Fixed fake history per placebo seed
-- Execution-date overlap for 2022 exclusion
-- Aligned benchmark (same entry/exit dates)
+v5 pass criteria (excess-based):
+- Top1 > aligned SPY
+- Top1 > EW sectors
+- Mean Rank IC > 0
+- LOSO mean excess > 0
+- Strict excl-2022 excess > 0
+- Placebo spread p < 0.05
+- Placebo Top1-EW p < 0.05
 
 ---
 

@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """
-🌲 Model Comparison v4 — Uses engine.py v4
-============================================
-RF vs Ridge, with aligned benchmarks and all v4 fixes.
+🌲 Model Comparison v5 — Uses engine.py v5
 """
 
 import sys, os
@@ -11,17 +9,16 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
 import pandas as pd
 from engine import (
-    load_prices, load_pe, build_features,
-    walk_forward_purged, compute_benchmark_returns,
+    load_prices, load_pe, build_features, common_feature_start,
+    walk_forward_purged, compute_benchmark_aligned,
     calc_metrics, fmt_metrics,
     SECTORS, NAMES, HDR, SEP,
 )
 
-START = '2019-01'
 END = '2026-06'
 
 print('=' * 90)
-print('🌲 MODEL COMPARISON v4 — Walk-Forward OOS')
+print('🌲 MODEL COMPARISON v5')
 print('=' * 90)
 
 print('\n[1] Loading prices...')
@@ -31,32 +28,38 @@ pe, pe_cov = load_pe()
 print('\n[2] Building features...')
 df_all, feat_xs, _ = build_features(daily, (pe, pe_cov))
 df_noXLE, _, _ = build_features(daily, (pe, pe_cov), exclude_tickers=['XLE'])
+
+# Auto-detect start
+tickers_noXLE = [t for t in SECTORS if t != 'XLE']
+auto_start = common_feature_start(df_noXLE, feat_xs, len(tickers_noXLE))
+START = auto_start.strftime('%Y-%m') if auto_start else '2019-06'
+print(f'  Fixed universe start: {START}')
 print(f'  All: {len(df_all):,d} | No XLE: {len(df_noXLE):,d}')
 
-# ── Models ──
 configs = [
     ('RF Top3',            'rf',    df_all,   3),
     ('RF Top1',            'rf',    df_all,   1),
     ('RF Top3 (no XLE)',   'rf',    df_noXLE, 3),
     ('RF Top1 (no XLE)',   'rf',    df_noXLE, 1),
-    ('Ridge Top3',         'ridge', df_all,   3),
     ('Ridge Top1',         'ridge', df_all,   1),
     ('Ridge Top1 (no XLE)','ridge', df_noXLE, 1),
 ]
 
 print(f'\n[3] Running ({START}→{END})...\n')
+
+# Get aligned benchmark dates from a reference run
+rdf_ref = walk_forward_purged(df_noXLE, feat_xs, top_n=1, start=START, end=END)
+
 print(HDR)
 print(SEP)
-
-# Aligned benchmarks (run one RF first to get signal dates)
-rdf_ref = walk_forward_purged(df_noXLE, feat_xs, top_n=1, start=START, end=END)
-sig_dates = sorted(rdf_ref['date'].unique()) if len(rdf_ref) > 0 else []
-
-spy_ret = compute_benchmark_returns(daily, sig_dates, 'SPY')
-qqq_ret = compute_benchmark_returns(daily, sig_dates, 'QQQ')
-for ticker, ret in [('SPY', spy_ret), ('QQQ', qqq_ret)]:
-    m = calc_metrics(ret, f'{ticker} (aligned)')
+spy_ret = compute_benchmark_aligned(daily, rdf_ref, 'SPY')
+qqq_ret = compute_benchmark_aligned(daily, rdf_ref, 'QQQ')
+for tk, ret in [('SPY', spy_ret), ('QQQ', qqq_ret)]:
+    m = calc_metrics(ret, f'{tk} (aligned)')
     if m: print(fmt_metrics(m))
+
+m_ew = calc_metrics(rdf_ref['ew'], 'EW sectors')
+if m_ew: print(fmt_metrics(m_ew))
 print(SEP)
 
 for name, model_type, data, top_n in configs:
@@ -66,10 +69,10 @@ for name, model_type, data, top_n in configs:
         continue
     m = calc_metrics(rdf['top_ret'], name)
     if m:
-        xle_n = (rdf['top1'] == 'XLE').sum() if top_n == 1 else rdf['picks'].str.contains('XLE').sum()
+        xle_n = (rdf['picks'].str.contains('XLE')).sum()
         print(fmt_metrics(m) + f'  XLE:{xle_n}/{m["n"]}')
 
-# ── Annual breakdown ──
+# Annual breakdown
 print(f'\n{"=" * 90}')
 print('📅 ANNUAL (RF Top1 no XLE)')
 print('=' * 90)
