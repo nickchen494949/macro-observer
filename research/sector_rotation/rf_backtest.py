@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🌲 Model Comparison v7 (Final-Clean)
+🌲 Model Comparison v8 (Final Run)
 """
 
 import sys, os
@@ -18,14 +18,13 @@ from engine import (
 END = '2026-06'
 
 print('=' * 90)
-print('🌲 MODEL COMPARISON v7 (Final-Clean)')
+print('🌲 MODEL COMPARISON v8 (Final Run)')
 print('=' * 90)
 
 print('\n[1] Loading prices...')
 daily = load_prices()
 pe, pe_cov = load_pe()
 
-# Enforce strict universes
 ALL_N = len(SECTORS)
 NO_XLE_N = len(SECTORS) - 1
 
@@ -37,11 +36,12 @@ df_noXLE, _, _ = build_features(
     daily, (pe, pe_cov), exclude_tickers=['XLE'], execution_lag=2, strict_universe_n=NO_XLE_N
 )
 
-# Use the strict start date of the noXLE universe (which will be >= ALL universe start)
-START_STR = df_noXLE['date'].min().strftime('%Y-%m')
-print(f'  Strict universe start: {START_STR}')
+# Enforce exact same history for all variants based on noXLE's max history
+valid_dates = df_noXLE[df_noXLE['universe_valid']]['date']
+MASTER_START = valid_dates.min().strftime('%Y-%m')
+print(f'  Common Master start: {MASTER_START}')
 
-WF = dict(start=START_STR, end=END)
+WF_KWARGS = dict(start=MASTER_START, end=END, train_start=MASTER_START)
 
 configs = [
     ('RF Top3',            'rf',    df_all,   3),
@@ -52,10 +52,10 @@ configs = [
     ('Ridge Top1 (no XLE)','ridge', df_noXLE, 1),
 ]
 
-print(f'\n[3] Running ({START_STR}→{END})...\n')
+print(f'\n[3] Running ({MASTER_START}→{END})...\n')
 
-# Aligned benchmark (using noXLE top1 as reference dates)
-rdf_ref = walk_forward_purged(df_noXLE, feat_xs, top_n=1, **WF)
+# We use noXLE as the calendar reference (it will have missing=CASH for missing months)
+rdf_ref = walk_forward_purged(df_noXLE, feat_xs, top_n=1, **WF_KWARGS)
 
 print(HDR)
 print(SEP)
@@ -64,19 +64,25 @@ qqq_ret = compute_benchmark_aligned(daily, rdf_ref, 'QQQ')
 for tk, ret in [('SPY', spy_ret), ('QQQ', qqq_ret)]:
     m = calc_metrics(ret, f'{tk} (aligned)')
     if m: print(fmt_metrics(m))
+
+# EW is already computed across available sectors in the reference configuration
 m_ew = calc_metrics(rdf_ref['ew'], 'EW sectors')
 if m_ew: print(fmt_metrics(m_ew))
 print(SEP)
 
 for name, model_type, data, top_n in configs:
-    rdf = walk_forward_purged(data, feat_xs, top_n=top_n, **WF, model_type=model_type)
+    rdf = walk_forward_purged(data, feat_xs, top_n=top_n, **WF_KWARGS, model_type=model_type)
     if len(rdf) == 0: continue
+    
+    # We drop CASH placeholders to count the true active predictions for Picks logging
+    active_rdf = rdf.dropna(subset=['spread'])
+    
     m = calc_metrics(rdf['top_ret'], name)
     if m:
-        xle_n = rdf['picks'].str.contains('XLE').sum()
-        print(fmt_metrics(m) + f'  XLE:{xle_n}/{m["n"]}')
+        xle_n = active_rdf['picks'].str.contains('XLE').sum() if len(active_rdf) > 0 else 0
+        print(fmt_metrics(m) + f'  XLE:{xle_n}/{len(active_rdf)}')
 
-# Annual
+# Annual breakdown
 print(f'\n{"=" * 90}')
 print('📅 ANNUAL (RF Top1 no XLE)')
 print('=' * 90)
@@ -86,11 +92,17 @@ if len(rdf_ref) > 0:
     print(f"\n  {'Year':<6s} {'TopRet':>8s} {'EW':>8s} {'Spread':>8s} {'WR':>5s} {'IC':>7s}")
     print('  ' + '─' * 45)
     for year, g in rdf_ref.groupby('year'):
+        # For annual breakdown, mean * 12 needs caution because N may be < 12
+        # So we sum returns for the year to be exact, or keep using annualized average.
         tr = g['top_ret'].mean() * 12
         ew = g['ew'].mean() * 12
-        sp = g['spread'].mean() * 12
-        wr = (g['spread'] > 0).mean()
-        ic = g['ic'].dropna().mean()
+        
+        # Spread is NaN for CASH months, drop them for spread/wr/ic stats
+        g_active = g.dropna(subset=['spread'])
+        sp = g_active['spread'].mean() * 12 if len(g_active) > 0 else np.nan
+        wr = (g_active['spread'] > 0).mean() if len(g_active) > 0 else np.nan
+        ic = g_active['ic'].dropna().mean() if len(g_active) > 0 else np.nan
+        
         print(f"  {year:<6d} {tr*100:+7.1f}% {ew*100:+7.1f}% {sp*100:+7.1f}% "
               f"{wr*100:4.0f}% {ic:+6.3f}")
 

@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
 """
-Sector Rotation Engine v7 (Final-Clean)
+Sector Rotation Engine v8 (Final Run)
 
-v7 features:
-  1. 🔴 T+2 Execution: entry/exit shifted by execution_lag (default 2)
-  2. 🔴 Target/Execution alignment: target is exactly entry_date to target_exit_date
-  3. 🔴 Exact Purge: train = train[train.target_exit_date <= information_asof]
-  4. 🟠 Symmetric Forward Earnings Momentum: 2*(E_t - E_t-n)/(|E_t| + |E_t-n|)
-  5. 🟠 Strict Universe Enforced: drops months < N sectors automatically
-  6. 🟠 Placebo NaN Fix: shuffle only .notna() targets
-  7. 🟠 Sortino Fix: downside deviation using min(r, 0)^2
-  8. 🟠 Cache Version: bumped to 7
+v8 fixes:
+  1. Missing Universe = CASH: Instead of dropping months with incomplete data
+     (which compresses time and inflates CAGR), we hold CASH (0%) for that month.
+  2. Common Train History: train_start rigorously applied to all subsets (LOSO, etc)
+     so that all models learn from the exact same historical timeframe.
 """
 
 import os, warnings
@@ -21,7 +17,7 @@ from sklearn.linear_model import Ridge
 
 warnings.filterwarnings('ignore')
 
-CACHE_VERSION = 7
+CACHE_VERSION = 8
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.abspath(os.path.join(_DIR, '..', '..'))
@@ -52,7 +48,6 @@ NAMES = {
     'XLV': 'Hlth',
 }
 
-# v7: Renamed to fwd_earn_mom
 FEAT_COLS = [
     'f_valuation', 'f_fwd_earn_mom_3m', 'f_fwd_earn_mom_1m',
     'f_mom6', 'f_mom3', 'f_mom1',
@@ -178,10 +173,6 @@ def _safe_ratio(series, periods):
 
 
 def _symmetric_change(series, periods):
-    """
-    v7: 2 * (E_t - E_t-n) / (|E_t| + |E_t-n|)
-    Naturally bounded [-2, 2], prevents explosion near 0.
-    """
     prev = series.shift(periods)
     denom = series.abs() + prev.abs()
     out = 2 * (series - prev) / denom
@@ -190,9 +181,6 @@ def _symmetric_change(series, periods):
 
 
 def build_features(daily_prices, pe, exclude_tickers=None, execution_lag=2, strict_universe_n=None):
-    """
-    v7 execution_lag: default=2 for T+2 entry to allow Koyfin PIT stabilization.
-    """
     tickers = [t for t in SECTORS if t not in (exclude_tickers or [])]
     pe_data = pe[0] if isinstance(pe, tuple) else pe
 
@@ -225,12 +213,10 @@ def build_features(daily_prices, pe, exclude_tickers=None, execution_lag=2, stri
         s['f_valuation'] = -s['fpe'].rolling(24, min_periods=12).apply(
             lambda x: (x.iloc[-1] - x.mean()) / (x.std() + 1e-9))
 
-        # Forward Earnings Momentum (symmetric change)
         s['fwd_eps'] = s['close_eps'] / s['fpe']
         s['f_fwd_earn_mom_3m'] = _symmetric_change(s['fwd_eps'], 3)
         s['f_fwd_earn_mom_1m'] = _symmetric_change(s['fwd_eps'], 1)
 
-        # Total return momentum
         s['f_mom6'] = _safe_ratio(s['close'], 6)
         s['f_mom3'] = _safe_ratio(s['close'], 3)
         s['f_mom1'] = _safe_ratio(s['close'], 1)
@@ -243,9 +229,6 @@ def build_features(daily_prices, pe, exclude_tickers=None, execution_lag=2, stri
 
     df = pd.concat(all_feat, ignore_index=True)
 
-    # ═════════════════════════════════════════════════════
-    # EXECUTION + EXACT ALIGNED TARGET (v7)
-    # ═════════════════════════════════════════════════════
     df['entry_date'] = pd.NaT
     df['exit_date'] = pd.NaT
     df['target_exit_date'] = pd.NaT
@@ -294,11 +277,9 @@ def build_features(daily_prices, pe, exclude_tickers=None, execution_lag=2, stri
                 if pd.notna(entry_px) and pd.notna(tgt_px) and entry_px > 0:
                     df.loc[mask, 'target_ret_raw'] = tgt_px / entry_px - 1
 
-    # Cross-sectional median target
     df['target_ret_median'] = df.groupby('date')['target_ret_raw'].transform('median')
     df['target'] = df['target_ret_raw'] - df['target_ret_median']
 
-    # Cross-sectional z-score
     feat_xs = []
     for c in FEAT_COLS:
         zc = c + '_xs'
@@ -306,13 +287,11 @@ def build_features(daily_prices, pe, exclude_tickers=None, execution_lag=2, stri
             lambda x: (x - x.mean()) / (x.std() + 1e-9) if x.std() > 0 else 0)
         feat_xs.append(zc)
 
-    # ═════════════════════════════════════════════════════
-    # STRICT UNIVERSE (v7): enforce completeness
-    # ═════════════════════════════════════════════════════
+    # v8 FIX: Don't drop incomplete months, mark them. We will output CASH instead of skipping time.
+    df['universe_valid'] = True
     if strict_universe_n:
         counts = df.dropna(subset=feat_xs).groupby('date')['ticker'].nunique()
-        valid_dates = counts[counts >= strict_universe_n].index
-        df = df[df['date'].isin(valid_dates)].copy()
+        df['universe_valid'] = df['date'].map(counts >= strict_universe_n).fillna(False)
 
     return df, feat_xs, daily_prices
 
@@ -322,7 +301,6 @@ def build_features(daily_prices, pe, exclude_tickers=None, execution_lag=2, stri
 # ══════════════════════════════════════════════════
 
 def compute_benchmark_aligned(daily_prices, strategy_results, ticker='SPY'):
-    """Strict: uses exact entry/exit from strategy_results."""
     if ticker not in daily_prices:
         raise RuntimeError(f'Benchmark {ticker} not in daily_prices')
 
@@ -360,7 +338,6 @@ def compute_benchmark_aligned(daily_prices, strategy_results, ticker='SPY'):
 # ══════════════════════════════════════════════════
 
 def make_placebo_df(df, seed):
-    """v7: Shuffle ONLY valid non-NaN targets within each month."""
     rng = np.random.RandomState(seed)
     df_p = df.copy()
     for dt in df_p['date'].unique():
@@ -376,13 +353,16 @@ def make_placebo_df(df, seed):
 # ══════════════════════════════════════════════════
 
 def walk_forward_purged(df, feat_xs, top_n=1, start='2019-01', end='2026-06',
+                        train_start=None,
                         exclude_years_test=None,
                         exclude_labels_overlapping=None,
                         shuffle_features=None,
                         permutation_seed=42,
                         model_type='rf'):
     """
-    v7 exact purge: train = df[df.target_exit_date <= pred_date]
+    v8 fixes:
+    1. train_start to fix historical universe explicitly.
+    2. Missing valid universe -> strategy holds CASH (0%), keeps calendar contiguous.
     """
     dates = sorted(df['date'].unique())
     dates = _filter_dates_by_month(dates, start, end)
@@ -415,11 +395,16 @@ def walk_forward_purged(df, feat_xs, top_n=1, start='2019-01', end='2026-06',
     rng = np.random.RandomState(permutation_seed)
 
     for pred_date in dates:
-        # ═════════════════════════════════════════════════════
-        # EXACT PURGE (v7)
-        # Training target_exit_date must be <= pred_date (fully realized)
-        # ═════════════════════════════════════════════════════
+        test_all = df[df['date'] == pred_date].copy()
+        month_entry = test_all['entry_date'].dropna().max() if len(test_all) > 0 else pd.NaT
+        month_exit = test_all['exit_date'].dropna().max() if len(test_all) > 0 else pd.NaT
+        
+        is_valid = test_all['universe_valid'].iloc[0] if ('universe_valid' in test_all and len(test_all) > 0) else True
+
         train = df[df['target_exit_date'] <= pred_date].dropna(subset=feat_xs + ['target']).copy()
+        if train_start:
+            ts = pd.Period(train_start, 'M').start_time
+            train = train[train['date'] >= ts]
 
         if exclude_labels_overlapping:
             for ey in exclude_labels_overlapping:
@@ -428,9 +413,28 @@ def walk_forward_purged(df, feat_xs, top_n=1, start='2019-01', end='2026-06',
                 overlap = (train['entry_date'] <= ye) & (train['target_exit_date'] >= ys)
                 train = train[~overlap]
 
-        test = df[df['date'] == pred_date].dropna(subset=feat_xs).copy()
+        test = test_all.dropna(subset=feat_xs).copy()
 
-        if len(train) < 100 or len(test) < 4:
+        # v8 FIX: If insufficient history or incomplete universe, strategy holds CASH. Calendar is preserved.
+        if not is_valid or len(train) < 100 or len(test) < 4:
+            if pd.isna(month_entry) or pd.isna(month_exit):
+                t_ret, ew_ret = np.nan, np.nan
+            else:
+                t_ret = 0.0  # CASH
+                ew_ret = test_all['exec_ret'].mean() if len(test_all) > 0 else 0.0
+            
+            results.append({
+                'date': pred_date,
+                'entry_date': month_entry,
+                'exit_date': month_exit,
+                'top_ret': t_ret,
+                'bot_ret': t_ret,
+                'spread': np.nan,
+                'ew': ew_ret,
+                'ic': np.nan,
+                'top1': 'CASH',
+                'picks': 'CASH',
+            })
             continue
 
         X_tr = train[feat_xs].values.copy()
@@ -462,7 +466,8 @@ def walk_forward_purged(df, feat_xs, top_n=1, start='2019-01', end='2026-06',
 
         top_ret = top['exec_ret'].mean() if top['exec_ret'].notna().any() else np.nan
         bot_ret = bot['exec_ret'].mean() if bot['exec_ret'].notna().any() else np.nan
-        ew = test['exec_ret'].mean()
+        ew = test_all['exec_ret'].mean() if len(test_all) > 0 else 0.0
+        
         valid = test.dropna(subset=['exec_ret'])
         ic = stats.spearmanr(valid['pred'], valid['exec_ret'])[0] if len(valid) >= 5 else np.nan
 
@@ -496,7 +501,6 @@ def calc_metrics(rets, label=''):
     cagr = cum.iloc[-1] ** (1 / years) - 1 if years > 0 else 0
     vol = r.std() * np.sqrt(12)
     sharpe = (r.mean() * 12) / vol if vol > 0 else 0
-    # v7 Sortino fix: downside deviation using min(r, 0)^2
     downside = np.minimum(r.values, 0.0)
     dv = np.sqrt(np.mean(downside ** 2)) * np.sqrt(12)
     sortino = (r.mean() * 12) / dv if dv > 0 else 0

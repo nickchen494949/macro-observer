@@ -55,21 +55,25 @@ engine.py (CACHE_VERSION=7)
   │     ├── Forward Earnings Momentum = symmetric change 2*(E_t - E_t-n)/(|E_t| + |E_t-n|)
   │     ├── execution_lag=2     (T+2 entry allows Koyfin PE finalization)
   │     ├── target_ret_raw      (aligned: T+2 entry → next T+2 exit)
-  │     └── strict_universe_n   (drops months < N sectors completely)
+  │     └── strict_universe_n   (flags incomplete months)
   ├── compute_benchmark_aligned() ← strict date match, raises on mismatch
   ├── make_placebo_df()         ← fixed fake history per seed, skips NaNs
   └── walk_forward_purged()
         ├── exact purge         (train = train[target_exit_date <= information_asof])
         ├── start/end by month Period
+        ├── train_start         (strictly bounds historical training universe for all configs)
+        ├── calendar preserved  (missing/invalid universe months yield 0.0 CASH return)
         └── deterministic permutation_seed parameter
 
 rf_backtest.py  ─── model comparison (strict universe)
 rf_audit.py     ─── 5-knife audit (tests T+1, T+2, T+3 lags)
 ```
 
-### Fixes (v7 cumulative)
+### Fixes (v8 cumulative)
 | Issue | Fix |
 |-------|-----|
+| 🔴 Missing Univ = 0% | Incomplete months yield 0.0 CASH, preserving calendar N vs SPY |
+| 🔴 Shared History | `train_start` strictly bounds historical training pool across all config variants |
 | 🔴 T+2 Execution | `execution_lag=2` allows Koyfin PIT stabilization |
 | 🔴 Exact Target/Purge | Target perfectly aligned to execution; exact date-based purge |
 | 🔴 Double split adjust | Yahoo Close IS split-adjusted; no manual splits |
@@ -80,7 +84,6 @@ rf_audit.py     ─── 5-knife audit (tests T+1, T+2, T+3 lags)
 | 🔴 Benchmark aligned | `compute_benchmark_aligned()` strict date match |
 | 🔴 Permutation logic | 30 true repeats, grouped features use same row perm |
 | 🟠 Fwd Earn Momentum | Symmetric change bounds values [-2, 2], prevents explosion |
-| 🟠 Strict Universe | Enforced inside `build_features`, drops incomplete months |
 | 🟠 Sortino Formula | Standard downside deviation: `min(r, 0)^2` |
 | 🟠 Placebo NaNs | Shuffles only `.notna()` targets |
 | 🟠 Pass criteria | Excess-based: Top1 vs SPY, vs EW, IC, LOSO, placebo |
@@ -172,7 +175,7 @@ v7 pass criteria (7 checks, all excess-based):
 
 ```bash
 # Download adjusted prices (first run only, ~30s)
-python3 -c "from engine import load_adjusted_prices; load_adjusted_prices()"
+python3 -c "from engine import load_prices; load_prices()"
 
 # Model comparison
 python3 rf_backtest.py

@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """
-🔪 5-KNIFE AUDIT v7 (Final-Clean)
+🔪 5-KNIFE AUDIT v8 (Final Run)
 
-v7 fixes:
-  1. T+1, T+2, T+3 execution lag tested in baseline
-  2. Uses Strict Universe globally
-  3. Proper permutation seed spacing
+v8 fixes:
+  1. Strict Universe: CASH holding for missing months
+  2. train_start passed cleanly everywhere
 """
 
 import sys, os
@@ -25,7 +24,7 @@ N_PLACEBO = 500
 N_PERM = 30
 
 print('=' * 90)
-print('🔪 5-KNIFE AUDIT v7 (Final-Clean)')
+print('🔪 5-KNIFE AUDIT v8 (Final Run)')
 print('=' * 90)
 
 # ── Load ──
@@ -43,19 +42,19 @@ df_noXLE, feat_xs, _ = build_features(
     daily, (pe, pe_cov), exclude_tickers=excl, execution_lag=2, strict_universe_n=STRICT_N
 )
 
-# Start is just the min date now because build_features enforced strict_universe_n
-START_STR = df_noXLE['date'].min().strftime('%Y-%m')
-print(f'  Strict universe start: {START_STR}')
+# Start is just the min date now because build_features flagged universe_valid
+valid_dates = df_noXLE[df_noXLE['universe_valid']]['date']
+MASTER_START = valid_dates.min().strftime('%Y-%m')
+print(f'  Master start (common train_start): {MASTER_START}')
 print(f'  Rows: {len(df_noXLE):,d}')
 
-WF_KWARGS = dict(start=START_STR, end=END)
-
+WF_KWARGS = dict(start=MASTER_START, end=END, train_start=MASTER_START)
 
 # ═══════════════════════════════════════════════
 # KNIFE 1: Baseline Lags + Aligned Benchmarks
 # ═══════════════════════════════════════════════
 print(f'\n{"=" * 90}')
-print(f'🔪 KNIFE 1: Baseline Execution Lags ({START_STR}→{END})')
+print(f'🔪 KNIFE 1: Baseline Execution Lags ({MASTER_START}→{END})')
 print('=' * 90)
 print()
 print(HDR)
@@ -158,7 +157,9 @@ print(f'\n{"=" * 90}')
 print(f'🔪 KNIFE 4: Permutation Importance ({N_PERM} repeats per group)')
 print('=' * 90)
 
-base_spread = rdf_t1['spread'].mean() * 12
+# valid picks only for spread base
+v_base = rdf_t1.dropna(subset=['spread'])
+base_spread = v_base['spread'].mean() * 12
 print(f'  Baseline spread: {base_spread*100:+.1f}%\n')
 
 feature_groups = {
@@ -178,14 +179,13 @@ feature_groups = {
 for group_id, (gname, feats) in enumerate(feature_groups.items()):
     drops = []
     for rep in range(N_PERM):
-        # v7: robust deterministic seed without hash()
         seed = group_id * 10000 + rep
         rdf_shuf = walk_forward_purged(
             df_noXLE, feat_xs, top_n=1, **WF_KWARGS,
             shuffle_features=feats,
             permutation_seed=seed,
         )
-        shuf_sp = rdf_shuf['spread'].mean() * 12
+        shuf_sp = rdf_shuf['spread'].dropna().mean() * 12
         drops.append(base_spread - shuf_sp)
 
     mean_d = np.mean(drops)
@@ -202,7 +202,7 @@ print(f'\n{"=" * 90}')
 print(f'🔪 KNIFE 5: Placebo ({N_PLACEBO} seeds)')
 print('=' * 90)
 
-base_top_ew = (rdf_t1['top_ret'] - rdf_t1['ew']).mean() * 12
+base_top_ew = (v_base['top_ret'] - v_base['ew']).mean() * 12
 print(f'  Baseline spread:   {base_spread*100:+.1f}%')
 print(f'  Baseline Top1-EW:  {base_top_ew*100:+.1f}%')
 print(f'  Running...', flush=True)
@@ -212,8 +212,9 @@ placebo_te = []
 for i in range(N_PLACEBO):
     df_fake = make_placebo_df(df_noXLE, seed=i)
     rdf_p = walk_forward_purged(df_fake, feat_xs, top_n=1, **WF_KWARGS)
-    placebo_sp.append(rdf_p['spread'].mean() * 12)
-    placebo_te.append((rdf_p['top_ret'] - rdf_p['ew']).mean() * 12)
+    v_p = rdf_p.dropna(subset=['spread'])
+    placebo_sp.append(v_p['spread'].mean() * 12)
+    placebo_te.append((v_p['top_ret'] - v_p['ew']).mean() * 12)
     if (i + 1) % 100 == 0:
         print(f'    {i+1}/{N_PLACEBO}...', flush=True)
 
@@ -237,7 +238,7 @@ print(f'  p = {p_te:.4f}')
 # VERDICT
 # ═══════════════════════════════════════════════
 print(f'\n{"=" * 90}')
-print('📋 VERDICT (v7 — final clean)')
+print('📋 VERDICT (v8 — final clean)')
 print('=' * 90)
 
 excess_spy = (m_t1['cagr'] - m_spy['cagr']) if m_t1 and m_spy else -1
@@ -262,10 +263,10 @@ for name, ok, detail in checks:
 
 print(f'\n  Score: {passed}/{len(checks)}')
 if passed == len(checks):
-    print('  → 🟢 Candidate signal (v7 clean)')
+    print('  → 🟢 Candidate signal (v8 clean)')
 elif passed >= len(checks) - 1:
     print('  → 🟡 Promising')
 else:
     print('  → 🔴 Weakened or dead')
 
-print('\n✅ v7 audit complete')
+print('\n✅ v8 audit complete')
