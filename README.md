@@ -1,5 +1,24 @@
 # 🔭 宏观观察器 — Macro Dashboard
 
+## 🌳 Sector Rotation Research Tree
+
+```text
+Sector Rotation
+│
+├── 9-feature Random Forest      ❌ FAIL (Overfit to noise on small N)
+│
+├── Individual ETF features      ❌ weak / mostly noise
+│
+├── ETF-implied EPS              ❌ FAIL (Magnitude/Accel IC ≈ 0 on true universe)
+│
+├── True constituent EPS         ⏳ NOT TESTED (Pending data)
+│
+└── Macro Shock × Sector
+        ↓
+      NEXT (Current Focus)
+```
+
+
 A macroeconomic dashboard tracking rates, commodities, equities, and macro indicators — all stored locally, updated once per day.
 
 ---
