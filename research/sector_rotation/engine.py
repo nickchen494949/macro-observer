@@ -417,7 +417,8 @@ def walk_forward_purged(df, feat_xs, top_n=1, start='2019-01', end='2026-06',
 
         test = test_all.dropna(subset=feat_xs).copy()
 
-        has_data = len(train) >= 100 and len(test) >= 4
+        train_months = train['date'].nunique()
+        has_data = train_months >= 12 and len(test) >= 4
         
         if not first_deployed:
             if is_valid and has_data:

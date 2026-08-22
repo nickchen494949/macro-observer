@@ -1,6 +1,8 @@
 # 🔬 Sector Rotation Research
 
-Monthly sector rotation using **Valuation + EPS Revision + Momentum**, tested via
+# Macro Observer - Sector Rotation
+
+**Core Signal Strategy:** Valuation + Forward Earnings Momentum + Price Momentum**, tested via
 **Simple Ranking**, **Ridge Regression**, and **Random Forest** — all walk-forward OOS.
 
 ## ⚠️ Research Only — Not Production Alpha
@@ -123,9 +125,9 @@ Tested whether EPS revision alpha was an XLE artifact:
 
 ### Phase 4: 5-Knife Audit (`rf_audit.py`)
 
-**v8.1 results: PENDING — run `rf_audit.py`**
+**v8.2 results: PENDING — run `rf_audit.py`**
 
-v7 pass criteria (7 checks, all excess-based):
+v8.2 pass criteria (7 checks, all excess-based):
 1. Top1 > aligned SPY
 2. Top1 > EW sectors
 3. Mean Rank IC > 0
