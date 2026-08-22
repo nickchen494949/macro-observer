@@ -13,146 +13,160 @@ from sklearn.ensemble import RandomForestRegressor
 
 from engine import load_prices, load_pe, build_features, SECTORS
 
+#!/usr/bin/env python3
+"""
+Waterfall Autopsy Step 3: Missing Data Drop-out (Dynamic Universe) Decomposition
+Deconstructs the old model's excess return exactly into:
+(C - A) = (C - B) + (B - A)
+Where:
+A: Equal weight return of all 10 sectors
+B: Equal weight return of surviving (valid) sectors
+C: Top-3 return picked by RF from surviving sectors
+"""
+
+import os
+import numpy as np
+import pandas as pd
+from scipy.stats import spearmanr
+from sklearn.ensemble import RandomForestRegressor
+from collections import defaultdict
+
+from engine import load_prices, load_pe, build_features, SECTORS
+
 print("="*80)
-print("💀 WATERFALL AUTOPSY STEP 3: MISSING DATA DROP-OUT (DYNAMIC UNIVERSE)")
+print("💀 WATERFALL AUTOPSY STEP 3: SURVIVORSHIP BIAS DECOMPOSITION")
 print("="*80)
 
 daily = load_prices()
 pe, pe_cov = load_pe()
-NO_XLE_N = len(SECTORS) - 1
 TARGET_TICKERS = [t for t in SECTORS if t != 'XLE']
 
-print("Building Clean (Strict 10-Sector) Features...")
-df_clean, feat_xs, _ = build_features(
-    daily, (pe, pe_cov), exclude_tickers=['XLE'], execution_lag=2, strict_universe_n=NO_XLE_N
-)
-
-print("Building Buggy (Dynamic Universe) Features...")
-df_buggy, _, _ = build_features(
+print("Building Dynamic Universe Features (Old Buggy Model)...")
+df_buggy, feat_xs, _ = build_features(
     daily, (pe, pe_cov), exclude_tickers=['XLE'], execution_lag=2, strict_universe_n=None
 )
 
-dates = sorted(df_clean['date'].unique())
+dates = sorted(df_buggy['date'].unique())
 dates = [d for d in dates if d >= pd.Timestamp('2019-01-01')]
 
 results = []
 rng = np.random.RandomState(42)
+drop_counts = defaultdict(list)
 
-print(f"Running Side-by-Side Walk-Forward over {len(dates)} months...\n")
+print(f"Running Decomposition Walk-Forward over {len(dates)} months...\n")
 
 for pred_date in dates:
-    # ------------------------------------------------------------------
-    # 1. BUGGY (DYNAMIC) EXECUTION
-    # ------------------------------------------------------------------
+    test_all = df_buggy[(df_buggy['date'] == pred_date) & (df_buggy['ticker'].isin(TARGET_TICKERS))].copy()
+    
+    # We must be able to calculate A (Return of ALL 10 sectors)
+    # Get true forward returns directly from daily prices to be safe
+    all_rets = {}
+    valid = True
+    
+    for t in TARGET_TICKERS:
+        px = daily[t]['adj_close']
+        cands = test_all[test_all['ticker'] == t]
+        if len(cands) == 1:
+            r = cands['exec_ret'].iloc[0]
+            if pd.isna(r): 
+                valid = False
+            else:
+                all_rets[t] = r
+        else:
+            valid = False
+            
+    if not valid or len(all_rets) != 10:
+        continue # Skip if we can't even form the true 10-sector universe
+        
+    A_ret = np.mean(list(all_rets.values()))
+    
+    # Identify surviving vs dropped sectors (Buggy Logic)
+    test_survivors = test_all.dropna(subset=feat_xs).copy()
+    survivors = test_survivors['ticker'].tolist()
+    dropped = list(set(TARGET_TICKERS) - set(survivors))
+    
+    if len(survivors) < 3:
+        continue # Can't pick top 3
+        
+    B_ret = np.mean([all_rets[s] for s in survivors])
+    dropped_ret = np.mean([all_rets[d] for d in dropped]) if dropped else np.nan
+    
+    # Track who dropped when
+    for d in dropped:
+        drop_counts[d].append(pred_date.year)
+        
+    # Train RF on historical survivors
     train_buggy = df_buggy[df_buggy['target_exit_date'] <= pred_date].dropna(subset=feat_xs + ['target']).copy()
-    test_all_buggy = df_buggy[df_buggy['date'] == pred_date].copy()
-    test_buggy = test_all_buggy.dropna(subset=feat_xs + ['exec_ret']).copy()
-    
-    buggy_n = len(test_buggy)
-    buggy_ic = np.nan
-    buggy_exc = 0.0
-    dropped_ret = np.nan
-    
-    if train_buggy['date'].nunique() >= 12 and buggy_n > 0:
-        mdl_buggy = RandomForestRegressor(n_estimators=200, max_depth=4, min_samples_leaf=10, random_state=42, n_jobs=-1)
-        mdl_buggy.fit(train_buggy[feat_xs].values, train_buggy['target'].values)
-        test_buggy['pred'] = mdl_buggy.predict(test_buggy[feat_xs].values)
+    if train_buggy['date'].nunique() < 12:
+        continue
         
-        if buggy_n >= 3:
-            buggy_ic = spearmanr(test_buggy['pred'], test_buggy['exec_ret'])[0]
-            top3 = test_buggy.sort_values('pred', ascending=False).head(3)['exec_ret'].mean()
-            ew = test_buggy['exec_ret'].mean()
-            buggy_exc = top3 - ew
-            
-    # Calculate dropped sector performance
-    dropped_tickers = set(TARGET_TICKERS) - set(test_buggy['ticker'])
-    if len(dropped_tickers) > 0:
-        d_rets = []
-        for dtick in dropped_tickers:
-            # Look up the actual real-world return from daily prices
-            px = daily[dtick]['adj_close']
-            cands = test_all_buggy[test_all_buggy['ticker'] == dtick]
-            if len(cands) == 1:
-                dr = cands['exec_ret'].iloc[0]
-                if pd.notna(dr): d_rets.append(dr)
-        if len(d_rets) > 0:
-            dropped_ret = np.mean(d_rets)
-
-    # ------------------------------------------------------------------
-    # 2. CLEAN (STRICT) EXECUTION
-    # ------------------------------------------------------------------
-    test_all_clean = df_clean[df_clean['date'] == pred_date].copy()
-    is_valid = test_all_clean['universe_valid'].iloc[0] if len(test_all_clean) > 0 else False
+    mdl = RandomForestRegressor(n_estimators=200, max_depth=4, min_samples_leaf=10, random_state=42, n_jobs=-1)
+    mdl.fit(train_buggy[feat_xs].values, train_buggy['target'].values)
     
-    clean_n = 10 if is_valid else 0
-    clean_ic = np.nan
-    clean_exc = 0.0
+    test_survivors['pred'] = mdl.predict(test_survivors[feat_xs].values)
+    top3_tickers = test_survivors.sort_values('pred', ascending=False).head(3)['ticker'].tolist()
     
-    if is_valid:
-        train_clean = df_clean[(df_clean['target_exit_date'] <= pred_date) & (df_clean['universe_valid'])].dropna(subset=feat_xs + ['target']).copy()
-        test_clean = test_all_clean.dropna(subset=feat_xs + ['exec_ret']).copy()
-        
-        if train_clean['date'].nunique() >= 12 and len(test_clean) == NO_XLE_N:
-            mdl_clean = RandomForestRegressor(n_estimators=200, max_depth=4, min_samples_leaf=10, random_state=42, n_jobs=-1)
-            mdl_clean.fit(train_clean[feat_xs].values, train_clean['target'].values)
-            test_clean['pred'] = mdl_clean.predict(test_clean[feat_xs].values)
-            
-            clean_ic = spearmanr(test_clean['pred'], test_clean['exec_ret'])[0]
-            top3 = test_clean.sort_values('pred', ascending=False).head(3)['exec_ret'].mean()
-            ew = test_clean['exec_ret'].mean()
-            clean_exc = top3 - ew
-            
+    C_ret = np.mean([all_rets[t] for t in top3_tickers])
+    
     results.append({
         'date': pred_date,
-        'clean_n': clean_n,
-        'clean_ic': clean_ic,
-        'clean_exc': clean_exc,
-        'buggy_n': buggy_n,
-        'buggy_ic': buggy_ic,
-        'buggy_exc': buggy_exc,
-        'dropped_count': len(dropped_tickers),
+        'A_ret': A_ret,
+        'B_ret': B_ret,
+        'C_ret': C_ret,
+        'survivor_count': len(survivors),
         'dropped_ret': dropped_ret,
-        'all_ew_ret': test_all_buggy['exec_ret'].mean() if len(test_all_buggy) > 0 else np.nan
+        'survivor_ret': B_ret,
+        'dropped_minus_survivor': dropped_ret - B_ret if dropped else np.nan
     })
 
-res_df = pd.DataFrame(results).dropna(subset=['buggy_ic']) # Only compare where buggy model traded
+res_df = pd.DataFrame(results)
 
-def print_comp(df, label):
-    clean_ic = df['clean_ic'].mean()
-    buggy_ic = df['buggy_ic'].mean()
-    clean_exc = df['clean_exc'].mean() * 100
-    buggy_exc = df['buggy_exc'].mean() * 100
-    avg_buggy_n = df['buggy_n'].mean()
+def print_decomp(df, label):
+    if len(df) == 0: return
     
-    drop_df = df[df['dropped_count'] > 0]
-    dropped_ret = drop_df['dropped_ret'].mean() * 100
-    bench_ret = drop_df['all_ew_ret'].mean() * 100
+    # Means in bps per month
+    A = df['A_ret'].mean() * 10000
+    B = df['B_ret'].mean() * 10000
+    C = df['C_ret'].mean() * 10000
+    
+    total_adv = C - A
+    menu_adv = B - A
+    rf_adv = C - B
+    
+    avg_pool = df['survivor_count'].mean()
     
     print(f"[{label:^8s}] N={len(df):2d} Months")
-    print(f"Metric       | Dynamic Bug (Old) | Strict Clean (New)| Alpha Illusion (Gap)")
-    print("-" * 75)
-    print(f"Rank IC      | {buggy_ic:>17.3f} | {clean_ic:>17.3f} | {(buggy_ic - clean_ic):+19.3f}")
-    print(f"Top-3 Excess | {buggy_exc:>16.2f}% | {clean_exc:>16.2f}% | {(buggy_exc - clean_exc):+18.2f}%")
-    print(f"Avg Pool Size| {avg_buggy_n:>17.1f} | {df['clean_n'].mean():>17.1f} |")
-    print(f"\n[DROPPED SECTOR ANALYSIS for {label}]")
-    if len(drop_df) > 0:
-        print(f"Missing data occurred in {len(drop_df)} months.")
-        print(f"Forward 1-Month Return of Deleted Sectors: {dropped_ret:+.2f}%")
-        print(f"Forward 1-Month Return of ALL Sectors:     {bench_ret:+.2f}%")
-        diff = dropped_ret - bench_ret
-        print(f"Did deleting them save the model?         {'YES (Dodged a loser)' if diff < 0 else 'NO (Missed a winner)'} (Diff: {diff:+.2f}%)")
-    else:
-        print("No missing data in this period.")
-    print("\n")
+    print(f"1. Total 10-Sector Universe Avg (A) : {A:>6.1f} bps")
+    print(f"2. Surviving Sector Menu Avg (B)    : {B:>6.1f} bps")
+    print(f"3. RF Top-3 Picks Avg (C)           : {C:>6.1f} bps")
+    print("-" * 50)
+    print(f"Total Observed Advantage (C - A)    : {total_adv:>+6.1f} bps / mo")
+    print(f"  ├─ Menu Survivorship Bias (B - A) : {menu_adv:>+6.1f} bps / mo")
+    print(f"  └─ True RF Stock Picking (C - B)  : {rf_adv:>+6.1f} bps / mo")
+    print(f"Avg Menu Size: {avg_pool:.1f} / 10.0\n")
+
+print_decomp(res_df, "FULL")
+print_decomp(res_df[res_df['date'] <= pd.Timestamp('2022-12-31')], "H1")
+print_decomp(res_df[res_df['date'] >= pd.Timestamp('2023-01-01')], "H2")
 
 print("="*80)
-print("💀 AUTOPSY RESULTS: THE COST OF DYNAMIC UNIVERSE DROP-OUTS")
+print("🔍 DROPPED SECTOR ANALYSIS (Direct Comparison)")
 print("="*80)
+drop_df = res_df.dropna(subset=['dropped_minus_survivor'])
 
-print_comp(res_df, "FULL")
-
-h1 = res_df[res_df['date'] <= pd.Timestamp('2022-12-31')]
-h2 = res_df[res_df['date'] >= pd.Timestamp('2023-01-01')]
-
-if len(h1) > 0: print_comp(h1, "H1")
-if len(h2) > 0: print_comp(h2, "H2")
+if len(drop_df) > 0:
+    diff_mean = drop_df['dropped_minus_survivor'].mean() * 10000
+    print(f"Months with Drop-outs: {len(drop_df)}")
+    print(f"Avg Monthly Penalty (Dropped minus Survivors): {diff_mean:+.1f} bps")
+    
+    # Bootstrap CI for the penalty
+    np.random.seed(42)
+    boot = [np.mean(np.random.choice(drop_df['dropped_minus_survivor'].values, size=len(drop_df), replace=True)) * 10000 for _ in range(10000)]
+    print(f"95% CI of Penalty: [{np.percentile(boot, 2.5):+.1f}, {np.percentile(boot, 97.5):+.1f}] bps\n")
+    
+    print("Who was dropped and when?")
+    for t in sorted(drop_counts.keys()):
+        yrs = sorted(list(set(drop_counts[t])))
+        print(f"  {t:<5s}: {len(drop_counts[t]):2d} times (Years: {yrs})")
+else:
+    print("No drop-outs occurred in the testing period.")
