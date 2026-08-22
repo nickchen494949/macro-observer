@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
-Sector Rotation Engine v6
+Sector Rotation Engine v7 — final clean
 
-v6 fixes:
-  1. 🔴 permutation_seed parameter (N_PERM repeats actually work)
-  2. 🔴 train_start for fixed training universe
-  3. 🔴 Month-period comparison for START/END (no off-by-one)
-  4. 🟠 Cache version written AFTER all downloads, fail-fast on missing
-  5. Benchmark: fail loudly if date not in index
+v7:
+  1. T+2 execution (Koyfin finalization lag), configurable execution_lag
+  2. Execution-aligned 3M training target + exact target_exit_date purge
+  3. Symmetric Forward Earnings Momentum (replaces EPS revision)
+  4. Strict fixed universe (skip months with incomplete sectors)
+  5. Placebo: only shuffle non-NaN targets
+  6. Deterministic permutation seed (no Python hash)
+  7. Sortino: proper downside deviation (MAR=0)
 """
 
 import os, warnings
@@ -18,10 +20,9 @@ from sklearn.linear_model import Ridge
 
 warnings.filterwarnings('ignore')
 
-CACHE_VERSION = 6
+CACHE_VERSION = 7
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
-PROJ = os.path.abspath(os.path.join(_DIR, '..', '..'))
 PE_DIR = os.path.join(_DIR, 'pe_data')
 PRICE_CACHE = os.path.join(_DIR, 'adj_prices')
 
@@ -49,8 +50,9 @@ NAMES = {
     'XLV': 'Hlth',
 }
 
+# Renamed: EPS revision → Forward Earnings Momentum
 FEAT_COLS = [
-    'f_valuation', 'f_eps_rev', 'f_eps_rev_1m',
+    'f_valuation', 'f_fwd_earn_mom_3m', 'f_fwd_earn_mom_1m',
     'f_mom6', 'f_mom3', 'f_mom1',
     'f_pe_level', 'f_pe_chg3', 'f_dist_high6',
 ]
@@ -61,15 +63,10 @@ FEAT_COLS = [
 # ══════════════════════════════════════════════════
 
 def _month_period(x):
-    """Convert date-like to pandas Period('M') for month-level comparison."""
     return pd.Period(x, 'M')
 
 
 def _filter_dates_by_month(dates, start, end):
-    """
-    FIX v6: Compare by month Period, not Timestamp.
-    '2026-06' means the MONTH of June, not June 1st.
-    """
     p_start = _month_period(start)
     p_end = _month_period(end)
     return [d for d in dates if p_start <= _month_period(d) <= p_end]
@@ -82,18 +79,16 @@ def _filter_dates_by_month(dates, start, end):
 def load_prices(tickers=None, start='2002-01-01', end='2026-09-01',
                 force_refresh=False):
     """
-    Yahoo Close = split-adjusted (no dividends) → EPS proxy
+    Yahoo Close = split-adjusted, no dividends → EPS/earnings proxy
     Yahoo Adj Close = split + dividend adjusted → momentum, P&L
 
-    FIX v6: Cache version written AFTER all downloads succeed.
-    Fails fast if any required ticker is missing.
+    Cache version written AFTER all downloads succeed.
     """
     import yfinance as yf
     import time
 
     if tickers is None:
         tickers = ALL_TICKERS
-
     os.makedirs(PRICE_CACHE, exist_ok=True)
     version_fp = os.path.join(PRICE_CACHE, '.cache_version')
 
@@ -105,13 +100,10 @@ def load_prices(tickers=None, start='2002-01-01', end='2026-09-01',
             pass
     if cached_ver < CACHE_VERSION:
         force_refresh = True
-        # DON'T write version yet — wait until all downloads succeed
 
     all_frames = {}
-
     for t in tickers:
         cache_fp = os.path.join(PRICE_CACHE, f'{t}.csv')
-
         if os.path.exists(cache_fp) and not force_refresh:
             df = pd.read_csv(cache_fp, parse_dates=['date'], index_col='date')
             if len(df) > 100 and 'split_adj_close' in df.columns:
@@ -122,8 +114,7 @@ def load_prices(tickers=None, start='2002-01-01', end='2026-09-01',
             hist = yf.Ticker(t).history(start=start, end=end, interval='1d',
                                          auto_adjust=False)
             if hist.empty:
-                raise RuntimeError(f'{t}: yfinance returned empty data')
-
+                raise RuntimeError(f'{t}: yfinance returned empty')
             if hist.index.tz is not None:
                 hist.index = hist.index.tz_localize(None)
 
@@ -134,20 +125,15 @@ def load_prices(tickers=None, start='2002-01-01', end='2026-09-01',
             df.index.name = 'date'
             df.to_csv(cache_fp)
             all_frames[t] = df
-            print(f'  ✓ {t}: {len(df)} days ({df.index[0].strftime("%Y-%m")} → '
-                  f'{df.index[-1].strftime("%Y-%m")})')
+            print(f'  ✓ {t}: {len(df)} days')
             time.sleep(1.0)
         except Exception as e:
             print(f'  ✗ {t}: {e}')
 
-    # Fail fast on missing required tickers
     missing = set(tickers) - set(all_frames)
     if missing:
-        raise RuntimeError(
-            f'Missing price data for: {sorted(missing)}. '
-            f'Cannot proceed — would silently reduce universe.')
+        raise RuntimeError(f'Missing price data: {sorted(missing)}')
 
-    # FIX v6: Write version AFTER all succeed
     if cached_ver < CACHE_VERSION:
         with open(version_fp, 'w') as f:
             f.write(str(CACHE_VERSION))
@@ -156,33 +142,26 @@ def load_prices(tickers=None, start='2002-01-01', end='2026-09-01',
 
 
 def load_pe():
-    """Load Koyfin forward PE. Fails fast if any sector is missing."""
     frames = []
     coverage = {}
     for fname, ticker in PE_MAP.items():
         fp = os.path.join(PE_DIR, fname)
         if not os.path.exists(fp):
-            raise RuntimeError(f'Missing PE file: {fp}')
+            raise RuntimeError(f'Missing PE: {fp}')
         df = pd.read_csv(fp)
         df.columns = [c.strip() for c in df.columns]
         df['date'] = pd.to_datetime(df['date'])
         df = df.dropna(subset=['forward_pe']).set_index('date').sort_index()
-
         if ticker == 'XLC' and len(df) > 1 and df['forward_pe'].iloc[0] < 12:
             df = df.iloc[1:]
-
         coverage[ticker] = (df.index[0].strftime('%Y-%m'), df.index[-1].strftime('%Y-%m'))
         m = df['forward_pe'].resample('ME').last().dropna().to_frame('fpe')
         m['ticker'] = ticker
         frames.append(m.reset_index())
-
     pe = pd.concat(frames, ignore_index=True)
-
-    # Check all sectors present
     missing = set(SECTORS) - set(pe['ticker'].unique())
     if missing:
-        raise RuntimeError(f'Missing PE data for: {sorted(missing)}')
-
+        raise RuntimeError(f'Missing PE: {sorted(missing)}')
     return pe, coverage
 
 
@@ -191,30 +170,46 @@ def load_pe():
 # ══════════════════════════════════════════════════
 
 def _safe_ratio(series, periods):
-    """series[t] / series[t-periods] - 1, NaN-safe."""
     shifted = series.shift(periods)
     result = series / shifted - 1
     result[series.isna() | shifted.isna() | (shifted.abs() < 1e-9)] = np.nan
     return result
 
 
+def _symmetric_change(series, periods):
+    """
+    Symmetric percentage change: 2*(x - prev) / (|x| + |prev|).
+    Bounded [-2, +2]. Handles denominator near zero gracefully.
+    """
+    prev = series.shift(periods)
+    denom = series.abs() + prev.abs()
+    out = 2.0 * (series - prev) / denom
+    out[series.isna() | prev.isna() | (denom < 1e-9)] = np.nan
+    return out
+
+
 def common_feature_start(df, feat_xs, expected_n):
-    """First month where all expected sectors have all features."""
     good = df.dropna(subset=feat_xs).groupby('date')['ticker'].nunique()
     candidates = good[good >= expected_n]
     return candidates.index.min() if len(candidates) > 0 else None
 
 
 def check_universe_completeness(df, feat_xs, start, expected_n):
-    """Report months after start where universe is incomplete."""
     after = df[df['date'] >= pd.Timestamp(start)]
     counts = after.dropna(subset=feat_xs).groupby('date')['ticker'].nunique()
-    bad = counts[counts < expected_n]
-    return bad
+    return counts[counts < expected_n]
 
 
-def build_features(daily_prices, pe, exclude_tickers=None):
-    """Build monthly feature matrix with both price series."""
+def build_features(daily_prices, pe, exclude_tickers=None, execution_lag=2):
+    """
+    Build monthly features.
+
+    execution_lag: number of trading days after month-end before entry.
+      1 = next trading day (T+1), 2 = T+2 (default, allows PE finalization).
+
+    Target is execution-aligned: entry at T+lag, exit at T+3months+lag.
+    Stores target_entry_date/target_exit_date for exact purge.
+    """
     tickers = [t for t in SECTORS if t not in (exclude_tickers or [])]
     pe_data = pe[0] if isinstance(pe, tuple) else pe
 
@@ -227,10 +222,7 @@ def build_features(daily_prices, pe, exclude_tickers=None):
             dp['split_adj_close'] = dp['adj_close']
         m_adj = dp['adj_close'].resample('ME').last().dropna()
         m_split = dp['split_adj_close'].resample('ME').last().dropna()
-        m = pd.DataFrame({
-            'close': m_adj,
-            'close_eps': m_split,
-        })
+        m = pd.DataFrame({'close': m_adj, 'close_eps': m_split})
         m['ticker'] = t
         monthly_frames.append(m.reset_index())
 
@@ -239,7 +231,6 @@ def build_features(daily_prices, pe, exclude_tickers=None):
 
     panel = pd.concat(monthly_frames, ignore_index=True)
     panel['date'] = pd.to_datetime(panel['date']).dt.tz_localize(None)
-
     m = panel.merge(pe_data[['date', 'ticker', 'fpe']], on=['date', 'ticker'], how='left')
     m.loc[(m['fpe'] > 50) | (m['fpe'] <= 0), 'fpe'] = np.nan
 
@@ -249,24 +240,24 @@ def build_features(daily_prices, pe, exclude_tickers=None):
         if len(s) < 25:
             continue
 
+        # Valuation z-score
         s['f_valuation'] = -s['fpe'].rolling(24, min_periods=12).apply(
             lambda x: (x.iloc[-1] - x.mean()) / (x.std() + 1e-9))
 
+        # Forward Earnings Momentum (symmetric change, replaces EPS revision)
         s['fwd_eps'] = s['close_eps'] / s['fpe']
-        s['f_eps_rev'] = _safe_ratio(s['fwd_eps'], 3).clip(-0.5, 0.5)
-        s['f_eps_rev_1m'] = _safe_ratio(s['fwd_eps'], 1).clip(-0.3, 0.3)
+        s['f_fwd_earn_mom_3m'] = _symmetric_change(s['fwd_eps'], 3)
+        s['f_fwd_earn_mom_1m'] = _symmetric_change(s['fwd_eps'], 1)
 
+        # Price momentum (total return)
         s['f_mom6'] = _safe_ratio(s['close'], 6)
         s['f_mom3'] = _safe_ratio(s['close'], 3)
         s['f_mom1'] = _safe_ratio(s['close'], 1)
 
+        # PE
         s['f_pe_level'] = s['fpe']
         s['f_pe_chg3'] = _safe_ratio(s['fpe'], 3)
         s['f_dist_high6'] = s['close'] / s['close'].rolling(6).max() - 1
-
-        future_3m = s['close'].shift(-3)
-        s['fwd_ret_3m_raw'] = future_3m / s['close'] - 1
-        s.loc[s['close'].isna() | future_3m.isna(), 'fwd_ret_3m_raw'] = np.nan
 
         all_feat.append(s)
 
@@ -274,34 +265,61 @@ def build_features(daily_prices, pe, exclude_tickers=None):
         return None, [], daily_prices
 
     df = pd.concat(all_feat, ignore_index=True)
-    df['fwd_ret_3m_median'] = df.groupby('date')['fwd_ret_3m_raw'].transform('median')
-    df['target'] = df['fwd_ret_3m_raw'] - df['fwd_ret_3m_median']
 
-    # Execution returns + dates
+    # ── Execution returns + execution-aligned 3M target ──
     df['exec_ret'] = np.nan
     df['entry_date'] = pd.NaT
     df['exit_date'] = pd.NaT
+    df['target_3m_raw'] = np.nan
+    df['target_entry_date'] = pd.NaT
+    df['target_exit_date'] = pd.NaT
+
     signal_dates = sorted(df['date'].unique())
 
-    for i, sig_date in enumerate(signal_dates[:-1]):
-        next_sig_date = signal_dates[i + 1]
+    for i, sig_date in enumerate(signal_dates):
         for t in tickers:
             if t not in daily_prices:
                 continue
             dp = daily_prices[t]
+
+            # Entry for this signal
             entry_cands = dp.index[dp.index > sig_date]
-            exit_cands = dp.index[dp.index > next_sig_date]
-            if len(entry_cands) == 0 or len(exit_cands) == 0:
+            if len(entry_cands) < execution_lag:
                 continue
-            entry_dt = entry_cands[0]
-            exit_dt = exit_cands[0]
+            entry_dt = entry_cands[execution_lag - 1]
             entry_px = dp.loc[entry_dt, 'adj_close']
-            exit_px = dp.loc[exit_dt, 'adj_close']
-            if pd.notna(entry_px) and pd.notna(exit_px) and entry_px > 0:
-                mask = (df['date'] == sig_date) & (df['ticker'] == t)
-                df.loc[mask, 'exec_ret'] = exit_px / entry_px - 1
-                df.loc[mask, 'entry_date'] = entry_dt
-                df.loc[mask, 'exit_date'] = exit_dt
+            if pd.isna(entry_px) or entry_px <= 0:
+                continue
+
+            mask = (df['date'] == sig_date) & (df['ticker'] == t)
+
+            # 1-month execution return (for P&L)
+            if i + 1 < len(signal_dates):
+                next_sig = signal_dates[i + 1]
+                exit_cands = dp.index[dp.index > next_sig]
+                if len(exit_cands) >= execution_lag:
+                    exit_dt = exit_cands[execution_lag - 1]
+                    exit_px = dp.loc[exit_dt, 'adj_close']
+                    if pd.notna(exit_px):
+                        df.loc[mask, 'exec_ret'] = exit_px / entry_px - 1
+                        df.loc[mask, 'entry_date'] = entry_dt
+                        df.loc[mask, 'exit_date'] = exit_dt
+
+            # 3-month target (execution-aligned)
+            if i + 3 < len(signal_dates):
+                target_sig = signal_dates[i + 3]
+                target_cands = dp.index[dp.index > target_sig]
+                if len(target_cands) >= execution_lag:
+                    target_exit_dt = target_cands[execution_lag - 1]
+                    target_exit_px = dp.loc[target_exit_dt, 'adj_close']
+                    if pd.notna(target_exit_px):
+                        df.loc[mask, 'target_3m_raw'] = target_exit_px / entry_px - 1
+                        df.loc[mask, 'target_entry_date'] = entry_dt
+                        df.loc[mask, 'target_exit_date'] = target_exit_dt
+
+    # Cross-sectional excess target
+    df['target_3m_median'] = df.groupby('date')['target_3m_raw'].transform('median')
+    df['target'] = df['target_3m_raw'] - df['target_3m_median']
 
     # Cross-sectional z-score
     feat_xs = []
@@ -315,57 +333,35 @@ def build_features(daily_prices, pe, exclude_tickers=None):
 
 
 # ══════════════════════════════════════════════════
-# BENCHMARK (exact alignment, fail-loud)
+# BENCHMARK
 # ══════════════════════════════════════════════════
 
 def compute_benchmark_aligned(daily_prices, strategy_results, ticker='SPY'):
-    """
-    FIX v6: Strict date matching. Raises if date not found in benchmark.
-    Guaranteed same N as strategy.
-    """
     if ticker not in daily_prices:
         raise RuntimeError(f'Benchmark {ticker} not in daily_prices')
-
     dp = daily_prices[ticker]
     rets = []
-
     for _, row in strategy_results.iterrows():
         entry = row.get('entry_date')
         exit_ = row.get('exit_date')
-
         if pd.isna(entry) or pd.isna(exit_):
             rets.append(np.nan)
             continue
-
-        # Strict: entry/exit must exist in benchmark index
-        # (same US equity calendar for all sector ETFs and SPY/QQQ)
         if entry not in dp.index:
-            raise RuntimeError(
-                f'{ticker}: entry_date {entry} not in price index. '
-                f'Dates around: {dp.index[dp.index.searchsorted(entry)-1:dp.index.searchsorted(entry)+2].tolist()}')
+            raise RuntimeError(f'{ticker}: entry {entry} not in index')
         if exit_ not in dp.index:
-            raise RuntimeError(
-                f'{ticker}: exit_date {exit_} not in price index. '
-                f'Dates around: {dp.index[dp.index.searchsorted(exit_)-1:dp.index.searchsorted(exit_)+2].tolist()}')
-
+            raise RuntimeError(f'{ticker}: exit {exit_} not in index')
         entry_px = dp.loc[entry, 'adj_close']
         exit_px = dp.loc[exit_, 'adj_close']
-
         if pd.notna(entry_px) and pd.notna(exit_px) and entry_px > 0:
             rets.append(exit_px / entry_px - 1)
         else:
             rets.append(np.nan)
-
     result = pd.Series(rets, index=strategy_results['date'].values)
-
-    # Assert alignment
-    strat_valid = strategy_results['top_ret'].notna().sum()
-    bench_valid = result.notna().sum()
-    if strat_valid != bench_valid:
-        raise RuntimeError(
-            f'Benchmark alignment mismatch: strategy has {strat_valid} valid returns, '
-            f'{ticker} has {bench_valid}')
-
+    sv = strategy_results['top_ret'].notna().sum()
+    bv = result.notna().sum()
+    if sv != bv:
+        raise RuntimeError(f'Alignment: strategy {sv} vs {ticker} {bv}')
     return result
 
 
@@ -374,11 +370,11 @@ def compute_benchmark_aligned(daily_prices, strategy_results, ticker='SPY'):
 # ══════════════════════════════════════════════════
 
 def make_placebo_df(df, seed):
-    """Fixed fake history: shuffle within each month."""
+    """Fixed fake history. Only shuffles non-NaN targets within each month."""
     rng = np.random.RandomState(seed)
     df_p = df.copy()
     for dt in df_p['date'].unique():
-        mask = df_p['date'] == dt
+        mask = (df_p['date'] == dt) & df_p['target'].notna()
         vals = df_p.loc[mask, 'target'].values.copy()
         if len(vals) > 1:
             df_p.loc[mask, 'target'] = rng.permutation(vals)
@@ -390,25 +386,22 @@ def make_placebo_df(df, seed):
 # ══════════════════════════════════════════════════
 
 def walk_forward_purged(df, feat_xs, top_n=1, start='2019-01', end='2026-06',
-                        embargo_months=3,
                         train_start=None,
                         exclude_years_test=None,
                         exclude_labels_overlapping=None,
                         shuffle_features=None,
                         permutation_seed=42,
+                        min_test_sectors=None,
                         model_type='rf'):
     """
-    FIX v6:
-      - start/end compared by month Period (no off-by-one)
-      - train_start for fixed training universe
-      - permutation_seed parameter for repeated permutation importance
+    Purged walk-forward.
+
+    Purge: train where target_exit_date <= pred_date (exact, no embargo approx).
+    Strict universe: skip months with < min_test_sectors.
     """
     dates = sorted(df['date'].unique())
-
-    # FIX v6: month-level comparison
     dates = _filter_dates_by_month(dates, start, end)
 
-    # Strict year exclusion by execution dates
     if exclude_years_test:
         clean = []
         for d in dates:
@@ -421,40 +414,46 @@ def walk_forward_purged(df, feat_xs, top_n=1, start='2019-01', end='2026-06',
                 if d.year not in exclude_years_test:
                     clean.append(d)
                 continue
-            any_entry = entry.iloc[0]
-            any_exit = exit_.iloc[0]
-            overlaps = False
-            for ey in exclude_years_test:
-                ys = pd.Timestamp(f'{ey}-01-01')
-                ye = pd.Timestamp(f'{ey}-12-31')
-                if any_entry <= ye and any_exit >= ys:
-                    overlaps = True
-                    break
+            e0, x0 = entry.iloc[0], exit_.iloc[0]
+            overlaps = any(
+                e0 <= pd.Timestamp(f'{ey}-12-31') and x0 >= pd.Timestamp(f'{ey}-01-01')
+                for ey in exclude_years_test
+            )
             if not overlaps:
                 clean.append(d)
         dates = clean
 
     results = []
-    # FIX v6: permutation_seed is a parameter, not hardcoded 42
     rng = np.random.RandomState(permutation_seed)
 
     for pred_date in dates:
-        cutoff = pred_date - pd.DateOffset(months=embargo_months)
-        train = df[df['date'] <= cutoff].dropna(subset=feat_xs + ['target']).copy()
+        # Exact purge: only use training obs whose 3M target has been realized
+        train = df[
+            df['target_exit_date'].notna() &
+            (df['target_exit_date'] <= pred_date)
+        ].dropna(subset=feat_xs + ['target']).copy()
 
-        # FIX v6: fixed training universe
+        # Fixed training universe
         if train_start:
             train = train[train['date'] >= pd.Timestamp(train_start)]
 
+        # Exclude labels overlapping certain years
         if exclude_labels_overlapping:
             for ey in exclude_labels_overlapping:
                 ys = pd.Timestamp(f'{ey}-01-01')
                 ye = pd.Timestamp(f'{ey}-12-31')
-                label_end = train['date'] + pd.DateOffset(months=3)
-                overlap = (train['date'] <= ye) & (label_end >= ys)
+                overlap = (
+                    train['target_entry_date'].notna() &
+                    (train['target_entry_date'] <= ye) &
+                    (train['target_exit_date'] >= ys)
+                )
                 train = train[~overlap]
 
         test = df[df['date'] == pred_date].dropna(subset=feat_xs).copy()
+
+        # Strict universe: skip if incomplete
+        if min_test_sectors and len(test) < min_test_sectors:
+            continue
 
         if len(train) < 100 or len(test) < 4:
             continue
@@ -467,8 +466,7 @@ def walk_forward_purged(df, feat_xs, top_n=1, start='2019-01', end='2026-06',
             perm_idx = rng.permutation(len(X_te))
             for sf in shuffle_features:
                 if sf in feat_xs:
-                    col_idx = feat_xs.index(sf)
-                    X_te[:, col_idx] = X_te[perm_idx, col_idx]
+                    X_te[:, feat_xs.index(sf)] = X_te[perm_idx, feat_xs.index(sf)]
 
         if model_type == 'rf':
             mdl = RandomForestRegressor(n_estimators=200, max_depth=4,
@@ -497,13 +495,13 @@ def walk_forward_purged(df, feat_xs, top_n=1, start='2019-01', end='2026-06',
 
         results.append({
             'date': pred_date,
-            'entry_date': top_entry,
-            'exit_date': top_exit,
+            'entry_date': top_entry, 'exit_date': top_exit,
             'top_ret': top_ret, 'bot_ret': bot_ret,
             'spread': top_ret - bot_ret if pd.notna(bot_ret) else np.nan,
             'ew': ew, 'ic': ic,
             'top1': top['ticker'].iloc[0],
             'picks': ','.join(top['ticker'].tolist()),
+            'n_train': len(train),
         })
 
     return pd.DataFrame(results)
@@ -523,9 +521,12 @@ def calc_metrics(rets, label=''):
     cagr = cum.iloc[-1] ** (1 / years) - 1 if years > 0 else 0
     vol = r.std() * np.sqrt(12)
     sharpe = (r.mean() * 12) / vol if vol > 0 else 0
-    down = r[r < 0]
-    dv = down.std() * np.sqrt(12) if len(down) > 1 else vol
-    sortino = (r.mean() * 12) / dv if dv > 0 else 0
+
+    # Sortino: proper downside deviation with MAR=0
+    downside = np.minimum(r.values, 0.0)
+    down_dev = np.sqrt(np.mean(downside ** 2)) * np.sqrt(12)
+    sortino = (r.mean() * 12) / down_dev if down_dev > 0 else 0
+
     peak = cum.cummax()
     mdd = ((cum - peak) / peak).min()
     return {

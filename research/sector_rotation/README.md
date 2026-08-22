@@ -1,15 +1,16 @@
 # 🔬 Sector Rotation Research
 
-Monthly sector rotation using **Valuation + EPS Revision + Momentum**, tested via
-**Simple Ranking**, **Ridge Regression**, and **Random Forest** — all walk-forward OOS.
+Monthly sector rotation using **Valuation + Forward Earnings Momentum + Price Momentum**,
+tested via **Random Forest** and **Ridge** — all walk-forward OOS.
 
 ## ⚠️ Research Only — Not Production Alpha
 
-This is an audit trail for a research experiment. **Status: 🟡 Promising, not proven.**
+**Status: 🟡 Promising, not proven (v7 final-clean, not yet run).**
 
-Key remaining risks:
-- Koyfin PE data may not be strictly point-in-time
-- Sample is short (~89 months OOS)
+Remaining risks:
+- Koyfin PE = vendor-history (not perfect point-in-time)
+- Short sample (~80-90 months OOS)
+- Multiple-testing: many model variants tried before v7
 
 ---
 
@@ -18,10 +19,9 @@ Key remaining risks:
 | Source | What | Coverage |
 |--------|------|----------|
 | **Koyfin f_pe** | Daily Forward PE, 11 S&P sectors | See per-sector below |
-| **yfinance** | Daily **split-adjusted** ETF prices | 1998→2026 |
-| **TLT** | Long bond ETF for rate regime | 2002→2026 |
+| **yfinance** | Daily ETF prices (**split-adjusted** + **total-return**) | 1998→2026 |
 
-### Per-Sector PE Coverage (actual start dates)
+### Per-Sector PE Coverage
 | Sector | ETF | PE Start | Notes |
 |--------|-----|----------|-------|
 | Technology | XLK | 2003-06 | |
@@ -34,62 +34,87 @@ Key remaining risks:
 | Industrials | XLI | 2003-06 | |
 | Utilities | XLU | 2003-06 | |
 | **Real Estate** | **XLRE** | **2016-01** | Spun out of Financials |
-| **Comm Services** | **XLC** | **2018-06** | Reconstituted from Telecom; first-day anomaly (10.13x) dropped |
+| **Comm Services** | **XLC** | **2018-06** | Reconstituted; first-day anomaly (10.13x) dropped |
 
 **Full 11-sector universe common start: 2018-06.**
-
-PE files from [AlphaLabX1/forward-pe-viewer](https://github.com/AlphaLabX1/forward-pe-viewer/tree/main/data).
-No synthetic data.
+PE from [AlphaLabX1/forward-pe-viewer](https://github.com/AlphaLabX1/forward-pe-viewer/tree/main/data).
 
 ---
 
-## Architecture (v6)
+## Architecture (v7 final-clean)
 
 ```
-engine.py (CACHE_VERSION=6)
-  ├── load_prices()             ← fail-fast if any ticker missing
-  │     ├── split_adj_close      — Yahoo Close (split-adjusted, no dividends)
-  │     └── adj_close            — Yahoo Adj Close (split + dividend adjusted)
-  │     └── cache version written AFTER all downloads succeed
-  ├── load_pe()                 ← fail-fast if any sector PE missing
-  ├── build_features()
-  │     ├── EPS = split_adj_close / PE  (no dividend contamination)
-  │     ├── Momentum = adj_close        (total return)
-  │     ├── _safe_ratio()               (no pct_change NaN bug)
-  │     └── exec_ret + entry_date/exit_date
-  ├── common_feature_start()    ← auto-detect fixed universe start
-  ├── check_universe_completeness() ← report incomplete months
-  ├── compute_benchmark_aligned() ← strict: raises if date not in index
-  ├── make_placebo_df()         ← fixed fake history per seed
+engine.py (CACHE_VERSION=7)
+  ├── load_prices()
+  │     ├── split_adj_close — Yahoo Close (split-adjusted, NO dividends) → EPS proxy
+  │     └── adj_close       — Yahoo Adj Close (split+dividend) → momentum, P&L
+  │     └── fail-fast on missing; cache version written AFTER all succeed
+  ├── load_pe()             ← fail-fast on missing
+  ├── build_features(execution_lag=2)
+  │     ├── Forward Earnings = split_adj_close / PE
+  │     ├── _symmetric_change()  — bounded [-2,+2], no denominator explosion
+  │     ├── Momentum via _safe_ratio() on adj_close
+  │     ├── exec_ret + entry_date/exit_date (T+lag execution)
+  │     └── target_3m: execution-aligned 3M return + target_exit_date
+  ├── common_feature_start()
+  ├── check_universe_completeness()
+  ├── compute_benchmark_aligned()  ← strict date match
+  ├── make_placebo_df()            ← NaN-safe, fixed history per seed
   └── walk_forward_purged()
-        ├── start/end by month Period (no off-by-one)
+        ├── Purge: target_exit_date <= pred_date (exact, no embargo approx)
         ├── train_start for fixed training universe
-        └── permutation_seed parameter for repeated importance
-
-rf_backtest.py  ─── model comparison
-rf_audit.py     ─── 5-knife audit (N_PERM=30, N_PLACEBO=500)
-run_backtest.py ─── Phase 1 legacy
+        ├── min_test_sectors for strict universe
+        ├── Month-Period date comparison (no off-by-one)
+        └── permutation_seed for repeated importance
 ```
 
-### Fixes (v6 cumulative)
-| Issue | Fix |
-|-------|-----|
-| 🔴 Same-close | Next-trading-day entry/exit via daily prices |
-| 🔴 Double split adjust | Yahoo Close IS split-adjusted; no manual splits |
-| 🔴 Dividend in EPS | `split_adj_close` for EPS proxy |
-| 🔴 `pct_change` NaN | `_safe_ratio()` explicit |
-| 🔴 Placebo 1 iter / reshuffled | `make_placebo_df()` fixed history, 500 seeds |
-| 🔴 Benchmark not aligned | `compute_benchmark_aligned()` strict date match, raises on mismatch |
-| 🔴 Permutation N=30 never ran | `permutation_seed` param, `break` removed, 30 real repeats |
-| 🔴 END off-by-one | Month-Period comparison: `'2026-06'` includes June 30 |
-| 🔴 Training universe dynamic | `train_start` parameter fixes training to common universe |
-| 🟠 Pass criteria | Excess-based: Top1 vs SPY, vs EW, IC, LOSO excess, placebo |
-| 🟠 Cache atomicity | Version written after all downloads; fail-fast on missing |
-| 🟠 Universe completeness | `check_universe_completeness()` reports bad months |
-| 🟠 Group permutation | Same row perm for grouped features |
-| 🟠 Strict 2022 | Execution date overlap + training label overlap |
-| 🟠 XLC anomaly | First-day 10.13x dropped |
-| 🟠 p-value | `(1+n_ge)/(N+1)` |
+### Timeline: Signal → Trade → Target
+
+```
+Month-end T
+  │ features observed (PE, prices)
+  ↓
+T+1 close: Koyfin PE finalized
+  ↓
+T+2 close: ENTRY (execution_lag=2)
+  ↓
+next month T+2: EXIT (1-month P&L)
+  ↓
+T+3 months T+2: target_exit (3M training target)
+```
+
+### Features
+| Feature | Source | Formula |
+|---------|--------|---------|
+| `f_valuation` | PE | -z-score of PE vs 24M rolling |
+| `f_fwd_earn_mom_3m` | Price/PE | symmetric change of (split_adj_close/PE) over 3M |
+| `f_fwd_earn_mom_1m` | Price/PE | symmetric change over 1M |
+| `f_mom6/3/1` | adj_close | 6/3/1 month total return |
+| `f_pe_level` | PE | raw forward PE |
+| `f_pe_chg3` | PE | 3M PE ratio change |
+| `f_dist_high6` | adj_close | distance from 6M high |
+
+### Fixes (v7 cumulative)
+| # | Issue | Fix |
+|---|-------|-----|
+| 1 | 🔴 Same-close | T+2 next-trading-day entry/exit via daily prices |
+| 2 | 🔴 Koyfin finalization lag | `execution_lag=2` (T+2), also tests T+1 and T+3 |
+| 3 | 🔴 Target/execution mismatch | 3M target computed from T+2 entry to T+3M+2 exit |
+| 4 | 🔴 Embargo approximation | Purge by `target_exit_date <= pred_date` (exact) |
+| 5 | 🔴 Double split adjust | Yahoo Close IS split-adjusted; no manual tk.splits |
+| 6 | 🔴 Dividend in EPS | `split_adj_close` for earnings proxy |
+| 7 | 🔴 `pct_change` NaN | `_safe_ratio()` / `_symmetric_change()` |
+| 8 | 🔴 Placebo 1 iter / reshuffled | `make_placebo_df()` fixed history, NaN-safe, 500 seeds |
+| 9 | 🔴 Benchmark misaligned | `compute_benchmark_aligned()` strict, raises on mismatch |
+| 10 | 🔴 Permutation never ran | `permutation_seed` param, 30 real repeats |
+| 11 | 🔴 END off-by-one | Month-Period comparison |
+| 12 | 🔴 Training universe dynamic | `train_start` fixes to common universe |
+| 13 | 🟠 EPS revision naming | Renamed → Forward Earnings Momentum (`_symmetric_change`) |
+| 14 | 🟠 Denominator explosion | Symmetric change bounded [-2,+2] |
+| 15 | 🟠 Strict universe | `min_test_sectors` skips incomplete months |
+| 16 | 🟠 Sortino formula | Proper downside deviation (MAR=0) |
+| 17 | 🟠 Deterministic seeds | `gid * 10000 + rep`, no Python `hash()` |
+| 18 | 🟠 Pass criteria | Excess-based: vs SPY, vs EW, IC, LOSO, placebo |
 
 ---
 
@@ -97,37 +122,30 @@ run_backtest.py ─── Phase 1 legacy
 
 ### Phase 1: Simple Ranking (`run_backtest.py`)
 
-Signals ranked cross-sectionally, buy Top 3 / short Bottom 3.
-
 | Signal | Ann Spread | t-stat | Win Rate |
 |--------|-----------|--------|----------|
 | Valuation | +2.4% | 0.39 | 44% |
 | EPS Revision | +0.2% | 0.03 | 51% |
 | Momentum | -7.3% | -1.08 | 46% |
 
-**Key finding:** Weak. Momentum negative. Valuation marginal.
-
 ### Phase 2: EPS Revision Robustness
-
-Tested whether EPS revision alpha was an XLE artifact:
 
 | Variant | Top1 CAGR | vs SPY |
 |---------|-----------|--------|
 | Original | +18.1% | ✅ |
-| PE>50 → NaN | +10.1% | ❌ |
-| **Exclude XLE** | **+10.7%** | **❌** |
+| Exclude XLE | +10.7% | ❌ |
 
 **Verdict:** Simple EPS revision collapsed without XLE.
 
 ### Phase 3: RF Model Comparison (`rf_backtest.py`)
 
-**v6 results: PENDING — run `rf_backtest.py`**
+**v7 results: PENDING — run `rf_backtest.py`**
 
 ### Phase 4: 5-Knife Audit (`rf_audit.py`)
 
-**v6 results: PENDING — run `rf_audit.py`**
+**v7 results: PENDING — run `rf_audit.py`**
 
-v6 pass criteria (7 checks, all excess-based):
+v7 pass criteria (7 checks, excess-based):
 1. Top1 > aligned SPY
 2. Top1 > EW sectors
 3. Mean Rank IC > 0
@@ -136,52 +154,47 @@ v6 pass criteria (7 checks, all excess-based):
 6. Placebo spread p < 0.05
 7. Placebo Top1-EW p < 0.05
 
+Plus execution lag sensitivity: T+1 / **T+2** / T+3.
+
 ---
 
 ## Remaining Risks
 
-1. **Point-in-time PE**: Koyfin f_pe may have been revised retroactively
-2. **Short sample**: ~89 months OOS (2019-2026)
-3. **Sector concentration**: RF Top1 may favor XLK (~26%)
-4. **PE denominator instability**: EPS ≈ 0 → PE explodes → false EPS revision signal
+| Risk | Severity | Mitigatable? |
+|------|----------|-------------|
+| Koyfin PE not perfect PIT | 🟠 | Partially: T+2 execution helps; start freezing snapshots |
+| Multiple-testing / researcher DoF | 🟠 | Future: max-stat placebo or live OOS |
+| Short sample (~80-90 months) | 🟡 | More time needed |
+| Transaction cost / turnover | 🟡 | Not yet analyzed |
+| ETF P/PE ≠ pure analyst revision | 🟡 | Cross-check with direct NTM EPS consensus |
 
 ---
 
 ## Files
 
-### Code
 | File | Purpose |
 |------|---------|
 | `engine.py` | **Shared engine** — data, features, walk-forward, metrics |
-| `rf_audit.py` | 5-knife audit (purge, LOSO, excl-2022, permutation, placebo) |
-| `rf_backtest.py` | RF vs Ridge model comparison |
-| `run_backtest.py` | Phase 1: Simple ranking (legacy, standalone) |
-| `fetch_sector_data.py` | Data download utility |
+| `rf_audit.py` | 5-knife audit + execution lag sensitivity |
+| `rf_backtest.py` | RF vs Ridge comparison |
+| `run_backtest.py` | Phase 1 legacy |
 
-### Data
 | Dir | Contents |
 |-----|----------|
-| `pe_data/*.csv` | Koyfin Forward PE (daily) |
-| `pe_data/combined_legacy.csv` | Legacy MacroMicro PE |
-| `adj_prices/*.csv` | yfinance split-adjusted daily close (auto-generated) |
-
-### Results
-| File | Status |
-|------|--------|
-| `backtest_results.csv` | Phase 1 results |
-| `rf_backtest_results.csv` | v2 results (superseded) |
+| `pe_data/*.csv` | Koyfin Forward PE |
+| `adj_prices/*.csv` | yfinance prices (auto-generated, CACHE_VERSION=7) |
 
 ---
 
 ## Usage
 
 ```bash
-# Download adjusted prices (first run only, ~30s)
-python3 -c "from engine import load_adjusted_prices; load_adjusted_prices()"
+# Download prices (first run only, ~30s)
+python3 -c "from engine import load_prices; load_prices()"
 
 # Model comparison
 python3 rf_backtest.py
 
-# 5-knife audit (~15-20 min due to 500 placebo iterations)
+# Full audit (~20-30 min, 500 placebo + 30×11 permutations)
 python3 rf_audit.py
 ```
