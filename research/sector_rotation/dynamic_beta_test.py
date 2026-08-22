@@ -61,7 +61,7 @@ for i, dt in enumerate(shocks_df.index):
     mean = past.mean()
     std = past.std().replace(0, np.nan)
     z = (curr - mean) / std
-    z_shocks.append({'date': dt, 'ry_z': z['ry_raw']})
+    z_shocks.append({'date': dt, 'ry_z': z['ry_raw'], 'ry_raw': curr['ry_raw']})
 
 z_df = pd.DataFrame(z_shocks).set_index('date').dropna()
 
@@ -166,19 +166,19 @@ for lag in [1, 2, 3]:
         m = ret_df[ret_df['date'] == dt].copy()
         if len(m) != 11: continue
         
-        ry_z = z_df.loc[dt, 'ry_z']
+        ry_raw = z_df.loc[dt, 'ry_raw']
         
         # Dynamic Signal
         dyn_scores = []
         for sec in m['ticker']:
             b = beta_df.loc[(dt, sec), 'beta']
-            dyn_scores.append(b * ry_z)
+            dyn_scores.append(b * ry_raw)
         
         # Static Signal
         stat_scores = []
         for sec in m['ticker']:
             exps = +1 if sec in SENSITIVE_SECTORS else 0
-            stat_scores.append(exps * ry_z)
+            stat_scores.append(exps * ry_raw)
             
         m['dyn_score'] = dyn_scores
         m['stat_score'] = stat_scores
@@ -189,22 +189,11 @@ for lag in [1, 2, 3]:
         dyn_ics.append(d_ic)
         stat_ics.append(s_ic)
         
-        # Top 3 EW
-        m_dyn = m.sort_values('dyn_score', ascending=False)
-        m_stat = m.sort_values('stat_score', ascending=False)
-        
-        dyn_t3.append(m_dyn.iloc[:3]['exec_ret'].mean())
-        stat_t3.append(m_stat.iloc[:3]['exec_ret'].mean())
-        ew_ret.append(m['exec_ret'].mean())
-        
         if lag == 2:
             results.append({
                 'date': dt,
                 'dyn_ic': d_ic,
-                'stat_ic': s_ic,
-                'dyn_t3': dyn_t3[-1],
-                'stat_t3': stat_t3[-1],
-                'ew': ew_ret[-1]
+                'stat_ic': s_ic
             })
 
     print(f"\n[LAG T+{lag}] Months: {len(ret_df['date'].unique())}")
@@ -220,15 +209,7 @@ print("="*80)
 def print_regime(df, label):
     stat_ic = df['stat_ic'].mean()
     dyn_ic = df['dyn_ic'].mean()
-    
-    ew = df['ew'].mean()
-    stat_t3 = df['stat_t3'].mean()
-    dyn_t3 = df['dyn_t3'].mean()
-    
-    stat_exc = stat_t3 - ew
-    dyn_exc = dyn_t3 - ew
-    
-    print(f"[{label:^8s}] N={len(df):2d} | Rank IC: Static {stat_ic:+.3f} vs Dynamic {dyn_ic:+.3f} | Top3 Excess: Static {stat_exc*100:+.2f}% vs Dynamic {dyn_exc*100:+.2f}%")
+    print(f"[{label:^8s}] N={len(df):2d} | Rank IC: Static {stat_ic:+.3f} vs Dynamic {dyn_ic:+.3f}")
 
 print_regime(res_df, "FULL")
 
