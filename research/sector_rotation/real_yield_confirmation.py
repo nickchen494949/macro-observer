@@ -203,7 +203,7 @@ for h_months in [1, 3]:
     
     if h_months == 1:
         a_sp = (1 + pd.Series(l_spreads)).cumprod().iloc[-1] ** (12 / len(l_spreads)) - 1
-        print(f"[{h_months}M Hold] Rank IC: {np.mean(l_ics):+.3f} | Spread IC: {s_ic:+.3f} | Ann Spread: {a_sp*100:+.1f}% | Win Rate: {win_rate*100:.1f}%")
+        print(f"[{h_months}M Hold] Rank IC: {np.mean(l_ics):+.3f} | Spread IC: {s_ic:+.3f} | Ann Compound Spread Stat: {a_sp*100:+.1f}% | Win Rate: {win_rate*100:.1f}%")
     else:
         print(f"[{h_months}M Hold] Rank IC: {np.mean(l_ics):+.3f} | Spread IC: {s_ic:+.3f} | Avg Spread: {avg_sp*100:+.2f}% | Win Rate: {win_rate*100:.1f}%")
 
@@ -224,27 +224,34 @@ for _, r in bucket_stats.iterrows():
         wr = np.mean(sub['group_spread'] > 0) * 100
         print(f"{bk:<12s} | N={r['Months']:2d} | Spread: {r['Avg_Spread']:+5.2f}% | Direction Correct (Spread > 0): {wr:5.1f}%")
 
-print("\n--- SPREAD PERMUTATION TEST (500 perms) ---")
+print("\n--- EXACT TEST: 330 FIXED 4-SECTOR BASKETS ---")
+import itertools
+all_baskets = list(itertools.combinations(MACRO_SECTORS, 4))
+null_spread_ics_exact = []
 real_spread_ic, _ = spearmanr(res_df['ry_raw'], res_df['group_spread'])
 
-null_spread_ics = []
-N_PERM = 500
-sens_idx = [i for i, s in enumerate(MACRO_SECTORS) if s in SENSITIVE_SECTORS]
-rest_idx = [i for i, s in enumerate(MACRO_SECTORS) if s not in SENSITIVE_SECTORS]
+for basket in all_baskets:
+    l_spreads = []
+    for m_sorted_rets in ret_arrays:
+        sens_r = np.mean([m_sorted_rets[MACRO_SECTORS.index(s)] for s in basket])
+        rest_r = np.mean([m_sorted_rets[MACRO_SECTORS.index(s)] for s in MACRO_SECTORS if s not in basket])
+        l_spreads.append(sens_r - rest_r)
+    s_ic, _ = spearmanr(res_df['ry_raw'], l_spreads)
+    null_spread_ics_exact.append(s_ic)
 
-raw_vals = res_df['ry_raw'].values
+p_val_exact = (1 + np.sum(np.abs(null_spread_ics_exact) >= np.abs(real_spread_ic))) / (len(all_baskets) + 1)
+rank_exact = np.sum(np.abs(null_spread_ics_exact) >= np.abs(real_spread_ic)) + 1
+print(f"Spread IC p-value (exact): {p_val_exact:.4f} | Real Rank: {rank_exact} / {len(all_baskets)+1}")
 
-for seed in range(N_PERM):
-    rng = np.random.RandomState(seed)
-    shuf_spreads = []
-    for i in range(len(ret_arrays)):
-        shuf_ret = rng.permutation(ret_arrays[i])
-        sens_r = np.mean(shuf_ret[sens_idx])
-        rest_r = np.mean(shuf_ret[rest_idx])
-        shuf_spreads.append(sens_r - rest_r)
-    
-    s_ic, _ = spearmanr(raw_vals, shuf_spreads)
-    null_spread_ics.append(s_ic)
-    
-p_val = (1 + np.sum(np.abs(null_spread_ics) >= np.abs(real_spread_ic))) / (N_PERM + 1)
-print(f"Spread IC p-value (absolute): {p_val:.3f}")
+print("\n--- TIME-SHIFT TEST ---")
+null_spread_ics_time = []
+shifts = list(range(1, len(res_df)))
+for shift in shifts:
+    shifted_raw = np.roll(res_df['ry_raw'].values, shift)
+    s_ic, _ = spearmanr(shifted_raw, res_df['group_spread'])
+    null_spread_ics_time.append(s_ic)
+
+p_val_time = (1 + np.sum(np.abs(null_spread_ics_time) >= np.abs(real_spread_ic))) / (len(shifts) + 1)
+rank_time = np.sum(np.abs(null_spread_ics_time) >= np.abs(real_spread_ic)) + 1
+print(f"Spread IC p-value (time-shift): {p_val_time:.4f} | Real Rank: {rank_time} / {len(shifts)+1}")
+
