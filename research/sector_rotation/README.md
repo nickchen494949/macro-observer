@@ -43,46 +43,53 @@ No synthetic data.
 
 ---
 
-## Architecture (v5)
+## Architecture (v6)
 
 ```
-engine.py
-  ├── load_prices()             ← TWO series per ticker (CACHE_VERSION=5):
-  │     ├── split_adj_close      — Yahoo Close (already split-adjusted, no dividends)
+engine.py (CACHE_VERSION=6)
+  ├── load_prices()             ← fail-fast if any ticker missing
+  │     ├── split_adj_close      — Yahoo Close (split-adjusted, no dividends)
   │     └── adj_close            — Yahoo Adj Close (split + dividend adjusted)
-  ├── load_pe()                 ← Koyfin CSVs, coverage dict
+  │     └── cache version written AFTER all downloads succeed
+  ├── load_pe()                 ← fail-fast if any sector PE missing
   ├── build_features()
   │     ├── EPS = split_adj_close / PE  (no dividend contamination)
   │     ├── Momentum = adj_close        (total return)
-  │     ├── _safe_ratio()               (explicit, no pct_change NaN)
-  │     └── exec_ret + entry_date/exit_date via daily adj_close
+  │     ├── _safe_ratio()               (no pct_change NaN bug)
+  │     └── exec_ret + entry_date/exit_date
   ├── common_feature_start()    ← auto-detect fixed universe start
-  ├── compute_benchmark_aligned() ← reuses exact strategy entry/exit dates
+  ├── check_universe_completeness() ← report incomplete months
+  ├── compute_benchmark_aligned() ← strict: raises if date not in index
   ├── make_placebo_df()         ← fixed fake history per seed
-  └── walk_forward_purged()     ← returns entry/exit dates per row
+  └── walk_forward_purged()
+        ├── start/end by month Period (no off-by-one)
+        ├── train_start for fixed training universe
+        └── permutation_seed parameter for repeated importance
 
-rf_backtest.py  ─── model comparison (imports engine)
-rf_audit.py     ─── 5-knife audit (imports engine)
-run_backtest.py ─── Phase 1 legacy (standalone)
+rf_backtest.py  ─── model comparison
+rf_audit.py     ─── 5-knife audit (N_PERM=30, N_PLACEBO=500)
+run_backtest.py ─── Phase 1 legacy
 ```
 
-### Fixes (v5 cumulative)
+### Fixes (v6 cumulative)
 | Issue | Fix |
 |-------|-----|
 | 🔴 Same-close | Next-trading-day entry/exit via daily prices |
-| 🔴 Double split adjust | Yahoo Close IS split-adjusted; removed manual `tk.splits` math |
-| 🔴 Dividend in EPS | `split_adj_close` (no dividends) for EPS proxy |
+| 🔴 Double split adjust | Yahoo Close IS split-adjusted; no manual splits |
+| 🔴 Dividend in EPS | `split_adj_close` for EPS proxy |
 | 🔴 `pct_change` NaN | `_safe_ratio()` explicit |
-| 🔴 Placebo 1 iter / reshuffled | `make_placebo_df()` fixed history per seed, 500 seeds |
-| 🔴 Benchmark not aligned | `compute_benchmark_aligned()` reuses exact strategy dates |
-| 🟠 Pass criteria absolute | Now excess-based: Top1 vs SPY, vs EW, Rank IC |
+| 🔴 Placebo 1 iter / reshuffled | `make_placebo_df()` fixed history, 500 seeds |
+| 🔴 Benchmark not aligned | `compute_benchmark_aligned()` strict date match, raises on mismatch |
+| 🔴 Permutation N=30 never ran | `permutation_seed` param, `break` removed, 30 real repeats |
+| 🔴 END off-by-one | Month-Period comparison: `'2026-06'` includes June 30 |
+| 🔴 Training universe dynamic | `train_start` parameter fixes training to common universe |
+| 🟠 Pass criteria | Excess-based: Top1 vs SPY, vs EW, IC, LOSO excess, placebo |
+| 🟠 Cache atomicity | Version written after all downloads; fail-fast on missing |
+| 🟠 Universe completeness | `check_universe_completeness()` reports bad months |
 | 🟠 Group permutation | Same row perm for grouped features |
-| 🟠 Strict 2022 test | Checks entry/exit date overlap with excluded year |
-| 🟠 Strict 2022 train | Removes labels whose 3M horizon touches excluded year |
-| 🟠 Fixed universe | `common_feature_start()` auto-detects |
+| 🟠 Strict 2022 | Execution date overlap + training label overlap |
 | 🟠 XLC anomaly | First-day 10.13x dropped |
-| 🟠 p-value formula | `(1+n_ge)/(N+1)` conservative |
-| 🟠 Cache versioning | `CACHE_VERSION=5` auto-invalidates old data |
+| 🟠 p-value | `(1+n_ge)/(N+1)` |
 
 ---
 
@@ -114,22 +121,20 @@ Tested whether EPS revision alpha was an XLE artifact:
 
 ### Phase 3: RF Model Comparison (`rf_backtest.py`)
 
-Walk-forward RF with purge, next-trading-day execution, split-only EPS.
-
-**v5 results: PENDING — run `rf_backtest.py`**
+**v6 results: PENDING — run `rf_backtest.py`**
 
 ### Phase 4: 5-Knife Audit (`rf_audit.py`)
 
-**v5 results: PENDING — run `rf_audit.py`**
+**v6 results: PENDING — run `rf_audit.py`**
 
-v5 pass criteria (excess-based):
-- Top1 > aligned SPY
-- Top1 > EW sectors
-- Mean Rank IC > 0
-- LOSO mean excess > 0
-- Strict excl-2022 excess > 0
-- Placebo spread p < 0.05
-- Placebo Top1-EW p < 0.05
+v6 pass criteria (7 checks, all excess-based):
+1. Top1 > aligned SPY
+2. Top1 > EW sectors
+3. Mean Rank IC > 0
+4. LOSO mean excess > 0
+5. Strict excl-2022 excess > 0
+6. Placebo spread p < 0.05
+7. Placebo Top1-EW p < 0.05
 
 ---
 

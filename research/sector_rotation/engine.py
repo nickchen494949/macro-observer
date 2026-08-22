@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-Sector Rotation Engine v5
+Sector Rotation Engine v6
 
-v5 fixes:
-  1. 🔴 Split price: Yahoo Close IS already split-adjusted. No manual split math.
-  2. 🔴 Benchmark: walk_forward returns entry/exit dates, benchmark reuses them exactly.
-  3. 🟠 Fixed universe: auto-detect common feature start.
-  4. 🟠 Pass criteria: excess return vs aligned benchmark.
-  5. 🟡 Permutation importance: N_PERM repeats per group.
+v6 fixes:
+  1. 🔴 permutation_seed parameter (N_PERM repeats actually work)
+  2. 🔴 train_start for fixed training universe
+  3. 🔴 Month-period comparison for START/END (no off-by-one)
+  4. 🟠 Cache version written AFTER all downloads, fail-fast on missing
+  5. Benchmark: fail loudly if date not in index
 """
 
 import os, warnings
@@ -18,7 +18,7 @@ from sklearn.linear_model import Ridge
 
 warnings.filterwarnings('ignore')
 
-CACHE_VERSION = 5  # bump to invalidate old adj_prices/ cache
+CACHE_VERSION = 6
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.abspath(os.path.join(_DIR, '..', '..'))
@@ -57,22 +57,36 @@ FEAT_COLS = [
 
 
 # ══════════════════════════════════════════════════
+# DATE HELPERS
+# ══════════════════════════════════════════════════
+
+def _month_period(x):
+    """Convert date-like to pandas Period('M') for month-level comparison."""
+    return pd.Period(x, 'M')
+
+
+def _filter_dates_by_month(dates, start, end):
+    """
+    FIX v6: Compare by month Period, not Timestamp.
+    '2026-06' means the MONTH of June, not June 1st.
+    """
+    p_start = _month_period(start)
+    p_end = _month_period(end)
+    return [d for d in dates if p_start <= _month_period(d) <= p_end]
+
+
+# ══════════════════════════════════════════════════
 # DATA LOADING
 # ══════════════════════════════════════════════════
 
 def load_prices(tickers=None, start='2002-01-01', end='2026-09-01',
                 force_refresh=False):
     """
-    Load daily prices via yfinance. Saves TWO columns:
+    Yahoo Close = split-adjusted (no dividends) → EPS proxy
+    Yahoo Adj Close = split + dividend adjusted → momentum, P&L
 
-      split_adj_close — Yahoo 'Close' (already split-adjusted, NO dividends)
-                        → for EPS proxy = price / PE
-      adj_close       — Yahoo 'Adj Close' (split + dividend adjusted)
-                        → for momentum, target, P&L
-
-    FIX v5: Yahoo's Close IS already split-adjusted in historical data.
-    We were double-adjusting by manually applying tk.splits on top.
-    Now just use hist['Close'] directly.
+    FIX v6: Cache version written AFTER all downloads succeed.
+    Fails fast if any required ticker is missing.
     """
     import yfinance as yf
     import time
@@ -83,7 +97,6 @@ def load_prices(tickers=None, start='2002-01-01', end='2026-09-01',
     os.makedirs(PRICE_CACHE, exist_ok=True)
     version_fp = os.path.join(PRICE_CACHE, '.cache_version')
 
-    # Invalidate old cache
     cached_ver = 0
     if os.path.exists(version_fp):
         try:
@@ -92,9 +105,7 @@ def load_prices(tickers=None, start='2002-01-01', end='2026-09-01',
             pass
     if cached_ver < CACHE_VERSION:
         force_refresh = True
-        # Write new version marker
-        with open(version_fp, 'w') as f:
-            f.write(str(CACHE_VERSION))
+        # DON'T write version yet — wait until all downloads succeed
 
     all_frames = {}
 
@@ -111,18 +122,11 @@ def load_prices(tickers=None, start='2002-01-01', end='2026-09-01',
             hist = yf.Ticker(t).history(start=start, end=end, interval='1d',
                                          auto_adjust=False)
             if hist.empty:
-                print(f'  ⚠ {t}: no data')
-                continue
+                raise RuntimeError(f'{t}: yfinance returned empty data')
 
             if hist.index.tz is not None:
                 hist.index = hist.index.tz_localize(None)
 
-            # ═══════════════════════════════════════
-            # FIX v5: NO manual split adjustment!
-            #
-            # Yahoo Close = already split-adjusted (no dividends)
-            # Yahoo Adj Close = split + dividend adjusted
-            # ═══════════════════════════════════════
             df = pd.DataFrame({
                 'adj_close': hist['Adj Close'].astype(float),
                 'split_adj_close': hist['Close'].astype(float),
@@ -136,17 +140,29 @@ def load_prices(tickers=None, start='2002-01-01', end='2026-09-01',
         except Exception as e:
             print(f'  ✗ {t}: {e}')
 
+    # Fail fast on missing required tickers
+    missing = set(tickers) - set(all_frames)
+    if missing:
+        raise RuntimeError(
+            f'Missing price data for: {sorted(missing)}. '
+            f'Cannot proceed — would silently reduce universe.')
+
+    # FIX v6: Write version AFTER all succeed
+    if cached_ver < CACHE_VERSION:
+        with open(version_fp, 'w') as f:
+            f.write(str(CACHE_VERSION))
+
     return all_frames
 
 
 def load_pe():
-    """Load Koyfin forward PE CSVs."""
+    """Load Koyfin forward PE. Fails fast if any sector is missing."""
     frames = []
     coverage = {}
     for fname, ticker in PE_MAP.items():
         fp = os.path.join(PE_DIR, fname)
         if not os.path.exists(fp):
-            continue
+            raise RuntimeError(f'Missing PE file: {fp}')
         df = pd.read_csv(fp)
         df.columns = [c.strip() for c in df.columns]
         df['date'] = pd.to_datetime(df['date'])
@@ -160,7 +176,14 @@ def load_pe():
         m['ticker'] = ticker
         frames.append(m.reset_index())
 
-    return pd.concat(frames, ignore_index=True), coverage
+    pe = pd.concat(frames, ignore_index=True)
+
+    # Check all sectors present
+    missing = set(SECTORS) - set(pe['ticker'].unique())
+    if missing:
+        raise RuntimeError(f'Missing PE data for: {sorted(missing)}')
+
+    return pe, coverage
 
 
 # ══════════════════════════════════════════════════
@@ -168,7 +191,7 @@ def load_pe():
 # ══════════════════════════════════════════════════
 
 def _safe_ratio(series, periods):
-    """series[t] / series[t-periods] - 1, NaN-safe. No pct_change."""
+    """series[t] / series[t-periods] - 1, NaN-safe."""
     shifted = series.shift(periods)
     result = series / shifted - 1
     result[series.isna() | shifted.isna() | (shifted.abs() < 1e-9)] = np.nan
@@ -176,21 +199,23 @@ def _safe_ratio(series, periods):
 
 
 def common_feature_start(df, feat_xs, expected_n):
-    """Find first month where all expected sectors have all features."""
+    """First month where all expected sectors have all features."""
     good = df.dropna(subset=feat_xs).groupby('date')['ticker'].nunique()
     candidates = good[good >= expected_n]
     return candidates.index.min() if len(candidates) > 0 else None
 
 
+def check_universe_completeness(df, feat_xs, start, expected_n):
+    """Report months after start where universe is incomplete."""
+    after = df[df['date'] >= pd.Timestamp(start)]
+    counts = after.dropna(subset=feat_xs).groupby('date')['ticker'].nunique()
+    bad = counts[counts < expected_n]
+    return bad
+
+
 def build_features(daily_prices, pe, exclude_tickers=None):
-    """
-    Build monthly feature matrix.
-
-    split_adj_close → EPS proxy (no dividend contamination)
-    adj_close → momentum, P&L
-    """
+    """Build monthly feature matrix with both price series."""
     tickers = [t for t in SECTORS if t not in (exclude_tickers or [])]
-
     pe_data = pe[0] if isinstance(pe, tuple) else pe
 
     monthly_frames = []
@@ -203,8 +228,8 @@ def build_features(daily_prices, pe, exclude_tickers=None):
         m_adj = dp['adj_close'].resample('ME').last().dropna()
         m_split = dp['split_adj_close'].resample('ME').last().dropna()
         m = pd.DataFrame({
-            'close': m_adj,          # total-return → momentum, target, P&L
-            'close_eps': m_split,    # split-only → EPS proxy
+            'close': m_adj,
+            'close_eps': m_split,
         })
         m['ticker'] = t
         monthly_frames.append(m.reset_index())
@@ -227,12 +252,10 @@ def build_features(daily_prices, pe, exclude_tickers=None):
         s['f_valuation'] = -s['fpe'].rolling(24, min_periods=12).apply(
             lambda x: (x.iloc[-1] - x.mean()) / (x.std() + 1e-9))
 
-        # EPS proxy: split-only price / PE
         s['fwd_eps'] = s['close_eps'] / s['fpe']
         s['f_eps_rev'] = _safe_ratio(s['fwd_eps'], 3).clip(-0.5, 0.5)
         s['f_eps_rev_1m'] = _safe_ratio(s['fwd_eps'], 1).clip(-0.3, 0.3)
 
-        # Momentum: total-return price
         s['f_mom6'] = _safe_ratio(s['close'], 6)
         s['f_mom3'] = _safe_ratio(s['close'], 3)
         s['f_mom1'] = _safe_ratio(s['close'], 1)
@@ -241,7 +264,6 @@ def build_features(daily_prices, pe, exclude_tickers=None):
         s['f_pe_chg3'] = _safe_ratio(s['fpe'], 3)
         s['f_dist_high6'] = s['close'] / s['close'].rolling(6).max() - 1
 
-        # 3M training target (total-return)
         future_3m = s['close'].shift(-3)
         s['fwd_ret_3m_raw'] = future_3m / s['close'] - 1
         s.loc[s['close'].isna() | future_3m.isna(), 'fwd_ret_3m_raw'] = np.nan
@@ -252,11 +274,10 @@ def build_features(daily_prices, pe, exclude_tickers=None):
         return None, [], daily_prices
 
     df = pd.concat(all_feat, ignore_index=True)
-
     df['fwd_ret_3m_median'] = df.groupby('date')['fwd_ret_3m_raw'].transform('median')
     df['target'] = df['fwd_ret_3m_raw'] - df['fwd_ret_3m_median']
 
-    # ── Execution returns + dates via daily prices ──
+    # Execution returns + dates
     df['exec_ret'] = np.nan
     df['entry_date'] = pd.NaT
     df['exit_date'] = pd.NaT
@@ -294,16 +315,16 @@ def build_features(daily_prices, pe, exclude_tickers=None):
 
 
 # ══════════════════════════════════════════════════
-# BENCHMARK (exact same entry/exit dates as strategy)
+# BENCHMARK (exact alignment, fail-loud)
 # ══════════════════════════════════════════════════
 
 def compute_benchmark_aligned(daily_prices, strategy_results, ticker='SPY'):
     """
-    FIX v5: Benchmark uses EXACT entry_date/exit_date from strategy results.
-    No independent date calculation. Guaranteed same N and same periods.
+    FIX v6: Strict date matching. Raises if date not found in benchmark.
+    Guaranteed same N as strategy.
     """
     if ticker not in daily_prices:
-        return pd.Series(dtype=float)
+        raise RuntimeError(f'Benchmark {ticker} not in daily_prices')
 
     dp = daily_prices[ticker]
     rets = []
@@ -311,27 +332,41 @@ def compute_benchmark_aligned(daily_prices, strategy_results, ticker='SPY'):
     for _, row in strategy_results.iterrows():
         entry = row.get('entry_date')
         exit_ = row.get('exit_date')
+
         if pd.isna(entry) or pd.isna(exit_):
             rets.append(np.nan)
             continue
 
-        # Find nearest trading day (in case exact date not in index)
-        entry_idx = dp.index.searchsorted(entry)
-        exit_idx = dp.index.searchsorted(exit_)
+        # Strict: entry/exit must exist in benchmark index
+        # (same US equity calendar for all sector ETFs and SPY/QQQ)
+        if entry not in dp.index:
+            raise RuntimeError(
+                f'{ticker}: entry_date {entry} not in price index. '
+                f'Dates around: {dp.index[dp.index.searchsorted(entry)-1:dp.index.searchsorted(entry)+2].tolist()}')
+        if exit_ not in dp.index:
+            raise RuntimeError(
+                f'{ticker}: exit_date {exit_} not in price index. '
+                f'Dates around: {dp.index[dp.index.searchsorted(exit_)-1:dp.index.searchsorted(exit_)+2].tolist()}')
 
-        if entry_idx >= len(dp) or exit_idx >= len(dp):
-            rets.append(np.nan)
-            continue
-
-        entry_px = dp.iloc[entry_idx]['adj_close']
-        exit_px = dp.iloc[exit_idx]['adj_close']
+        entry_px = dp.loc[entry, 'adj_close']
+        exit_px = dp.loc[exit_, 'adj_close']
 
         if pd.notna(entry_px) and pd.notna(exit_px) and entry_px > 0:
             rets.append(exit_px / entry_px - 1)
         else:
             rets.append(np.nan)
 
-    return pd.Series(rets, index=strategy_results['date'].values)
+    result = pd.Series(rets, index=strategy_results['date'].values)
+
+    # Assert alignment
+    strat_valid = strategy_results['top_ret'].notna().sum()
+    bench_valid = result.notna().sum()
+    if strat_valid != bench_valid:
+        raise RuntimeError(
+            f'Benchmark alignment mismatch: strategy has {strat_valid} valid returns, '
+            f'{ticker} has {bench_valid}')
+
+    return result
 
 
 # ══════════════════════════════════════════════════
@@ -339,10 +374,7 @@ def compute_benchmark_aligned(daily_prices, strategy_results, ticker='SPY'):
 # ══════════════════════════════════════════════════
 
 def make_placebo_df(df, seed):
-    """
-    One fixed fake history: shuffle sector-target assignments within each month.
-    Used consistently across entire walk-forward.
-    """
+    """Fixed fake history: shuffle within each month."""
     rng = np.random.RandomState(seed)
     df_p = df.copy()
     for dt in df_p['date'].unique():
@@ -354,24 +386,29 @@ def make_placebo_df(df, seed):
 
 
 # ══════════════════════════════════════════════════
-# WALK-FORWARD ENGINE
+# WALK-FORWARD
 # ══════════════════════════════════════════════════
 
 def walk_forward_purged(df, feat_xs, top_n=1, start='2019-01', end='2026-06',
                         embargo_months=3,
+                        train_start=None,
                         exclude_years_test=None,
                         exclude_labels_overlapping=None,
                         shuffle_features=None,
+                        permutation_seed=42,
                         model_type='rf'):
     """
-    Purged walk-forward.
-
-    FIX v5: Returns entry_date/exit_date per row so benchmark can reuse exactly.
+    FIX v6:
+      - start/end compared by month Period (no off-by-one)
+      - train_start for fixed training universe
+      - permutation_seed parameter for repeated permutation importance
     """
     dates = sorted(df['date'].unique())
-    dates = [d for d in dates if pd.Timestamp(start) <= d <= pd.Timestamp(end)]
 
-    # Strict year exclusion by execution date overlap
+    # FIX v6: month-level comparison
+    dates = _filter_dates_by_month(dates, start, end)
+
+    # Strict year exclusion by execution dates
     if exclude_years_test:
         clean = []
         for d in dates:
@@ -398,11 +435,16 @@ def walk_forward_purged(df, feat_xs, top_n=1, start='2019-01', end='2026-06',
         dates = clean
 
     results = []
-    rng = np.random.RandomState(42)
+    # FIX v6: permutation_seed is a parameter, not hardcoded 42
+    rng = np.random.RandomState(permutation_seed)
 
     for pred_date in dates:
         cutoff = pred_date - pd.DateOffset(months=embargo_months)
         train = df[df['date'] <= cutoff].dropna(subset=feat_xs + ['target']).copy()
+
+        # FIX v6: fixed training universe
+        if train_start:
+            train = train[train['date'] >= pd.Timestamp(train_start)]
 
         if exclude_labels_overlapping:
             for ey in exclude_labels_overlapping:
@@ -450,7 +492,6 @@ def walk_forward_purged(df, feat_xs, top_n=1, start='2019-01', end='2026-06',
         valid = test.dropna(subset=['exec_ret'])
         ic = stats.spearmanr(valid['pred'], valid['exec_ret'])[0] if len(valid) >= 5 else np.nan
 
-        # FIX v5: capture entry/exit dates for benchmark alignment
         top_entry = top['entry_date'].dropna().iloc[0] if top['entry_date'].notna().any() else pd.NaT
         top_exit = top['exit_date'].dropna().iloc[0] if top['exit_date'].notna().any() else pd.NaT
 
