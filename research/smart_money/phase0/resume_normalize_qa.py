@@ -42,8 +42,8 @@ if __name__ == "__main__":
         print(f"  ⚠️  {val_null:,} rows still need normalization — run apply_value_normalization first")
         sys.exit(1)
 
-    # ── Step 2: Bulk SQL to fix asset_class (options only) ─────────────────
-    print(f"\n[2/3] REPAIR asset_class (bulk SQL, options only)")
+    # ── Step 2: Batch repair asset_class by rowid range ────────────────────
+    print(f"\n[2/3] REPAIR asset_class (batched by rowid)")
 
     # Count before
     before = db.execute("""
@@ -53,23 +53,40 @@ if __name__ == "__main__":
     for r in before:
         print(f"    {r['asset_class']:15s}: {r['n']:>12,}")
 
-    # Fix: Call → call_option (case-insensitive)
-    n_call = db.execute("""
-        UPDATE filing_line_items SET asset_class = 'call_option'
-        WHERE UPPER(TRIM(put_call)) = 'CALL' AND asset_class != 'call_option'
-    """).rowcount
-    db.commit()
-    _safe_wal_checkpoint(db)
-    print(f"  Fixed call_option: {n_call:,} rows")
+    # Find rows that need fixing: put_call is non-empty but asset_class is wrong
+    to_fix = db.execute("""
+        SELECT COUNT(*) FROM filing_line_items
+        WHERE TRIM(put_call) != '' AND put_call IS NOT NULL
+          AND asset_class NOT IN ('call_option', 'put_option')
+    """).fetchone()[0]
+    print(f"  Rows needing fix: {to_fix:,}")
 
-    # Fix: Put → put_option (case-insensitive)
-    n_put = db.execute("""
-        UPDATE filing_line_items SET asset_class = 'put_option'
-        WHERE UPPER(TRIM(put_call)) = 'PUT' AND asset_class != 'put_option'
-    """).rowcount
-    db.commit()
-    _safe_wal_checkpoint(db)
-    print(f"  Fixed put_option:  {n_put:,} rows")
+    if to_fix > 0:
+        # Get rowid range
+        min_id = db.execute("SELECT MIN(rowid) FROM filing_line_items").fetchone()[0]
+        max_id = db.execute("SELECT MAX(rowid) FROM filing_line_items").fetchone()[0]
+        BATCH = 100_000
+        fixed_total = 0
+        for start in range(min_id, max_id + 1, BATCH):
+            end = start + BATCH - 1
+            n = db.execute("""
+                UPDATE filing_line_items
+                SET asset_class = CASE UPPER(TRIM(put_call))
+                    WHEN 'CALL' THEN 'call_option'
+                    WHEN 'PUT'  THEN 'put_option'
+                END
+                WHERE rowid BETWEEN ? AND ?
+                  AND TRIM(put_call) != '' AND put_call IS NOT NULL
+                  AND asset_class NOT IN ('call_option', 'put_option')
+            """, (start, end)).rowcount
+            fixed_total += n
+            db.commit()
+            _safe_wal_checkpoint(db)
+            if ((start - min_id) // BATCH) % 50 == 0:
+                print(f"  rowid {start:,}–{end:,}: fixed {n:,} (total {fixed_total:,})")
+        print(f"  Total fixed: {fixed_total:,}")
+    else:
+        print("  No rows to fix — already correct")
 
     # Count after
     after = db.execute("""
