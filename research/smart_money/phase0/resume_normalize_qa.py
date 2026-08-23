@@ -33,11 +33,42 @@ if __name__ == "__main__":
     print(f"\n  Filings: {fe:,}  (acceptance_datetime: {accept:,} = {accept/max(fe,1)*100:.1f}%)")
 
     # Normalization (batched, with WAL checkpoint)
-    print(f"\n[1/2] VALUE NORMALIZATION (batched)")
+    print(f"\n[1/3] VALUE NORMALIZATION (batched)")
     apply_value_normalization(db)
 
+    # Repair asset_class using fixed case-insensitive classify_asset
+    print(f"\n[2/3] REPAIR asset_class (case-insensitive classify_asset)")
+    from pipeline import classify_asset, _safe_wal_checkpoint
+    BATCH = 500
+    all_accs = [r[0] for r in db.execute(
+        "SELECT DISTINCT accession_number FROM filing_line_items"
+    ).fetchall()]
+    print(f"  {len(all_accs):,} accessions to reclassify")
+    for i in range(0, len(all_accs), BATCH):
+        batch = all_accs[i:i+BATCH]
+        placeholders = ",".join("?" * len(batch))
+        rows = db.execute(f"""
+            SELECT rowid, put_call, sshprnamttype
+            FROM filing_line_items
+            WHERE accession_number IN ({placeholders})
+        """, batch).fetchall()
+        for row in rows:
+            new_class = classify_asset(row["put_call"], row["sshprnamttype"])
+            db.execute("UPDATE filing_line_items SET asset_class = ? WHERE rowid = ?",
+                       (new_class, row["rowid"]))
+        db.commit()
+        _safe_wal_checkpoint(db)
+        if (i // BATCH) % 100 == 0:
+            print(f"  reclassified: {min(i+BATCH, len(all_accs)):,}/{len(all_accs):,}")
+    # Verify
+    counts = db.execute("""
+        SELECT asset_class, COUNT(*) as n FROM filing_line_items GROUP BY asset_class ORDER BY n DESC
+    """).fetchall()
+    for r in counts:
+        print(f"    {r['asset_class']:15s}: {r['n']:>12,}")
+
     # QA
-    print(f"\n[2/2] QA  CH-1 to CH-13")
+    print(f"\n[3/3] QA  CH-1 to CH-13")
     results = run_all_qa(db)
     print(f"\n{'='*60}")
     print("CH-1 to CH-13 RESULTS")

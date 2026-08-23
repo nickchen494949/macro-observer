@@ -316,14 +316,17 @@ def classify_asset(put_call: Optional[str], sshprnamttype: Optional[str]) -> str
     """
     Classify line item asset type.
     MUST be applied before any share aggregation (CH-10).
+    SEC uses mixed case ('Call', 'Put', 'SH', 'PRN') — normalize with upper().
     """
-    if put_call == "CALL":
+    pc = (put_call or "").strip().upper()
+    stype = (sshprnamttype or "").strip().upper()
+    if pc == "CALL":
         return "call_option"
-    if put_call == "PUT":
+    if pc == "PUT":
         return "put_option"
-    if sshprnamttype == "PRN":
+    if stype == "PRN":
         return "bond"
-    if sshprnamttype == "SH" and (put_call is None or put_call.strip() == ""):
+    if stype == "SH" and pc == "":
         return "cash_equity"
     return "other"
 
@@ -883,15 +886,19 @@ def check_ch1(db, record):
 
 
 def check_ch2(db, record):
-    """Berkshire 2023Q4 top positions match known values."""
+    """Berkshire 2023Q4 top positions match known values.
+    Same CUSIP may appear in multiple rows (different investment discretion).
+    Must SUM shares by CUSIP to get the true position size.
+    """
     rows = db.execute("""
-        SELECT li.cusip, li.sshprnamt
+        SELECT li.cusip, SUM(li.sshprnamt) as total_shares
         FROM filing_line_items li
         JOIN filing_events fe ON fe.accession_number = li.accession_number
         WHERE fe.cik = '1067983'
           AND fe.period_of_report = '2023-12-31'
           AND li.asset_class = 'cash_equity'
-        ORDER BY li.sshprnamt DESC
+        GROUP BY li.cusip
+        ORDER BY total_shares DESC
         LIMIT 5
     """).fetchall()
 
@@ -900,16 +907,16 @@ def check_ch2(db, record):
         return
 
     top_cusip = rows[0]["cusip"]
-    top_shares = rows[0]["sshprnamt"]
+    top_shares = rows[0]["total_shares"]
     # Known: Berkshire largest position Q4 2023 = Apple (CUSIP 037833100) ~905M shares
     known_aapl_cusip = "037833100"
-    known_aapl_shares_approx = 900_000_000
+    known_aapl_shares_approx = 905_560_000
 
     if top_cusip == known_aapl_cusip and abs(top_shares - known_aapl_shares_approx) / known_aapl_shares_approx < 0.05:
-        record("CH-2", "PASS", f"Top position: {top_cusip} {top_shares:,} shares (≈Apple ✓)")
+        record("CH-2", "PASS", f"Top position: {top_cusip} {top_shares:,} shares (≈Apple 905M ✓)")
     else:
         record("CH-2", "FAIL",
-               f"Top position: CUSIP={top_cusip} shares={top_shares:,}; expected Apple ~900M")
+               f"Top position: CUSIP={top_cusip} shares={top_shares:,}; expected Apple ~905M")
 
 
 def check_ch3(db, record):
@@ -1006,8 +1013,10 @@ def check_ch9(db, record):
 
 
 def check_ch10(db, record):
-    """OPTIONS not mixed into cash equity counts."""
-    # Check that call_option / put_option rows exist and are separate from cash_equity
+    """OPTIONS not mixed into cash equity counts.
+    Must verify call_option and put_option rows actually exist.
+    If both are 0, classify_asset is broken (case sensitivity, etc.).
+    """
     asset_counts = db.execute("""
         SELECT asset_class, COUNT(*) as n
         FROM filing_line_items
@@ -1023,9 +1032,17 @@ def check_ch10(db, record):
     calls = by_class.get("call_option", 0)
     puts = by_class.get("put_option", 0)
     other = by_class.get("other", 0)
+    bonds = by_class.get("bond", 0)
 
-    record("CH-10", "PASS" if cash > 0 else "FAIL",
-           f"cash_equity={cash:,}  call_option={calls:,}  put_option={puts:,}  other={other:,}")
+    detail = f"cash_equity={cash:,}  call_option={calls:,}  put_option={puts:,}  bond={bonds:,}  other={other:,}"
+
+    if cash > 0 and calls > 0 and puts > 0:
+        record("CH-10", "PASS", detail)
+    elif cash > 0 and calls == 0 and puts == 0:
+        record("CH-10", "FAIL",
+               f"call_option=0 and put_option=0 — asset_class likely broken (case mismatch?). {detail}")
+    else:
+        record("CH-10", "FAIL", detail)
 
 
 def check_ch11(record):
