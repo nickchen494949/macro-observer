@@ -27,7 +27,7 @@ python unit_tests.py
 
 # 5. Integration tests (requires data/zips/2013q3.zip)
 python integration_tests.py
-# Expected: 33/33 PASS
+# Expected: 37/37 PASS
 
 # 6. Full pipeline on a FRESH database
 #    If data/13f.db already exists from an older version, use a new path:
