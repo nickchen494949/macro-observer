@@ -58,8 +58,8 @@ if __name__ == "__main__":
     db.close()
     print(f"\nDone: {datetime.now().isoformat()}")
 
-    if fail_n > 0:
-        print(f"\n⚠️  {fail_n} FAIL(s) — fix before proceeding")
+    if fail_n > 0 or skip_n > 0:
+        print(f"\n⚠️  {fail_n} FAIL(s), {skip_n} SKIP(s) — ALL must be PASS before proceeding")
         sys.exit(1)
     else:
-        print(f"\n✅ All QA passed — ready for Codex audit")
+        print(f"\n✅ All {pass_n} QA checks PASS — ready for Codex audit")

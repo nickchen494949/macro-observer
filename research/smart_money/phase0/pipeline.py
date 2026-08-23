@@ -216,6 +216,23 @@ def normalize_value(raw_value: Optional[int],
         return raw_value * 1000
     return raw_value
 
+def _safe_wal_checkpoint(db: sqlite3.Connection, max_wal_bytes: int = 2_000_000_000):
+    """Run WAL checkpoint; abort if WAL file cannot be reclaimed (reader blocking)."""
+    db.execute("PRAGMA wal_checkpoint(PASSIVE)")
+    # Check actual WAL file size on disk
+    db_path = db.execute("PRAGMA database_list").fetchone()[2]
+    if db_path:
+        wal_path = Path(db_path + "-wal")
+        if wal_path.exists() and wal_path.stat().st_size > max_wal_bytes:
+            wal_mb = wal_path.stat().st_size / 1e6
+            raise RuntimeError(
+                f"WAL file is {wal_mb:.0f} MB and cannot be reclaimed "
+                f"(another process may hold a read lock). "
+                f"Kill all other sqlite3/python processes accessing this DB, "
+                f"then run: sqlite3 {db_path} 'PRAGMA wal_checkpoint(TRUNCATE);'"
+            )
+
+
 def apply_value_normalization(db: sqlite3.Connection) -> None:
     """Idempotent batch VALUE normalization using acceptance_datetime.
 
@@ -227,8 +244,8 @@ def apply_value_normalization(db: sqlite3.Connection) -> None:
     modify 120M rows and generate a multi-GB WAL. Instead, each batch directly
     computes the correct value_usd from raw_value_reported and overwrites it.
 
-    Processes in batches of BATCH_SIZE accession_numbers with WAL checkpoint
-    between batches to keep disk usage bounded.
+    Aborts if WAL file exceeds 2GB (indicates another process is blocking
+    checkpoint reclamation).
     """
     BATCH_SIZE = 500  # accession_numbers per batch
 
@@ -249,7 +266,7 @@ def apply_value_normalization(db: sqlite3.Connection) -> None:
               AND accession_number IN ({placeholders})
         """, batch)
         db.commit()
-        db.execute("PRAGMA wal_checkpoint(PASSIVE)")
+        _safe_wal_checkpoint(db)
         if (i // BATCH_SIZE) % 20 == 0:
             log.info(f"  old regime: {min(i+BATCH_SIZE, len(old_accs)):,}/{len(old_accs):,}")
 
@@ -270,7 +287,7 @@ def apply_value_normalization(db: sqlite3.Connection) -> None:
               AND accession_number IN ({placeholders})
         """, batch)
         db.commit()
-        db.execute("PRAGMA wal_checkpoint(PASSIVE)")
+        _safe_wal_checkpoint(db)
         if (i // BATCH_SIZE) % 20 == 0:
             log.info(f"  new regime: {min(i+BATCH_SIZE, len(new_accs)):,}/{len(new_accs):,}")
 
@@ -289,6 +306,7 @@ def apply_value_normalization(db: sqlite3.Connection) -> None:
 
     n = db.execute("SELECT COUNT(*) FROM filing_line_items WHERE value_usd IS NOT NULL").fetchone()[0]
     log.info(f"VALUE normalization complete: {n:,} line items normalized (idempotent)")
+
 
 
 
