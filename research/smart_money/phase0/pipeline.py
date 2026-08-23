@@ -887,20 +887,20 @@ def check_ch1(db, record):
 
 def check_ch2(db, record):
     """Berkshire 2023Q4 top positions match known values.
-    Same CUSIP may appear in multiple rows (different investment discretion).
-    Must SUM shares by CUSIP to get the true position size.
+    Uses specific original filing accession to avoid double-counting with restatements.
+    Same CUSIP may appear in multiple rows (different investment discretion) — SUM by CUSIP.
     """
+    # Berkshire 2023Q4 original filing accession number
+    berkshire_acc = "0000950123-24-002518"
     rows = db.execute("""
         SELECT li.cusip, SUM(li.sshprnamt) as total_shares
         FROM filing_line_items li
-        JOIN filing_events fe ON fe.accession_number = li.accession_number
-        WHERE fe.cik = '1067983'
-          AND fe.period_of_report = '2023-12-31'
+        WHERE li.accession_number = ?
           AND li.asset_class = 'cash_equity'
         GROUP BY li.cusip
         ORDER BY total_shares DESC
         LIMIT 5
-    """).fetchall()
+    """, (berkshire_acc,)).fetchall()
 
     if not rows:
         record("CH-2", "SKIP", "Berkshire 2023Q4 not yet ingested")
