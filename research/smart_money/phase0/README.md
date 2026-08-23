@@ -18,17 +18,25 @@ cd macro-observer/research/smart_money/phase0
 python3 -m venv .venv && source .venv/bin/activate
 pip install requests pandas
 
-# 3. Unit tests (must all pass before anything else)
+# 3. REQUIRED: set before importing pipeline.py (it checks at import time)
+export SEC_USER_AGENT="Your Name your@email.com"
+
+# 4. Unit tests (fast, no network)
 python unit_tests.py
 # Expected: 25/25 PASS
 
-# 4. Full pipeline: download → ingest → enrich → CH-1~CH-13
-export SEC_USER_AGENT="Your Name your@email.com"
+# 5. Integration tests (requires data/zips/2013q3.zip)
+python integration_tests.py
+# Expected: 33/33 PASS
+
+# 6. Full pipeline on a FRESH database
+#    If data/13f.db already exists from an older version, use a new path:
+export DB_PATH=data/13f_v2.db   # omit this if starting from scratch
 python run_phase0.py
 # Downloads ~2.9GB from SEC (public data, no login needed)
 # Takes ~60–90 min depending on connection speed
 
-# 5. Inspect results
+# 7. Inspect results
 python pipeline.py status
 python pipeline.py qa
 ```

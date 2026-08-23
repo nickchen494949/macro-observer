@@ -30,7 +30,7 @@ from typing import Optional
 
 # ─── Config ───────────────────────────────────────────────────────────────────
 
-DB_PATH = Path(__file__).parent / "data" / "13f.db"
+DB_PATH = Path(os.environ.get("DB_PATH", str(Path(__file__).parent / "data" / "13f.db")))
 ZIP_DIR = Path(__file__).parent / "data" / "zips"
 LOG_PATH = Path(__file__).parent / "data" / "pipeline.log"
 LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -647,37 +647,14 @@ def enrich_acceptance_timestamps(db: sqlite3.Connection) -> None:
 
     db.commit()
 
-    # Now normalize VALUE using acceptance_datetime
-    _normalize_values_with_timestamp(db)
+    # Normalize VALUE using acceptance_datetime — canonical idempotent function
+    apply_value_normalization(db)
 
-def _normalize_values_with_timestamp(db: sqlite3.Connection) -> None:
-    """Apply VALUE regime normalization now that acceptance_datetime is known."""
-    events = db.execute("""
-        SELECT accession_number, acceptance_datetime FROM filing_events
-        WHERE acceptance_datetime IS NOT NULL
-    """).fetchall()
+# _normalize_values_with_timestamp() DELETED — it multiplied value_usd in place
+# and could not handle new ingests where value_usd starts as NULL.
+# Use apply_value_normalization() everywhere instead.
 
-    for ev in events:
-        acc = ev["accession_number"]
-        accept_dt = ev["acceptance_datetime"]
 
-        # Determine multiplier
-        acc_date = accept_dt[:10] if accept_dt else None
-        if acc_date is None:
-            continue
-        multiplier = 1000 if acc_date < VALUE_REGIME_CUTOFF else 1
-
-        if multiplier == 1:
-            continue  # already in dollars
-
-        db.execute("""
-            UPDATE filing_line_items
-            SET value_usd = value_usd * ?
-            WHERE accession_number = ? AND value_usd IS NOT NULL
-        """, (multiplier, acc))
-
-    db.commit()
-    log.info("VALUE normalization complete")
 
 # ─── QA Checks CH-1 to CH-13 ─────────────────────────────────────────────────
 
@@ -1047,7 +1024,7 @@ def get_db() -> sqlite3.Connection:
                 f"(schema v{SCHEMA_VERSION}).\n"
                 f"The existing DB was created by an older pipeline version.\n"
                 f"Old DB is PRESERVED. Use a new path:\n"
-                f"  python run_phase0.py --db data/13f_v2.db --skip-download"
+                f"  export DB_PATH=data/13f_v2.db && python run_phase0.py --skip-download"
             )
     db.executescript(SCHEMA)
     return db
