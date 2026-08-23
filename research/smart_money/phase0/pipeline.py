@@ -219,36 +219,78 @@ def normalize_value(raw_value: Optional[int],
 def apply_value_normalization(db: sqlite3.Connection) -> None:
     """Idempotent batch VALUE normalization using acceptance_datetime.
 
-    Always reads raw_value_reported (immutable). Always resets value_usd to NULL first.
+    Always reads raw_value_reported (immutable), directly overwrites value_usd.
     Running this function N times produces exactly the same result as running it once.
     Never reads value_usd as input — prevents double-multiplication.
+
+    Does NOT do a full-table SET value_usd = NULL first — that alone would
+    modify 120M rows and generate a multi-GB WAL. Instead, each batch directly
+    computes the correct value_usd from raw_value_reported and overwrites it.
+
+    Processes in batches of BATCH_SIZE accession_numbers with WAL checkpoint
+    between batches to keep disk usage bounded.
     """
-    db.execute("UPDATE filing_line_items SET value_usd = NULL")
-    # Old regime: raw value was reported in $000 → multiply by 1000
-    db.execute("""
-        UPDATE filing_line_items
-        SET value_usd = raw_value_reported * 1000
-        WHERE raw_value_reported IS NOT NULL
-          AND accession_number IN (
-              SELECT accession_number FROM filing_events
-              WHERE acceptance_datetime IS NOT NULL
-                AND substr(acceptance_datetime,1,10) < ?
-          )
-    """, (VALUE_REGIME_CUTOFF,))
-    # New regime: raw value is already in dollars
-    db.execute("""
-        UPDATE filing_line_items
-        SET value_usd = raw_value_reported
-        WHERE raw_value_reported IS NOT NULL
-          AND accession_number IN (
-              SELECT accession_number FROM filing_events
-              WHERE acceptance_datetime IS NOT NULL
-                AND substr(acceptance_datetime,1,10) >= ?
-          )
-    """, (VALUE_REGIME_CUTOFF,))
-    db.commit()
+    BATCH_SIZE = 500  # accession_numbers per batch
+
+    # Old regime (pre-cutoff): raw × 1000
+    old_accs = [r[0] for r in db.execute("""
+        SELECT accession_number FROM filing_events
+        WHERE acceptance_datetime IS NOT NULL
+          AND substr(acceptance_datetime,1,10) < ?
+    """, (VALUE_REGIME_CUTOFF,)).fetchall()]
+    log.info(f"VALUE normalization: old regime {len(old_accs):,} filings, batch={BATCH_SIZE}")
+    for i in range(0, len(old_accs), BATCH_SIZE):
+        batch = old_accs[i:i+BATCH_SIZE]
+        placeholders = ",".join("?" * len(batch))
+        db.execute(f"""
+            UPDATE filing_line_items
+            SET value_usd = raw_value_reported * 1000
+            WHERE raw_value_reported IS NOT NULL
+              AND accession_number IN ({placeholders})
+        """, batch)
+        db.commit()
+        db.execute("PRAGMA wal_checkpoint(PASSIVE)")
+        if (i // BATCH_SIZE) % 20 == 0:
+            log.info(f"  old regime: {min(i+BATCH_SIZE, len(old_accs)):,}/{len(old_accs):,}")
+
+    # New regime (post-cutoff): raw × 1
+    new_accs = [r[0] for r in db.execute("""
+        SELECT accession_number FROM filing_events
+        WHERE acceptance_datetime IS NOT NULL
+          AND substr(acceptance_datetime,1,10) >= ?
+    """, (VALUE_REGIME_CUTOFF,)).fetchall()]
+    log.info(f"VALUE normalization: new regime {len(new_accs):,} filings, batch={BATCH_SIZE}")
+    for i in range(0, len(new_accs), BATCH_SIZE):
+        batch = new_accs[i:i+BATCH_SIZE]
+        placeholders = ",".join("?" * len(batch))
+        db.execute(f"""
+            UPDATE filing_line_items
+            SET value_usd = raw_value_reported
+            WHERE raw_value_reported IS NOT NULL
+              AND accession_number IN ({placeholders})
+        """, batch)
+        db.commit()
+        db.execute("PRAGMA wal_checkpoint(PASSIVE)")
+        if (i // BATCH_SIZE) % 20 == 0:
+            log.info(f"  new regime: {min(i+BATCH_SIZE, len(new_accs)):,}/{len(new_accs):,}")
+
+    # Set NULL for any filings without acceptance_datetime (no regime → can't normalize)
+    no_accept = [r[0] for r in db.execute("""
+        SELECT accession_number FROM filing_events
+        WHERE acceptance_datetime IS NULL
+    """).fetchall()]
+    if no_accept:
+        log.info(f"  {len(no_accept):,} filings without acceptance_datetime — value_usd set to NULL")
+        for i in range(0, len(no_accept), BATCH_SIZE):
+            batch = no_accept[i:i+BATCH_SIZE]
+            placeholders = ",".join("?" * len(batch))
+            db.execute(f"UPDATE filing_line_items SET value_usd = NULL WHERE accession_number IN ({placeholders})", batch)
+            db.commit()
+
     n = db.execute("SELECT COUNT(*) FROM filing_line_items WHERE value_usd IS NOT NULL").fetchone()[0]
     log.info(f"VALUE normalization complete: {n:,} line items normalized (idempotent)")
+
+
 
 
 
