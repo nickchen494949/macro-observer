@@ -13,25 +13,19 @@ Sector Rotation
 │
 ├── Macro Shock × Sector
 │      ├── Composite             ❌ FAIL (IC +0.034, p=0.265)
-│      └── Real Yield            🟢 SIGNAL FOUND (IC +0.094, FWER p=0.018)
-│             └── ⏳ group-spread confirmation (Rate-sensitive vs Rest)
+│      │
+│      ├── Real Yield            🟢 BEST LEAD (IC +0.094, FWER p=0.018)
+│      │      ├── Group-spread confirmation ⏳ NEXT
+│      │      ├── Time stability            ⏳
+│      │      ├── Lag robustness            ⏳
+│      │      └── Dynamic realized beta     ⏳
+│      │
+│      └── Macro Event Study     ⏳ NOT TESTED
+│             └── Does market price shocks immediately?
 │
-└── True Constituent EPS         ⏳ NEXT (Data Sourcing Phase)
-       ├── PIT Constituents      ⏳ 
-       ├── PIT Analyst Consensus ⏳ 
-       │
-       ├── Magnitude             ⏳ 
-       ├── Breadth               ⏳ 
-       ├── Acceleration          ⏳ 
-       └── Equal-rank Composite  ⏳ 
-              ↓
-           T+2 test
-              ↓
-         IC / Top3-EW
-              ↓
-         Max-Stat FWER
-              ↓
-         PASS / KILL
+├── Waterfall Autopsy            ⏳ NOT COMPLETED
+│
+└── True Constituent EPS         💤 PAUSED (Research design ready, pending data)
 ```
 
 

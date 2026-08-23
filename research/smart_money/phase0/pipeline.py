@@ -33,6 +33,7 @@ from typing import Optional
 DB_PATH = Path(__file__).parent / "data" / "13f.db"
 ZIP_DIR = Path(__file__).parent / "data" / "zips"
 LOG_PATH = Path(__file__).parent / "data" / "pipeline.log"
+LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 HEADERS = {"User-Agent": "SmartMoneyResearch research@example.com"}
 SEC_RATE_LIMIT = 0.11   # 10 req/sec → wait 110ms between requests

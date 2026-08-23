@@ -739,42 +739,17 @@
       <span id="v2-engine-status">Engine Status: --</span>
     </div>
 
-    <!-- QQQ Macro Context -->
-    <div class="layer-header">
-      <div class="layer-num l3">QQQ</div>
-      <div>
-        <div class="layer-title">QQQ Macro Context</div>
-        <div class="layer-sub">Action context translation</div>
-      </div>
-    </div>
-    <div class="card" style="padding: 16px 22px;">
-      <div id="qqqContextBody">Loading QQQ strategy signal...</div>
-    </div>
 
-    <!-- 4 Core Diagnostic Cards -->
-    <div class="layer-header">
-      <div class="layer-num l1">🎯</div>
-      <div>
-        <div class="layer-title">Core Diagnostics</div>
-        <div class="layer-sub">Growth, Inflation, Financial System, Market Risk</div>
-      </div>
-    </div>
-    <div id="v2DiagnosticCards" class="diag-container">
-      <div class="diag-card"><h3>📈 Growth</h3><div id="v2-diag-growth">Loading...</div></div>
-      <div class="diag-card"><h3>🔥 Inflation</h3><div id="v2-diag-infl">Loading...</div></div>
-      <div class="diag-card"><h3>🏦 Financial System</h3><div id="v2-diag-fin">Loading...</div></div>
-      <div class="diag-card"><h3>⚠️ Market Risk</h3><div id="v2-diag-risk">Loading...</div></div>
-    </div>
 
     <!-- Multi-Horizon Matrix -->
-    <div class="layer-header">
+    <div class="layer-header" style="cursor:pointer;" onclick="let b=document.getElementById('mhMatrixBody');let a=document.getElementById('mhArrow');if(b.style.display==='none'){b.style.display='';a.textContent='▾'}else{b.style.display='none';a.textContent='▸'}">
       <div class="layer-num l2">⏳</div>
-      <div>
-        <div class="layer-title">Multi-Horizon Matrix</div>
+      <div style="flex:1">
+        <div class="layer-title">Multi-Horizon Matrix <span id="mhArrow" style="font-size:12px;opacity:0.5">▸</span></div>
         <div class="layer-sub">Short, Medium, Long term trends coherence</div>
       </div>
     </div>
-    <div class="card" style="padding: 16px 22px; margin-bottom:24px;">
+    <div class="card" id="mhMatrixBody" style="padding: 16px 22px; margin-bottom:24px; display:none;">
       <div id="multiHorizonMatrix">Loading matrix...</div>
     </div>
 
