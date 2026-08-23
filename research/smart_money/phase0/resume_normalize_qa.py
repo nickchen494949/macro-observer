@@ -74,9 +74,10 @@ if __name__ == "__main__":
                 SET asset_class = CASE UPPER(TRIM(put_call))
                     WHEN 'CALL' THEN 'call_option'
                     WHEN 'PUT'  THEN 'put_option'
+                    ELSE asset_class
                 END
                 WHERE rowid BETWEEN ? AND ?
-                  AND TRIM(put_call) != '' AND put_call IS NOT NULL
+                  AND UPPER(TRIM(put_call)) IN ('CALL', 'PUT')
                   AND asset_class NOT IN ('call_option', 'put_option')
             """, (start, end)).rowcount
             fixed_total += n

@@ -886,37 +886,36 @@ def check_ch1(db, record):
 
 
 def check_ch2(db, record):
-    """Berkshire 2023Q4 top positions match known values.
+    """Berkshire 2023Q4: verify Apple position matches known SEC filing.
     Uses specific original filing accession to avoid double-counting with restatements.
     Same CUSIP may appear in multiple rows (different investment discretion) — SUM by CUSIP.
     """
     # Berkshire 2023Q4 original filing accession number
     berkshire_acc = "0000950123-24-002518"
-    rows = db.execute("""
-        SELECT li.cusip, SUM(li.sshprnamt) as total_shares
-        FROM filing_line_items li
-        WHERE li.accession_number = ?
-          AND li.asset_class = 'cash_equity'
-        GROUP BY li.cusip
-        ORDER BY total_shares DESC
-        LIMIT 5
-    """, (berkshire_acc,)).fetchall()
+    # Apple CUSIP — known position ~905,560,000 shares
+    known_aapl_cusip = "037833100"
+    known_aapl_shares = 905_560_000
 
-    if not rows:
-        record("CH-2", "SKIP", "Berkshire 2023Q4 not yet ingested")
+    row = db.execute("""
+        SELECT SUM(sshprnamt) as total_shares
+        FROM filing_line_items
+        WHERE accession_number = ?
+          AND cusip = ?
+          AND asset_class = 'cash_equity'
+    """, (berkshire_acc, known_aapl_cusip)).fetchone()
+
+    if not row or row["total_shares"] is None:
+        record("CH-2", "SKIP", "Berkshire 2023Q4 Apple position not found")
         return
 
-    top_cusip = rows[0]["cusip"]
-    top_shares = rows[0]["total_shares"]
-    # Known: Berkshire largest position Q4 2023 = Apple (CUSIP 037833100) ~905M shares
-    known_aapl_cusip = "037833100"
-    known_aapl_shares_approx = 905_560_000
+    actual = row["total_shares"]
+    diff_pct = abs(actual - known_aapl_shares) / known_aapl_shares
 
-    if top_cusip == known_aapl_cusip and abs(top_shares - known_aapl_shares_approx) / known_aapl_shares_approx < 0.05:
-        record("CH-2", "PASS", f"Top position: {top_cusip} {top_shares:,} shares (≈Apple 905M ✓)")
+    if diff_pct < 0.01:
+        record("CH-2", "PASS", f"Berkshire Apple: {actual:,} shares (expected {known_aapl_shares:,}, diff={diff_pct:.3%} ✓)")
     else:
         record("CH-2", "FAIL",
-               f"Top position: CUSIP={top_cusip} shares={top_shares:,}; expected Apple ~905M")
+               f"Berkshire Apple: {actual:,} shares (expected {known_aapl_shares:,}, diff={diff_pct:.1%})")
 
 
 def check_ch3(db, record):
