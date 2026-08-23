@@ -29,7 +29,7 @@ os.environ["DB_PATH"] = str(Path(__file__).parent / DB_NAME)
 
 sys.path.insert(0, str(Path(__file__).parent))
 import pipeline as pl
-from run_phase0 import enrich_from_submissions_bulk
+from pipeline import enrich_acceptance_timestamps
 
 FAILURES = []
 
@@ -82,20 +82,22 @@ if __name__ == "__main__":
     accept_before = db.execute(
         "SELECT COUNT(*) FROM filing_events WHERE acceptance_datetime IS NOT NULL"
     ).fetchone()[0]
-    value_before = db.execute(
-        "SELECT COUNT(*) FROM filing_line_items WHERE value_usd IS NOT NULL"
-    ).fetchone()[0]
 
     print(f"  Filing events:      {fe:>8,}")
     print(f"  Line items:         {li:>8,}")
-    gate("baseline-empty-cik",    empty_cik == 0,  f"empty_cik={empty_cik}")
+    gate("baseline-empty-cik", empty_cik == 0, f"empty_cik={empty_cik}")
     print(f"  acceptance_datetime before enrich: {accept_before:,} / {fe:,}")
-    print(f"  value_usd non-null  before enrich: {value_before:,}")
 
-    # ── ENRICH: real acceptance timestamps from SEC submissions.zip ────────────
-    sep("Enriching acceptance_datetime from SEC submissions.zip")
-    print("  (This downloads ~1GB submissions.zip if not cached — please wait)")
-    enrich_from_submissions_bulk(db)
+    # ── ENRICH: real acceptanceDateTime from SEC per-CIK submissions API ──────
+    sep("Enriching acceptance_datetime from SEC EDGAR submissions API")
+    unique_ciks = db.execute(
+        "SELECT COUNT(DISTINCT cik) FROM filing_events WHERE acceptance_datetime IS NULL"
+    ).fetchone()[0]
+    print(f"  Unique CIKs to fetch: {unique_ciks:,}")
+    print(f"  Estimated time: ~{unique_ciks * 0.12 / 60:.0f} min at 10 req/sec")
+    print(f"  (per-CIK API: https://data.sec.gov/submissions/CIK{{cik}}.json)")
+
+    enrich_acceptance_timestamps(db)
 
     accept_after = db.execute(
         "SELECT COUNT(*) FROM filing_events WHERE acceptance_datetime IS NOT NULL"
@@ -104,6 +106,7 @@ if __name__ == "__main__":
     print(f"\n  acceptance_datetime after enrich: {accept_after:,} / {fe:,} = {coverage:.1%}")
     gate("enrich-coverage-95pct", coverage >= 0.95,
          f"coverage={coverage:.1%} (must be >=95%)")
+
 
     # ── NORMALIZATION: run twice, compare checksums ────────────────────────────
     sep("VALUE normalization — run 1")

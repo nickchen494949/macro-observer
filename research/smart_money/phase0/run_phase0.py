@@ -88,82 +88,18 @@ def ingest_all(db: sqlite3.Connection):
 
 def enrich_from_submissions_bulk(db: sqlite3.Connection):
     """
-    Download SEC submissions.zip (nightly bulk) and extract acceptanceDateTime.
-    Falls back to per-CIK API for any still missing.
+    Enrich acceptance_datetime from SEC EDGAR per-CIK submissions API.
+
+    NOTE: the old 'submissions.zip' bulk URL (data.sec.gov/submissions/submissions.zip)
+    does not exist — SEC does not publish a single bulk zip of all submissions.
+    This function now calls the correct per-CIK API:
+      https://data.sec.gov/submissions/CIK{cik}.json
     """
-    sub_zip_url = "https://data.sec.gov/submissions/submissions.zip"
-    sub_zip_path = ZIP_DIR / "submissions.zip"
+    from pipeline import enrich_acceptance_timestamps
+    enrich_acceptance_timestamps(db)
 
-    if not sub_zip_path.exists() or sub_zip_path.stat().st_size < 1000:
-        print(f"\nDownloading submissions.zip (~1GB)...")
-        r = requests.get(sub_zip_url, headers=HEADERS, stream=True, timeout=600)
-        r.raise_for_status()
-        size = 0
-        with open(sub_zip_path, "wb") as f:
-            for chunk in r.iter_content(chunk_size=4 << 20):
-                f.write(chunk)
-                size += len(chunk)
-        print(f"  submissions.zip saved: {size/1e6:.0f} MB")
-    else:
-        print(f"\nsubmissions.zip exists ({sub_zip_path.stat().st_size/1e6:.0f} MB)")
 
-    print("Extracting acceptance timestamps from submissions.zip...")
-    updated = 0
-    try:
-        with zipfile.ZipFile(sub_zip_path) as zf:
-            names = zf.namelist()
-            print(f"  {len(names):,} files in submissions.zip")
-            for name in names:
-                if not name.endswith(".json"):
-                    continue
-                try:
-                    with zf.open(name) as f:
-                        data = json.loads(f.read())
-                    cik_raw = data.get("cik", "")
-                    cik = str(int(cik_raw)) if cik_raw else ""
-                    filings = data.get("filings", {}).get("recent", {})
-                    if not filings:
-                        continue
-                    # Process each filing
-                    accs = filings.get("accessionNumber", [])
-                    adts = filings.get("acceptanceDateTime", [])
-                    for acc, adt in zip(accs, adts):
-                        acc_fmt = acc  # already formatted with dashes
-                        if acc_fmt and adt:
-                            db.execute("""
-                                UPDATE filing_events
-                                SET acceptance_datetime = ?
-                                WHERE accession_number = ?
-                                  AND acceptance_datetime IS NULL
-                            """, (adt, acc_fmt))
-                            updated += 1
-                    # Follow historical files if present
-                    for hf in data.get("filings", {}).get("files", []):
-                        try:
-                            with zf.open(hf["name"]) as hff:
-                                hdata = json.loads(hff.read())
-                            hf_filings = hdata if isinstance(hdata, dict) else {}
-                            haccs = hf_filings.get("accessionNumber", [])
-                            hadts = hf_filings.get("acceptanceDateTime", [])
-                            for acc, adt in zip(haccs, hadts):
-                                if acc and adt:
-                                    db.execute("""
-                                        UPDATE filing_events SET acceptance_datetime = ?
-                                        WHERE accession_number = ? AND acceptance_datetime IS NULL
-                                    """, (adt, acc))
-                                    updated += 1
-                        except Exception:
-                            pass
-                except Exception:
-                    pass
-        db.commit()
-    except Exception as e:
-        print(f"  submissions.zip parse error: {e}")
 
-    print(f"  acceptance_datetime updated: {updated:,} filings")
-
-    # Apply VALUE normalization now that timestamps are known
-    apply_value_normalization(db)
 
 def apply_value_normalization(db: sqlite3.Connection):
     """Idempotent VALUE normalization: always recompute value_usd from raw_value_reported.
