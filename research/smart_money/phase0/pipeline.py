@@ -216,7 +216,41 @@ def normalize_value(raw_value: Optional[int],
         return raw_value * 1000
     return raw_value
 
-# ─── Asset Classification ─────────────────────────────────────────────────────
+def apply_value_normalization(db: sqlite3.Connection) -> None:
+    """Idempotent batch VALUE normalization using acceptance_datetime.
+
+    Always reads raw_value_reported (immutable). Always resets value_usd to NULL first.
+    Running this function N times produces exactly the same result as running it once.
+    Never reads value_usd as input — prevents double-multiplication.
+    """
+    db.execute("UPDATE filing_line_items SET value_usd = NULL")
+    # Old regime: raw value was reported in $000 → multiply by 1000
+    db.execute("""
+        UPDATE filing_line_items
+        SET value_usd = raw_value_reported * 1000
+        WHERE raw_value_reported IS NOT NULL
+          AND accession_number IN (
+              SELECT accession_number FROM filing_events
+              WHERE acceptance_datetime IS NOT NULL
+                AND substr(acceptance_datetime,1,10) < ?
+          )
+    """, (VALUE_REGIME_CUTOFF,))
+    # New regime: raw value is already in dollars
+    db.execute("""
+        UPDATE filing_line_items
+        SET value_usd = raw_value_reported
+        WHERE raw_value_reported IS NOT NULL
+          AND accession_number IN (
+              SELECT accession_number FROM filing_events
+              WHERE acceptance_datetime IS NOT NULL
+                AND substr(acceptance_datetime,1,10) >= ?
+          )
+    """, (VALUE_REGIME_CUTOFF,))
+    db.commit()
+    n = db.execute("SELECT COUNT(*) FROM filing_line_items WHERE value_usd IS NOT NULL").fetchone()[0]
+    log.info(f"VALUE normalization complete: {n:,} line items normalized (idempotent)")
+
+
 
 def classify_asset(put_call: Optional[str], sshprnamttype: Optional[str]) -> str:
     """
@@ -337,12 +371,18 @@ def reconstruct_state(db: sqlite3.Connection,
         """, (accession,)).fetchall()
 
         if amendment_type is None or amendment_type == "RESTATEMENT":
-            # Original filing or full replacement: start fresh, then aggregate
+            # Original filing or full replacement: start fresh, then aggregate within-filing
             state = _aggregate_into({}, lines)
 
         elif amendment_type == "ADD_NEW_HOLDINGS":
-            # Merge new lines into existing state (SUM if same key)
-            state = _aggregate_into(state, lines)
+            # Per v1.5 spec: ADD amendment UPDATES each position key.
+            # "New holdings" = previously omitted securities; amendment replaces/inserts.
+            # e.g. base=100 shares + ADD reports 200 shares → 200 (not 300)
+            # First aggregate within the ADD filing (SUM same CUSIP within the amendment)
+            add_agg = _aggregate_into({}, lines)
+            # Then UPDATE state (replace, not add-on-top)
+            for key, row_data in add_agg.items():
+                state[key] = row_data
 
         elif amendment_type == "UNKNOWN":
             # Quarantined — do not apply to state
@@ -439,17 +479,10 @@ def ingest_zip(db: sqlite3.Connection, zip_path: Path, zip_label: str) -> dict:
         form_type   = sub.get("SUBMISSIONTYPE", "").strip()
         filing_date = parse_date(sub.get("FILING_DATE", ""))
 
+        # Use canonical detect_amendment_type() — no duplicate logic, UNKNOWN quarantine works
         cp = cp_by_acc.get(accession, {})
-        is_amendment = form_type.endswith("/A")
-        amend_raw = (cp.get("AMENDMENTTYPE") or "").strip().upper()
-        if not is_amendment:
-            amendment_type = None
-        elif "RESTATEMENT" in amend_raw:
-            amendment_type = "RESTATEMENT"
-        elif "NEW" in amend_raw or "HOLDINGS" in amend_raw:
-            amendment_type = "ADD_NEW_HOLDINGS"
-        else:
-            amendment_type = "RESTATEMENT"
+        coverpage_row = {"FORMTYPE": form_type, "AMENDMENTTYPE": cp.get("AMENDMENTTYPE", "")}
+        amendment_type = detect_amendment_type(coverpage_row)
 
         # UPSERT: overwrite stale rows from old pipeline versions
         db.execute("""
@@ -781,14 +814,35 @@ def check_ch1(db, record):
         record("CH-1", "SKIP", f"Berkshire {acc}: no line items yet")
         return
 
-    lo, hi = 50e9, 1e12  # [$50B, $1T] — Berkshire known ~$299B at 2022Q4
-    if lo <= total_usd <= hi:
+    # (b1) Magnitude sanity: must be in [$50B, $1T]
+    lo, hi = 50e9, 1e12
+    if not (lo <= total_usd <= hi):
+        record("CH-1", "FAIL",
+               f"Berkshire {acc}: line-item total={total_usd:.3e} outside [{lo:.0e},{hi:.0e}]"
+               f" — likely double-normalization")
+        return
+
+    # (b2) Reconcile vs SUMMARYPAGE tableValueTotal within 1% (v1.5 spec)
+    tvt_row = db.execute(
+        "SELECT table_value_total, acceptance_datetime FROM filing_events WHERE accession_number=?",
+        (acc,)
+    ).fetchone()
+    tvt_raw = tvt_row["table_value_total"] if tvt_row else None
+    accept_dt = (tvt_row["acceptance_datetime"] or "") if tvt_row else ""
+    if tvt_raw is None:
+        record("CH-1", "SKIP", f"Berkshire {acc}: table_value_total not yet populated (run enrich first)")
+        return
+    tvt_norm = normalize_value(tvt_raw, accept_dt)
+    if not tvt_norm:
+        record("CH-1", "SKIP", f"Berkshire {acc}: cannot normalize table_value_total={tvt_raw}")
+        return
+    diff = abs(total_usd - tvt_norm) / tvt_norm
+    if diff <= 0.01:
         record("CH-1", "PASS",
-               f"Berkshire {acc}: branch=×1 ✓, total={total_usd/1e9:.1f}B USD ✓ (expected ~$299B)")
+               f"Berkshire {acc}: ×1 ✓, line={total_usd/1e9:.2f}B tvt={tvt_norm/1e9:.2f}B diff={diff:.3%}")
     else:
         record("CH-1", "FAIL",
-               f"Berkshire {acc}: total={total_usd:.3e} USD is outside [{lo:.0e}, {hi:.0e}] "
-               f"— likely double-normalization (×1000 applied twice)")
+               f"Berkshire {acc}: line={total_usd/1e9:.2f}B vs tvt={tvt_norm/1e9:.2f}B diff={diff:.1%} > 1%")
 
 
 def check_ch2(db, record):
@@ -970,10 +1024,31 @@ def check_ch12(db, record):
 
 # ─── CLI ─────────────────────────────────────────────────────────────────────
 
+SCHEMA_VERSION = 2
+
 def get_db() -> sqlite3.Connection:
+    """Get or create the SQLite database connection.
+
+    Fails fast if existing DB is schema-incompatible (missing raw_value_reported).
+    This prevents silently ingesting into a v1 DB and producing wrong output.
+    """
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     db = sqlite3.connect(DB_PATH)
     db.row_factory = sqlite3.Row
+    existing = {r[0] for r in db.execute(
+        "SELECT name FROM sqlite_master WHERE type='table'"
+    ).fetchall()}
+    if "filing_line_items" in existing:
+        cols = {r[1] for r in db.execute("PRAGMA table_info(filing_line_items)").fetchall()}
+        if "raw_value_reported" not in cols:
+            db.close()
+            raise RuntimeError(
+                f"\nSCHEMA INCOMPATIBILITY: {DB_PATH} is missing column 'raw_value_reported' "
+                f"(schema v{SCHEMA_VERSION}).\n"
+                f"The existing DB was created by an older pipeline version.\n"
+                f"Old DB is PRESERVED. Use a new path:\n"
+                f"  python run_phase0.py --db data/13f_v2.db --skip-download"
+            )
     db.executescript(SCHEMA)
     return db
 

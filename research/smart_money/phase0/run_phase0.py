@@ -82,7 +82,8 @@ def ingest_all(db: sqlite3.Connection):
             total_lines += stats.get("line_items", 0)
             print(f"{stats.get('filings',0):,} filings  {stats.get('line_items',0):,} lines")
         except Exception as e:
-            print(f"ERROR: {e}")
+            db.rollback()  # discard any partial writes from this failed ZIP
+            print(f"ERROR: {e} -- rolled back")
     print(f"\nTotal ingested: {total_filings:,} filings  {total_lines:,} line items")
 
 def enrich_from_submissions_bulk(db: sqlite3.Connection):
