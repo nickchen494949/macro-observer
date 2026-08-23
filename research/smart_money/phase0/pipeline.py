@@ -294,78 +294,104 @@ def ingest_zip(db: sqlite3.Connection, zip_path: Path, zip_label: str) -> dict:
     """
     Ingest a single bulk ZIP into the database.
 
-    ZIP structure:
-      COVERPAGE.tsv  — filing metadata (CIK, PERIODOFREPORT, AMENDMENTTYPE, ...)
-      INFOTABLE.tsv  — line items (CUSIP, SSHPRNAMT, PUTCALL, ...)
+    Actual ZIP contents (verified from real SEC files):
+      SUBMISSION.tsv  : ACCESSION_NUMBER | CIK | PERIODOFREPORT | SUBMISSIONTYPE | FILING_DATE
+      COVERPAGE.tsv   : ACCESSION_NUMBER | AMENDMENTTYPE | ISAMENDMENT | FILINGMANAGER_NAME | ...
+      INFOTABLE.tsv   : ACCESSION_NUMBER | CUSIP | SSHPRNAMT | VALUE | PUTCALL | ...
+
+    CIK, PERIODOFREPORT, SUBMISSIONTYPE, FILING_DATE  <- SUBMISSION.tsv
+    AMENDMENTTYPE                                      <- COVERPAGE.tsv
+    Holdings rows                                      <- INFOTABLE.tsv
     """
     stats = {"filings": 0, "line_items": 0, "errors": 0}
     now = datetime.utcnow().isoformat()
 
     with zipfile.ZipFile(zip_path) as zf:
-        names = [n.lower() for n in zf.namelist()]
+        names = zf.namelist()
+        sub_name = next((n for n in names if "submission" in n.lower()), None)
+        cp_name  = next((n for n in names if "coverpage"  in n.lower()), None)
+        it_name  = next((n for n in names if "infotable"  in n.lower()), None)
 
-        # Read COVERPAGE
-        cp_name = next((n for n in zf.namelist() if "coverpage" in n.lower()), None)
-        it_name = next((n for n in zf.namelist() if "infotable" in n.lower()), None)
-
-        if not cp_name or not it_name:
-            log.error(f"  {zip_label}: missing COVERPAGE or INFOTABLE")
+        if not sub_name or not it_name:
+            log.error(f"  {zip_label}: missing SUBMISSION or INFOTABLE")
             return stats
 
-        with zf.open(cp_name) as f:
-            cp_text = f.read().decode("utf-8", errors="replace")
+        with zf.open(sub_name) as f:
+            sub_text = f.read().decode("utf-8", errors="replace")
+        cp_text = ""
+        if cp_name:
+            with zf.open(cp_name) as f:
+                cp_text = f.read().decode("utf-8", errors="replace")
         with zf.open(it_name) as f:
             it_text = f.read().decode("utf-8", errors="replace")
 
-    cp_rows = list(csv.DictReader(StringIO(cp_text), delimiter="\t"))
-    it_rows = list(csv.DictReader(StringIO(it_text), delimiter="\t"))
+    sub_rows = list(csv.DictReader(StringIO(sub_text), delimiter="\t"))
+    cp_rows  = list(csv.DictReader(StringIO(cp_text),  delimiter="\t")) if cp_text else []
+    it_rows  = list(csv.DictReader(StringIO(it_text),  delimiter="\t"))
 
-    # Index INFOTABLE by accession
-    it_by_accession: dict[str, list] = {}
-    for r in it_rows:
-        acc = r.get("ACCESSION_NUMBER", "").strip()
-        it_by_accession.setdefault(acc, []).append(r)
+    # COVERPAGE lookup: accession -> AMENDMENTTYPE
+    cp_by_acc: dict[str, dict] = {}
+    for row in cp_rows:
+        acc = row.get("ACCESSION_NUMBER", "").strip()
+        if acc:
+            cp_by_acc[acc] = row
 
-    for cp in cp_rows:
-        accession = cp.get("ACCESSION_NUMBER", "").strip()
+    # INFOTABLE lookup: accession -> list of line items
+    it_by_acc: dict[str, list] = {}
+    for row in it_rows:
+        acc = row.get("ACCESSION_NUMBER", "").strip()
+        it_by_acc.setdefault(acc, []).append(row)
+
+    def parse_date(raw: str) -> str:
+        raw = raw.strip()
+        if not raw:
+            return ""
+        try:
+            return datetime.strptime(raw, "%d-%b-%Y").strftime("%Y-%m-%d")
+        except ValueError:
+            pass
+        if len(raw) == 10 and raw[4] == "-":
+            return raw
+        return raw
+
+    for sub in sub_rows:
+        accession   = sub.get("ACCESSION_NUMBER", "").strip()
         if not accession:
             continue
 
-        cik = cp.get("CIK", "").strip().lstrip("0") or cp.get("CIKID", "").strip()
-        period = cp.get("PERIODOFREPORT", "").strip()
-        form_type = cp.get("FORMTYPE", "").strip()
-        filing_date = cp.get("FILED", "").strip() or cp.get("FILINGDATE", "").strip()
-        amendment_type = detect_amendment_type(cp)
-        supersedes = cp.get("AMENDMENTINFO", "").strip() or None
+        cik         = sub.get("CIK", "").strip().lstrip("0")
+        period      = parse_date(sub.get("PERIODOFREPORT", ""))
+        form_type   = sub.get("SUBMISSIONTYPE", "").strip()
+        filing_date = parse_date(sub.get("FILING_DATE", ""))
 
-        # VALUE normalization requires acceptance_datetime — will enrich later
-        # For now, store raw table value total
-        raw_tvt = cp.get("TABLEVALUETOTAL") or cp.get("TOTAL", "")
-        try:
-            raw_tvt_int = int(raw_tvt.replace(",", "")) if raw_tvt else None
-        except ValueError:
-            raw_tvt_int = None
+        cp = cp_by_acc.get(accession, {})
+        is_amendment = form_type.endswith("/A")
+        amend_raw = (cp.get("AMENDMENTTYPE") or "").strip().upper()
+        if not is_amendment:
+            amendment_type = None
+        elif "RESTATEMENT" in amend_raw:
+            amendment_type = "RESTATEMENT"
+        elif "NEW" in amend_raw or "HOLDINGS" in amend_raw:
+            amendment_type = "ADD_NEW_HOLDINGS"
+        else:
+            amendment_type = "RESTATEMENT"
 
-        # Ingest filing event
         db.execute("""
             INSERT OR IGNORE INTO filing_events
             (accession_number, cik, period_of_report, filing_date, form_type,
-             amendment_type, supersedes_accession, table_value_total,
-             ingest_zip, ingest_ts)
-            VALUES (?,?,?,?,?,?,?,?,?,?)
+             amendment_type, ingest_zip, ingest_ts)
+            VALUES (?,?,?,?,?,?,?,?)
         """, (accession, cik, period, filing_date, form_type,
-              amendment_type, supersedes, raw_tvt_int, zip_label, now))
+              amendment_type, zip_label, now))
 
-        # Ingest line items
-        lines = it_by_accession.get(accession, [])
-        for seq, li in enumerate(lines):
-            cusip = li.get("CUSIP", "").strip()
-            raw_shares = li.get("SSHPRNAMT", "").strip()
-            raw_value = li.get("VALUE", "").strip()
-            put_call = li.get("PUTCALL", "").strip() or None
+        for seq, li in enumerate(it_by_acc.get(accession, [])):
+            cusip         = li.get("CUSIP", "").strip()
+            raw_shares    = li.get("SSHPRNAMT", "").strip()
+            raw_value     = li.get("VALUE", "").strip()
+            put_call      = li.get("PUTCALL", "").strip() or None
             sshprnamttype = li.get("SSHPRNAMTTYPE", "SH").strip()
-            discretion = li.get("INVESTMENTDISCRETION", "").strip()
-            other_mgr = li.get("OTHERMANAGER", "").strip() or None
+            discretion    = li.get("INVESTMENTDISCRETION", "").strip()
+            other_mgr     = li.get("OTHERMANAGER", "").strip() or None
 
             try:
                 shares = int(raw_shares.replace(",", "")) if raw_shares else None
@@ -376,10 +402,6 @@ def ingest_zip(db: sqlite3.Connection, zip_path: Path, zip_label: str) -> dict:
             except ValueError:
                 raw_val_int = None
 
-            asset_class = classify_asset(put_call, sshprnamttype)
-
-            # VALUE will be normalized after acceptance_datetime enrichment
-            # Store raw for now
             db.execute("""
                 INSERT OR IGNORE INTO filing_line_items
                 (accession_number, line_seq, cusip, value_usd, sshprnamt,
@@ -387,8 +409,8 @@ def ingest_zip(db: sqlite3.Connection, zip_path: Path, zip_label: str) -> dict:
                  other_manager, asset_class)
                 VALUES (?,?,?,?,?,?,?,?,?,?)
             """, (accession, seq, cusip, raw_val_int, shares,
-                  sshprnamttype, put_call, discretion, other_mgr, asset_class))
-
+                  sshprnamttype, put_call, discretion, other_mgr,
+                  classify_asset(put_call, sshprnamttype)))
             stats["line_items"] += 1
 
         stats["filings"] += 1
@@ -396,6 +418,8 @@ def ingest_zip(db: sqlite3.Connection, zip_path: Path, zip_label: str) -> dict:
     db.commit()
     log.info(f"  {zip_label}: {stats['filings']} filings, {stats['line_items']} lines")
     return stats
+
+# --- Acceptance Timestamp Enrichment
 
 # ─── Acceptance Timestamp Enrichment ─────────────────────────────────────────
 
