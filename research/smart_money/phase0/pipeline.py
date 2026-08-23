@@ -286,39 +286,9 @@ def reconstruct_state(db: sqlite3.Connection,
                 key = (l["cusip"], l["investment_discretion"])
                 state[key] = dict(l)  # add or update specific entries
                 # Original holdings NOT cleared
-
     return list(state.values())
 
 # ─── Bulk Download ────────────────────────────────────────────────────────────
-
-def download_zips(manifest_packages: list, force: bool = False) -> None:
-    """Download all bulk ZIPs from manifest."""
-    ZIP_DIR.mkdir(parents=True, exist_ok=True)
-
-    for label, url, _, notes in manifest_packages:
-        if url is None:
-            log.info(f"SKIP {label}: no URL (use live API)")
-            continue
-
-        dest = ZIP_DIR / f"{label}.zip"
-        if dest.exists() and not force:
-            log.info(f"EXISTS {label} ({dest.stat().st_size / 1e6:.1f} MB)")
-            continue
-
-        log.info(f"DOWNLOADING {label} from {url}")
-        try:
-            r = requests.get(url, headers=HEADERS, stream=True, timeout=120)
-            r.raise_for_status()
-            with open(dest, "wb") as f:
-                for chunk in r.iter_content(chunk_size=1 << 20):
-                    f.write(chunk)
-            log.info(f"  SAVED {dest.stat().st_size / 1e6:.1f} MB → {dest}")
-        except Exception as e:
-            log.error(f"  FAILED {label}: {e}")
-
-        time.sleep(SEC_RATE_LIMIT)
-
-# ─── Ingest ───────────────────────────────────────────────────────────────────
 
 def ingest_zip(db: sqlite3.Connection, zip_path: Path, zip_label: str) -> dict:
     """
