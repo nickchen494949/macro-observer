@@ -94,9 +94,13 @@ def enrich_from_submissions_bulk(db: sqlite3.Connection):
       https://www.sec.gov/Archives/edgar/daily-index/bulkdata/submissions.zip
 
     Falls back to per-CIK API for any CIKs still missing after the bulk pass.
+    Always calls apply_value_normalization() unconditionally at the end.
     """
     sub_zip_url = "https://www.sec.gov/Archives/edgar/daily-index/bulkdata/submissions.zip"
-    sub_zip_path = ZIP_DIR / "submissions_bulk.zip"
+    # Store in data/cache/ — NOT ZIP_DIR — so ingest_all() never mistakes it for a 13F package
+    cache_dir = ZIP_DIR.parent / "cache"
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    sub_zip_path = cache_dir / "submissions_bulk.zip"
 
     if not sub_zip_path.exists() or sub_zip_path.stat().st_size < 1_000_000:
         print(f"\nDownloading SEC bulk submissions.zip (nightly archive)...")
@@ -179,6 +183,13 @@ def enrich_from_submissions_bulk(db: sqlite3.Connection):
         enrich_acceptance_timestamps(db)
     else:
         print("  No fallback needed — all CIKs covered by bulk archive")
+
+    # P0 FIX: VALUE normalization is ALWAYS called here, unconditionally.
+    # Do NOT rely on fallback to trigger it — 100% bulk coverage skips fallback
+    # but value_usd still needs to be computed from raw_value_reported.
+    apply_value_normalization(db)
+
+
 
 
 def apply_value_normalization(db: sqlite3.Connection):

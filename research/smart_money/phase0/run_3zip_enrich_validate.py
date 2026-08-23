@@ -78,8 +78,14 @@ if __name__ == "__main__":
         print("Run the raw ingest first: python run_3zip_validation.py")
         sys.exit(1)
 
+    import subprocess as _sp
+    try:
+        _sha = _sp.check_output(["git","rev-parse","HEAD"], cwd=Path(__file__).parent,
+                                stderr=_sp.DEVNULL).decode().strip()
+    except Exception:
+        _sha = "unknown"
     sep("3-ZIP Cross-Era Validation — Phase 2: Enrich + Verify")
-    print(f"  Commit:  0eb12d3b3aa8cbddecf1382b968f18828261bed0")
+    print(f"  Commit:  {_sha}  (git rev-parse HEAD)")
     print(f"  DB:      {db_path}  ({db_path.stat().st_size/1e6:.0f} MB)")
     print(f"  Started: {datetime.utcnow().isoformat()}Z")
 
