@@ -35,7 +35,12 @@ ZIP_DIR = Path(__file__).parent / "data" / "zips"
 LOG_PATH = Path(__file__).parent / "data" / "pipeline.log"
 LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
-HEADERS = {"User-Agent": "SmartMoneyResearch research@example.com"}
+_sec_ua = os.environ.get("SEC_USER_AGENT", "")
+if not _sec_ua:
+    raise RuntimeError(
+        "SEC_USER_AGENT not set. Run: export SEC_USER_AGENT='Your Name your@email.com'"
+    )
+HEADERS = {"User-Agent": _sec_ua}
 SEC_RATE_LIMIT = 0.11   # 10 req/sec → wait 110ms between requests
 
 # VALUE regime cutoff (acceptance_datetime, not period_of_report)
@@ -80,7 +85,8 @@ CREATE TABLE IF NOT EXISTS filing_line_items (
     cusip                 TEXT,
     security_name         TEXT,
     title_of_class        TEXT,
-    value_usd             INTEGER,      -- normalized USD (post-regime fix)
+    raw_value_reported    INTEGER,      -- as-filed value (NEVER modified; thousands or dollars per filing regime)
+    value_usd             INTEGER,      -- normalized USD; always recomputed from raw_value_reported
     sshprnamt             INTEGER,      -- shares or principal
     sshprnamttype         TEXT,         -- SH / PRN
     put_call              TEXT,         -- NULL / PUT / CALL
@@ -116,21 +122,62 @@ CREATE TABLE IF NOT EXISTS qa_results (
 # Federal holidays observed by SEC (approximate; update annually)
 # Source: Federal Reserve / SEC follow US federal holiday schedule
 SEC_HOLIDAYS = {
+    # 2013
+    date(2013,1,1),date(2013,1,21),date(2013,2,18),date(2013,5,27),
+    date(2013,7,4),date(2013,9,2),date(2013,10,14),date(2013,11,11),
+    date(2013,11,28),date(2013,12,25),
+    # 2014
+    date(2014,1,1),date(2014,1,20),date(2014,2,17),date(2014,5,26),
+    date(2014,7,4),date(2014,9,1),date(2014,10,13),date(2014,11,11),
+    date(2014,11,27),date(2014,12,25),
+    # 2015
+    date(2015,1,1),date(2015,1,19),date(2015,2,16),date(2015,5,25),
+    date(2015,7,3),date(2015,9,7),date(2015,10,12),date(2015,11,11),
+    date(2015,11,26),date(2015,12,25),
+    # 2016
+    date(2016,1,1),date(2016,1,18),date(2016,2,15),date(2016,5,30),
+    date(2016,7,4),date(2016,9,5),date(2016,10,10),date(2016,11,11),
+    date(2016,11,24),date(2016,12,26),
+    # 2017
+    date(2017,1,2),date(2017,1,16),date(2017,2,20),date(2017,5,29),
+    date(2017,7,4),date(2017,9,4),date(2017,10,9),date(2017,11,10),
+    date(2017,11,23),date(2017,12,25),
+    # 2018
+    date(2018,1,1),date(2018,1,15),date(2018,2,19),date(2018,5,28),
+    date(2018,7,4),date(2018,9,3),date(2018,10,8),date(2018,11,12),
+    date(2018,11,22),date(2018,12,25),
+    # 2019
+    date(2019,1,1),date(2019,1,21),date(2019,2,18),date(2019,5,27),
+    date(2019,7,4),date(2019,9,2),date(2019,10,14),date(2019,11,11),
+    date(2019,11,28),date(2019,12,25),
+    # 2020
+    date(2020,1,1),date(2020,1,20),date(2020,2,17),date(2020,5,25),
+    date(2020,7,3),date(2020,9,7),date(2020,10,12),date(2020,11,11),
+    date(2020,11,26),date(2020,12,25),
+    # 2021
+    date(2021,1,1),date(2021,1,18),date(2021,2,15),date(2021,5,31),
+    date(2021,7,5),date(2021,9,6),date(2021,10,11),date(2021,11,11),
+    date(2021,11,25),date(2021,12,24),
+    # 2022
+    date(2022,1,17),date(2022,2,21),date(2022,5,30),date(2022,6,19),
+    date(2022,7,4),date(2022,9,5),date(2022,10,10),date(2022,11,11),
+    date(2022,11,24),date(2022,12,26),
+    # 2023
+    date(2023,1,2),date(2023,1,16),date(2023,2,20),date(2023,5,29),
+    date(2023,6,19),date(2023,7,4),date(2023,9,4),date(2023,10,9),
+    date(2023,11,10),date(2023,11,23),date(2023,12,25),
     # 2024
-    date(2024, 1, 1), date(2024, 1, 15), date(2024, 2, 19),
-    date(2024, 5, 27), date(2024, 6, 19), date(2024, 7, 4),
-    date(2024, 9, 2), date(2024, 10, 14), date(2024, 11, 11),
-    date(2024, 11, 28), date(2024, 12, 25),
+    date(2024,1,1),date(2024,1,15),date(2024,2,19),date(2024,5,27),
+    date(2024,6,19),date(2024,7,4),date(2024,9,2),date(2024,10,14),
+    date(2024,11,11),date(2024,11,28),date(2024,12,25),
     # 2025
-    date(2025, 1, 1), date(2025, 1, 20), date(2025, 2, 17),
-    date(2025, 5, 26), date(2025, 6, 19), date(2025, 7, 4),
-    date(2025, 9, 1), date(2025, 10, 13), date(2025, 11, 11),
-    date(2025, 11, 27), date(2025, 12, 25),
+    date(2025,1,1),date(2025,1,20),date(2025,2,17),date(2025,5,26),
+    date(2025,6,19),date(2025,7,4),date(2025,9,1),date(2025,10,13),
+    date(2025,11,11),date(2025,11,27),date(2025,12,25),
     # 2026
-    date(2026, 1, 1), date(2026, 1, 19), date(2026, 2, 16),
-    date(2026, 5, 25), date(2026, 6, 19), date(2026, 7, 3),
-    date(2026, 9, 7), date(2026, 10, 12), date(2026, 11, 11),
-    date(2026, 11, 26), date(2026, 12, 25),
+    date(2026,1,1),date(2026,1,19),date(2026,2,16),date(2026,5,25),
+    date(2026,6,19),date(2026,7,3),date(2026,9,7),date(2026,10,12),
+    date(2026,11,11),date(2026,11,26),date(2026,12,25),
 }
 
 def compute_13f_deadline(period_of_report: str) -> str:
@@ -234,8 +281,8 @@ def detect_amendment_type(coverpage_row: dict) -> Optional[str]:
         return "ADD_NEW_HOLDINGS"
 
     # Fallback: if can't determine type, treat conservatively as RESTATEMENT
-    log.warning(f"Unknown amendment type: '{amendment_type_raw}' — treating as RESTATEMENT")
-    return "RESTATEMENT"
+    log.warning(f"Unknown amendment type: '{amendment_type_raw}' — quarantined as UNKNOWN")
+    return "UNKNOWN"
 
 # ─── State Reconstruction ─────────────────────────────────────────────────────
 
@@ -261,7 +308,24 @@ def reconstruct_state(db: sqlite3.Connection,
         ORDER BY fe.acceptance_datetime ASC
     """, (cik, period_of_report, as_of_datetime)).fetchall()
 
-    state = {}  # key=(cusip, line_seq_within_accession) → line item dict
+    # state: key=(cusip, investment_discretion) → aggregated shares/value
+    # Must SUM multiple rows with same key (same CUSIP + discretion = shared ownership)
+    state: dict = {}
+
+    def _aggregate_into(state: dict, lines) -> dict:
+        """Add lines into state, summing shares and value for duplicate keys."""
+        for l in lines:
+            key = (l["cusip"], l["investment_discretion"])
+            if key in state:
+                existing = state[key]
+                existing["sshprnamt"] = (existing.get("sshprnamt") or 0) + (l["sshprnamt"] or 0)
+                existing["value_usd"]  = (existing.get("value_usd")  or 0) + (l["value_usd"]  or 0)
+                existing["raw_value_reported"] = (
+                    (existing.get("raw_value_reported") or 0) + (l["raw_value_reported"] or 0)
+                )
+            else:
+                state[key] = dict(l)
+        return state
 
     for row in rows:
         accession = row["accession_number"]
@@ -272,20 +336,18 @@ def reconstruct_state(db: sqlite3.Connection,
             WHERE accession_number = ? AND asset_class = 'cash_equity'
         """, (accession,)).fetchall()
 
-        if amendment_type is None:
-            # Original filing: establish base state
-            state = {(l["cusip"], l["investment_discretion"]): dict(l) for l in lines}
-
-        elif amendment_type == "RESTATEMENT":
-            # Complete replacement
-            state = {(l["cusip"], l["investment_discretion"]): dict(l) for l in lines}
+        if amendment_type is None or amendment_type == "RESTATEMENT":
+            # Original filing or full replacement: start fresh, then aggregate
+            state = _aggregate_into({}, lines)
 
         elif amendment_type == "ADD_NEW_HOLDINGS":
-            # Merge additions into existing state
-            for l in lines:
-                key = (l["cusip"], l["investment_discretion"])
-                state[key] = dict(l)  # add or update specific entries
-                # Original holdings NOT cleared
+            # Merge new lines into existing state (SUM if same key)
+            state = _aggregate_into(state, lines)
+
+        elif amendment_type == "UNKNOWN":
+            # Quarantined — do not apply to state
+            pass
+
     return list(state.values())
 
 # ─── Bulk Download ────────────────────────────────────────────────────────────
@@ -324,10 +386,16 @@ def ingest_zip(db: sqlite3.Connection, zip_path: Path, zip_label: str) -> dict:
                 cp_text = f.read().decode("utf-8", errors="replace")
         with zf.open(it_name) as f:
             it_text = f.read().decode("utf-8", errors="replace")
+        sp_name = next((n for n in names if "summarypage" in n.lower()), None)
+        sp_text = ""
+        if sp_name:
+            with zf.open(sp_name) as f:
+                sp_text = f.read().decode("utf-8", errors="replace")
 
     sub_rows = list(csv.DictReader(StringIO(sub_text), delimiter="\t"))
     cp_rows  = list(csv.DictReader(StringIO(cp_text),  delimiter="\t")) if cp_text else []
     it_rows  = list(csv.DictReader(StringIO(it_text),  delimiter="\t"))
+    sp_rows  = list(csv.DictReader(StringIO(sp_text),  delimiter="\t")) if sp_text else []
 
     # COVERPAGE lookup: accession -> AMENDMENTTYPE
     cp_by_acc: dict[str, dict] = {}
@@ -335,6 +403,13 @@ def ingest_zip(db: sqlite3.Connection, zip_path: Path, zip_label: str) -> dict:
         acc = row.get("ACCESSION_NUMBER", "").strip()
         if acc:
             cp_by_acc[acc] = row
+
+    # SUMMARYPAGE lookup: accession -> summary row
+    sp_by_acc: dict[str, dict] = {}
+    for row in sp_rows:
+        acc = row.get("ACCESSION_NUMBER", "").strip()
+        if acc:
+            sp_by_acc[acc] = row
 
     # INFOTABLE lookup: accession -> list of line items
     it_by_acc: dict[str, list] = {}
@@ -376,14 +451,40 @@ def ingest_zip(db: sqlite3.Connection, zip_path: Path, zip_label: str) -> dict:
         else:
             amendment_type = "RESTATEMENT"
 
+        # UPSERT: overwrite stale rows from old pipeline versions
         db.execute("""
-            INSERT OR IGNORE INTO filing_events
+            INSERT INTO filing_events
             (accession_number, cik, period_of_report, filing_date, form_type,
              amendment_type, ingest_zip, ingest_ts)
             VALUES (?,?,?,?,?,?,?,?)
+            ON CONFLICT(accession_number) DO UPDATE SET
+                cik=excluded.cik,
+                period_of_report=excluded.period_of_report,
+                filing_date=excluded.filing_date,
+                form_type=excluded.form_type,
+                amendment_type=excluded.amendment_type,
+                ingest_zip=excluded.ingest_zip,
+                ingest_ts=excluded.ingest_ts
         """, (accession, cik, period, filing_date, form_type,
               amendment_type, zip_label, now))
 
+        # SUMMARYPAGE data
+        sp = sp_by_acc.get(accession, {})
+        tvt_raw = sp.get("TABLEVALUETOTAL", "").strip()
+        try:
+            tvt_int = int(tvt_raw.replace(",", "")) if tvt_raw else None
+        except ValueError:
+            tvt_int = None
+        is_conf = 1 if sp.get("ISCONFIDENTIALOMITTED", "N").strip().upper() == "Y" else 0
+        if tvt_int is not None or is_conf:
+            db.execute("""
+                UPDATE filing_events
+                SET table_value_total=?, is_confidential_omit=?
+                WHERE accession_number=?
+            """, (tvt_int, is_conf, accession))
+
+        # Atomically replace all line items for this accession (idempotent)
+        db.execute("DELETE FROM filing_line_items WHERE accession_number=?", (accession,))
         for seq, li in enumerate(it_by_acc.get(accession, [])):
             cusip         = li.get("CUSIP", "").strip()
             raw_shares    = li.get("SSHPRNAMT", "").strip()
@@ -392,6 +493,11 @@ def ingest_zip(db: sqlite3.Connection, zip_path: Path, zip_label: str) -> dict:
             sshprnamttype = li.get("SSHPRNAMTTYPE", "SH").strip()
             discretion    = li.get("INVESTMENTDISCRETION", "").strip()
             other_mgr     = li.get("OTHERMANAGER", "").strip() or None
+            name_issuer   = li.get("NAMEOFISSUER", "").strip() or None
+            title_class   = li.get("TITLEOFCLASS", "").strip() or None
+            v_sole        = li.get("VOTING_AUTH_SOLE", "").strip()
+            v_shared      = li.get("VOTING_AUTH_SHARED", "").strip()
+            v_none        = li.get("VOTING_AUTH_NONE", "").strip()
 
             try:
                 shares = int(raw_shares.replace(",", "")) if raw_shares else None
@@ -401,15 +507,31 @@ def ingest_zip(db: sqlite3.Connection, zip_path: Path, zip_label: str) -> dict:
                 raw_val_int = int(raw_value.replace(",", "")) if raw_value else None
             except ValueError:
                 raw_val_int = None
+            try:
+                vsole = int(v_sole) if v_sole else None
+            except ValueError:
+                vsole = None
+            try:
+                vshared = int(v_shared) if v_shared else None
+            except ValueError:
+                vshared = None
+            try:
+                vnone = int(v_none) if v_none else None
+            except ValueError:
+                vnone = None
 
+            # Store raw_value_reported (immutable); value_usd set to NULL until enrich runs
             db.execute("""
-                INSERT OR IGNORE INTO filing_line_items
-                (accession_number, line_seq, cusip, value_usd, sshprnamt,
+                INSERT INTO filing_line_items
+                (accession_number, line_seq, cusip, security_name, title_of_class,
+                 raw_value_reported, value_usd, sshprnamt,
                  sshprnamttype, put_call, investment_discretion,
-                 other_manager, asset_class)
-                VALUES (?,?,?,?,?,?,?,?,?,?)
-            """, (accession, seq, cusip, raw_val_int, shares,
+                 other_manager, voting_sole, voting_shared, voting_none, asset_class)
+                VALUES (?,?,?,?,?,?,NULL,?,?,?,?,?,?,?,?,?)
+            """, (accession, seq, cusip, name_issuer, title_class,
+                  raw_val_int, shares,
                   sshprnamttype, put_call, discretion, other_mgr,
+                  vsole, vshared, vnone,
                   classify_asset(put_call, sshprnamttype)))
             stats["line_items"] += 1
 
@@ -618,8 +740,14 @@ def run_all_qa(db: sqlite3.Connection) -> dict[str, str]:
 
 
 def check_ch1(db, record):
-    """No 1000× discontinuity at 2023Q1 boundary."""
-    # Berkshire Q4 2022: period=2022-12-31, accepted=2023-02-14 → should be ×1
+    """No 1000× discontinuity at 2023Q1 boundary — verified against actual dollar magnitude.
+
+    Two sub-checks:
+    (a) Regime branch: Berkshire 2022-12-31 (accepted 2023-02-14) must use ×1 (new regime).
+    (b) Magnitude sanity: Berkshire total value_usd must be in [$50B, $1T].
+        $299B → PASS. $299T → FAIL (means raw was multiplied again).
+        This check catches double-normalization bugs that (a) alone cannot catch.
+    """
     acc = "0000950123-23-002585"
     row = db.execute(
         "SELECT acceptance_datetime FROM filing_events WHERE accession_number=?", (acc,)
@@ -629,17 +757,38 @@ def check_ch1(db, record):
         record("CH-1", "SKIP", f"Berkshire {acc} not yet ingested")
         return
 
-    accept_dt = row["acceptance_datetime"]
-    mult = 1000 if accept_dt[:10] < VALUE_REGIME_CUTOFF else 1
-    expected = 1  # acceptance 2023-02-14 → new regime → ×1
+    accept_dt = row["acceptance_datetime"] or ""
+    if not accept_dt:
+        record("CH-1", "SKIP", f"Berkshire {acc}: acceptance_datetime not yet enriched")
+        return
 
-    if mult == expected:
-        # Also check no 1000x jump in aggregate values at 2023Q1
+    # (a) Branch check
+    mult = 1000 if accept_dt[:10] < VALUE_REGIME_CUTOFF else 1
+    if mult != 1:
+        record("CH-1", "FAIL",
+               f"Berkshire {acc} accepted {accept_dt[:10]}: branch gives ×{mult}, expected ×1")
+        return
+
+    # (b) Magnitude sanity check — actual value_usd in DB
+    total_row = db.execute("""
+        SELECT SUM(value_usd) as total
+        FROM filing_line_items
+        WHERE accession_number = ?
+    """, (acc,)).fetchone()
+
+    total_usd = total_row["total"] if total_row else None
+    if total_usd is None:
+        record("CH-1", "SKIP", f"Berkshire {acc}: no line items yet")
+        return
+
+    lo, hi = 50e9, 1e12  # [$50B, $1T] — Berkshire known ~$299B at 2022Q4
+    if lo <= total_usd <= hi:
         record("CH-1", "PASS",
-               f"Berkshire {acc} accepted {accept_dt[:10]}: regime multiplier = {mult} (correct: nearest dollar)")
+               f"Berkshire {acc}: branch=×1 ✓, total={total_usd/1e9:.1f}B USD ✓ (expected ~$299B)")
     else:
         record("CH-1", "FAIL",
-               f"Berkshire {acc} accepted {accept_dt[:10]}: got ×{mult}, expected ×{expected}")
+               f"Berkshire {acc}: total={total_usd:.3e} USD is outside [{lo:.0e}, {hi:.0e}] "
+               f"— likely double-normalization (×1000 applied twice)")
 
 
 def check_ch2(db, record):

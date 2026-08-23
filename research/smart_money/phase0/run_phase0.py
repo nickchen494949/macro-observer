@@ -165,25 +165,53 @@ def enrich_from_submissions_bulk(db: sqlite3.Connection):
     apply_value_normalization(db)
 
 def apply_value_normalization(db: sqlite3.Connection):
-    """Normalize raw VALUE to USD using acceptance_datetime."""
-    print("\nApplying VALUE normalization (old regime ×1000)...")
+    """Idempotent VALUE normalization: always recompute value_usd from raw_value_reported.
+
+    CRITICAL: reads raw_value_reported (immutable), writes value_usd.
+    Running this function 1×, 2×, 10× must give identical value_usd results.
+    Never reads value_usd as input (prevents double-multiplication).
+    """
+    print("\nApplying VALUE normalization (idempotent, from raw_value_reported)...")
+
+    # First: set all value_usd to NULL (will be recomputed)
+    db.execute("UPDATE filing_line_items SET value_usd = NULL")
+
+    # Old regime (pre-2023-01-03): raw_value_reported is in $000 → ×1000
     old_regime = db.execute("""
-        SELECT accession_number FROM filing_events
-        WHERE acceptance_datetime IS NOT NULL
-          AND substr(acceptance_datetime, 1, 10) < ?
+        SELECT li.accession_number
+        FROM filing_line_items li
+        JOIN filing_events fe ON fe.accession_number = li.accession_number
+        WHERE fe.acceptance_datetime IS NOT NULL
+          AND substr(fe.acceptance_datetime, 1, 10) < ?
+        GROUP BY li.accession_number
     """, (VALUE_REGIME_CUTOFF,)).fetchall()
 
-    updated = 0
-    for row in old_regime:
-        db.execute("""
-            UPDATE filing_line_items
-            SET value_usd = value_usd * 1000
-            WHERE accession_number = ? AND value_usd IS NOT NULL
-        """, (row["accession_number"],))
-        updated += 1
+    old_accs = {r["accession_number"] for r in old_regime}
+
+    db.execute("""
+        UPDATE filing_line_items
+        SET value_usd = raw_value_reported * 1000
+        WHERE accession_number IN (
+            SELECT accession_number FROM filing_events
+            WHERE acceptance_datetime IS NOT NULL
+              AND substr(acceptance_datetime, 1, 10) < ?
+        ) AND raw_value_reported IS NOT NULL
+    """, (VALUE_REGIME_CUTOFF,))
+
+    # New regime (2023-01-03+): raw_value_reported is already in dollars → ×1
+    db.execute("""
+        UPDATE filing_line_items
+        SET value_usd = raw_value_reported
+        WHERE accession_number IN (
+            SELECT accession_number FROM filing_events
+            WHERE acceptance_datetime IS NOT NULL
+              AND substr(acceptance_datetime, 1, 10) >= ?
+        ) AND raw_value_reported IS NOT NULL
+    """, (VALUE_REGIME_CUTOFF,))
 
     db.commit()
-    print(f"  Normalized {updated:,} old-regime accessions (×1000)")
+    total = db.execute("SELECT COUNT(*) FROM filing_line_items WHERE value_usd IS NOT NULL").fetchone()[0]
+    print(f"  Normalized {total:,} line items (idempotent; ran from raw_value_reported)")
 
 def print_status(db: sqlite3.Connection):
     total = db.execute("SELECT COUNT(*) as n FROM filing_events").fetchone()["n"]
