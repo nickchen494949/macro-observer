@@ -29,7 +29,7 @@ os.environ["DB_PATH"] = str(Path(__file__).parent / DB_NAME)
 
 sys.path.insert(0, str(Path(__file__).parent))
 import pipeline as pl
-from pipeline import enrich_acceptance_timestamps
+from run_phase0 import enrich_from_submissions_bulk
 
 FAILURES = []
 
@@ -37,7 +37,6 @@ def sep(title=""):
     print("\n" + "=" * 60 + (f" {title}" if title else ""))
 
 def gate(name, cond, detail):
-    """Hard gate — records failure but continues to collect all results."""
     mark = "PASS ✓" if cond else "FAIL ✗"
     print(f"  [{mark}] {name}: {detail}")
     if not cond:
@@ -45,7 +44,6 @@ def gate(name, cond, detail):
     return cond
 
 def require_not_skip(name, status, detail):
-    """Treat SKIP as failure — cross-era fixture must have both regimes."""
     if status == "SKIP":
         FAILURES.append(f"{name}: SKIP — {detail}")
         print(f"  [FAIL ✗] {name}: SKIP — {detail}")
@@ -56,6 +54,21 @@ def require_not_skip(name, status, detail):
     FAILURES.append(f"{name}: {status} — {detail}")
     print(f"  [FAIL ✗] {name}: {status} — {detail}")
     return False
+
+def streaming_checksum(db) -> str:
+    """SHA-256 of (accession_number, line_seq, value_usd) — streamed row-by-row, no fetchall()."""
+    h = hashlib.sha256()
+    cur = db.execute(
+        "SELECT accession_number, line_seq, value_usd "
+        "FROM filing_line_items ORDER BY accession_number, line_seq"
+    )
+    while True:
+        batch = cur.fetchmany(10_000)
+        if not batch:
+            break
+        for row in batch:
+            h.update(f"{row[0]}|{row[1]}|{row[2]}\n".encode())
+    return h.hexdigest()
 
 
 if __name__ == "__main__":
@@ -88,16 +101,12 @@ if __name__ == "__main__":
     gate("baseline-empty-cik", empty_cik == 0, f"empty_cik={empty_cik}")
     print(f"  acceptance_datetime before enrich: {accept_before:,} / {fe:,}")
 
-    # ── ENRICH: real acceptanceDateTime from SEC per-CIK submissions API ──────
-    sep("Enriching acceptance_datetime from SEC EDGAR submissions API")
-    unique_ciks = db.execute(
-        "SELECT COUNT(DISTINCT cik) FROM filing_events WHERE acceptance_datetime IS NULL"
-    ).fetchone()[0]
-    print(f"  Unique CIKs to fetch: {unique_ciks:,}")
-    print(f"  Estimated time: ~{unique_ciks * 0.12 / 60:.0f} min at 10 req/sec")
-    print(f"  (per-CIK API: https://data.sec.gov/submissions/CIK{{cik}}.json)")
+    # ── ENRICH: bulk submissions.zip from SEC (nightly archive) ──────────────
+    sep("Enriching acceptance_datetime via SEC bulk submissions archive")
+    print("  URL: https://www.sec.gov/Archives/edgar/daily-index/bulkdata/submissions.zip")
+    print("  (cached after first download; falls back to per-CIK API for any gaps)")
 
-    enrich_acceptance_timestamps(db)
+    enrich_from_submissions_bulk(db)
 
     accept_after = db.execute(
         "SELECT COUNT(*) FROM filing_events WHERE acceptance_datetime IS NOT NULL"
@@ -115,23 +124,17 @@ if __name__ == "__main__":
         "SELECT COUNT(*) FROM filing_line_items WHERE value_usd IS NOT NULL"
     ).fetchone()[0]
     print(f"  value_usd non-null after run 1: {value_after_1:,}")
-
-    # Checksum of all (accession_number, line_seq, value_usd) after run 1
-    rows1 = db.execute(
-        "SELECT accession_number, line_seq, value_usd FROM filing_line_items ORDER BY accession_number, line_seq"
-    ).fetchall()
-    cksum1 = hashlib.md5(str(rows1).encode()).hexdigest()
-    print(f"  Checksum run 1: {cksum1}")
+    cksum1 = streaming_checksum(db)
+    print(f"  SHA-256 run 1: {cksum1}")
 
     sep("VALUE normalization — run 2 (idempotency check)")
     pl.apply_value_normalization(db)
-    rows2 = db.execute(
-        "SELECT accession_number, line_seq, value_usd FROM filing_line_items ORDER BY accession_number, line_seq"
-    ).fetchall()
-    cksum2 = hashlib.md5(str(rows2).encode()).hexdigest()
-    print(f"  Checksum run 2: {cksum2}")
+    cksum2 = streaming_checksum(db)
+    print(f"  SHA-256 run 2: {cksum2}")
     gate("normalization-idempotent", cksum1 == cksum2,
-         f"run1={cksum1[:8]} run2={cksum2[:8]} (must be identical)")
+         f"run1={cksum1[:12]} run2={cksum2[:12]} (must be identical)")
+
+
 
     # ── REGIME VERIFICATION: count violating rows = 0 ─────────────────────────
     sep("Cross-era regime verification")

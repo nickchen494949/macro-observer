@@ -88,17 +88,97 @@ def ingest_all(db: sqlite3.Connection):
 
 def enrich_from_submissions_bulk(db: sqlite3.Connection):
     """
-    Enrich acceptance_datetime from SEC EDGAR per-CIK submissions API.
+    Enrich acceptance_datetime via SEC EDGAR nightly bulk submissions archive.
 
-    NOTE: the old 'submissions.zip' bulk URL (data.sec.gov/submissions/submissions.zip)
-    does not exist — SEC does not publish a single bulk zip of all submissions.
-    This function now calls the correct per-CIK API:
-      https://data.sec.gov/submissions/CIK{cik}.json
+    Official URL (nightly, documented at sec.gov/edgar/sec-api-documentation):
+      https://www.sec.gov/Archives/edgar/daily-index/bulkdata/submissions.zip
+
+    Falls back to per-CIK API for any CIKs still missing after the bulk pass.
     """
-    from pipeline import enrich_acceptance_timestamps
-    enrich_acceptance_timestamps(db)
+    sub_zip_url = "https://www.sec.gov/Archives/edgar/daily-index/bulkdata/submissions.zip"
+    sub_zip_path = ZIP_DIR / "submissions_bulk.zip"
 
+    if not sub_zip_path.exists() or sub_zip_path.stat().st_size < 1_000_000:
+        print(f"\nDownloading SEC bulk submissions.zip (nightly archive)...")
+        r = requests.get(sub_zip_url, headers=HEADERS, stream=True, timeout=600)
+        r.raise_for_status()
+        size = 0
+        with open(sub_zip_path, "wb") as f:
+            for chunk in r.iter_content(chunk_size=4 << 20):
+                f.write(chunk)
+                size += len(chunk)
+                print(f"\r  {size/1e6:.0f} MB downloaded...", end="", flush=True)
+        print(f"\n  submissions_bulk.zip saved: {size/1e6:.0f} MB")
+    else:
+        print(f"\nsubmissions_bulk.zip cached ({sub_zip_path.stat().st_size/1e6:.0f} MB)")
 
+    # First: inspect structure of the ZIP to understand file layout
+    print("Parsing bulk submissions.zip...")
+    updated = 0
+    skipped = 0
+    try:
+        with zipfile.ZipFile(sub_zip_path) as zf:
+            names = [n for n in zf.namelist() if n.endswith(".json")]
+            print(f"  {len(names):,} JSON files in bulk archive")
+            for name in names:
+                try:
+                    with zf.open(name) as f:
+                        data = json.loads(f.read())
+                    cik_raw = data.get("cik", "")
+                    cik = str(int(cik_raw)) if cik_raw else ""
+                    if not cik:
+                        skipped += 1
+                        continue
+                    filings = data.get("filings", {}).get("recent", {})
+                    accs = filings.get("accessionNumber", [])
+                    adts = filings.get("acceptanceDateTime", [])
+                    for acc, adt in zip(accs, adts):
+                        if acc and adt:
+                            db.execute("""
+                                UPDATE filing_events
+                                SET acceptance_datetime = ?
+                                WHERE accession_number = ?
+                                  AND acceptance_datetime IS NULL
+                            """, (adt, acc))
+                            updated += 1
+                    # Historical pagination files within the ZIP
+                    for hf in data.get("filings", {}).get("files", []):
+                        hf_name = hf.get("name", "")
+                        if not hf_name:
+                            continue
+                        try:
+                            with zf.open(hf_name) as hff:
+                                hdata = json.loads(hff.read())
+                            haccs = hdata.get("accessionNumber", [])
+                            hadts = hdata.get("acceptanceDateTime", [])
+                            for acc, adt in zip(haccs, hadts):
+                                if acc and adt:
+                                    db.execute("""
+                                        UPDATE filing_events SET acceptance_datetime = ?
+                                        WHERE accession_number = ? AND acceptance_datetime IS NULL
+                                    """, (adt, acc))
+                                    updated += 1
+                        except Exception:
+                            pass
+                except Exception:
+                    skipped += 1
+        db.commit()
+    except Exception as e:
+        print(f"  bulk parse error: {e}")
+        raise
+
+    print(f"  Bulk pass: {updated:,} rows updated, {skipped} files skipped")
+
+    # Fallback: per-CIK API for anything still missing
+    still_missing = db.execute(
+        "SELECT COUNT(DISTINCT cik) FROM filing_events WHERE acceptance_datetime IS NULL"
+    ).fetchone()[0]
+    if still_missing > 0:
+        print(f"  Fallback: {still_missing} CIKs still missing — fetching per-CIK API")
+        from pipeline import enrich_acceptance_timestamps
+        enrich_acceptance_timestamps(db)
+    else:
+        print("  No fallback needed — all CIKs covered by bulk archive")
 
 
 def apply_value_normalization(db: sqlite3.Connection):
