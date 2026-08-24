@@ -76,6 +76,36 @@ def classify_other_manager(om_val: str | None) -> tuple[str, list[str]]:
     return "FREE_TEXT_NAME", tokens
 
 
+def resolve_owner_component_strict(
+    econ_owner: str | None,
+    filer_comp: str,
+    component_mapping: dict[str, str],
+) -> tuple[bool, str, str | None]:
+    """Strictly resolve economic owner to its canonical entity component.
+
+    Explicitly handles:
+    1. Missing economic owner -> (False, "MISSING_ECONOMIC_OWNER", None)
+    2. Owner CIK absent from component mapping -> (False, "OWNER_NOT_IN_GRAPH", None)
+    3. Cross-component owner -> (False, "CROSS_COMPONENT_OWNER", owner_comp)
+    4. Same-component owner -> (True, "SAME_COMPONENT_OWNER", filer_comp)
+
+    Returns:
+        (is_valid, reason, resolved_component_id)
+    """
+    if econ_owner is None:
+        return False, "MISSING_ECONOMIC_OWNER", None
+
+    c_norm = normalize_cik(econ_owner)
+    if c_norm not in component_mapping:
+        return False, "OWNER_NOT_IN_GRAPH", None
+
+    owner_comp = component_mapping[c_norm]
+    if owner_comp != filer_comp:
+        return False, "CROSS_COMPONENT_OWNER", owner_comp
+
+    return True, "SAME_COMPONENT_OWNER", filer_comp
+
+
 def check_source_db_preflight(db_path: str | Path) -> dict[str, Any]:
     """Verify source DB existence, byte size, and lack of sidecars before opening."""
     p = Path(db_path)
@@ -662,6 +692,7 @@ def extract_split_pilot_pair(
     # Step 7: Reconstruct target-CUSIP state per origin filer
     component_period_holdings: dict[str, dict[str, float]] = {q_prev: defaultdict(float), q_curr: defaultdict(float)}
     unresolved_rows_count = {q_prev: 0, q_curr: 0}
+    duplicate_disclosures_removed = {q_prev: 0, q_curr: 0}
 
     for period in [q_prev, q_curr]:
         filings_dict = on_time_filings[period]
@@ -731,13 +762,12 @@ def extract_split_pilot_pair(
                 if asset_class != "SH":
                     continue
 
-                if econ_owner is None:
-                    unresolved_rows_count[period] += 1
-                    continue
-
-                owner_comp = component_mapping.get(econ_owner)
-                if owner_comp is None or owner_comp != filer_comp:
-                    # Missing from graph or cross-component ownership -> strictly mark unresolved
+                is_ok_owner, reason, resolved_comp = resolve_owner_component_strict(
+                    econ_owner=econ_owner,
+                    filer_comp=filer_comp,
+                    component_mapping=component_mapping,
+                )
+                if not is_ok_owner:
                     unresolved_rows_count[period] += 1
                     continue
 
@@ -761,10 +791,16 @@ def extract_split_pilot_pair(
         for h in all_period_disclosures:
             disclosures_by_comp[h["canonical_entity_id"]].append(h)
 
+        pre_dedup_count = len(all_period_disclosures)
+        post_dedup_count = 0
+
         for c_id, c_disclosures in disclosures_by_comp.items():
             deduped = deduplicate_entity_disclosures(c_id, c_disclosures)
+            post_dedup_count += len(deduped)
             tot_shares = sum(item["total_shares"] for item in deduped)
             component_period_holdings[period][c_id] = tot_shares
+
+        duplicate_disclosures_removed[period] = pre_dedup_count - post_dedup_count
 
     # Step 8: Component-level gates and continuous holder formation
     continuous_holders: list[ContinuousHolder] = []
@@ -869,6 +905,8 @@ def extract_split_pilot_pair(
             "exit_positions_count": exit_positions_count,
             "unresolved_ownership_rows_excluded_q_prev": unresolved_rows_count[q_prev],
             "unresolved_ownership_rows_excluded_q_curr": unresolved_rows_count[q_curr],
+            "duplicate_disclosures_removed_q_prev": duplicate_disclosures_removed[q_prev],
+            "duplicate_disclosures_removed_q_curr": duplicate_disclosures_removed[q_curr],
         },
         "global_dataset_context": {
             "total_on_time_filers_q_prev": len(on_time_filers[q_prev]),

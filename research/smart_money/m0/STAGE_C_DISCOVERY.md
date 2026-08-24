@@ -1,17 +1,16 @@
-# Stage C Part C1 Pilot Discovery Audit Report
+# M0 Stage C Part C1 Pilot Discovery Report
 
-**Status**: STAGE C PART C1 DISCOVERY UNDER CODEX AUDIT
-**Execution Timestamp (UTC)**: 2026-08-24T06:57:49Z
-**Total Runtime**: 104.606 seconds
+> **Status**: `STAGE C PART C1 DISCOVERY UNDER CODEX AUDIT`
+> **Generated UTC**: `2026-08-24T07:02:40Z`
+> **Total Execution Time**: `106.361s`
 
 ---
 
-## 1. Database Preflight & Storage Integrity
-
-- **Source DB Path**: `research/smart_money/phase0/data/13f_full_4409f14.db`
-- **Database File Size**: 25,881,661,440 bytes (24.10 GiB)
-- **Immutable Open Guard**: Verified (zero sibling sidecars)
-- **PRAGMA query_only**: 1 (read-only enforced)
+## 1. Source Database Preflight & Read-Only Safety
+- **Source DB File**: `13f_full_4409f14.db` (research/smart_money/phase0/data/13f_full_4409f14.db)
+- **File Size**: 25,881,661,440 bytes (24.10 GiB)
+- **PRAGMA query_only Verification**: `query_only = 1` (Strict Read-Only)
+- **Sidecar Integrity**: Checked zero `-wal`, `-shm`, `-journal` files present.
 
 ---
 
@@ -20,10 +19,11 @@
 - **Accession Number**: `0000950123-24-002518`
 - **Origin Filer CIK**: `0001067983`
 - **Period of Report**: `2023-12-31`
-- **Acceptance Datetime**: `2024-02-14T21:02:18.000Z`
-- **Confidential Omission Flag**: `is_confidential_omit = True`
-- **Raw Matching Line Items**: 12
-- **Raw Aggregate Shares**: **905,560,000** (Validates official SEC anchor)
+- **Acceptance Datetime (PIT)**: `2024-02-14T21:02:18.000Z`
+- **Confidential Treatment Flag (`is_confidential_omit`)**: `True`
+- **Raw Matching Rows Count**: 12
+- **Raw Aggregate Shares Total**: **905,560,000**
+- **Raw Aggregate Value Total USD**: $174,347,466,800.0
 - **Preregistered Expected Anchor**: **905,560,000**
 - **Raw Anchor Match**: **EXACT MATCH (100%)**
 
@@ -69,7 +69,12 @@
 - **Total Raw Line Items**: 4,457
 - **Reconstructed Disclosures**: 3,540
 - **Intra-Entity Deduplicated Holdings**: 3,540
-- **Execution Time**: 0.474s
+- **Unresolved Rows Count**: 917
+- **Unresolved Shares Total**: 418,109,088
+- **On-Time Confidential Filings**: 0 / **All-Period Confidential Filings**: 0
+- **On-Time Amendment Filings**: 0 / **All-Period Amendment Filings**: 0
+- **Cross-Component Excluded Disclosures**: 0
+- **Execution Time**: 0.463s
 
 ### Accessions and Filing Events (Actual PIT Timestamps)
 
@@ -97,10 +102,10 @@
 
 | Symbol | CUSIP | Quarter Pair | Split Factor | Ex-Date | Continuous Entities | Raw Median | MAD_log | Adj Median | State | Action | Pass [0.8, 1.2] |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **NVDA** | `67066G104` | 2024-03-31 $\to$ 2024-06-30 | 10.0 | 2024-06-10 | 2758 | 10.01 | 0.0717 | 1.0013 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
-| **TSLA** | `88160R101` | 2022-06-30 $\to$ 2022-09-30 | 3.0 | 2022-08-25 | 1473 | 3.00 | 0.0432 | 1.0000 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
-| **AMZN** | `023135106` | 2022-03-31 $\to$ 2022-06-30 | 20.0 | 2022-06-06 | 2451 | 20.22 | 0.0596 | 1.0112 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
-| **GOOGL** | `02079K305` | 2022-06-30 $\to$ 2022-09-30 | 20.0 | 2022-07-18 | 2102 | 20.00 | 0.0350 | 1.0000 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
+| **NVDA** | `67066G104` | 2024-03-31 $\to$ 2024-06-30 | 10.0 | 2024-06-10 | 2758 | 10.0132 | 0.0717 | 1.0013 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
+| **TSLA** | `88160R101` | 2022-06-30 $\to$ 2022-09-30 | 3.0 | 2022-08-25 | 1473 | 3.0 | 0.0432 | 1.0 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
+| **AMZN** | `023135106` | 2022-03-31 $\to$ 2022-06-30 | 20.0 | 2022-06-06 | 2451 | 20.2247 | 0.0596 | 1.0112 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
+| **GOOGL** | `02079K305` | 2022-06-30 $\to$ 2022-09-30 | 20.0 | 2022-07-18 | 2102 | 20.0 | 0.035 | 1.0 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
 
 ### Before vs After Entity Graph G(Q-1, Q) Impact Comparison
 
@@ -108,10 +113,10 @@ The table below contrasts the naive filer grouping against the true $G(Q-1, Q)$ 
 
 | Symbol | Naive Filer Grouping N | True Graph $G(Q-1, Q)$ N | Delta N (%) | Raw Median | Adj Median | State | Pass [0.8, 1.2] |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **NVDA** | 3,366 | 2,758 | -608 (-18.1%) | 10.01 | 1.0013 | `KNOWN_SPLIT_PASS` | **PASS** |
-| **TSLA** | 1,831 | 1,473 | -358 (-19.6%) | 3.00 | 1.0000 | `KNOWN_SPLIT_PASS` | **PASS** |
-| **AMZN** | 2,948 | 2,451 | -497 (-16.9%) | 20.22 | 1.0112 | `KNOWN_SPLIT_PASS` | **PASS** |
-| **GOOGL** | 2,612 | 2,102 | -510 (-19.5%) | 20.00 | 1.0000 | `KNOWN_SPLIT_PASS` | **PASS** |
+| **NVDA** | 3,366 | 2,758 | -608 (-18.1%) | 10.0132 | 1.0013 | `KNOWN_SPLIT_PASS` | **PASS** |
+| **TSLA** | 1,831 | 1,473 | -358 (-19.6%) | 3.0 | 1.0 | `KNOWN_SPLIT_PASS` | **PASS** |
+| **AMZN** | 2,948 | 2,451 | -497 (-16.9%) | 20.2247 | 1.0112 | `KNOWN_SPLIT_PASS` | **PASS** |
+| **GOOGL** | 2,612 | 2,102 | -510 (-19.5%) | 20.0 | 1.0 | `KNOWN_SPLIT_PASS` | **PASS** |
 
 ### Component-Level Exclusion Counts Breakdown
 
@@ -133,19 +138,19 @@ The table below contrasts the naive filer grouping against the true $G(Q-1, Q)$ 
 
 ---
 
-## 5. Real-Data Assumption Discovery: Multi-Manager Comma-Separated Sequences
+## 5. Real-Data Assumption Discovery: Multi-Manager Sequences and Free-Text Manager Names
 
-Under the frozen Contract v0.8.1 specification, `resolve_ownership` resolves single integer sequence numbers against `manager_relationships`. In real SEC 13F filings, filers frequently supply comma-separated lists of sequence numbers (e.g. `'1,2,4,11'` or `'4,5'`) in the `other_manager` field.
+Under the frozen Contract v0.8.1 specification, `resolve_ownership` resolves single integer sequence numbers against `manager_relationships`. In real SEC 13F filings, filers supply both numeric multi-sequence lists (e.g. `'1,2,4,11'`, `'1 3 4'`) and free-text manager names (e.g. `'Blue Chip Partners LLC'`, `'PARAMETRIC PORTFOLIO ASSOCIATES LLC'`) in the `other_manager` field.
 
-| Target Symbol / Filing | Q-1 Multi-Seq Rows | Q Multi-Seq Rows | Sample Multi-Sequence Values |
-| :--- | :--- | :--- | :--- |
-| **Berkshire Apple 2023Q4** | 11 | N/A | `1,2,4,11, 2,4,11, 4,5` |
-| **NVDA** | 210 | 211 | `1, 2, 1,3, 1,3` |
-| **TSLA** | 147 | 133 | `1,2, 1 2 3, 5 6` |
-| **AMZN** | 203 | 209 | `1,2,5, 1,2,3, 1,2,3` |
-| **GOOGL** | 236 | 185 | `1,2, 1,2,5, 1,2,3` |
+| Target Symbol / Filing | Q-1 Multi-Seq Rows | Q Multi-Seq Rows | Q-1 Free-Text Rows | Q Free-Text Rows | Sample Values |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Berkshire Apple 2023Q4** | 11 | N/A | 0 | N/A | `1,2,4,11, 2,4,11, 4,5` |
+| **NVDA** | 210 | 211 | 153 | 163 | `1, 2, 1,3, 1,3` |
+| **TSLA** | 147 | 133 | 234 | 235 | `1,2, 1 2 3, 5 6` |
+| **AMZN** | 203 | 209 | 480 | 350 | `1,2,5, 1,2,3, 1,2,3` |
+| **GOOGL** | 236 | 185 | 298 | 298 | `1,2, 1,2,5, 1,2,3` |
 
-> **Impact Analysis**: Under existing frozen rules, multi-sequence strings are conservatively treated as unresolved ownership and excluded from Primary M0. They are neither silently attributed to origin filers nor artificially split across managers. This discovery is surfaced for Codex and user consideration.
+> **Impact Analysis**: Under existing frozen rules, both multi-sequence strings and free-text names are conservatively treated as unresolved ownership and excluded from Primary M0. They are neither silently attributed to origin filers nor artificially split across managers. This discovery is surfaced for Codex and user consideration.
 
 ---
 

@@ -1,10 +1,10 @@
 {
-  "created_utc": "2026-08-24T06:57:49Z",
+  "created_utc": "2026-08-24T07:02:40Z",
   "evidence_a_berkshire_apple_2023q4": {
     "acceptance_datetime": "2024-02-14T21:02:18.000Z",
     "accession_number": "0000950123-24-002518",
     "anchor_raw_match": true,
-    "execution_time_sec": 0.005,
+    "execution_time_sec": 0.004,
     "free_text_name_rows_count": 0,
     "ineligibility_reasons": [
       "CONFIDENTIAL_TREATMENT_OMISSION (is_confidential_omit=1)",
@@ -301,7 +301,7 @@
     ],
     "cross_component_excluded_count": 0,
     "entity_name": "Point72 Asset Management",
-    "execution_time_sec": 0.474,
+    "execution_time_sec": 0.463,
     "intra_entity_deduped_holdings_count": 3540,
     "manager_relationships": [
       {
@@ -397,6 +397,8 @@
       "component_level_exclusions": {
         "amendment_unresolved_components_excluded": 0,
         "confidential_omission_components_excluded": 25,
+        "duplicate_disclosures_removed_q_curr": 0,
+        "duplicate_disclosures_removed_q_prev": 0,
         "exit_positions_count": 120,
         "membership_incomplete_components_excluded": 231,
         "new_positions_count": 252,
@@ -407,7 +409,7 @@
       "contract_split_factor": 10.0,
       "cusip": "67066G104",
       "eligible_continuous_entity_count": 2758,
-      "execution_time_sec": 24.761,
+      "execution_time_sec": 25.457,
       "global_dataset_context": {
         "late_filings_excluded_q_curr": 599,
         "late_filings_excluded_q_prev": 605,
@@ -445,6 +447,8 @@
       "component_level_exclusions": {
         "amendment_unresolved_components_excluded": 0,
         "confidential_omission_components_excluded": 35,
+        "duplicate_disclosures_removed_q_curr": 1,
+        "duplicate_disclosures_removed_q_prev": 1,
         "exit_positions_count": 94,
         "membership_incomplete_components_excluded": 141,
         "new_positions_count": 176,
@@ -455,7 +459,7 @@
       "contract_split_factor": 3.0,
       "cusip": "88160R101",
       "eligible_continuous_entity_count": 1473,
-      "execution_time_sec": 21.337,
+      "execution_time_sec": 21.016,
       "global_dataset_context": {
         "late_filings_excluded_q_curr": 633,
         "late_filings_excluded_q_prev": 570,
@@ -493,6 +497,8 @@
       "component_level_exclusions": {
         "amendment_unresolved_components_excluded": 0,
         "confidential_omission_components_excluded": 59,
+        "duplicate_disclosures_removed_q_curr": 1,
+        "duplicate_disclosures_removed_q_prev": 0,
         "exit_positions_count": 220,
         "membership_incomplete_components_excluded": 187,
         "new_positions_count": 122,
@@ -503,7 +509,7 @@
       "contract_split_factor": 20.0,
       "cusip": "023135106",
       "eligible_continuous_entity_count": 2451,
-      "execution_time_sec": 30.945,
+      "execution_time_sec": 31.87,
       "global_dataset_context": {
         "late_filings_excluded_q_curr": 570,
         "late_filings_excluded_q_prev": 668,
@@ -541,6 +547,8 @@
       "component_level_exclusions": {
         "amendment_unresolved_components_excluded": 1,
         "confidential_omission_components_excluded": 50,
+        "duplicate_disclosures_removed_q_curr": 1,
+        "duplicate_disclosures_removed_q_prev": 0,
         "exit_positions_count": 133,
         "membership_incomplete_components_excluded": 188,
         "new_positions_count": 133,
@@ -551,7 +559,7 @@
       "contract_split_factor": 20.0,
       "cusip": "02079K305",
       "eligible_continuous_entity_count": 2102,
-      "execution_time_sec": 27.082,
+      "execution_time_sec": 27.549,
       "global_dataset_context": {
         "late_filings_excluded_q_curr": 633,
         "late_filings_excluded_q_prev": 570,
@@ -592,5 +600,5 @@
     "size_bytes": 25881661440
   },
   "status": "STAGE C PART C1 DISCOVERY UNDER CODEX AUDIT",
-  "total_execution_time_sec": 104.606
+  "total_execution_time_sec": 106.361
 }

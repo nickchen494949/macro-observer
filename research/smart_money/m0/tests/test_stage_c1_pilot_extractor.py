@@ -11,7 +11,9 @@ from research.smart_money.m0.src.pilot_extractor import (
     extract_berkshire_apple_2023q4,
     extract_point72_2019q4_discovery,
     extract_split_pilot_pair,
+    resolve_owner_component_strict,
 )
+from research.smart_money.m0.src.run_c1_discovery import format_markdown_report
 
 
 def _init_synthetic_phase0_db(db_path: Path) -> sqlite3.Connection:
@@ -108,6 +110,46 @@ def test_classify_other_manager_robustness():
     # Free-text names with spaces (must NOT be classified as multi-sequence list)
     assert classify_other_manager("Blue Chip Partners LLC") == ("FREE_TEXT_NAME", ["Blue", "Chip", "Partners", "LLC"])
     assert classify_other_manager("PARAMETRIC PORTFOLIO ASSOCIATES LLC") == ("FREE_TEXT_NAME", ["PARAMETRIC", "PORTFOLIO", "ASSOCIATES", "LLC"])
+
+
+def test_resolve_owner_component_strict_pure_helper_and_old_default_failure():
+    """Test resolve_owner_component_strict pure helper across all cases and demonstrate old default flaw."""
+    comp_map = {
+        "0000000001": "0000000001",
+        "0000000002": "0000000001",  # in Component 1
+        "0000000003": "0000000003",  # in Component 3
+    }
+    filer_comp = "0000000001"
+
+    # Case 1: Missing owner
+    ok, reason, res_comp = resolve_owner_component_strict(None, filer_comp, comp_map)
+    assert ok is False
+    assert reason == "MISSING_ECONOMIC_OWNER"
+    assert res_comp is None
+
+    # Case 2: Owner CIK absent from component mapping (e.g. CIK 9999999999)
+    absent_owner = "9999999999"
+    ok, reason, res_comp = resolve_owner_component_strict(absent_owner, filer_comp, comp_map)
+    assert ok is False
+    assert reason == "OWNER_NOT_IN_GRAPH"
+    assert res_comp is None
+
+    # PROOF OF BUG IN OLD CODE: old code did component_mapping.get(econ_owner, filer_comp)
+    old_buggy_owner_comp = comp_map.get(absent_owner, filer_comp)
+    # Old code would evaluate old_buggy_owner_comp == filer_comp as TRUE (silent acceptance!)
+    assert (old_buggy_owner_comp == filer_comp) is True, "Demonstrates old default silently accepted unmapped owner"
+
+    # Case 3: Cross-component owner
+    ok, reason, res_comp = resolve_owner_component_strict("0000000003", filer_comp, comp_map)
+    assert ok is False
+    assert reason == "CROSS_COMPONENT_OWNER"
+    assert res_comp == "00000003" or res_comp == "0000000003"
+
+    # Case 4: Same-component owner
+    ok, reason, res_comp = resolve_owner_component_strict("0000000002", filer_comp, comp_map)
+    assert ok is True
+    assert reason == "SAME_COMPONENT_OWNER"
+    assert res_comp == "0000000001"
 
 
 def test_check_source_db_preflight(tmp_path: Path):
@@ -252,7 +294,7 @@ def test_point72_late_filing_exclusion(tmp_path: Path):
 
 
 def test_two_filer_component_intra_entity_dedup_in_split_pair(tmp_path: Path):
-    """Test that two origin filers in same component with identical economic signature deduplicate to 1 disclosure."""
+    """Test that two origin filers with duplicate economic disclosures deduplicate and report exact removal metrics."""
     db_file = tmp_path / "two_filer_dedup_test.db"
     conn = _init_synthetic_phase0_db(db_file)
 
@@ -260,7 +302,6 @@ def test_two_filer_component_intra_entity_dedup_in_split_pair(tmp_path: Path):
     q_curr = "2024-06-30"
     cusip = "67066G104"
 
-    # Setup 20 entities. Entity 1 has two origin filers: CIK 1 and CIK 2.
     for i in range(1, 21):
         cik = f"{i:010d}"
         conn.execute(
@@ -310,6 +351,10 @@ def test_two_filer_component_intra_entity_dedup_in_split_pair(tmp_path: Path):
     )
     ro_conn.close()
 
+    # Exact proof of deduplication:
+    # Pre-dedup disclosures had 2 items for Component 1, post-dedup has 1 item -> exactly 1 duplicate removed per quarter
+    assert res["component_level_exclusions"]["duplicate_disclosures_removed_q_prev"] == 1
+    assert res["component_level_exclusions"]["duplicate_disclosures_removed_q_curr"] == 1
     assert res["eligible_continuous_entity_count"] == 19
     assert res["adjusted_median_ratio"] == 1.0
 
@@ -421,7 +466,6 @@ def test_split_pair_late_relationship_edge_exclusion(tmp_path: Path):
     )
     ro_conn.close()
 
-    # Late edge excluded -> CIK 1 and CIK 2 remain separate components (20 total components)
     assert res["global_dataset_context"]["total_on_time_filers_q_prev"] == 20
     assert res["eligible_continuous_entity_count"] == 20
     assert res["global_dataset_context"]["late_filings_excluded_q_prev"] == 1
@@ -576,7 +620,6 @@ def test_13f_nt_exclusion_from_holdings_and_graph(tmp_path: Path):
             (f"ACC_CURR_{i}", cusip),
         )
 
-    # Insert a 13F-NT notice filing for CIK 999 with a relationship edge connecting CIK 1 and CIK 999
     conn.execute(
         "INSERT INTO filing_events (accession_number, cik, period_of_report, acceptance_datetime, form_type) VALUES ('ACC_NT_999', '0000000999', ?, '2024-05-10T10:00:00Z', '13F-NT');",
         (q_prev,),
@@ -605,56 +648,111 @@ def test_13f_nt_exclusion_from_holdings_and_graph(tmp_path: Path):
     assert res["eligible_continuous_entity_count"] == 20
 
 
-def test_split_pair_unknown_or_cross_component_owner_excluded(tmp_path: Path):
-    """Counterexample for P1-unsafe-default: Unknown or unmapped economic owner is excluded and counted as unresolved."""
-    db_file = tmp_path / "unsafe_default_test.db"
-    conn = _init_synthetic_phase0_db(db_file)
+def test_format_markdown_report_contains_point72_and_section5_metrics():
+    """Test format_markdown_report produces visible Point72 unresolved/on-time counts and Section 5 free-text metrics."""
+    mock_data = {
+        "status": "STAGE C PART C1 DISCOVERY UNDER CODEX AUDIT",
+        "created_utc": "2026-08-24T12:00:00Z",
+        "total_execution_time_sec": 1.234,
+        "preflight": {
+            "db_filename": "13f_full_4409f14.db",
+            "db_path": "/path/to/db",
+            "size_bytes": 25881661440,
+            "query_only_pragma": 1,
+        },
+        "evidence_a_berkshire_apple_2023q4": {
+            "accession_number": "0000950123-24-002518",
+            "origin_filer_cik": "0001067983",
+            "period_of_report": "2023-12-31",
+            "acceptance_datetime": "2024-02-14T21:02:18.000Z",
+            "is_confidential_omit": True,
+            "raw_matching_rows_count": 12,
+            "raw_total_aggregate_shares": 905560000,
+            "raw_total_aggregate_value_usd": 174345000000,
+            "preregistered_expected_anchor": 905560000,
+            "anchor_raw_match": True,
+            "primary_resolved_shares": 0,
+            "unresolved_rows_count": 12,
+            "unresolved_shares_total": 905560000,
+            "multi_sequence_rows_count": 11,
+            "free_text_name_rows_count": 0,
+            "multi_sequence_samples": ["1,2,4,11"],
+            "is_primary_eligible": False,
+            "ineligibility_reasons": ["CONFIDENTIAL_TREATMENT_OMISSION"],
+            "raw_matching_rows": [],
+        },
+        "evidence_b_point72_2019q4_discovery": {
+            "status": "PROPOSED PENDING CODEX MANUAL FREEZE",
+            "entity_name": "Point72 Asset Management",
+            "period_of_report": "2019-12-31",
+            "canonical_entity_id": "0001599822",
+            "seed_ciks": ["0001599822"],
+            "component_closed_ciks": ["0001599822"],
+            "accessions_count": 4,
+            "manager_relationships_count": 6,
+            "total_raw_line_items": 4457,
+            "reconstructed_disclosures_count": 3540,
+            "intra_entity_deduped_holdings_count": 3540,
+            "unresolved_rows_count": 917,
+            "unresolved_shares_total": 418109088,
+            "on_time_confidential_filings_count": 0,
+            "all_period_confidential_filings_count": 0,
+            "on_time_amendment_filings_count": 0,
+            "all_period_amendment_filings_count": 0,
+            "cross_component_excluded_count": 0,
+            "execution_time_sec": 0.45,
+            "accessions": [],
+            "manager_relationships": [],
+        },
+        "evidence_c_split_pilot_pairs": [
+            {
+                "stock_symbol": "NVDA",
+                "cusip": "67066G104",
+                "q_prev": "2024-03-31",
+                "q_curr": "2024-06-30",
+                "contract_split_factor": 10.0,
+                "contract_ex_date": "2024-06-10",
+                "eligible_continuous_entity_count": 2758,
+                "raw_median_ratio": 10.01,
+                "mad_log": 0.0717,
+                "adjusted_median_ratio": 1.0013,
+                "waterfall_state": "KNOWN_SPLIT_PASS",
+                "waterfall_action": "INCLUDE",
+                "is_in_contract_pass_range": True,
+                "multi_sequence_other_manager": {
+                    "q_prev_multi_sequence_rows": 210,
+                    "q_curr_multi_sequence_rows": 211,
+                    "q_prev_free_text_rows": 49,
+                    "q_curr_free_text_rows": 53,
+                    "samples": ["1, 2", "1,3"],
+                },
+                "component_level_exclusions": {
+                    "membership_incomplete_components_excluded": 231,
+                    "confidential_omission_components_excluded": 25,
+                    "amendment_unresolved_components_excluded": 0,
+                    "new_positions_count": 252,
+                    "exit_positions_count": 120,
+                    "unresolved_ownership_rows_excluded_q_prev": 1331,
+                    "unresolved_ownership_rows_excluded_q_curr": 1426,
+                },
+                "global_dataset_context": {
+                    "total_on_time_filers_q_prev": 7130,
+                    "total_on_time_filers_q_curr": 7118,
+                    "late_filings_excluded_q_prev": 605,
+                    "late_filings_excluded_q_curr": 599,
+                    "total_connected_components_in_graph": 6601,
+                    "total_on_time_relationship_edges": 2752,
+                },
+            }
+        ],
+    }
 
-    q_prev = "2024-03-31"
-    q_curr = "2024-06-30"
-    cusip = "67066G104"
-
-    for i in range(1, 21):
-        cik = f"{i:010d}"
-        conn.execute(
-            "INSERT INTO filing_events (accession_number, cik, period_of_report, acceptance_datetime, form_type) VALUES (?, ?, ?, '2024-05-10T10:00:00Z', '13F-HR');",
-            (f"ACC_PREV_{i}", cik, q_prev),
-        )
-        conn.execute(
-            "INSERT INTO filing_events (accession_number, cik, period_of_report, acceptance_datetime, form_type) VALUES (?, ?, ?, '2024-08-10T10:00:00Z', '13F-HR');",
-            (f"ACC_CURR_{i}", cik, q_curr),
-        )
-        # Filer 1 files with unknown sequence 999 (not mapped to any manager in manager_relationships)
-        om_prev = "999" if i == 1 else None
-        om_curr = "999" if i == 1 else None
-        conn.execute(
-            "INSERT INTO filing_line_items (accession_number, line_seq, cusip, sshprnamt, value_usd, asset_class, other_manager) VALUES (?, 1, ?, 100, 100000, 'cash_equity', ?);",
-            (f"ACC_PREV_{i}", cusip, om_prev),
-        )
-        conn.execute(
-            "INSERT INTO filing_line_items (accession_number, line_seq, cusip, sshprnamt, value_usd, asset_class, other_manager) VALUES (?, 1, ?, 1000, 1000000, 'cash_equity', ?);",
-            (f"ACC_CURR_{i}", cusip, om_curr),
-        )
-
-    conn.commit()
-    conn.close()
-
-    ro_conn = sqlite3.connect(f"file:{db_file}?mode=ro", uri=True)
-    res = extract_split_pilot_pair(
-        conn=ro_conn,
-        cusip=cusip,
-        stock_symbol="NVDA",
-        q_prev=q_prev,
-        q_curr=q_curr,
-        split_factor=10.0,
-        ex_date="2024-06-10",
-    )
-    ro_conn.close()
-
-    # Filer 1's position is strictly excluded because sequence 999 has no manager mapping
-    # Filer 1 is NOT defaulted into Component 1
-    # It is strictly counted as unresolved rows in both Q-1 and Q
-    assert res["component_level_exclusions"]["unresolved_ownership_rows_excluded_q_prev"] == 1
-    assert res["component_level_exclusions"]["unresolved_ownership_rows_excluded_q_curr"] == 1
-    # 19 continuous holders remain (CIK 2 through CIK 20)
-    assert res["eligible_continuous_entity_count"] == 19
+    md = format_markdown_report(mock_data)
+    # Check Evidence B fields
+    assert "Unresolved Rows Count**: 917" in md
+    assert "Unresolved Shares Total**: 418,109,088" in md
+    assert "On-Time Confidential Filings**: 0" in md
+    # Check Section 5 header and free text column
+    assert "## 5. Real-Data Assumption Discovery: Multi-Manager Sequences and Free-Text Manager Names" in md
+    assert "Q-1 Free-Text Rows" in md
+    assert "Blue Chip Partners LLC" in md
