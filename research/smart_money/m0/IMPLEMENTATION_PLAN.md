@@ -1,7 +1,7 @@
 # M0 Staged Implementation Plan — Test-Before-Production Protocol
 
 **Version**: v0.8.1 Implementation Plan
-**Status**: FROZEN IMPLEMENTATION PLAN; STAGE A PASS; STAGE B PASS (63/63 UNIT & COUNTEREXAMPLE TESTS); STAGE C NOT STARTED
+**Status**: FROZEN IMPLEMENTATION PLAN; STAGE A PASS; STAGE B IMPLEMENTED UNDER CODEX RE-AUDIT; STAGE C NOT STARTED
 **Guiding Principle**: 先测试后生产，先证明再入库；源数据库绝对只读，信号与收益物理隔离；单向预注册 LEFT JOIN 评估；未获 Codex 审计批准前，严禁触碰未来价格数据。
 
 ---

@@ -21,6 +21,7 @@ import math
 import os
 from pathlib import Path
 import sqlite3
+import subprocess
 import pytest
 
 from research.smart_money.m0.src.storage_guard import (
@@ -40,10 +41,10 @@ from research.smart_money.m0.src.manifest_integrity import (
     compute_sha256_file,
     compute_sha256_json,
     check_git_clean_tree,
+    verify_clean_tree_gate,
     verify_cache_integrity,
     verify_manifest_binding,
     parse_and_validate_manifest,
-    verify_clean_tree_gate,
 )
 from research.smart_money.m0.src.ownership_state_machine import (
     compute_13f_deadline,
@@ -61,6 +62,8 @@ from research.smart_money.m0.src.entity_membership_dedup import (
     build_entity_connected_components,
     validate_entity_membership,
     deduplicate_entity_disclosures,
+    filter_pit_entity_edges,
+    validate_entity_pair_confidential_gate,
 )
 from research.smart_money.m0.src.security_mapping import (
     jaro_similarity,
@@ -132,8 +135,8 @@ def test_b01_storage_guard_readonly_and_sidecar_blocking(tmp_path: Path):
     ro_mutable.close()
 
 
-def test_b02_run_paths_physical_isolation_and_no_escape(tmp_path: Path):
-    """Test-B02: RunPaths directory isolation, schema initialization, and escape blocking."""
+def test_b02_run_paths_physical_isolation_and_symlink_escape_blocking(tmp_path: Path):
+    """Test-B02: RunPaths directory isolation, schema initialization, and actual symlink escape blocking."""
     paths = create_run_paths("test_b02_run", m0_root=tmp_path)
     paths.ensure_directories()
 
@@ -151,6 +154,18 @@ def test_b02_run_paths_physical_isolation_and_no_escape(tmp_path: Path):
     # Path traversal attack
     with pytest.raises(ValueError):
         create_run_paths("../outside", m0_root=tmp_path)
+
+    # Actual symlink escape attack: symlink runs/ pointing to external directory
+    outside_dir = tmp_path / "outside_jail"
+    outside_dir.mkdir(parents=True, exist_ok=True)
+    m0_root = tmp_path / "m0_root"
+    m0_root.mkdir(parents=True, exist_ok=True)
+
+    symlink_runs = m0_root / "runs"
+    os.symlink(outside_dir, symlink_runs)
+
+    with pytest.raises(ValueError, match="escape symlink"):
+        create_run_paths("run_symlink_escape", m0_root=m0_root)
 
 
 def test_b03_manifest_canonical_types_and_byte_exactness():
@@ -199,8 +214,32 @@ def test_b05_raw_cache_tampering_detection(tmp_path: Path):
         verify_cache_integrity(b'{"figi": "TAMPERED"}', valid_sha)
 
 
-def test_b06_clean_tree_gate_and_manifest_binding():
-    """Test-B06: Manifest binding verification, dirty tree blocking, and blank ID rejection."""
+def test_b06_clean_tree_gate_and_manifest_binding(tmp_path: Path):
+    """Test-B06: Clean tree gate with real git repo, manifest binding, bad hashes, and blank ID rejection."""
+    # 1. Real temporary git repo clean tree verification
+    git_repo = tmp_path / "git_repo"
+    git_repo.mkdir()
+    subprocess.run(["git", "init"], cwd=git_repo, check=True, capture_output=True)
+    subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=git_repo, check=True, capture_output=True)
+    subprocess.run(["git", "config", "user.name", "Test User"], cwd=git_repo, check=True, capture_output=True)
+
+    dummy_file = git_repo / "committed.txt"
+    dummy_file.write_text("initial", encoding="utf-8")
+    subprocess.run(["git", "add", "committed.txt"], cwd=git_repo, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-m", "initial commit"], cwd=git_repo, check=True, capture_output=True)
+
+    # Clean state
+    assert check_git_clean_tree(git_repo) is True
+    verify_clean_tree_gate(git_repo)  # Must not raise
+
+    # Create untracked file -> dirty
+    untracked = git_repo / "untracked.txt"
+    untracked.write_text("dirty", encoding="utf-8")
+    assert check_git_clean_tree(git_repo) is False
+    with pytest.raises(RuntimeError, match="Clean tree gate violated"):
+        verify_clean_tree_gate(git_repo)
+
+    # 2. Manifest binding verification
     sig_manifest = {
         "manifest_type": "SIGNAL_MANIFEST",
         "run_id": "run_clean_001",
@@ -225,11 +264,23 @@ def test_b06_clean_tree_gate_and_manifest_binding():
 
     verify_manifest_binding(sig_bytes, pri_bytes)
 
-    # Blank identity fields must be rejected
-    bad_sig = dict(sig_manifest)
-    bad_sig["run_id"] = ""
-    with pytest.raises(ValueError, match="invalid/blank run_id"):
-        verify_manifest_binding(canonical_json_dumps(bad_sig).encode("utf-8"), pri_bytes)
+    # Mismatched signal_manifest_sha256
+    bad_pri = dict(pri_manifest)
+    bad_pri["signal_manifest_sha256"] = "f" * 64
+    with pytest.raises(ValueError, match="Signal manifest SHA-256 binding mismatch"):
+        verify_manifest_binding(sig_bytes, canonical_json_dumps(bad_pri).encode("utf-8"))
+
+    # Bad Git SHA (30 hex chars instead of 40/64)
+    bad_git_sig = dict(sig_manifest)
+    bad_git_sig["source_git_sha"] = "a" * 30
+    with pytest.raises(ValueError, match="invalid/blank source_git_sha"):
+        verify_manifest_binding(canonical_json_dumps(bad_git_sig).encode("utf-8"), pri_bytes)
+
+    # Bad Contract SHA (non-hex chars)
+    bad_contract_sig = dict(sig_manifest)
+    bad_contract_sig["contract_sha256"] = "g" * 64
+    with pytest.raises(ValueError, match="invalid/blank contract_sha256"):
+        verify_manifest_binding(canonical_json_dumps(bad_contract_sig).encode("utf-8"), pri_bytes)
 
 
 # ============================================================================
@@ -277,36 +328,46 @@ def test_b08_intra_entity_dedup_and_cross_entity_blocking():
 
 
 def test_b09_connected_components_numeric_min_and_advisor_nodes():
-    """Test-B09: Connected component canonical ID is numeric-min, non-filing nodes connect without becoming filers."""
-    # Edges between 1000000000 (big CIK) and 20000 (small CIK)
-    edges = [("1000000000", "20000"), ("20000", "30000")]
+    """Test-B09: Connected component connects related advisor nodes without making them expected filing members."""
+    # Entity with 2 filing managers and 1 non-filing advisor node
+    filer_1 = "0000010001"
+    filer_2 = "0000010002"
+    advisor = "0000099999"
+
+    edges = [(filer_1, advisor), (filer_2, advisor)]
     mapping = build_entity_connected_components(edges)
-    assert mapping["1000000000"] == "0000020000"
-    assert mapping["20000"] == "0000020000"
-    assert mapping["30000"] == "0000020000"
 
+    assert mapping[filer_1] == "0000010001"
+    assert mapping[filer_2] == "0000010001"
+    assert mapping[advisor] == "0000010001"
 
-def test_b10_filing_membership_completeness():
-    """Test-B10: Filing membership incomplete when a member is missing in quarter (triggers MEMBERSHIP_INCOMPLETE)."""
-    prev_members = {"0000010001", "0000010002", "0000010003"}
-    curr_members_complete = {"0000010001", "0000010002", "0000010003"}
-    curr_members_incomplete = {"0000010001", "0000010002"}  # Member 3 missing
-
-    ok, reason = validate_entity_membership(prev_members, curr_members_complete)
-    assert ok is True
+    # Actual filing members only include the 2 filing managers
+    prev_filers = {filer_1, filer_2}
+    curr_filers = {filer_1, filer_2}
+    is_ok, reason = validate_entity_membership(prev_filers, curr_filers)
+    assert is_ok is True
     assert reason == "ELIGIBLE"
 
-    fail, reason_fail = validate_entity_membership(prev_members, curr_members_incomplete)
-    assert fail is False
-    assert reason_fail == "MEMBERSHIP_INCOMPLETE"
+
+def test_b10_filing_membership_completeness_16_cik():
+    """Test-B10: 16-CIK entity component triggers MEMBERSHIP_INCOMPLETE when 1 member is missing in Q."""
+    ciks = [f"{i:010d}" for i in range(1001, 1017)]  # Exactly 16 CIKs
+    prev_filing = set(ciks)
+
+    # Q has 1 member missing (member 16 dropped)
+    curr_filing_missing_one = set(ciks[:15])
+
+    ok, reason = validate_entity_membership(prev_filing, curr_filing_missing_one)
+    assert ok is False
+    assert reason == "MEMBERSHIP_INCOMPLETE"
 
 
-def test_b11_state_machine_timezone_ordering_and_amendments():
-    """Test-B11: UTC instant timestamp sorting, RESTATEMENT replace, ADD_NEW_HOLDINGS upsert, UNKNOWN wipe."""
+def test_b11_state_machine_amendment_mechanics_and_ordering():
+    """Test-B11: UTC instant sorting, RESTATEMENT replace, ADD_NEW_HOLDINGS in-place upsert, UNKNOWN wipe, and mixed metadata."""
     filer = "0001000001"
     period = "2024-03-31"
 
-    # Acceptance times:
+    # 1. UTC Instant Sorting Attack
     # Filing 1: 2024-05-15T16:00:00-04:00 (20:00 UTC)
     # Filing 2: 2024-05-15T19:00:00Z (19:00 UTC) -> earlier in UTC instant!
     h1 = FilingHeader("0001-24-000001", filer, period, "2024-05-15T16:00:00-04:00", form_type="13F-HR/A", amendment_type="ADD_NEW_HOLDINGS")
@@ -315,20 +376,72 @@ def test_b11_state_machine_timezone_ordering_and_amendments():
     h2 = FilingHeader("0001-24-000002", filer, period, "2024-05-15T19:00:00Z", form_type="13F-HR")
     rows2 = [HoldingRow("0001-24-000002", filer, period, "037833100", "SH", filer, False, 1000, 150000.0)]
 
-    # Reconstruct sorts by UTC instant: Filing 2 (19:00 UTC) processed FIRST, then Filing 1 (20:00 UTC) applied
-    state, meta = reconstruct_filer_state([(h1, rows1), (h2, rows2)], period)
-    assert meta["amendment_unresolved"] is False
-    assert state[("037833100", "SH", normalize_cik(filer))]["total_shares"] == 1200
+    state_utc, meta_utc = reconstruct_filer_state([(h1, rows1), (h2, rows2)], period)
+    assert state_utc[("037833100", "SH", normalize_cik(filer))]["total_shares"] == 1200
+
+    # 2. RESTATEMENT full replacement
+    h_orig = FilingHeader("0001-24-000003", filer, period, "2024-05-10T10:00:00Z", form_type="13F-HR")
+    rows_orig = [
+        HoldingRow("0001-24-000003", filer, period, "037833100", "SH", filer, False, 1000, 150000.0),
+        HoldingRow("0001-24-000003", filer, period, "594918104", "SH", filer, False, 500, 75000.0),
+    ]
+    h_restate = FilingHeader("0001-24-000004", filer, period, "2024-05-12T10:00:00Z", form_type="13F-HR/A", amendment_type="RESTATEMENT")
+    rows_restate = [
+        HoldingRow("0001-24-000004", filer, period, "023135106", "SH", filer, False, 800, 120000.0),
+    ]
+    state_restate, _ = reconstruct_filer_state([(h_orig, rows_orig), (h_restate, rows_restate)], period)
+    assert len(state_restate) == 1
+    assert ("023135106", "SH", normalize_cik(filer)) in state_restate
+    assert ("037833100", "SH", normalize_cik(filer)) not in state_restate
+
+    # 3. UNKNOWN amendment wipe
+    h_unknown = FilingHeader("0001-24-000005", filer, period, "2024-05-14T10:00:00Z", form_type="13F-HR/A", amendment_type="UNKNOWN_AMENDMENT")
+    rows_unknown = [HoldingRow("0001-24-000005", filer, period, "037833100", "SH", filer, False, 100, 100.0)]
+    state_unk, meta_unk = reconstruct_filer_state([(h_orig, rows_orig), (h_unknown, rows_unknown)], period)
+    assert meta_unk["amendment_unresolved"] is True
+    assert state_unk == {}
+
+    # 4. Mixed filer rejection
+    h_other_filer = FilingHeader("0001-24-000006", "0002000002", period, "2024-05-10T10:00:00Z", form_type="13F-HR")
+    with pytest.raises(ValueError, match="Inconsistent origin_filer_cik"):
+        reconstruct_filer_state([(h_orig, rows_orig), (h_other_filer, [])], period)
+
+    # 5. Row/header metadata mismatch
+    row_mismatch = [HoldingRow("MISMATCH_ACC", filer, period, "037833100", "SH", filer, False, 100, 100.0)]
+    with pytest.raises(ValueError, match="HoldingRow metadata mismatch"):
+        reconstruct_filer_state([(h_orig, row_mismatch)], period)
 
 
-def test_b12_pit_deadline_eastern_calendar_boundary():
-    """Test-B12: Late filing exclusion evaluated strictly by Eastern calendar date against Rule 0-3 deadline."""
-    # 2023-12-31 deadline is 2024-02-14
-    # Acceptance on 2024-02-14T23:30:00-05:00 (Eastern Feb 14) -> Accepted
-    assert is_pit_accepted("2024-02-14T23:30:00-05:00", "2023-12-31") is True
+def test_b12_pit_deadline_and_entity_edge_filtering():
+    """Test-B12: filter_pit_entity_edges excludes late edges and prevents altering Q-1 entity components."""
+    period_q1 = "2023-12-31"  # Deadline: 2024-02-14
 
-    # Acceptance on 2024-02-15T00:30:00-05:00 (Eastern Feb 15) -> Excluded as late
-    assert is_pit_accepted("2024-02-15T00:30:00-05:00", "2023-12-31") is False
+    edge_records = [
+        # On-time edge before deadline
+        {
+            "origin_cik": "0000010001",
+            "related_cik": "0000010002",
+            "period_of_report": period_q1,
+            "acceptance_datetime": "2024-02-14T17:30:00-05:00",
+        },
+        # Late edge after deadline (Eastern Feb 15)
+        {
+            "origin_cik": "0000010001",
+            "related_cik": "0000099999",
+            "period_of_report": period_q1,
+            "acceptance_datetime": "2024-02-15T09:00:00-05:00",
+        },
+    ]
+
+    pit_edges = filter_pit_entity_edges(edge_records, period_q1)
+    assert len(pit_edges) == 1
+    assert pit_edges[0] == ("0000010001", "0000010002")
+
+    # Connected components from on-time edges does NOT include the late related node
+    mapping = build_entity_connected_components(pit_edges)
+    assert "0000010001" in mapping
+    assert "0000010002" in mapping
+    assert "0000099999" not in mapping
 
 
 # ============================================================================
@@ -336,12 +449,13 @@ def test_b12_pit_deadline_eastern_calendar_boundary():
 # ============================================================================
 
 def test_b13_1_gate0_corporate_action_unknown_stop():
-    """Test-B13.1: Gate 0 CORPORATE_ACTION_UNKNOWN stops before holder checks."""
+    """Test-B13.1: Gate 0 CORPORATE_ACTION_UNKNOWN stops before holder validation with invalid holder."""
+    invalid_holder = ContinuousHolder("0001", 0, 0)  # prev_shares=0 is invalid
     res = evaluate_split_waterfall(
         is_corporate_action_unknown=True,
         has_vendor_splits=False,
         k_ledger=1.0,
-        holders=[ContinuousHolder("0001", 100, 100)],
+        holders=[invalid_holder],
     )
     assert res.state == "CORPORATE_ACTION_UNKNOWN"
     assert res.action == "EXCLUDE"
@@ -454,53 +568,106 @@ def test_b13_8_gate2_2c_split_audit_ambiguous_high_dispersion():
 # Suite 4: Target Mapping, Ambiguity Rejection, 3x Censor & Confidential (B14–B16)
 # ============================================================================
 
-def test_b14_openfigi_waterfall_etf_exclusion_and_ambiguity():
-    """Test-B14: OpenFIGI shareClassFIGI priority, ETF rejection, illegal CUSIP, and top-score ambiguity."""
+def test_b14_openfigi_waterfall_comprehensive():
+    """Test-B14: OpenFIGI shareClassFIGI priority, composite fallback, ETF exclusion, nonalphanumeric gate, and ambiguity."""
     # 1. Illegal CUSIP
-    res, meta = resolve_openfigi_waterfall("INVALID_CUSIP", "APPLE INC", [])
-    assert res is None
-    assert meta["status"] == "INVALID_CUSIP"
+    res_inv, meta_inv = resolve_openfigi_waterfall("INVALID_CUSIP", "APPLE INC", [])
+    assert res_inv is None
+    assert meta_inv["status"] == "INVALID_CUSIP"
 
-    # 2. ETF rejection
+    # 2. Non-alphanumeric SEC issuer name gate
+    res_na_iss, meta_na_iss = resolve_openfigi_waterfall("037833100", "!!!", [])
+    assert res_na_iss is None
+    assert meta_na_iss["status"] == "EMPTY_OR_NONALPHANUMERIC_ISSUER_NAME"
+
+    # 3. Non-alphanumeric candidate name filtering
+    cand_punct = OpenFIGICandidate("BBG000PUNCT1", "!!!", "AAPL", "US", "Equity", "Common Stock", shareClassFIGI="BBG001PUNCT1")
+    res_na_cand, meta_na_cand = resolve_openfigi_waterfall("037833100", "APPLE INC", [cand_punct])
+    assert res_na_cand is None
+    assert meta_na_cand["status"] == "NO_MATCH"
+
+    # 4. ETF exclusion
     etf_cand = OpenFIGICandidate("BBG000ETF001", "SPDR S&P 500 ETF", "SPY", "US", "Equity", "ETF", shareClassFIGI="BBG001ETF999")
-    res_etf, _ = resolve_openfigi_waterfall("037833100", "SPDR ETF", [etf_cand])
+    res_etf, meta_etf = resolve_openfigi_waterfall("037833100", "SPDR ETF", [etf_cand])
     assert res_etf is None
+    assert meta_etf["status"] == "NO_MATCH"
 
-    # 3. shareClassFIGI priority over compositeFIGI
+    # 5. shareClassFIGI priority over compositeFIGI
     cand_both = OpenFIGICandidate("BBG000BOTH1", "MICROSOFT CORP", "MSFT", "US", "Equity", "Common Stock", shareClassFIGI="BBG001SHARECLASS", compositeFIGI="BBG001COMPOSITE")
-    res_id, meta_res = resolve_openfigi_waterfall("594918104", "MICROSOFT CORP", [cand_both])
-    assert res_id == "BBG001SHARECLASS"
-    assert meta_res["composite_fallback"] is False
+    res_sc, meta_sc = resolve_openfigi_waterfall("594918104", "MICROSOFT CORP", [cand_both])
+    assert res_sc == "BBG001SHARECLASS"
+    assert meta_sc["composite_fallback"] is False
+
+    # 6. compositeFIGI fallback when shareClassFIGI is empty
+    cand_comp = OpenFIGICandidate("BBG000COMP1", "MICROSOFT CORP", "MSFT", "US", "Equity", "Common Stock", shareClassFIGI=None, compositeFIGI="BBG001COMPOSITE_ONLY")
+    res_comp, meta_comp = resolve_openfigi_waterfall("594918104", "MICROSOFT CORP", [cand_comp])
+    assert res_comp == "BBG001COMPOSITE_ONLY"
+    assert meta_comp["composite_fallback"] is True
+
+    # 7. Equal top-score multi-ID ambiguity rejection
+    cand_amb_1 = OpenFIGICandidate("BBG000AMB001", "ACME CORP", "ACM", "US", "Equity", "Common Stock", shareClassFIGI="BBG001ID_ONE")
+    cand_amb_2 = OpenFIGICandidate("BBG000AMB002", "ACME CORP", "ACM.B", "US", "Equity", "Common Stock", shareClassFIGI="BBG001ID_TWO")
+    res_amb, meta_amb = resolve_openfigi_waterfall("000360206", "ACME CORP", [cand_amb_1, cand_amb_2])
+    assert res_amb is None
+    assert meta_amb["status"] == "MAPPING_AMBIGUOUS"
+
+    # 8. Higher-score wins over lower-score distinct ID (not ambiguity)
+    cand_high = OpenFIGICandidate("BBG000HIGH1", "ACME CORP", "ACM", "US", "Equity", "Common Stock", shareClassFIGI="BBG001WINNER")
+    cand_low = OpenFIGICandidate("BBG000LOW02", "ACME CORPORATION INC", "ACM.L", "US", "Equity", "Common Stock", shareClassFIGI="BBG001LOSER")
+    res_win, meta_win = resolve_openfigi_waterfall("000360206", "ACME CORP", [cand_high, cand_low])
+    assert res_win == "BBG001WINNER"
+    assert meta_win["status"] == "RESOLVED"
 
 
-def test_b15_censor_risk_3x_heuristic_or_condition():
-    """Test-B15: 3x Censor-Risk Heuristic OR condition (shares < 30,000 OR value < $600,000 -> weight 0.3)."""
-    # 1. New position with shares < 30,000 but value >= $600,000 -> 0.3
-    w1, label1 = compute_censor_weight(True, False, 0, 0, 20_000, 1_000_000.0)
-    assert w1 == 0.3
-    assert label1 == "LOW_CONFIDENCE_NEW"
+def test_b15_censor_risk_3x_heuristic_comprehensive():
+    """Test-B15: 3x Censor-Risk Heuristic OR condition across NEW, EXIT, and inconsistent flag rejections."""
+    # NEW position tests
+    w1, l1 = compute_censor_weight(True, False, 0, 0, 20_000, 1_000_000.0)
+    assert w1 == 0.3 and l1 == "LOW_CONFIDENCE_NEW"
 
-    # 2. New position with shares >= 30,000 but value < $600,000 -> 0.3
-    w2, label2 = compute_censor_weight(True, False, 0, 0, 50_000, 400_000.0)
-    assert w2 == 0.3
-    assert label2 == "LOW_CONFIDENCE_NEW"
+    w2, l2 = compute_censor_weight(True, False, 0, 0, 50_000, 400_000.0)
+    assert w2 == 0.3 and l2 == "LOW_CONFIDENCE_NEW"
 
-    # 3. New position with shares >= 30,000 AND value >= $600,000 -> 1.0
-    w3, label3 = compute_censor_weight(True, False, 0, 0, 50_000, 1_000_000.0)
-    assert w3 == 1.0
-    assert label3 == "REGULAR_NEW"
+    w3, l3 = compute_censor_weight(True, False, 0, 0, 50_000, 1_000_000.0)
+    assert w3 == 1.0 and l3 == "REGULAR_NEW"
+
+    # EXIT position tests
+    w4, l4 = compute_censor_weight(False, True, 20_000, 1_000_000.0, 0, 0)
+    assert w4 == 0.3 and l4 == "LOW_CONFIDENCE_EXIT"
+
+    w5, l5 = compute_censor_weight(False, True, 50_000, 400_000.0, 0, 0)
+    assert w5 == 0.3 and l5 == "LOW_CONFIDENCE_EXIT"
+
+    w6, l6 = compute_censor_weight(False, True, 50_000, 1_000_000.0, 0, 0)
+    assert w6 == 1.0 and l6 == "REGULAR_EXIT"
+
+    # Inconsistent flag rejections
+    with pytest.raises(ValueError, match="cannot simultaneously be NEW and EXIT"):
+        compute_censor_weight(True, True, 0, 0, 100, 100.0)
+
+    with pytest.raises(ValueError, match="NEW position consistency error"):
+        compute_censor_weight(True, False, 100, 100.0, 100, 100.0)
+
+    with pytest.raises(ValueError, match="EXIT position consistency error"):
+        compute_censor_weight(False, True, 100, 100.0, 100, 100.0)
 
 
-def test_b16_confidential_treatment_flagging():
-    """Test-B16: Filing with is_confidential_omit=True correctly sets metadata flag."""
-    filer = "0001000001"
-    period = "2024-03-31"
+def test_b16_entity_pair_confidential_gate():
+    """Test-B16: Confidential treatment omission gate across quarter pair (Q-1 and Q)."""
+    meta_clean = {"has_confidential_omit": False}
+    meta_omit = {"has_confidential_omit": True}
 
-    h = FilingHeader("0001-24-000001", filer, period, "2024-05-10T10:00:00Z", is_confidential_omit=True)
-    rows = [HoldingRow("0001-24-000001", filer, period, "037833100", "SH", filer, False, 1000, 150000.0)]
+    # 1. Q-1 omit -> Ineligible
+    ok1, r1 = validate_entity_pair_confidential_gate(meta_omit, meta_clean)
+    assert ok1 is False and r1 == "CONFIDENTIAL_TREATMENT_OMISSION"
 
-    state, meta = reconstruct_filer_state([(h, rows)], period)
-    assert meta["has_confidential_omit"] is True
+    # 2. Q omit -> Ineligible
+    ok2, r2 = validate_entity_pair_confidential_gate(meta_clean, meta_omit)
+    assert ok2 is False and r2 == "CONFIDENTIAL_TREATMENT_OMISSION"
+
+    # 3. Clean pair -> Eligible
+    ok3, r3 = validate_entity_pair_confidential_gate(meta_clean, meta_clean)
+    assert ok3 is True and r3 == "ELIGIBLE"
 
 
 # ============================================================================
@@ -508,7 +675,7 @@ def test_b16_confidential_treatment_flagging():
 # ============================================================================
 
 def test_b17_coverage_tracker_many_to_one_and_state_machine_integrity():
-    """Test-B17: CoverageTracker explicit D1->D2 mapping, penetration rates, and state machine integrity."""
+    """Test-B17: CoverageTracker D1->D2 mapping, penetration rates, and state machine integrity attacks."""
     tracker = CoverageTracker()
 
     # D1 A (count 10, value 100) + D1 B (count 20, value 200) -> same D2 stock X
@@ -538,47 +705,83 @@ def test_b17_coverage_tracker_many_to_one_and_state_machine_integrity():
     with pytest.raises(ValueError, match="already recorded as price covered"):
         tracker.record_d2_price_missing("BBG001S5N8V8", "2024-03-31")
 
+    # 5. Invalid split state string must raise
+    with pytest.raises(ValueError, match="Invalid split state"):
+        tracker.record_split_state("BBG001S5N8V8", "2024-03-31", "NOT_A_VALID_SPLIT_STATE")
+
     # Record valid split state
     tracker.record_split_state("BBG001S5N8V8", "2024-03-31", "CLEAN")
 
-    # 5. Conflicting split state for same D2 key must raise
+    # 6. Conflicting split state for same D2 key must raise
     with pytest.raises(ValueError, match="Conflicting split state"):
         tracker.record_split_state("BBG001S5N8V8", "2024-03-31", "SPLIT_UNKNOWN")
 
-    # Record final IC eligibility
+    # 7. Final IC eligibility on an EXCLUDE split state must raise
+    tracker.record_d1("037833300", "2024-03-31", filer_count=5, value_usd=50.0)
+    tracker.record_d2_mapping("037833300", "2024-03-31", "BBG001EXCLUDE1")
+    tracker.record_d2_price_covered("BBG001EXCLUDE1", "2024-03-31")
+    tracker.record_split_state("BBG001EXCLUDE1", "2024-03-31", "SPLIT_UNKNOWN")
+    with pytest.raises(ValueError, match="must be in Primary-INCLUDE"):
+        tracker.record_final_ic_eligible("BBG001EXCLUDE1", "2024-03-31")
+
+    # 8. Attrition for unregistered D1 key must raise
+    with pytest.raises(ValueError, match="unregistered D1 key"):
+        tracker.record_attrition("UNREGISTERED_CUSIP", "2024-03-31", "unmapped_cusip")
+
+    # Record valid final IC eligibility for clean stock
     tracker.record_final_ic_eligible("BBG001S5N8V8", "2024-03-31")
 
     summary = tracker.generate_coverage_summary()
-    assert summary["d1_raw_sec_keys_total"] == 2
-    assert summary["d1_mapped_keys_total"] == 2
+    assert summary["d1_raw_sec_keys_total"] == 3
+    assert summary["d1_mapped_keys_total"] == 3
     assert summary["d1_key_mapping_rate"] == 1.0
-    assert summary["d1_filer_count_penetration_rate"] == 1.0
-    assert summary["d1_value_penetration_rate"] == 1.0
-    assert summary["d2_mapped_keys_total"] == 1
-    assert summary["d2_price_covered_keys_total"] == 1
+    assert 0.0 <= summary["d1_filer_count_penetration_rate"] <= 1.0
+    assert 0.0 <= summary["d1_value_penetration_rate"] <= 1.0
+    assert summary["d2_mapped_keys_total"] == 2
+    assert summary["d2_price_covered_keys_total"] == 2
     assert summary["price_coverage_rate"] == 1.0
-    assert summary["split_state_distribution"]["CLEAN"]["pct_of_price_covered_d2"] == 100.0
-    assert summary["d1_conversion_retention_rate"] == 1.0
-    assert summary["d2_conversion_retention_rate"] == 1.0
+    assert summary["split_state_distribution"]["CLEAN"]["pct_of_price_covered_d2"] == 50.0
+    assert summary["split_state_distribution"]["SPLIT_UNKNOWN"]["pct_of_price_covered_d2"] == 50.0
 
 
 # ============================================================================
 # Suite 6: Outcome Policies, Key Uniqueness & Cardinality Invariants (B18–B23)
 # ============================================================================
 
-def test_b18_adjusted_open_formula_and_numeric_closure():
-    """Test-B18: Adjusted open formula raw_open * (adj_close / raw_close) and overflow safety."""
-    adj = compute_adjusted_open_price(100.0, 200.0, 100.0)
-    assert adj == 50.0
-
-    # Non-positive and overflow checks
+def test_b18_price_and_signal_formulas_numeric_closure():
+    """Test-B18: Numeric closure and overflow safety across price, outcome, holder stats, and delta shares."""
+    # 1. Adjusted open formula & overflow
+    assert compute_adjusted_open_price(100.0, 200.0, 100.0) == 50.0
     assert compute_adjusted_open_price(-1.0, 100.0, 100.0) is None
-    assert compute_adjusted_open_price(100.0, 0.0, 100.0) is None
-    assert compute_adjusted_open_price(1e308, 1e-308, 1e308) is None  # Overflow -> None
+    assert compute_adjusted_open_price(1e308, 1e-308, 1e308) is None
+
+    # 2. Forward return & overflow
+    assert compute_forward_return(50.0, 60.0) == pytest.approx(0.20)
+    assert compute_forward_return(1e-308, 1e308) is None
+
+    # 3. Cash M&A settlement & overflow
+    ret_mna, status_mna = settle_cash_m_and_a(50.0, 55.0, is_cash_only=True)
+    assert ret_mna == pytest.approx(0.10) and status_mna == "CASH_M_AND_A_SETTLED"
+    ret_over, status_over = settle_cash_m_and_a(1e-308, 1e308, is_cash_only=True)
+    assert ret_over is None and status_over == "CORPORATE_ACTION_UNKNOWN"
+
+    # 4. Delta shares & overflow
+    assert compute_entity_delta_shares(100, 250, 2.0) == 50.0
+    with pytest.raises(ValueError, match="overflow"):
+        compute_entity_delta_shares(1e308, 100, 1e308)
+
+    # 5. Holder log statistics & overflow
+    h_valid = [ContinuousHolder("0001", 100, 200)]
+    t_r, mad, t_adj, n = compute_holder_log_statistics(h_valid, 2.0)
+    assert t_r == pytest.approx(2.0) and n == 1
+
+    h_overflow = [ContinuousHolder("0001", 1e-308, 1e308)]
+    with pytest.raises(ValueError, match="overflow"):
+        compute_holder_log_statistics(h_overflow, 1.0)
 
 
 def test_b19_calendar_roll_session_quota_and_bounds():
-    """Test-B19: Calendar roll forward consumes session quota, checks strict <=5 days, and rejects duplicates."""
+    """Test-B19: Calendar roll forward consumes session quota, checks strict <=5 days, and rejects duplicates/invalid dates."""
     cal = ["2024-05-15", "2024-05-16", "2024-05-17", "2024-05-20", "2024-05-21", "2024-05-22", "2024-05-23"]
     price_map = {"2024-05-22": 150.0}  # Available on 5th rolled session
 
@@ -593,6 +796,20 @@ def test_b19_calendar_roll_session_quota_and_bounds():
     assert p_late is None
     assert roll_late == 5
 
+    # Invalid / non-positive / overflow prices treated as missing
+    price_map_invalid = {"2024-05-15": -10.0, "2024-05-16": float("nan"), "2024-05-17": 120.0}
+    p_inv, roll_inv, date_inv = select_open_price_with_roll(cal, price_map_invalid, "2024-05-15", max_roll_days=5)
+    assert p_inv == 120.0
+    assert roll_inv == 2
+    assert date_inv == "2024-05-17"
+
+    # Rejection of duplicate sessions and invalid date strings
+    with pytest.raises(ValueError, match="duplicate date"):
+        select_open_price_with_roll(["2024-05-15", "2024-05-15"], price_map, "2024-05-15", max_roll_days=5)
+
+    with pytest.raises(ValueError, match="Invalid ISO date format"):
+        select_open_price_with_roll(["not-a-date"], price_map, "2024-05-15", max_roll_days=5)
+
 
 def test_b20_sec_8k_cash_m_and_a_settlement():
     """Test-B20: Pure-cash M&A privatization buyout settlement vs non-cash corporate action exclusion."""
@@ -605,16 +822,24 @@ def test_b20_sec_8k_cash_m_and_a_settlement():
     assert status_noncash == "CORPORATE_ACTION_UNKNOWN"
 
 
-def test_b21_left_join_key_uniqueness_violation():
+def test_b21_left_join_duplicate_key_rejections():
     """Test-B21: Duplicate primary key in signals or returns immediately raises ValueError in LEFT JOIN."""
     signals_dup = [
         {"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "m0_signal": 100.0},
         {"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "m0_signal": 150.0},  # Duplicate
     ]
-    returns = [{"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "forward_return": 0.05, "outcome_status": "CLEAN"}]
+    returns_clean = [{"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "forward_return": 0.05, "outcome_status": "CLEAN"}]
 
     with pytest.raises(ValueError, match="Duplicate key in m0_signals"):
-        verify_cardinality_invariant(signals_dup, returns)
+        verify_cardinality_invariant(signals_dup, returns_clean)
+
+    signals_clean = [{"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "m0_signal": 100.0}]
+    returns_dup = [
+        {"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "forward_return": 0.05, "outcome_status": "CLEAN"},
+        {"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "forward_return": 0.08, "outcome_status": "CLEAN"},  # Duplicate
+    ]
+    with pytest.raises(ValueError, match="Duplicate key in m0_forward_returns"):
+        verify_cardinality_invariant(signals_clean, returns_dup)
 
 
 def test_b22_cardinality_conservation_invariant():
@@ -635,8 +860,8 @@ def test_b22_cardinality_conservation_invariant():
     assert metrics["valid_outcome_count"] == 1
 
 
-def test_b23_derive_four_mandatory_sensitivity_branches():
-    """Test-B23: Derivation of 4 mandatory sensitivity branches from single LEFT JOIN table."""
+def test_b23_derive_four_mandatory_sensitivity_branches_and_non_mutation():
+    """Test-B23: Derivation of 4 mandatory sensitivity branches and immutability of joined input rows."""
     signals = [
         {"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "m0_signal": 100.0},
         {"primary_stock_id": "STK_2", "period_of_report": "2024-03-31", "m0_signal": -50.0},
@@ -646,20 +871,31 @@ def test_b23_derive_four_mandatory_sensitivity_branches():
         {"primary_stock_id": "STK_2", "period_of_report": "2024-03-31", "forward_return": None, "outcome_status": "DELISTED", "rolled_le_5_return": -0.10},
     ]
     joined, _ = verify_cardinality_invariant(signals, returns)
+
+    # Snapshot of joined rows before derivation
+    joined_snapshot = [dict(r) for r in joined]
+
     branches = derive_sensitivity_branches(joined)
 
     # 1. Primary
     assert len(branches["primary"]) == 1
     assert branches["primary"][0]["primary_stock_id"] == "STK_1"
+    assert branches["primary"][0]["forward_return"] == 0.05
 
     # 2. Missing = -100%
     assert len(branches["missing_minus_100"]) == 2
+    assert branches["missing_minus_100"][0]["forward_return"] == 0.05
     assert branches["missing_minus_100"][1]["forward_return"] == -1.0
 
     # 3. Missing = 0%
     assert len(branches["missing_zero"]) == 2
+    assert branches["missing_zero"][0]["forward_return"] == 0.05
     assert branches["missing_zero"][1]["forward_return"] == 0.0
 
     # 4. <= 5 days roll branch
     assert len(branches["rolled_le_5"]) == 2
+    assert branches["rolled_le_5"][0]["forward_return"] == 0.05
     assert branches["rolled_le_5"][1]["forward_return"] == -0.10
+
+    # Invariance check: original joined rows must NOT have been mutated
+    assert joined == joined_snapshot

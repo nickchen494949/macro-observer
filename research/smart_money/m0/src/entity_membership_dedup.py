@@ -1,4 +1,4 @@
-"""Entity connected component construction (numeric-min CIK), filing membership validation, and unrounded exact dedup."""
+"""Entity connected component construction (numeric-min CIK), filing membership validation, PIT edge filtering, and unrounded exact dedup."""
 
 from collections import defaultdict
 from datetime import date
@@ -6,11 +6,75 @@ import math
 from typing import Any
 
 from research.smart_money.m0.src.ownership_state_machine import (
+    is_pit_accepted,
     is_strict_nonnegative_int,
     is_strict_nonnegative_number,
     is_valid_cik,
     normalize_cik,
 )
+
+
+def filter_pit_entity_edges(
+    edge_records: list[dict[str, Any]],
+    period_of_report: str,
+) -> list[tuple[str, str]]:
+    """Filter entity relationship edges to only those accepted on or before SEC 13F filing deadline.
+
+    Edge record fields:
+    - origin_cik: str (filing manager CIK)
+    - related_cik: str (related entity CIK)
+    - period_of_report: str (quarter end ISO date)
+    - acceptance_datetime: str (SEC filing acceptance ISO timestamp)
+
+    Returns:
+        list of on-time (origin_cik, related_cik) edge pairs.
+    """
+    if not period_of_report or not str(period_of_report).strip():
+        raise ValueError("period_of_report cannot be blank.")
+    period_clean = period_of_report.strip()
+    try:
+        date.fromisoformat(period_clean)
+    except ValueError as err:
+        raise ValueError(f"Invalid ISO period_of_report: {period_of_report!r}") from err
+
+    pit_edges: list[tuple[str, str]] = []
+
+    for r in edge_records:
+        u = r.get("origin_cik")
+        v = r.get("related_cik")
+        if not is_valid_cik(u) or not is_valid_cik(v):
+            raise ValueError(f"Invalid CIK in edge record: origin={u!r}, related={v!r}")
+
+        r_period = str(r.get("period_of_report", "")).strip()
+        if r_period != period_clean:
+            raise ValueError(f"Period mismatch in edge record: expected {period_clean}, got {r_period}")
+
+        dt_str = str(r.get("acceptance_datetime", "")).strip()
+        if not dt_str:
+            raise ValueError("Blank acceptance_datetime in edge record.")
+
+        if is_pit_accepted(dt_str, period_clean):
+            pit_edges.append((normalize_cik(u), normalize_cik(v)))
+
+    return pit_edges
+
+
+def validate_entity_pair_confidential_gate(
+    q_prev_meta: dict[str, Any],
+    q_curr_meta: dict[str, Any],
+) -> tuple[bool, str]:
+    """Evaluate contractual confidential omission gate across consecutive quarters (Q-1 and Q).
+
+    If either quarter contains confidential omission (is_confidential_omit=True),
+    the entity-quarter pair is excluded from the Primary evaluation sample.
+    """
+    prev_omit = bool(q_prev_meta.get("has_confidential_omit", False))
+    curr_omit = bool(q_curr_meta.get("has_confidential_omit", False))
+
+    if prev_omit or curr_omit:
+        return False, "CONFIDENTIAL_TREATMENT_OMISSION"
+
+    return True, "ELIGIBLE"
 
 
 def build_entity_connected_components(
