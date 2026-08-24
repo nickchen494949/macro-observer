@@ -5,7 +5,7 @@ Full World-B Implementation covering:
 1. Berkshire Hathaway 2023Q4 Apple Accession Aggregation (Raw Anchor: 905,560,000; Primary Ineligibility Breakdown).
 2. Point72 2019Q4 Multi-Manager Relationship Discovery & Proposed Fixture (Actual PIT Timestamps & Graph Closure).
 3. Four Canonical Split Pilot Pairs (NVDA 10:1, TSLA 3:1, AMZN 20:1, GOOGL 20:1) with True G(Q-1, Q) Graph,
-   13F-HR/HR/A Scope, All-Member Component Gates, and Robust Other-Manager Classification.
+   13F-HR/HR/A Scope, All-Member Component Gates, Strict Economic Owner Mapping, and Robust Other-Manager Classification.
 """
 
 from collections import defaultdict
@@ -365,17 +365,23 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
     accessions_list: list[dict[str, Any]] = []
     filings_by_filer: dict[str, list[tuple[FilingHeader, list[HoldingRow]]]] = defaultdict(list)
     total_raw_line_items = 0
-    confidential_filings_count = 0
-    amendment_filings_count = 0
+    on_time_confidential_filings_count = 0
+    all_period_confidential_filings_count = 0
+    on_time_amendment_filings_count = 0
+    all_period_amendment_filings_count = 0
     unresolved_rows_count = 0
     unresolved_shares_total = 0
 
     for acc, cik, p_rep, acc_dt, f_type, a_type, is_conf in filings_raw:
         on_time = is_pit_accepted(acc_dt, period)
         if bool(is_conf):
-            confidential_filings_count += 1
+            all_period_confidential_filings_count += 1
+            if on_time:
+                on_time_confidential_filings_count += 1
         if a_type:
-            amendment_filings_count += 1
+            all_period_amendment_filings_count += 1
+            if on_time:
+                on_time_amendment_filings_count += 1
 
         header = FilingHeader(
             accession_number=acc,
@@ -407,7 +413,7 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
         cur.execute(
             """
             SELECT accession_number, line_seq, cusip, security_name, title_of_class,
-                   sshprnamt, value_usd, sshprnamttype, other_manager, voting_sole, voting_shared, voting_none, asset_class
+               sshprnamt, value_usd, sshprnamttype, other_manager, voting_sole, voting_shared, voting_none, asset_class
             FROM filing_line_items
             WHERE accession_number = ?
             ORDER BY line_seq;
@@ -457,12 +463,11 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
         if meta["amendment_unresolved"]:
             continue
         for (c_cusip, asset_class, econ_owner), h_data in state.items():
-            # Economic owner must map to Point72 canonical component
             if econ_owner is None:
                 continue
 
             owner_comp = comp_map.get(econ_owner)
-            if owner_comp != p72_canonical_id:
+            if owner_comp is None or owner_comp != p72_canonical_id:
                 cross_component_excluded_count += 1
                 continue
 
@@ -501,8 +506,10 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
         "total_raw_line_items": total_raw_line_items,
         "reconstructed_disclosures_count": len(all_reconstructed),
         "intra_entity_deduped_holdings_count": len(deduped_holdings),
-        "confidential_filings_count": confidential_filings_count,
-        "amendment_filings_count": amendment_filings_count,
+        "on_time_confidential_filings_count": on_time_confidential_filings_count,
+        "all_period_confidential_filings_count": all_period_confidential_filings_count,
+        "on_time_amendment_filings_count": on_time_amendment_filings_count,
+        "all_period_amendment_filings_count": all_period_amendment_filings_count,
         "unresolved_rows_count": unresolved_rows_count,
         "unresolved_shares_total": unresolved_shares_total,
         "cross_component_excluded_count": cross_component_excluded_count,
@@ -724,9 +731,13 @@ def extract_split_pilot_pair(
                 if asset_class != "SH":
                     continue
 
-                owner_comp = component_mapping.get(econ_owner, filer_comp)
-                if owner_comp != filer_comp:
-                    # Inconsistent cross-component ownership -> mark unresolved
+                if econ_owner is None:
+                    unresolved_rows_count[period] += 1
+                    continue
+
+                owner_comp = component_mapping.get(econ_owner)
+                if owner_comp is None or owner_comp != filer_comp:
+                    # Missing from graph or cross-component ownership -> strictly mark unresolved
                     unresolved_rows_count[period] += 1
                     continue
 

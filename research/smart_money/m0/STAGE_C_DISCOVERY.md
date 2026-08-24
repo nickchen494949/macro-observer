@@ -1,8 +1,8 @@
 # Stage C Part C1 Pilot Discovery Audit Report
 
 **Status**: STAGE C PART C1 DISCOVERY UNDER CODEX AUDIT
-**Execution Timestamp (UTC)**: 2026-08-24T06:51:13Z
-**Total Runtime**: 104.335 seconds
+**Execution Timestamp (UTC)**: 2026-08-24T06:57:49Z
+**Total Runtime**: 104.606 seconds
 
 ---
 
@@ -69,7 +69,7 @@
 - **Total Raw Line Items**: 4,457
 - **Reconstructed Disclosures**: 3,540
 - **Intra-Entity Deduplicated Holdings**: 3,540
-- **Execution Time**: 0.444s
+- **Execution Time**: 0.474s
 
 ### Accessions and Filing Events (Actual PIT Timestamps)
 
