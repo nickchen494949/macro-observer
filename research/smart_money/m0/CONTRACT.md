@@ -64,7 +64,7 @@ def compute_13f_deadline(period_of_report: str) -> str:
      - `None` (SQL NULL)
      - `""` (空字符串)
      - `"N/A"` (大小写标准化后完全匹配，符合官方 SEC Form 13F FAQ Q48/Q49 指引)
-     - `"0"` (字符串精确匹配，**仅作为明确的经验性 SEC 数据兼容规则**；官方 SEC FAQ 未正式批准 `"0"`，但由于 SEC 真实关系序列表 `OTHERMANAGER2.tsv` 严格为 1-based 正整数且不存在序号 0，该值在经验上代表未分享投资决策权)。
+     - `"0"` (字符串精确匹配，**仅作为明确的经验性 SEC 数据兼容规则**；官方 SEC FAQ 未正式批准 `"0"`，但由于 SEC 真实关系序列表 `OTHERMANAGER2.tsv` 严格为 1-based 正整数且不存在序号 0，该值在经验上表示该持仓明细未指向正整数编号的其他被包含管理人，归属于申报人的法定申报范围)。
      - 命中上述任一哨兵值时：
        $$\text{economic\_owner\_cik} = \text{origin\_filer\_cik}, \quad \text{ownership\_unresolved} = \text{False}$$
   3. **正整数序列号解析 (Positive Integer Sequences)**：
@@ -230,7 +230,7 @@ $$\text{M0\_signal}(\text{stock}, Q) = \sum_{\text{eligible entities}} \left( \D
 
 ---
 
-## 8. 收益计算细则与缺失结果冻结政策 (Missing-Outcome Policy)
+## 8. 收益计算细则与敏感性分析结构 (Missing-Outcome & Sensitivities)
 
 ### 8.1 前复权开盘价计算
 基于 `auto_adjust=False, actions=True` 的冻结日频行情快照：
@@ -242,15 +242,20 @@ $$\text{adjusted\_open}(T) = \text{raw\_open}(T) \times \frac{\text{adj\_close}(
 - **现金并购结算**：若持仓期内发生现金私有化退市，根据官方 SEC 8-K 对价现金结算出场；非现金并购或无法确定对价者置为 `None`（`is_outcome_missing = 1`, `CORPORATE_ACTION_UNKNOWN` 排除）。
 - **Primary IC 排除**：任何收益为 `None`（缺失）的标的从当季 Primary IC 截面中排除，并在单次预注册 LEFT JOIN 表中完整保留该行及缺失状态。
 
-### 8.3 强制敏感性分析矩阵 (Mandatory Sensitivities)
-所有敏感性分析必须基于**同一张保留全量信号行的 LEFT JOIN 评估表**派生计算：
+### 8.3 敏感性分析结构划分 (Sensitivities Architecture)
+敏感性分析严格区分为**收益端敏感性分支**（基于 Primary LEFT JOIN 评估表派生）与**信号端敏感性分支**（基于前置重构独立信号表派生）：
+
+#### 8.3.1 收益端敏感性分支 (Derived from Primary LEFT JOIN Table)
+基于 Primary 单向预注册 LEFT JOIN 表派生计算，严禁重新聚合信号：
 1. **$\text{Missing} = -100\%$ 压力测试**：所有缺失出场价的标的假设归零清算；
 2. **$\text{Missing} = 0\%$ 压力测试**：所有缺失出场价的标的假设持平出场；
-3. **$\le 5$ 日顺延对照**：允许停牌标的向后顺延最多 5 个交易日获取首个开盘价（缺报价行仍消耗交易日名额）；
-4. **`ZERO_SENTINEL_EXCLUDED` 敏感性对照 (Contract v0.8.2 强制新增)**：
-   - **重跑范围**：在信号端从原始明细行层面，将所有 `other_manager = '0'` 的明细行视为 `ownership_unresolved = True` 剔除，执行独立的状态重构与信号生成。
-   - **架构不变量**：因 accession 聚合会折叠所有权键，该敏感性必须在**明细行输入端（Pre-Aggregation）**派生，严禁在聚合后扣减。
-   - **对账披露**：在 Manifest 与报表中单独披露该分支的股票覆盖率与 IC 表现，评估经验性 0 哨兵规则对信号稳健性的影响。
+3. **$\le 5$ 日顺延对照**：允许停牌标的向后顺延最多 5 个交易日获取首个开盘价（缺报价行仍消耗交易日名额）。
+
+#### 8.3.2 信号端敏感性分支: `ZERO_SENTINEL_EXCLUDED` (Pre-Aggregation Signal Rebuild)
+- **重跑范围**：在信号端从原始明细行层面，将所有 `other_manager = '0'` 的明细行视为 `ownership_unresolved = True` 剔除，执行独立的状态重构与信号生成。
+- **架构不变量**：因 accession 聚合会折叠所有权键，该敏感性必须在**明细行输入端（Pre-Aggregation）**独立生成，并在 `m0_signal.db` 中持久化为独立的不可变信号表 `m0_signals_zero_excluded`（Primary Key: `(primary_stock_id, period_of_report)`）。
+- **独立预注册评估**：`m0_signals_zero_excluded` 独立 LEFT JOIN 到同一张冻结的 `m0_forward_returns` 收益表，执行独立的基数守恒校验 ($\text{rows}(\text{joined\_zero\_excluded}) \equiv \text{rows}(\text{m0\_signals\_zero\_excluded})$)。
+- **对账披露**：在 Manifest 与报表中单独披露该分支的校验和、股票覆盖率与 IC 表现，评估经验性 0 哨兵规则对信号稳健性的影响。
 
 ---
 
@@ -289,6 +294,13 @@ $$\text{adjusted\_open}(T) = \text{raw\_open}(T) \times \frac{\text{adj\_close}(
       m0_signal REAL NOT NULL,
       PRIMARY KEY (primary_stock_id, period_of_report)
   );
+
+  CREATE TABLE IF NOT EXISTS m0_signals_zero_excluded (
+      primary_stock_id TEXT NOT NULL,
+      period_of_report TEXT NOT NULL,
+      m0_signal REAL NOT NULL,
+      PRIMARY KEY (primary_stock_id, period_of_report)
+  );
   ```
 - **收益库 `m0_outcome.db`**:
   ```sql
@@ -308,6 +320,7 @@ $$\text{adjusted\_open}(T) = \text{raw\_open}(T) \times \frac{\text{adj\_close}(
 - **Manifest 显式策略声明 (Policy Declaration Fields)**：
   - `primary_empirical_zero_policy`: `"INCLUDE_AS_ORIGIN_FILER"`
   - `zero_excluded_sensitivity`: `"COMPUTED_PRE_AGGREGATION"`
+  - `signal_tables_sha256`: 记录 `m0_signals` 与 `m0_signals_zero_excluded` 两个表的各自 SHA-256 哈希。
 - **权限防护说明**：文件系统的 `chmod 444` 设置仅作为**防止程序意外覆盖的只读权限防护**。真正的审计可信度依赖于 **Git Commit SHA 冻结、外部独立审查与归档存据**。
 - **工作区 Clean Tree 铁律**：生产阶段（Stage D）前置检查必须验证 `git_tree_dirty == False`，若存在未提交修改，**必须立即终止生产流程**。
 
@@ -315,10 +328,12 @@ $$\text{adjusted\_open}(T) = \text{raw\_open}(T) \times \frac{\text{adj\_close}(
 在执行官方单向预注册 LEFT JOIN 之前与之后，必须严格满足以下唯一性与基数不变量：
 1. **键唯一性约束**：
    - `m0_signals` 表在主键 `(primary_stock_id, period_of_report)` 上必须全局严格唯一；
+   - `m0_signals_zero_excluded` 表在主键 `(primary_stock_id, period_of_report)` 上必须全局严格唯一；
    - `m0_forward_returns` 表在主键 `(primary_stock_id, period_of_report)` 上必须全局严格唯一；
    - 任何一方存在重复键，**评估程序必须立即抛错中止 (ABORT)**。
 2. **基数守恒不变量**：
    ```sql
+   -- Primary LEFT JOIN
    SELECT
        s.period_of_report,
        s.primary_stock_id,
@@ -333,6 +348,7 @@ $$\text{adjusted\_open}(T) = \text{raw\_open}(T) \times \frac{\text{adj\_close}(
    ```
    - **基数恒等式**：执行 LEFT JOIN 后的输出行数必须**严格等于**输入信号行数：
      $$\text{COUNT}(\text{evaluation\_joined\_rows}) \equiv \text{COUNT}(\text{m0\_signals})$$
+     $$\text{COUNT}(\text{evaluation\_zero\_excluded\_joined\_rows}) \equiv \text{COUNT}(\text{m0\_signals\_zero\_excluded})$$
    - 输出表的 `(primary_stock_id, period_of_report)` 键保持严格唯一。严禁使用 `INNER JOIN`，杜绝静默删除缺失收益样本。
 
 ---

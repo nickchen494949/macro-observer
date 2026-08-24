@@ -52,16 +52,16 @@
   - 严禁在源库中执行 `CREATE TABLE` 或 `UPDATE` 操作。
 
 #### 10 大独立功能模块划分 (`research/smart_money/m0/src/`)
-1. `storage_guard.py`: SQLite 只读模式守护器 (`mode=ro` URI 编码)、写入拦截阻断与派生库 Schema 初始化。
+1. `storage_guard.py`: SQLite 只读模式守护器 (`mode=ro` URI 编码)、写入拦截阻断与派生库 Schema 初始化（含 `m0_signals` 与 `m0_signals_zero_excluded` 两张信号表）。
 2. `run_paths.py`: 物理真实路径隔离管理器 (`realpath` 解析、禁止符号链接逃逸与目录重叠)。
-3. `manifest_integrity.py`: 规范化标准 JSON 序列化 (`allow_nan=False`)、确定性 SHA-256 计算、工作区 Clean Tree 校验、缓存哈希核验（违规立即抛错）及跨阶段 Manifest 绑定核验。
+3. `manifest_integrity.py`: 规范化标准 JSON 序列化 (`allow_nan=False`)、确定性 SHA-256 计算、工作区 Clean Tree 校验、缓存哈希核验（违规立即抛错）及跨阶段 Manifest 绑定核验（同时绑定两张信号表 SHA-256 与政策声明）。
 4. `ownership_state_machine.py`: 所有权归属解析（Contract v0.8.2：空白 / `"N/A"` / 经验性 `"0"` 哨兵值赋为 `origin_filer_cik`；单一正整数仅通过 `OTHERMANAGER2.tsv` 解析；脏值/多序号/自由文本标记为 `ownership_unresolved = True`）、机密申报门控与单机构申报状态机重构（严格按绝对时间戳 UTC instant ASC 及 accession_number ASC 排序；拒绝混入不同申报人或元数据不符行）。
 5. `entity_membership_dedup.py`: PIT 实体图构建（合并 `OTHERMANAGER.tsv` 与 `OTHERMANAGER2.tsv` 有效边）、独立申报成员一致性校验与跨申报经济签名去重（严格限定在同一 `canonical_entity_id` 内部）。
 6. `security_mapping.py`: OpenFIGI 确定性瀑布决议（排除 ETF、非权益资产与非法 CUSIP）、名称相似度计算与多重候选歧义拒决。
 7. `split_waterfall.py`: 期间配对厂商拆股系数 $K_{\text{ledger}}$ 计算（严格检验正实数与日期）、对数中位数与 $\text{MAD}_{\text{log}}$ 计算（强制持有者数量与样本一致）、Gate 0/1/2 严格有序瀑布状态机。
-8. `signal_math.py`: 拆股调整 $\Delta\text{Shares}$ 计算、3x 审查风险启发式权重施加与股票级汇总（聚合后输出表无虚假股票级单一权重列）。
+8. `signal_math.py`: 拆股调整 $\Delta\text{Shares}$ 计算、3x 审查风险启发式权重施加、Primary 信号与前置派生的 `ZERO_SENTINEL_EXCLUDED` 敏感性信号表构建。
 9. `coverage_keys.py`: D1 (`raw_cusip, period`) 与 D2 (`primary_stock_id, period`) 键生成与转换损耗追踪。
-10. `outcome_policies.py`: 前复权开盘价计算（正实数价格校验）、真实交易日/顺延 $\le 5$ 日开盘选取函数、真实单股现金对价现金并购结算函数、单向预注册 LEFT JOIN 基数守恒校验及 4 大敏感性分支派生（含 `ZERO_SENTINEL_EXCLUDED`）。
+10. `outcome_policies.py`: 前复权开盘价计算（正实数价格校验）、真实交易日/顺延 $\le 5$ 日开盘选取函数、真实单股现金对价现金并购结算函数、单向预注册 LEFT JOIN 基数守恒校验及 3 大收益端敏感性分支派生（$\text{Missing}=-100\%$, $\text{Missing}=0\%$, $\le 5$ 日顺延）。
 
 *(注：Stage A/B 期间绝不连接网络，不读取真实历史行情，收益策略逻辑全量基于合成数据测试)*
 
@@ -75,7 +75,7 @@
 ### Stage B: 合约级 6 大参数化对抗测试套件矩阵 (B01–B23)
 
 #### 目标
-在接触任何生产数据前，编写 6 大类参数化合成测试用例，严格对齐 B01–B23 编号，验证所有边界逻辑与基数不变量已被代码阻断。**所有 Stage B 测试均为纯数据逻辑测试，绝不读取真实历史价格 K 线**。
+在接触任何生产数据前，编写 6 大类参数化合成测试用例，严格对齐 B01–B23 编号及 B07.1–B07.4 哨兵/序列表反例，验证所有边界逻辑与基数不变量已被代码阻断。**所有 Stage B 测试均为纯数据逻辑测试，绝不读取真实历史价格 K 线**。
 
 #### 6 大类参数化测试套件 (`research/smart_money/m0/tests/test_stage_b_counterexamples.py`)
 
@@ -92,7 +92,7 @@
     - **Test-B07.1 (哨兵值解析)**: 空白、大小写规范化 `"N/A"` 及精确字符串 `"0"` 被成功识别为 Primary 初始持有人哨兵值；脏值（`"NONE"`, `"NA"`, `"00"`, `"0.0"`）严格标记为 `ownership_unresolved = True`；
     - **Test-B07.2 (信源表隔离)**: 同一序列号存在于两张表时，行级所有权解析必须严格匹配 `OTHERMANAGER2.tsv`，`OTHERMANAGER.tsv` 代理键被严格忽略；
     - **Test-B07.3 (同一申报内混存)**: 单一申报内同时存在 `other_manager = '0'` 与 `other_manager = '1'` 时，0 行归属于申报人，1 行归属于映射管理人；
-    - **Test-B07.4 (零哨兵敏感性前置派生)**: `ZERO_SENTINEL_EXCLUDED` 分支在明细行聚合前剔除 `'0'` 行，且不影响 Primary 聚合结果。
+    - **Test-B07.4 (零哨兵敏感性前置独立派生与绑定)**: `ZERO_SENTINEL_EXCLUDED` 分支在明细行聚合前独立剔除 `'0'` 行，生成独立的 `m0_signals_zero_excluded` 信号表，独立完成到同一 `m0_forward_returns` 表的 LEFT JOIN 基数守恒校验 ($\text{rows}(\text{joined}) \equiv \text{rows}(\text{signals\_zero\_excluded})$)，且两套信号表在 Manifest 中分别计算并绑定 SHA-256。
   - Test-B08: 作用域重叠持仓保留与去重（必须在同一 `canonical_entity_id` 内部去重，严禁跨实体合并）；
   - Test-B09: 非独立申报顾问节点连通性（不作为 expected filing member）；
   - Test-B10: 独立申报成员缺报/迟交假清仓防范（16-CIK 实体 1 成员迟交触发 `membership_incomplete`，整实体当季置为 Missing）；
@@ -123,7 +123,7 @@
   - Test-B20: 真实官方 SEC 8-K 纯现金并购对价结算收益与非现金/不确定并购置为缺失（`is_outcome_missing = 1`）；
   - Test-B21: 键唯一性违规拦截（模拟 `m0_signals` 或 `m0_forward_returns` 出现重复 `(primary_stock_id, period)` 键时，LEFT JOIN 预检必须立即抛错中止）；
   - Test-B22: 基数守恒不变量（验证单向预注册 LEFT JOIN 输出行数与信号表输入行数严格相等：$\text{rows}(\text{joined}) \equiv \text{rows}(\text{signals})$，缺失收益行被 100% 保留且标记 `is_outcome_missing = 1`）；
-  - Test-B23: 在同一张保留全量行的 LEFT JOIN 表上，派生计算 Primary（过滤 NaN/缺失）、$\text{Missing}=-100\%$、$\text{Missing}=0\%$、$\le 5$ 日顺延分支及 `ZERO_SENTINEL_EXCLUDED` 敏感性分支。
+  - Test-B23: 在同一张保留全量行的 Primary LEFT JOIN 表上，派生计算 Primary（过滤 NaN/缺失）、$\text{Missing}=-100\%$、$\text{Missing}=0\%$ 及 $\le 5$ 日顺延三大收益端分支；验证各分支不修改原始输入表。
 
 #### 阶段验收门控 (Gate B)
 - **命令**: `pytest research/smart_money/m0/tests/test_stage_b_counterexamples.py`
@@ -165,7 +165,7 @@
 在全量 53-ZIP 数据库（只读模式）上完成 13F 数据流解析、实体构建、OpenFIGI 标的映射、厂商拆股元数据对账及 $\text{M0\_signal}$ 计算，并输出拆股审计报表与 Signal Manifest。
 
 #### 核心输出
-1. 信号端独立派生库落地 (`research/smart_money/m0/runs/<run_id>/signal/m0_signal.db`)，并确保 `(primary_stock_id, period_of_report)` 唯一键无冲突；
+1. 信号端独立派生库落地 (`research/smart_money/m0/runs/<run_id>/signal/m0_signal.db`)，包含 `m0_signals` (Primary) 与 `m0_signals_zero_excluded` (Sensitivity) 两张独立表，并确保 `(primary_stock_id, period_of_report)` 唯一键无冲突；
 2. 拆股瀑布门控审计报表 (`research/smart_money/m0/runs/<run_id>/signal/m0_split_waterfall_audit.md`)；
 3. 映射与信号覆盖率报表 (`research/smart_money/m0/runs/<run_id>/signal/m0_signal_coverage.md`，含零哨兵覆盖率对比)；
 4. **变更检测校验和清单**: `SHA256_SIGNAL_MANIFEST.json`，完整记录：
@@ -180,12 +180,12 @@
    - `vendor_split_raw_cache` (URL、HTTP 状态码及 SHA-256 校验和)
    - `sec_benchmark_evidence` (原始 8-K 字节哈希、URL 与抓取时间戳)
    - `entity_fixture_version`
-   - `signal_tables_sha256` (各信号表物理文件的 SHA-256 哈希)
+   - `signal_tables_sha256` (记录 `m0_signals` 与 `m0_signals_zero_excluded` 两张物理表的各自 SHA-256 哈希)
 5. 文件系统权限设置：`chmod 444` 设置为意外写防护只读状态。
 
 #### 阶段验收门控 (Gate D — 核心硬阻断)
 - **工作区 Clean Tree 铁律**: Preflight 检查工作区状态，若 `git status --short` 非空（`git_tree_dirty == True`），**立即中止 Stage D 生产写入**。
-- **键唯一性门控**: 验证 `m0_signals` 主键 `(primary_stock_id, period_of_report)` 无重复记录。
+- **键唯一性门控**: 验证 `m0_signals` 与 `m0_signals_zero_excluded` 主键 `(primary_stock_id, period_of_report)` 无重复记录。
 - **存储安全预检**: 从 Pilot 实际消耗外推全量空间需求，确保磁盘剩余空间大于预估值 2 倍且 WAL 具备安全裕量。**未获 Codex 存储审批前，严禁执行 Stage D 全量写入**。
 - **硬阻断**: 输出报表与 Manifest，**停机等待 Codex 审计**。必须获得 Codex 明确的 **APPROVE** 指令，方可进入 Stage E。
 - **预估磁盘占用**: 暂定 $\approx 3.5\sim 4.5\text{ GB}$（以 Pilot 实测外推为准）。
@@ -229,6 +229,7 @@
 #### 核心产物与交付
 1. **单次预注册 LEFT JOIN 执行与基数不变量验证**:
    ```sql
+   -- Primary LEFT JOIN
    SELECT
        s.period_of_report,
        s.primary_stock_id,
@@ -240,21 +241,36 @@
    LEFT JOIN m0_forward_returns r
      ON s.primary_stock_id = r.primary_stock_id
     AND s.period_of_report = r.period_of_report;
+
+   -- Zero-Excluded Sensitivity LEFT JOIN
+   SELECT
+       s.period_of_report,
+       s.primary_stock_id,
+       s.m0_signal,
+       r.forward_return,
+       r.outcome_status,
+       (CASE WHEN r.forward_return IS NULL THEN 1 ELSE 0 END) AS is_outcome_missing
+   FROM m0_signals_zero_excluded s
+   LEFT JOIN m0_forward_returns r
+     ON s.primary_stock_id = r.primary_stock_id
+    AND s.period_of_report = r.period_of_report;
    ```
-   - **基数守恒强制门控**: 校验输出行数严格等于 `m0_signals` 行数 ($\text{rows}(\text{joined}) \equiv \text{rows}(\text{signals})$)。
+   - **基数守恒强制门控**: 校验输出行数严格等于各自信号表行数 ($\text{rows}(\text{joined}) \equiv \text{rows}(\text{m0\_signals})$ 及 $\text{rows}(\text{joined\_zero\_excluded}) \equiv \text{rows}(\text{m0\_signals\_zero\_excluded})$)。
 2. **官方核心指标测算**:
    - 官方全样本 Rank IC 均值 (Mean Quarterly Spearman Rank IC, 仅在 LEFT JOIN 后过滤有效收益)；
    - Newey-West HAC $t$-统计量 ($\text{maxlags}=1$) 及双边 $p$-值；
    - 普通 $t$-统计量 (辅助参考)；
    - 季度胜率 (Hit Rate, $\text{IC} > 0$ 季度占比)；
    - 逐年 IC 拆解 (Annual IC Breakdown)。
-3. **强制敏感性对照矩阵 (基于同一张 LEFT JOIN 表派生)**:
-   - Primary 结果 vs 排除 `LEDGER_ONLY_LOW_POWER` (高统计功效子集)；
-   - 排除 `KNOWN_SPLIT_LOW_POWER` 对照；
-   - 退市缺失标的收益设为 $-100\%$ 压力测试；
-   - 退市缺失标的收益设为 $0\%$ 压力测试；
-   - 停牌交易日顺延 $\le 5$ 日对照；
-   - **`ZERO_SENTINEL_EXCLUDED` 对照报告**: 报告剔除 empirical-zero 明细行后的全样本 IC、季度勝率及股票覆盖率变动。
+3. **强制敏感性对照矩阵**:
+   - **收益端敏感性 (基于 Primary LEFT JOIN 派生)**:
+     - Primary 结果 vs 排除 `LEDGER_ONLY_LOW_POWER` (高统计功效子集)；
+     - 排除 `KNOWN_SPLIT_LOW_POWER` 对照；
+     - 退市缺失标的收益设为 $-100\%$ 压力测试；
+     - 退市缺失标的收益设为 $0\%$ 压力测试；
+     - 停牌交易日顺延 $\le 5$ 日对照；
+   - **信号端敏感性 (基于独立信号表与相同收益表的独立 LEFT JOIN 测算)**:
+     - `ZERO_SENTINEL_EXCLUDED` 对照报告：报告剔除 empirical-zero 明细行后的全样本 IC、季度胜率及股票覆盖率变动。
 4. **正式审计交付报告**: `research/smart_money/m0/runs/<run_id>/M0_RESULTS.md`。
 
 #### 阶段验收门控 (Gate F)
