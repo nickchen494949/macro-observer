@@ -195,6 +195,8 @@ def test_check_source_db_preflight(tmp_path: Path):
     assert preflight["db_filename"] == "test_phase0.db"
     assert preflight["size_bytes"] > 0
     assert preflight["query_only_pragma"] == 1
+    assert isinstance(preflight["db_mtime_ns"], int)
+    assert preflight["sidecars_present"] == []
 
     # Missing DB
     with pytest.raises(FileNotFoundError):
@@ -688,6 +690,14 @@ def test_13f_nt_exclusion_from_holdings_and_graph(tmp_path: Path):
 def test_format_markdown_report_contains_point72_and_section5_metrics():
     """Test format_markdown_report produces visible Point72 unresolved/on-time counts and Section 5 free-text metrics."""
     mock_data = {
+        "artifact_schema_version": "1.0.0",
+        "contract_version": "0.8.3",
+        "contract_sha256": "a" * 64,
+        "source_git_sha": "b" * 40,
+        "global_git_tree_dirty": True,
+        "global_dirty_paths": ["data/valuation/FED_PATH_HISTORY.json"],
+        "m0_tree_scope": "research/smart_money/m0",
+        "m0_tree_dirty": False,
         "status": "STAGE C PART C1 DISCOVERY UNDER CODEX RE-AUDIT",
         "created_utc": "2026-08-24T12:00:00Z",
         "total_execution_time_sec": 1.234,
@@ -695,6 +705,8 @@ def test_format_markdown_report_contains_point72_and_section5_metrics():
             "db_filename": "13f_full_4409f14.db",
             "db_path": "/path/to/db",
             "size_bytes": 25881661440,
+            "db_mtime_ns": 1787540374896522366,
+            "sidecars_present": [],
             "query_only_pragma": 1,
         },
         "evidence_a_berkshire_apple_2023q4": {
@@ -804,6 +816,7 @@ def test_format_markdown_report_contains_point72_and_section5_metrics():
                 "contract_split_factor": 10.0,
                 "contract_ex_date": "2024-06-10",
                 "eligible_continuous_entity_count": 2758,
+                "naive_continuous_filer_count": 3366,
                 "raw_median_ratio": 10.01,
                 "mad_log": 0.0717,
                 "adjusted_median_ratio": 1.0013,

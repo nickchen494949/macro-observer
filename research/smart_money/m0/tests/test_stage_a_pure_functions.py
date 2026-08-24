@@ -1139,12 +1139,67 @@ def test_validate_c1_gate_fails_on_wrong_point72_raw_anchor():
     assert any("main_accession_raw_lines_total" in f for f in failures)
 
 
+def test_validate_c1_gate_fails_on_m0_tree_dirty():
+    """Provenance gate: m0_tree_dirty=True must fail."""
+    from research.smart_money.m0.src.run_c1_discovery import validate_c1_gate
+
+    data = _build_minimal_valid_c1_data()
+    data["m0_tree_dirty"] = True
+    failures = validate_c1_gate(data)
+    assert any("m0_tree_dirty" in f for f in failures)
+
+
+def test_validate_c1_gate_fails_on_bad_source_git_sha():
+    """Provenance gate: non-40-hex source_git_sha must fail."""
+    from research.smart_money.m0.src.run_c1_discovery import validate_c1_gate
+
+    data = _build_minimal_valid_c1_data()
+    data["source_git_sha"] = "UNKNOWN"
+    failures = validate_c1_gate(data)
+    assert any("source_git_sha" in f for f in failures)
+
+
+def test_validate_c1_gate_fails_on_bad_contract_sha256():
+    """Provenance gate: non-64-hex contract_sha256 must fail."""
+    from research.smart_money.m0.src.run_c1_discovery import validate_c1_gate
+
+    data = _build_minimal_valid_c1_data()
+    data["contract_sha256"] = "UNAVAILABLE"
+    failures = validate_c1_gate(data)
+    assert any("contract_sha256" in f for f in failures)
+
+
+def test_validate_c1_gate_fails_on_sidecars_present():
+    """Preflight gate: sidecars_present not empty must fail."""
+    from research.smart_money.m0.src.run_c1_discovery import validate_c1_gate
+
+    data = _build_minimal_valid_c1_data()
+    data["preflight"]["sidecars_present"] = ["13f_full_4409f14.db-wal"]
+    failures = validate_c1_gate(data)
+    assert any("sidecars_present" in f for f in failures)
+
+
+def test_validate_c1_gate_fails_on_wrong_unresolved_value_total():
+    """Zero-excluded gate: wrong unresolved_value_total must fail."""
+    from research.smart_money.m0.src.run_c1_discovery import validate_c1_gate
+
+    data = _build_minimal_valid_c1_data()
+    data["evidence_b_point72_2019q4_discovery"]["zero_excluded_sensitivity"]["unresolved_value_total"] = 0
+    failures = validate_c1_gate(data)
+    assert any("unresolved_value_total" in f for f in failures)
+
 def _build_minimal_valid_c1_data():
     """Build a minimal valid C1 discovery data dict that passes validate_c1_gate."""
     return {
+        "artifact_schema_version": "1.0.0",
         "contract_version": "0.8.3",
+        "contract_sha256": "a" * 64,  # Valid 64-hex
+        "source_git_sha": "b" * 40,  # Valid 40-hex
+        "m0_tree_dirty": False,
         "preflight": {
             "db_filename": "13f_full_4409f14.db",
+            "size_bytes": 25881661440,
+            "sidecars_present": [],
             "query_only_pragma": 1,
         },
         "evidence_a_berkshire_apple_2023q4": {
@@ -1179,6 +1234,7 @@ def _build_minimal_valid_c1_data():
                 "main_accession_raw_lines_retained": 0,
                 "unresolved_rows_count": 877,
                 "unresolved_shares_total": 404693788,
+                "unresolved_value_total": 17857865000,
             },
         },
         "evidence_c_split_pilot_pairs": [

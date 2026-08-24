@@ -25,23 +25,51 @@ def validate_c1_gate(data: dict[str, Any]) -> list[str]:
 
     Returns a list of failure descriptions. Empty list means PASS.
     Does not write files or produce side effects.
+
+    Provenance gates:
+    - m0_tree_dirty must be false (scoped to research/smart_money/m0)
+    - source_git_sha must be a valid 40-hex commit
+    - contract_sha256 must be a valid 64-hex digest
+    - artifact_schema_version must be exactly "1.0.0"
+    - Does NOT require global tree clean (unrelated user file is preserved)
     """
+    import re
+
     failures: list[str] = []
 
     def fail(section: str, msg: str) -> None:
         failures.append(f"[{section}] {msg}")
 
-    # Contract version
+    # Provenance
     cv = data.get("contract_version")
     if cv != "0.8.3":
         fail("CONTRACT", f"contract_version expected '0.8.3', got {cv!r}")
+
+    asv = data.get("artifact_schema_version")
+    if asv != "1.0.0":
+        fail("PROVENANCE", f"artifact_schema_version expected '1.0.0', got {asv!r}")
+
+    sha = data.get("source_git_sha", "")
+    if not re.fullmatch(r"[0-9a-f]{40}", sha):
+        fail("PROVENANCE", f"source_git_sha must be 40-hex, got {sha!r}")
+
+    c_sha = data.get("contract_sha256", "")
+    if not re.fullmatch(r"[0-9a-f]{64}", c_sha):
+        fail("PROVENANCE", f"contract_sha256 must be 64-hex, got {c_sha!r}")
+
+    if data.get("m0_tree_dirty") is not False:
+        fail("PROVENANCE", f"m0_tree_dirty must be false, got {data.get('m0_tree_dirty')!r}")
 
     # Preflight
     pf = data.get("preflight", {})
     if pf.get("db_filename") != "13f_full_4409f14.db":
         fail("PREFLIGHT", f"db_filename expected '13f_full_4409f14.db', got {pf.get('db_filename')!r}")
+    if pf.get("size_bytes") != 25881661440:
+        fail("PREFLIGHT", f"size_bytes expected 25881661440, got {pf.get('size_bytes')!r}")
     if pf.get("query_only_pragma") != 1:
         fail("PREFLIGHT", f"query_only_pragma expected 1, got {pf.get('query_only_pragma')!r}")
+    if pf.get("sidecars_present") != []:
+        fail("PREFLIGHT", f"sidecars_present expected [], got {pf.get('sidecars_present')!r}")
 
     # Berkshire
     ea = data.get("evidence_a_berkshire_apple_2023q4", {})
@@ -107,6 +135,8 @@ def validate_c1_gate(data: dict[str, Any]) -> list[str]:
         fail("ZERO_EXCLUDED", f"unresolved_rows_count expected 877, got {z_ex.get('unresolved_rows_count')!r}")
     if z_ex.get("unresolved_shares_total") != 404693788:
         fail("ZERO_EXCLUDED", f"unresolved_shares_total expected 404693788, got {z_ex.get('unresolved_shares_total')!r}")
+    if z_ex.get("unresolved_value_total") != 17857865000:
+        fail("ZERO_EXCLUDED", f"unresolved_value_total expected 17857865000, got {z_ex.get('unresolved_value_total')!r}")
 
     # Split pilot pairs
     splits = data.get("evidence_c_split_pilot_pairs", [])
@@ -165,7 +195,10 @@ def format_markdown_report(data: dict[str, Any]) -> str:
     lines.append(f"> **Total Execution Time**: `{data['total_execution_time_sec']}s`<br>")
     lines.append(f"> **Contract Version**: `{data.get('contract_version', 'UNKNOWN')}`<br>")
     lines.append(f"> **Source Git SHA**: `{data.get('source_git_sha', 'UNKNOWN')}`<br>")
-    lines.append(f"> **Git Tree Dirty**: `{data.get('git_tree_dirty', 'UNKNOWN')}`<br>")
+    lines.append(f"> **M0 Tree Dirty**: `{data.get('m0_tree_dirty', 'UNKNOWN')}` (scope: `{data.get('m0_tree_scope', 'UNKNOWN')}`)<br>")
+    lines.append(f"> **Global Git Tree Dirty**: `{data.get('global_git_tree_dirty', 'UNKNOWN')}`<br>")
+    if data.get("global_dirty_paths"):
+        lines.append(f"> **Global Dirty Paths**: `{', '.join(data['global_dirty_paths'])}`<br>")
     lines.append(f"> **Contract SHA256**: `{data.get('contract_sha256', 'UNKNOWN')}`<br>")
     lines.append(f"> **Artifact Schema Version**: `{data.get('artifact_schema_version', 'UNKNOWN')}`")
     lines.append("")
@@ -177,7 +210,9 @@ def format_markdown_report(data: dict[str, Any]) -> str:
     lines.append("## 1. Source Database Preflight & Read-Only Safety")
     lines.append(f"- **Source DB File**: `{pf['db_filename']}` ({pf['db_path']})")
     lines.append(f"- **File Size**: {pf['size_bytes']:,} bytes ({pf['size_bytes'] / (1024**3):.2f} GiB)")
+    lines.append(f"- **DB Mtime NS**: `{pf.get('db_mtime_ns', 'UNKNOWN')}`")
     lines.append(f"- **PRAGMA query_only Verification**: `query_only = {pf['query_only_pragma']}` (Strict Read-Only)")
+    lines.append(f"- **Sidecars Present**: `{pf.get('sidecars_present', 'UNKNOWN')}`")
     lines.append(f"- **Sidecar Integrity**: Checked zero `-wal`, `-shm`, `-journal` files present.")
     lines.append("")
     lines.append("---")

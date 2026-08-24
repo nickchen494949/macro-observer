@@ -280,12 +280,24 @@ def resolve_owner_component_strict(
 
 
 def check_source_db_preflight(db_path: str | Path) -> dict[str, Any]:
-    """Verify source DB existence, byte size, and lack of sidecars before opening."""
+    """Verify source DB existence, byte size, mtime, sidecar absence, and query_only before opening."""
+    import os
+
     p = Path(db_path)
     if not p.is_file():
         raise FileNotFoundError(f"Source database not found: {p}")
 
-    size_bytes = p.stat().st_size
+    stat = p.stat()
+    size_bytes = stat.st_size
+    mtime_ns = os.stat(str(p)).st_mtime_ns
+
+    # Explicitly check for sidecars
+    sidecar_suffixes = ["-wal", "-shm", "-journal"]
+    sidecars_present = [
+        f"{p.name}{suf}" for suf in sidecar_suffixes
+        if (p.parent / f"{p.name}{suf}").exists()
+    ]
+
     conn = open_readonly_sqlite(p, immutable=True)
     cur = conn.cursor()
     cur.execute("PRAGMA query_only;")
@@ -296,6 +308,8 @@ def check_source_db_preflight(db_path: str | Path) -> dict[str, Any]:
         "db_path": str(p),
         "db_filename": p.name,
         "size_bytes": size_bytes,
+        "db_mtime_ns": mtime_ns,
+        "sidecars_present": sidecars_present,
         "query_only_pragma": qo,
     }
 
@@ -1375,20 +1389,34 @@ def run_full_c1_discovery(db_path: str | Path) -> dict[str, Any]:
     t0 = time.time()
     preflight = check_source_db_preflight(db_path)
 
-    # Provenance: git SHA and tree dirty flag
+    # Provenance: git SHA and path-scoped tree dirty flags
     try:
         source_git_sha = subprocess.check_output(
             ["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL, text=True
         ).strip()
     except (subprocess.CalledProcessError, FileNotFoundError):
         source_git_sha = "UNKNOWN"
+
+    # Global tree dirty: honest (includes unrelated user files like FED_PATH_HISTORY.json)
     try:
-        git_diff_out = subprocess.check_output(
-            ["git", "diff", "--stat"], stderr=subprocess.DEVNULL, text=True
+        global_porcelain = subprocess.check_output(
+            ["git", "status", "--porcelain"], stderr=subprocess.DEVNULL, text=True
         ).strip()
-        git_tree_dirty = bool(git_diff_out)
+        global_git_tree_dirty = bool(global_porcelain)
+        global_dirty_paths = [line.split(None, 1)[-1].strip() for line in global_porcelain.splitlines()] if global_porcelain else []
     except (subprocess.CalledProcessError, FileNotFoundError):
-        git_tree_dirty = True
+        global_git_tree_dirty = True
+        global_dirty_paths = ["UNKNOWN"]
+
+    # M0-scoped tree dirty: only research/smart_money/m0 matters for C1 code provenance
+    m0_tree_scope = "research/smart_money/m0"
+    try:
+        m0_porcelain = subprocess.check_output(
+            ["git", "status", "--porcelain", "--", m0_tree_scope], stderr=subprocess.DEVNULL, text=True
+        ).strip()
+        m0_tree_dirty = bool(m0_porcelain)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        m0_tree_dirty = True
 
     # Provenance: contract SHA256
     contract_path = Path(db_path).parent.parent.parent / "m0" / "CONTRACT.md"
@@ -1485,7 +1513,10 @@ def run_full_c1_discovery(db_path: str | Path) -> dict[str, Any]:
         "contract_version": "0.8.3",
         "contract_sha256": contract_sha256,
         "source_git_sha": source_git_sha,
-        "git_tree_dirty": git_tree_dirty,
+        "global_git_tree_dirty": global_git_tree_dirty,
+        "global_dirty_paths": global_dirty_paths,
+        "m0_tree_scope": m0_tree_scope,
+        "m0_tree_dirty": m0_tree_dirty,
         "status": "STAGE C PART C1 DISCOVERY UNDER CODEX RE-AUDIT",
         "created_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "total_execution_time_sec": round(t_total, 3),
