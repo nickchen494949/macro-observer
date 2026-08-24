@@ -1,15 +1,24 @@
 # M0 Stage C Part C1 Pilot Discovery Report
 
 > **Status**: `STAGE C PART C1 DISCOVERY UNDER CODEX RE-AUDIT`<br>
-> **Generated UTC**: `2026-08-24T08:18:10Z`<br>
-> **Total Execution Time**: `108.5s`
+> **Generated UTC**: `2026-08-24T08:59:23Z`<br>
+> **Total Execution Time**: `105.039s`<br>
+> **Contract Version**: `0.8.3`<br>
+> **Source Git SHA**: `b0c7acce385db64d5accdba25ff9c68fb502dd53`<br>
+> **M0 Tree Dirty**: `False` (scope: `research/smart_money/m0`)<br>
+> **Global Git Tree Dirty**: `True`<br>
+> **Global Dirty Paths**: `data/valuation/FED_PATH_HISTORY.json`<br>
+> **Contract SHA256**: `30c9720e98003bdcb8955a8c71d2a98575577514b6a7a187890296bfbaed3c68`<br>
+> **Artifact Schema Version**: `1.0.0`
 
 ---
 
 ## 1. Source Database Preflight & Read-Only Safety
 - **Source DB File**: `13f_full_4409f14.db` (research/smart_money/phase0/data/13f_full_4409f14.db)
 - **File Size**: 25,881,661,440 bytes (24.10 GiB)
+- **DB Mtime NS**: `1787540374896522366`
 - **PRAGMA query_only Verification**: `query_only = 1` (Strict Read-Only)
+- **Sidecars Present**: `[]`
 - **Sidecar Integrity**: Checked zero `-wal`, `-shm`, `-journal` files present.
 
 ---
@@ -69,7 +78,7 @@
 - **Total Raw Line Items Across Component**: 4,457
 - **On-Time Confidential Filings**: 0 / **All-Period Confidential Filings**: 0
 - **On-Time Amendment Filings**: 0 / **All-Period Amendment Filings**: 0
-- **Execution Time**: 0.589s
+- **Execution Time**: 0.591s
 
 ### Source Tables Disambiguation & Fail-Closed PIT Disclosure
 - **Line-Level Sequence Lookup Source**: `OTHERMANAGER2.tsv only` (1565 sequence mappings)
@@ -134,14 +143,14 @@
 
 ### Before vs After Entity Graph G(Q-1, Q) Impact Comparison
 
-The table below contrasts the naive filer grouping against the true $G(Q-1, Q)$ entity connected components and filing members equality gate:
+The table below contrasts the measured naive filer-level continuous holder count against the true $G(Q-1, Q)$ entity connected components. The naive count is the number of individual CIK filers who hold resolved cash equity positions in the target CUSIP in both Q-1 and Q, before entity graph grouping.
 
 | Symbol | Naive Filer Grouping N | True Graph $G(Q-1, Q)$ N | Delta N (%) | Raw Median | Adj Median | State | Pass [0.8, 1.2] |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **NVDA** | 3,366 | 3,169 | -197 (-5.9%) | 10.021 | 1.0021 | `KNOWN_SPLIT_PASS` | **PASS** |
-| **TSLA** | 1,831 | 1,694 | -137 (-7.5%) | 3.0 | 1.0 | `KNOWN_SPLIT_PASS` | **PASS** |
-| **AMZN** | 2,948 | 2,776 | -172 (-5.8%) | 20.2309 | 1.0115 | `KNOWN_SPLIT_PASS` | **PASS** |
-| **GOOGL** | 2,612 | 2,409 | -203 (-7.8%) | 20.0 | 1.0 | `KNOWN_SPLIT_PASS` | **PASS** |
+| **NVDA** | 3,557 | 3,169 | -388 (-10.9%) | 10.021 | 1.0021 | `KNOWN_SPLIT_PASS` | **PASS** |
+| **TSLA** | 1,946 | 1,694 | -252 (-12.9%) | 3.0 | 1.0 | `KNOWN_SPLIT_PASS` | **PASS** |
+| **AMZN** | 3,137 | 2,776 | -361 (-11.5%) | 20.2309 | 1.0115 | `KNOWN_SPLIT_PASS` | **PASS** |
+| **GOOGL** | 2,773 | 2,409 | -364 (-13.1%) | 20.0 | 1.0 | `KNOWN_SPLIT_PASS` | **PASS** |
 
 ### Component-Level Exclusion Counts Breakdown
 
