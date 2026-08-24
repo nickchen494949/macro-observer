@@ -92,6 +92,16 @@ def init_signal_db(db_path: str | Path) -> None:
                 );
                 """
             )
+            conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS m0_signals_zero_excluded (
+                    primary_stock_id TEXT NOT NULL,
+                    period_of_report TEXT NOT NULL,
+                    m0_signal REAL NOT NULL,
+                    PRIMARY KEY (primary_stock_id, period_of_report)
+                );
+                """
+            )
     finally:
         conn.close()
 

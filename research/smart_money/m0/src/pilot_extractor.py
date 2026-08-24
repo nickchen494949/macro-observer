@@ -30,6 +30,7 @@ from research.smart_money.m0.src.entity_membership_dedup import (
 from research.smart_money.m0.src.ownership_state_machine import (
     FilingHeader,
     HoldingRow,
+    OwnershipPolicy,
     aggregate_accession_holdings,
     is_pit_accepted,
     is_valid_cik,
@@ -47,13 +48,15 @@ from research.smart_money.m0.src.storage_guard import open_readonly_sqlite
 
 
 def classify_other_manager(om_val: str | None) -> tuple[str, list[str]]:
-    """Classify the other_manager field into distinct semantic categories.
+    """Classify the other_manager field into distinct semantic categories under Contract v0.8.2.
 
     Categories:
     - BLANK: None or empty string.
-    - SINGLE_NUMERIC: exactly one integer sequence number (e.g. '4', '193370').
-    - MULTI_NUMERIC_LIST: multiple integer sequence numbers separated by comma/whitespace (e.g. '1,2,4,11', '1 3 4').
-    - FREE_TEXT_NAME: contains alphabetic characters or words (e.g. 'Blue Chip Partners LLC').
+    - OFFICIAL_NA: exact case-insensitive 'N/A' (authorized by SEC FAQ Q48/Q49).
+    - ZERO_SENTINEL: exact string '0' (empirical SEC data compatibility sentinel).
+    - SINGLE_NUMERIC: exactly one strictly positive integer sequence (> 0, e.g. '1', '4', '602').
+    - MULTI_NUMERIC_LIST: multiple integer sequence numbers (e.g. '1,2,4,11', '1 3 4').
+    - FREE_TEXT_NAME: free-text manager names or dirty variants (e.g. 'NONE', 'NA', '00', '0.0', 'Blue Chip Partners LLC').
 
     Returns:
         (category, tokens)
@@ -64,16 +67,134 @@ def classify_other_manager(om_val: str | None) -> tuple[str, list[str]]:
     if not s:
         return "BLANK", []
 
+    if s.upper() == "N/A":
+        return "OFFICIAL_NA", ["N/A"]
+
+    if s == "0":
+        return "ZERO_SENTINEL", ["0"]
+
     tokens = [t for t in re.split(r"[,\s]+", s) if t]
     if not tokens:
         return "BLANK", []
 
     if all(t.isdigit() for t in tokens):
         if len(tokens) == 1:
-            return "SINGLE_NUMERIC", tokens
+            val = int(tokens[0])
+            if val > 0 and str(val) == tokens[0]:
+                return "SINGLE_NUMERIC", tokens
+            return "FREE_TEXT_NAME", tokens
         return "MULTI_NUMERIC_LIST", tokens
 
     return "FREE_TEXT_NAME", tokens
+
+
+def build_line_level_manager_map(
+    relationship_rows: list[Any],
+    period: str | None = None,
+) -> dict[tuple[str, str], str]:
+    """Build line-level Column 7 sequence lookup map strictly from OTHERMANAGER2.tsv.
+
+    Filters source_table == 'OTHERMANAGER2.tsv' and acceptance_datetime if period is provided.
+    """
+    rel_map: dict[tuple[str, str], str] = {}
+    for r in relationship_rows:
+        if isinstance(r, dict):
+            acc = str(r["accession_number"]).strip()
+            seq = str(r["sequence_number"]).strip()
+            rel_cik = r["related_cik"]
+            src = str(r.get("source_table", "")).strip()
+            acc_dt = r.get("acceptance_datetime")
+        elif len(r) == 8:
+            # (acc, p_rep, rep_cik, rel_cik, rel_name, seq, src, acc_dt)
+            acc = str(r[0]).strip()
+            rel_cik = r[3]
+            seq = str(r[5]).strip()
+            src = str(r[6]).strip()
+            acc_dt = r[7]
+        elif len(r) == 6:
+            # (acc, rep_cik, rel_cik, seq, src, acc_dt)
+            acc = str(r[0]).strip()
+            rel_cik = r[2]
+            seq = str(r[3]).strip()
+            src = str(r[4]).strip()
+            acc_dt = r[5]
+        elif len(r) == 5:
+            # (acc, seq, rel_cik, src, acc_dt)
+            acc = str(r[0]).strip()
+            seq = str(r[1]).strip()
+            rel_cik = r[2]
+            src = str(r[3]).strip()
+            acc_dt = r[4]
+        elif len(r) == 4:
+            # (acc, seq, rel_cik, src)
+            acc = str(r[0]).strip()
+            seq = str(r[1]).strip()
+            rel_cik = r[2]
+            src = str(r[3]).strip()
+            acc_dt = None
+        else:
+            continue
+
+        if src != "OTHERMANAGER2.tsv":
+            continue
+
+        if period is not None and acc_dt is not None:
+            if not is_pit_accepted(acc_dt, period):
+                continue
+
+        if is_valid_cik(rel_cik):
+            rel_map[(acc, seq)] = normalize_cik(rel_cik)
+
+    return rel_map
+
+
+def build_entity_graph_edges(
+    relationship_rows: list[Any],
+    period: str | None = None,
+) -> list[tuple[str, str]]:
+    """Build institutional relationship graph edges unioning both OTHERMANAGER.tsv and OTHERMANAGER2.tsv.
+
+    Filters source_table IN ('OTHERMANAGER.tsv', 'OTHERMANAGER2.tsv') and acceptance_datetime if period is provided.
+    """
+    edges: list[tuple[str, str]] = []
+    for r in relationship_rows:
+        if isinstance(r, dict):
+            u = r["reporter_cik"]
+            v = r["related_cik"]
+            src = str(r.get("source_table", "")).strip()
+            acc_dt = r.get("acceptance_datetime")
+        elif len(r) == 8:
+            # (acc, p_rep, rep_cik, rel_cik, rel_name, seq, src, acc_dt)
+            u = r[2]
+            v = r[3]
+            src = str(r[6]).strip()
+            acc_dt = r[7]
+        elif len(r) == 6:
+            # (acc, rep_cik, rel_cik, seq, src, acc_dt)
+            u = r[1]
+            v = r[2]
+            src = str(r[4]).strip()
+            acc_dt = r[5]
+        elif len(r) == 3:
+            # (rep_cik, rel_cik, src)
+            u = r[0]
+            v = r[1]
+            src = str(r[2]).strip()
+            acc_dt = None
+        else:
+            continue
+
+        if src not in ("OTHERMANAGER.tsv", "OTHERMANAGER2.tsv"):
+            continue
+
+        if period is not None and acc_dt is not None:
+            if not is_pit_accepted(acc_dt, period):
+                continue
+
+        if is_valid_cik(u) and is_valid_cik(v):
+            edges.append((normalize_cik(u), normalize_cik(v)))
+
+    return edges
 
 
 def resolve_owner_component_strict(
@@ -166,14 +287,14 @@ def extract_berkshire_apple_2023q4(conn: sqlite3.Connection) -> dict[str, Any]:
     # 2. Fetch manager relationships for this accession
     cur.execute(
         """
-        SELECT accession_number, sequence_number, related_cik
+        SELECT accession_number, sequence_number, related_cik, source_table
         FROM manager_relationships
         WHERE accession_number = ?;
         """,
         (acc,),
     )
     rel_rows = cur.fetchall()
-    rel_map = {(r[0], str(r[1]).strip()): normalize_cik(r[2]) for r in rel_rows}
+    rel_map = build_line_level_manager_map(rel_rows)
 
     # 3. Fetch raw line items
     cur.execute(
@@ -213,13 +334,13 @@ def extract_berkshire_apple_2023q4(conn: sqlite3.Connection) -> dict[str, Any]:
         elif om_cat == "FREE_TEXT_NAME":
             free_text_name_rows_count += 1
 
-        # Resolve ownership using actual manager_relationships mapping
-        om_for_resolve = om_tokens[0] if om_cat == "SINGLE_NUMERIC" else str(om_raw).strip() if om_raw else None
+        # Resolve ownership using actual manager_relationships mapping under Primary policy
         owner_cik, unresolved = resolve_ownership(
-            row_other_manager=om_for_resolve if om_cat == "SINGLE_NUMERIC" else str(om_raw) if om_raw else None,
+            row_other_manager=om_raw,
             origin_filer_cik=header.origin_filer_cik,
             accession_number=acc,
             other_manager_map=rel_map,
+            policy=OwnershipPolicy.PRIMARY_EMPIRICAL_ZERO,
         )
 
         if unresolved or owner_cik is None:
@@ -339,17 +460,16 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
     )
     all_period_relationships = cur.fetchall()
 
-    # Filter on-time relationship edges
-    on_time_edges: list[tuple[str, str]] = []
-    rel_lookup: dict[tuple[str, str], str] = {}
-    rel_records_for_closure: list[dict[str, Any]] = []
+    # Line lookup map strictly from OTHERMANAGER2.tsv
+    rel_lookup = build_line_level_manager_map(all_period_relationships, period)
+    # Institutional graph edges unioning both OTHERMANAGER.tsv and OTHERMANAGER2.tsv
+    on_time_edges = build_entity_graph_edges(all_period_relationships, period)
 
+    rel_records_for_closure: list[dict[str, Any]] = []
     for acc, p_rep, rep_cik, rel_cik, rel_name, seq, src, acc_dt in all_period_relationships:
         u_norm = normalize_cik(rep_cik)
         v_norm = normalize_cik(rel_cik)
         if is_pit_accepted(acc_dt, period):
-            on_time_edges.append((u_norm, v_norm))
-            rel_lookup[(acc, str(seq).strip())] = v_norm
             rel_records_for_closure.append(
                 {
                     "accession_number": acc,
@@ -393,14 +513,31 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
     filings_raw = cur.fetchall()
 
     accessions_list: list[dict[str, Any]] = []
-    filings_by_filer: dict[str, list[tuple[FilingHeader, list[HoldingRow]]]] = defaultdict(list)
+    filings_primary: dict[str, list[tuple[FilingHeader, list[HoldingRow]]]] = defaultdict(list)
+    filings_zero_excl: dict[str, list[tuple[FilingHeader, list[HoldingRow]]]] = defaultdict(list)
+
     total_raw_line_items = 0
     on_time_confidential_filings_count = 0
     all_period_confidential_filings_count = 0
     on_time_amendment_filings_count = 0
     all_period_amendment_filings_count = 0
-    unresolved_rows_count = 0
-    unresolved_shares_total = 0
+
+    unresolved_rows_p = 0
+    unresolved_shares_p = 0
+    unresolved_value_p = 0.0
+
+    unresolved_rows_z = 0
+    unresolved_shares_z = 0
+    unresolved_value_z = 0.0
+
+    main_acc = "0001567619-20-004063"
+    main_acc_shares_p = 0
+    main_acc_value_p = 0.0
+    main_acc_lines_p = 0
+
+    main_acc_shares_z = 0
+    main_acc_value_z = 0.0
+    main_acc_lines_z = 0
 
     for acc, cik, p_rep, acc_dt, f_type, a_type, is_conf in filings_raw:
         on_time = is_pit_accepted(acc_dt, period)
@@ -453,42 +590,95 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
         li_rows = cur.fetchall()
         total_raw_line_items += len(li_rows)
 
-        h_rows: list[HoldingRow] = []
+        p_h_rows: list[HoldingRow] = []
+        z_h_rows: list[HoldingRow] = []
+
         for r in li_rows:
-            owner_cik, unresolved = resolve_ownership(
+            shrs = int(r[5])
+            val = float(r[6])
+            v_sole = int(r[9] or 0)
+            v_shared = int(r[10] or 0)
+            v_none = int(r[11] or 0)
+            ac = "SH" if (r[12] or "").lower() == "cash_equity" else str(r[12] or "SH")
+
+            # 1. Primary M0 Ownership Resolution
+            owner_p, unres_p = resolve_ownership(
                 row_other_manager=r[8],
                 origin_filer_cik=header.origin_filer_cik,
                 accession_number=acc,
                 other_manager_map=rel_lookup,
+                policy=OwnershipPolicy.PRIMARY_EMPIRICAL_ZERO,
             )
-            if unresolved or owner_cik is None:
-                unresolved_rows_count += 1
-                unresolved_shares_total += int(r[5])
+            if unres_p or owner_p is None:
+                unresolved_rows_p += 1
+                unresolved_shares_p += shrs
+                unresolved_value_p += val
 
-            h_item = HoldingRow(
+            p_item = HoldingRow(
                 accession_number=acc,
                 origin_filer_cik=header.origin_filer_cik,
                 period_of_report=period,
                 cusip=r[2],
-                asset_class="SH" if (r[12] or "").lower() == "cash_equity" else str(r[12] or "SH"),
-                economic_owner_cik=owner_cik,
-                ownership_unresolved=unresolved,
-                total_shares=int(r[5]),
-                total_value_usd=float(r[6]),
-                total_vote_sole=int(r[9] or 0),
-                total_vote_shared=int(r[10] or 0),
-                total_vote_none=int(r[11] or 0),
+                asset_class=ac,
+                economic_owner_cik=owner_p,
+                ownership_unresolved=unres_p,
+                total_shares=shrs,
+                total_value_usd=val,
+                total_vote_sole=v_sole,
+                total_vote_shared=v_shared,
+                total_vote_none=v_none,
             )
-            h_item.validate()
-            h_rows.append(h_item)
+            p_item.validate()
+            p_h_rows.append(p_item)
 
-        filings_by_filer[header.origin_filer_cik].append((header, h_rows))
+            if acc == main_acc and not unres_p and owner_p is not None:
+                main_acc_shares_p += shrs
+                main_acc_value_p += val
+                main_acc_lines_p += 1
 
-    # Reconstruct state per filer and deduplicate intra-entity
-    all_reconstructed: list[dict[str, Any]] = []
-    cross_component_excluded_count = 0
+            # 2. Zero-Excluded Sensitivity Resolution (Pre-Aggregation)
+            owner_z, unres_z = resolve_ownership(
+                row_other_manager=r[8],
+                origin_filer_cik=header.origin_filer_cik,
+                accession_number=acc,
+                other_manager_map=rel_lookup,
+                policy=OwnershipPolicy.ZERO_SENTINEL_EXCLUDED,
+            )
+            if unres_z or owner_z is None:
+                unresolved_rows_z += 1
+                unresolved_shares_z += shrs
+                unresolved_value_z += val
 
-    for f_cik, f_list in filings_by_filer.items():
+            z_item = HoldingRow(
+                accession_number=acc,
+                origin_filer_cik=header.origin_filer_cik,
+                period_of_report=period,
+                cusip=r[2],
+                asset_class=ac,
+                economic_owner_cik=owner_z,
+                ownership_unresolved=unres_z,
+                total_shares=shrs,
+                total_value_usd=val,
+                total_vote_sole=v_sole,
+                total_vote_shared=v_shared,
+                total_vote_none=v_none,
+            )
+            z_item.validate()
+            z_h_rows.append(z_item)
+
+            if acc == main_acc and not unres_z and owner_z is not None:
+                main_acc_shares_z += shrs
+                main_acc_value_z += val
+                main_acc_lines_z += 1
+
+        filings_primary[header.origin_filer_cik].append((header, p_h_rows))
+        filings_zero_excl[header.origin_filer_cik].append((header, z_h_rows))
+
+    # Reconstruct state per filer for Primary M0
+    all_reconstructed_p: list[dict[str, Any]] = []
+    cross_component_excluded_count_p = 0
+
+    for f_cik, f_list in filings_primary.items():
         state, meta = reconstruct_filer_state(f_list, period)
         if meta["amendment_unresolved"]:
             continue
@@ -498,10 +688,10 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
 
             owner_comp = comp_map.get(econ_owner)
             if owner_comp is None or owner_comp != p72_canonical_id:
-                cross_component_excluded_count += 1
+                cross_component_excluded_count_p += 1
                 continue
 
-            all_reconstructed.append(
+            all_reconstructed_p.append(
                 {
                     "canonical_entity_id": p72_canonical_id,
                     "origin_filer_cik": f_cik,
@@ -517,9 +707,47 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
                 }
             )
 
-    deduped_holdings = deduplicate_entity_disclosures(
+    deduped_holdings_p = deduplicate_entity_disclosures(
         canonical_entity_id=p72_canonical_id,
-        holdings=all_reconstructed,
+        holdings=all_reconstructed_p,
+    )
+
+    # Reconstruct state per filer for Zero-Excluded Sensitivity
+    all_reconstructed_z: list[dict[str, Any]] = []
+    cross_component_excluded_count_z = 0
+
+    for f_cik, f_list in filings_zero_excl.items():
+        state, meta = reconstruct_filer_state(f_list, period)
+        if meta["amendment_unresolved"]:
+            continue
+        for (c_cusip, asset_class, econ_owner), h_data in state.items():
+            if econ_owner is None:
+                continue
+
+            owner_comp = comp_map.get(econ_owner)
+            if owner_comp is None or owner_comp != p72_canonical_id:
+                cross_component_excluded_count_z += 1
+                continue
+
+            all_reconstructed_z.append(
+                {
+                    "canonical_entity_id": p72_canonical_id,
+                    "origin_filer_cik": f_cik,
+                    "cusip": c_cusip,
+                    "period_of_report": period,
+                    "asset_class": asset_class,
+                    "economic_owner_cik": econ_owner,
+                    "total_shares": h_data["total_shares"],
+                    "total_value_usd": h_data["total_value_usd"],
+                    "total_vote_sole": h_data["total_vote_sole"],
+                    "total_vote_shared": h_data["total_vote_shared"],
+                    "total_vote_none": h_data["total_vote_none"],
+                }
+            )
+
+    deduped_holdings_z = deduplicate_entity_disclosures(
+        canonical_entity_id=p72_canonical_id,
+        holdings=all_reconstructed_z,
     )
 
     return {
@@ -533,16 +761,50 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
         "accessions": accessions_list,
         "manager_relationships_count": len(p72_relationships),
         "manager_relationships": p72_relationships,
+        "source_tables_breakdown": {
+            "line_lookup_source_table": "OTHERMANAGER2.tsv only",
+            "graph_edges_source_tables": "OTHERMANAGER.tsv and OTHERMANAGER2.tsv union",
+            "line_map_entries_count": len(rel_lookup),
+            "graph_edges_count": len(on_time_edges),
+        },
         "total_raw_line_items": total_raw_line_items,
-        "reconstructed_disclosures_count": len(all_reconstructed),
-        "intra_entity_deduped_holdings_count": len(deduped_holdings),
         "on_time_confidential_filings_count": on_time_confidential_filings_count,
         "all_period_confidential_filings_count": all_period_confidential_filings_count,
         "on_time_amendment_filings_count": on_time_amendment_filings_count,
         "all_period_amendment_filings_count": all_period_amendment_filings_count,
-        "unresolved_rows_count": unresolved_rows_count,
-        "unresolved_shares_total": unresolved_shares_total,
-        "cross_component_excluded_count": cross_component_excluded_count,
+        "cross_component_excluded_count": cross_component_excluded_count_p,
+        "primary_m0": {
+            "raw_line_items_count": total_raw_line_items,
+            "unresolved_rows_count": unresolved_rows_p,
+            "unresolved_shares_total": unresolved_shares_p,
+            "unresolved_value_total": unresolved_value_p,
+            "reconstructed_disclosures_count": len(all_reconstructed_p),
+            "intra_entity_deduped_holdings_count": len(deduped_holdings_p),
+            "duplicate_disclosures_removed_count": len(all_reconstructed_p) - len(deduped_holdings_p),
+            "total_shares_deduped": sum(h["total_shares"] for h in deduped_holdings_p),
+            "total_value_usd_deduped": sum(h["total_value_usd"] for h in deduped_holdings_p),
+            "main_accession_shares_before_dedup": main_acc_shares_p,
+            "main_accession_value_before_dedup": main_acc_value_p,
+            "main_accession_raw_lines_retained": main_acc_lines_p,
+        },
+        "zero_excluded_sensitivity": {
+            "raw_line_items_count": total_raw_line_items,
+            "unresolved_rows_count": unresolved_rows_z,
+            "unresolved_shares_total": unresolved_shares_z,
+            "unresolved_value_total": unresolved_value_z,
+            "reconstructed_disclosures_count": len(all_reconstructed_z),
+            "intra_entity_deduped_holdings_count": len(deduped_holdings_z),
+            "duplicate_disclosures_removed_count": len(all_reconstructed_z) - len(deduped_holdings_z),
+            "total_shares_deduped": sum(h["total_shares"] for h in deduped_holdings_z),
+            "total_value_usd_deduped": sum(h["total_value_usd"] for h in deduped_holdings_z),
+            "main_accession_shares_before_dedup": main_acc_shares_z,
+            "main_accession_value_before_dedup": main_acc_value_z,
+            "main_accession_raw_lines_retained": main_acc_lines_z,
+        },
+        "reconstructed_disclosures_count": len(all_reconstructed_p),
+        "intra_entity_deduped_holdings_count": len(deduped_holdings_p),
+        "unresolved_rows_count": unresolved_rows_p,
+        "unresolved_shares_total": unresolved_shares_p,
     }
 
 
@@ -606,18 +868,16 @@ def extract_split_pilot_pair(
     for p in [q_prev, q_curr]:
         cur.execute(
             """
-            SELECT mr.accession_number, mr.reporter_cik, mr.related_cik, mr.sequence_number, fe.acceptance_datetime
+            SELECT mr.accession_number, mr.reporter_cik, mr.related_cik, mr.sequence_number, mr.source_table, fe.acceptance_datetime
             FROM manager_relationships mr
             JOIN filing_events fe ON mr.accession_number = fe.accession_number
             WHERE mr.period_of_report = ? AND fe.form_type IN ('13F-HR', '13F-HR/A');
             """,
             (p,),
         )
-        for acc, u, v, seq, acc_dt in cur.fetchall():
-            if is_pit_accepted(acc_dt, p):
-                u_norm, v_norm = normalize_cik(u), normalize_cik(v)
-                on_time_edges.add((u_norm, v_norm))
-                rel_map[(acc, str(seq).strip())] = v_norm
+        all_rel_rows = cur.fetchall()
+        rel_map.update(build_line_level_manager_map(all_rel_rows, p))
+        on_time_edges.update(build_entity_graph_edges(all_rel_rows, p))
 
     # Step 3: Build unified connected components G(Q-1, Q) with all on-time 13F-HR filers
     all_on_time_filers = on_time_filers[q_prev] | on_time_filers[q_curr]
@@ -715,14 +975,12 @@ def extract_split_pilot_pair(
 
             for r in acc_lines:
                 om_raw = r[6]
-                om_cat, om_tokens = classify_other_manager(om_raw)
-
-                om_for_resolve = om_tokens[0] if om_cat == "SINGLE_NUMERIC" else str(om_raw).strip() if om_raw else None
                 owner_cik, unresolved = resolve_ownership(
-                    row_other_manager=om_for_resolve if om_cat == "SINGLE_NUMERIC" else str(om_raw) if om_raw else None,
+                    row_other_manager=om_raw,
                     origin_filer_cik=header.origin_filer_cik,
                     accession_number=acc,
                     other_manager_map=rel_map,
+                    policy=OwnershipPolicy.PRIMARY_EMPIRICAL_ZERO,
                 )
                 if unresolved or owner_cik is None:
                     unresolved_rows_count[period] += 1
@@ -967,7 +1225,7 @@ def run_full_c1_discovery(db_path: str | Path) -> dict[str, Any]:
     t_total = time.time() - t0
 
     return {
-        "status": "STAGE C PART C1 DISCOVERY UNDER CODEX AUDIT",
+        "status": "STAGE C PART C1 DISCOVERY UNDER CODEX RE-AUDIT",
         "created_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "total_execution_time_sec": round(t_total, 3),
         "preflight": preflight,

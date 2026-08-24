@@ -42,6 +42,7 @@ from research.smart_money.m0.src.ownership_state_machine import (
     is_valid_cik,
     normalize_cik,
     resolve_ownership,
+    OwnershipPolicy,
     parse_datetime_to_utc,
     FilingHeader,
     HoldingRow,
@@ -161,6 +162,13 @@ def test_storage_guard_schema_init(tmp_path: Path):
     cur.execute("PRAGMA table_info(m0_signals);")
     sig_cols = {row[1]: row[2] for row in cur.fetchall()}
     assert sig_cols == {
+        "primary_stock_id": "TEXT",
+        "period_of_report": "TEXT",
+        "m0_signal": "REAL",
+    }
+    cur.execute("PRAGMA table_info(m0_signals_zero_excluded);")
+    sig_zero_cols = {row[1]: row[2] for row in cur.fetchall()}
+    assert sig_zero_cols == {
         "primary_stock_id": "TEXT",
         "period_of_report": "TEXT",
         "m0_signal": "REAL",
@@ -420,7 +428,7 @@ def test_holding_row_semantic_invariants_and_direct_aggregation():
 
 
 def test_resolve_ownership_keyed_by_accession_and_seq():
-    """Test economic ownership resolution keyed by (accession_number, sequence)."""
+    """Test economic ownership resolution keyed by (accession_number, sequence) under Contract v0.8.2."""
     filer_cik = "0000012345"
     acc1 = "0000012345-24-000001"
     acc2 = "0000012345-24-000002"
@@ -429,14 +437,34 @@ def test_resolve_ownership_keyed_by_accession_and_seq():
         (acc2, "1"): "0000077777",
     }
 
-    owner, unresolved = resolve_ownership(None, filer_cik, acc1, om_map)
-    assert owner == normalize_cik(filer_cik) and unresolved is False
+    # 1. Primary origin sentinels (None, blank, N/A, exact "0" under Primary)
+    for sent in [None, "", "   ", "N/A", "n/a", "0"]:
+        owner, unresolved = resolve_ownership(sent, filer_cik, acc1, om_map, policy=OwnershipPolicy.PRIMARY_EMPIRICAL_ZERO)
+        assert owner == normalize_cik(filer_cik) and unresolved is False
 
+    # 2. ZERO_SENTINEL_EXCLUDED policy: exact "0" is unresolved, while None/blank/N-A remain origin sentinels
+    owner, unresolved = resolve_ownership("0", filer_cik, acc1, om_map, policy=OwnershipPolicy.ZERO_SENTINEL_EXCLUDED)
+    assert owner is None and unresolved is True
+
+    for sent in [None, "", "N/A", "n/a"]:
+        owner, unresolved = resolve_ownership(sent, filer_cik, acc1, om_map, policy=OwnershipPolicy.ZERO_SENTINEL_EXCLUDED)
+        assert owner == normalize_cik(filer_cik) and unresolved is False
+
+    # 3. Positive integer sequence lookups
     owner, unresolved = resolve_ownership("1", filer_cik, acc1, om_map)
     assert owner == normalize_cik("0000099999") and unresolved is False
 
     owner, unresolved = resolve_ownership("1", filer_cik, acc2, om_map)
     assert owner == normalize_cik("0000077777") and unresolved is False
+
+    # Unmapped sequence
+    owner, unresolved = resolve_ownership("2", filer_cik, acc1, om_map)
+    assert owner is None and unresolved is True
+
+    # 4. Dirty variants and free text: strictly unresolved
+    for dirty in ["NONE", "NA", "NOT APPLICABLE", "N / A", "00", "0.0", "1,2", "Blue Chip Partners LLC"]:
+        owner, unresolved = resolve_ownership(dirty, filer_cik, acc1, om_map)
+        assert owner is None and unresolved is True
 
 
 def test_reconstruct_filer_state_form_validation_and_invalidation():

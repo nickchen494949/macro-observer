@@ -6,6 +6,8 @@ import sqlite3
 import pytest
 
 from research.smart_money.m0.src.pilot_extractor import (
+    build_entity_graph_edges,
+    build_line_level_manager_map,
     check_source_db_preflight,
     classify_other_manager,
     extract_berkshire_apple_2023q4,
@@ -93,11 +95,16 @@ def _init_synthetic_phase0_db(db_path: Path) -> sqlite3.Connection:
 
 
 def test_classify_other_manager_robustness():
-    """Test robust classification of other_manager into blank, single numeric, multi-numeric, and free-text name."""
+    """Test robust classification of other_manager into blank, official N/A, zero sentinel, single numeric, multi-numeric, and free-text name."""
     assert classify_other_manager(None) == ("BLANK", [])
     assert classify_other_manager("") == ("BLANK", [])
     assert classify_other_manager("   ") == ("BLANK", [])
 
+    assert classify_other_manager("N/A") == ("OFFICIAL_NA", ["N/A"])
+    assert classify_other_manager("n/a") == ("OFFICIAL_NA", ["N/A"])
+    assert classify_other_manager("N/a") == ("OFFICIAL_NA", ["N/A"])
+
+    assert classify_other_manager("0") == ("ZERO_SENTINEL", ["0"])
     assert classify_other_manager("4") == ("SINGLE_NUMERIC", ["4"])
     assert classify_other_manager("193370") == ("SINGLE_NUMERIC", ["193370"])
 
@@ -107,9 +114,35 @@ def test_classify_other_manager_robustness():
     assert classify_other_manager("1, 4") == ("MULTI_NUMERIC_LIST", ["1", "4"])
     assert classify_other_manager("2, 3, 4, 7, 10") == ("MULTI_NUMERIC_LIST", ["2", "3", "4", "7", "10"])
 
-    # Free-text names with spaces (must NOT be classified as multi-sequence list)
+    # Dirty variants & free text
+    assert classify_other_manager("00") == ("FREE_TEXT_NAME", ["00"])
+    assert classify_other_manager("0.0") == ("FREE_TEXT_NAME", ["0.0"])
+    assert classify_other_manager("NONE") == ("FREE_TEXT_NAME", ["NONE"])
+    assert classify_other_manager("NA") == ("FREE_TEXT_NAME", ["NA"])
+    assert classify_other_manager("NOT APPLICABLE") == ("FREE_TEXT_NAME", ["NOT", "APPLICABLE"])
+    assert classify_other_manager("N / A") == ("FREE_TEXT_NAME", ["N", "/", "A"])
     assert classify_other_manager("Blue Chip Partners LLC") == ("FREE_TEXT_NAME", ["Blue", "Chip", "Partners", "LLC"])
     assert classify_other_manager("PARAMETRIC PORTFOLIO ASSOCIATES LLC") == ("FREE_TEXT_NAME", ["PARAMETRIC", "PORTFOLIO", "ASSOCIATES", "LLC"])
+
+
+def test_build_line_level_manager_map_ignores_othermanager_surrogate_keys():
+    """Test that build_line_level_manager_map strictly queries OTHERMANAGER2.tsv and ignores OTHERMANAGER.tsv."""
+    rows = [
+        # OTHERMANAGER.tsv surrogate key
+        {"accession_number": "ACC_001", "sequence_number": "1", "related_cik": "0000099999", "source_table": "OTHERMANAGER.tsv"},
+        # OTHERMANAGER2.tsv actual line sequence
+        {"accession_number": "ACC_001", "sequence_number": "1", "related_cik": "0000022222", "source_table": "OTHERMANAGER2.tsv"},
+    ]
+
+    line_map = build_line_level_manager_map(rows)
+    assert line_map == {("ACC_001", "1"): "0000022222"}
+
+    # Entity graph edges must include both
+    graph_edges = build_entity_graph_edges([
+        {"reporter_cik": "0000011111", "related_cik": "0000099999", "source_table": "OTHERMANAGER.tsv"},
+        {"reporter_cik": "0000011111", "related_cik": "0000022222", "source_table": "OTHERMANAGER2.tsv"},
+    ])
+    assert sorted(graph_edges) == [("0000011111", "0000022222"), ("0000011111", "0000099999")]
 
 
 def test_resolve_owner_component_strict_pure_helper_and_old_default_failure():
@@ -263,6 +296,10 @@ def test_point72_discovery_real_timestamps_and_unknown_owner_handling(tmp_path: 
     assert res["component_closed_ciks"] == ["0001599822", "0001603466"]
     assert res["unresolved_rows_count"] == 1
     assert res["unresolved_shares_total"] == 5000
+    assert res["primary_m0"]["unresolved_rows_count"] == 1
+    assert res["primary_m0"]["unresolved_shares_total"] == 5000
+    assert res["zero_excluded_sensitivity"]["unresolved_rows_count"] == 1
+    assert res["source_tables_breakdown"]["line_lookup_source_table"] == "OTHERMANAGER2.tsv only"
     assert res["manager_relationships"][0]["acceptance_datetime"] == "2020-02-14T16:47:23.000Z"
 
 
@@ -321,13 +358,13 @@ def test_two_filer_component_intra_entity_dedup_in_split_pair(tmp_path: Path):
             (f"ACC_CURR_{i}", cusip),
         )
 
-    # Add relationship connecting CIK 1 and CIK 2
+    # Add relationship connecting CIK 1 and CIK 2 in OTHERMANAGER2.tsv for line lookup
     conn.execute(
-        "INSERT INTO manager_relationships (accession_number, period_of_report, reporter_cik, related_cik, sequence_number, source_table) VALUES (?, ?, '0000000002', '0000000001', '1', 'OTHERMANAGER.tsv');",
+        "INSERT INTO manager_relationships (accession_number, period_of_report, reporter_cik, related_cik, sequence_number, source_table) VALUES (?, ?, '0000000002', '0000000001', '1', 'OTHERMANAGER2.tsv');",
         ("ACC_PREV_2", q_prev),
     )
     conn.execute(
-        "INSERT INTO manager_relationships (accession_number, period_of_report, reporter_cik, related_cik, sequence_number, source_table) VALUES (?, ?, '0000000002', '0000000001', '1', 'OTHERMANAGER.tsv');",
+        "INSERT INTO manager_relationships (accession_number, period_of_report, reporter_cik, related_cik, sequence_number, source_table) VALUES (?, ?, '0000000002', '0000000001', '1', 'OTHERMANAGER2.tsv');",
         ("ACC_CURR_2", q_curr),
     )
 
@@ -651,7 +688,7 @@ def test_13f_nt_exclusion_from_holdings_and_graph(tmp_path: Path):
 def test_format_markdown_report_contains_point72_and_section5_metrics():
     """Test format_markdown_report produces visible Point72 unresolved/on-time counts and Section 5 free-text metrics."""
     mock_data = {
-        "status": "STAGE C PART C1 DISCOVERY UNDER CODEX AUDIT",
+        "status": "STAGE C PART C1 DISCOVERY UNDER CODEX RE-AUDIT",
         "created_utc": "2026-08-24T12:00:00Z",
         "total_execution_time_sec": 1.234,
         "preflight": {
@@ -690,17 +727,45 @@ def test_format_markdown_report_contains_point72_and_section5_metrics():
             "component_closed_ciks": ["0001599822"],
             "accessions_count": 4,
             "manager_relationships_count": 6,
+            "source_tables_breakdown": {
+                "line_lookup_source_table": "OTHERMANAGER2.tsv only",
+                "graph_edges_source_tables": "OTHERMANAGER.tsv and OTHERMANAGER2.tsv union",
+                "line_map_entries_count": 6,
+                "graph_edges_count": 6,
+            },
             "total_raw_line_items": 4457,
-            "reconstructed_disclosures_count": 3540,
-            "intra_entity_deduped_holdings_count": 3540,
-            "unresolved_rows_count": 917,
-            "unresolved_shares_total": 418109088,
             "on_time_confidential_filings_count": 0,
             "all_period_confidential_filings_count": 0,
             "on_time_amendment_filings_count": 0,
             "all_period_amendment_filings_count": 0,
             "cross_component_excluded_count": 0,
             "execution_time_sec": 0.45,
+            "primary_m0": {
+                "raw_line_items_count": 4457,
+                "unresolved_rows_count": 0,
+                "unresolved_shares_total": 0,
+                "unresolved_value_total": 0.0,
+                "reconstructed_disclosures_count": 4457,
+                "intra_entity_deduped_holdings_count": 4457,
+                "total_shares_deduped": 563789558,
+                "total_value_usd_deduped": 25013024000.0,
+                "main_accession_shares_before_dedup": 418109088,
+                "main_accession_value_before_dedup": 19018144000.0,
+                "main_accession_raw_lines_retained": 917,
+            },
+            "zero_excluded_sensitivity": {
+                "raw_line_items_count": 4457,
+                "unresolved_rows_count": 917,
+                "unresolved_shares_total": 418109088,
+                "unresolved_value_total": 19018144000.0,
+                "reconstructed_disclosures_count": 3540,
+                "intra_entity_deduped_holdings_count": 3540,
+                "total_shares_deduped": 145680470,
+                "total_value_usd_deduped": 5994880000.0,
+                "main_accession_shares_before_dedup": 0,
+                "main_accession_value_before_dedup": 0.0,
+                "main_accession_raw_lines_retained": 0,
+            },
             "accessions": [],
             "manager_relationships": [],
         },
@@ -749,10 +814,13 @@ def test_format_markdown_report_contains_point72_and_section5_metrics():
 
     md = format_markdown_report(mock_data)
     # Check Evidence B fields
-    assert "Unresolved Rows Count**: 917" in md
-    assert "Unresolved Shares Total**: 418,109,088" in md
+    assert "Point72 2019Q4 Multi-Manager Discovery" in md
+    assert "Line-Level Sequence Lookup Source" in md
+    assert "OTHERMANAGER2.tsv only" in md
+    assert "ZERO_SENTINEL_EXCLUDED (Pre-Aggregation)" in md
     assert "On-Time Confidential Filings**: 0" in md
     # Check Section 5 header and free text column
     assert "## 5. Real-Data Assumption Discovery: Multi-Manager Sequences and Free-Text Manager Names" in md
     assert "Q-1 Free-Text Rows" in md
     assert "Blue Chip Partners LLC" in md
+    assert "## 7. C1 Implementation Audit & Contract v0.8.2 Reconciliation" in md

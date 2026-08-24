@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
+import enum
 import math
 import re
 from typing import Any
@@ -199,38 +200,82 @@ def is_pit_accepted(acceptance_datetime: str, period_of_report: str) -> bool:
     return eastern_date_str <= deadline_str
 
 
+class OwnershipPolicy(str, enum.Enum):
+    """Deterministic ownership resolution policies under Contract v0.8.2."""
+    PRIMARY_EMPIRICAL_ZERO = "PRIMARY_EMPIRICAL_ZERO"
+    ZERO_SENTINEL_EXCLUDED = "ZERO_SENTINEL_EXCLUDED"
+
+
 def resolve_ownership(
     row_other_manager: str | None,
     origin_filer_cik: str,
     accession_number: str,
     other_manager_map: dict[tuple[str, str], str] | None = None,
+    policy: OwnershipPolicy | str = OwnershipPolicy.PRIMARY_EMPIRICAL_ZERO,
 ) -> tuple[str | None, bool]:
-    """Resolve economic owner CIK from row's other_manager sequence keyed by (accession_number, sequence).
+    """Resolve economic owner CIK from row's other_manager under Contract v0.8.2 rules.
+
+    Primary Origin Sentinels:
+    - None (NULL) -> origin_filer_cik, False
+    - "" (empty string) -> origin_filer_cik, False
+    - "N/A" (case-insensitive exact, per SEC Form 13F FAQ Q48/Q49) -> origin_filer_cik, False
+    - "0" (exact string):
+        - If policy == PRIMARY_EMPIRICAL_ZERO: -> origin_filer_cik, False
+        - If policy == ZERO_SENTINEL_EXCLUDED: -> None, True (unresolved/excluded)
+
+    Positive Integer Sequences:
+    - If sequence is a strictly positive integer (> 0, e.g. "1", "2", "602", rejecting "0", "00", "0.0"):
+        Look up in other_manager_map[(accession_number, str(int(s)))]
+        If mapped and is_valid_cik: -> normalize_cik(mapped), False
+        Otherwise -> None, True
+
+    Dirty Variants & Non-Canonical Strings:
+    - "NONE", "NA", "NOT APPLICABLE", "N / A", "00", "0.0", multi-numeric lists, free-text names -> None, True
 
     Returns:
         (economic_owner_cik, ownership_unresolved)
     """
+    if isinstance(policy, str):
+        try:
+            policy = OwnershipPolicy(policy)
+        except ValueError:
+            raise ValueError(f"Invalid OwnershipPolicy: {policy!r}")
+
     norm_filer = normalize_cik(origin_filer_cik)
-
-    if row_other_manager is None:
-        return norm_filer, False
-
-    seq_str = str(row_other_manager).strip()
-    if not seq_str:
-        return norm_filer, False
-
     acc_str = str(accession_number).strip()
     if not acc_str:
         raise ValueError("accession_number must be non-empty for ownership resolution.")
 
-    if other_manager_map is not None:
-        mapped_cik = other_manager_map.get((acc_str, seq_str))
-        if mapped_cik is None and seq_str.isdigit():
-            mapped_cik = other_manager_map.get((acc_str, str(int(seq_str))))
+    if row_other_manager is None:
+        return norm_filer, False
 
-        if mapped_cik is not None and is_valid_cik(mapped_cik):
-            return normalize_cik(mapped_cik), False
+    s = str(row_other_manager).strip()
+    if not s:
+        return norm_filer, False
 
+    # 1. Official SEC FAQ Q48/Q49 sentinel: exact case-normalized "N/A"
+    if s.upper() == "N/A":
+        return norm_filer, False
+
+    # 2. Empirical zero sentinel: exact string "0"
+    if s == "0":
+        if policy == OwnershipPolicy.PRIMARY_EMPIRICAL_ZERO:
+            return norm_filer, False
+        else:  # ZERO_SENTINEL_EXCLUDED
+            return None, True
+
+    # 3. Single strictly positive integer sequence (> 0)
+    # Must be all digits, int > 0, and exact string representation (rejecting "00", "01", etc. or "0.0")
+    if s.isdigit():
+        val = int(s)
+        if val > 0 and str(val) == s:
+            if other_manager_map is not None:
+                mapped_cik = other_manager_map.get((acc_str, s))
+                if mapped_cik is not None and is_valid_cik(mapped_cik):
+                    return normalize_cik(mapped_cik), False
+            return None, True
+
+    # 4. Dirty variants ("NONE", "NA", "NOT APPLICABLE", "N / A", "00", "0.0", multi-numeric, free text)
     return None, True
 
 

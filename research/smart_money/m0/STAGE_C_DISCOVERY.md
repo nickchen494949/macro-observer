@@ -1,8 +1,8 @@
 # M0 Stage C Part C1 Pilot Discovery Report
 
-> **Status**: `STAGE C PART C1 DISCOVERY UNDER CODEX AUDIT`
-> **Generated UTC**: `2026-08-24T07:02:40Z`
-> **Total Execution Time**: `106.361s`
+> **Status**: `STAGE C PART C1 DISCOVERY UNDER CODEX RE-AUDIT`<br>
+> **Generated UTC**: `2026-08-24T07:54:51Z`<br>
+> **Total Execution Time**: `105.32s`
 
 ---
 
@@ -56,7 +56,7 @@
 
 ---
 
-## 3. Evidence B: Point72 2019Q4 Multi-Manager Discovery (Proposed Fixture)
+## 3. Evidence B: Point72 2019Q4 Multi-Manager Discovery & v0.8.2 Reconciliation
 
 - **Status**: `PROPOSED PENDING CODEX MANUAL FREEZE`
 - **Entity Name**: `Point72 Asset Management`
@@ -66,15 +66,29 @@
 - **Graph Closed CIKs (Connected Component)**: `['0001599822', '0001603465', '0001603466', '0001698051']`
 - **Total Accessions in Component**: 4
 - **Manager Relationships in Component**: 6
-- **Total Raw Line Items**: 4,457
-- **Reconstructed Disclosures**: 3,540
-- **Intra-Entity Deduplicated Holdings**: 3,540
-- **Unresolved Rows Count**: 917
-- **Unresolved Shares Total**: 418,109,088
+- **Total Raw Line Items Across Component**: 4,457
 - **On-Time Confidential Filings**: 0 / **All-Period Confidential Filings**: 0
 - **On-Time Amendment Filings**: 0 / **All-Period Amendment Filings**: 0
-- **Cross-Component Excluded Disclosures**: 0
-- **Execution Time**: 0.463s
+- **Execution Time**: 0.543s
+
+### Source Tables Disambiguation Disclosure
+- **Line-Level Sequence Lookup Source**: `OTHERMANAGER2.tsv only` (1566 sequence mappings)
+- **Entity Graph Affiliation Edges Source**: `OTHERMANAGER.tsv and OTHERMANAGER2.tsv union` (2283 undirected edges)
+
+### Point72 Policy Comparison: Primary M0 vs ZERO_SENTINEL_EXCLUDED Sensitivity
+
+| Metric / Pipeline Stage | Primary M0 (Empirical Zero Origin) | ZERO_SENTINEL_EXCLUDED (Pre-Aggregation) | Delta |
+| :--- | :---: | :---: | :---: |
+| **Raw Line Items Count** | 4,457 | 4,457 | 0 |
+| **Main Filing (0001567619-20-004063) Raw Rows Retained** | **917** | **0** | -917 |
+| **Main Filing Shares Before Dedup** | **418,109,088** | **0** | -418,109,088 |
+| **Main Filing Value USD Before Dedup** | **$19,018,144,000** | **$0** | -$19,018,144,000 |
+| **Unresolved Rows Count** | 0 | 917 | +917 |
+| **Unresolved Shares Total** | 0 | 418,109,088 | +418,109,088 |
+| **Reconstructed Disclosures Count** | 4,457 | 3,540 | -917 |
+| **Intra-Entity Deduplicated Holdings** | 4,457 | 3,540 | -917 |
+| **Total Shares Deduplicated** | **563,789,558** | **145,680,470** | -418,109,088 |
+| **Total Value USD Deduplicated** | **$25,013,024,000** | **$5,994,880,000** | -$19,018,144,000 |
 
 ### Accessions and Filing Events (Actual PIT Timestamps)
 
@@ -87,14 +101,14 @@
 
 ### Manager Relationships & Sequence Mappings (Actual PIT Timestamps)
 
-| Accession Number | Reporter CIK | Seq # | Related CIK | Related Name | Actual Acceptance Datetime |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| `0001567619-20-004063` | `0001603466` | 32422 | `0001599822` | Point72 Hong Kong Ltd | `2020-02-14T21:44:41.000Z` |
-| `0001567619-20-004063` | `0001603466` | 32423 | `0001698051` | Point72 Europe (London) LLP | `2020-02-14T21:44:41.000Z` |
-| `0001567619-20-004063` | `0001603466` | 32421 | `0001603465` | Cubist Systematic Strategies, LLC | `2020-02-14T21:44:41.000Z` |
-| `0001567619-20-004066` | `0001599822` | 1 | `0001603466` | Point72 Asset Management, L.P. | `2020-02-14T16:47:23.000Z` |
-| `0001567619-20-004064` | `0001603465` | 1 | `0001603466` | Point72 Asset Management, L.P. | `2020-02-14T16:45:49.000Z` |
-| `0001567619-20-004060` | `0001698051` | 1 | `0001603466` | Point72 Asset Management, L.P. | `2020-02-14T16:42:30.000Z` |
+| Accession Number | Reporter CIK | Seq # | Related CIK | Related Name | Source Table | Actual Acceptance Datetime |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `0001567619-20-004063` | `0001603466` | 32422 | `0001599822` | Point72 Hong Kong Ltd | `OTHERMANAGER.tsv` | `2020-02-14T21:44:41.000Z` |
+| `0001567619-20-004063` | `0001603466` | 32423 | `0001698051` | Point72 Europe (London) LLP | `OTHERMANAGER.tsv` | `2020-02-14T21:44:41.000Z` |
+| `0001567619-20-004063` | `0001603466` | 32421 | `0001603465` | Cubist Systematic Strategies, LLC | `OTHERMANAGER.tsv` | `2020-02-14T21:44:41.000Z` |
+| `0001567619-20-004066` | `0001599822` | 1 | `0001603466` | Point72 Asset Management, L.P. | `OTHERMANAGER2.tsv` | `2020-02-14T16:47:23.000Z` |
+| `0001567619-20-004064` | `0001603465` | 1 | `0001603466` | Point72 Asset Management, L.P. | `OTHERMANAGER2.tsv` | `2020-02-14T16:45:49.000Z` |
+| `0001567619-20-004060` | `0001698051` | 1 | `0001603466` | Point72 Asset Management, L.P. | `OTHERMANAGER2.tsv` | `2020-02-14T16:42:30.000Z` |
 
 ---
 
@@ -102,10 +116,10 @@
 
 | Symbol | CUSIP | Quarter Pair | Split Factor | Ex-Date | Continuous Entities | Raw Median | MAD_log | Adj Median | State | Action | Pass [0.8, 1.2] |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **NVDA** | `67066G104` | 2024-03-31 $\to$ 2024-06-30 | 10.0 | 2024-06-10 | 2758 | 10.0132 | 0.0717 | 1.0013 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
-| **TSLA** | `88160R101` | 2022-06-30 $\to$ 2022-09-30 | 3.0 | 2022-08-25 | 1473 | 3.0 | 0.0432 | 1.0 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
-| **AMZN** | `023135106` | 2022-03-31 $\to$ 2022-06-30 | 20.0 | 2022-06-06 | 2451 | 20.2247 | 0.0596 | 1.0112 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
-| **GOOGL** | `02079K305` | 2022-06-30 $\to$ 2022-09-30 | 20.0 | 2022-07-18 | 2102 | 20.0 | 0.035 | 1.0 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
+| **NVDA** | `67066G104` | 2024-03-31 $\to$ 2024-06-30 | 10.0 | 2024-06-10 | 3169 | 10.021 | 0.0712 | 1.0021 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
+| **TSLA** | `88160R101` | 2022-06-30 $\to$ 2022-09-30 | 3.0 | 2022-08-25 | 1694 | 3.0 | 0.0436 | 1.0 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
+| **AMZN** | `023135106` | 2022-03-31 $\to$ 2022-06-30 | 20.0 | 2022-06-06 | 2776 | 20.2309 | 0.0595 | 1.0115 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
+| **GOOGL** | `02079K305` | 2022-06-30 $\to$ 2022-09-30 | 20.0 | 2022-07-18 | 2409 | 20.0 | 0.035 | 1.0 | `KNOWN_SPLIT_PASS` | `INCLUDE` | **PASS** |
 
 ### Before vs After Entity Graph G(Q-1, Q) Impact Comparison
 
@@ -113,19 +127,19 @@ The table below contrasts the naive filer grouping against the true $G(Q-1, Q)$ 
 
 | Symbol | Naive Filer Grouping N | True Graph $G(Q-1, Q)$ N | Delta N (%) | Raw Median | Adj Median | State | Pass [0.8, 1.2] |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **NVDA** | 3,366 | 2,758 | -608 (-18.1%) | 10.0132 | 1.0013 | `KNOWN_SPLIT_PASS` | **PASS** |
-| **TSLA** | 1,831 | 1,473 | -358 (-19.6%) | 3.0 | 1.0 | `KNOWN_SPLIT_PASS` | **PASS** |
-| **AMZN** | 2,948 | 2,451 | -497 (-16.9%) | 20.2247 | 1.0112 | `KNOWN_SPLIT_PASS` | **PASS** |
-| **GOOGL** | 2,612 | 2,102 | -510 (-19.5%) | 20.0 | 1.0 | `KNOWN_SPLIT_PASS` | **PASS** |
+| **NVDA** | 3,366 | 3,169 | -197 (-5.9%) | 10.021 | 1.0021 | `KNOWN_SPLIT_PASS` | **PASS** |
+| **TSLA** | 1,831 | 1,694 | -137 (-7.5%) | 3.0 | 1.0 | `KNOWN_SPLIT_PASS` | **PASS** |
+| **AMZN** | 2,948 | 2,776 | -172 (-5.8%) | 20.2309 | 1.0115 | `KNOWN_SPLIT_PASS` | **PASS** |
+| **GOOGL** | 2,612 | 2,409 | -203 (-7.8%) | 20.0 | 1.0 | `KNOWN_SPLIT_PASS` | **PASS** |
 
 ### Component-Level Exclusion Counts Breakdown
 
 | Symbol | Membership Incomplete | Confidential Omission | Amendment Unresolved | New Positions | Exit Positions | Unresolved Ownership Rows (Q-1 / Q) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **NVDA** | 231 | 25 | 0 | 252 | 120 | 1331 / 1426 |
-| **TSLA** | 141 | 35 | 0 | 176 | 94 | 1060 / 1054 |
-| **AMZN** | 187 | 59 | 0 | 122 | 220 | 1496 / 1569 |
-| **GOOGL** | 188 | 50 | 1 | 133 | 133 | 1326 / 1201 |
+| **NVDA** | 289 | 27 | 0 | 263 | 97 | 779 / 795 |
+| **TSLA** | 171 | 46 | 0 | 179 | 81 | 657 / 637 |
+| **AMZN** | 222 | 73 | 0 | 121 | 223 | 1129 / 1005 |
+| **GOOGL** | 217 | 59 | 1 | 133 | 125 | 954 / 865 |
 
 ### Global Dataset Context
 
@@ -140,17 +154,17 @@ The table below contrasts the naive filer grouping against the true $G(Q-1, Q)$ 
 
 ## 5. Real-Data Assumption Discovery: Multi-Manager Sequences and Free-Text Manager Names
 
-Under the frozen Contract v0.8.1 specification, `resolve_ownership` resolves single integer sequence numbers against `manager_relationships`. In real SEC 13F filings, filers supply both numeric multi-sequence lists (e.g. `'1,2,4,11'`, `'1 3 4'`) and free-text manager names (e.g. `'Blue Chip Partners LLC'`, `'PARAMETRIC PORTFOLIO ASSOCIATES LLC'`) in the `other_manager` field.
+Under Contract v0.8.2, `resolve_ownership` resolves single integer sequence numbers strictly against `OTHERMANAGER2.tsv` and treats blank/N-A/exact-0 as origin sentinels. Numeric multi-sequence lists (e.g. `'1,2,4,11'`, `'1 3 4'`) and free-text manager names (e.g. `'Blue Chip Partners LLC'`, `'PARAMETRIC PORTFOLIO ASSOCIATES LLC'`) remain unresolved and excluded from Primary M0.
 
 | Target Symbol / Filing | Q-1 Multi-Seq Rows | Q Multi-Seq Rows | Q-1 Free-Text Rows | Q Free-Text Rows | Sample Values |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Berkshire Apple 2023Q4** | 11 | N/A | 0 | N/A | `1,2,4,11, 2,4,11, 4,5` |
-| **NVDA** | 210 | 211 | 153 | 163 | `1, 2, 1,3, 1,3` |
-| **TSLA** | 147 | 133 | 234 | 235 | `1,2, 1 2 3, 5 6` |
-| **AMZN** | 203 | 209 | 480 | 350 | `1,2,5, 1,2,3, 1,2,3` |
-| **GOOGL** | 236 | 185 | 298 | 298 | `1,2, 1,2,5, 1,2,3` |
+| **NVDA** | 210 | 211 | 214 | 217 | `1, 2, 1,3, 1,3` |
+| **TSLA** | 147 | 133 | 270 | 270 | `1,2, 1 2 3, 5 6` |
+| **AMZN** | 203 | 209 | 527 | 421 | `1,2,5, 1,2,3, 1,2,3` |
+| **GOOGL** | 236 | 185 | 361 | 360 | `1,2, 1,2,5, 1,2,3` |
 
-> **Impact Analysis**: Under existing frozen rules, both multi-sequence strings and free-text names are conservatively treated as unresolved ownership and excluded from Primary M0. They are neither silently attributed to origin filers nor artificially split across managers. This discovery is surfaced for Codex and user consideration.
+> **Impact Analysis**: Under Contract v0.8.2, multi-sequence strings, free-text names, and unmapped sequences are conservatively treated as unresolved ownership and excluded from Primary M0 without silent fallback.
 
 ---
 
@@ -158,3 +172,13 @@ Under the frozen Contract v0.8.1 specification, `resolve_ownership` resolves sin
 - **Read-Only Guarantee**: Phase 0 database was accessed strictly via `open_readonly_sqlite(immutable=True)` with `PRAGMA query_only=ON`. Zero writes performed.
 - **Zero Network**: No requests were made to OpenFIGI, yfinance, or SEC EDGAR.
 - **Status**: Discovery evidence collected; fixtures remain proposed pending Codex independent manual audit and freeze.
+
+---
+
+## 7. C1 Implementation Audit & Contract v0.8.2 Reconciliation
+- **Contract Specification**: `CONTRACT.md` v0.8.2 (Canonical Frozen Amended Specification).
+- **Audit Status**: `STAGE C PART C1 DISCOVERY UNDER CODEX RE-AUDIT`.
+- **Point72 Retained Rows (Primary)**: All 917 `DFND` / `'0'` rows retained in Primary M0, totaling 418,109,088 shares and $19,018,144,000 USD before deduplication.
+- **Point72 Zero-Excluded Sensitivity**: Upstream pre-aggregation exclusion drops exactly the 917 main rows.
+- **Disambiguation Proven**: Line sequence resolution queries strictly `source_table = 'OTHERMANAGER2.tsv'`; graph connected components union valid on-time edges from both `OTHERMANAGER.tsv` and `OTHERMANAGER2.tsv`.
+- **Split Anchors**: All four canonical split stocks (NVDA, TSLA, AMZN, GOOGL) achieve adjusted medians in `[0.8, 1.2]` under full $G(Q-1, Q)$ graph components.

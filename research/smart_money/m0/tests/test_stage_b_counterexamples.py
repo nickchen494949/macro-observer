@@ -52,11 +52,16 @@ from research.smart_money.m0.src.ownership_state_machine import (
     is_valid_cik,
     normalize_cik,
     resolve_ownership,
+    OwnershipPolicy,
     parse_datetime_to_utc,
     FilingHeader,
     HoldingRow,
     aggregate_accession_holdings,
     reconstruct_filer_state,
+)
+from research.smart_money.m0.src.pilot_extractor import (
+    build_line_level_manager_map,
+    build_entity_graph_edges,
 )
 from research.smart_money.m0.src.entity_membership_dedup import (
     build_entity_connected_components,
@@ -305,6 +310,128 @@ def test_b07_ownership_unresolved_isolation():
     # Direct aggregation excludes unresolved rows
     agg = aggregate_accession_holdings([row_unresolved])
     assert len(agg) == 0
+
+
+def test_b07_1_sentinel_resolution():
+    """Test-B07.1: Blank, case-normalized 'N/A', and exact '0' accepted as origin sentinels; dirty variants rejected."""
+    filer_cik = "0000012345"
+    acc = "0000012345-24-000001"
+    om_map = {(acc, "1"): "0000099999"}
+
+    # Primary origin sentinels -> filer_cik
+    for sent in [None, "", "   ", "N/A", "n/a", "N/a", "0"]:
+        owner, unres = resolve_ownership(sent, filer_cik, acc, om_map, policy=OwnershipPolicy.PRIMARY_EMPIRICAL_ZERO)
+        assert owner == normalize_cik(filer_cik)
+        assert unres is False
+
+    # ZERO_SENTINEL_EXCLUDED: exact "0" rejected, others accepted
+    owner, unres = resolve_ownership("0", filer_cik, acc, om_map, policy=OwnershipPolicy.ZERO_SENTINEL_EXCLUDED)
+    assert owner is None
+    assert unres is True
+
+    for sent in [None, "", "N/A", "n/a"]:
+        owner, unres = resolve_ownership(sent, filer_cik, acc, om_map, policy=OwnershipPolicy.ZERO_SENTINEL_EXCLUDED)
+        assert owner == normalize_cik(filer_cik)
+        assert unres is False
+
+    # Dirty variants strictly rejected
+    for dirty in ["NONE", "NA", "NOT APPLICABLE", "N / A", "00", "0.0", "01", "1,2", "Blue Chip Partners LLC"]:
+        owner, unres = resolve_ownership(dirty, filer_cik, acc, om_map)
+        assert owner is None
+        assert unres is True
+
+
+def test_b07_2_source_table_isolation():
+    """Test-B07.2: When sequence number is present in both source tables, line lookup resolves only via OTHERMANAGER2.tsv."""
+    rel_rows = [
+        # OTHERMANAGER2.tsv has sequence 1 pointing to CIK 0000022222
+        ("000001-24-000001", "2024-03-31", "0000010000", "0000022222", "Manager 2", "1", "OTHERMANAGER2.tsv", "2024-05-10 10:00:00"),
+        # OTHERMANAGER.tsv has surrogate key 1 pointing to CIK 0000099999
+        ("000001-24-000001", "2024-03-31", "0000010000", "0000099999", "Surrogate Mgr", "1", "OTHERMANAGER.tsv", "2024-05-10 10:00:00"),
+    ]
+
+    line_map = build_line_level_manager_map(rel_rows, "2024-03-31")
+    # Must only contain the OTHERMANAGER2.tsv mapping
+    assert line_map == {("000001-24-000001", "1"): "0000022222"}
+
+    # Graph edges must union both
+    edges = build_entity_graph_edges(rel_rows, "2024-03-31")
+    assert sorted(edges) == sorted([("0000010000", "0000022222"), ("0000010000", "0000099999")])
+
+    # Line resolution uses line_map
+    owner, unres = resolve_ownership("1", "0000010000", "000001-24-000001", line_map)
+    assert owner == "0000022222"
+    assert unres is False
+
+
+def test_b07_3_coexisting_zero_and_positive_sequences():
+    """Test-B07.3: Accession with coexisting other_manager='0' and other_manager='1' assigns correct economic owners."""
+    filer_cik = "0000010000"
+    manager_cik = "0000020000"
+    acc = "000001-24-000001"
+    line_map = {(acc, "1"): manager_cik}
+
+    # Row 1: other_manager = '0' -> origin filer
+    owner_0, unres_0 = resolve_ownership("0", filer_cik, acc, line_map, policy=OwnershipPolicy.PRIMARY_EMPIRICAL_ZERO)
+    assert owner_0 == normalize_cik(filer_cik)
+    assert unres_0 is False
+
+    # Row 2: other_manager = '1' -> mapped manager
+    owner_1, unres_1 = resolve_ownership("1", filer_cik, acc, line_map, policy=OwnershipPolicy.PRIMARY_EMPIRICAL_ZERO)
+    assert owner_1 == normalize_cik(manager_cik)
+    assert unres_1 is False
+
+    # Both aggregated into single accession without collision
+    r0 = HoldingRow(acc, filer_cik, "2024-03-31", "037833100", "SH", owner_0, unres_0, 1000, 150000)
+    r1 = HoldingRow(acc, filer_cik, "2024-03-31", "037833100", "SH", owner_1, unres_1, 2000, 300000)
+    agg = aggregate_accession_holdings([r0, r1])
+
+    assert len(agg) == 2
+    assert agg[("037833100", "SH", normalize_cik(filer_cik))]["total_shares"] == 1000
+    assert agg[("037833100", "SH", normalize_cik(manager_cik))]["total_shares"] == 2000
+
+
+def test_b07_4_zero_sentinel_excluded_pre_aggregation():
+    """Test-B07.4: ZERO_SENTINEL_EXCLUDED removes empirical-zero rows pre-aggregation and creates separate signal table."""
+    filer_cik = "0000010000"
+    manager_cik = "0000020000"
+    acc = "000001-24-000001"
+    line_map = {(acc, "1"): manager_cik}
+
+    # Raw row 1 with '0', Raw row 2 with '1'
+    raw_lines = [
+        ("037833100", 1000, 150000.0, "0"),
+        ("037833100", 2000, 300000.0, "1"),
+    ]
+
+    # Primary M0 processing
+    p_rows = []
+    for cusip, shrs, val, om in raw_lines:
+        o_p, u_p = resolve_ownership(om, filer_cik, acc, line_map, policy=OwnershipPolicy.PRIMARY_EMPIRICAL_ZERO)
+        p_rows.append(HoldingRow(acc, filer_cik, "2024-03-31", cusip, "SH", o_p, u_p, shrs, val))
+
+    agg_p = aggregate_accession_holdings(p_rows)
+    assert len(agg_p) == 2  # Both rows included in Primary
+
+    # ZERO_SENTINEL_EXCLUDED processing (Pre-Aggregation)
+    z_rows = []
+    for cusip, shrs, val, om in raw_lines:
+        o_z, u_z = resolve_ownership(om, filer_cik, acc, line_map, policy=OwnershipPolicy.ZERO_SENTINEL_EXCLUDED)
+        z_rows.append(HoldingRow(acc, filer_cik, "2024-03-31", cusip, "SH", o_z, u_z, shrs, val))
+
+    agg_z = aggregate_accession_holdings(z_rows)
+    assert len(agg_z) == 1  # Only sequence 1 included, '0' row excluded pre-aggregation
+    assert ("037833100", "SH", normalize_cik(manager_cik)) in agg_z
+
+    # Separate signal table verification & cardinality check
+    sig_p = [{"primary_stock_id": "037833100", "period_of_report": "2024-03-31", "m0_signal": 3000.0}]
+    sig_z = [{"primary_stock_id": "037833100", "period_of_report": "2024-03-31", "m0_signal": 2000.0}]
+    returns = [{"primary_stock_id": "037833100", "period_of_report": "2024-03-31", "forward_return": 0.05, "outcome_status": "CLEAN"}]
+
+    joined_p, met_p = verify_cardinality_invariant(sig_p, returns)
+    joined_z, met_z = verify_cardinality_invariant(sig_z, returns)
+    assert met_p["cardinality_conserved"] is True and len(joined_p) == 1
+    assert met_z["cardinality_conserved"] is True and len(joined_z) == 1
 
 
 def test_b08_intra_entity_dedup_and_cross_entity_blocking():

@@ -1,10 +1,10 @@
 {
-  "created_utc": "2026-08-24T07:02:40Z",
+  "created_utc": "2026-08-24T07:54:51Z",
   "evidence_a_berkshire_apple_2023q4": {
     "acceptance_datetime": "2024-02-14T21:02:18.000Z",
     "accession_number": "0000950123-24-002518",
     "anchor_raw_match": true,
-    "execution_time_sec": 0.004,
+    "execution_time_sec": 0.005,
     "free_text_name_rows_count": 0,
     "ineligibility_reasons": [
       "CONFIDENTIAL_TREATMENT_OMISSION (is_confidential_omit=1)",
@@ -301,8 +301,8 @@
     ],
     "cross_component_excluded_count": 0,
     "entity_name": "Point72 Asset Management",
-    "execution_time_sec": 0.463,
-    "intra_entity_deduped_holdings_count": 3540,
+    "execution_time_sec": 0.543,
+    "intra_entity_deduped_holdings_count": 4457,
     "manager_relationships": [
       {
         "acceptance_datetime": "2020-02-14T21:44:41.000Z",
@@ -375,7 +375,21 @@
     "on_time_amendment_filings_count": 0,
     "on_time_confidential_filings_count": 0,
     "period_of_report": "2019-12-31",
-    "reconstructed_disclosures_count": 3540,
+    "primary_m0": {
+      "duplicate_disclosures_removed_count": 0,
+      "intra_entity_deduped_holdings_count": 4457,
+      "main_accession_raw_lines_retained": 917,
+      "main_accession_shares_before_dedup": 418109088,
+      "main_accession_value_before_dedup": 19018144000.0,
+      "raw_line_items_count": 4457,
+      "reconstructed_disclosures_count": 4457,
+      "total_shares_deduped": 563789558,
+      "total_value_usd_deduped": 25013024000.0,
+      "unresolved_rows_count": 0,
+      "unresolved_shares_total": 0,
+      "unresolved_value_total": 0.0
+    },
+    "reconstructed_disclosures_count": 4457,
     "seed_ciks": [
       "0001599822",
       "0001603466",
@@ -386,30 +400,50 @@
       "0002006887",
       "0002017863"
     ],
+    "source_tables_breakdown": {
+      "graph_edges_count": 2283,
+      "graph_edges_source_tables": "OTHERMANAGER.tsv and OTHERMANAGER2.tsv union",
+      "line_lookup_source_table": "OTHERMANAGER2.tsv only",
+      "line_map_entries_count": 1566
+    },
     "status": "PROPOSED PENDING CODEX MANUAL FREEZE",
     "total_raw_line_items": 4457,
-    "unresolved_rows_count": 917,
-    "unresolved_shares_total": 418109088
+    "unresolved_rows_count": 0,
+    "unresolved_shares_total": 0,
+    "zero_excluded_sensitivity": {
+      "duplicate_disclosures_removed_count": 0,
+      "intra_entity_deduped_holdings_count": 3540,
+      "main_accession_raw_lines_retained": 0,
+      "main_accession_shares_before_dedup": 0,
+      "main_accession_value_before_dedup": 0.0,
+      "raw_line_items_count": 4457,
+      "reconstructed_disclosures_count": 3540,
+      "total_shares_deduped": 145680470,
+      "total_value_usd_deduped": 5994880000.0,
+      "unresolved_rows_count": 917,
+      "unresolved_shares_total": 418109088,
+      "unresolved_value_total": 19018144000.0
+    }
   },
   "evidence_c_split_pilot_pairs": [
     {
-      "adjusted_median_ratio": 1.0013,
+      "adjusted_median_ratio": 1.0021,
       "component_level_exclusions": {
         "amendment_unresolved_components_excluded": 0,
-        "confidential_omission_components_excluded": 25,
+        "confidential_omission_components_excluded": 27,
         "duplicate_disclosures_removed_q_curr": 0,
         "duplicate_disclosures_removed_q_prev": 0,
-        "exit_positions_count": 120,
-        "membership_incomplete_components_excluded": 231,
-        "new_positions_count": 252,
-        "unresolved_ownership_rows_excluded_q_curr": 1426,
-        "unresolved_ownership_rows_excluded_q_prev": 1331
+        "exit_positions_count": 97,
+        "membership_incomplete_components_excluded": 289,
+        "new_positions_count": 263,
+        "unresolved_ownership_rows_excluded_q_curr": 795,
+        "unresolved_ownership_rows_excluded_q_prev": 779
       },
       "contract_ex_date": "2024-06-10",
       "contract_split_factor": 10.0,
       "cusip": "67066G104",
-      "eligible_continuous_entity_count": 2758,
-      "execution_time_sec": 25.457,
+      "eligible_continuous_entity_count": 3169,
+      "execution_time_sec": 24.959,
       "global_dataset_context": {
         "late_filings_excluded_q_curr": 599,
         "late_filings_excluded_q_prev": 605,
@@ -420,11 +454,11 @@
       },
       "is_googl_note": false,
       "is_in_contract_pass_range": true,
-      "mad_log": 0.0717,
+      "mad_log": 0.0712,
       "multi_sequence_other_manager": {
-        "q_curr_free_text_rows": 163,
+        "q_curr_free_text_rows": 217,
         "q_curr_multi_sequence_rows": 211,
-        "q_prev_free_text_rows": 153,
+        "q_prev_free_text_rows": 214,
         "q_prev_multi_sequence_rows": 210,
         "samples": [
           "1, 2",
@@ -436,7 +470,7 @@
       },
       "q_curr": "2024-06-30",
       "q_prev": "2024-03-31",
-      "raw_median_ratio": 10.0132,
+      "raw_median_ratio": 10.021,
       "stock_symbol": "NVDA",
       "waterfall_action": "INCLUDE",
       "waterfall_sensitivity_action": "INCLUDE",
@@ -446,20 +480,20 @@
       "adjusted_median_ratio": 1.0,
       "component_level_exclusions": {
         "amendment_unresolved_components_excluded": 0,
-        "confidential_omission_components_excluded": 35,
+        "confidential_omission_components_excluded": 46,
         "duplicate_disclosures_removed_q_curr": 1,
         "duplicate_disclosures_removed_q_prev": 1,
-        "exit_positions_count": 94,
-        "membership_incomplete_components_excluded": 141,
-        "new_positions_count": 176,
-        "unresolved_ownership_rows_excluded_q_curr": 1054,
-        "unresolved_ownership_rows_excluded_q_prev": 1060
+        "exit_positions_count": 81,
+        "membership_incomplete_components_excluded": 171,
+        "new_positions_count": 179,
+        "unresolved_ownership_rows_excluded_q_curr": 637,
+        "unresolved_ownership_rows_excluded_q_prev": 657
       },
       "contract_ex_date": "2022-08-25",
       "contract_split_factor": 3.0,
       "cusip": "88160R101",
-      "eligible_continuous_entity_count": 1473,
-      "execution_time_sec": 21.016,
+      "eligible_continuous_entity_count": 1694,
+      "execution_time_sec": 21.13,
       "global_dataset_context": {
         "late_filings_excluded_q_curr": 633,
         "late_filings_excluded_q_prev": 570,
@@ -470,11 +504,11 @@
       },
       "is_googl_note": false,
       "is_in_contract_pass_range": true,
-      "mad_log": 0.0432,
+      "mad_log": 0.0436,
       "multi_sequence_other_manager": {
-        "q_curr_free_text_rows": 235,
+        "q_curr_free_text_rows": 270,
         "q_curr_multi_sequence_rows": 133,
-        "q_prev_free_text_rows": 234,
+        "q_prev_free_text_rows": 270,
         "q_prev_multi_sequence_rows": 147,
         "samples": [
           "1,2",
@@ -493,23 +527,23 @@
       "waterfall_state": "KNOWN_SPLIT_PASS"
     },
     {
-      "adjusted_median_ratio": 1.0112,
+      "adjusted_median_ratio": 1.0115,
       "component_level_exclusions": {
         "amendment_unresolved_components_excluded": 0,
-        "confidential_omission_components_excluded": 59,
+        "confidential_omission_components_excluded": 73,
         "duplicate_disclosures_removed_q_curr": 1,
         "duplicate_disclosures_removed_q_prev": 0,
-        "exit_positions_count": 220,
-        "membership_incomplete_components_excluded": 187,
-        "new_positions_count": 122,
-        "unresolved_ownership_rows_excluded_q_curr": 1569,
-        "unresolved_ownership_rows_excluded_q_prev": 1496
+        "exit_positions_count": 223,
+        "membership_incomplete_components_excluded": 222,
+        "new_positions_count": 121,
+        "unresolved_ownership_rows_excluded_q_curr": 1005,
+        "unresolved_ownership_rows_excluded_q_prev": 1129
       },
       "contract_ex_date": "2022-06-06",
       "contract_split_factor": 20.0,
       "cusip": "023135106",
-      "eligible_continuous_entity_count": 2451,
-      "execution_time_sec": 31.87,
+      "eligible_continuous_entity_count": 2776,
+      "execution_time_sec": 31.339,
       "global_dataset_context": {
         "late_filings_excluded_q_curr": 570,
         "late_filings_excluded_q_prev": 668,
@@ -520,11 +554,11 @@
       },
       "is_googl_note": false,
       "is_in_contract_pass_range": true,
-      "mad_log": 0.0596,
+      "mad_log": 0.0595,
       "multi_sequence_other_manager": {
-        "q_curr_free_text_rows": 350,
+        "q_curr_free_text_rows": 421,
         "q_curr_multi_sequence_rows": 209,
-        "q_prev_free_text_rows": 480,
+        "q_prev_free_text_rows": 527,
         "q_prev_multi_sequence_rows": 203,
         "samples": [
           "1,2,5",
@@ -536,7 +570,7 @@
       },
       "q_curr": "2022-06-30",
       "q_prev": "2022-03-31",
-      "raw_median_ratio": 20.2247,
+      "raw_median_ratio": 20.2309,
       "stock_symbol": "AMZN",
       "waterfall_action": "INCLUDE",
       "waterfall_sensitivity_action": "INCLUDE",
@@ -546,20 +580,20 @@
       "adjusted_median_ratio": 1.0,
       "component_level_exclusions": {
         "amendment_unresolved_components_excluded": 1,
-        "confidential_omission_components_excluded": 50,
+        "confidential_omission_components_excluded": 59,
         "duplicate_disclosures_removed_q_curr": 1,
         "duplicate_disclosures_removed_q_prev": 0,
-        "exit_positions_count": 133,
-        "membership_incomplete_components_excluded": 188,
+        "exit_positions_count": 125,
+        "membership_incomplete_components_excluded": 217,
         "new_positions_count": 133,
-        "unresolved_ownership_rows_excluded_q_curr": 1201,
-        "unresolved_ownership_rows_excluded_q_prev": 1326
+        "unresolved_ownership_rows_excluded_q_curr": 865,
+        "unresolved_ownership_rows_excluded_q_prev": 954
       },
       "contract_ex_date": "2022-07-18",
       "contract_split_factor": 20.0,
       "cusip": "02079K305",
-      "eligible_continuous_entity_count": 2102,
-      "execution_time_sec": 27.549,
+      "eligible_continuous_entity_count": 2409,
+      "execution_time_sec": 27.339,
       "global_dataset_context": {
         "late_filings_excluded_q_curr": 633,
         "late_filings_excluded_q_prev": 570,
@@ -572,9 +606,9 @@
       "is_in_contract_pass_range": true,
       "mad_log": 0.035,
       "multi_sequence_other_manager": {
-        "q_curr_free_text_rows": 298,
+        "q_curr_free_text_rows": 360,
         "q_curr_multi_sequence_rows": 185,
-        "q_prev_free_text_rows": 298,
+        "q_prev_free_text_rows": 361,
         "q_prev_multi_sequence_rows": 236,
         "samples": [
           "1,2",
@@ -599,6 +633,6 @@
     "query_only_pragma": 1,
     "size_bytes": 25881661440
   },
-  "status": "STAGE C PART C1 DISCOVERY UNDER CODEX AUDIT",
-  "total_execution_time_sec": 106.361
+  "status": "STAGE C PART C1 DISCOVERY UNDER CODEX RE-AUDIT",
+  "total_execution_time_sec": 105.32
 }
