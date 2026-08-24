@@ -65,8 +65,9 @@ def format_markdown_report(data: dict) -> str:
     lines.append("| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |")
     for r in ea["raw_matching_rows"]:
         owner_str = r['resolved_owner_cik'] or "None"
+        is_multi = "YES" if r.get('other_manager_category') == "MULTI_NUMERIC_LIST" else "NO"
         lines.append(
-            f"| {r['line_seq']} | {r['security_name']} | {r['shares']:,} | ${r['value_usd']:,} | {r['investment_discretion']} | {r['other_manager']} | {'YES' if r['is_multi_sequence'] else 'NO'} | `{owner_str}` | {'YES' if r['ownership_unresolved'] else 'NO'} |"
+            f"| {r['line_seq']} | {r['security_name']} | {r['shares']:,} | ${r['value_usd']:,} | {r['investment_discretion']} | {r['other_manager']} | {is_multi} | `{owner_str}` | {'YES' if r['ownership_unresolved'] else 'NO'} |"
         )
     lines.append("")
     lines.append("---")

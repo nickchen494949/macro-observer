@@ -7,6 +7,7 @@ import pytest
 
 from research.smart_money.m0.src.pilot_extractor import (
     check_source_db_preflight,
+    classify_other_manager,
     extract_berkshire_apple_2023q4,
     extract_point72_2019q4_discovery,
     extract_split_pilot_pair,
@@ -89,6 +90,26 @@ def _init_synthetic_phase0_db(db_path: Path) -> sqlite3.Connection:
     return conn
 
 
+def test_classify_other_manager_robustness():
+    """Test robust classification of other_manager into blank, single numeric, multi-numeric, and free-text name."""
+    assert classify_other_manager(None) == ("BLANK", [])
+    assert classify_other_manager("") == ("BLANK", [])
+    assert classify_other_manager("   ") == ("BLANK", [])
+
+    assert classify_other_manager("4") == ("SINGLE_NUMERIC", ["4"])
+    assert classify_other_manager("193370") == ("SINGLE_NUMERIC", ["193370"])
+
+    # Multi-numeric with commas, spaces, or mixed
+    assert classify_other_manager("1,2,4,11") == ("MULTI_NUMERIC_LIST", ["1", "2", "4", "11"])
+    assert classify_other_manager("1 3 4") == ("MULTI_NUMERIC_LIST", ["1", "3", "4"])
+    assert classify_other_manager("1, 4") == ("MULTI_NUMERIC_LIST", ["1", "4"])
+    assert classify_other_manager("2, 3, 4, 7, 10") == ("MULTI_NUMERIC_LIST", ["2", "3", "4", "7", "10"])
+
+    # Free-text names with spaces (must NOT be classified as multi-sequence list)
+    assert classify_other_manager("Blue Chip Partners LLC") == ("FREE_TEXT_NAME", ["Blue", "Chip", "Partners", "LLC"])
+    assert classify_other_manager("PARAMETRIC PORTFOLIO ASSOCIATES LLC") == ("FREE_TEXT_NAME", ["PARAMETRIC", "PORTFOLIO", "ASSOCIATES", "LLC"])
+
+
 def test_check_source_db_preflight(tmp_path: Path):
     """Test preflight verification on synthetic DB and rejection of missing DB / sidecars."""
     db_file = tmp_path / "test_phase0.db"
@@ -148,7 +169,6 @@ def test_berkshire_apple_raw_vs_resolved_and_ineligibility(tmp_path: Path):
     assert res["raw_matching_rows_count"] == 2
     assert res["raw_total_aggregate_shares"] == 905_560_000
     assert res["anchor_raw_match"] is True
-    # Without manager_relationships, all rows are unresolved
     assert res["unresolved_rows_count"] == 2
     assert res["primary_resolved_shares"] == 0
     assert res["multi_sequence_rows_count"] == 1
@@ -156,8 +176,8 @@ def test_berkshire_apple_raw_vs_resolved_and_ineligibility(tmp_path: Path):
     assert any("CONFIDENTIAL_TREATMENT_OMISSION" in r for r in res["ineligibility_reasons"])
 
 
-def test_point72_discovery_real_timestamps_and_graph_closure(tmp_path: Path):
-    """Test Point72 discovery uses actual acceptance datetimes and performs graph closure from seed CIKs."""
+def test_point72_discovery_real_timestamps_and_unknown_owner_handling(tmp_path: Path):
+    """Test Point72 discovery uses actual acceptance datetimes and does NOT default unknown economic owners."""
     db_file = tmp_path / "p72_test.db"
     conn = _init_synthetic_phase0_db(db_file)
 
@@ -184,11 +204,12 @@ def test_point72_discovery_real_timestamps_and_graph_closure(tmp_path: Path):
         (period,),
     )
 
-    # Insert line items
+    # Insert line items: row 1 has valid seq 1 (maps to 1603466), row 2 has unknown seq 999 (unresolved)
     conn.execute(
         """
         INSERT INTO filing_line_items (accession_number, line_seq, cusip, security_name, sshprnamt, value_usd, asset_class, other_manager)
         VALUES ('0001567619-20-004066', 1, '026874784', 'AIG INC', 10000, 500000, 'cash_equity', '1'),
+               ('0001567619-20-004066', 2, '026874784', 'AIG INC', 5000, 250000, 'cash_equity', '999'),
                ('0001567619-20-004063', 1, '026874784', 'AIG INC', 20000, 1000000, 'cash_equity', NULL);
         """,
     )
@@ -201,43 +222,51 @@ def test_point72_discovery_real_timestamps_and_graph_closure(tmp_path: Path):
 
     assert res["status"] == "PROPOSED PENDING CODEX MANUAL FREEZE"
     assert res["canonical_entity_id"] == "0001599822"
-    assert "0001599822" in res["component_closed_ciks"]
-    assert "0001603466" in res["component_closed_ciks"]
+    # Closed CIKs are unique 10-digit formatted
+    assert res["component_closed_ciks"] == ["0001599822", "0001603466"]
+    # Unresolved row 2 with seq 999 is NOT assigned to Point72 canonical ID
+    assert res["unresolved_rows_count"] == 1
+    assert res["unresolved_shares_total"] == 5000
     assert res["manager_relationships"][0]["acceptance_datetime"] == "2020-02-14T16:47:23.000Z"
 
 
-def test_two_filer_component_intra_entity_dedup_in_split_pair(tmp_path: Path):
-    """Test that two origin filers in the same connected component disclosing identical signature dedup to 1 holding."""
-    db_file = tmp_path / "dedup_split_test.db"
+def test_split_pair_all_members_confidential_gate_zero_target_rows(tmp_path: Path):
+    """Counterexample: Filers A and B in one component, only A holds target, B has confidential omission -> component excluded."""
+    db_file = tmp_path / "conf_zero_target_test.db"
     conn = _init_synthetic_phase0_db(db_file)
 
     q_prev = "2024-03-31"
     q_curr = "2024-06-30"
     cusip = "67066G104"
 
-    # Component with CIK 1 and CIK 2 (connected via relationship)
-    # Plus 23 other isolated filers (total 24 components >= 20 threshold)
-    for i in range(1, 25):
+    # Setup 20 components. Component 1 consists of Filer A (CIK 1) and Filer B (CIK 2).
+    # Filer A holds target CUSIP; Filer B holds a completely different CUSIP (or 0 rows).
+    # Filer B has is_confidential_omit = 1 in Q-1.
+    for i in range(1, 21):
         cik = f"{i:010d}"
+        is_conf_prev = 1 if i == 2 else 0  # Filer B has confidential omit
+
         conn.execute(
-            "INSERT INTO filing_events (accession_number, cik, period_of_report, acceptance_datetime, form_type) VALUES (?, ?, ?, '2024-05-10T10:00:00Z', '13F-HR');",
-            (f"ACC_PREV_{i}", cik, q_prev),
+            "INSERT INTO filing_events (accession_number, cik, period_of_report, acceptance_datetime, form_type, is_confidential_omit) VALUES (?, ?, ?, '2024-05-10T10:00:00Z', '13F-HR', ?);",
+            (f"ACC_PREV_{i}", cik, q_prev, is_conf_prev),
         )
         conn.execute(
             "INSERT INTO filing_events (accession_number, cik, period_of_report, acceptance_datetime, form_type) VALUES (?, ?, ?, '2024-08-10T10:00:00Z', '13F-HR');",
             (f"ACC_CURR_{i}", cik, q_curr),
         )
 
+        # Filer B does NOT hold target CUSIP (holds OTHER_CUSIP)
+        c_insert = "OTHER_CUSIP" if i == 2 else cusip
         conn.execute(
-            "INSERT INTO filing_line_items (accession_number, line_seq, cusip, sshprnamt, value_usd, asset_class, voting_sole) VALUES (?, 1, ?, 100, 100000, 'cash_equity', 100);",
-            (f"ACC_PREV_{i}", cusip),
+            "INSERT INTO filing_line_items (accession_number, line_seq, cusip, sshprnamt, value_usd, asset_class) VALUES (?, 1, ?, 100, 100000, 'cash_equity');",
+            (f"ACC_PREV_{i}", c_insert),
         )
         conn.execute(
-            "INSERT INTO filing_line_items (accession_number, line_seq, cusip, sshprnamt, value_usd, asset_class, voting_sole) VALUES (?, 1, ?, 1000, 1000000, 'cash_equity', 1000);",
-            (f"ACC_CURR_{i}", cusip),
+            "INSERT INTO filing_line_items (accession_number, line_seq, cusip, sshprnamt, value_usd, asset_class) VALUES (?, 1, ?, 1000, 1000000, 'cash_equity');",
+            (f"ACC_CURR_{i}", c_insert),
         )
 
-    # Add relationship connecting CIK 1 and CIK 2 in both quarters
+    # Relationship connecting CIK 1 and CIK 2 in both quarters
     conn.execute(
         "INSERT INTO manager_relationships (accession_number, period_of_report, reporter_cik, related_cik, sequence_number, source_table) VALUES (?, ?, '0000000002', '0000000001', '1', 'OTHERMANAGER.tsv');",
         ("ACC_PREV_2", q_prev),
@@ -262,50 +291,55 @@ def test_two_filer_component_intra_entity_dedup_in_split_pair(tmp_path: Path):
     )
     ro_conn.close()
 
-    # Total 23 continuous components (CIK 1 + 2 merged into component 0000000001, plus CIKs 3..24 = 22 components -> total 23 components)
-    assert res["eligible_continuous_entity_count"] == 23
-    assert res["raw_median_ratio"] == pytest.approx(10.0)
-    assert res["adjusted_median_ratio"] == pytest.approx(1.0)
-    assert res["waterfall_state"] == "KNOWN_SPLIT_PASS"
-    assert res["waterfall_action"] == "INCLUDE"
+    # Component 0000000001 MUST be excluded because member B had confidential omission, even though B had 0 target rows!
+    assert res["component_level_exclusions"]["confidential_omission_components_excluded"] == 1
+    # 18 other components remain
+    assert res["eligible_continuous_entity_count"] == 18
 
 
-def test_split_pair_membership_incomplete_exclusion(tmp_path: Path):
-    """Test that if 1 member of a 2-filer component is missing in Q, the entire component is excluded."""
-    db_file = tmp_path / "membership_split_test.db"
+def test_split_pair_all_members_unresolved_amendment_zero_target_rows(tmp_path: Path):
+    """Counterexample: Filers A and B in one component, only A holds target, B has UNKNOWN amendment -> component excluded."""
+    db_file = tmp_path / "amend_zero_target_test.db"
     conn = _init_synthetic_phase0_db(db_file)
 
     q_prev = "2024-03-31"
     q_curr = "2024-06-30"
     cusip = "67066G104"
 
-    # Setup 20 filers in Q-1, but CIK 2 does not file in Q (only CIK 1 files in Q)
     for i in range(1, 21):
         cik = f"{i:010d}"
         conn.execute(
             "INSERT INTO filing_events (accession_number, cik, period_of_report, acceptance_datetime, form_type) VALUES (?, ?, ?, '2024-05-10T10:00:00Z', '13F-HR');",
             (f"ACC_PREV_{i}", cik, q_prev),
         )
-        if i != 2:
-            conn.execute(
-                "INSERT INTO filing_events (accession_number, cik, period_of_report, acceptance_datetime, form_type) VALUES (?, ?, ?, '2024-08-10T10:00:00Z', '13F-HR');",
-                (f"ACC_CURR_{i}", cik, q_curr),
-            )
 
+        # Filer B (CIK 2) files an UNKNOWN amendment in Q
+        form_q = "13F-HR/A" if i == 2 else "13F-HR"
+        amend_q = "UNKNOWN" if i == 2 else None
+        conn.execute(
+            "INSERT INTO filing_events (accession_number, cik, period_of_report, acceptance_datetime, form_type, amendment_type) VALUES (?, ?, ?, '2024-08-10T10:00:00Z', ?, ?);",
+            (f"ACC_CURR_{i}", cik, q_curr, form_q, amend_q),
+        )
+
+        # Filer B does NOT hold target CUSIP
+        c_insert = "OTHER_CUSIP" if i == 2 else cusip
         conn.execute(
             "INSERT INTO filing_line_items (accession_number, line_seq, cusip, sshprnamt, value_usd, asset_class) VALUES (?, 1, ?, 100, 100000, 'cash_equity');",
-            (f"ACC_PREV_{i}", cusip),
+            (f"ACC_PREV_{i}", c_insert),
         )
-        if i != 2:
-            conn.execute(
-                "INSERT INTO filing_line_items (accession_number, line_seq, cusip, sshprnamt, value_usd, asset_class) VALUES (?, 1, ?, 1000, 1000000, 'cash_equity');",
-                (f"ACC_CURR_{i}", cusip),
-            )
+        conn.execute(
+            "INSERT INTO filing_line_items (accession_number, line_seq, cusip, sshprnamt, value_usd, asset_class) VALUES (?, 1, ?, 1000, 1000000, 'cash_equity');",
+            (f"ACC_CURR_{i}", c_insert),
+        )
 
-    # Edge connecting CIK 1 and CIK 2 in Q-1
+    # Relationship connecting CIK 1 and CIK 2 in both quarters
     conn.execute(
         "INSERT INTO manager_relationships (accession_number, period_of_report, reporter_cik, related_cik, sequence_number, source_table) VALUES (?, ?, '0000000002', '0000000001', '1', 'OTHERMANAGER.tsv');",
         ("ACC_PREV_2", q_prev),
+    )
+    conn.execute(
+        "INSERT INTO manager_relationships (accession_number, period_of_report, reporter_cik, related_cik, sequence_number, source_table) VALUES (?, ?, '0000000002', '0000000001', '1', 'OTHERMANAGER.tsv');",
+        ("ACC_CURR_2", q_curr),
     )
 
     conn.commit()
@@ -323,21 +357,22 @@ def test_split_pair_membership_incomplete_exclusion(tmp_path: Path):
     )
     ro_conn.close()
 
-    # Component 0000000001 had members {1, 2} in Q-1 but only {1} in Q -> MEMBERSHIP_INCOMPLETE excluded!
-    assert res["component_level_exclusions"]["membership_incomplete_components_excluded"] == 1
+    # Component 0000000001 MUST be excluded because member B had an UNKNOWN amendment, even with 0 target rows!
+    assert res["component_level_exclusions"]["amendment_unresolved_components_excluded"] == 1
     # 18 other components remain
     assert res["eligible_continuous_entity_count"] == 18
 
 
-def test_split_pair_late_relationship_edge_exclusion(tmp_path: Path):
-    """Test that a late relationship edge is excluded and does not merge components."""
-    db_file = tmp_path / "late_edge_test.db"
+def test_13f_nt_exclusion_from_holdings_and_graph(tmp_path: Path):
+    """Test that 13F-NT and 13F-NT/A notice filings are strictly excluded from holdings and relationship graph."""
+    db_file = tmp_path / "nt_exclusion_test.db"
     conn = _init_synthetic_phase0_db(db_file)
 
     q_prev = "2024-03-31"
     q_curr = "2024-06-30"
     cusip = "67066G104"
 
+    # Setup 20 valid 13F-HR filers
     for i in range(1, 21):
         cik = f"{i:010d}"
         conn.execute(
@@ -348,7 +383,6 @@ def test_split_pair_late_relationship_edge_exclusion(tmp_path: Path):
             "INSERT INTO filing_events (accession_number, cik, period_of_report, acceptance_datetime, form_type) VALUES (?, ?, ?, '2024-08-10T10:00:00Z', '13F-HR');",
             (f"ACC_CURR_{i}", cik, q_curr),
         )
-
         conn.execute(
             "INSERT INTO filing_line_items (accession_number, line_seq, cusip, sshprnamt, value_usd, asset_class) VALUES (?, 1, ?, 100, 100000, 'cash_equity');",
             (f"ACC_PREV_{i}", cusip),
@@ -358,14 +392,13 @@ def test_split_pair_late_relationship_edge_exclusion(tmp_path: Path):
             (f"ACC_CURR_{i}", cusip),
         )
 
-    # Insert a LATE filing event for accession ACC_LATE (filed 2024-05-20 > deadline 2024-05-15)
+    # Insert a 13F-NT notice filing for CIK 999 with a relationship edge connecting CIK 1 and CIK 999
     conn.execute(
-        "INSERT INTO filing_events (accession_number, cik, period_of_report, acceptance_datetime, form_type) VALUES ('ACC_LATE', '0000000002', ?, '2024-05-20T10:00:00Z', '13F-HR');",
+        "INSERT INTO filing_events (accession_number, cik, period_of_report, acceptance_datetime, form_type) VALUES ('ACC_NT_999', '0000000999', ?, '2024-05-10T10:00:00Z', '13F-NT');",
         (q_prev,),
     )
-    # Late relationship edge on ACC_LATE connecting CIK 1 and CIK 2
     conn.execute(
-        "INSERT INTO manager_relationships (accession_number, period_of_report, reporter_cik, related_cik, sequence_number, source_table) VALUES ('ACC_LATE', ?, '0000000002', '0000000001', '1', 'OTHERMANAGER.tsv');",
+        "INSERT INTO manager_relationships (accession_number, period_of_report, reporter_cik, related_cik, sequence_number, source_table) VALUES ('ACC_NT_999', ?, '0000000999', '0000000001', '1', 'OTHERMANAGER.tsv');",
         (q_prev,),
     )
 
@@ -384,63 +417,6 @@ def test_split_pair_late_relationship_edge_exclusion(tmp_path: Path):
     )
     ro_conn.close()
 
-    # Late edge excluded -> CIK 1 and CIK 2 remain separate components (20 total components)
+    # 13F-NT filing is excluded: CIK 999 is not in filing members and edge from 13F-NT is not included
+    assert res["global_dataset_context"]["total_on_time_filers_q_prev"] == 20
     assert res["eligible_continuous_entity_count"] == 20
-    assert res["global_dataset_context"]["late_filings_excluded_q_prev"] == 1
-
-
-def test_split_pair_confidential_and_unresolved_amendment_exclusion(tmp_path: Path):
-    """Test that confidential omission or unresolved amendment in either member/period excludes the component."""
-    db_file = tmp_path / "conf_amend_test.db"
-    conn = _init_synthetic_phase0_db(db_file)
-
-    q_prev = "2024-03-31"
-    q_curr = "2024-06-30"
-    cusip = "67066G104"
-
-    for i in range(1, 21):
-        cik = f"{i:010d}"
-        # CIK 1 has confidential omission in Q-1
-        is_conf = 1 if i == 1 else 0
-        conn.execute(
-            "INSERT INTO filing_events (accession_number, cik, period_of_report, acceptance_datetime, form_type, is_confidential_omit) VALUES (?, ?, ?, '2024-05-10T10:00:00Z', '13F-HR', ?);",
-            (f"ACC_PREV_{i}", cik, q_prev, is_conf),
-        )
-
-        # CIK 2 has an UNKNOWN amendment in Q
-        form_q = "13F-HR/A" if i == 2 else "13F-HR"
-        amend_q = "UNKNOWN" if i == 2 else None
-        conn.execute(
-            "INSERT INTO filing_events (accession_number, cik, period_of_report, acceptance_datetime, form_type, amendment_type) VALUES (?, ?, ?, '2024-08-10T10:00:00Z', ?, ?);",
-            (f"ACC_CURR_{i}", cik, q_curr, form_q, amend_q),
-        )
-
-        conn.execute(
-            "INSERT INTO filing_line_items (accession_number, line_seq, cusip, sshprnamt, value_usd, asset_class) VALUES (?, 1, ?, 100, 100000, 'cash_equity');",
-            (f"ACC_PREV_{i}", cusip),
-        )
-        conn.execute(
-            "INSERT INTO filing_line_items (accession_number, line_seq, cusip, sshprnamt, value_usd, asset_class) VALUES (?, 1, ?, 1000, 1000000, 'cash_equity');",
-            (f"ACC_CURR_{i}", cusip),
-        )
-
-    conn.commit()
-    conn.close()
-
-    ro_conn = sqlite3.connect(f"file:{db_file}?mode=ro", uri=True)
-    res = extract_split_pilot_pair(
-        conn=ro_conn,
-        cusip=cusip,
-        stock_symbol="NVDA",
-        q_prev=q_prev,
-        q_curr=q_curr,
-        split_factor=10.0,
-        ex_date="2024-06-10",
-    )
-    ro_conn.close()
-
-    # CIK 1 excluded by confidential omission; CIK 2 excluded by unresolved amendment
-    assert res["component_level_exclusions"]["confidential_omission_components_excluded"] == 1
-    assert res["component_level_exclusions"]["amendment_unresolved_components_excluded"] == 1
-    # Remaining continuous holders = 20 - 2 = 18
-    assert res["eligible_continuous_entity_count"] == 18
