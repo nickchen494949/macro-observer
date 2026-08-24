@@ -1,7 +1,7 @@
-# M0 Contract v0.8.1 — Frozen Signal & Data Engineering Specification
+# M0 Contract v0.8.2 — Frozen Signal & Data Engineering Specification
 
-**Version**: 0.8.1 (Canonical Frozen Specification)
-**Status**: FROZEN SPECIFICATION; STAGE A PASS; STAGE B PASS (63 COMBINED TESTS); STAGE C C1 DISCOVERY UNDER CODEX AUDIT
+**Version**: 0.8.2 (Canonical Frozen Amended Specification)
+**Status**: FROZEN AMENDED SPECIFICATION; STAGE A PASS; STAGE B PASS; STAGE C1 BLOCKED PENDING v0.8.2 IMPLEMENTATION AND CODEX RE-AUDIT
 **Sample Period**: 2013Q3–2026Q1, World B
 **Role**: Baseline Diagnostic Model ($\Delta\text{Shares}$)
 **Official Title**: *“M0 Signal Performance in the OpenFIGI-Mapped, yfinance-Price-Covered, Frozen-Vendor-Ledger-Adjusted US Equity Subset (2013Q3–2026Q1, World B)”*
@@ -51,17 +51,29 @@ def compute_13f_deadline(period_of_report: str) -> str:
 
 ---
 
-## 3. 规范 M0 申报状态机与所有权作用域
+## 3. 规范 M0 申报状态机与所有权作用域 (Contract v0.8.2 修订)
 
 严禁盲目套用 Phase 0 的 `reconstruct_state()`（其按 `(cusip, investment_discretion)` 聚合且丢失了所有权作用域）。M0 必须执行规范的单机构状态机重构：
 
-### 3.1 所有权标识解析
+### 3.1 所有权标识解析与 Column 7 规范化规则
 每一条原始持仓明细强制解析双重身份：
-- `origin_filer_cik`：提交该份 13F 的实际申报人 CIK；
+- `origin_filer_cik`：提交该份 13F 的实际申报人 CIK（强制 10 位标准化格式）；
 - `economic_owner_cik`：
-  - 若 `other_manager` 序列号成功在 `OTHERMANAGER.tsv` 中解析为相关 CIK，则赋值为该 `related_cik`；
-  - 若 `other_manager` 为空，则赋值为 `origin_filer_cik`；
-  - 若 `other_manager` 包含无法解析的未知序列号，标记 `ownership_unresolved = True`，`economic_owner_cik = None`。
+  1. **输入清洗**：去除 `other_manager` 字符串的首尾空白字符。
+  2. **Primary 初始持有人哨兵值 (Primary Origin Sentinels)**：
+     - `None` (SQL NULL)
+     - `""` (空字符串)
+     - `"N/A"` (大小写标准化后完全匹配，符合官方 SEC Form 13F FAQ Q48/Q49 指引)
+     - `"0"` (字符串精确匹配，**仅作为明确的经验性 SEC 数据兼容规则**；官方 SEC FAQ 未正式批准 `"0"`，但由于 SEC 真实关系序列表 `OTHERMANAGER2.tsv` 严格为 1-based 正整数且不存在序号 0，该值在经验上代表未分享投资决策权)。
+     - 命中上述任一哨兵值时：
+       $$\text{economic\_owner\_cik} = \text{origin\_filer\_cik}, \quad \text{ownership\_unresolved} = \text{False}$$
+  3. **正整数序列号解析 (Positive Integer Sequences)**：
+     - 若 `other_manager` 为单一正整数（如 `"1"`, `"2"`），必须**严格在同一 accession 且 `source_table = 'OTHERMANAGER2.tsv'` 的关系表中查找 `related_cik`**。
+     - **严禁**使用 `OTHERMANAGER.tsv`（其包含的是 SEC 内部代理键 `OTHERMANAGER_SK`，非明细行 Column 7 序号）进行行级所有权序列号解析。
+     - 查找成功则 $\text{economic\_owner\_cik} = \text{related\_cik}, \text{ownership\_unresolved} = \text{False}$；
+     - 查找失败（未知或缺失序号）则 $\text{economic\_owner\_cik} = \text{None}, \text{ownership\_unresolved} = \text{True}$。
+  4. **脏数据与非规范值隔离 (Strict Exclusion of Dirty Variants)**：
+     - 值如 `"NONE"`, `"NA"`, `"NOT APPLICABLE"`, `"N / A"`, `"00"`, `"0.0"` 等脏字符串、多数字列表（如 `"1,2,4,11"`）及自由文本（如 `"Blue Chip Partners LLC"`）**严禁静默标准化**；必须判定为 $\text{ownership\_unresolved} = \text{True}, \text{economic\_owner\_cik} = \text{None}$，从 Primary M0 排除。
 
 ### 3.2 Accession 内四元组聚合
 在每个 accession 内部，先按 `(accession_number, cusip, asset_class, economic_owner_cik)` 聚合，并保留完整投票权与市值签名：
@@ -89,13 +101,15 @@ key = (row.accession_number, row.cusip, row.asset_class, row.economic_owner_cik)
 
 ### 4.1 实体非独立申报节点规则 (Related-Only Nodes)
 - **定义**：`filing_members(t)` 为在第 $t$ 期实际提交了 World-B 有效 13F 申报的主申报人 CIK 集合。
-- **规则**：在 `OTHERMANAGER` 关系中被引用的非独立申报顾问/分支机构仅作为连通图的边，**不作为 expected filing members**。
+- **规则**：在关系表中被引用的非独立申报顾问/分支机构仅作为连通图的边，**不作为 expected filing members**。
 
-### 4.2 严格分期 PIT 实体图构建
-1. $E(Q-1) = \{ (u, v) \mid \text{申报于 } Q-1, \text{acceptance\_date\_eastern} \le \text{deadline}(Q-1) \}$
-2. $E(Q) = \{ (u, v) \mid \text{申报于 } Q, \text{acceptance\_date\_eastern} \le \text{deadline}(Q) \}$
-3. 当期实体连通图：$G(Q-1, Q) = E(Q-1) \cup E(Q)$。
-4. 连通分量内的确定性 Canonical Entity ID 取该分量内最小的 CIK 编号。
+### 4.2 严格分期 PIT 实体图构建与信源表合并
+1. 边集构建：
+   - $E(Q-1) = \{ (u, v) \mid \text{申报于 } Q-1, \text{acceptance\_date\_eastern} \le \text{deadline}(Q-1) \}$
+   - $E(Q) = \{ (u, v) \mid \text{申报于 } Q, \text{acceptance\_date\_eastern} \le \text{deadline}(Q) \}$
+   - **信源表规则**：实体连通图边集构建可合并来自 `OTHERMANAGER.tsv` 与 `OTHERMANAGER2.tsv` 的有效及时关系记录；但明细行的行级所有权序列号解析严格限定使用 `OTHERMANAGER2.tsv`。
+2. 当期实体连通图：$G(Q-1, Q) = E(Q-1) \cup E(Q)$。
+3. 连通分量内的确定性 Canonical Entity ID 取该分量内最小的 CIK 编号。
 
 ### 4.3 实体配对完整性门槛 (Entity Membership Eligibility)
 对于任意实体连通分量与季度配对 $(Q-1, Q)$：
@@ -111,8 +125,9 @@ key = (row.accession_number, row.cusip, row.asset_class, row.economic_owner_cik)
    $$(\text{total\_shares}, \text{total\_value\_usd}, \text{total\_vote\_sole}, \text{total\_vote\_shared}, \text{total\_vote\_none})$$
 若实体不同、所有权不同或任何一项签名要素不相等，必须作为独立持仓全部保留。
 
-### 4.5 机密申报剔除门槛 (Confidential Omission Gate)
-若实体在 $Q$ 或 $Q-1$ 包含任何标记为 `is_confidential_omit = True` 的申报记录，整个 entity-quarter 对直接从 Primary M0 排除；在敏感性分析中可选择性纳入。
+### 4.5 机密申报与未解析修正门槛 (Component-Level Gate)
+- **机密申报门槛**：若实体连通分量中任何成员在 $Q$ 或 $Q-1$ 存在 `is_confidential_omit = True` 申报，整个 entity-quarter 对直接从 Primary M0 排除。
+- **未解析修正门槛**：若实体连通分量中任何成员在 $Q$ 或 $Q-1$ 存在 `amendment_unresolved = True`，整个 entity-quarter 对直接从 Primary M0 排除。
 
 ---
 
@@ -231,7 +246,11 @@ $$\text{adjusted\_open}(T) = \text{raw\_open}(T) \times \frac{\text{adj\_close}(
 所有敏感性分析必须基于**同一张保留全量信号行的 LEFT JOIN 评估表**派生计算：
 1. **$\text{Missing} = -100\%$ 压力测试**：所有缺失出场价的标的假设归零清算；
 2. **$\text{Missing} = 0\%$ 压力测试**：所有缺失出场价的标的假设持平出场；
-3. **$\le 5$ 日顺延对照**：允许停牌标的向后顺延最多 5 个交易日获取首个开盘价。5 日必须按独立交易所日历计数；股票因停牌而缺少行情行时，该交易所开市日仍消耗一个顺延名额，严禁按“存在报价的 5 行”滚到第 6 个或更晚交易日。
+3. **$\le 5$ 日顺延对照**：允许停牌标的向后顺延最多 5 个交易日获取首个开盘价（缺报价行仍消耗交易日名额）；
+4. **`ZERO_SENTINEL_EXCLUDED` 敏感性对照 (Contract v0.8.2 强制新增)**：
+   - **重跑范围**：在信号端从原始明细行层面，将所有 `other_manager = '0'` 的明细行视为 `ownership_unresolved = True` 剔除，执行独立的状态重构与信号生成。
+   - **架构不变量**：因 accession 聚合会折叠所有权键，该敏感性必须在**明细行输入端（Pre-Aggregation）**派生，严禁在聚合后扣减。
+   - **对账披露**：在 Manifest 与报表中单独披露该分支的股票覆盖率与 IC 表现，评估经验性 0 哨兵规则对信号稳健性的影响。
 
 ---
 
@@ -286,6 +305,9 @@ $$\text{adjusted\_open}(T) = \text{raw\_open}(T) \times \frac{\text{adj\_close}(
 ### 10.3 SHA-256 变更检测清单与跨阶段密码学绑定 (Manifest Binding)
 - **标准 JSON 序列化规范**：Manifest JSON 仅接受标准合规的字符串键与有限原始类型，`allow_nan=False`，严禁非标准 JSON 字段。
 - **阶段绑定 (Stage Binding)**：Stage E 的 Price Manifest 必须显式绑定 Stage D 的 `signal_manifest_sha256`、`run_id`、`contract_sha256`、`source_git_sha` 及 `m0_code_git_sha`。Stage F 预注册评估前必须验证绑定完全一致。
+- **Manifest 显式策略声明 (Policy Declaration Fields)**：
+  - `primary_empirical_zero_policy`: `"INCLUDE_AS_ORIGIN_FILER"`
+  - `zero_excluded_sensitivity`: `"COMPUTED_PRE_AGGREGATION"`
 - **权限防护说明**：文件系统的 `chmod 444` 设置仅作为**防止程序意外覆盖的只读权限防护**。真正的审计可信度依赖于 **Git Commit SHA 冻结、外部独立审查与归档存据**。
 - **工作区 Clean Tree 铁律**：生产阶段（Stage D）前置检查必须验证 `git_tree_dirty == False`，若存在未提交修改，**必须立即终止生产流程**。
 

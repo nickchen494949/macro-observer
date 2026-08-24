@@ -1,7 +1,7 @@
 # M0 Staged Implementation Plan — Test-Before-Production Protocol
 
-**Version**: v0.8.1 Implementation Plan
-**Status**: FROZEN IMPLEMENTATION PLAN; STAGE A PASS; STAGE B PASS (63 COMBINED TESTS); STAGE C C1 DISCOVERY UNDER CODEX AUDIT
+**Version**: v0.8.2 Implementation Plan
+**Status**: FROZEN AMENDED PLAN; STAGE A PASS; STAGE B PASS; STAGE C1 BLOCKED PENDING v0.8.2 IMPLEMENTATION AND CODEX RE-AUDIT
 **Guiding Principle**: 先测试后生产，先证明再入库；源数据库绝对只读，信号与收益物理隔离；单向预注册 LEFT JOIN 评估；未获 Codex 审计批准前，严禁触碰未来价格数据。
 
 ---
@@ -14,7 +14,7 @@
 │ └── 门控 A: 10 大独立模块纯函数单元测试 100% PASS (无网络、不读历史价格 K 线) │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │ Stage B: 合约级 6 大类参数化合成反例对抗测试套件 (Synthetic Test Matrix)      │
-│ └── 门控 B: 严格对应 B01–B23 测试用例，信号端、基数不变量与收益策略端全通过   │
+│ └── 门控 B: 严格对应 B01–B23 测试用例及 B07.1–B07.4 哨兵/序列表反例         │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │ Stage C: 真实样本 Pilot 基准验证 (基于冻结 Fixture 与 SEC 8-K 一手对账)       │
 │ └── 门控 C: 真实申报与 SEC 8-K 证据对账 100% 吻合 (Point72 / Berkshire / 拆股)│
@@ -55,13 +55,13 @@
 1. `storage_guard.py`: SQLite 只读模式守护器 (`mode=ro` URI 编码)、写入拦截阻断与派生库 Schema 初始化。
 2. `run_paths.py`: 物理真实路径隔离管理器 (`realpath` 解析、禁止符号链接逃逸与目录重叠)。
 3. `manifest_integrity.py`: 规范化标准 JSON 序列化 (`allow_nan=False`)、确定性 SHA-256 计算、工作区 Clean Tree 校验、缓存哈希核验（违规立即抛错）及跨阶段 Manifest 绑定核验。
-4. `ownership_state_machine.py`: 所有权归属解析 (`origin_filer_cik`, `economic_owner_cik`)、机密申报门控与单机构申报状态机重构（严格按绝对时间戳 UTC instant ASC 及 accession_number ASC 排序；拒绝混入不同申报人或元数据不符行）。
-5. `entity_membership_dedup.py`: PIT 实体图构建、独立申报成员一致性校验与跨申报经济签名去重（严格限定在同一 `canonical_entity_id` 内部）。
+4. `ownership_state_machine.py`: 所有权归属解析（Contract v0.8.2：空白 / `"N/A"` / 经验性 `"0"` 哨兵值赋为 `origin_filer_cik`；单一正整数仅通过 `OTHERMANAGER2.tsv` 解析；脏值/多序号/自由文本标记为 `ownership_unresolved = True`）、机密申报门控与单机构申报状态机重构（严格按绝对时间戳 UTC instant ASC 及 accession_number ASC 排序；拒绝混入不同申报人或元数据不符行）。
+5. `entity_membership_dedup.py`: PIT 实体图构建（合并 `OTHERMANAGER.tsv` 与 `OTHERMANAGER2.tsv` 有效边）、独立申报成员一致性校验与跨申报经济签名去重（严格限定在同一 `canonical_entity_id` 内部）。
 6. `security_mapping.py`: OpenFIGI 确定性瀑布决议（排除 ETF、非权益资产与非法 CUSIP）、名称相似度计算与多重候选歧义拒决。
 7. `split_waterfall.py`: 期间配对厂商拆股系数 $K_{\text{ledger}}$ 计算（严格检验正实数与日期）、对数中位数与 $\text{MAD}_{\text{log}}$ 计算（强制持有者数量与样本一致）、Gate 0/1/2 严格有序瀑布状态机。
 8. `signal_math.py`: 拆股调整 $\Delta\text{Shares}$ 计算、3x 审查风险启发式权重施加与股票级汇总（聚合后输出表无虚假股票级单一权重列）。
 9. `coverage_keys.py`: D1 (`raw_cusip, period`) 与 D2 (`primary_stock_id, period`) 键生成与转换损耗追踪。
-10. `outcome_policies.py`: 前复权开盘价计算（正实数价格校验）、真实交易日/顺延 $\le 5$ 日开盘选取函数、真实单股现金对价现金并购结算函数、单向预注册 LEFT JOIN 基数守恒校验及 4 大敏感性分支派生。
+10. `outcome_policies.py`: 前复权开盘价计算（正实数价格校验）、真实交易日/顺延 $\le 5$ 日开盘选取函数、真实单股现金对价现金并购结算函数、单向预注册 LEFT JOIN 基数守恒校验及 4 大敏感性分支派生（含 `ZERO_SENTINEL_EXCLUDED`）。
 
 *(注：Stage A/B 期间绝不连接网络，不读取真实历史行情，收益策略逻辑全量基于合成数据测试)*
 
@@ -89,6 +89,10 @@
 
 - **Suite 2: 所有权作用域、状态机与实体成员完整性 (B07–B12)**
   - Test-B07: `ownership_unresolved` 显式隔离（未解析序列号从 Primary 排除，严禁 fallback 为自有）；
+    - **Test-B07.1 (哨兵值解析)**: 空白、大小写规范化 `"N/A"` 及精确字符串 `"0"` 被成功识别为 Primary 初始持有人哨兵值；脏值（`"NONE"`, `"NA"`, `"00"`, `"0.0"`）严格标记为 `ownership_unresolved = True`；
+    - **Test-B07.2 (信源表隔离)**: 同一序列号存在于两张表时，行级所有权解析必须严格匹配 `OTHERMANAGER2.tsv`，`OTHERMANAGER.tsv` 代理键被严格忽略；
+    - **Test-B07.3 (同一申报内混存)**: 单一申报内同时存在 `other_manager = '0'` 与 `other_manager = '1'` 时，0 行归属于申报人，1 行归属于映射管理人；
+    - **Test-B07.4 (零哨兵敏感性前置派生)**: `ZERO_SENTINEL_EXCLUDED` 分支在明细行聚合前剔除 `'0'` 行，且不影响 Primary 聚合结果。
   - Test-B08: 作用域重叠持仓保留与去重（必须在同一 `canonical_entity_id` 内部去重，严禁跨实体合并）；
   - Test-B09: 非独立申报顾问节点连通性（不作为 expected filing member）；
   - Test-B10: 独立申报成员缺报/迟交假清仓防范（16-CIK 实体 1 成员迟交触发 `membership_incomplete`，整实体当季置为 Missing）；
@@ -119,7 +123,7 @@
   - Test-B20: 真实官方 SEC 8-K 纯现金并购对价结算收益与非现金/不确定并购置为缺失（`is_outcome_missing = 1`）；
   - Test-B21: 键唯一性违规拦截（模拟 `m0_signals` 或 `m0_forward_returns` 出现重复 `(primary_stock_id, period)` 键时，LEFT JOIN 预检必须立即抛错中止）；
   - Test-B22: 基数守恒不变量（验证单向预注册 LEFT JOIN 输出行数与信号表输入行数严格相等：$\text{rows}(\text{joined}) \equiv \text{rows}(\text{signals})$，缺失收益行被 100% 保留且标记 `is_outcome_missing = 1`）；
-  - Test-B23: 在同一张保留全量行的 LEFT JOIN 表上，派生计算 Primary（过滤 NaN/缺失）、$\text{Missing}=-100\%$、$\text{Missing}=0\%$ 及 $\le 5$ 日顺延分支。
+  - Test-B23: 在同一张保留全量行的 LEFT JOIN 表上，派生计算 Primary（过滤 NaN/缺失）、$\text{Missing}=-100\%$、$\text{Missing}=0\%$、$\le 5$ 日顺延分支及 `ZERO_SENTINEL_EXCLUDED` 敏感性分支。
 
 #### 阶段验收门控 (Gate B)
 - **命令**: `pytest research/smart_money/m0/tests/test_stage_b_counterexamples.py`
@@ -133,13 +137,15 @@
 #### 目标
 在真实 13F 历史数据切片中，先固化手工可审计的期望值夹具（Expected Fixtures）与 SEC 一手 8-K 证据，再执行程序对账。
 
-#### 核心验证标的与固定夹具
-- **Point72 实体组件** (未冻结规划夹具，需先固化):
-  - 提取 2019Q4 真实申报 Accession 列表与引用序列号，固化手工对账夹具；
-  - 验证跨 CIK 相同经济签名行被精确去重，不同签名持仓完整保留（严禁在夹具固化前声称 100% 正确）。
+#### 核心验证标的与固定夹具 (Contract v0.8.2 修订)
+- **Point72 实体组件** (2019Q4 真实对账夹具):
+  - **主申报 Accession `0001567619-20-004063`**: Primary M0 必须完整保留其全部 917 行 `DFND` / `'0'` 明细，去重前申报总股数严格等于 **418,109,088 股**，申报总市值严格等于 **$19,018,144,000 USD**；
+  - **信源表验证**: 证明行级序列号仅通过 `OTHERMANAGER2.tsv` 解析；
+  - **敏感性对比**: `ZERO_SENTINEL_EXCLUDED` 分支必须排除上述 917 行主申报记录；
+  - **跨 CIK 去重**: 待 v0.8.2 重跑后，依据真实对账数据固化跨 CIK 相同经济签名精确去重基准（严禁在重跑前虚构去重后股数）。
 - **Berkshire Hathaway 苹果持仓** (CIK `0001067983`, CUSIP `037833100`):
   - 引用原始申报 `0000950123-24-002518`；
-  - 验证 2023Q4 聚合后总股数严格等于 SEC 官方申报的 905,560,000 股。
+  - 验证 2023Q4 原始申报总股数严格等于 SEC 官方申报的 905,560,000 股。
 - **四大冻结拆股基准一手对账** (引用 SEC 8-K 申报证据):
   - NVDA (10:1, 2024Q2) $\to$ 连续持有者调整后中位数 $\in [0.8, 1.2]$。
   - TSLA (3:1, 2022Q3) $\to$ 连续持有者调整后中位数 $\in [0.8, 1.2]$。
@@ -147,7 +153,7 @@
   - GOOGL (20:1, 2022Q3) $\to$ 连续持有者调整后中位数 $\in [0.8, 1.2]$。
 
 #### 阶段验收门控 (Gate C)
-- **命令**: `python -m research.smart_money.m0.src.run_pilot_benchmarks`
+- **命令**: `python -m research.smart_money.m0.src.run_c1_discovery`
 - **标准**: 与固化夹具比对完全吻合，四大基准拆股调整中位数全量落在 $[0.8, 1.2]$。
 - **预估磁盘占用**: 暂存切片数据 $\approx 200\sim 500\text{ MB}$（严禁自动删除用户数据）。
 
@@ -161,12 +167,13 @@
 #### 核心输出
 1. 信号端独立派生库落地 (`research/smart_money/m0/runs/<run_id>/signal/m0_signal.db`)，并确保 `(primary_stock_id, period_of_report)` 唯一键无冲突；
 2. 拆股瀑布门控审计报表 (`research/smart_money/m0/runs/<run_id>/signal/m0_split_waterfall_audit.md`)；
-3. 映射与信号覆盖率报表 (`research/smart_money/m0/runs/<run_id>/signal/m0_signal_coverage.md`)；
+3. 映射与信号覆盖率报表 (`research/smart_money/m0/runs/<run_id>/signal/m0_signal_coverage.md`，含零哨兵覆盖率对比)；
 4. **变更检测校验和清单**: `SHA256_SIGNAL_MANIFEST.json`，完整记录：
    - `phase0_db_path` 与 `phase0_db_sha256`
    - `source_git_sha` 与 `m0_code_git_sha`、`git_tree_dirty` 状态 (必须为 `False`)
-   - `contract_version` 与 `contract_sha256`
+   - `contract_version` (v0.8.2) 与 `contract_sha256`
    - `schema_versions` 与 `query_versions`
+   - `primary_empirical_zero_policy` 与 `zero_excluded_sensitivity` 策略声明
    - `python_version`、`os_info` 与 `dependency_versions` (含精确版本号)
    - `created_utc` 时间戳
    - `openfigi_raw_cache` (所有请求、响应、URL、HTTP 状态码及 SHA-256 校验和)
@@ -217,7 +224,7 @@
 ### Stage F: 单次官方预注册 LEFT JOIN 与诊断评价
 
 #### 目标
-校验两个 Manifest 的跨阶段绑定哈希一致性，执行唯一一次正式单向预注册 LEFT JOIN，输出正式 M0 基准诊断指标。
+校验两个 Manifest 的跨阶段绑定哈希一致性，执行唯一一次正式单向预注册 LEFT JOIN，输出正式 M0 基准诊断指标及全套敏感性对照。
 
 #### 核心产物与交付
 1. **单次预注册 LEFT JOIN 执行与基数不变量验证**:
@@ -246,7 +253,8 @@
    - 排除 `KNOWN_SPLIT_LOW_POWER` 对照；
    - 退市缺失标的收益设为 $-100\%$ 压力测试；
    - 退市缺失标的收益设为 $0\%$ 压力测试；
-   - 停牌交易日顺延 $\le 5$ 日对照。
+   - 停牌交易日顺延 $\le 5$ 日对照；
+   - **`ZERO_SENTINEL_EXCLUDED` 对照报告**: 报告剔除 empirical-zero 明细行后的全样本 IC、季度勝率及股票覆盖率变动。
 4. **正式审计交付报告**: `research/smart_money/m0/runs/<run_id>/M0_RESULTS.md`。
 
 #### 阶段验收门控 (Gate F)

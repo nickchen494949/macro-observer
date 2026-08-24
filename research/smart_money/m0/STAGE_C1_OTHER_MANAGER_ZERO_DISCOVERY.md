@@ -1,10 +1,10 @@
 # Stage C1 Technical Discovery Memo: Form 13F Column 7 `<otherManager>0` Sentinel & Source Table Disambiguation
 
 > **Date**: 2026-08-24
-> **Status**: `BLOCKED PENDING CONTRACT AMENDMENT DECISION`
+> **Status**: `APPROVED FOR CONTRACT v0.8.2 / IMPLEMENTATION PENDING`
 > **Target Module**: `research/smart_money/m0/`
-> **Related Contract**: Proposed Amendment to `CONTRACT.md` (v0.8.1 $\to$ v0.8.2)
-> **Scope**: Pure Technical Memo (No code, tests, contract, or artifact changes applied)
+> **Related Contract**: `CONTRACT.md` (Amended to v0.8.2)
+> **Scope**: Pure Technical Memo & Formal Governance Decision Record
 
 ---
 
@@ -14,7 +14,7 @@ During Stage C Part C1 pilot discovery against `research/smart_money/phase0/data
 
 1. **Empirical Sentinel `<otherManager>0` in Point72 Main Filing**: Point72 Asset Management, L.P. (CIK `0001603466`) in accession `0001567619-20-004063` has exactly **917 line items**, all having `INVESTMENTDISCRETION = 'DFND'` and `other_manager = '0'`, totaling **418,109,088 shares** and **$19,018,144,000 USD** in value. Under Contract v0.8.1, `'0'` is treated as an unknown integer sequence number, causing **100% of Point72 main holdings to be marked unresolved and discarded**, preventing verification of Point72 cross-CIK exact-signature deduplication.
 2. **SEC Source Table Collision**: In SEC raw 13F datasets, `OTHERMANAGER.tsv` uses `OTHERMANAGER_SK` (internal surrogate keys), whereas `OTHERMANAGER2.tsv` uses `SEQUENCENUMBER` (1-based sequence numbers corresponding to Column 7). `manager_relationships` ingests rows from both. Attempting to resolve line-level sequence numbers against `OTHERMANAGER.tsv` causes lookup failures.
-3. **Strict Fact vs. Inference Framework**: This memo strictly separates observed empirical facts from architectural inferences, presents reproducible target-CUSIP classification distributions and accession coexistence statistics, and proposes a conservative, auditable **Contract v0.8.2 amendment** for Codex review and user decision.
+3. **Strict Fact vs. Inference Framework**: This memo strictly separates observed empirical facts from architectural inferences, presents reproducible target-CUSIP classification distributions and accession coexistence statistics, and establishes the formal **Contract v0.8.2 amendment**.
 
 ---
 
@@ -199,9 +199,9 @@ conn.close()
 
 ---
 
-## 5. Proposed CONTRACT v0.8.2 Specification Amendment (Draft for Review)
+## 5. Adopted CONTRACT v0.8.2 Specification Amendment
 
-### Proposed Changes (Pending Codex / User Approval)
+### Adopted Rules
 
 1. **Primary Origin Sentinels**:
    - `None` (NULL) and `""` (empty string).
@@ -213,8 +213,8 @@ conn.close()
    - Values such as `"NONE"`, `"NA"`, `"NOT APPLICABLE"`, `"N / A"`, `"00"`, `"0.0"` remain **unresolved in Primary M0** until separately evidenced; they may only be evaluated in sensitivity-only branches.
    - Multi-numeric lists (e.g. `"1,2,4,11"`, `"1 3 4"`) and free-text manager names (e.g. `"Blue Chip Partners LLC"`) remain strictly **unresolved** in Primary M0.
 
-3. **Mandatory Sensitivity Branch**:
-   - Require a dedicated sensitivity branch that excludes empirical-zero (`'0'`) rows to evaluate signal robustness against this compatibility rule.
+3. **Mandatory Sensitivity Branch (`ZERO_SENTINEL_EXCLUDED`)**:
+   - Require a dedicated sensitivity branch derived **upstream pre-aggregation** that excludes empirical-zero (`'0'`) rows to evaluate signal robustness against this compatibility rule.
 
 4. **Line-Level Sequence Resolution Rule**:
    - Line items in `filing_line_items` resolve sequence numbers strictly against `manager_relationships` entries where `source_table = 'OTHERMANAGER2.tsv'`. Entries from `OTHERMANAGER.tsv` are ignored for line sequence matching.
@@ -235,6 +235,10 @@ conn.close()
 
 ---
 
-## 7. Current Governance State
-- **Current Status**: `BLOCKED PENDING CONTRACT AMENDMENT DECISION`
-- **Integrity Guarantee**: No modifications have been made to `CONTRACT.md`, `IMPLEMENTATION_PLAN.md`, production code (`m0/src/`), tests (`m0/tests/`), or output artifacts (`STAGE_C1_DISCOVERY.json`, `STAGE_C_DISCOVERY.md`).
+## 7. Formal Governance & Decision Record
+
+### Formal Decision Record
+- **Decision Date**: 2026-08-24
+- **Authority**: Independent Codex Auditor
+- **Action**: **APPROVED** for adoption into `CONTRACT.md` v0.8.2 and `IMPLEMENTATION_PLAN.md` v0.8.2.
+- **Implementation Status**: Specifications and test plan updated; source code and test suite implementation to follow under strict audit control.
