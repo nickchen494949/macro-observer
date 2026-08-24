@@ -83,13 +83,16 @@ ORDER BY accession_number, source_table, sequence_number;
 | `0001567619-20-004063` | `1603466` (Main) | `1698051` (Europe) | `32423` | `OTHERMANAGER.tsv` | Surrogate Key (`SK`), NOT Column 7 |
 
 ```sql
--- Query 3: Dataset-wide OTHERMANAGER2.tsv Sequence Number Distribution
-SELECT COUNT(*) AS total_rows, MIN(CAST(sequence_number AS INTEGER)) AS min_seq, MAX(CAST(sequence_number AS INTEGER)) AS max_seq
+-- Query 3: Dataset-wide OTHERMANAGER2.tsv Sequence Number Distribution and Zero-Sequence Check
+SELECT COUNT(*) AS total_numeric_rows,
+       MIN(CAST(sequence_number AS INTEGER)) AS min_seq,
+       MAX(CAST(sequence_number AS INTEGER)) AS max_seq,
+       SUM(CASE WHEN TRIM(sequence_number) IN ('0', '00', '000') THEN 1 ELSE 0 END) AS zero_seq_count
 FROM manager_relationships
 WHERE source_table = 'OTHERMANAGER2.tsv' AND sequence_number GLOB '[0-9]*';
 ```
 **Output**:
-| Total Numeric Rows | Min Sequence | Max Sequence | Rows with Sequence `0`, `00`, or `000` |
+| Total Numeric Rows | Min Sequence | Max Sequence | Zero-Sequence Count (`0`/`00`/`000`) |
 | :---: | :---: | :---: | :---: |
 | **93,183** | **1** | **602** | **0** |
 
@@ -101,7 +104,7 @@ WHERE source_table = 'OTHERMANAGER2.tsv' AND sequence_number GLOB '[0-9]*';
 1. In the SEC raw 13F dataset (e.g. `phase0/data/zips/2020q1.zip`), `OTHERMANAGER2.tsv` contains field `SEQUENCENUMBER`, populated with 1-based sequential integers (`1` through `602`) assigned to other included managers on the Summary Page.
 2. `OTHERMANAGER.tsv` contains field `OTHERMANAGER_SK`, which is an internal surrogate key assigned during SEC EDGAR ingestion.
 3. In `INFOTABLE.tsv`, the Column 7 field `OTHRMANAGER` references `OTHERMANAGER2.SEQUENCENUMBER`.
-4. There are exactly 0 sequence entries of `0` in `OTHERMANAGER2.tsv`.
+4. There are exactly 0 sequence entries of `0`, `00`, or `000` in `OTHERMANAGER2.tsv`.
 
 ### Inferences & Architectural Decisions:
 1. **Line-Level Sequence Lookup**: Line-level resolution (`resolve_ownership`) must strictly query `manager_relationships` where `source_table = 'OTHERMANAGER2.tsv'`. Using `OTHERMANAGER.tsv` for sequence matching is invalid because its keys are surrogate identifiers.
@@ -111,8 +114,8 @@ WHERE source_table = 'OTHERMANAGER2.tsv' AND sequence_number GLOB '[0-9]*';
 
 ## 4. Target-CUSIP Distribution & Accession Coexistence
 
-### A. Target-CUSIP Streaming Classification Table
-A streaming classification over all line items for the four canonical split pilot stocks produces the following distribution:
+### A. Target-CUSIP Classification Table
+A chunked streaming classification over all line items for the four canonical split pilot stocks produces the following distribution:
 
 | Metric / Category | NVDA (`67066G104`) | TSLA (`88160R101`) | AMZN (`023135106`) | GOOGL (`02079K305`) |
 | :--- | :---: | :---: | :---: | :---: |
@@ -135,13 +138,13 @@ Accessions where `'0'` and nonzero `other_manager` values coexist within the sam
 
 **Inference from Coexistence**: The presence of both `'0'` and positive integer sequence numbers within the same accession demonstrates that filers use `'0'` as a line-specific indicator (indicating no other manager for that specific line item), rather than a filing-wide omission.
 
-### C. Executable Reproducible Classification Snippet
-Auditors can reproduce the exact target-CUSIP classification using the following read-only Python script:
+### C. Executable Reproducible Chunked Streaming Snippet
+Auditors can reproduce the exact target-CUSIP classification and accession coexistence counts using the following chunked `fetchmany` Python script:
 
 ```python
 import re
 from pathlib import Path
-from collections import Counter
+from collections import Counter, defaultdict
 from research.smart_money.m0.src.storage_guard import open_readonly_sqlite
 
 def classify_row_other_manager(val: str | None) -> str:
@@ -165,10 +168,32 @@ def classify_row_other_manager(val: str | None) -> str:
 db_path = Path("research/smart_money/phase0/data/13f_full_4409f14.db")
 conn = open_readonly_sqlite(db_path, immutable=True)
 cur = conn.cursor()
-for sym, cusip in [("NVDA", "67066G104"), ("TSLA", "88160R101"), ("AMZN", "023135106"), ("GOOGL", "02079K305")]:
-    cur.execute("SELECT other_manager FROM filing_line_items WHERE cusip = ?;", (cusip,))
-    counts = Counter(classify_row_other_manager(r[0]) for r in cur.fetchall())
-    print(sym, counts)
+
+stocks = [("NVDA", "67066G104"), ("TSLA", "88160R101"), ("AMZN", "023135106"), ("GOOGL", "02079K305")]
+
+for sym, cusip in stocks:
+    cur.execute("SELECT accession_number, other_manager FROM filing_line_items WHERE cusip = ?;", (cusip,))
+    counts = Counter()
+    acc_has_zero = defaultdict(bool)
+    acc_has_nonzero = defaultdict(bool)
+
+    while True:
+        chunk = cur.fetchmany(10000)
+        if not chunk:
+            break
+        for acc, om in chunk:
+            cat = classify_row_other_manager(om)
+            counts[cat] += 1
+            om_s = (om or "").strip()
+            if om_s == "0":
+                acc_has_zero[acc] = True
+            elif om_s and om_s != "0":
+                acc_has_nonzero[acc] = True
+
+    coexist_cnt = sum(1 for acc in acc_has_zero if acc_has_nonzero[acc])
+    print(f"{sym} ({cusip}): total={sum(counts.values())}, coexistence_accessions={coexist_cnt}")
+    print(f"  counts: {dict(counts)}")
+
 conn.close()
 ```
 
