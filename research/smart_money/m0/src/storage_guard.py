@@ -1,4 +1,4 @@
-"""SQLite storage guard, read-only URI formatting, and schema initializers."""
+"""SQLite storage guard, read-only URI formatting with immutable flag, and schema initializers."""
 
 import os
 from pathlib import Path
@@ -6,21 +6,35 @@ import sqlite3
 import urllib.parse
 
 
-def make_readonly_sqlite_uri(db_path: str | Path) -> str:
-    """Generate a valid SQLite read-only URI supporting special characters."""
-    abs_path = os.path.abspath(str(db_path))
+def make_readonly_sqlite_uri(db_path: str | Path, immutable: bool = True) -> str:
+    """Generate a valid SQLite read-only URI supporting special characters and immutable flag.
+    
+    Verifies that the target database file physically exists.
+    """
+    path_obj = Path(db_path)
+    if not path_obj.is_file():
+        raise FileNotFoundError(f"SQLite database file not found: {db_path}")
+
+    abs_path = os.path.abspath(str(path_obj))
     # quote path to safely handle characters like '?', '#', spaces, etc.
     quoted_path = urllib.parse.quote(abs_path)
-    return f"file:{quoted_path}?mode=ro"
+    uri = f"file:{quoted_path}?mode=ro"
+    if immutable:
+        uri += "&immutable=1"
+    return uri
 
 
-def open_readonly_sqlite(db_path: str | Path) -> sqlite3.Connection:
+def open_readonly_sqlite(db_path: str | Path, immutable: bool = True) -> sqlite3.Connection:
     """Open an SQLite database strictly in read-only mode using a URI connection.
     
-    Any write attempt on this connection will be blocked by SQLite engine.
+    Enforces:
+    1. File existence validation;
+    2. URI mode=ro with immutable=1 (preventing WAL/SHM/journal generation for frozen sources);
+    3. PRAGMA query_only = ON.
     """
-    uri = make_readonly_sqlite_uri(db_path)
+    uri = make_readonly_sqlite_uri(db_path, immutable=immutable)
     conn = sqlite3.connect(uri, uri=True)
+    conn.execute("PRAGMA query_only = ON;")
     return conn
 
 

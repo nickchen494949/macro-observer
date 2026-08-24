@@ -80,13 +80,15 @@ def select_open_price_with_roll(
     target_date: str,
     max_roll_days: int = 5,
 ) -> tuple[float | None, int, str | None]:
-    """Select open price with exchange calendar roll forward up to max_roll_days.
+    """Select open price with exchange calendar roll forward up to max_roll_days inclusive.
     
-    Days with no quote still consume an exchange trading day slot.
+    Checks target trading session (offset 0) plus up to max_roll_days subsequent sessions inclusive
+    (i.e. offsets 0, 1, 2, ..., max_roll_days).
+    Each exchange session without a valid price consumes a roll quota.
+    
     Returns:
         (price, days_rolled, actual_trade_date)
     """
-    # Find start trading day index on or after target_date
     cal_sorted = sorted(trading_days_calendar)
     start_idx = None
     for i, d in enumerate(cal_sorted):
@@ -97,7 +99,7 @@ def select_open_price_with_roll(
     if start_idx is None:
         return None, 0, None
 
-    for roll in range(max_roll_days):
+    for roll in range(max_roll_days + 1):
         current_idx = start_idx + roll
         if current_idx >= len(cal_sorted):
             break

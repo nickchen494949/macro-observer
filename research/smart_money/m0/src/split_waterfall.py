@@ -1,6 +1,7 @@
 """Corporate action and split waterfall state machine (Gates 0, 1, 2) and rational factor dictionary."""
 
 from dataclasses import dataclass
+from datetime import date
 import math
 import statistics
 from typing import Any
@@ -22,6 +23,17 @@ class SplitEvent:
     ex_date: str  # YYYY-MM-DD
     ratio: float  # e.g., 2.0 for 2:1, 0.1 for 1:10
 
+    def validate(self) -> None:
+        """Validate split event fields."""
+        if not self.ex_date or not isinstance(self.ex_date, str):
+            raise ValueError(f"Invalid ex_date in split event: {self.ex_date!r}")
+        try:
+            date.fromisoformat(self.ex_date.strip())
+        except ValueError as err:
+            raise ValueError(f"Invalid date format in split event ex_date: {self.ex_date!r}") from err
+        if not isinstance(self.ratio, (int, float)) or not math.isfinite(self.ratio) or self.ratio <= 0.0:
+            raise ValueError(f"Invalid non-positive or non-finite split ratio: {self.ratio}")
+
 
 @dataclass(frozen=True)
 class ContinuousHolder:
@@ -29,6 +41,23 @@ class ContinuousHolder:
     entity_id: str
     prev_shares: float
     curr_shares: float
+
+    def validate(self) -> None:
+        """Validate continuous holder shares and entity_id."""
+        if not self.entity_id or not str(self.entity_id).strip():
+            raise ValueError("ContinuousHolder entity_id cannot be blank or empty.")
+        if (
+            not isinstance(self.prev_shares, (int, float))
+            or not math.isfinite(self.prev_shares)
+            or self.prev_shares <= 0.0
+        ):
+            raise ValueError(f"Invalid non-positive or non-finite prev_shares: {self.prev_shares}")
+        if (
+            not isinstance(self.curr_shares, (int, float))
+            or not math.isfinite(self.curr_shares)
+            or self.curr_shares <= 0.0
+        ):
+            raise ValueError(f"Invalid non-positive or non-finite curr_shares: {self.curr_shares}")
 
 
 @dataclass(frozen=True)
@@ -39,32 +68,40 @@ class SplitWaterfallResult:
     split_factor: float | None
     sensitivity_action: str  # 'INCLUDE' or 'EXCLUDE'
     k_ledger: float
+    has_vendor_splits: bool
     holder_count: int
     median_ratio: float | None
     mad_log: float | None
     adj_median_ratio: float | None
 
 
-def compute_k_ledger(
+def validate_all_vendor_splits(vendor_splits: list[SplitEvent]) -> None:
+    """Validate every event in vendor ledger snapshot."""
+    for s in vendor_splits:
+        s.validate()
+
+
+def compute_k_ledger_and_presence(
     prev_period: str, curr_period: str, vendor_splits: list[SplitEvent]
-) -> float:
-    """Compute period-pair split coefficient K_ledger(Q-1, Q).
+) -> tuple[float, bool]:
+    """Compute period-pair split coefficient K_ledger and whether vendor split events occurred.
     
     Includes splits with prev_period < ex_date <= curr_period.
-    Product of all split ratios; returns 1.0 if empty.
+    Product of all split ratios; returns (1.0, False) if empty.
     """
+    validate_all_vendor_splits(vendor_splits)
+
     applicable_splits = [
         s for s in vendor_splits if prev_period < s.ex_date <= curr_period
     ]
+    has_splits = len(applicable_splits) > 0
     if not applicable_splits:
-        return 1.0
+        return 1.0, False
 
     k = 1.0
     for s in applicable_splits:
-        if not math.isfinite(s.ratio) or s.ratio <= 0:
-            raise ValueError(f"Invalid non-positive or non-finite split ratio: {s.ratio}")
         k *= float(s.ratio)
-    return k
+    return k, has_splits
 
 
 def compute_holder_log_statistics(
@@ -72,19 +109,24 @@ def compute_holder_log_statistics(
 ) -> tuple[float | None, float | None, float | None, int]:
     """Compute log-ratio median, MAD_log, and K_ledger-adjusted median for continuous holders.
     
+    Rejects invalid holders and enforces N consistency (N == len(holders)).
     Returns:
         (tilde_r, mad_log, tilde_r_prime, N)
     """
+    if not isinstance(k_ledger, (int, float)) or not math.isfinite(k_ledger) or k_ledger <= 0.0:
+        raise ValueError(f"Invalid k_ledger: {k_ledger}")
+
+    if not holders:
+        return None, None, None, 0
+
     valid_ratios: list[float] = []
     for h in holders:
-        if h.prev_shares > 0 and h.curr_shares > 0:
-            r = h.curr_shares / h.prev_shares
-            if math.isfinite(r) and r > 0:
-                valid_ratios.append(r)
+        h.validate()
+        r = float(h.curr_shares) / float(h.prev_shares)
+        valid_ratios.append(r)
 
     n = len(valid_ratios)
-    if n == 0:
-        return None, None, None, 0
+    assert n == len(holders), "Holder count consistency check"
 
     log_ratios = [math.log(r) for r in valid_ratios]
     mu_log = statistics.median(log_ratios)
@@ -92,9 +134,6 @@ def compute_holder_log_statistics(
 
     abs_deviations = [abs(y - mu_log) for y in log_ratios]
     mad_log = statistics.median(abs_deviations)
-
-    if k_ledger <= 0 or not math.isfinite(k_ledger):
-        raise ValueError(f"Invalid k_ledger: {k_ledger}")
 
     mu_adj_log = mu_log - math.log(k_ledger)
     tilde_r_prime = math.exp(mu_adj_log)
@@ -116,12 +155,14 @@ def is_rational_split_factor_match(ratio: float, tolerance: float = 0.05) -> boo
 
 def evaluate_split_waterfall(
     is_corporate_action_unknown: bool,
+    has_vendor_splits: bool,
     k_ledger: float,
     holders: list[ContinuousHolder],
 ) -> SplitWaterfallResult:
-    """Execute ordered split waterfall precedence (Gates 0, 1, 2) matching Contract v0.8.1 Section 11.
+    """Execute ordered split waterfall precedence (Gates 0, 1, 2) matching Contract v0.8.1.
     
-    Returns exhaustive state classification and action.
+    Gate 1 triggers on has_vendor_splits=True (even if net k_ledger == 1.0 due to offsetting splits).
+    Gate 2 triggers on has_vendor_splits=False.
     """
     tilde_r, mad_log, tilde_r_prime, n = compute_holder_log_statistics(holders, k_ledger)
 
@@ -133,14 +174,15 @@ def evaluate_split_waterfall(
             split_factor=None,
             sensitivity_action="EXCLUDE",
             k_ledger=k_ledger,
+            has_vendor_splits=has_vendor_splits,
             holder_count=n,
             median_ratio=tilde_r,
             mad_log=mad_log,
             adj_median_ratio=tilde_r_prime,
         )
 
-    # Gate 1: Vendor ledger has split record (k_ledger != 1.0)
-    if abs(k_ledger - 1.0) > 1e-7:
+    # Gate 1: Vendor ledger has split records (has_vendor_splits == True)
+    if has_vendor_splits:
         if n < 20:
             # Branch 1.1: Low statistical power
             return SplitWaterfallResult(
@@ -149,6 +191,7 @@ def evaluate_split_waterfall(
                 split_factor=k_ledger,
                 sensitivity_action="EXCLUDE",
                 k_ledger=k_ledger,
+                has_vendor_splits=True,
                 holder_count=n,
                 median_ratio=tilde_r,
                 mad_log=mad_log,
@@ -165,6 +208,7 @@ def evaluate_split_waterfall(
                     split_factor=k_ledger,
                     sensitivity_action="INCLUDE",
                     k_ledger=k_ledger,
+                    has_vendor_splits=True,
                     holder_count=n,
                     median_ratio=tilde_r,
                     mad_log=mad_log,
@@ -178,13 +222,14 @@ def evaluate_split_waterfall(
                     split_factor=None,
                     sensitivity_action="EXCLUDE",
                     k_ledger=k_ledger,
+                    has_vendor_splits=True,
                     holder_count=n,
                     median_ratio=tilde_r,
                     mad_log=mad_log,
                     adj_median_ratio=tilde_r_prime,
                 )
 
-    # Gate 2: Vendor ledger has no split record (k_ledger == 1.0)
+    # Gate 2: Vendor ledger has NO split records (has_vendor_splits == False)
     if n < 20:
         # Branch 2.1: Low power without ledger split
         return SplitWaterfallResult(
@@ -193,6 +238,7 @@ def evaluate_split_waterfall(
             split_factor=1.0,
             sensitivity_action="EXCLUDE",
             k_ledger=1.0,
+            has_vendor_splits=False,
             holder_count=n,
             median_ratio=tilde_r,
             mad_log=mad_log,
@@ -211,6 +257,7 @@ def evaluate_split_waterfall(
                 split_factor=1.0,
                 sensitivity_action="INCLUDE",
                 k_ledger=1.0,
+                has_vendor_splits=False,
                 holder_count=n,
                 median_ratio=tilde_r,
                 mad_log=mad_log,
@@ -224,6 +271,7 @@ def evaluate_split_waterfall(
                 split_factor=None,
                 sensitivity_action="EXCLUDE",
                 k_ledger=1.0,
+                has_vendor_splits=False,
                 holder_count=n,
                 median_ratio=tilde_r,
                 mad_log=mad_log,
@@ -237,6 +285,7 @@ def evaluate_split_waterfall(
                 split_factor=None,
                 sensitivity_action="EXCLUDE",
                 k_ledger=1.0,
+                has_vendor_splits=False,
                 holder_count=n,
                 median_ratio=tilde_r,
                 mad_log=mad_log,

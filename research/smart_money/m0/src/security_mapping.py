@@ -1,6 +1,7 @@
 """OpenFIGI deterministic waterfall resolution, CUSIP validation, and Jaro-Winkler similarity."""
 
 from dataclasses import dataclass
+import math
 import re
 from typing import Any
 
@@ -17,7 +18,7 @@ _VALID_EXCH_CODES = {"US", "UN", "UQ", "UR", "UA"}
 
 
 def jaro_similarity(s1: str, s2: str) -> float:
-    """Compute basic Jaro string similarity."""
+    """Compute standard Jaro string similarity."""
     if not s1 and not s2:
         return 1.0
     if not s1 or not s2:
@@ -26,38 +27,35 @@ def jaro_similarity(s1: str, s2: str) -> float:
         return 1.0
 
     len1, len2 = len(s1), len(s2)
-    match_distance = max(len1, len2) // 2 - 1
-    if match_distance < 0:
-        match_distance = 0
+    max_dist = max(len1, len2) // 2 - 1
+    if max_dist < 0:
+        max_dist = 0
 
     s1_matches = [False] * len1
     s2_matches = [False] * len2
 
     matches = 0
-    for i, c1 in enumerate(s1):
-        start = max(0, i - match_distance)
-        end = min(i + match_distance + 1, len2)
+    for i in range(len1):
+        start = max(0, i - max_dist)
+        end = min(i + max_dist + 1, len2)
         for j in range(start, end):
-            if not s2_matches[j] and c1 == s2[j]:
-                s1_matches[i] = True
-                s2_matches[j] = True
-                matches += 1
-                break
+            if s2_matches[j]:
+                continue
+            if s1[i] != s2[j]:
+                continue
+            s1_matches[i] = True
+            s2_matches[j] = True
+            matches += 1
+            break
 
     if matches == 0:
         return 0.0
 
-    t = 0
-    k = 0
-    for i, is_match in enumerate(s1_matches):
-        if is_match:
-            while not s2_matches[k]:
-                k += 1
-            if s1[i] != s2[k]:
-                t += 1
-            k += 1
+    s1_matched_chars = [s1[i] for i in range(len1) if s1_matches[i]]
+    s2_matched_chars = [s2[j] for j in range(len2) if s2_matches[j]]
 
-    transpositions = t // 2
+    transpositions = sum(c1 != c2 for c1, c2 in zip(s1_matched_chars, s2_matched_chars)) // 2
+
     return (matches / len1 + matches / len2 + (matches - transpositions) / matches) / 3.0
 
 
@@ -65,11 +63,9 @@ def jaro_winkler_similarity(s1: str, s2: str, p: float = 0.1, max_l: int = 4) ->
     """Compute Jaro-Winkler string similarity."""
     j = jaro_similarity(s1, s2)
     l = 0
-    for c1, c2 in zip(s1, s2):
+    for c1, c2 in zip(s1[:max_l], s2[:max_l]):
         if c1 == c2:
             l += 1
-            if l == max_l:
-                break
         else:
             break
     return j + (l * p * (1.0 - j))
@@ -79,7 +75,7 @@ def is_valid_cusip(cusip: str) -> bool:
     """Validate 9-character CUSIP format and checksum algorithm."""
     if not isinstance(cusip, str) or len(cusip) != 9:
         return False
-    
+
     cusip_upper = cusip.upper()
     if not re.match(r"^[0-9A-Z]{9}$", cusip_upper):
         return False
@@ -101,7 +97,7 @@ def is_valid_cusip(cusip: str) -> bool:
 
         if i % 2 == 1:
             val *= 2
-        
+
         total += (val // 10) + (val % 10)
 
     check_digit = (10 - (total % 10)) % 10
@@ -132,8 +128,8 @@ def resolve_openfigi_waterfall(
 ) -> tuple[str | None, dict[str, Any]]:
     """Resolve primary stock identifier via deterministic OpenFIGI waterfall.
     
-    Returns:
-        (primary_stock_id, metadata_dict)
+    Selects only highest-name-score candidates before ambiguity check.
+    Two distinct IDs at different scores are not ambiguity (higher score wins).
     """
     if not is_valid_cusip(cusip):
         return None, {"status": "INVALID_CUSIP", "reason": "CUSIP failed format/checksum check"}
@@ -175,7 +171,6 @@ def resolve_openfigi_waterfall(
             primary_id = comp_figi
             is_composite_fallback = True
         else:
-            # No shareClassFIGI or compositeFIGI available
             continue
 
         surviving.append((cand, primary_id, is_composite_fallback, sim))
@@ -183,17 +178,26 @@ def resolve_openfigi_waterfall(
     if not surviving:
         return None, {"status": "NO_MATCH", "reason": "No candidate passed waterfall filters"}
 
-    # Step 6: Check for ambiguity among surviving candidates
-    unique_ids = {p_id for _, p_id, _, _ in surviving}
+    # Find highest score among surviving candidates
+    max_sim = max(item[3] for item in surviving)
+    # Retain only candidates matching highest score (within float precision)
+    top_candidates = [
+        item for item in surviving
+        if math.isclose(item[3], max_sim, rel_tol=1e-9, abs_tol=1e-9)
+    ]
+
+    # Step 6: Check for ambiguity among TOP candidates ONLY
+    unique_ids = {p_id for _, p_id, _, _ in top_candidates}
     if len(unique_ids) > 1:
         return None, {
             "status": "MAPPING_AMBIGUOUS",
-            "reason": "Multiple distinct primary IDs matched top candidates",
+            "reason": "Multiple distinct primary IDs matched with equal maximum name score",
             "unique_ids": sorted(list(unique_ids)),
+            "max_score": max_sim,
         }
 
-    # Exactly 1 unique primary ID resolved
-    best_cand, best_id, best_fallback, best_sim = surviving[0]
+    # Exactly 1 unique primary ID resolved at top score
+    best_cand, best_id, best_fallback, best_sim = top_candidates[0]
     return best_id, {
         "status": "RESOLVED",
         "primary_stock_id": best_id,

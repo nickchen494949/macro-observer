@@ -5,7 +5,6 @@ import os
 from pathlib import Path
 import re
 
-
 _SAFE_RUN_ID_PATTERN = re.compile(r"^[a-zA-Z0-9_-]+$")
 
 
@@ -41,37 +40,51 @@ def create_run_paths(run_id: str, m0_root: str | Path | None = None) -> RunPaths
     
     Enforces:
     1. Valid identifier syntax for run_id (no path traversal '..' or slashes).
-    2. Realpath resolution preventing symlink alias escape.
-    3. Strict independence and non-overlapping invariant between signal and outcome dirs.
+    2. Strict child relationship of base_dir to runs root even through symlinks.
+    3. Strict child relationship of signal and outcome to base_dir even through symlinks.
+    4. Strict independence and non-overlapping invariant between signal and outcome dirs.
     """
-    if not run_id or not isinstance(run_id, str) or not _SAFE_RUN_ID_PATTERN.match(run_id):
+    if not run_id or not isinstance(run_id, str) or not _SAFE_RUN_ID_PATTERN.match(run_id.strip()):
         raise ValueError(
-            f"Invalid run_id '{run_id}'. Must be non-empty alphanumeric string with hyphens or underscores only."
+            f"Invalid run_id {run_id!r}. Must be non-empty alphanumeric string with hyphens or underscores only."
         )
 
+    clean_id = run_id.strip()
     root = Path(m0_root).resolve() if m0_root is not None else get_default_m0_root()
     root_realpath = Path(os.path.realpath(root))
 
-    runs_dir = root_realpath / "runs"
-    base_dir = Path(os.path.realpath(runs_dir / run_id))
+    runs_root = Path(os.path.realpath(root_realpath / "runs"))
+    base_dir = Path(os.path.realpath(runs_root / clean_id))
 
-    # Path traversal check
+    # Base dir must be a strict direct child of runs_root
     try:
-        base_dir.relative_to(root_realpath)
+        rel_base = base_dir.relative_to(runs_root)
+        if len(rel_base.parts) != 1 or rel_base.parts[0] != clean_id:
+            raise ValueError(f"run_dir must be a direct child of runs root: {base_dir}")
     except ValueError as err:
-        raise ValueError(f"Path traversal detected: {base_dir} is not inside {root_realpath}") from err
+        raise ValueError(f"Path traversal or escape detected: {base_dir} is not inside {runs_root}") from err
 
     signal_dir = Path(os.path.realpath(base_dir / "signal"))
     outcome_dir = Path(os.path.realpath(base_dir / "outcome"))
 
-    # Strict isolation check: directories must not overlap
+    # Signal and outcome dirs must be strict direct children of base_dir
+    try:
+        rel_sig = signal_dir.relative_to(base_dir)
+        rel_out = outcome_dir.relative_to(base_dir)
+        if len(rel_sig.parts) != 1 or rel_sig.parts[0] != "signal":
+            raise ValueError(f"Signal directory must be a direct child of base_dir: {signal_dir}")
+        if len(rel_out.parts) != 1 or rel_out.parts[0] != "outcome":
+            raise ValueError(f"Outcome directory must be a direct child of base_dir: {outcome_dir}")
+    except ValueError as err:
+        raise ValueError(f"Symlink alias or path escape detected for subdirectories: {err}") from err
+
     if signal_dir == outcome_dir:
         raise ValueError("Signal and outcome directories must not be identical.")
     if outcome_dir.is_relative_to(signal_dir) or signal_dir.is_relative_to(outcome_dir):
         raise ValueError("Signal and outcome directories must not be nested or overlapping.")
 
     return RunPaths(
-        run_id=run_id,
+        run_id=clean_id,
         base_dir=base_dir,
         signal_dir=signal_dir,
         outcome_dir=outcome_dir,
