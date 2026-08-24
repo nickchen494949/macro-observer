@@ -4,7 +4,12 @@ from collections import defaultdict
 import math
 from typing import Any
 
-from research.smart_money.m0.src.ownership_state_machine import is_valid_cik, normalize_cik
+from research.smart_money.m0.src.ownership_state_machine import (
+    is_strict_nonnegative_int,
+    is_strict_nonnegative_number,
+    is_valid_cik,
+    normalize_cik,
+)
 
 
 def build_entity_connected_components(
@@ -13,15 +18,16 @@ def build_entity_connected_components(
     """Build connected components from undirected CIK relationship edges.
     
     Assigns canonical_entity_id = min(int(c) for c in component), zero-padded to 10 digits.
-    Enforces NUMERIC-min, not lexical-min.
+    Raises ValueError on ANY invalid or blank CIK in edges or all_ciks.
     """
     adj: dict[str, set[str]] = defaultdict(set)
     nodes: set[str] = set()
 
     if all_ciks:
         for c in all_ciks:
-            if is_valid_cik(c):
-                nodes.add(normalize_cik(c))
+            if not is_valid_cik(c):
+                raise ValueError(f"Invalid CIK in all_ciks: {c!r}")
+            nodes.add(normalize_cik(c))
 
     for u, v in edges:
         if not is_valid_cik(u) or not is_valid_cik(v):
@@ -56,7 +62,6 @@ def build_entity_connected_components(
 
         for member in component:
             cik_to_entity[member] = canonical_id
-            # Also store unpadded integer representation for seamless lookup
             cik_to_entity[str(int(member))] = canonical_id
 
     return cik_to_entity
@@ -67,11 +72,18 @@ def validate_entity_membership(
 ) -> tuple[bool, str]:
     """Validate that filing membership is identical between Q-1 and Q.
     
-    Only actual origin filers (not related-only advisor nodes) count toward filing_members.
+    Raises ValueError on any invalid or blank CIK in members.
     Returns (is_eligible, reason).
     """
-    prev_clean = {normalize_cik(c) for c in prev_filing_members if is_valid_cik(c)}
-    curr_clean = {normalize_cik(c) for c in curr_filing_members if is_valid_cik(c)}
+    for c in prev_filing_members:
+        if not is_valid_cik(c):
+            raise ValueError(f"Invalid CIK in prev_filing_members: {c!r}")
+    for c in curr_filing_members:
+        if not is_valid_cik(c):
+            raise ValueError(f"Invalid CIK in curr_filing_members: {c!r}")
+
+    prev_clean = {normalize_cik(c) for c in prev_filing_members}
+    curr_clean = {normalize_cik(c) for c in curr_filing_members}
 
     if len(curr_clean) == 0 or len(prev_clean) == 0:
         return False, "EMPTY_FILING_MEMBERS"
@@ -89,12 +101,14 @@ def deduplicate_entity_disclosures(
     """Deduplicate disclosures within a single canonical entity.
     
     Cross-disclosure deduplication is STRICTLY confined within the same canonical_entity_id.
+    Requires valid economic_owner_cik.
+    Shares and voting fields must be finite non-negative INTEGERS.
+    Value must be finite non-negative real number.
     Exact economic signatures MUST NOT be rounded.
-    Rejects blank keys, negative/non-finite values.
     """
     canon_cik = normalize_cik(canonical_entity_id)
 
-    seen_signatures: set[tuple[str, str, str, tuple[float, float, float, float, float]]] = set()
+    seen_signatures: set[tuple[str, str, str, tuple[int, float, int, int, int]]] = set()
     deduped_rows: list[dict[str, Any]] = []
 
     for row in holdings:
@@ -113,31 +127,37 @@ def deduplicate_entity_disclosures(
             raise ValueError("Blank or empty period_of_report in holding row.")
 
         econ_owner_raw = row.get("economic_owner_cik")
-        econ_owner = normalize_cik(econ_owner_raw) if econ_owner_raw is not None else ""
+        if econ_owner_raw is None or not is_valid_cik(econ_owner_raw):
+            raise ValueError(f"Missing or invalid economic_owner_cik in holding row: {econ_owner_raw!r}")
+        econ_owner = normalize_cik(econ_owner_raw)
 
         shares = row.get("total_shares")
         val_usd = row.get("total_value_usd")
-        v_sole = row.get("total_vote_sole", 0.0)
-        v_shared = row.get("total_vote_shared", 0.0)
-        v_none = row.get("total_vote_none", 0.0)
+        v_sole = row.get("total_vote_sole", 0)
+        v_shared = row.get("total_vote_shared", 0)
+        v_none = row.get("total_vote_none", 0)
 
+        # Validate integer fields (rejecting bool and fractions)
         for name, num in [
             ("total_shares", shares),
-            ("total_value_usd", val_usd),
             ("total_vote_sole", v_sole),
             ("total_vote_shared", v_shared),
             ("total_vote_none", v_none),
         ]:
-            if num is None or not isinstance(num, (int, float)) or not math.isfinite(num) or num < 0.0:
-                raise ValueError(f"Invalid non-finite or negative {name}: {num}")
+            if not is_strict_nonnegative_int(num):
+                raise ValueError(f"Invalid non-integer or negative {name}: {num!r}")
 
-        # Exact unrounded floating point tuple signature
+        # Validate value USD
+        if not is_strict_nonnegative_number(val_usd):
+            raise ValueError(f"Invalid non-numeric or negative total_value_usd: {val_usd!r}")
+
+        # Exact unrounded tuple signature with integer shares/votes
         sig = (
-            float(shares),
+            int(shares),
             float(val_usd),
-            float(v_sole),
-            float(v_shared),
-            float(v_none),
+            int(v_sole),
+            int(v_shared),
+            int(v_none),
         )
 
         dedup_key = (cusip, period, econ_owner, sig)

@@ -40,9 +40,10 @@ def create_run_paths(run_id: str, m0_root: str | Path | None = None) -> RunPaths
     
     Enforces:
     1. Valid identifier syntax for run_id (no path traversal '..' or slashes).
-    2. Strict child relationship of base_dir to runs root even through symlinks.
-    3. Strict child relationship of signal and outcome to base_dir even through symlinks.
-    4. Strict independence and non-overlapping invariant between signal and outcome dirs.
+    2. Strict child relationship of runs_root to m0_root (rejecting symlink escapes).
+    3. Strict child relationship of base_dir to runs root.
+    4. Strict child relationship of signal and outcome to base_dir.
+    5. Strict independence and non-overlapping invariant between signal and outcome dirs.
     """
     if not run_id or not isinstance(run_id, str) or not _SAFE_RUN_ID_PATTERN.match(run_id.strip()):
         raise ValueError(
@@ -53,10 +54,26 @@ def create_run_paths(run_id: str, m0_root: str | Path | None = None) -> RunPaths
     root = Path(m0_root).resolve() if m0_root is not None else get_default_m0_root()
     root_realpath = Path(os.path.realpath(root))
 
-    runs_root = Path(os.path.realpath(root_realpath / "runs"))
-    base_dir = Path(os.path.realpath(runs_root / clean_id))
+    runs_unresolved = root_realpath / "runs"
+    # If runs directory exists as a symlink, verify its target doesn't escape m0_root
+    if runs_unresolved.is_symlink():
+        runs_target_realpath = Path(os.path.realpath(runs_unresolved))
+        try:
+            rel = runs_target_realpath.relative_to(root_realpath)
+            if len(rel.parts) != 1 or rel.parts[0] != "runs":
+                raise ValueError(f"runs directory is a symlink escaping m0_root: {runs_target_realpath}")
+        except ValueError as err:
+            raise ValueError(f"runs directory is an escape symlink: {runs_unresolved} -> {runs_target_realpath}") from err
 
-    # Base dir must be a strict direct child of runs_root
+    runs_root = Path(os.path.realpath(runs_unresolved))
+    try:
+        rel_runs = runs_root.relative_to(root_realpath)
+        if len(rel_runs.parts) != 1 or rel_runs.parts[0] != "runs":
+            raise ValueError(f"runs_root must be a direct child of m0_root: {runs_root}")
+    except ValueError as err:
+        raise ValueError(f"runs_root escapes m0_root: {err}") from err
+
+    base_dir = Path(os.path.realpath(runs_root / clean_id))
     try:
         rel_base = base_dir.relative_to(runs_root)
         if len(rel_base.parts) != 1 or rel_base.parts[0] != clean_id:
@@ -67,7 +84,6 @@ def create_run_paths(run_id: str, m0_root: str | Path | None = None) -> RunPaths
     signal_dir = Path(os.path.realpath(base_dir / "signal"))
     outcome_dir = Path(os.path.realpath(base_dir / "outcome"))
 
-    # Signal and outcome dirs must be strict direct children of base_dir
     try:
         rel_sig = signal_dir.relative_to(base_dir)
         rel_out = outcome_dir.relative_to(base_dir)

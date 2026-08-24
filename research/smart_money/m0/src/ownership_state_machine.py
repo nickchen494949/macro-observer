@@ -12,9 +12,38 @@ _UTC_TZ = zoneinfo.ZoneInfo("UTC")
 _CIK_PATTERN = re.compile(r"^\d{1,10}$")
 
 
+def is_strict_nonnegative_int(val: Any) -> bool:
+    """Check if value is a non-negative finite integer, rejecting bool and fractional numbers."""
+    if isinstance(val, bool):
+        return False
+    if isinstance(val, int):
+        return val >= 0
+    if isinstance(val, float):
+        return math.isfinite(val) and val >= 0.0 and val.is_integer()
+    return False
+
+
+def is_strict_nonnegative_number(val: Any) -> bool:
+    """Check if value is a non-negative finite real number, rejecting bool."""
+    if isinstance(val, bool):
+        return False
+    if isinstance(val, (int, float)):
+        return math.isfinite(val) and val >= 0.0
+    return False
+
+
+def is_strict_positive_number(val: Any) -> bool:
+    """Check if value is a strictly positive finite real number, rejecting bool."""
+    if isinstance(val, bool):
+        return False
+    if isinstance(val, (int, float)):
+        return math.isfinite(val) and val > 0.0
+    return False
+
+
 def is_valid_cik(cik: Any) -> bool:
-    """Check if value is a valid non-empty 1-10 digit CIK."""
-    if cik is None:
+    """Check if value is a valid non-empty 1-10 digit CIK, rejecting bool."""
+    if cik is None or isinstance(cik, bool):
         return False
     s = str(cik).strip()
     return bool(_CIK_PATTERN.match(s))
@@ -174,10 +203,8 @@ def resolve_ownership(
         raise ValueError("accession_number must be non-empty for ownership resolution.")
 
     if other_manager_map is not None:
-        # Check exact key (accession_number, sequence)
         mapped_cik = other_manager_map.get((acc_str, seq_str))
         if mapped_cik is None and seq_str.isdigit():
-            # Also support normalized integer string sequence
             mapped_cik = other_manager_map.get((acc_str, str(int(seq_str))))
 
         if mapped_cik is not None and is_valid_cik(mapped_cik):
@@ -194,7 +221,7 @@ class FilingHeader:
     period_of_report: str
     acceptance_datetime: str
     form_type: str = "13F-HR"
-    amendment_type: str | None = None  # 'RESTATEMENT', 'ADD_NEW_HOLDINGS', None
+    amendment_type: str | None = None
     is_confidential_omit: bool = False
 
     def validate(self) -> None:
@@ -207,6 +234,9 @@ class FilingHeader:
         except ValueError as err:
             raise ValueError(f"Invalid period_of_report in FilingHeader: {self.period_of_report}") from err
 
+        if type(self.is_confidential_omit) is not bool:
+            raise TypeError("is_confidential_omit must be a strict boolean.")
+
         form = (self.form_type or "").strip().upper()
         amend = (self.amendment_type or "").strip().upper() if self.amendment_type else None
 
@@ -214,7 +244,7 @@ class FilingHeader:
             if amend:
                 raise ValueError(f"Original 13F-HR filing cannot have amendment_type: {self.amendment_type!r}")
         elif form == "13F-HR/A":
-            pass  # amendment_type will be evaluated during state machine
+            pass
         elif form in ("13F-NT", "13F-NT/A"):
             if amend in ("RESTATEMENT", "ADD_NEW_HOLDINGS"):
                 raise ValueError(f"13F-NT Notice filing cannot have holding amendment_type: {self.amendment_type!r}")
@@ -232,29 +262,47 @@ class HoldingRow:
     asset_class: str
     economic_owner_cik: str | None
     ownership_unresolved: bool
-    total_shares: float
-    total_value_usd: float
-    total_vote_sole: float = 0.0
-    total_vote_shared: float = 0.0
-    total_vote_none: float = 0.0
+    total_shares: int | float
+    total_value_usd: int | float
+    total_vote_sole: int | float = 0
+    total_vote_shared: int | float = 0
+    total_vote_none: int | float = 0
 
     def validate(self) -> None:
-        """Validate holding row fields and numeric bounds."""
+        """Validate holding row fields, semantic invariant, and integral counts."""
         if not self.cusip or not str(self.cusip).strip():
             raise ValueError("HoldingRow cusip cannot be empty.")
         normalize_cik(self.origin_filer_cik)
-        if not self.ownership_unresolved and self.economic_owner_cik is not None:
+
+        if type(self.ownership_unresolved) is not bool:
+            raise TypeError("ownership_unresolved must be a strict boolean.")
+
+        # Invariant: ownership_unresolved == True iff economic_owner_cik is None
+        if self.ownership_unresolved:
+            if self.economic_owner_cik is not None:
+                raise ValueError(
+                    "HoldingRow semantic invariant violated: ownership_unresolved=True requires economic_owner_cik=None"
+                )
+        else:
+            if self.economic_owner_cik is None:
+                raise ValueError(
+                    "HoldingRow semantic invariant violated: ownership_unresolved=False requires economic_owner_cik to be provided"
+                )
             normalize_cik(self.economic_owner_cik)
 
+        # Shares and votes must be non-negative finite INTEGERS (rejecting bool and fractions)
         for name, val in [
             ("total_shares", self.total_shares),
-            ("total_value_usd", self.total_value_usd),
             ("total_vote_sole", self.total_vote_sole),
             ("total_vote_shared", self.total_vote_shared),
             ("total_vote_none", self.total_vote_none),
         ]:
-            if not isinstance(val, (int, float)) or not math.isfinite(val) or val < 0.0:
-                raise ValueError(f"HoldingRow {name} must be finite and non-negative: {val}")
+            if not is_strict_nonnegative_int(val):
+                raise ValueError(f"HoldingRow {name} must be a non-negative integer, got: {val!r}")
+
+        # Total value USD must be non-negative finite real number (rejecting bool)
+        if not is_strict_nonnegative_number(self.total_value_usd):
+            raise ValueError(f"HoldingRow total_value_usd must be non-negative finite number, got: {self.total_value_usd!r}")
 
 
 def aggregate_accession_holdings(
@@ -262,12 +310,33 @@ def aggregate_accession_holdings(
 ) -> dict[tuple[str, str, str], dict[str, Any]]:
     """Aggregate holding rows within a single accession by (cusip, asset_class, economic_owner_cik).
     
+    Rejects mixed accession_number, origin_filer_cik, or period_of_report.
     Excludes rows where ownership_unresolved == True.
     """
+    if not holdings:
+        return {}
+
+    first = holdings[0]
+    first.validate()
+    exp_acc = first.accession_number
+    exp_filer = normalize_cik(first.origin_filer_cik)
+    exp_period = first.period_of_report.strip()
+
     aggregated: dict[tuple[str, str, str], dict[str, Any]] = {}
 
     for row in holdings:
         row.validate()
+        if (
+            row.accession_number != exp_acc
+            or normalize_cik(row.origin_filer_cik) != exp_filer
+            or row.period_of_report.strip() != exp_period
+        ):
+            raise ValueError(
+                f"aggregate_accession_holdings: mixed accession/filer/period in batch: "
+                f"expected ({exp_acc}, {exp_filer}, {exp_period}), "
+                f"got ({row.accession_number}, {row.origin_filer_cik}, {row.period_of_report})"
+            )
+
         if row.ownership_unresolved or row.economic_owner_cik is None:
             continue
 
@@ -281,19 +350,19 @@ def aggregate_accession_holdings(
                 "cusip": cusip,
                 "asset_class": asset_class,
                 "economic_owner_cik": econ_cik,
-                "total_shares": 0.0,
+                "total_shares": 0,
                 "total_value_usd": 0.0,
-                "total_vote_sole": 0.0,
-                "total_vote_shared": 0.0,
-                "total_vote_none": 0.0,
+                "total_vote_sole": 0,
+                "total_vote_shared": 0,
+                "total_vote_none": 0,
             }
 
         agg = aggregated[key]
-        agg["total_shares"] += float(row.total_shares)
+        agg["total_shares"] += int(row.total_shares)
         agg["total_value_usd"] += float(row.total_value_usd)
-        agg["total_vote_sole"] += float(row.total_vote_sole)
-        agg["total_vote_shared"] += float(row.total_vote_shared)
-        agg["total_vote_none"] += float(row.total_vote_none)
+        agg["total_vote_sole"] += int(row.total_vote_sole)
+        agg["total_vote_shared"] += int(row.total_vote_shared)
+        agg["total_vote_none"] += int(row.total_vote_none)
 
     return aggregated
 
@@ -372,18 +441,14 @@ def reconstruct_filer_state(
         amend_upper = (header.amendment_type or "").strip().upper() if header.amendment_type else None
 
         if form_upper == "13F-HR":
-            # Original filing replaces state
             state = dict(agg_holdings)
         elif form_upper == "13F-HR/A":
             if amend_upper == "RESTATEMENT":
-                # Restatement replaces state
                 state = dict(agg_holdings)
             elif amend_upper == "ADD_NEW_HOLDINGS":
-                # Upsert / replace key in place
                 for k, v in agg_holdings.items():
                     state[k] = dict(v)
             else:
-                # Unknown amendment type on 13F-HR/A -> invalidate entire state
                 amendment_unresolved = True
                 state = {}
         else:

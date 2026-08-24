@@ -22,7 +22,9 @@ def validate_canonical_json_value(val: Any) -> None:
     - NaN, Inf, -Inf
     - Custom / non-primitive objects
     """
-    if isinstance(val, (str, int, bool, type(None))):
+    if isinstance(val, bool) or val is None or isinstance(val, str):
+        return
+    if isinstance(val, int):
         return
     if isinstance(val, float):
         if not math.isfinite(val):
@@ -56,11 +58,15 @@ def canonical_json_dumps(obj: Any) -> str:
 
 def compute_sha256_bytes(data: bytes) -> str:
     """Compute SHA-256 hexadecimal hash for raw bytes."""
+    if not isinstance(data, bytes):
+        raise TypeError("compute_sha256_bytes requires bytes input.")
     return hashlib.sha256(data).hexdigest()
 
 
 def compute_sha256_str(text: str) -> str:
     """Compute SHA-256 hexadecimal hash for a string encoded in UTF-8."""
+    if not isinstance(text, str):
+        raise TypeError("compute_sha256_str requires str input.")
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
@@ -123,8 +129,10 @@ def verify_cache_integrity(cache_data: bytes | str, expected_sha256: str) -> boo
 
     if isinstance(cache_data, str):
         actual_hash = compute_sha256_str(cache_data)
-    else:
+    elif isinstance(cache_data, bytes):
         actual_hash = compute_sha256_bytes(cache_data)
+    else:
+        raise TypeError(f"cache_data must be bytes or str, got {type(cache_data).__name__}")
 
     if actual_hash.lower() != expected_sha256.strip().lower():
         raise ValueError(
@@ -134,38 +142,64 @@ def verify_cache_integrity(cache_data: bytes | str, expected_sha256: str) -> boo
 
 
 def parse_and_validate_manifest(
-    manifest_input: bytes | str | dict[str, Any]
+    manifest_bytes: bytes,
 ) -> tuple[dict[str, Any], bytes, str]:
-    """Parse manifest, enforce canonical types, and return (dict, raw_canonical_bytes, sha256)."""
-    if isinstance(manifest_input, bytes):
-        raw_text = manifest_input.decode("utf-8")
+    """Parse raw manifest bytes, enforce exact canonical JSON byte representation, and compute SHA-256.
+    
+    Requires raw bytes input. Rejects non-canonical JSON byte streams (e.g. unformatted or differently sorted).
+    """
+    if not isinstance(manifest_bytes, bytes):
+        raise TypeError(f"Manifest input must be raw bytes, got {type(manifest_bytes).__name__}")
+
+    try:
+        raw_text = manifest_bytes.decode("utf-8")
         parsed = json.loads(raw_text)
-    elif isinstance(manifest_input, str):
-        parsed = json.loads(manifest_input)
-    elif isinstance(manifest_input, dict):
-        parsed = manifest_input
-    else:
-        raise TypeError(f"Invalid manifest input type: {type(manifest_input).__name__}")
+    except (UnicodeDecodeError, json.JSONDecodeError) as err:
+        raise ValueError(f"Failed to parse manifest JSON bytes: {err}") from err
 
     validate_canonical_json_value(parsed)
-    canonical_str = canonical_json_dumps(parsed)
-    raw_bytes = canonical_str.encode("utf-8")
-    sha256_hex = hashlib.sha256(raw_bytes).hexdigest()
-    return parsed, raw_bytes, sha256_hex
+
+    # Require exact canonical byte match without reformatting
+    expected_bytes = canonical_json_dumps(parsed).encode("utf-8")
+    if manifest_bytes != expected_bytes:
+        raise ValueError(
+            "Supplied manifest bytes do not match exact canonical JSON serialization format."
+        )
+
+    sha256_hex = hashlib.sha256(manifest_bytes).hexdigest()
+    return parsed, manifest_bytes, sha256_hex
 
 
 def verify_manifest_binding(
-    signal_manifest_input: bytes | str | dict[str, Any],
-    price_manifest_input: bytes | str | dict[str, Any],
+    signal_manifest_bytes: bytes,
+    price_manifest_bytes: bytes,
 ) -> None:
     """Verify cryptographic and identifier binding between Signal Manifest and Price Manifest.
     
-    Hashes and parses the exact canonical raw bytes of the manifest objects.
-    Enforces matching run_id, contract_sha256, source_git_sha, m0_code_git_sha,
-    and matching signal_manifest_sha256.
+    Requires exact canonical raw bytes for both manifests.
+    Validates manifest_type, git_tree_dirty is exactly False, and matching binding hashes.
     """
-    signal_manifest, _, signal_hash = parse_and_validate_manifest(signal_manifest_input)
-    price_manifest, _, _ = parse_and_validate_manifest(price_manifest_input)
+    if not isinstance(signal_manifest_bytes, bytes) or not isinstance(price_manifest_bytes, bytes):
+        raise TypeError("verify_manifest_binding requires raw bytes for both signal and price manifests.")
+
+    signal_manifest, _, signal_hash = parse_and_validate_manifest(signal_manifest_bytes)
+    price_manifest, _, _ = parse_and_validate_manifest(price_manifest_bytes)
+
+    # Validate manifest_type
+    sig_type = signal_manifest.get("manifest_type")
+    pri_type = price_manifest.get("manifest_type")
+    if sig_type != "SIGNAL_MANIFEST":
+        raise ValueError(f"Signal manifest has invalid manifest_type: {sig_type!r}")
+    if pri_type != "PRICE_MANIFEST":
+        raise ValueError(f"Price manifest has invalid manifest_type: {pri_type!r}")
+
+    # Validate git_tree_dirty is strictly False
+    sig_dirty = signal_manifest.get("git_tree_dirty")
+    pri_dirty = price_manifest.get("git_tree_dirty")
+    if sig_dirty is not False or type(sig_dirty) is not bool:
+        raise ValueError(f"Signal manifest git_tree_dirty must be exactly False, got {sig_dirty!r}")
+    if pri_dirty is not False or type(pri_dirty) is not bool:
+        raise ValueError(f"Price manifest git_tree_dirty must be exactly False, got {pri_dirty!r}")
 
     required_keys = ["run_id", "contract_sha256", "source_git_sha", "m0_code_git_sha"]
     for key in required_keys:

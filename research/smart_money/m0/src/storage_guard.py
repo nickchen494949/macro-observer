@@ -11,12 +11,14 @@ def make_readonly_sqlite_uri(db_path: str | Path, immutable: bool = True) -> str
     
     Verifies that the target database file physically exists.
     """
+    if isinstance(immutable, bool) is False:
+        raise TypeError("immutable flag must be a boolean.")
+
     path_obj = Path(db_path)
     if not path_obj.is_file():
         raise FileNotFoundError(f"SQLite database file not found: {db_path}")
 
     abs_path = os.path.abspath(str(path_obj))
-    # quote path to safely handle characters like '?', '#', spaces, etc.
     quoted_path = urllib.parse.quote(abs_path)
     uri = f"file:{quoted_path}?mode=ro"
     if immutable:

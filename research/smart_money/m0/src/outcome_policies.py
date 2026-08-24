@@ -3,80 +3,68 @@
 import math
 from typing import Any
 
+from research.smart_money.m0.src.ownership_state_machine import is_strict_positive_number
+
 
 def compute_adjusted_open_price(
-    raw_open: float | None,
-    raw_close: float | None,
-    adj_close: float | None,
+    raw_open: Any,
+    raw_close: Any,
+    adj_close: Any,
 ) -> float | None:
     """Compute split/dividend forward-adjusted open price.
     
     Formula: adjusted_open(T) = raw_open(T) * (adj_close(T) / raw_close(T))
-    Validates that all inputs are strictly positive, finite numbers.
+    Validates that all inputs are strictly positive, finite numbers (rejecting bool).
     """
-    if raw_open is None or raw_close is None or adj_close is None:
+    if (
+        not is_strict_positive_number(raw_open)
+        or not is_strict_positive_number(raw_close)
+        or not is_strict_positive_number(adj_close)
+    ):
         return None
 
-    try:
-        o, c, ac = float(raw_open), float(raw_close), float(adj_close)
-    except (TypeError, ValueError):
-        return None
-
-    if not (math.isfinite(o) and math.isfinite(c) and math.isfinite(ac)):
-        return None
-    if o <= 0.0 or c <= 0.0 or ac <= 0.0:
-        return None
-
+    o, c, ac = float(raw_open), float(raw_close), float(adj_close)
     return o * (ac / c)
 
 
 def compute_forward_return(
-    entry_adj_open: float | None,
-    exit_adj_open: float | None,
+    entry_adj_open: Any,
+    exit_adj_open: Any,
 ) -> float | None:
     """Compute open-to-open forward total return: (exit_adj_open / entry_adj_open) - 1.0."""
-    if entry_adj_open is None or exit_adj_open is None:
+    if not is_strict_positive_number(entry_adj_open) or not is_strict_positive_number(exit_adj_open):
         return None
 
-    try:
-        p_in, p_out = float(entry_adj_open), float(exit_adj_open)
-    except (TypeError, ValueError):
-        return None
-
-    if not (math.isfinite(p_in) and math.isfinite(p_out)) or p_in <= 0.0 or p_out <= 0.0:
-        return None
-
+    p_in, p_out = float(entry_adj_open), float(exit_adj_open)
     return (p_out / p_in) - 1.0
 
 
 def settle_cash_m_and_a(
-    entry_adj_open: float | None,
-    cash_consideration_per_share: float | None,
+    entry_adj_open: Any,
+    cash_consideration_per_share: Any,
     is_cash_only: bool,
 ) -> tuple[float | None, str]:
     """Settle pure-cash M&A privatization against entry open price.
     
     Non-cash or unknown cash consideration is excluded (returns None, 'CORPORATE_ACTION_UNKNOWN').
     """
-    if not is_cash_only or cash_consideration_per_share is None or entry_adj_open is None:
+    if (
+        type(is_cash_only) is not bool
+        or not is_cash_only
+        or not is_strict_positive_number(cash_consideration_per_share)
+        or not is_strict_positive_number(entry_adj_open)
+    ):
         return None, "CORPORATE_ACTION_UNKNOWN"
 
-    try:
-        p_in = float(entry_adj_open)
-        cash = float(cash_consideration_per_share)
-    except (TypeError, ValueError):
-        return None, "CORPORATE_ACTION_UNKNOWN"
-
-    if not (math.isfinite(p_in) and math.isfinite(cash)) or p_in <= 0.0 or cash <= 0.0:
-        return None, "CORPORATE_ACTION_UNKNOWN"
-
+    p_in = float(entry_adj_open)
+    cash = float(cash_consideration_per_share)
     ret = (cash / p_in) - 1.0
     return ret, "CASH_M_AND_A_SETTLED"
 
 
 def select_open_price_with_roll(
     trading_days_calendar: list[str],
-    price_by_date: dict[str, float | None],
+    price_by_date: dict[str, Any],
     target_date: str,
     max_roll_days: int = 5,
 ) -> tuple[float | None, int, str | None]:
@@ -105,13 +93,8 @@ def select_open_price_with_roll(
             break
         current_date = cal_sorted[current_idx]
         price = price_by_date.get(current_date)
-        if price is not None:
-            try:
-                p_val = float(price)
-                if math.isfinite(p_val) and p_val > 0.0:
-                    return p_val, roll, current_date
-            except (TypeError, ValueError):
-                pass
+        if is_strict_positive_number(price):
+            return float(price), roll, current_date
 
     return None, max_roll_days, None
 
