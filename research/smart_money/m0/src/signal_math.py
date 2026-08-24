@@ -99,14 +99,25 @@ def compute_entity_delta_shares(
     curr_shares: int | float,
     split_factor: int | float,
 ) -> float:
-    """Compute split-adjusted delta shares for an entity: curr_shares - (prev_shares * split_factor)."""
+    """Compute split-adjusted delta shares for an entity: curr_shares - (prev_shares * split_factor).
+
+    Guarantees numeric closure: raises ValueError on overflow or non-finite result.
+    """
     if not is_strict_positive_number(split_factor):
         raise ValueError(f"Invalid split_factor for delta calculation: {split_factor!r}")
     if not is_strict_nonnegative_number(prev_shares) or not is_strict_nonnegative_number(curr_shares):
         raise ValueError(f"Invalid non-finite or negative shares: prev={prev_shares!r}, curr={curr_shares!r}")
 
-    adjusted_prev = float(prev_shares) * float(split_factor)
-    return float(curr_shares) - adjusted_prev
+    try:
+        adjusted_prev = float(prev_shares) * float(split_factor)
+        if not math.isfinite(adjusted_prev):
+            raise ValueError("Delta shares calculation overflow: adjusted_prev is non-finite")
+        res = float(curr_shares) - adjusted_prev
+        if not math.isfinite(res):
+            raise ValueError("Delta shares calculation overflow: result is non-finite")
+        return res
+    except OverflowError as err:
+        raise ValueError(f"Delta shares calculation overflow: {err}") from err
 
 
 def aggregate_m0_signals(

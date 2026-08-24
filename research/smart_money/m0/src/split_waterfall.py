@@ -122,6 +122,7 @@ def compute_holder_log_statistics(
     """Compute log-ratio median, MAD_log, and K_ledger-adjusted median for continuous holders.
 
     Rejects invalid holders and enforces N consistency (N == len(holders)).
+    Guarantees numeric closure: raises ValueError on overflow or non-finite statistics.
     """
     if not is_strict_positive_number(k_ledger):
         raise ValueError(f"Invalid k_ledger: {k_ledger!r}")
@@ -133,20 +134,28 @@ def compute_holder_log_statistics(
     for h in holders:
         h.validate()
         r = float(h.curr_shares) / float(h.prev_shares)
+        if not math.isfinite(r) or r <= 0.0:
+            raise ValueError(f"Holder ratio overflow or non-positive: {r}")
         valid_ratios.append(r)
 
     n = len(valid_ratios)
     assert n == len(holders), "Holder count consistency check"
 
-    log_ratios = [math.log(r) for r in valid_ratios]
-    mu_log = statistics.median(log_ratios)
-    tilde_r = math.exp(mu_log)
+    try:
+        log_ratios = [math.log(r) for r in valid_ratios]
+        mu_log = statistics.median(log_ratios)
+        tilde_r = math.exp(mu_log)
 
-    abs_deviations = [abs(y - mu_log) for y in log_ratios]
-    mad_log = statistics.median(abs_deviations)
+        abs_deviations = [abs(y - mu_log) for y in log_ratios]
+        mad_log = statistics.median(abs_deviations)
 
-    mu_adj_log = mu_log - math.log(float(k_ledger))
-    tilde_r_prime = math.exp(mu_adj_log)
+        mu_adj_log = mu_log - math.log(float(k_ledger))
+        tilde_r_prime = math.exp(mu_adj_log)
+    except (OverflowError, ValueError) as err:
+        raise ValueError(f"Holder log statistics overflow or calculation error: {err}") from err
+
+    if not (math.isfinite(tilde_r) and math.isfinite(mad_log) and math.isfinite(tilde_r_prime)):
+        raise ValueError("Holder log statistics produced non-finite value.")
 
     return tilde_r, mad_log, tilde_r_prime, n
 

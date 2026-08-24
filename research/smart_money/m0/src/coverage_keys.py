@@ -14,6 +14,28 @@ from research.smart_money.m0.src.ownership_state_machine import (
 D1Key = tuple[str, str]  # (raw_cusip, period_of_report)
 D2Key = tuple[str, str]  # (primary_stock_id, period_of_report)
 
+VALID_SPLIT_STATES: frozenset[str] = frozenset(
+    {
+        "CORPORATE_ACTION_UNKNOWN",
+        "KNOWN_SPLIT_LOW_POWER",
+        "KNOWN_SPLIT_PASS",
+        "KNOWN_SPLIT_MISMATCH",
+        "LEDGER_ONLY_LOW_POWER",
+        "CLEAN",
+        "SPLIT_UNKNOWN",
+        "SPLIT_AUDIT_AMBIGUOUS_HIGH_DISPERSION",
+    }
+)
+
+PRIMARY_INCLUDE_SPLIT_STATES: frozenset[str] = frozenset(
+    {
+        "KNOWN_SPLIT_LOW_POWER",
+        "KNOWN_SPLIT_PASS",
+        "LEDGER_ONLY_LOW_POWER",
+        "CLEAN",
+    }
+)
+
 
 def _validate_iso_date(date_str: Any, field_name: str = "period_of_report") -> str:
     """Validate string as a valid ISO YYYY-MM-DD date."""
@@ -75,7 +97,10 @@ class CoverageTracker:
         self.d1_value_usd[key] += float(value_usd)
 
     def record_d2_mapping(self, raw_cusip: str, period: str, primary_stock_id: str) -> None:
-        """Register successful mapping from D1 key to D2 stock ID."""
+        """Register successful mapping from D1 key to D2 stock ID.
+
+        Enforces that D1 key has been registered and rejects conflicting remaps.
+        """
         if not raw_cusip or not str(raw_cusip).strip():
             raise ValueError("raw_cusip cannot be blank or empty.")
         if not primary_stock_id or not str(primary_stock_id).strip():
@@ -87,51 +112,120 @@ class CoverageTracker:
         d1_key = (cusip_clean, period_clean)
         d2_key = (stock_clean, period_clean)
 
+        if d1_key not in self.d1_keys:
+            raise ValueError(f"Cannot map unregistered D1 key: {d1_key}. Call record_d1 first.")
+
+        if d1_key in self.d1_to_d2 and self.d1_to_d2[d1_key] != d2_key:
+            raise ValueError(
+                f"Conflicting D2 remap for D1 key {d1_key}: already mapped to {self.d1_to_d2[d1_key]}, cannot remap to {d2_key}"
+            )
+
         self.d1_to_d2[d1_key] = d2_key
         self.d2_to_d1[d2_key].add(d1_key)
         self.d2_mapped_keys.add(d2_key)
 
     def record_d2_price_covered(self, primary_stock_id: str, period: str) -> None:
-        """Register a D2 key as having valid price coverage."""
+        """Register a D2 key as having valid price coverage.
+
+        Requires mapped D2 key and mutual exclusivity with price_missing.
+        """
         if not primary_stock_id or not str(primary_stock_id).strip():
             raise ValueError("primary_stock_id cannot be blank or empty.")
         period_clean = _validate_iso_date(period, "period_of_report")
         d2_key = (str(primary_stock_id).strip(), period_clean)
+
+        if d2_key not in self.d2_mapped_keys:
+            raise ValueError(f"Cannot record price coverage for unmapped D2 key: {d2_key}")
+
+        if d2_key in self.d2_price_missing_keys:
+            raise ValueError(f"D2 key {d2_key} is already recorded as price missing.")
+
         self.d2_price_covered_keys.add(d2_key)
 
     def record_d2_price_missing(self, primary_stock_id: str, period: str) -> None:
-        """Register a D2 key as missing price coverage."""
+        """Register a D2 key as missing price coverage.
+
+        Requires mapped D2 key and mutual exclusivity with price_covered.
+        """
         if not primary_stock_id or not str(primary_stock_id).strip():
             raise ValueError("primary_stock_id cannot be blank or empty.")
         period_clean = _validate_iso_date(period, "period_of_report")
         d2_key = (str(primary_stock_id).strip(), period_clean)
+
+        if d2_key not in self.d2_mapped_keys:
+            raise ValueError(f"Cannot record price missing for unmapped D2 key: {d2_key}")
+
+        if d2_key in self.d2_price_covered_keys:
+            raise ValueError(f"D2 key {d2_key} is already recorded as price covered.")
+
         self.d2_price_missing_keys.add(d2_key)
 
     def record_split_state(self, primary_stock_id: str, period: str, state: str) -> None:
-        """Record split state classification for a D2 key with strict validation."""
+        """Record split state classification for a price-covered D2 key.
+
+        Enforces that D2 key is price-covered, state is one of the 8 frozen states, and no conflicting state exists.
+        """
         if not primary_stock_id or not str(primary_stock_id).strip():
             raise ValueError("primary_stock_id cannot be blank or empty.")
         if not state or not str(state).strip():
             raise ValueError("state cannot be blank or empty.")
         period_clean = _validate_iso_date(period, "period_of_report")
+        state_clean = str(state).strip()
+
+        if state_clean not in VALID_SPLIT_STATES:
+            raise ValueError(f"Invalid split state: {state_clean!r}. Must be one of {sorted(VALID_SPLIT_STATES)}")
 
         d2_key = (str(primary_stock_id).strip(), period_clean)
-        self.split_state_keys[str(state).strip()].add(d2_key)
+
+        if d2_key not in self.d2_price_covered_keys:
+            raise ValueError(f"Cannot record split state for non-price-covered D2 key: {d2_key}")
+
+        for existing_state, keys in self.split_state_keys.items():
+            if d2_key in keys and existing_state != state_clean:
+                raise ValueError(
+                    f"Conflicting split state for {d2_key}: already {existing_state}, cannot set to {state_clean}"
+                )
+
+        self.split_state_keys[state_clean].add(d2_key)
 
     def record_final_ic_eligible(self, primary_stock_id: str, period: str) -> None:
-        """Record a D2 key as passing all gates and eligible for final IC evaluation."""
+        """Record a D2 key as passing all gates and eligible for final IC evaluation.
+
+        Requires mapped + price-covered and a Primary-INCLUDE split state.
+        """
         if not primary_stock_id or not str(primary_stock_id).strip():
             raise ValueError("primary_stock_id cannot be blank or empty.")
         period_clean = _validate_iso_date(period, "period_of_report")
         d2_key = (str(primary_stock_id).strip(), period_clean)
+
+        if d2_key not in self.d2_price_covered_keys:
+            raise ValueError(f"Cannot mark {d2_key} as IC eligible: not in price covered keys.")
+
+        current_state = None
+        for s, keys in self.split_state_keys.items():
+            if d2_key in keys:
+                current_state = s
+                break
+
+        if current_state not in PRIMARY_INCLUDE_SPLIT_STATES:
+            raise ValueError(
+                f"Cannot mark {d2_key} as IC eligible: split state is {current_state!r} (must be in Primary-INCLUDE)"
+            )
+
         self.final_ic_eligible_keys.add(d2_key)
 
     def record_attrition(self, raw_cusip: str, period: str, category: str) -> None:
-        """Record D1 key attrition reason."""
+        """Record D1 key attrition reason.
+
+        Requires an existing D1 key.
+        """
         if not raw_cusip or not str(raw_cusip).strip():
             raise ValueError("raw_cusip cannot be blank or empty.")
         period_clean = _validate_iso_date(period, "period_of_report")
         key = (str(raw_cusip).strip().upper(), period_clean)
+
+        if key not in self.d1_keys:
+            raise ValueError(f"Cannot record attrition for unregistered D1 key: {key}")
 
         cat = str(category).strip().lower()
         if cat == "unmapped_cusip":

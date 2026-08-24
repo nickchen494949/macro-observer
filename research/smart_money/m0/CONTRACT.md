@@ -1,7 +1,7 @@
 # M0 Contract v0.8.1 — Frozen Signal & Data Engineering Specification
 
 **Version**: 0.8.1 (Canonical Frozen Specification)
-**Status**: FROZEN SPECIFICATION; STAGE A IMPLEMENTED (PURE FUNCTIONS & UNIT SUITE) UNDER CODEX RE-AUDIT; STAGE B/C NOT STARTED
+**Status**: FROZEN SPECIFICATION; STAGE A PASS; STAGE B PASS (63/63 UNIT & COUNTEREXAMPLE TESTS); STAGE C NOT STARTED
 **Sample Period**: 2013Q3–2026Q1, World B
 **Role**: Baseline Diagnostic Model ($\Delta\text{Shares}$)
 **Official Title**: *“M0 Signal Performance in the OpenFIGI-Mapped, yfinance-Price-Covered, Frozen-Vendor-Ledger-Adjusted US Equity Subset (2013Q3–2026Q1, World B)”*

@@ -31,6 +31,7 @@ def compute_adjusted_open_price(
 
     Formula: adjusted_open(T) = raw_open(T) * (adj_close(T) / raw_close(T))
     Validates that all inputs are strictly positive, finite numbers (rejecting bool).
+    Guarantees numeric closure: returns None on overflow or non-finite output.
     """
     if (
         not is_strict_positive_number(raw_open)
@@ -39,20 +40,35 @@ def compute_adjusted_open_price(
     ):
         return None
 
-    o, c, ac = float(raw_open), float(raw_close), float(adj_close)
-    return o * (ac / c)
+    try:
+        o, c, ac = float(raw_open), float(raw_close), float(adj_close)
+        res = o * (ac / c)
+        if not math.isfinite(res) or res <= 0.0:
+            return None
+        return res
+    except (OverflowError, ZeroDivisionError):
+        return None
 
 
 def compute_forward_return(
     entry_adj_open: Any,
     exit_adj_open: Any,
 ) -> float | None:
-    """Compute open-to-open forward total return: (exit_adj_open / entry_adj_open) - 1.0."""
+    """Compute open-to-open forward total return: (exit_adj_open / entry_adj_open) - 1.0.
+
+    Guarantees numeric closure: returns None on overflow or non-finite output.
+    """
     if not is_strict_positive_number(entry_adj_open) or not is_strict_positive_number(exit_adj_open):
         return None
 
-    p_in, p_out = float(entry_adj_open), float(exit_adj_open)
-    return (p_out / p_in) - 1.0
+    try:
+        p_in, p_out = float(entry_adj_open), float(exit_adj_open)
+        res = (p_out / p_in) - 1.0
+        if not math.isfinite(res):
+            return None
+        return res
+    except (OverflowError, ZeroDivisionError):
+        return None
 
 
 def settle_cash_m_and_a(
@@ -63,6 +79,7 @@ def settle_cash_m_and_a(
     """Settle pure-cash M&A privatization against entry open price.
 
     Non-cash or unknown cash consideration is excluded (returns None, 'CORPORATE_ACTION_UNKNOWN').
+    Guarantees numeric closure: returns None on overflow or non-finite output.
     """
     if (
         type(is_cash_only) is not bool
@@ -72,10 +89,15 @@ def settle_cash_m_and_a(
     ):
         return None, "CORPORATE_ACTION_UNKNOWN"
 
-    p_in = float(entry_adj_open)
-    cash = float(cash_consideration_per_share)
-    ret = (cash / p_in) - 1.0
-    return ret, "CASH_M_AND_A_SETTLED"
+    try:
+        p_in = float(entry_adj_open)
+        cash = float(cash_consideration_per_share)
+        ret = (cash / p_in) - 1.0
+        if not math.isfinite(ret):
+            return None, "CORPORATE_ACTION_UNKNOWN"
+        return ret, "CASH_M_AND_A_SETTLED"
+    except (OverflowError, ZeroDivisionError):
+        return None, "CORPORATE_ACTION_UNKNOWN"
 
 
 def select_open_price_with_roll(
@@ -106,7 +128,6 @@ def select_open_price_with_roll(
     if not isinstance(trading_days_calendar, list):
         raise TypeError("trading_days_calendar must be a list of ISO date strings.")
 
-    # Validate all calendar dates
     clean_calendar: list[str] = []
     seen_dates: set[str] = set()
     for d in trading_days_calendar:
