@@ -16,6 +16,7 @@ from pipeline import (
     compute_13f_deadline,
     VALUE_REGIME_CUTOFF,
 )
+from qa_support import deduplicate_economic_holdings, security_name_similarity
 
 PASS = 0
 FAIL = 0
@@ -69,6 +70,12 @@ check("call option",
       "call_option")
 check("put option",
       classify_asset("PUT", "SH"),
+      "put_option")
+check("mixed-case call option",
+      classify_asset("Call", "SH"),
+      "call_option")
+check("mixed-case put option",
+      classify_asset("Put", "SH"),
       "put_option")
 check("bond (PRN, no put_call)",
       classify_asset(None, "PRN"),
@@ -129,6 +136,27 @@ check("Q1 2025 → 2025-05-15",
 check("Q2 2025 → 2025-08-14",
       compute_13f_deadline("2025-06-30"),
       "2025-08-14")
+
+print("\n── Entity Dedup / Mapping QA Helpers ────────────────────────────")
+base = {
+    "reporter_cik": "1", "cusip": "037833100", "asset_class": "cash_equity",
+    "put_call": None, "sshprnamt": 100, "value_usd": 10_000,
+    "voting_sole": 100, "voting_shared": 0, "voting_none": 0,
+}
+same_economic_position = dict(base, reporter_cik="2")
+different_position_same_cusip = dict(base, reporter_cik="3", sshprnamt=200, value_usd=20_000)
+unique, duplicates = deduplicate_economic_holdings(
+    [base, same_economic_position, different_position_same_cusip]
+)
+check("exact shared position removed once", len(duplicates), 1)
+check("different amount on same CUSIP preserved", len(unique), 2)
+check("dedup is idempotent", len(deduplicate_economic_holdings(unique)[1]), 0)
+check("issuer-name verification: Apple",
+      security_name_similarity("APPLE INC", "APPLE INC") >= 0.90,
+      True)
+check("issuer-name verification rejects unrelated names",
+      security_name_similarity("APPLE INC", "MICROSOFT CORP") < 0.35,
+      True)
 
 print(f"\n{'='*60}")
 total = PASS + FAIL

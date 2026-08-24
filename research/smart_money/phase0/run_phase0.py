@@ -20,7 +20,7 @@ from pipeline import (
     DB_PATH, ZIP_DIR, HEADERS, SEC_RATE_LIMIT,
     normalize_value, classify_asset, compute_censor_flag,
     detect_amendment_type, compute_13f_deadline, VALUE_REGIME_CUTOFF,
-    SCHEMA, get_db, ingest_zip, run_all_qa
+    SCHEMA, get_db, ingest_zip, run_all_qa, prepare_remaining_qa_support
 )
 
 log = logging.getLogger(__name__)
@@ -260,6 +260,8 @@ if __name__ == "__main__":
 
     if not args.skip_qa:
         print("\n[4/4] QA  CH-1 to CH-13")
+        support_stats = prepare_remaining_qa_support(db)
+        print(f"QA support: {support_stats}")
         results = run_all_qa(db)
         print("\n" + "="*60)
         print("CH-1 to CH-13 RESULTS")
@@ -271,7 +273,7 @@ if __name__ == "__main__":
             icon = "✅" if status == "PASS" else ("⏳" if status in ("PENDING","SKIP") else "❌")
             print(f"  {icon} {cid}: {status}")
         print(f"\n  PASS={pass_n}  FAIL={fail_n}  PENDING/SKIP={skip_n}")
-        if fail_n == 0 and pass_n >= 10:
+        if fail_n == 0 and skip_n == 0 and pass_n == 13:
             print("\n✅ FREEZE phase0.sqlite → open future returns → M0")
         else:
             print("\n⚠️  Fix FAILs before proceeding to M0")

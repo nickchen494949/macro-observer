@@ -14,7 +14,12 @@ from datetime import datetime
 sys.path.insert(0, str(Path(__file__).parent))
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)-5s %(message)s")
 
-from pipeline import get_db, run_all_qa, _safe_wal_checkpoint
+from pipeline import (
+    get_db,
+    run_all_qa,
+    _safe_wal_checkpoint,
+    prepare_remaining_qa_support,
+)
 
 if __name__ == "__main__":
     db_path = Path(os.environ.get("DB_PATH", "data/13f.db"))
@@ -97,8 +102,14 @@ if __name__ == "__main__":
     for r in after:
         print(f"    {r['asset_class']:15s}: {r['n']:>12,}")
 
-    # ── Step 3: QA ────────────────────────────────────────────────────────
-    print(f"\n[3/3] QA  CH-1 to CH-13")
+    # ── Step 3: Build manager graph + frozen CUSIP mapping sample ─────────
+    print(f"\n[3/4] PREPARE remaining QA support")
+    support_stats = prepare_remaining_qa_support(db)
+    print(f"  manager graph: {support_stats['manager_graph']}")
+    print(f"  CUSIP mapping: {support_stats['cusip_mapping']}")
+
+    # ── Step 4: QA ────────────────────────────────────────────────────────
+    print(f"\n[4/4] QA  CH-1 to CH-13")
     results = run_all_qa(db)
     print(f"\n{'='*60}")
     print("CH-1 to CH-13 RESULTS")

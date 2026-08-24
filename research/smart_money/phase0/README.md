@@ -16,14 +16,18 @@ cd macro-observer/research/smart_money/phase0
 
 # 2. Python env
 python3 -m venv .venv && source .venv/bin/activate
-pip install requests pandas
+pip install -r requirements.txt
 
 # 3. REQUIRED: set before importing pipeline.py (it checks at import time)
 export SEC_USER_AGENT="Your Name your@email.com"
 
 # 4. Unit tests (fast, no network)
 python unit_tests.py
-# Expected: 25/25 PASS
+# Expected: 32/32 PASS
+
+# Counterexample tests for the five final QA checks
+python remaining_qa_tests.py
+# Expected: 4/4 PASS
 
 # 5. Integration tests (requires data/zips/2013q3.zip)
 python integration_tests.py
@@ -36,7 +40,13 @@ python run_phase0.py
 # Downloads ~2.9GB from SEC (public data, no login needed)
 # Takes ~60–90 min depending on connection speed
 
-# 7. Inspect results
+# 7. Build reproducible QA support data
+#    - SEC manager graph from the local bulk ZIPs
+#    - SEC official 2020Q1 13(f) universe
+#    - frozen 100-CUSIP OpenFIGI sample (API key optional)
+python pipeline.py prepare-qa
+
+# 8. Inspect results
 python pipeline.py status
 python pipeline.py qa
 ```
@@ -82,17 +92,17 @@ All checks must PASS before any future return data is opened.
 |----|---------------|-----------|
 | CH-1 | VALUE normalization — no 1000× jump at 2023 boundary | Berkshire `0000950123-23-002585` |
 | CH-2 | Berkshire 2023Q4 holdings match known positions | AAPL ~905M shares |
-| CH-3 | NVDA 10:1 split 2024-06-10 — no spurious Δshares | 2024Q2 holders |
+| CH-3 | NVDA raw median ~10×; QA-adjusted median must be 0.8–1.2× | 4,116 continuous 2024Q1/Q2 holders |
 | CH-4 | RESTATEMENT type → full replace | Murchinson Ltd 2024Q2 |
-| CH-5 | Entity dedup — no double-count for multi-CIK managers | Point72 |
-| CH-6 | CUSIP continuity — no unexplained gaps | Cross-quarter |
-| CH-7 | Universe has no future-return filter | By design (SKIP) |
+| CH-5 | SEC manager graph + exact economic-position dedup | Point72 multi-CIK component |
+| CH-6 | CUSIP continuity — no unexplained gaps | Berkshire AAPL, 2016Q1–2023Q4 |
+| CH-7 | Raw ZIP parity and later-delisted security retained | 2020Q1 + Twitter CUSIP `90184L102` |
 | CH-8 | acceptance_datetime coverage > 95% | Submissions API |
 | CH-9 | ADD_NEW_HOLDINGS → merge; original preserved | Berkshire + Chubb |
 | CH-10 | PUT/CALL separated from cash equity shares | AAPL COM + CALL |
 | CH-11 | Deadline calendar: 2025-12-31 → 2026-02-17 | ✅ Already PASS |
 | CH-12 | Historical submissions complete for large filers | Morgan Stanley CIK 895421 |
-| CH-13 | CUSIP → ticker coverage > 90% (random 100 from 2020Q1) | Post-mapping |
+| CH-13 | CUSIP → ticker >90% and issuer-name verification >90% | Frozen 100 from official SEC 2020Q1 equity universe |
 
 **Invariant**: CH-1 to CH-13 are purely mechanical data integrity checks.
 No future return data is looked at until ALL checks pass.
@@ -118,14 +128,18 @@ Pipeline tuning to improve IC is forbidden.
 
 ```
 phase0/
-├── pipeline.py        Core pipeline: schema, ingest, state machine, QA
-├── run_phase0.py      Full execution: discover → download → ingest → enrich → QA
-├── unit_tests.py      25 unit tests (all must pass before corpus work)
+├── pipeline.py            Core pipeline: schema, ingest, state machine, QA
+├── qa_support.py          SEC manager graph + official-list/OpenFIGI mapping
+├── run_phase0.py          Full execution: discover → download → ingest → enrich → QA
+├── unit_tests.py          32 fast logic tests
+├── remaining_qa_tests.py Counterexample tests for CH-3/5/6/13
+├── requirements.txt      Reproducible Python dependencies
 ├── manifest.py        53 SEC ZIP URLs with metadata and test case annotations
-├── .gitignore         Excludes data/ (ZIPs + SQLite, ~4GB total)
+├── .gitignore             Excludes all regenerated data
 └── data/              ← NOT in git (regenerate with run_phase0.py)
     ├── zips/          Raw SEC ZIPs (~2.9GB)
-    ├── 13f.db         SQLite database (~3-5GB after full ingest)
+    ├── cache/         SEC official-list PDF + submissions cache
+    ├── 13f.db         SQLite database (~25.8GB for the 53-ZIP corpus)
     └── pipeline.log   Ingest progress log
 ```
 

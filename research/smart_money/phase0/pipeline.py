@@ -26,7 +26,17 @@ import pandas as pd
 from io import StringIO
 from pathlib import Path
 from datetime import date, timedelta, datetime
+from statistics import median
 from typing import Optional
+
+from qa_support import (
+    CH13_PERIOD,
+    CH13_SAMPLE_SIZE,
+    build_manager_relationships,
+    deduplicate_economic_holdings,
+    ensure_support_schema,
+    prepare_ch13_mappings,
+)
 
 # ─── Config ───────────────────────────────────────────────────────────────────
 
@@ -764,7 +774,10 @@ def run_all_qa(db: sqlite3.Connection) -> dict[str, str]:
         record("CH-4", "FAIL", str(e))
 
     # CH-5: Entity dedup (no double-count for multi-CIK managers)
-    record("CH-5", "PENDING", "Requires manager entity graph; implement after bulk ingest")
+    try:
+        check_ch5(db, record)
+    except Exception as e:
+        record("CH-5", "FAIL", str(e))
 
     # CH-6: CUSIP continuity (no unexplained quarter-over-quarter gaps)
     try:
@@ -772,8 +785,11 @@ def run_all_qa(db: sqlite3.Connection) -> dict[str, str]:
     except Exception as e:
         record("CH-6", "FAIL", str(e))
 
-    # CH-7: Universe has no future-return filter (not applicable to DB; process check)
-    record("CH-7", "SKIP", "Verified by design: universe filter applied at query time only")
+    # CH-7: Universe has no future-return filter
+    try:
+        check_ch7(db, record)
+    except Exception as e:
+        record("CH-7", "FAIL", str(e))
 
     # CH-8: acceptance_datetime completeness (> 95% of accessions)
     try:
@@ -805,8 +821,11 @@ def run_all_qa(db: sqlite3.Connection) -> dict[str, str]:
     except Exception as e:
         record("CH-12", "FAIL", str(e))
 
-    # CH-13: CUSIP → ticker coverage rate (post-mapping step)
-    record("CH-13", "PENDING", "Run after Phase 0.13 CUSIP mapping step")
+    # CH-13: CUSIP → ticker coverage and explicit delisted handling
+    try:
+        check_ch13(db, record)
+    except Exception as e:
+        record("CH-13", "FAIL", str(e))
 
     db.commit()
     return results
@@ -919,25 +938,54 @@ def check_ch2(db, record):
 
 
 def check_ch3(db, record):
-    """NVDA 10:1 split 2024-06-10: no 9× spurious increase."""
-    # Compare a manager's NVDA shares in Q1 2024 vs Q2 2024
-    # If split-adjusted correctly: Q2 / Q1 ≈ 10 (real); unajusted would be ~10 too (split happened)
-    # Key: check that no manager shows 10× increase that was NOT due to buying
+    """NVDA 10:1 split: median adjusted holdings must not show a fake 9× buy.
+
+    The source layer intentionally preserves raw SEC shares.  This check applies
+    the known 10:1 factor only inside QA, then proves that the cross-quarter
+    median is close to 1× rather than 10×.  It does not mutate source rows.
+    """
     rows = db.execute("""
-        SELECT fe.cik, li.sshprnamt
-        FROM filing_line_items li
-        JOIN filing_events fe ON fe.accession_number = li.accession_number
-        WHERE li.cusip = '67066G104'   -- NVDA CUSIP (pre-split; verify)
-          AND fe.period_of_report IN ('2024-03-31', '2024-06-30')
-          AND li.asset_class = 'cash_equity'
-        ORDER BY fe.cik, fe.period_of_report
+        WITH originals AS (
+            SELECT accession_number, cik, period_of_report,
+                   ROW_NUMBER() OVER (
+                       PARTITION BY cik, period_of_report
+                       ORDER BY acceptance_datetime, accession_number
+                   ) AS rn
+            FROM filing_events
+            WHERE period_of_report IN ('2024-03-31', '2024-06-30')
+              AND form_type='13F-HR'
+        ), holdings AS (
+            SELECT o.cik, o.period_of_report, SUM(li.sshprnamt) AS shares
+            FROM originals o
+            JOIN filing_line_items li ON li.accession_number=o.accession_number
+            WHERE o.rn=1
+              AND li.cusip='67066G104'
+              AND li.asset_class='cash_equity'
+            GROUP BY o.cik, o.period_of_report
+        )
+        SELECT q1.cik, q1.shares AS q1_shares, q2.shares AS q2_shares
+        FROM holdings q1
+        JOIN holdings q2 ON q2.cik=q1.cik
+        WHERE q1.period_of_report='2024-03-31'
+          AND q2.period_of_report='2024-06-30'
+          AND q1.shares>0 AND q2.shares>0
     """).fetchall()
 
-    if not rows:
-        record("CH-3", "SKIP", "NVDA data not yet ingested or CUSIP mismatch")
+    if len(rows) < 100:
+        record("CH-3", "FAIL", f"Only {len(rows)} continuous NVDA holders; expected >=100")
         return
 
-    record("CH-3", "PENDING", f"Found {len(rows)} NVDA rows; manual split adjustment verification needed")
+    raw_ratios = [row["q2_shares"] / row["q1_shares"] for row in rows]
+    raw_median = median(raw_ratios)
+    adjusted_median = raw_median / 10.0
+    status = "PASS" if 0.8 <= adjusted_median <= 1.2 else "FAIL"
+    record(
+        "CH-3",
+        status,
+        f"NVDA holders={len(rows):,}; raw median={raw_median:.4f}×; "
+        f"10:1-adjusted median={adjusted_median:.4f}× "
+        f"({'no spurious 9× jump' if status == 'PASS' else 'outside 0.8–1.2×'})",
+    )
 
 
 def check_ch4(db, record):
@@ -962,10 +1010,150 @@ def check_ch4(db, record):
            f"unclassified={amendments - restatements - adds}")
 
 
+def check_ch5(db, record):
+    """Point72 manager graph + exact economic-position deduplication.
+
+    Same CUSIP is not sufficient for deduplication: linked legal entities can
+    hold different quantities of the same security.  Only an exact economic
+    signature is removed, and the synthetic unit test covers that behavior.
+    """
+    relation_count = db.execute(
+        "SELECT COUNT(*) FROM manager_relationships"
+    ).fetchone()[0]
+    if relation_count == 0:
+        record("CH-5", "FAIL", "Manager graph empty; run pipeline.py prepare-qa")
+        return
+
+    seed = "1603466"  # Point72 Asset Management, L.P.
+    edges = db.execute(
+        "SELECT reporter_cik, related_cik FROM manager_relationships"
+    ).fetchall()
+    graph: dict[str, set[str]] = {}
+    for edge in edges:
+        left, right = edge["reporter_cik"], edge["related_cik"]
+        graph.setdefault(left, set()).add(right)
+        graph.setdefault(right, set()).add(left)
+
+    component = {seed}
+    frontier = [seed]
+    while frontier:
+        current = frontier.pop()
+        for related in graph.get(current, ()):
+            if related not in component:
+                component.add(related)
+                frontier.append(related)
+
+    if len(component) < 3:
+        record("CH-5", "FAIL", f"Point72 graph only contains {len(component)} CIK(s)")
+        return
+
+    period = "2019-12-31"
+    placeholders = ",".join("?" for _ in component)
+    rows = db.execute(
+        f"""
+        SELECT fe.cik AS reporter_cik, li.cusip, li.asset_class, li.put_call,
+               li.sshprnamt, li.value_usd,
+               li.voting_sole, li.voting_shared, li.voting_none
+        FROM filing_events fe
+        JOIN filing_line_items li ON li.accession_number=fe.accession_number
+        WHERE fe.period_of_report=?
+          AND fe.form_type='13F-HR'
+          AND fe.cik IN ({placeholders})
+          AND li.asset_class='cash_equity'
+        """,
+        [period, *sorted(component)],
+    ).fetchall()
+    row_dicts = [dict(row) for row in rows]
+    filing_ciks = {row["reporter_cik"] for row in row_dicts}
+    if len(filing_ciks) < 3 or not row_dicts:
+        record("CH-5", "FAIL", f"Point72 corpus case incomplete: filing CIKs={len(filing_ciks)}")
+        return
+
+    by_cusip: dict[str, set[str]] = {}
+    for row in row_dicts:
+        by_cusip.setdefault(row["cusip"], set()).add(row["reporter_cik"])
+    overlaps = sum(1 for ciks in by_cusip.values() if len(ciks) > 1)
+
+    unique, duplicates = deduplicate_economic_holdings(row_dicts)
+    unique_again, second_pass_duplicates = deduplicate_economic_holdings(unique)
+    status = "PASS" if overlaps > 0 and not second_pass_duplicates and len(unique_again) == len(unique) else "FAIL"
+    record(
+        "CH-5",
+        status,
+        f"Point72 graph={len(component)} CIKs; filing CIKs={len(filing_ciks)}; "
+        f"overlapping CUSIPs={overlaps:,}; exact duplicate disclosures removed={len(duplicates):,}; "
+        f"economic rows={len(unique):,}; second pass duplicates={len(second_pass_duplicates)}",
+    )
+
+
 def check_ch6(db, record):
-    """CUSIP continuity: no large unexplained gaps."""
-    # Very large Δshares without corporate action = likely data error
-    record("CH-6", "PENDING", "Implement after split adjustment layer")
+    """Berkshire Apple CUSIP is present in every quarter of its known holding."""
+    actual = {
+        row[0] for row in db.execute(
+            """
+            SELECT DISTINCT fe.period_of_report
+            FROM filing_events fe
+            JOIN filing_line_items li ON li.accession_number=fe.accession_number
+            WHERE fe.cik='1067983'
+              AND li.cusip='037833100'
+              AND li.asset_class='cash_equity'
+              AND fe.period_of_report BETWEEN '2016-03-31' AND '2023-12-31'
+            """
+        ).fetchall()
+    }
+    expected = []
+    for year in range(2016, 2024):
+        for month_day in ("03-31", "06-30", "09-30", "12-31"):
+            expected.append(f"{year}-{month_day}")
+    missing = [period for period in expected if period not in actual]
+    status = "PASS" if len(actual) == len(expected) and not missing else "FAIL"
+    record(
+        "CH-6",
+        status,
+        f"Berkshire Apple CUSIP 037833100: {len(actual)}/{len(expected)} quarters "
+        f"from 2016Q1–2023Q4; missing={missing or 'none'}",
+    )
+
+
+def check_ch7(db, record):
+    """Prove sample ZIP parity and retention of a subsequently delisted stock."""
+    zip_path = ZIP_DIR / "2020q1.zip"
+    if not zip_path.exists():
+        record("CH-7", "FAIL", f"Missing source ZIP: {zip_path}")
+        return
+    with zipfile.ZipFile(zip_path) as zf:
+        member = next((name for name in zf.namelist() if "infotable" in name.lower()), None)
+        if not member:
+            record("CH-7", "FAIL", "2020q1.zip has no INFOTABLE.tsv")
+            return
+        with zf.open(member) as raw:
+            raw_lines = max(sum(1 for _ in raw) - 1, 0)
+
+    db_lines = db.execute(
+        """
+        SELECT COUNT(*)
+        FROM filing_events fe
+        JOIN filing_line_items li ON li.accession_number=fe.accession_number
+        WHERE fe.ingest_zip='2020q1'
+        """
+    ).fetchone()[0]
+    twitter_rows = db.execute(
+        """
+        SELECT COUNT(*)
+        FROM filing_events fe
+        JOIN filing_line_items li ON li.accession_number=fe.accession_number
+        WHERE fe.period_of_report='2020-03-31'
+          AND li.cusip='90184L102'
+          AND li.asset_class='cash_equity'
+        """
+    ).fetchone()[0]
+    status = "PASS" if raw_lines > 0 and raw_lines == db_lines and twitter_rows > 0 else "FAIL"
+    record(
+        "CH-7",
+        status,
+        f"2020q1 raw INFOTABLE={raw_lines:,}, DB={db_lines:,}; "
+        f"pre-delisting Twitter rows={twitter_rows:,} (CUSIP 90184L102 retained)",
+    )
 
 
 def check_ch8(db, record):
@@ -1075,6 +1263,71 @@ def check_ch12(db, record):
         record("CH-12", "FAIL", f"Morgan Stanley oldest period: {oldest_period} — too recent, check files[] pagination")
 
 
+def check_ch13(db, record):
+    """CUSIP→ticker mapping coverage >90% plus explicit delisted retention."""
+    sample_total = db.execute(
+        """
+        SELECT COUNT(*) FROM qa_cusip_sample
+        WHERE check_id='CH-13' AND period_of_report=?
+        """,
+        (CH13_PERIOD,),
+    ).fetchone()[0]
+    mapped, verified_names, explicit_unmapped = db.execute(
+        """
+        SELECT
+            SUM(CASE WHEN m.mapping_status='mapped' AND m.ticker IS NOT NULL THEN 1 ELSE 0 END),
+            SUM(CASE WHEN m.mapping_status='mapped' AND m.ticker IS NOT NULL
+                          AND m.name_match_score >= 0.35 THEN 1 ELSE 0 END),
+            SUM(CASE WHEN m.mapping_status='unmapped' THEN 1 ELSE 0 END)
+        FROM qa_cusip_sample s
+        LEFT JOIN cusip_mappings m ON m.cusip=s.cusip
+        WHERE s.check_id='CH-13' AND s.period_of_report=?
+        """,
+        (CH13_PERIOD,),
+    ).fetchone()
+    mapped = mapped or 0
+    verified_names = verified_names or 0
+    explicit_unmapped = explicit_unmapped or 0
+
+    twitter = db.execute(
+        """
+        SELECT ticker, delisted_flag, delisted_date
+        FROM cusip_mappings WHERE cusip='90184L102'
+        """
+    ).fetchone()
+    twitter_ok = bool(
+        twitter and twitter["ticker"] == "TWTR" and twitter["delisted_flag"] == 1
+        and twitter["delisted_date"] == "2022-10-28"
+    )
+    coverage = mapped / max(sample_total, 1)
+    verified_coverage = verified_names / max(sample_total, 1)
+    status = "PASS" if (
+        sample_total == CH13_SAMPLE_SIZE
+        and coverage > 0.90
+        and verified_coverage > 0.90
+        and twitter_ok
+    ) else "FAIL"
+    record(
+        "CH-13",
+        status,
+        f"deterministic {CH13_PERIOD} sample={sample_total}; ticker mapped={mapped} "
+        f"({coverage:.1%}); name-verified={verified_names} ({verified_coverage:.1%}); "
+        f"explicit unmapped={explicit_unmapped}; TWTR delisted_flag={'yes' if twitter_ok else 'no'}",
+    )
+
+
+def prepare_remaining_qa_support(db) -> dict[str, dict[str, int]]:
+    """Build local entity metadata and the frozen OpenFIGI CH-13 mapping sample."""
+    graph_stats = build_manager_relationships(db, ZIP_DIR)
+    mapping_stats = prepare_ch13_mappings(
+        db,
+        api_key=os.environ.get("OPENFIGI_API_KEY") or None,
+        cache_dir=ZIP_DIR.parent / "cache",
+        sec_user_agent=_sec_ua,
+    )
+    return {"manager_graph": graph_stats, "cusip_mapping": mapping_stats}
+
+
 # ─── CLI ─────────────────────────────────────────────────────────────────────
 
 SCHEMA_VERSION = 2
@@ -1103,6 +1356,7 @@ def get_db() -> sqlite3.Connection:
                 f"  export DB_PATH=data/13f_v2.db && python run_phase0.py --skip-download"
             )
     db.executescript(SCHEMA)
+    ensure_support_schema(db)
     return db
 
 
@@ -1138,6 +1392,13 @@ def cmd_qa(args):
         print(f"  {icon} {check_id}: {status}")
 
 
+def cmd_prepare_qa(args):
+    db = get_db()
+    stats = prepare_remaining_qa_support(db)
+    db.close()
+    print(json.dumps(stats, indent=2))
+
+
 def cmd_status(args):
     db = get_db()
     total = db.execute("SELECT COUNT(*) as n FROM filing_events").fetchone()["n"]
@@ -1166,6 +1427,10 @@ if __name__ == "__main__":
 
     sub.add_parser("ingest", help="Ingest ZIPs into SQLite").set_defaults(func=cmd_ingest)
     sub.add_parser("enrich", help="Fetch acceptance timestamps").set_defaults(func=cmd_enrich)
+    sub.add_parser(
+        "prepare-qa",
+        help="Build manager graph and frozen OpenFIGI sample for CH-5/CH-13",
+    ).set_defaults(func=cmd_prepare_qa)
     sub.add_parser("qa", help="Run CH-1 to CH-13").set_defaults(func=cmd_qa)
     sub.add_parser("status", help="Show pipeline status").set_defaults(func=cmd_status)
 
