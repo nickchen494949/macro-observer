@@ -135,12 +135,20 @@ def resolve_openfigi_waterfall(
         return None, {"status": "INVALID_CUSIP", "reason": "CUSIP failed format/checksum check"}
 
     clean_issuer = (sec_issuer_name or "").strip()
-    if not clean_issuer:
-        return None, {"status": "EMPTY_ISSUER_NAME", "reason": "SEC issuer name is empty"}
+    if not clean_issuer or not any(c.isalnum() for c in clean_issuer):
+        return None, {
+            "status": "EMPTY_OR_NONALPHANUMERIC_ISSUER_NAME",
+            "reason": "SEC issuer name is empty or contains no alphanumeric characters",
+        }
 
     surviving: list[tuple[OpenFIGICandidate, str, bool, float]] = []
 
     for cand in candidates:
+        # Step 0: Candidate name must contain at least one alphanumeric character
+        cand_name = (cand.name or "").strip().upper()
+        if not any(c.isalnum() for c in cand_name):
+            continue
+
         # Step 1: marketSector == 'Equity'
         if (cand.marketSector or "").strip().title() != "Equity":
             continue
@@ -155,7 +163,6 @@ def resolve_openfigi_waterfall(
             continue
 
         # Step 4: Issuer name Jaro-Winkler similarity >= 0.75
-        cand_name = (cand.name or "").strip().upper()
         sim = jaro_winkler_similarity(cand_name, clean_issuer.upper())
         if sim < 0.75:
             continue

@@ -19,7 +19,7 @@ def _build_rational_factors() -> set[float]:
     return set(base + reciprocals)
 
 
-FROZEN_RATIONAL_SPLIT_FACTORS: set[float] = _build_rational_factors()
+FROZEN_RATIONAL_SPLIT_FACTORS: frozenset[float] = frozenset(_build_rational_factors())
 
 
 @dataclass(frozen=True)
@@ -84,8 +84,9 @@ def compute_k_ledger_and_presence(
     """Compute period-pair split coefficient K_ledger and whether vendor split events occurred.
 
     Validates ISO date format and enforces prev_period < curr_period.
+    Compares parsed date objects rather than raw strings.
     Includes splits with prev_period < ex_date <= curr_period.
-    Product of all split ratios; returns (1.0, False) if empty.
+    Enforces that cumulative split factor product remains finite and positive.
     """
     try:
         prev_d = date.fromisoformat(prev_period.strip())
@@ -99,7 +100,8 @@ def compute_k_ledger_and_presence(
     validate_all_vendor_splits(vendor_splits)
 
     applicable_splits = [
-        s for s in vendor_splits if prev_period < s.ex_date <= curr_period
+        s for s in vendor_splits
+        if prev_d < date.fromisoformat(s.ex_date.strip()) <= curr_d
     ]
     has_splits = len(applicable_splits) > 0
     if not applicable_splits:
@@ -108,6 +110,9 @@ def compute_k_ledger_and_presence(
     k = 1.0
     for s in applicable_splits:
         k *= float(s.ratio)
+        if not math.isfinite(k) or k <= 0.0:
+            raise ValueError(f"Cumulative split factor product overflow or non-finite: {k}")
+
     return k, has_splits
 
 
@@ -166,7 +171,7 @@ def evaluate_split_waterfall(
 ) -> SplitWaterfallResult:
     """Execute ordered split waterfall precedence (Gates 0, 1, 2) matching Contract v0.8.1.
 
-    Strictly validates bool gate flags and enforces has_vendor_splits=False implies k_ledger==1.0.
+    Executes Gate 0 STOP before holder calculation, ensuring unusable holder data cannot defeat exclusion.
     """
     if type(is_corporate_action_unknown) is not bool:
         raise TypeError(f"is_corporate_action_unknown must be strict bool, got {type(is_corporate_action_unknown).__name__}")
@@ -175,12 +180,7 @@ def evaluate_split_waterfall(
     if not is_strict_positive_number(k_ledger):
         raise ValueError(f"Invalid k_ledger: {k_ledger!r}")
 
-    if not has_vendor_splits and abs(k_ledger - 1.0) > 1e-9:
-        raise ValueError(f"has_vendor_splits=False requires k_ledger=1.0, got {k_ledger}")
-
-    tilde_r, mad_log, tilde_r_prime, n = compute_holder_log_statistics(holders, k_ledger)
-
-    # Gate 0: Corporate action unknown / identity broken / unresolved ownership
+    # Gate 0: Corporate action unknown / identity broken / unresolved ownership (STOP IMMEDIATELY)
     if is_corporate_action_unknown:
         return SplitWaterfallResult(
             state="CORPORATE_ACTION_UNKNOWN",
@@ -189,11 +189,16 @@ def evaluate_split_waterfall(
             sensitivity_action="EXCLUDE",
             k_ledger=float(k_ledger),
             has_vendor_splits=has_vendor_splits,
-            holder_count=n,
-            median_ratio=tilde_r,
-            mad_log=mad_log,
-            adj_median_ratio=tilde_r_prime,
+            holder_count=len(holders),
+            median_ratio=None,
+            mad_log=None,
+            adj_median_ratio=None,
         )
+
+    if not has_vendor_splits and abs(k_ledger - 1.0) > 1e-9:
+        raise ValueError(f"has_vendor_splits=False requires k_ledger=1.0, got {k_ledger}")
+
+    tilde_r, mad_log, tilde_r_prime, n = compute_holder_log_statistics(holders, k_ledger)
 
     # Gate 1: Vendor ledger has split records (has_vendor_splits == True)
     if has_vendor_splits:

@@ -10,6 +10,7 @@ import zoneinfo
 _EASTERN_TZ = zoneinfo.ZoneInfo("America/New_York")
 _UTC_TZ = zoneinfo.ZoneInfo("UTC")
 _CIK_PATTERN = re.compile(r"^\d{1,10}$")
+_DATE_ONLY_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 
 def is_strict_nonnegative_int(val: Any) -> bool:
@@ -42,17 +43,22 @@ def is_strict_positive_number(val: Any) -> bool:
 
 
 def is_valid_cik(cik: Any) -> bool:
-    """Check if value is a valid non-empty 1-10 digit CIK, rejecting bool."""
+    """Check if value is a valid non-empty 1-10 digit CIK, rejecting bool and numeric zero."""
     if cik is None or isinstance(cik, bool):
         return False
     s = str(cik).strip()
-    return bool(_CIK_PATTERN.match(s))
+    if not _CIK_PATTERN.match(s):
+        return False
+    try:
+        return int(s) > 0
+    except ValueError:
+        return False
 
 
 def normalize_cik(cik: Any) -> str:
     """Normalize CIK to 10-digit zero-padded string; raises ValueError if invalid."""
     if not is_valid_cik(cik):
-        raise ValueError(f"Invalid CIK: {cik!r}. Must be a 1-10 digit numeric string.")
+        raise ValueError(f"Invalid CIK: {cik!r}. Must be a 1-10 digit positive numeric string.")
     return f"{int(cik):010d}"
 
 
@@ -157,12 +163,27 @@ def compute_13f_deadline(period_of_report: str) -> str:
 
 
 def parse_datetime_to_utc(dt_str: str) -> datetime:
-    """Parse acceptance datetime string into an aware UTC datetime object."""
-    dt_str = dt_str.strip()
-    if dt_str.endswith("Z"):
-        dt = datetime.fromisoformat(dt_str[:-1] + "+00:00")
-    else:
-        dt = datetime.fromisoformat(dt_str)
+    """Parse acceptance datetime string into an aware UTC datetime object.
+
+    Requires a genuine datetime with a time component (rejects date-only strings).
+    Accepts naive SEC timestamps (assumed Eastern) and timezone-aware timestamps.
+    """
+    if not isinstance(dt_str, str) or not dt_str.strip():
+        raise ValueError("acceptance_datetime cannot be blank or empty.")
+
+    clean = dt_str.strip()
+    if _DATE_ONLY_PATTERN.match(clean) or ("T" not in clean and " " not in clean):
+        raise ValueError(
+            f"acceptance_datetime must contain a time component (YYYY-MM-DDTHH:MM:SS), got date-only: {dt_str!r}"
+        )
+
+    try:
+        if clean.endswith("Z"):
+            dt = datetime.fromisoformat(clean[:-1] + "+00:00")
+        else:
+            dt = datetime.fromisoformat(clean)
+    except ValueError as err:
+        raise ValueError(f"Invalid ISO datetime in acceptance_datetime: {dt_str!r}") from err
 
     if dt.tzinfo is None:
         dt = dt.replace(tzinfo=_EASTERN_TZ)
@@ -225,7 +246,7 @@ class FilingHeader:
     is_confidential_omit: bool = False
 
     def validate(self) -> None:
-        """Validate header fields and form/amendment combinations."""
+        """Validate header fields, datetime time component, and form/amendment combinations."""
         if not self.accession_number or not str(self.accession_number).strip():
             raise ValueError("FilingHeader accession_number cannot be empty.")
         normalize_cik(self.origin_filer_cik)
@@ -233,6 +254,8 @@ class FilingHeader:
             date.fromisoformat(self.period_of_report.strip())
         except ValueError as err:
             raise ValueError(f"Invalid period_of_report in FilingHeader: {self.period_of_report}") from err
+
+        parse_datetime_to_utc(self.acceptance_datetime)
 
         if type(self.is_confidential_omit) is not bool:
             raise TypeError("is_confidential_omit must be a strict boolean.")

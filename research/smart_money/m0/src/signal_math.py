@@ -1,6 +1,7 @@
 """M0 delta-shares calculation, 3x censor-risk heuristic weighting, and (stock, period) aggregation."""
 
 from collections import defaultdict
+from datetime import date
 import math
 from typing import Any
 
@@ -8,6 +9,18 @@ from research.smart_money.m0.src.ownership_state_machine import (
     is_strict_nonnegative_number,
     is_strict_positive_number,
 )
+
+
+def _validate_iso_date(date_str: Any, field_name: str = "period_of_report") -> str:
+    """Validate string as a valid ISO YYYY-MM-DD date."""
+    if not isinstance(date_str, str) or not date_str.strip():
+        raise ValueError(f"{field_name} must be a non-empty ISO date string, got {date_str!r}")
+    clean = date_str.strip()
+    try:
+        date.fromisoformat(clean)
+    except ValueError as err:
+        raise ValueError(f"Invalid ISO date format for {field_name}: {date_str!r}") from err
+    return clean
 
 
 def compute_censor_weight(
@@ -101,8 +114,10 @@ def aggregate_m0_signals(
 ) -> dict[tuple[str, str], float]:
     """Aggregate entity-level delta shares to (primary_stock_id, period_of_report) level M0 signals.
 
-    Censor weight input MUST be exactly 0.3 or 1.0.
+    Censor weight input MUST be strictly and exactly 0.3 or 1.0.
+    Enforces valid ISO period_of_report.
     Preserves exact (stock, period) composite key.
+    Enforces finite accumulation and rejects overflow.
     M0_signal(stock, Q) = sum(delta_shares * censor_weight)
 
     Returns:
@@ -115,9 +130,7 @@ def aggregate_m0_signals(
         if not stock_id:
             raise ValueError("Blank or empty primary_stock_id in entity signal")
 
-        period = str(item.get("period_of_report", "")).strip()
-        if not period:
-            raise ValueError(f"Blank or empty period_of_report for stock {stock_id}")
+        period = _validate_iso_date(item.get("period_of_report"), "entity_signals.period_of_report")
 
         delta = item.get("delta_shares")
         if isinstance(delta, bool) or not isinstance(delta, (int, float)) or not math.isfinite(delta):
@@ -128,12 +141,18 @@ def aggregate_m0_signals(
             raise ValueError(f"Invalid non-numeric censor_weight for stock {stock_id}: {weight!r}")
 
         w_val = float(weight)
-        if not (math.isclose(w_val, 0.3, rel_tol=1e-7) or math.isclose(w_val, 1.0, rel_tol=1e-7)):
+        if w_val != 0.3 and w_val != 1.0:
             raise ValueError(
                 f"Censor weight input for stock {stock_id} must be exactly 0.3 or 1.0, got: {weight!r}"
             )
 
         key = (stock_id, period)
-        signals[key] += float(delta) * w_val
+        term = float(delta) * w_val
+        if not math.isfinite(term):
+            raise ValueError(f"Signal accumulation overflow for {key}: term is non-finite")
+
+        signals[key] += term
+        if not math.isfinite(signals[key]):
+            raise ValueError(f"Signal accumulation overflow for {key}: accumulated value is non-finite")
 
     return dict(signals)

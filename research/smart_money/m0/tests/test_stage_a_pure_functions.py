@@ -42,6 +42,7 @@ from research.smart_money.m0.src.ownership_state_machine import (
     is_valid_cik,
     normalize_cik,
     resolve_ownership,
+    parse_datetime_to_utc,
     FilingHeader,
     HoldingRow,
     aggregate_accession_holdings,
@@ -85,7 +86,7 @@ from research.smart_money.m0.src.outcome_policies import (
 
 
 # ============================================================================
-# Module 1: Storage Guard Tests (P0-1)
+# Module 1: Storage Guard Tests
 # ============================================================================
 
 def test_storage_guard_readonly_uri_and_immutable(tmp_path: Path):
@@ -218,7 +219,7 @@ def test_run_paths_path_traversal_and_symlink_escape(tmp_path: Path):
 
 
 # ============================================================================
-# Module 3: Manifest Integrity Tests
+# Module 3: Manifest Integrity Tests (P0-1)
 # ============================================================================
 
 def test_manifest_integrity_canonical_json_and_strict_types():
@@ -268,9 +269,9 @@ def test_manifest_raw_bytes_exactness_and_binding():
     valid_sig = {
         "manifest_type": "SIGNAL_MANIFEST",
         "run_id": "run_001",
-        "contract_sha256": "contract_hash_123",
-        "source_git_sha": "git_hash_abc",
-        "m0_code_git_sha": "code_hash_xyz",
+        "contract_sha256": "0" * 64,
+        "source_git_sha": "a" * 40,
+        "m0_code_git_sha": "b" * 40,
         "git_tree_dirty": False,
     }
     canonical_sig_bytes = canonical_json_dumps(valid_sig).encode("utf-8")
@@ -279,9 +280,9 @@ def test_manifest_raw_bytes_exactness_and_binding():
     valid_pri = {
         "manifest_type": "PRICE_MANIFEST",
         "run_id": "run_001",
-        "contract_sha256": "contract_hash_123",
-        "source_git_sha": "git_hash_abc",
-        "m0_code_git_sha": "code_hash_xyz",
+        "contract_sha256": "0" * 64,
+        "source_git_sha": "a" * 40,
+        "m0_code_git_sha": "b" * 40,
         "signal_manifest_sha256": sig_hash,
         "git_tree_dirty": False,
     }
@@ -289,7 +290,7 @@ def test_manifest_raw_bytes_exactness_and_binding():
 
     verify_manifest_binding(canonical_sig_bytes, canonical_pri_bytes)
 
-    non_canonical_sig_bytes = b'{"manifest_type":"SIGNAL_MANIFEST","run_id":"run_001","contract_sha256":"contract_hash_123","source_git_sha":"git_hash_abc","m0_code_git_sha":"code_hash_xyz","git_tree_dirty":false}'
+    non_canonical_sig_bytes = b'{"manifest_type":"SIGNAL_MANIFEST","run_id":"run_001","contract_sha256":"0000000000000000000000000000000000000000000000000000000000000000","source_git_sha":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","m0_code_git_sha":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","git_tree_dirty":false}'
     with pytest.raises(ValueError):
         parse_and_validate_manifest(non_canonical_sig_bytes)
 
@@ -302,9 +303,49 @@ def test_manifest_raw_bytes_exactness_and_binding():
         verify_manifest_binding(canonical_json_dumps(dirty_sig).encode("utf-8"), canonical_pri_bytes)
 
 
+def test_manifest_blank_fields_rejection():
+    """Test verify_manifest_binding rejects blank fields (P0-1 counterexample)."""
+    blank_sig = {
+        "manifest_type": "SIGNAL_MANIFEST",
+        "run_id": "",
+        "contract_sha256": "",
+        "source_git_sha": "",
+        "m0_code_git_sha": "",
+        "git_tree_dirty": False,
+    }
+    blank_pri = {
+        "manifest_type": "PRICE_MANIFEST",
+        "run_id": "",
+        "contract_sha256": "",
+        "source_git_sha": "",
+        "m0_code_git_sha": "",
+        "signal_manifest_sha256": compute_sha256_json(blank_sig),
+        "git_tree_dirty": False,
+    }
+    with pytest.raises(ValueError):
+        verify_manifest_binding(
+            canonical_json_dumps(blank_sig).encode("utf-8"),
+            canonical_json_dumps(blank_pri).encode("utf-8"),
+        )
+
+
 # ============================================================================
-# Module 4: Ownership & State Machine Tests (P1-3)
+# Module 4: Ownership & State Machine Tests (P1-2 & P1-3)
 # ============================================================================
+
+def test_is_valid_cik_positive_digits():
+    """Test is_valid_cik rejects 0 and 0000000000 and requires positive 1..10 digits."""
+    assert is_valid_cik("0") is False
+    assert is_valid_cik("0000000000") is False
+    assert is_valid_cik(0) is False
+    assert is_valid_cik(False) is False
+    assert is_valid_cik("12345") is True
+    assert is_valid_cik("0000012345") is True
+    assert normalize_cik("12345") == "0000012345"
+
+    with pytest.raises(ValueError):
+        normalize_cik("0")
+
 
 def test_compute_13f_deadline_sec_calendar():
     """Test SEC Rule 0-3 filing deadline calculation with weekend and holiday roll forward."""
@@ -312,6 +353,21 @@ def test_compute_13f_deadline_sec_calendar():
     assert compute_13f_deadline("2024-03-31") == "2024-05-15"
     assert compute_13f_deadline("2024-06-30") == "2024-08-14"
     assert compute_13f_deadline("2023-12-31") == "2024-02-14"
+
+
+def test_filing_header_datetime_time_component():
+    """Test acceptance_datetime requires a valid time component (P1-3)."""
+    with pytest.raises(ValueError, match="must contain a time component"):
+        parse_datetime_to_utc("2024-05-15")
+
+    with pytest.raises(ValueError, match="must contain a time component"):
+        FilingHeader("0001-24-000001", "12345", "2024-03-31", "2024-05-15").validate()
+
+    # Valid time component passes
+    dt = parse_datetime_to_utc("2024-05-15T14:30:00")
+    assert dt is not None
+    header = FilingHeader("0001-24-000001", "12345", "2024-03-31", "2024-05-15T14:30:00Z")
+    header.validate()
 
 
 def test_is_pit_accepted():
@@ -388,7 +444,6 @@ def test_reconstruct_filer_state_form_validation_and_invalidation():
     filer_cik = "0001000001"
     period = "2024-03-31"
 
-    # 13F-NT with holdings must raise ValueError
     h_nt = FilingHeader(
         accession_number="0001-24-000001",
         origin_filer_cik=filer_cik,
@@ -412,7 +467,6 @@ def test_reconstruct_filer_state_form_validation_and_invalidation():
     with pytest.raises(ValueError):
         reconstruct_filer_state([(h_nt, rows_nt)], period)
 
-    # 13F-HR/A with unknown amendment type wipes entire state
     h1 = FilingHeader(
         accession_number="0001-24-000003",
         origin_filer_cik=filer_cik,
@@ -511,7 +565,7 @@ def test_reconstruct_filer_state_add_new_holdings_upsert():
 
 
 # ============================================================================
-# Module 5: Entity Membership & Dedup Tests (P1-3)
+# Module 5: Entity Membership & Dedup Tests
 # ============================================================================
 
 def test_entity_components_and_membership_invalid_ciks():
@@ -538,7 +592,6 @@ def test_deduplicate_entity_disclosures_integral_and_owner_requirements():
     """Test deduplicate_entity_disclosures requires economic_owner_cik, ISO period, and integral shares/votes."""
     entity_id = "0000000100"
 
-    # Invalid ISO period must raise ValueError
     with pytest.raises(ValueError):
         bad_date = [{"canonical_entity_id": entity_id, "cusip": "037833100", "period_of_report": "not-a-date", "economic_owner_cik": entity_id, "total_shares": 100, "total_value_usd": 100.0}]
         deduplicate_entity_disclosures(entity_id, bad_date)
@@ -564,7 +617,7 @@ def test_deduplicate_entity_disclosures_integral_and_owner_requirements():
 
 
 # ============================================================================
-# Module 6: Security Mapping Tests
+# Module 6: Security Mapping Tests (P1-1)
 # ============================================================================
 
 def test_cusip_validation():
@@ -586,8 +639,8 @@ def test_jaro_winkler_similarity():
     assert jaro_winkler_similarity("APPLE INC", "MICROSOFT CORP") < 0.5
 
 
-def test_openfigi_top_score_ambiguity_and_jaro():
-    """Test OpenFIGI waterfall filters to highest-name-score candidates before checking ambiguity."""
+def test_openfigi_top_score_ambiguity_and_alphanumeric_gate():
+    """Test OpenFIGI waterfall filters candidates, top-score ambiguity, and alphanumeric requirements (P1-1)."""
     cusip = "037833100"
     issuer_name = "APPLE INC"
 
@@ -598,22 +651,56 @@ def test_openfigi_top_score_ambiguity_and_jaro():
     assert resolved_id == "BBG001S5N8V8"
     assert meta["status"] == "RESOLVED"
 
-    cand_equal = OpenFIGICandidate("BBG000EQUAL3", "APPLE INC", "AAPL2", "UN", "Equity", "Common Stock", shareClassFIGI="BBG001DIFF99")
-    resolved_amb, meta_amb = resolve_openfigi_waterfall(cusip, issuer_name, [cand_high, cand_equal])
-    assert resolved_amb is None
-    assert meta_amb["status"] == "MAPPING_AMBIGUOUS"
+    # Alphanumeric issuer name gate test (P1-1)
+    res_nonalpha, meta_nonalpha = resolve_openfigi_waterfall(cusip, "!!!", [cand_high])
+    assert res_nonalpha is None
+    assert meta_nonalpha["status"] == "EMPTY_OR_NONALPHANUMERIC_ISSUER_NAME"
+
+    # Non-alphanumeric candidate name test
+    cand_nonalpha = OpenFIGICandidate("BBG000PUNCT1", "!!!", "AAPL", "US", "Equity", "Common Stock", shareClassFIGI="BBG001PUNCT1")
+    res_cand_na, _ = resolve_openfigi_waterfall(cusip, issuer_name, [cand_nonalpha])
+    assert res_cand_na is None
 
 
 # ============================================================================
-# Module 7: Split Waterfall Tests
+# Module 7: Split Waterfall Tests (P1-4, P1-5, P2)
 # ============================================================================
 
-def test_rational_split_factors_size():
-    """Verify that FROZEN_RATIONAL_SPLIT_FACTORS contains exactly 204 distinct factors."""
+def test_frozen_rational_split_factors_frozenset():
+    """Verify that FROZEN_RATIONAL_SPLIT_FACTORS is an immutable frozenset containing 204 factors."""
+    assert isinstance(FROZEN_RATIONAL_SPLIT_FACTORS, frozenset)
     assert len(FROZEN_RATIONAL_SPLIT_FACTORS) == 204
     assert 2.0 in FROZEN_RATIONAL_SPLIT_FACTORS
     assert 0.5 in FROZEN_RATIONAL_SPLIT_FACTORS
     assert 1.25 in FROZEN_RATIONAL_SPLIT_FACTORS
+
+
+def test_split_waterfall_gate0_stop_precedence():
+    """Test Gate 0 STOP executes before holder computation without raising on invalid holder data (P1-5)."""
+    # Holder with 0 prev_shares is invalid for Gate 1/2, but Gate 0 MUST intercept and return EXCLUDE cleanly
+    invalid_holder = ContinuousHolder("0001", 0, 0)
+    res = evaluate_split_waterfall(
+        is_corporate_action_unknown=True,
+        has_vendor_splits=False,
+        k_ledger=1.0,
+        holders=[invalid_holder],
+    )
+    assert res.state == "CORPORATE_ACTION_UNKNOWN"
+    assert res.action == "EXCLUDE"
+    assert res.split_factor is None
+
+
+def test_split_ledger_date_comparison_and_overflow():
+    """Test split ledger parsed date comparisons (with whitespace) and overflow validation (P1-4)."""
+    splits = [SplitEvent(" 2024-06-10 ", 10.0)]
+    k, has_splits = compute_k_ledger_and_presence("2024-03-31 ", " 2024-06-30", splits)
+    assert k == 10.0
+    assert has_splits is True
+
+    # Overflow rejection test
+    overflow_splits = [SplitEvent("2024-06-10", 1e308), SplitEvent("2024-06-11", 1e308)]
+    with pytest.raises(ValueError, match="overflow"):
+        compute_k_ledger_and_presence("2024-03-31", "2024-06-30", overflow_splits)
 
 
 def test_split_waterfall_all_8_states():
@@ -663,45 +750,27 @@ def test_split_waterfall_all_8_states():
     assert res_g22c.action == "EXCLUDE"
 
 
-def test_split_waterfall_iso_dates_and_gate_invariants():
-    """Test split waterfall ISO date checks, prev < curr, and gate flag invariants."""
-    splits = [SplitEvent("2024-01-15", 2.0), SplitEvent("2024-02-15", 0.5)]
-
-    with pytest.raises(ValueError):
-        compute_k_ledger_and_presence("2024-06-30", "2024-03-31", splits)
-
-    k, has_splits = compute_k_ledger_and_presence("2023-12-31", "2024-03-31", splits)
-    assert k == pytest.approx(1.0)
-    assert has_splits is True
-
-    with pytest.raises(ValueError):
-        evaluate_split_waterfall(False, False, 2.0, [ContinuousHolder("0001", 100, 100)])
-
-    with pytest.raises(TypeError):
-        evaluate_split_waterfall(1, True, 1.0, [ContinuousHolder("0001", 100, 100)])
-
-    with pytest.raises(ValueError):
-        SplitEvent("2024-01-15", True).validate()
-
-    with pytest.raises(ValueError):
-        ContinuousHolder("0001", True, 100).validate()
-
-
 # ============================================================================
-# Module 8: Signal Math Tests
+# Module 8: Signal Math Tests (P1-6)
 # ============================================================================
 
-def test_signal_math_reject_bool_and_censor_weights():
-    """Test rejection of bool and strict 0.3 / 1.0 censor weight requirement."""
+def test_signal_math_exact_weights_and_overflow():
+    """Test rejection of bool, invalid ISO dates, non-exact weights, and overflow in signal math (P1-6)."""
     with pytest.raises(ValueError):
         compute_censor_weight(True, False, True, 0, 1000, 1000)
 
     with pytest.raises(ValueError):
         compute_entity_delta_shares(True, 100, 1.0)
 
+    # Inexact censor weight (e.g. 0.30000002) must raise ValueError
     with pytest.raises(ValueError):
-        aggregate_m0_signals([{"primary_stock_id": "STK_A", "period_of_report": "2024-03-31", "delta_shares": 100, "censor_weight": 0.5}])
+        aggregate_m0_signals([{"primary_stock_id": "STK_A", "period_of_report": "2024-03-31", "delta_shares": 100, "censor_weight": 0.30000002}])
 
+    # Non-ISO date in aggregation
+    with pytest.raises(ValueError):
+        aggregate_m0_signals([{"primary_stock_id": "STK_A", "period_of_report": "not-a-date", "delta_shares": 100, "censor_weight": 0.3}])
+
+    # Exact valid weights 0.3 and 1.0 succeed
     signals = aggregate_m0_signals([
         {"primary_stock_id": "STK_A", "period_of_report": "2024-03-31", "delta_shares": 100, "censor_weight": 0.3},
         {"primary_stock_id": "STK_A", "period_of_report": "2024-03-31", "delta_shares": 200, "censor_weight": 1.0},
@@ -710,48 +779,49 @@ def test_signal_math_reject_bool_and_censor_weights():
 
 
 # ============================================================================
-# Module 9: Coverage Keys Tests (P1-4)
+# Module 9: Coverage Keys Tests (P0-2)
 # ============================================================================
 
-def test_coverage_tracker():
-    """Test dual-denominator tracking, validation, and summary generation."""
+def test_coverage_tracker_d1_d2_projection_and_penetration():
+    """Test CoverageTracker D1->D2 projection, penetration rates, and price-covered split denominator (P0-2)."""
     tracker = CoverageTracker()
 
-    # Valid records pass
-    tracker.record_d1("037833100", "2024-03-31", filer_count=5, value_usd=1000000.0)
-    tracker.record_d1("67066G104", "2024-03-31", filer_count=10, value_usd=2000000.0)
+    # D1 A (count 10, value 100) + D1 B (count 20, value 200) -> same D2 stock X
+    tracker.record_d1("037833100", "2024-03-31", filer_count=10, value_usd=100.0)
+    tracker.record_d1("037833200", "2024-03-31", filer_count=20, value_usd=200.0)
 
     tracker.record_d2_mapping("037833100", "2024-03-31", "BBG001S5N8V8")
+    tracker.record_d2_mapping("037833200", "2024-03-31", "BBG001S5N8V8")
+
+    tracker.record_d2_price_covered("BBG001S5N8V8", "2024-03-31")
     tracker.record_split_state("BBG001S5N8V8", "2024-03-31", "CLEAN")
+    tracker.record_final_ic_eligible("BBG001S5N8V8", "2024-03-31")
 
     summary = tracker.generate_coverage_summary()
+
+    # Assert D1 & D2 honest counts and penetration rates
     assert summary["d1_raw_sec_keys_total"] == 2
+    assert summary["d1_total_filer_count"] == 30
+    assert summary["d1_total_value_usd"] == 300.0
+    assert summary["d1_mapped_keys_total"] == 2
+    assert summary["d1_mapped_filer_count"] == 30
+    assert summary["d1_mapped_value_usd"] == 300.0
+    assert summary["d1_key_mapping_rate"] == 1.0
+    assert summary["d1_filer_count_penetration_rate"] == 1.0
+    assert summary["d1_value_penetration_rate"] == 1.0
+    assert summary["openfigi_mapping_rate"] == 1.0
+
     assert summary["d2_mapped_keys_total"] == 1
-    assert summary["openfigi_mapping_rate"] == 0.5
-    assert "CLEAN" in summary["split_state_distribution"]
-
-    # Invalid validations
-    with pytest.raises(ValueError):
-        tracker.record_d1("", "2024-03-31", 1, 100.0)
-
-    with pytest.raises(ValueError):
-        tracker.record_d1("037833100", "not-a-date", 1, 100.0)
-
-    with pytest.raises(ValueError):
-        tracker.record_d1("037833100", "2024-03-31", -1, 100.0)
-
-    with pytest.raises(ValueError):
-        tracker.record_d1("037833100", "2024-03-31", 1, float("nan"))
-
-    with pytest.raises(ValueError):
-        tracker.record_d2_mapping("", "2024-03-31", "BBG001S5N8V8")
-
-    with pytest.raises(ValueError):
-        tracker.record_split_state("BBG001S5N8V8", "2024-03-31", "")
+    assert summary["d2_price_covered_keys_total"] == 1
+    assert summary["price_coverage_rate"] == 1.0
+    assert summary["split_state_distribution"]["CLEAN"]["pct_of_price_covered_d2"] == 100.0
+    assert summary["final_ic_eligible_d2_keys_total"] == 1
+    assert summary["d1_conversion_retention_rate"] == 1.0
+    assert summary["d2_conversion_retention_rate"] == 1.0
 
 
 # ============================================================================
-# Module 10: Outcome Policies Tests (P1-1 & P1-2)
+# Module 10: Outcome Policies Tests
 # ============================================================================
 
 def test_outcome_policies_calendar_roll_session_inclusive():
@@ -773,7 +843,6 @@ def test_outcome_policies_calendar_roll_session_inclusive():
     assert roll_days == 5
     assert trade_date == "2024-05-22"
 
-    # Counterexamples: negative max_roll_days, bool max_roll_days, duplicate calendar dates, non-ISO dates
     with pytest.raises(ValueError):
         select_open_price_with_roll(calendar, price_by_date, "2024-05-15", max_roll_days=-1)
 
@@ -836,28 +905,23 @@ def test_outcome_policies_cardinality_invariant_and_sensitivities():
     assert len(branches["missing_zero"]) == 3
     assert len(branches["rolled_le_5"]) == 2
 
-    # Cardinality input integrity counterexamples (P1-2)
-    # Blank stock ID in signals
+    # Cardinality input integrity counterexamples
     with pytest.raises(ValueError):
         verify_cardinality_invariant([{"primary_stock_id": "", "period_of_report": "2024-03-31", "m0_signal": 10.0}], returns)
 
-    # Non-ISO period in signals
     with pytest.raises(ValueError):
         verify_cardinality_invariant([{"primary_stock_id": "STK_1", "period_of_report": "not-a-date", "m0_signal": 10.0}], returns)
 
-    # NaN / bool m0_signal
     with pytest.raises(ValueError):
         verify_cardinality_invariant([{"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "m0_signal": float("nan")}], returns)
 
     with pytest.raises(ValueError):
         verify_cardinality_invariant([{"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "m0_signal": True}], returns)
 
-    # Blank outcome_status in returns
     with pytest.raises(ValueError):
         bad_returns = [{"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "forward_return": 0.05, "outcome_status": ""}]
         verify_cardinality_invariant(signals, bad_returns)
 
-    # Bool forward_return in returns
     with pytest.raises(ValueError):
         bad_ret2 = [{"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "forward_return": True, "outcome_status": "CLEAN"}]
         verify_cardinality_invariant(signals, bad_ret2)

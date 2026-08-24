@@ -10,6 +10,8 @@ import subprocess
 from typing import Any
 
 _HEX_64_PATTERN = re.compile(r"^[0-9a-fA-F]{64}$")
+_HEX_40_OR_64_PATTERN = re.compile(r"^([0-9a-fA-F]{40}|[0-9a-fA-F]{64})$")
+_SAFE_RUN_ID_PATTERN = re.compile(r"^[a-zA-Z0-9_-]+$")
 
 
 def validate_canonical_json_value(val: Any) -> None:
@@ -177,7 +179,7 @@ def verify_manifest_binding(
     """Verify cryptographic and identifier binding between Signal Manifest and Price Manifest.
 
     Requires exact canonical raw bytes for both manifests.
-    Validates manifest_type, git_tree_dirty is exactly False, and matching binding hashes.
+    Validates manifest_type, non-blank provenance IDs, git_tree_dirty is exactly False, and matching binding hashes.
     """
     if not isinstance(signal_manifest_bytes, bytes) or not isinstance(price_manifest_bytes, bytes):
         raise TypeError("verify_manifest_binding requires raw bytes for both signal and price manifests.")
@@ -201,18 +203,36 @@ def verify_manifest_binding(
     if pri_dirty is not False or type(pri_dirty) is not bool:
         raise ValueError(f"Price manifest git_tree_dirty must be exactly False, got {pri_dirty!r}")
 
-    required_keys = ["run_id", "contract_sha256", "source_git_sha", "m0_code_git_sha"]
-    for key in required_keys:
-        sig_val = signal_manifest.get(key)
-        pri_val = price_manifest.get(key)
-        if sig_val is None:
-            raise ValueError(f"Signal manifest missing required binding field: '{key}'")
-        if pri_val is None:
-            raise ValueError(f"Price manifest missing required binding field: '{key}'")
-        if sig_val != pri_val:
-            raise ValueError(
-                f"Manifest binding mismatch on '{key}': signal has '{sig_val}', price has '{pri_val}'"
-            )
+    # Validate run_id syntax
+    run_id_sig = signal_manifest.get("run_id")
+    run_id_pri = price_manifest.get("run_id")
+    if not isinstance(run_id_sig, str) or not _SAFE_RUN_ID_PATTERN.match(run_id_sig.strip()):
+        raise ValueError(f"Signal manifest has invalid/blank run_id: {run_id_sig!r}")
+    if not isinstance(run_id_pri, str) or not _SAFE_RUN_ID_PATTERN.match(run_id_pri.strip()):
+        raise ValueError(f"Price manifest has invalid/blank run_id: {run_id_pri!r}")
+    if run_id_sig.strip() != run_id_pri.strip():
+        raise ValueError(f"run_id mismatch: signal has {run_id_sig!r}, price has {run_id_pri!r}")
+
+    # Validate contract_sha256 (strictly 64 hex)
+    contract_sig = signal_manifest.get("contract_sha256")
+    contract_pri = price_manifest.get("contract_sha256")
+    if not isinstance(contract_sig, str) or not _HEX_64_PATTERN.match(contract_sig.strip()):
+        raise ValueError(f"Signal manifest has invalid/blank contract_sha256: {contract_sig!r}")
+    if not isinstance(contract_pri, str) or not _HEX_64_PATTERN.match(contract_pri.strip()):
+        raise ValueError(f"Price manifest has invalid/blank contract_sha256: {contract_pri!r}")
+    if contract_sig.strip().lower() != contract_pri.strip().lower():
+        raise ValueError(f"contract_sha256 mismatch: signal has {contract_sig!r}, price has {contract_pri!r}")
+
+    # Validate source_git_sha and m0_code_git_sha (40 or 64 hex)
+    for git_key in ["source_git_sha", "m0_code_git_sha"]:
+        sig_val = signal_manifest.get(git_key)
+        pri_val = price_manifest.get(git_key)
+        if not isinstance(sig_val, str) or not _HEX_40_OR_64_PATTERN.match(sig_val.strip()):
+            raise ValueError(f"Signal manifest has invalid/blank {git_key}: {sig_val!r}")
+        if not isinstance(pri_val, str) or not _HEX_40_OR_64_PATTERN.match(pri_val.strip()):
+            raise ValueError(f"Price manifest has invalid/blank {git_key}: {pri_val!r}")
+        if sig_val.strip().lower() != pri_val.strip().lower():
+            raise ValueError(f"{git_key} mismatch: signal has {sig_val!r}, price has {pri_val!r}")
 
     expected_signal_hash = price_manifest.get("signal_manifest_sha256")
     if not expected_signal_hash:

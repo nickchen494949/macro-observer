@@ -29,13 +29,17 @@ def _validate_iso_date(date_str: Any, field_name: str = "period_of_report") -> s
 
 @dataclass
 class CoverageTracker:
-    """Tracks coverage sets and conversion attrition across pipeline stages."""
+    """Tracks coverage sets, projection mappings, and conversion attrition across pipeline stages."""
     # D1 Scope: Raw SEC cash-equity holdings
     d1_keys: set[D1Key] = field(default_factory=set)
     d1_filer_count: dict[D1Key, int] = field(default_factory=lambda: defaultdict(int))
     d1_value_usd: dict[D1Key, float] = field(default_factory=lambda: defaultdict(float))
 
-    # Attrition categories from D1
+    # D1 -> D2 projection and mapping
+    d1_to_d2: dict[D1Key, D2Key] = field(default_factory=dict)
+    d2_to_d1: dict[D2Key, set[D1Key]] = field(default_factory=lambda: defaultdict(set))
+
+    # Attrition tracking from D1
     unmapped_cusip_keys: set[D1Key] = field(default_factory=set)
     ambiguous_mapping_keys: set[D1Key] = field(default_factory=set)
     non_equity_or_etf_keys: set[D1Key] = field(default_factory=set)
@@ -46,7 +50,7 @@ class CoverageTracker:
     d2_price_covered_keys: set[D2Key] = field(default_factory=set)
     d2_price_missing_keys: set[D2Key] = field(default_factory=set)
 
-    # Split state classification counts within D2
+    # Split state classification counts within D2 price-covered scope
     split_state_keys: dict[str, set[D2Key]] = field(default_factory=lambda: defaultdict(set))
 
     # Final IC eligible keys
@@ -71,15 +75,37 @@ class CoverageTracker:
         self.d1_value_usd[key] += float(value_usd)
 
     def record_d2_mapping(self, raw_cusip: str, period: str, primary_stock_id: str) -> None:
-        """Register successful mapping to D2 with strict validation."""
+        """Register successful mapping from D1 key to D2 stock ID."""
         if not raw_cusip or not str(raw_cusip).strip():
             raise ValueError("raw_cusip cannot be blank or empty.")
         if not primary_stock_id or not str(primary_stock_id).strip():
             raise ValueError("primary_stock_id cannot be blank or empty.")
         period_clean = _validate_iso_date(period, "period_of_report")
+        cusip_clean = str(raw_cusip).strip().upper()
+        stock_clean = str(primary_stock_id).strip()
 
-        d2_key = (str(primary_stock_id).strip(), period_clean)
+        d1_key = (cusip_clean, period_clean)
+        d2_key = (stock_clean, period_clean)
+
+        self.d1_to_d2[d1_key] = d2_key
+        self.d2_to_d1[d2_key].add(d1_key)
         self.d2_mapped_keys.add(d2_key)
+
+    def record_d2_price_covered(self, primary_stock_id: str, period: str) -> None:
+        """Register a D2 key as having valid price coverage."""
+        if not primary_stock_id or not str(primary_stock_id).strip():
+            raise ValueError("primary_stock_id cannot be blank or empty.")
+        period_clean = _validate_iso_date(period, "period_of_report")
+        d2_key = (str(primary_stock_id).strip(), period_clean)
+        self.d2_price_covered_keys.add(d2_key)
+
+    def record_d2_price_missing(self, primary_stock_id: str, period: str) -> None:
+        """Register a D2 key as missing price coverage."""
+        if not primary_stock_id or not str(primary_stock_id).strip():
+            raise ValueError("primary_stock_id cannot be blank or empty.")
+        period_clean = _validate_iso_date(period, "period_of_report")
+        d2_key = (str(primary_stock_id).strip(), period_clean)
+        self.d2_price_missing_keys.add(d2_key)
 
     def record_split_state(self, primary_stock_id: str, period: str, state: str) -> None:
         """Record split state classification for a D2 key with strict validation."""
@@ -92,33 +118,87 @@ class CoverageTracker:
         d2_key = (str(primary_stock_id).strip(), period_clean)
         self.split_state_keys[str(state).strip()].add(d2_key)
 
+    def record_final_ic_eligible(self, primary_stock_id: str, period: str) -> None:
+        """Record a D2 key as passing all gates and eligible for final IC evaluation."""
+        if not primary_stock_id or not str(primary_stock_id).strip():
+            raise ValueError("primary_stock_id cannot be blank or empty.")
+        period_clean = _validate_iso_date(period, "period_of_report")
+        d2_key = (str(primary_stock_id).strip(), period_clean)
+        self.final_ic_eligible_keys.add(d2_key)
+
+    def record_attrition(self, raw_cusip: str, period: str, category: str) -> None:
+        """Record D1 key attrition reason."""
+        if not raw_cusip or not str(raw_cusip).strip():
+            raise ValueError("raw_cusip cannot be blank or empty.")
+        period_clean = _validate_iso_date(period, "period_of_report")
+        key = (str(raw_cusip).strip().upper(), period_clean)
+
+        cat = str(category).strip().lower()
+        if cat == "unmapped_cusip":
+            self.unmapped_cusip_keys.add(key)
+        elif cat == "ambiguous_mapping":
+            self.ambiguous_mapping_keys.add(key)
+        elif cat == "non_equity_or_etf":
+            self.non_equity_or_etf_keys.add(key)
+        elif cat == "corporate_action_unknown":
+            self.corporate_action_unknown_keys.add(key)
+        else:
+            raise ValueError(f"Unknown attrition category: {category!r}")
+
     def generate_coverage_summary(self) -> dict[str, Any]:
-        """Compute dual-denominator summary statistics and loss breakdown."""
+        """Compute dual-denominator summary statistics, penetration rates, and loss breakdown."""
         d1_count = len(self.d1_keys)
+        d1_total_filer_count = sum(self.d1_filer_count.values())
+        d1_total_value_usd = sum(self.d1_value_usd.values())
+
+        d1_mapped_keys = set(self.d1_to_d2.keys())
+        d1_mapped_count = len(d1_mapped_keys)
+        d1_mapped_filer_count = sum(self.d1_filer_count[k] for k in d1_mapped_keys)
+        d1_mapped_value_usd = sum(self.d1_value_usd[k] for k in d1_mapped_keys)
+
+        d1_mapping_rate = (d1_mapped_count / d1_count) if d1_count > 0 else 0.0
+        d1_filer_penetration_rate = (d1_mapped_filer_count / d1_total_filer_count) if d1_total_filer_count > 0 else 0.0
+        d1_value_penetration_rate = (d1_mapped_value_usd / d1_total_value_usd) if d1_total_value_usd > 0 else 0.0
+
         d2_mapped_count = len(self.d2_mapped_keys)
         d2_price_count = len(self.d2_price_covered_keys)
-        ic_eligible_count = len(self.final_ic_eligible_keys)
-
-        mapping_rate = (d2_mapped_count / d1_count) if d1_count > 0 else 0.0
         price_coverage_rate = (d2_price_count / d2_mapped_count) if d2_mapped_count > 0 else 0.0
-        conversion_retention_rate = (ic_eligible_count / d1_count) if d1_count > 0 else 0.0
 
+        # Split state distribution relative to D2 PRICE-COVERED denominator
         state_distribution = {
             state: {
                 "count": len(keys),
-                "pct_of_d2": (len(keys) / d2_mapped_count * 100.0) if d2_mapped_count > 0 else 0.0,
+                "pct_of_price_covered_d2": (len(keys) / d2_price_count * 100.0) if d2_price_count > 0 else 0.0,
             }
             for state, keys in sorted(self.split_state_keys.items())
         }
 
+        # Final conversion retention
+        final_ic_d2_count = len(self.final_ic_eligible_keys)
+        final_ic_d1_keys = {
+            d1 for d2 in self.final_ic_eligible_keys for d1 in self.d2_to_d1.get(d2, set())
+        }
+        d1_conversion_retention_rate = (len(final_ic_d1_keys) / d1_count) if d1_count > 0 else 0.0
+        d2_conversion_retention_rate = (final_ic_d2_count / d2_mapped_count) if d2_mapped_count > 0 else 0.0
+
         return {
             "d1_raw_sec_keys_total": d1_count,
+            "d1_total_filer_count": d1_total_filer_count,
+            "d1_total_value_usd": d1_total_value_usd,
+            "d1_mapped_keys_total": d1_mapped_count,
+            "d1_mapped_filer_count": d1_mapped_filer_count,
+            "d1_mapped_value_usd": d1_mapped_value_usd,
+            "d1_key_mapping_rate": round(d1_mapping_rate, 4),
+            "d1_filer_count_penetration_rate": round(d1_filer_penetration_rate, 4),
+            "d1_value_penetration_rate": round(d1_value_penetration_rate, 4),
+            "openfigi_mapping_rate": round(d1_mapping_rate, 4),
             "d2_mapped_keys_total": d2_mapped_count,
             "d2_price_covered_keys_total": d2_price_count,
-            "final_ic_eligible_keys_total": ic_eligible_count,
-            "openfigi_mapping_rate": round(mapping_rate, 4),
+            "d2_price_missing_keys_total": len(self.d2_price_missing_keys),
             "price_coverage_rate": round(price_coverage_rate, 4),
-            "conversion_retention_rate": round(conversion_retention_rate, 4),
+            "final_ic_eligible_d2_keys_total": final_ic_d2_count,
+            "d1_conversion_retention_rate": round(d1_conversion_retention_rate, 4),
+            "d2_conversion_retention_rate": round(d2_conversion_retention_rate, 4),
             "attrition_breakdown": {
                 "unmapped_cusips": len(self.unmapped_cusip_keys),
                 "ambiguous_mappings": len(self.ambiguous_mapping_keys),
