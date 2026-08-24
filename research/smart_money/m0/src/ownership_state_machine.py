@@ -200,6 +200,19 @@ def is_pit_accepted(acceptance_datetime: str, period_of_report: str) -> bool:
     return eastern_date_str <= deadline_str
 
 
+def is_pit_accepted_safe(acceptance_datetime: str, period_of_report: str) -> bool:
+    """Fail-closed wrapper around is_pit_accepted.
+
+    Catches ValueError (malformed/date-only/impossible timestamps) and returns False
+    so the relationship is deterministically excluded. Does NOT swallow unrelated
+    programmer errors (TypeError, AttributeError, etc.).
+    """
+    try:
+        return is_pit_accepted(acceptance_datetime, period_of_report)
+    except ValueError:
+        return False
+
+
 def is_cash_equity_asset_class(val: Any) -> bool:
     """Check if asset_class represents cash equity ('cash_equity', 'SH', case-insensitive), rejecting options and derivatives."""
     if val is None or isinstance(val, bool):

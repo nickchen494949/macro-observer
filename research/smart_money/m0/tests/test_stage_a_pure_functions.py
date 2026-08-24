@@ -1024,3 +1024,175 @@ def test_fail_closed_pit_acceptance_datetime_handling():
     assert ("0001000001", "0001000002") in edges
     assert ("0001000001", "0001000003") not in edges
     assert ("0001000001", "0001000004") not in edges
+
+
+def test_malformed_pit_timestamps_fail_closed_not_crash():
+    """P0-1: Malformed timestamps must be excluded fail-closed, not crash with ValueError."""
+    from research.smart_money.m0.src.pilot_extractor import build_line_level_manager_map, build_entity_graph_edges
+
+    period = "2024-03-31"
+    malformed_timestamps = [
+        "2024-05-14",           # Date-only (no time component)
+        "not-a-timestamp",      # Random text
+        "2024-13-45T10:00:00",  # Impossible month/day
+        "2024-05-14T10:00:00+99:00",  # Invalid timezone offset
+        "hello world",          # Free text
+        "2024-02-30T12:00:00",  # Feb 30 doesn't exist
+    ]
+
+    for malformed_dt in malformed_timestamps:
+        # build_line_level_manager_map: must NOT crash, must exclude the row
+        rows = [
+            ("0001-24-000001", period, "0001000001", "0001000002", "Mgr", "1", "OTHERMANAGER2.tsv", malformed_dt),
+        ]
+        rel_map = build_line_level_manager_map(rows, period)
+        assert ("0001-24-000001", "1") not in rel_map, f"Malformed timestamp {malformed_dt!r} was not excluded from line map"
+
+        # build_entity_graph_edges: must NOT crash, must exclude the edge
+        edges = build_entity_graph_edges(rows, period)
+        assert ("0001000001", "0001000002") not in edges, f"Malformed timestamp {malformed_dt!r} was not excluded from edges"
+
+
+def test_is_pit_accepted_safe_wrapper():
+    """Test is_pit_accepted_safe returns False on malformed timestamps without crashing."""
+    from research.smart_money.m0.src.ownership_state_machine import is_pit_accepted_safe
+
+    period = "2024-03-31"
+    # Valid on-time
+    assert is_pit_accepted_safe("2024-05-14T12:00:00Z", period) is True
+    # Valid late
+    assert is_pit_accepted_safe("2024-05-16T12:00:00Z", period) is False
+    # Malformed: fail closed (False), no crash
+    assert is_pit_accepted_safe("2024-05-14", period) is False
+    assert is_pit_accepted_safe("not-a-timestamp", period) is False
+    assert is_pit_accepted_safe("2024-13-45T10:00:00", period) is False
+    assert is_pit_accepted_safe("hello world", period) is False
+    assert is_pit_accepted_safe("2024-02-30T12:00:00", period) is False
+
+
+def test_validate_c1_gate_pass_on_valid_data():
+    """P0-2: validate_c1_gate returns empty list on valid discovery data structure."""
+    from research.smart_money.m0.src.run_c1_discovery import validate_c1_gate
+
+    valid_data = _build_minimal_valid_c1_data()
+    failures = validate_c1_gate(valid_data)
+    assert failures == [], f"Expected PASS but got failures: {failures}"
+
+
+def test_validate_c1_gate_fails_on_wrong_contract_version():
+    """P0-2: Gate must fail when contract_version is wrong."""
+    from research.smart_money.m0.src.run_c1_discovery import validate_c1_gate
+
+    data = _build_minimal_valid_c1_data()
+    data["contract_version"] = "0.8.2"
+    failures = validate_c1_gate(data)
+    assert any("contract_version" in f for f in failures)
+
+
+def test_validate_c1_gate_fails_on_wrong_berkshire_anchor():
+    """P0-2: Gate must fail when Berkshire anchor shares mismatch."""
+    from research.smart_money.m0.src.run_c1_discovery import validate_c1_gate
+
+    data = _build_minimal_valid_c1_data()
+    data["evidence_a_berkshire_apple_2023q4"]["raw_total_aggregate_shares"] = 900000000
+    failures = validate_c1_gate(data)
+    assert any("raw_total_aggregate_shares" in f for f in failures)
+
+
+def test_validate_c1_gate_fails_on_wrong_conflict_count():
+    """P0-2: Gate must fail when conflict diagnostics mismatch."""
+    from research.smart_money.m0.src.run_c1_discovery import validate_c1_gate
+
+    data = _build_minimal_valid_c1_data()
+    data["mapping_conflict_diagnostics"]["total_conflict_keys_in_othermanager2"] = 49
+    failures = validate_c1_gate(data)
+    assert any("total_conflict_keys_in_othermanager2" in f for f in failures)
+
+
+def test_validate_c1_gate_fails_on_wrong_split_state():
+    """P0-2: Gate must fail when a split pair has wrong waterfall state."""
+    from research.smart_money.m0.src.run_c1_discovery import validate_c1_gate
+
+    data = _build_minimal_valid_c1_data()
+    data["evidence_c_split_pilot_pairs"][0]["waterfall_state"] = "UNKNOWN_SPLIT"
+    failures = validate_c1_gate(data)
+    assert any("waterfall_state" in f for f in failures)
+
+
+def test_validate_c1_gate_fails_on_missing_split_symbol():
+    """P0-2: Gate must fail when fewer than 4 split pairs."""
+    from research.smart_money.m0.src.run_c1_discovery import validate_c1_gate
+
+    data = _build_minimal_valid_c1_data()
+    data["evidence_c_split_pilot_pairs"] = data["evidence_c_split_pilot_pairs"][:3]
+    failures = validate_c1_gate(data)
+    assert any("expected exactly 4" in f for f in failures)
+
+
+def test_validate_c1_gate_fails_on_wrong_point72_raw_anchor():
+    """P0-2: Gate must fail when Point72 raw anchor metrics mismatch."""
+    from research.smart_money.m0.src.run_c1_discovery import validate_c1_gate
+
+    data = _build_minimal_valid_c1_data()
+    data["evidence_b_point72_2019q4_discovery"]["raw_all_asset_anchor"]["main_accession_raw_lines_total"] = 916
+    failures = validate_c1_gate(data)
+    assert any("main_accession_raw_lines_total" in f for f in failures)
+
+
+def _build_minimal_valid_c1_data():
+    """Build a minimal valid C1 discovery data dict that passes validate_c1_gate."""
+    return {
+        "contract_version": "0.8.3",
+        "preflight": {
+            "db_filename": "13f_full_4409f14.db",
+            "query_only_pragma": 1,
+        },
+        "evidence_a_berkshire_apple_2023q4": {
+            "raw_total_aggregate_shares": 905560000,
+            "anchor_raw_match": True,
+        },
+        "mapping_conflict_diagnostics": {
+            "total_conflict_keys_in_othermanager2": 50,
+            "referenced_conflict_keys_count": 17,
+            "affected_raw_line_items_count": 5472,
+            "affected_shares_total": 659481568,
+            "affected_value_usd_total": 42779736343.0,
+        },
+        "evidence_b_point72_2019q4_discovery": {
+            "raw_all_asset_anchor": {
+                "main_accession_raw_lines_total": 917,
+                "main_accession_shares_total": 418109088,
+                "main_accession_value_usd_total": 19018144000.0,
+                "main_accession_asset_breakdown": {
+                    "cash_equity": {"rows": 877},
+                    "call_option": {"rows": 31},
+                    "put_option": {"rows": 9},
+                },
+            },
+            "primary_m0": {
+                "asset_scope": "CASH_EQUITY_ONLY",
+                "main_accession_raw_lines_retained": 877,
+                "main_accession_shares_before_dedup": 404693788,
+                "main_accession_value_before_dedup": 17857865000.0,
+            },
+            "zero_excluded_sensitivity": {
+                "main_accession_raw_lines_retained": 0,
+                "unresolved_rows_count": 877,
+                "unresolved_shares_total": 404693788,
+            },
+        },
+        "evidence_c_split_pilot_pairs": [
+            {"stock_symbol": "NVDA", "cusip": "67066G104", "q_prev": "2024-03-31", "q_curr": "2024-06-30",
+             "contract_split_factor": 10.0, "waterfall_state": "KNOWN_SPLIT_PASS", "waterfall_action": "INCLUDE",
+             "is_in_contract_pass_range": True},
+            {"stock_symbol": "TSLA", "cusip": "88160R101", "q_prev": "2022-06-30", "q_curr": "2022-09-30",
+             "contract_split_factor": 3.0, "waterfall_state": "KNOWN_SPLIT_PASS", "waterfall_action": "INCLUDE",
+             "is_in_contract_pass_range": True},
+            {"stock_symbol": "AMZN", "cusip": "023135106", "q_prev": "2022-03-31", "q_curr": "2022-06-30",
+             "contract_split_factor": 20.0, "waterfall_state": "KNOWN_SPLIT_PASS", "waterfall_action": "INCLUDE",
+             "is_in_contract_pass_range": True},
+            {"stock_symbol": "GOOGL", "cusip": "02079K305", "q_prev": "2022-06-30", "q_curr": "2022-09-30",
+             "contract_split_factor": 20.0, "waterfall_state": "KNOWN_SPLIT_PASS", "waterfall_action": "INCLUDE",
+             "is_in_contract_pass_range": True},
+        ],
+    }

@@ -34,6 +34,7 @@ from research.smart_money.m0.src.ownership_state_machine import (
     aggregate_accession_holdings,
     is_cash_equity_asset_class,
     is_pit_accepted,
+    is_pit_accepted_safe,
     is_valid_cik,
     normalize_cik,
     reconstruct_filer_state,
@@ -49,7 +50,7 @@ from research.smart_money.m0.src.storage_guard import open_readonly_sqlite
 
 
 def classify_other_manager(om_val: str | None) -> tuple[str, list[str]]:
-    """Classify the other_manager field into distinct semantic categories under Contract v0.8.2.
+    """Classify the other_manager field into distinct semantic categories under Contract v0.8.3.
 
     Categories:
     - BLANK: None or empty string.
@@ -178,7 +179,7 @@ def build_line_level_manager_map_with_diagnostics(
         if period is not None:
             if acc_dt is None or not str(acc_dt).strip():
                 continue
-            if not is_pit_accepted(acc_dt, period):
+            if not is_pit_accepted_safe(acc_dt, period):
                 continue
 
         raw_items.append((acc, seq, rel_cik))
@@ -239,7 +240,7 @@ def build_entity_graph_edges(
         if period is not None:
             if acc_dt is None or not str(acc_dt).strip():
                 continue
-            if not is_pit_accepted(acc_dt, period):
+            if not is_pit_accepted_safe(acc_dt, period):
                 continue
 
         if is_valid_cik(u) and is_valid_cik(v):
@@ -520,7 +521,7 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
     for acc, p_rep, rep_cik, rel_cik, rel_name, seq, src, acc_dt in all_period_relationships:
         u_norm = normalize_cik(rep_cik)
         v_norm = normalize_cik(rel_cik)
-        if is_pit_accepted(acc_dt, period):
+        if is_pit_accepted_safe(acc_dt, period):
             rel_records_for_closure.append(
                 {
                     "accession_number": acc,
@@ -607,7 +608,7 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
     filings_all_asset_z: dict[str, list[tuple[FilingHeader, list[HoldingRow]]]] = defaultdict(list)
 
     for acc, cik, p_rep, acc_dt, f_type, a_type, is_conf in filings_raw:
-        on_time = is_pit_accepted(acc_dt, period)
+        on_time = is_pit_accepted_safe(acc_dt, period)
         if bool(is_conf):
             all_period_confidential_filings_count += 1
             if on_time:
@@ -1026,7 +1027,7 @@ def extract_split_pilot_pair(
             acc = r[0]
             c_norm = normalize_cik(r[1])
             acc_dt = r[3]
-            if is_pit_accepted(acc_dt, p):
+            if is_pit_accepted_safe(acc_dt, p):
                 header = FilingHeader(
                     accession_number=acc,
                     origin_filer_cik=c_norm,
@@ -1135,6 +1136,7 @@ def extract_split_pilot_pair(
 
     # Step 7: Reconstruct target-CUSIP state per origin filer
     component_period_holdings: dict[str, dict[str, float]] = {q_prev: defaultdict(float), q_curr: defaultdict(float)}
+    naive_filer_period_holdings: dict[str, dict[str, float]] = {q_prev: defaultdict(float), q_curr: defaultdict(float)}
     unresolved_rows_count = {q_prev: 0, q_curr: 0}
     duplicate_disclosures_removed = {q_prev: 0, q_curr: 0}
     component_exclusions = {
@@ -1206,6 +1208,11 @@ def extract_split_pilot_pair(
             for key, row in state.items():
                 if row.get("cusip") == cusip:
                     owner_cik = row["economic_owner_cik"]
+
+                    # Track naive filer-level holdings (before entity graph grouping)
+                    if owner_cik is not None and row["total_shares"] > 0:
+                        naive_filer_period_holdings[period][f_cik] += row["total_shares"]
+
                     is_valid_owner, failure_reason, owner_comp = resolve_owner_component_strict(
                         econ_owner=owner_cik,
                         filer_comp=filer_comp,
@@ -1295,6 +1302,11 @@ def extract_split_pilot_pair(
                 )
             )
 
+    # Naive filer-level continuous holder count (before entity graph grouping)
+    naive_prev_filers = set(naive_filer_period_holdings[q_prev].keys())
+    naive_curr_filers = set(naive_filer_period_holdings[q_curr].keys())
+    naive_continuous_filer_count = len(naive_prev_filers & naive_curr_filers)
+
     split_event = SplitEvent(ex_date=ex_date, ratio=split_factor)
     k_calc, has_splits = compute_k_ledger_and_presence(q_prev, q_curr, [split_event])
 
@@ -1314,6 +1326,7 @@ def extract_split_pilot_pair(
         "contract_ex_date": ex_date,
         "is_googl_note": is_googl_note,
         "eligible_continuous_entity_count": waterfall_res.holder_count,
+        "naive_continuous_filer_count": naive_continuous_filer_count,
         "raw_median_ratio": round(waterfall_res.median_ratio, 4) if waterfall_res.median_ratio else None,
         "mad_log": round(waterfall_res.mad_log, 4) if waterfall_res.mad_log else None,
         "adjusted_median_ratio": round(waterfall_res.adj_median_ratio, 4) if waterfall_res.adj_median_ratio else None,
@@ -1356,9 +1369,36 @@ def extract_split_pilot_pair(
 
 def run_full_c1_discovery(db_path: str | Path) -> dict[str, Any]:
     """Execute complete Stage C Part C1 discovery against Phase 0 DB."""
+    import hashlib
+    import subprocess
+
     t0 = time.time()
     preflight = check_source_db_preflight(db_path)
 
+    # Provenance: git SHA and tree dirty flag
+    try:
+        source_git_sha = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL, text=True
+        ).strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        source_git_sha = "UNKNOWN"
+    try:
+        git_diff_out = subprocess.check_output(
+            ["git", "diff", "--stat"], stderr=subprocess.DEVNULL, text=True
+        ).strip()
+        git_tree_dirty = bool(git_diff_out)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        git_tree_dirty = True
+
+    # Provenance: contract SHA256
+    contract_path = Path(db_path).parent.parent.parent / "m0" / "CONTRACT.md"
+    if not contract_path.is_file():
+        # Try relative to CWD
+        contract_path = Path("research/smart_money/m0/CONTRACT.md")
+    if contract_path.is_file():
+        contract_sha256 = hashlib.sha256(contract_path.read_bytes()).hexdigest()
+    else:
+        contract_sha256 = "UNAVAILABLE"
     conn = open_readonly_sqlite(db_path, immutable=True)
     cur = conn.cursor()
 
@@ -1441,6 +1481,11 @@ def run_full_c1_discovery(db_path: str | Path) -> dict[str, Any]:
     t_total = time.time() - t0
 
     return {
+        "artifact_schema_version": "1.0.0",
+        "contract_version": "0.8.3",
+        "contract_sha256": contract_sha256,
+        "source_git_sha": source_git_sha,
+        "git_tree_dirty": git_tree_dirty,
         "status": "STAGE C PART C1 DISCOVERY UNDER CODEX RE-AUDIT",
         "created_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "total_execution_time_sec": round(t_total, 3),

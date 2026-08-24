@@ -2,9 +2,11 @@
 
 Runs pilot extraction against research/smart_money/phase0/data/13f_full_4409f14.db (read-only immutable),
 generates machine-readable JSON (STAGE_C1_DISCOVERY.json) and human-readable Markdown (STAGE_C_DISCOVERY.md).
+Includes validate_c1_gate: a pure explicit validator called before successful artifact publication.
 """
 
 import argparse
+import sys
 from pathlib import Path
 import time
 from typing import Any
@@ -13,15 +15,159 @@ from research.smart_money.m0.src.manifest_integrity import canonical_json_dumps
 from research.smart_money.m0.src.pilot_extractor import run_full_c1_discovery
 
 
+class C1GateFailure(Exception):
+    """Raised when Stage C1 gate validation detects a mismatch."""
+    pass
+
+
+def validate_c1_gate(data: dict[str, Any]) -> list[str]:
+    """Pure deterministic validator for Stage C1 discovery gate.
+
+    Returns a list of failure descriptions. Empty list means PASS.
+    Does not write files or produce side effects.
+    """
+    failures: list[str] = []
+
+    def fail(section: str, msg: str) -> None:
+        failures.append(f"[{section}] {msg}")
+
+    # Contract version
+    cv = data.get("contract_version")
+    if cv != "0.8.3":
+        fail("CONTRACT", f"contract_version expected '0.8.3', got {cv!r}")
+
+    # Preflight
+    pf = data.get("preflight", {})
+    if pf.get("db_filename") != "13f_full_4409f14.db":
+        fail("PREFLIGHT", f"db_filename expected '13f_full_4409f14.db', got {pf.get('db_filename')!r}")
+    if pf.get("query_only_pragma") != 1:
+        fail("PREFLIGHT", f"query_only_pragma expected 1, got {pf.get('query_only_pragma')!r}")
+
+    # Berkshire
+    ea = data.get("evidence_a_berkshire_apple_2023q4", {})
+    if ea.get("raw_total_aggregate_shares") != 905_560_000:
+        fail("BERKSHIRE", f"raw_total_aggregate_shares expected 905560000, got {ea.get('raw_total_aggregate_shares')!r}")
+    if ea.get("anchor_raw_match") is not True:
+        fail("BERKSHIRE", f"anchor_raw_match expected True, got {ea.get('anchor_raw_match')!r}")
+
+    # Conflict diagnostics
+    mcd = data.get("mapping_conflict_diagnostics", {})
+    conflict_expected = {
+        "total_conflict_keys_in_othermanager2": 50,
+        "referenced_conflict_keys_count": 17,
+        "affected_raw_line_items_count": 5472,
+        "affected_shares_total": 659481568,
+        "affected_value_usd_total": 42779736343.0,
+    }
+    for key, expected in conflict_expected.items():
+        actual = mcd.get(key)
+        if isinstance(expected, float):
+            if actual is None or abs(actual - expected) > 0.5:
+                fail("CONFLICT", f"{key} expected {expected}, got {actual!r}")
+        else:
+            if actual != expected:
+                fail("CONFLICT", f"{key} expected {expected}, got {actual!r}")
+
+    # Point72 raw anchor
+    eb = data.get("evidence_b_point72_2019q4_discovery", {})
+    raw_anchor = eb.get("raw_all_asset_anchor", {})
+    if raw_anchor.get("main_accession_raw_lines_total") != 917:
+        fail("POINT72_RAW", f"main_accession_raw_lines_total expected 917, got {raw_anchor.get('main_accession_raw_lines_total')!r}")
+    if raw_anchor.get("main_accession_shares_total") != 418109088:
+        fail("POINT72_RAW", f"main_accession_shares_total expected 418109088, got {raw_anchor.get('main_accession_shares_total')!r}")
+    if raw_anchor.get("main_accession_value_usd_total") != 19018144000.0:
+        fail("POINT72_RAW", f"main_accession_value_usd_total expected 19018144000, got {raw_anchor.get('main_accession_value_usd_total')!r}")
+    bd = raw_anchor.get("main_accession_asset_breakdown", {})
+    ce = bd.get("cash_equity", {})
+    co = bd.get("call_option", {})
+    po = bd.get("put_option", {})
+    if ce.get("rows") != 877:
+        fail("POINT72_RAW", f"cash_equity rows expected 877, got {ce.get('rows')!r}")
+    if co.get("rows") != 31:
+        fail("POINT72_RAW", f"call_option rows expected 31, got {co.get('rows')!r}")
+    if po.get("rows") != 9:
+        fail("POINT72_RAW", f"put_option rows expected 9, got {po.get('rows')!r}")
+
+    # Point72 primary cash
+    p_m0 = eb.get("primary_m0", {})
+    if p_m0.get("asset_scope") != "CASH_EQUITY_ONLY":
+        fail("POINT72_PRIMARY", f"asset_scope expected 'CASH_EQUITY_ONLY', got {p_m0.get('asset_scope')!r}")
+    if p_m0.get("main_accession_raw_lines_retained") != 877:
+        fail("POINT72_PRIMARY", f"main_accession_raw_lines_retained expected 877, got {p_m0.get('main_accession_raw_lines_retained')!r}")
+    if p_m0.get("main_accession_shares_before_dedup") != 404693788:
+        fail("POINT72_PRIMARY", f"main_accession_shares_before_dedup expected 404693788, got {p_m0.get('main_accession_shares_before_dedup')!r}")
+    if p_m0.get("main_accession_value_before_dedup") != 17857865000.0:
+        fail("POINT72_PRIMARY", f"main_accession_value_before_dedup expected 17857865000, got {p_m0.get('main_accession_value_before_dedup')!r}")
+
+    # Zero-excluded sensitivity
+    z_ex = eb.get("zero_excluded_sensitivity", {})
+    if z_ex.get("main_accession_raw_lines_retained") != 0:
+        fail("ZERO_EXCLUDED", f"main_accession_raw_lines_retained expected 0, got {z_ex.get('main_accession_raw_lines_retained')!r}")
+    if z_ex.get("unresolved_rows_count") != 877:
+        fail("ZERO_EXCLUDED", f"unresolved_rows_count expected 877, got {z_ex.get('unresolved_rows_count')!r}")
+    if z_ex.get("unresolved_shares_total") != 404693788:
+        fail("ZERO_EXCLUDED", f"unresolved_shares_total expected 404693788, got {z_ex.get('unresolved_shares_total')!r}")
+
+    # Split pilot pairs
+    splits = data.get("evidence_c_split_pilot_pairs", [])
+    expected_splits = {
+        "NVDA": {"cusip": "67066G104", "q_prev": "2024-03-31", "q_curr": "2024-06-30", "factor": 10.0},
+        "TSLA": {"cusip": "88160R101", "q_prev": "2022-06-30", "q_curr": "2022-09-30", "factor": 3.0},
+        "AMZN": {"cusip": "023135106", "q_prev": "2022-03-31", "q_curr": "2022-06-30", "factor": 20.0},
+        "GOOGL": {"cusip": "02079K305", "q_prev": "2022-06-30", "q_curr": "2022-09-30", "factor": 20.0},
+    }
+
+    if len(splits) != 4:
+        fail("SPLITS", f"expected exactly 4 split pairs, got {len(splits)}")
+    else:
+        seen_symbols: set[str] = set()
+        for sp in splits:
+            sym = sp.get("stock_symbol")
+            if sym in seen_symbols:
+                fail("SPLITS", f"duplicate symbol {sym}")
+            seen_symbols.add(sym)
+
+            if sym not in expected_splits:
+                fail("SPLITS", f"unexpected symbol {sym}")
+                continue
+
+            exp = expected_splits[sym]
+            if sp.get("cusip") != exp["cusip"]:
+                fail("SPLITS", f"{sym} cusip expected {exp['cusip']}, got {sp.get('cusip')!r}")
+            if sp.get("q_prev") != exp["q_prev"]:
+                fail("SPLITS", f"{sym} q_prev expected {exp['q_prev']}, got {sp.get('q_prev')!r}")
+            if sp.get("q_curr") != exp["q_curr"]:
+                fail("SPLITS", f"{sym} q_curr expected {exp['q_curr']}, got {sp.get('q_curr')!r}")
+            if sp.get("contract_split_factor") != exp["factor"]:
+                fail("SPLITS", f"{sym} factor expected {exp['factor']}, got {sp.get('contract_split_factor')!r}")
+            if sp.get("waterfall_state") != "KNOWN_SPLIT_PASS":
+                fail("SPLITS", f"{sym} waterfall_state expected 'KNOWN_SPLIT_PASS', got {sp.get('waterfall_state')!r}")
+            if sp.get("waterfall_action") != "INCLUDE":
+                fail("SPLITS", f"{sym} waterfall_action expected 'INCLUDE', got {sp.get('waterfall_action')!r}")
+            if sp.get("is_in_contract_pass_range") is not True:
+                fail("SPLITS", f"{sym} is_in_contract_pass_range expected True, got {sp.get('is_in_contract_pass_range')!r}")
+
+        for sym in expected_splits:
+            if sym not in seen_symbols:
+                fail("SPLITS", f"missing expected symbol {sym}")
+
+    return failures
+
+
 def format_markdown_report(data: dict[str, Any]) -> str:
     """Format C1 discovery data into comprehensive GitHub Flavored Markdown."""
     lines: list[str] = []
 
-    lines.append(f"# M0 Stage C Part C1 Pilot Discovery Report")
+    lines.append("# M0 Stage C Part C1 Pilot Discovery Report")
     lines.append("")
     lines.append(f"> **Status**: `{data['status']}`<br>")
     lines.append(f"> **Generated UTC**: `{data['created_utc']}`<br>")
-    lines.append(f"> **Total Execution Time**: `{data['total_execution_time_sec']}s`")
+    lines.append(f"> **Total Execution Time**: `{data['total_execution_time_sec']}s`<br>")
+    lines.append(f"> **Contract Version**: `{data.get('contract_version', 'UNKNOWN')}`<br>")
+    lines.append(f"> **Source Git SHA**: `{data.get('source_git_sha', 'UNKNOWN')}`<br>")
+    lines.append(f"> **Git Tree Dirty**: `{data.get('git_tree_dirty', 'UNKNOWN')}`<br>")
+    lines.append(f"> **Contract SHA256**: `{data.get('contract_sha256', 'UNKNOWN')}`<br>")
+    lines.append(f"> **Artifact Schema Version**: `{data.get('artifact_schema_version', 'UNKNOWN')}`")
     lines.append("")
     lines.append("---")
     lines.append("")
@@ -164,17 +310,16 @@ def format_markdown_report(data: dict[str, Any]) -> str:
         )
     lines.append("")
 
-    # Before vs After Split Metrics Impact Table
+    # Before vs After Split Metrics Impact Table (genuinely measured naive baseline)
     lines.append("### Before vs After Entity Graph G(Q-1, Q) Impact Comparison")
     lines.append("")
-    lines.append("The table below contrasts the naive filer grouping against the true $G(Q-1, Q)$ entity connected components and filing members equality gate:")
+    lines.append("The table below contrasts the measured naive filer-level continuous holder count against the true $G(Q-1, Q)$ entity connected components. The naive count is the number of individual CIK filers who hold resolved cash equity positions in the target CUSIP in both Q-1 and Q, before entity graph grouping.")
     lines.append("")
     lines.append("| Symbol | Naive Filer Grouping N | True Graph $G(Q-1, Q)$ N | Delta N (%) | Raw Median | Adj Median | State | Pass [0.8, 1.2] |")
     lines.append("| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |")
-    naive_map = {"NVDA": 3366, "TSLA": 1831, "AMZN": 2948, "GOOGL": 2612}
     for sp in data["evidence_c_split_pilot_pairs"]:
         sym = sp["stock_symbol"]
-        n_naive = naive_map.get(sym, 0)
+        n_naive = sp.get("naive_continuous_filer_count", 0)
         n_true = sp["eligible_continuous_entity_count"]
         delta_n = n_true - n_naive
         pct_delta = (delta_n / n_naive * 100) if n_naive else 0.0
@@ -289,6 +434,17 @@ def main() -> None:
     print(f"[*] Starting Stage C Part C1 Pilot Discovery against: {db_path}")
     discovery_data = run_full_c1_discovery(db_path)
 
+    # Validate C1 gate BEFORE writing artifacts
+    gate_failures = validate_c1_gate(discovery_data)
+    if gate_failures:
+        print("[FAIL] Stage C1 Gate Validation FAILED:")
+        for f in gate_failures:
+            print(f"  - {f}")
+        print("[*] Artifacts NOT written. Prior good artifacts preserved.")
+        sys.exit(1)
+
+    print("[PASS] Stage C1 Gate Validation PASSED.")
+
     # Write JSON artifact
     json_path = out_dir / "STAGE_C1_DISCOVERY.json"
     json_content = canonical_json_dumps(discovery_data)
@@ -302,7 +458,7 @@ def main() -> None:
     print(f"[+] Written discovery Markdown: {md_path} ({md_path.stat().st_size:,} bytes)")
 
     print(f"[*] Total execution time: {discovery_data['total_execution_time_sec']:.3f}s")
-    print("[*] Stage C Part C1 Pilot Discovery Completed Successfully.")
+    print("[*] Stage C Part C1 Pilot Discovery Completed Successfully (Gate PASS).")
 
 
 if __name__ == "__main__":

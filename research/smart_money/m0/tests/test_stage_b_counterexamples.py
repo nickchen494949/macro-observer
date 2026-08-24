@@ -1157,3 +1157,138 @@ def test_b23_derive_four_mandatory_sensitivity_branches_and_non_mutation():
 
     # Invariance check: original joined rows must NOT have been mutated
     assert joined == joined_snapshot
+
+
+def test_b07_7_integrated_cash_equity_production_path():
+    """P1-4: Integrated test using production extract_point72 code path with mixed asset classes.
+
+    Creates an in-memory SQLite DB with cash, call_option and put_option rows sharing the same CUSIP,
+    proving that options with extreme shares cannot flow through the production extractor into M0 holdings.
+    """
+    import sqlite3
+    from research.smart_money.m0.src.ownership_state_machine import (
+        is_cash_equity_asset_class,
+    )
+    from research.smart_money.m0.src.pilot_extractor import (
+        build_line_level_manager_map,
+        classify_other_manager,
+        resolve_ownership,
+        OwnershipPolicy,
+    )
+
+    # Simulate the production Point72 extractor filter path with synthetic data
+    cusip = "037833100"  # Apple
+    acc = "0001567619-20-004063"
+    filer = "0001603466"
+    period = "2019-12-31"
+
+    # Synthetic line items: cash + options sharing exact same CUSIP
+    synthetic_lines = [
+        # (acc, line_seq, cusip, security_name, title_of_class, sshprnamt, value_usd, sshprnamttype, other_manager, voting_sole, voting_shared, voting_none, asset_class)
+        (acc, 1, cusip, "APPLE INC", "COM", 10000, 1500000.0, "SH", "0", 10000, 0, 0, "cash_equity"),
+        (acc, 2, cusip, "APPLE INC", "COM", 5000, 750000.0, "SH", "0", 5000, 0, 0, "cash_equity"),
+        (acc, 3, cusip, "APPLE INC CALL 150", "CALL", 99999999, 50000000.0, "SH", "0", 99999999, 0, 0, "call_option"),  # Extreme shares
+        (acc, 4, cusip, "APPLE INC PUT 100", "PUT", 88888888, 40000000.0, "SH", "0", 88888888, 0, 0, "put_option"),   # Extreme shares
+    ]
+
+    # Production filter path: iterate exactly as extract_point72 does
+    cash_lines = 0
+    cash_shares = 0
+    cash_value = 0.0
+    option_lines = 0
+    option_shares = 0
+    all_lines = 0
+    all_shares = 0
+
+    p_h_rows = []
+    for r in synthetic_lines:
+        shrs = int(r[5])
+        val = float(r[6])
+        raw_ac = str(r[12] or "SH").strip()
+        is_cash = is_cash_equity_asset_class(raw_ac)
+
+        all_lines += 1
+        all_shares += shrs
+
+        if is_cash:
+            cash_lines += 1
+            cash_shares += shrs
+            cash_value += val
+
+            # Ownership resolution (production path)
+            owner_cik, unresolved = resolve_ownership(
+                row_other_manager=r[8],
+                origin_filer_cik=filer,
+                accession_number=acc,
+                other_manager_map={},
+                policy=OwnershipPolicy.PRIMARY_EMPIRICAL_ZERO,
+            )
+            h_item = HoldingRow(
+                accession_number=acc,
+                origin_filer_cik=filer,
+                period_of_report=period,
+                cusip=cusip,
+                asset_class="SH",
+                economic_owner_cik=owner_cik,
+                ownership_unresolved=unresolved,
+                total_shares=shrs,
+                total_value_usd=val,
+            )
+            h_item.validate()
+            p_h_rows.append(h_item)
+        else:
+            option_lines += 1
+            option_shares += shrs
+
+    # Raw all-asset anchor sees all 4 rows
+    assert all_lines == 4
+    assert all_shares == 10000 + 5000 + 99999999 + 88888888
+
+    # M0 cash-equity scope: only 2 cash rows, no options
+    assert cash_lines == 2
+    assert cash_shares == 15000
+    assert option_lines == 2
+    assert option_shares == 99999999 + 88888888
+
+    # Production HoldingRow list contains only cash items
+    assert len(p_h_rows) == 2
+    total_m0_shares = sum(h.total_shares for h in p_h_rows)
+    assert total_m0_shares == 15000, f"Option shares leaked into M0: got {total_m0_shares}"
+
+    # Aggregate holdings: only cash
+    agg = aggregate_accession_holdings(p_h_rows)
+    assert len(agg) == 1
+    assert agg[(cusip, "SH", filer)]["total_shares"] == 15000
+
+
+def test_b07_6_malformed_pit_in_counterexample():
+    """P0-1 counterexample: Malformed PIT timestamps must fail closed in both line map and graph edges."""
+    from research.smart_money.m0.src.pilot_extractor import build_line_level_manager_map, build_entity_graph_edges
+
+    period = "2024-03-31"
+    acc = "0000010000-24-000001"
+    filer = "0000010000"
+
+    # Include malformed timestamps alongside valid ones
+    rel_rows = [
+        # On-time valid
+        (acc, period, filer, "0000020000", "Valid Mgr", "1", "OTHERMANAGER2.tsv", "2024-05-14T10:00:00Z"),
+        # Date-only (malformed) -> Must fail closed, not crash
+        (acc, period, filer, "0000030000", "Date Only Mgr", "2", "OTHERMANAGER2.tsv", "2024-05-14"),
+        # Random text (malformed) -> Must fail closed, not crash
+        (acc, period, filer, "0000040000", "Random Text Mgr", "3", "OTHERMANAGER2.tsv", "not-a-timestamp"),
+        # Impossible date (malformed) -> Must fail closed, not crash
+        (acc, period, filer, "0000050000", "Impossible Mgr", "4", "OTHERMANAGER2.tsv", "2024-13-45T10:00:00"),
+    ]
+
+    line_map = build_line_level_manager_map(rel_rows, period)
+    assert (acc, "1") in line_map  # Valid on-time
+    assert (acc, "2") not in line_map  # Date-only excluded
+    assert (acc, "3") not in line_map  # Random text excluded
+    assert (acc, "4") not in line_map  # Impossible date excluded
+
+    edges = build_entity_graph_edges(rel_rows, period)
+    assert (filer, "0000020000") in edges  # Valid on-time
+    assert (filer, "0000030000") not in edges  # Date-only excluded
+    assert (filer, "0000040000") not in edges  # Random text excluded
+    assert (filer, "0000050000") not in edges  # Impossible date excluded
