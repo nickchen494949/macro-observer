@@ -4,79 +4,67 @@
 > **Status**: `BLOCKED PENDING CONTRACT AMENDMENT DECISION`
 > **Target Module**: `research/smart_money/m0/`
 > **Related Contract**: Proposed Amendment to `CONTRACT.md` (v0.8.1 $\to$ v0.8.2)
-> **Author**: Antigravity M0 Implementation Engine
+> **Scope**: Pure Technical Memo (No code, tests, contract, or artifact changes applied)
 
 ---
 
-## 1. Executive Summary
+## 1. Executive Summary & Objective
 
-During Stage C Part C1 discovery on Point72 2019Q4 multi-manager accession `0001567619-20-004063` (Point72 Asset Management, L.P., CIK `0001603466`), independent verification against official SEC filings and the underlying SEC raw TSV datasets revealed a critical contract-level data modeling issue:
+During Stage C Part C1 pilot discovery against `research/smart_money/phase0/data/13f_full_4409f14.db` (read-only immutable), independent audit and verification against official SEC EDGAR XML filings revealed an important data-modeling blocker in SEC Form 13F Column 7 (`other_manager`):
 
-1. **Origin-Owner Sentinel `<otherManager>0`**: Point72's main filing contains exactly **917 line items**, all having `other_manager = '0'` representing **418,109,088 shares** ($19,018,144,000 value). Under the current frozen Contract v0.8.1 rule, `'0'` is treated as an unrecognized integer sequence number, causing **100% of Point72 main holdings to be marked unresolved and discarded**, preventing verification of Point72 cross-CIK exact-signature deduplication.
-2. **SEC Source Table Semantic Collision**: In the SEC Form 13F dataset, `OTHERMANAGER.tsv` contains `OTHERMANAGER_SK` (an internal SEC surrogate key), whereas `OTHERMANAGER2.tsv` contains `SEQUENCENUMBER` (the actual Form 13F Summary Page sequence number corresponding to Column 7). In Phase 0 DB, `manager_relationships` ingests rows from both tables. Attempting to resolve line-level sequence numbers against `OTHERMANAGER.tsv` causes lookup failures or invalid mappings.
-3. **Dataset-Wide Prevalence**: An audit of all line items across the four canonical split pilot stocks (NVDA, TSLA, AMZN, GOOGL) demonstrates that `0` is used in **7.7% to 10.0%** of all filing rows, and `N/A` / `NONE` sentinels account for **2.4% to 2.5%**. Together with blank/null fields, **72% to 75%** of all 13F line items represent direct origin-filer sole discretion.
-
-This memo documents the ground-truth evidence, disambiguates the SEC source tables, provides target-CUSIP distribution statistics, and proposes a formal, conservative **Contract v0.8.2 amendment** for Codex review and user decision.
+1. **Empirical Sentinel `<otherManager>0` in Point72 Main Filing**: Point72 Asset Management, L.P. (CIK `0001603466`) in accession `0001567619-20-004063` has exactly **917 line items**, all having `INVESTMENTDISCRETION = 'DFND'` and `other_manager = '0'`, totaling **418,109,088 shares** and **$19,018,144,000 USD** in value. Under Contract v0.8.1, `'0'` is treated as an unknown integer sequence number, causing **100% of Point72 main holdings to be marked unresolved and discarded**, preventing verification of Point72 cross-CIK exact-signature deduplication.
+2. **SEC Source Table Collision**: In SEC raw 13F datasets, `OTHERMANAGER.tsv` uses `OTHERMANAGER_SK` (internal surrogate keys), whereas `OTHERMANAGER2.tsv` uses `SEQUENCENUMBER` (1-based sequence numbers corresponding to Column 7). `manager_relationships` ingests rows from both. Attempting to resolve line-level sequence numbers against `OTHERMANAGER.tsv` causes lookup failures.
+3. **Strict Fact vs. Inference Framework**: This memo strictly separates observed empirical facts from architectural inferences, presents reproducible target-CUSIP classification distributions and accession coexistence statistics, and proposes a conservative, auditable **Contract v0.8.2 amendment** for Codex review and user decision.
 
 ---
 
-## 2. Ground-Truth Evidence from Source Zero
+## 2. Ground-Truth Verification from Source Zero
 
-### A. Official SEC EDGAR XML Filing Evidence
+### A. Official SEC EDGAR XML Evidence
 - **Official SEC URL**: [https://www.sec.gov/Archives/edgar/data/1603466/000156761920004063/form13fInfoTable.xml](https://www.sec.gov/Archives/edgar/data/1603466/000156761920004063/form13fInfoTable.xml)
 - **Accession**: `0001567619-20-004063` (Point72 Asset Management, L.P., CIK `0001603466`)
-- **Period of Report**: `2019-12-31`
-- **Filing Date / Acceptance**: `2020-02-14T21:44:41.000Z`
-- **XML Tag Verification**:
-  Every `<infoTable>` element in this official SEC XML filing contains `<otherManager>0</otherManager>`. For example:
+- **Period of Report**: `2019-12-31` (Filing Date: `2020-02-14`)
+- **Observed XML Structure** (Example: CHEWY INC line item):
   ```xml
   <infoTable>
-    <nameOfIssuer>AGILENT TECHNOLOGIES INC</nameOfIssuer>
-    <titleOfClass>COM</titleOfClass>
-    <cusip>00846U101</cusip>
-    <value>18420</value>
+    <nameOfIssuer>CHEWY INC</nameOfIssuer>
+    <titleOfClass>CL A</titleOfClass>
+    <cusip>16679L109</cusip>
+    <value>6011</value>
     <shrsOrPrnAmt>
-      <sshPrnamt>215919</sshPrnamt>
+      <sshPrnamt>207260</sshPrnamt>
       <sshPrnamtType>SH</sshPrnamtType>
     </shrsOrPrnAmt>
-    <investmentDiscretion>SOLE</investmentDiscretion>
+    <investmentDiscretion>DFND</investmentDiscretion>
     <otherManager>0</otherManager>
     <votingAuthority>
-      <Sole>215919</Sole>
-      <Shared>0</Shared>
+      <Sole>0</Sole>
+      <Shared>207260</Shared>
       <None>0</None>
     </votingAuthority>
   </infoTable>
   ```
-- **Total Occurrences**: Exactly **917** occurrences of `<otherManager>0`.
+- **Observed Fact**: All 917 `<infoTable>` elements in this filing contain `<investmentDiscretion>DFND</investmentDiscretion>` and `<otherManager>0</otherManager>` with shared voting authority matching the reported share count.
+- **Official Regulatory Guidance Fact**: [SEC Form 13F FAQs (Questions 48 & 49)](https://www.sec.gov/divisions/investment/13ffaq) state that Column 7 is a numbered link to an included manager on the Summary Page; if inapplicable, filers should leave it blank or enter `N/A`. The official SEC FAQ does not explicitly authorize `0` or `NONE`.
 
-### B. SEC Raw Dataset Ingest Verification (`2020q1.zip`)
-- **File Location**: `research/smart_money/phase0/data/zips/2020q1.zip`
-- **Metadata Documentation (`FORM13F_readme.htm`)**:
-  - `INFOTABLE.tsv`: Contains field `OTHRMANAGER` defined as *"The sequence number of another manager sharing investment discretion"*.
-  - `OTHERMANAGER.tsv`: Contains field `OTHERMANAGER_SK` defined by SEC as an internal surrogate key assigned to manager relationships.
-  - `OTHERMANAGER2.tsv`: Contains field `SEQUENCENUMBER` defined by SEC as the 1-based sequence number assigned to other included managers on the Summary Page of Form 13F.
-- **Official SEC Form 13F FAQ Guidance**:
-  - [SEC Form 13F FAQs (Questions 48 & 49)](https://www.sec.gov/divisions/investment/13ffaq): Column 7 is designated for another manager sequence number when investment discretion is shared. When investment discretion is not shared (or sole to the origin filer), filers leave Column 7 blank or enter `N/A`, `NONE`, or `0` (used by common filing software packages such as Workiva / Merrill Bridge).
+### B. Full Phase 0 Database Evidence on `manager_relationships`
 
-### C. SQLite Phase 0 DB Verification Query & Results
-Query executed against `research/smart_money/phase0/data/13f_full_4409f14.db` (read-only immutable):
+Executing read-only queries against `research/smart_money/phase0/data/13f_full_4409f14.db`:
 
 ```sql
--- 1. Point72 Main Filing Line Items Breakdown
-SELECT other_manager, COUNT(*) AS row_count, SUM(sshprnamt) AS total_shares, SUM(value_usd) AS total_value
+-- Query 1: Point72 Main Accession Line Item Aggregation
+SELECT investment_discretion, other_manager, COUNT(*) AS row_cnt, SUM(sshprnamt) AS total_shrs, SUM(value_usd) AS total_val
 FROM filing_line_items
 WHERE accession_number = '0001567619-20-004063'
-GROUP BY other_manager;
+GROUP BY investment_discretion, other_manager;
 ```
-
-**Result**:
-| `other_manager` | Row Count | Total Shares | Total Value USD |
-| :--- | :---: | :---: | :---: |
-| `'0'` | **917** | **418,109,088** | **$19,018,144,000** |
+**Output**:
+| `investment_discretion` | `other_manager` | Row Count | Total Shares | Total Value USD |
+| :---: | :---: | :---: | :---: | :---: |
+| `DFND` | `'0'` | **917** | **418,109,088** | **$19,018,144,000** |
 
 ```sql
--- 2. Point72 Component Manager Relationships Ingestion Source Table Breakdown
+-- Query 2: Point72 Component Manager Relationships Ingest Breakdown
 SELECT accession_number, reporter_cik, related_cik, sequence_number, source_table
 FROM manager_relationships
 WHERE accession_number IN (
@@ -84,8 +72,7 @@ WHERE accession_number IN (
 )
 ORDER BY accession_number, source_table, sequence_number;
 ```
-
-**Result**:
+**Output**:
 | Accession Number | Reporter CIK | Related CIK | Sequence Number | Source Table | Semantic Role |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `0001567619-20-004060` | `1698051` (Europe) | `1603466` (Main) | `1` | `OTHERMANAGER2.tsv` | Line-Level Column 7 Sequence |
@@ -95,102 +82,134 @@ ORDER BY accession_number, source_table, sequence_number;
 | `0001567619-20-004063` | `1603466` (Main) | `1599822` (HK) | `32422` | `OTHERMANAGER.tsv` | Surrogate Key (`SK`), NOT Column 7 |
 | `0001567619-20-004063` | `1603466` (Main) | `1698051` (Europe) | `32423` | `OTHERMANAGER.tsv` | Surrogate Key (`SK`), NOT Column 7 |
 
+```sql
+-- Query 3: Dataset-wide OTHERMANAGER2.tsv Sequence Number Distribution
+SELECT COUNT(*) AS total_rows, MIN(CAST(sequence_number AS INTEGER)) AS min_seq, MAX(CAST(sequence_number AS INTEGER)) AS max_seq
+FROM manager_relationships
+WHERE source_table = 'OTHERMANAGER2.tsv' AND sequence_number GLOB '[0-9]*';
+```
+**Output**:
+| Total Numeric Rows | Min Sequence | Max Sequence | Rows with Sequence `0`, `00`, or `000` |
+| :---: | :---: | :---: | :---: |
+| **93,183** | **1** | **602** | **0** |
+
 ---
 
 ## 3. Disambiguation: `OTHERMANAGER.tsv` vs `OTHERMANAGER2.tsv`
 
-### Fact vs Inference Summary
-- **Observed Fact**: In SEC 13F dataset raw files, `OTHERMANAGER2.tsv` contains the small integer sequence numbers (`1`, `2`, `3`, etc.) that match the `OTHRMANAGER` Column 7 in `INFOTABLE.tsv`. `OTHERMANAGER.tsv` contains large 5-digit surrogate keys (`OTHERMANAGER_SK`, e.g. `32421`, `32422`).
-- **Observed Fact**: In Point72's main filing `0001567619-20-004063`, Point72 lists its subsidiaries on the cover/summary page, generating surrogate keys in `OTHERMANAGER.tsv`. However, for its 917 holding line items, Point72 enters `<otherManager>0`, indicating sole discretion.
-- **Inference**: Filers using automated software that outputs `0` for sole discretion intend to attribute the holding to the origin reporting manager (`origin_filer_cik`), exactly identical to a blank or `NULL` entry.
+### Observed Facts:
+1. In the SEC raw 13F dataset (e.g. `phase0/data/zips/2020q1.zip`), `OTHERMANAGER2.tsv` contains field `SEQUENCENUMBER`, populated with 1-based sequential integers (`1` through `602`) assigned to other included managers on the Summary Page.
+2. `OTHERMANAGER.tsv` contains field `OTHERMANAGER_SK`, which is an internal surrogate key assigned during SEC EDGAR ingestion.
+3. In `INFOTABLE.tsv`, the Column 7 field `OTHRMANAGER` references `OTHERMANAGER2.SEQUENCENUMBER`.
+4. There are exactly 0 sequence entries of `0` in `OTHERMANAGER2.tsv`.
 
-### Architectural Disambiguation Rule
-To prevent data contamination and lookup failure:
-1. **Graph Edges Construction ($G(Q-1, Q)$)**: All valid on-time records from **both** `OTHERMANAGER.tsv` and `OTHERMANAGER2.tsv` represent legitimate entity affiliations and should be unioned to form connected components.
-2. **Line-Level Sequence Resolution (`resolve_ownership`)**: Line items in `filing_line_items` reference sequence numbers. Therefore, line-level resolution must **strictly use mappings sourced from `OTHERMANAGER2.tsv`** (`source_table = 'OTHERMANAGER2.tsv'`).
+### Inferences & Architectural Decisions:
+1. **Line-Level Sequence Lookup**: Line-level resolution (`resolve_ownership`) must strictly query `manager_relationships` where `source_table = 'OTHERMANAGER2.tsv'`. Using `OTHERMANAGER.tsv` for sequence matching is invalid because its keys are surrogate identifiers.
+2. **Entity Graph Affiliation**: Both `OTHERMANAGER.tsv` and `OTHERMANAGER2.tsv` contain valid on-time institutional relationships and should both contribute undirected edges to the entity connected-components graph $G(Q-1, Q)$.
 
 ---
 
-## 4. Dataset-Wide Distribution Across Split Pilot Stocks
+## 4. Target-CUSIP Distribution & Accession Coexistence
 
-To verify the scope of this behavior across the entire SEC database, a target-CUSIP query was performed across the four split pilot stocks (`67066G104`, `88160R101`, `023135106`, `02079K305`) in `filing_line_items`.
-
-### Target-CUSIP other_manager Classification Breakdown
+### A. Target-CUSIP Streaming Classification Table
+A streaming classification over all line items for the four canonical split pilot stocks produces the following distribution:
 
 | Metric / Category | NVDA (`67066G104`) | TSLA (`88160R101`) | AMZN (`023135106`) | GOOGL (`02079K305`) |
 | :--- | :---: | :---: | :---: | :---: |
-| **Total Rows Audited** | **194,587** | **148,141** | **272,695** | **217,919** |
+| **Total Rows** | **194,587** | **148,141** | **272,695** | **217,919** |
 | `BLANK_OR_NULL` | 120,094 (61.7%) | 90,514 (61.1%) | 177,661 (65.2%) | 138,258 (63.4%) |
 | `ZERO_SENTINEL` (`'0'`) | 17,507 (9.0%) | 14,798 (10.0%) | 20,873 (7.7%) | 17,254 (7.9%) |
 | `NA_NONE_SENTINEL` (`N/A`, `NONE`, `NA`) | 4,644 (2.4%) | 3,563 (2.4%) | 6,876 (2.5%) | 5,490 (2.5%) |
-| `SINGLE_NUMERIC_SEQ` (`1`, `2`, `4`, etc.) | 41,616 (21.4%) | 31,435 (21.2%) | 53,899 (19.8%) | 45,612 (20.9%) |
-| `MULTI_NUMERIC_SEQ` (`1,2,4,11`, `1 3 4`) | 8,623 (4.4%) | 6,167 (4.2%) | 10,795 (4.0%) | 9,284 (4.3%) |
-| `FREE_TEXT_NAME` (e.g. `Blue Chip Partners`) | 2,103 (1.1%) | 1,664 (1.1%) | 2,591 (1.0%) | 2,021 (0.9%) |
+| `SINGLE_NUMERIC_SEQ` | 41,594 (21.4%) | 31,409 (21.2%) | 53,885 (19.8%) | 45,570 (20.9%) |
+| `MULTI_NUMERIC_SEQ` | 8,560 (4.4%) | 6,124 (4.1%) | 10,743 (3.9%) | 9,213 (4.2%) |
+| `FREE_TEXT_NAME` | 2,188 (1.1%) | 1,733 (1.2%) | 2,657 (1.0%) | 2,134 (1.0%) |
 
-### Key Observations:
-- **Origin-Filer Discretion Sum**: `BLANK_OR_NULL` + `ZERO_SENTINEL` + `NA_NONE_SENTINEL` represents **73.1% (NVDA)**, **73.5% (TSLA)**, **75.4% (AMZN)**, and **73.8% (GOOGL)** of all disclosed positions.
-- Treating `'0'` as an unknown manager sequence rather than an origin-owner sentinel needlessly discards ~8% to 10% of valid holdings across all stocks.
+> **Audit Note on Semantics**: Blank, zero, and N/A/NONE rows are **candidate no-manager-like encodings**. They are not uniformly sole discretion; in empirical data, rows with `other_manager = '0'` occur with `investment_discretion` values of `SOLE`, `DFND`, and `OTR`.
 
----
+### B. Accession Coexistence Evidence
+Accessions where `'0'` and nonzero `other_manager` values coexist within the same filing:
+- **NVDA (`67066G104`)**: **462 accessions**
+- **TSLA (`88160R101`)**: **310 accessions**
+- **AMZN (`023135106`)**: **709 accessions**
+- **GOOGL (`02079K305`)**: **546 accessions**
 
-## 5. Proposed CONTRACT v0.8.2 Specification Amendment
+**Inference from Coexistence**: The presence of both `'0'` and positive integer sequence numbers within the same accession demonstrates that filers use `'0'` as a line-specific indicator (indicating no other manager for that specific line item), rather than a filing-wide omission.
 
-### Proposed Amendment Details (For Review Only - NOT YET APPLIED)
+### C. Executable Reproducible Classification Snippet
+Auditors can reproduce the exact target-CUSIP classification using the following read-only Python script:
 
-```markdown
-### Proposed Amendment: Contract v0.8.1 -> v0.8.2 Section 2.1 (Ownership Resolution)
+```python
+import re
+from pathlib import Path
+from collections import Counter
+from research.smart_money.m0.src.storage_guard import open_readonly_sqlite
 
-1. Origin-Owner Sentinels:
-   Before resolving sequence numbers against manager relationships, the `other_manager` string
-   must be stripped of leading/trailing whitespace.
-   The following normalized values are strictly defined as ORIGIN_FILER sentinels:
-   - `None` (NULL)
-   - `""` (Empty string)
-   - `"0"` (Numeric zero)
-   - `"N/A"`, `"NA"`, `"NOT APPLICABLE"`, `"NONE"`, `"N / A"` (Case-insensitive)
+def classify_row_other_manager(val: str | None) -> str:
+    if val is None:
+        return "BLANK_OR_NULL"
+    s = val.strip()
+    if not s:
+        return "BLANK_OR_NULL"
+    if s == "0":
+        return "ZERO_SENTINEL"
+    s_upper = s.upper()
+    if s_upper in ("N/A", "NA", "NOT APPLICABLE", "NONE", "N / A"):
+        return "NA_NONE_SENTINEL"
+    tokens = [t for t in re.split(r"[,\s]+", s) if t]
+    if all(t.isdigit() for t in tokens):
+        if len(tokens) == 1:
+            return "SINGLE_NUMERIC_SEQ"
+        return "MULTI_NUMERIC_SEQ"
+    return "FREE_TEXT_NAME"
 
-   When an origin-owner sentinel is detected, `resolve_ownership` returns:
-   `(economic_owner_cik = origin_filer_cik, ownership_unresolved = False)`.
-
-2. Line-Level Sequence Number Resolution:
-   - Line-level sequence numbers (e.g. `"1"`, `"2"`) must be resolved strictly against
-     `manager_relationships` entries where `source_table = 'OTHERMANAGER2.tsv'`.
-   - `manager_relationships` entries where `source_table = 'OTHERMANAGER.tsv'` contain surrogate keys
-     and MUST NOT be used for line-level sequence lookup.
-
-3. Entity Graph Relationship Closure:
-   - Both `OTHERMANAGER.tsv` and `OTHERMANAGER2.tsv` on-time records are unioned to establish
-     undirected entity affiliation graph edges G(Q-1, Q).
-
-4. Conservative Preservation:
-   - Multi-numeric sequence lists (e.g. `"1,2,4,11"`, `"1 3 4"`) and free-text manager names
-     (e.g. `"Blue Chip Partners LLC"`) remain strictly UNRESOLVED (excluded from Primary M0).
+db_path = Path("research/smart_money/phase0/data/13f_full_4409f14.db")
+conn = open_readonly_sqlite(db_path, immutable=True)
+cur = conn.cursor()
+for sym, cusip in [("NVDA", "67066G104"), ("TSLA", "88160R101"), ("AMZN", "023135106"), ("GOOGL", "02079K305")]:
+    cur.execute("SELECT other_manager FROM filing_line_items WHERE cusip = ?;", (cusip,))
+    counts = Counter(classify_row_other_manager(r[0]) for r in cur.fetchall())
+    print(sym, counts)
+conn.close()
 ```
 
 ---
 
-## 6. Decision Table & Trade-Off Analysis
+## 5. Proposed CONTRACT v0.8.2 Specification Amendment (Draft for Review)
 
-| Option | Description | Pros | Cons / Risks | Recommendation |
-| :--- | :--- | :--- | :--- | :--- |
-| **Option A (Amend to v0.8.2)** | Adopt origin sentinels (`0`, `N/A`, `NONE`) and restrict sequence lookup to `OTHERMANAGER2.tsv`. | • Point72 main filing (917 rows) successfully retained.<br>• Reconstructs full Point72 intra-entity deduplication.<br>• Restores ~9% valid holdings in split benchmarks. | Requires formal contract version bump and regression test suite expansion. | **RECOMMENDED** |
-| **Option B (Maintain v0.8.1)** | Keep `0` treated as unknown sequence number. Discard Point72 main accession. | • Zero contract changes.<br>• Simplest specification. | • Point72 main accession 100% discarded.<br>• Fails Stage C plan requirement for cross-CIK deduplication fixture.<br>• Unnecessarily drops 9% of SEC dataset. | **REJECT** |
+### Proposed Changes (Pending Codex / User Approval)
+
+1. **Primary Origin Sentinels**:
+   - `None` (NULL) and `""` (empty string).
+   - Exact case-normalized `"N/A"` (authorized by official SEC Form 13F FAQ Q48/Q49).
+   - Exact string `"0"` ONLY as an explicitly empirical SEC-data compatibility rule, justified because real sequence mappings in `OTHERMANAGER2.tsv` are strictly 1-based (`1` to `602`) and no sequence `0` exists.
+   - When a primary origin sentinel is matched, `resolve_ownership` attributes the holding to `origin_filer_cik` with `ownership_unresolved = False`.
+
+2. **Dirty Variants Excluded from Primary**:
+   - Values such as `"NONE"`, `"NA"`, `"NOT APPLICABLE"`, `"N / A"`, `"00"`, `"0.0"` remain **unresolved in Primary M0** until separately evidenced; they may only be evaluated in sensitivity-only branches.
+   - Multi-numeric lists (e.g. `"1,2,4,11"`, `"1 3 4"`) and free-text manager names (e.g. `"Blue Chip Partners LLC"`) remain strictly **unresolved** in Primary M0.
+
+3. **Mandatory Sensitivity Branch**:
+   - Require a dedicated sensitivity branch that excludes empirical-zero (`'0'`) rows to evaluate signal robustness against this compatibility rule.
+
+4. **Line-Level Sequence Resolution Rule**:
+   - Line items in `filing_line_items` resolve sequence numbers strictly against `manager_relationships` entries where `source_table = 'OTHERMANAGER2.tsv'`. Entries from `OTHERMANAGER.tsv` are ignored for line sequence matching.
+
+5. **Entity Graph Closure Rule**:
+   - Both `OTHERMANAGER.tsv` and `OTHERMANAGER2.tsv` valid on-time relationship records are unioned to construct entity affiliation graph edges $G(Q-1, Q)$.
 
 ---
 
-## 7. Action Plan if Contract v0.8.2 is Approved
+## 6. Fact vs Inference Summary Checklist
 
-If the user / Codex approves Contract v0.8.2:
-1. Update `CONTRACT.md` and `IMPLEMENTATION_PLAN.md` to v0.8.2.
-2. Update `resolve_ownership` in `ownership_state_machine.py` to handle origin sentinels (`0`, `N/A`, `NONE`).
-3. Update `pilot_extractor.py` to filter line-level `rel_map` by `source_table = 'OTHERMANAGER2.tsv'`.
-4. Add regression tests in `test_stage_a_pure_functions.py`, `test_stage_b_counterexamples.py`, and `test_stage_c1_pilot_extractor.py`.
-5. Rerun the full 76+ test suite and rerun real-data `run_full_c1_discovery` against Phase 0 DB.
-6. Regenerate `STAGE_C1_DISCOVERY.json` and `STAGE_C_DISCOVERY.md` with fully deduplicated Point72 holdings.
+| Topic | Observed Fact | Inference / Interpretation |
+| :--- | :--- | :--- |
+| **Point72 2019Q4 Main Filing** | 917 rows in accession `0001567619-20-004063` have `INVESTMENTDISCRETION='DFND'`, `other_manager='0'`, and shared voting authority for all 418M shares. | Point72 intended to report these holdings as managed under its own defined authority rather than delegating to another listed manager. |
+| **SEC Regulatory FAQs** | SEC FAQ Q48/Q49 explicitly specifies blank or `N/A` for non-shared discretion; does not mention `0` or `NONE`. | `'0'` is an empirical filing artifact generated by electronic filing systems when discretion is not shared. |
+| **Phase 0 Relationship Tables** | `OTHERMANAGER2.tsv` contains 93,183 1-based sequence numbers ($1 \le seq \le 602$) and 0 zero sequences. `OTHERMANAGER.tsv` contains surrogate keys (`OTHERMANAGER_SK`). | `OTHERMANAGER2.tsv` is the sole table designed to resolve line-level Column 7 sequences; `OTHERMANAGER.tsv` must not be used for line resolution. |
+| **Target-CUSIP Distribution** | `'0'` occurs in 7.7%–10.0% of line items; `'0'` coexists with positive sequence numbers in 310–709 accessions per split stock. | `'0'` is a line-specific origin indicator rather than an accession-wide filing default. |
 
 ---
 
-## 8. Current Working State
-- **Current Branch**: `agent/phase4-composite-validation`
+## 7. Current Governance State
 - **Current Status**: `BLOCKED PENDING CONTRACT AMENDMENT DECISION`
-- **Local Tree**: Clean (all code, tests, and artifacts from `36191f3` remain untouched).
+- **Integrity Guarantee**: No modifications have been made to `CONTRACT.md`, `IMPLEMENTATION_PLAN.md`, production code (`m0/src/`), tests (`m0/tests/`), or output artifacts (`STAGE_C1_DISCOVERY.json`, `STAGE_C_DISCOVERY.md`).
