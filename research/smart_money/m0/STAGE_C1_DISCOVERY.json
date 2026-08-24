@@ -1,21 +1,39 @@
 {
-  "created_utc": "2026-08-24T06:30:59Z",
+  "created_utc": "2026-08-24T06:40:56Z",
   "evidence_a_berkshire_apple_2023q4": {
     "acceptance_datetime": "2024-02-14T21:02:18.000Z",
     "accession_number": "0000950123-24-002518",
-    "aggregated_groups_count": 1,
-    "anchor_match": true,
-    "execution_time_sec": 0.004,
+    "anchor_raw_match": true,
+    "execution_time_sec": 0.005,
+    "ineligibility_reasons": [
+      "CONFIDENTIAL_TREATMENT_OMISSION (is_confidential_omit=1)",
+      "ALL_ROWS_UNRESOLVED_OTHER_MANAGER (missing manager_relationships mappings)"
+    ],
+    "is_confidential_omit": true,
+    "is_primary_eligible": false,
+    "multi_sequence_rows_count": 11,
+    "multi_sequence_samples": [
+      "1,2,4,11",
+      "2,4,11",
+      "4,5",
+      "4,6",
+      "4,7"
+    ],
     "origin_filer_cik": "0001067983",
     "period_of_report": "2023-12-31",
     "preregistered_expected_anchor": 905560000,
+    "primary_resolved_shares": 0,
+    "primary_resolved_value_usd": 0,
     "raw_matching_rows": [
       {
         "asset_class": "cash_equity",
         "cusip": "037833100",
         "investment_discretion": "DFND",
+        "is_multi_sequence": false,
         "line_seq": 11,
         "other_manager": "4",
+        "ownership_unresolved": true,
+        "resolved_owner_cik": null,
         "security_name": "APPLE INC",
         "shares": 692000,
         "sshprnamttype": "SH",
@@ -29,8 +47,11 @@
         "asset_class": "cash_equity",
         "cusip": "037833100",
         "investment_discretion": "DFND",
+        "is_multi_sequence": true,
         "line_seq": 12,
         "other_manager": "1,2,4,11",
+        "ownership_unresolved": true,
+        "resolved_owner_cik": null,
         "security_name": "APPLE INC",
         "shares": 3840000,
         "sshprnamttype": "SH",
@@ -44,8 +65,11 @@
         "asset_class": "cash_equity",
         "cusip": "037833100",
         "investment_discretion": "DFND",
+        "is_multi_sequence": true,
         "line_seq": 13,
         "other_manager": "2,4,11",
+        "ownership_unresolved": true,
+        "resolved_owner_cik": null,
         "security_name": "APPLE INC",
         "shares": 24294000,
         "sshprnamttype": "SH",
@@ -59,8 +83,11 @@
         "asset_class": "cash_equity",
         "cusip": "037833100",
         "investment_discretion": "DFND",
+        "is_multi_sequence": true,
         "line_seq": 14,
         "other_manager": "4,5",
+        "ownership_unresolved": true,
+        "resolved_owner_cik": null,
         "security_name": "APPLE INC",
         "shares": 59147916,
         "sshprnamttype": "SH",
@@ -74,8 +101,11 @@
         "asset_class": "cash_equity",
         "cusip": "037833100",
         "investment_discretion": "DFND",
+        "is_multi_sequence": true,
         "line_seq": 15,
         "other_manager": "4,6",
+        "ownership_unresolved": true,
+        "resolved_owner_cik": null,
         "security_name": "APPLE INC",
         "shares": 2724000,
         "sshprnamttype": "SH",
@@ -89,8 +119,11 @@
         "asset_class": "cash_equity",
         "cusip": "037833100",
         "investment_discretion": "DFND",
+        "is_multi_sequence": true,
         "line_seq": 16,
         "other_manager": "4,7",
+        "ownership_unresolved": true,
+        "resolved_owner_cik": null,
         "security_name": "APPLE INC",
         "shares": 20424207,
         "sshprnamttype": "SH",
@@ -104,8 +137,11 @@
         "asset_class": "cash_equity",
         "cusip": "037833100",
         "investment_discretion": "DFND",
+        "is_multi_sequence": true,
         "line_seq": 17,
         "other_manager": "4,8,11",
+        "ownership_unresolved": true,
+        "resolved_owner_cik": null,
         "security_name": "APPLE INC",
         "shares": 61542988,
         "sshprnamttype": "SH",
@@ -119,8 +155,11 @@
         "asset_class": "cash_equity",
         "cusip": "037833100",
         "investment_discretion": "DFND",
+        "is_multi_sequence": true,
         "line_seq": 18,
         "other_manager": "4,5,9",
+        "ownership_unresolved": true,
+        "resolved_owner_cik": null,
         "security_name": "APPLE INC",
         "shares": 12152000,
         "sshprnamttype": "SH",
@@ -134,8 +173,11 @@
         "asset_class": "cash_equity",
         "cusip": "037833100",
         "investment_discretion": "DFND",
+        "is_multi_sequence": true,
         "line_seq": 19,
         "other_manager": "4,10",
+        "ownership_unresolved": true,
+        "resolved_owner_cik": null,
         "security_name": "APPLE INC",
         "shares": 47832000,
         "sshprnamttype": "SH",
@@ -149,8 +191,11 @@
         "asset_class": "cash_equity",
         "cusip": "037833100",
         "investment_discretion": "DFND",
+        "is_multi_sequence": true,
         "line_seq": 20,
         "other_manager": "4,11",
+        "ownership_unresolved": true,
+        "resolved_owner_cik": null,
         "security_name": "APPLE INC",
         "shares": 666422889,
         "sshprnamttype": "SH",
@@ -164,8 +209,11 @@
         "asset_class": "cash_equity",
         "cusip": "037833100",
         "investment_discretion": "DFND",
+        "is_multi_sequence": true,
         "line_seq": 21,
         "other_manager": "4,12",
+        "ownership_unresolved": true,
+        "resolved_owner_cik": null,
         "security_name": "APPLE INC",
         "shares": 2712000,
         "sshprnamttype": "SH",
@@ -179,8 +227,11 @@
         "asset_class": "cash_equity",
         "cusip": "037833100",
         "investment_discretion": "DFND",
+        "is_multi_sequence": true,
         "line_seq": 22,
         "other_manager": "4,14",
+        "ownership_unresolved": true,
+        "resolved_owner_cik": null,
         "security_name": "APPLE INC",
         "shares": 3776000,
         "sshprnamttype": "SH",
@@ -192,8 +243,11 @@
       }
     ],
     "raw_matching_rows_count": 12,
-    "total_aggregate_shares": 905560000,
-    "total_aggregate_value_usd": 174347466800.0
+    "raw_total_aggregate_shares": 905560000,
+    "raw_total_aggregate_value_usd": 174347466800.0,
+    "unresolved_rows_count": 12,
+    "unresolved_shares_total": 905560000,
+    "unresolved_value_total": 174347466800.0
   },
   "evidence_b_point72_2019q4_discovery": {
     "accessions": [
@@ -204,31 +258,7 @@
         "filer_cik": "0001698051",
         "form_type": "13F-HR",
         "is_confidential_omit": false,
-        "is_pit_on_time": true,
-        "manager_name": "Point72 Europe (London) LLP",
-        "period_of_report": "2019-12-31"
-      },
-      {
-        "acceptance_datetime": "2020-02-14T16:47:23.000Z",
-        "accession_number": "0001567619-20-004066",
-        "amendment_type": null,
-        "filer_cik": "0001599822",
-        "form_type": "13F-HR",
-        "is_confidential_omit": false,
-        "is_pit_on_time": true,
-        "manager_name": "Point72 Asia (Hong Kong) Ltd",
-        "period_of_report": "2019-12-31"
-      },
-      {
-        "acceptance_datetime": "2020-02-14T21:44:41.000Z",
-        "accession_number": "0001567619-20-004063",
-        "amendment_type": null,
-        "filer_cik": "0001603466",
-        "form_type": "13F-HR",
-        "is_confidential_omit": false,
-        "is_pit_on_time": true,
-        "manager_name": "Point72 Asset Management, L.P.",
-        "period_of_report": "2019-12-31"
+        "is_pit_on_time": true
       },
       {
         "acceptance_datetime": "2020-02-14T16:45:49.000Z",
@@ -237,75 +267,47 @@
         "filer_cik": "0001603465",
         "form_type": "13F-HR",
         "is_confidential_omit": false,
-        "is_pit_on_time": true,
-        "manager_name": "Cubist Systematic Strategies, LLC",
-        "period_of_report": "2019-12-31"
+        "is_pit_on_time": true
+      },
+      {
+        "acceptance_datetime": "2020-02-14T16:47:23.000Z",
+        "accession_number": "0001567619-20-004066",
+        "amendment_type": null,
+        "filer_cik": "0001599822",
+        "form_type": "13F-HR",
+        "is_confidential_omit": false,
+        "is_pit_on_time": true
+      },
+      {
+        "acceptance_datetime": "2020-02-14T21:44:41.000Z",
+        "accession_number": "0001567619-20-004063",
+        "amendment_type": null,
+        "filer_cik": "0001603466",
+        "form_type": "13F-HR",
+        "is_confidential_omit": false,
+        "is_pit_on_time": true
       }
     ],
     "accessions_count": 4,
     "canonical_entity_id": "0001599822",
-    "entity_name": "Point72 Asset Management",
-    "execution_time_sec": 0.182,
-    "identified_manager_names": [
-      {
-        "cik": "0001599822",
-        "name": "Point72 Asia (Hong Kong) Ltd"
-      },
-      {
-        "cik": "0001599822",
-        "name": "Point72 Hong Kong Ltd"
-      },
-      {
-        "cik": "0001603466",
-        "name": "Point72 Asset Management, L.P."
-      },
-      {
-        "cik": "0001666791",
-        "name": "Point72 Asia (Singapore) Pte. Ltd."
-      },
-      {
-        "cik": "0001698051",
-        "name": "Point72 Europe (London) LLP"
-      },
-      {
-        "cik": "0001949771",
-        "name": "Point72 Middle East FZE"
-      },
-      {
-        "cik": "0001954961",
-        "name": "Point72 Private Investments, LLC"
-      },
-      {
-        "cik": "0002006887",
-        "name": "Point72 Italy, S.r.l."
-      },
-      {
-        "cik": "0002017863",
-        "name": "Point72 (DIFC) Ltd"
-      }
+    "component_closed_ciks": [
+      "0001599822",
+      "0001603465",
+      "0001603466",
+      "0001698051",
+      "1599822",
+      "1603465",
+      "1603466",
+      "1698051"
     ],
+    "entity_name": "Point72 Asset Management",
+    "execution_time_sec": 0.482,
     "intra_entity_deduped_holdings_count": 3540,
     "manager_relationships": [
       {
-        "accession_number": "0001567619-20-004060",
-        "period_of_report": "2019-12-31",
-        "related_cik": "0001603466",
-        "related_name": "Point72 Asset Management, L.P.",
-        "reporter_cik": "0001698051",
-        "sequence_number": "1",
-        "source_table": "OTHERMANAGER2.tsv"
-      },
-      {
+        "acceptance_datetime": "2020-02-14T21:44:41.000Z",
         "accession_number": "0001567619-20-004063",
-        "period_of_report": "2019-12-31",
-        "related_cik": "0001603465",
-        "related_name": "Cubist Systematic Strategies, LLC",
-        "reporter_cik": "0001603466",
-        "sequence_number": "32421",
-        "source_table": "OTHERMANAGER.tsv"
-      },
-      {
-        "accession_number": "0001567619-20-004063",
+        "is_on_time": true,
         "period_of_report": "2019-12-31",
         "related_cik": "0001599822",
         "related_name": "Point72 Hong Kong Ltd",
@@ -314,7 +316,9 @@
         "source_table": "OTHERMANAGER.tsv"
       },
       {
+        "acceptance_datetime": "2020-02-14T21:44:41.000Z",
         "accession_number": "0001567619-20-004063",
+        "is_on_time": true,
         "period_of_report": "2019-12-31",
         "related_cik": "0001698051",
         "related_name": "Point72 Europe (London) LLP",
@@ -323,7 +327,31 @@
         "source_table": "OTHERMANAGER.tsv"
       },
       {
+        "acceptance_datetime": "2020-02-14T21:44:41.000Z",
+        "accession_number": "0001567619-20-004063",
+        "is_on_time": true,
+        "period_of_report": "2019-12-31",
+        "related_cik": "0001603465",
+        "related_name": "Cubist Systematic Strategies, LLC",
+        "reporter_cik": "0001603466",
+        "sequence_number": "32421",
+        "source_table": "OTHERMANAGER.tsv"
+      },
+      {
+        "acceptance_datetime": "2020-02-14T16:47:23.000Z",
+        "accession_number": "0001567619-20-004066",
+        "is_on_time": true,
+        "period_of_report": "2019-12-31",
+        "related_cik": "0001603466",
+        "related_name": "Point72 Asset Management, L.P.",
+        "reporter_cik": "0001599822",
+        "sequence_number": "1",
+        "source_table": "OTHERMANAGER2.tsv"
+      },
+      {
+        "acceptance_datetime": "2020-02-14T16:45:49.000Z",
         "accession_number": "0001567619-20-004064",
+        "is_on_time": true,
         "period_of_report": "2019-12-31",
         "related_cik": "0001603466",
         "related_name": "Point72 Asset Management, L.P.",
@@ -332,11 +360,13 @@
         "source_table": "OTHERMANAGER2.tsv"
       },
       {
-        "accession_number": "0001567619-20-004066",
+        "acceptance_datetime": "2020-02-14T16:42:30.000Z",
+        "accession_number": "0001567619-20-004060",
+        "is_on_time": true,
         "period_of_report": "2019-12-31",
         "related_cik": "0001603466",
         "related_name": "Point72 Asset Management, L.P.",
-        "reporter_cik": "0001599822",
+        "reporter_cik": "0001698051",
         "sequence_number": "1",
         "source_table": "OTHERMANAGER2.tsv"
       }
@@ -344,33 +374,61 @@
     "manager_relationships_count": 6,
     "period_of_report": "2019-12-31",
     "reconstructed_disclosures_count": 3540,
+    "seed_ciks": [
+      "0001599822",
+      "0001603466",
+      "0001666791",
+      "0001698051",
+      "0001949771",
+      "0001954961",
+      "0002006887",
+      "0002017863"
+    ],
     "status": "PROPOSED PENDING CODEX MANUAL FREEZE",
     "total_raw_line_items": 4457
   },
   "evidence_c_split_pilot_pairs": [
     {
-      "adjusted_median_ratio": 1.0,
-      "contract_ex_date": "2024-06-10",
-      "contract_split_factor": 10.0,
-      "cusip": "67066G104",
-      "eligible_continuous_entity_count": 3366,
-      "exclusions": {
-        "confidential_omission_entities_excluded": 38,
-        "exit_positions_count": 284,
-        "late_filings_excluded_q_curr": 675,
-        "late_filings_excluded_q_prev": 672,
-        "membership_incomplete_entities_excluded": 33,
-        "new_positions_count": 435,
+      "adjusted_median_ratio": 1.0015,
+      "component_level_exclusions": {
+        "amendment_unresolved_components_excluded": 1,
+        "confidential_omission_components_excluded": 24,
+        "exit_positions_count": 114,
+        "membership_incomplete_components_excluded": 240,
+        "new_positions_count": 250,
         "unresolved_ownership_rows_excluded_q_curr": 1426,
         "unresolved_ownership_rows_excluded_q_prev": 1331
       },
-      "execution_time_sec": 25.009,
+      "contract_ex_date": "2024-06-10",
+      "contract_split_factor": 10.0,
+      "cusip": "67066G104",
+      "eligible_continuous_entity_count": 2730,
+      "execution_time_sec": 24.7,
+      "global_dataset_context": {
+        "late_filings_excluded_q_curr": 675,
+        "late_filings_excluded_q_prev": 672,
+        "total_connected_components_in_graph": 6898,
+        "total_on_time_filers_q_curr": 8798,
+        "total_on_time_filers_q_prev": 8785,
+        "total_on_time_relationship_edges": 4451
+      },
       "is_googl_note": false,
       "is_in_contract_pass_range": true,
-      "mad_log": 0.0746,
+      "mad_log": 0.0718,
+      "multi_sequence_other_manager": {
+        "q_curr_multi_sequence_rows": 264,
+        "q_prev_multi_sequence_rows": 259,
+        "samples": [
+          "Blue Chip Partners LLC",
+          "1 3 4",
+          "1 4",
+          "Sheaff Brock",
+          "myCIO Wealth Partners LLC"
+        ]
+      },
       "q_curr": "2024-06-30",
       "q_prev": "2024-03-31",
-      "raw_median_ratio": 10.0,
+      "raw_median_ratio": 10.0148,
       "stock_symbol": "NVDA",
       "waterfall_action": "INCLUDE",
       "waterfall_sensitivity_action": "INCLUDE",
@@ -378,24 +436,42 @@
     },
     {
       "adjusted_median_ratio": 1.0,
-      "contract_ex_date": "2022-08-25",
-      "contract_split_factor": 3.0,
-      "cusip": "88160R101",
-      "eligible_continuous_entity_count": 1831,
-      "exclusions": {
-        "confidential_omission_entities_excluded": 47,
-        "exit_positions_count": 209,
-        "late_filings_excluded_q_curr": 698,
-        "late_filings_excluded_q_prev": 630,
-        "membership_incomplete_entities_excluded": 5,
-        "new_positions_count": 273,
+      "component_level_exclusions": {
+        "amendment_unresolved_components_excluded": 0,
+        "confidential_omission_components_excluded": 35,
+        "exit_positions_count": 94,
+        "membership_incomplete_components_excluded": 147,
+        "new_positions_count": 174,
         "unresolved_ownership_rows_excluded_q_curr": 1056,
         "unresolved_ownership_rows_excluded_q_prev": 1061
       },
-      "execution_time_sec": 21.167,
+      "contract_ex_date": "2022-08-25",
+      "contract_split_factor": 3.0,
+      "cusip": "88160R101",
+      "eligible_continuous_entity_count": 1445,
+      "execution_time_sec": 20.956,
+      "global_dataset_context": {
+        "late_filings_excluded_q_curr": 698,
+        "late_filings_excluded_q_prev": 630,
+        "total_connected_components_in_graph": 6438,
+        "total_on_time_filers_q_curr": 8179,
+        "total_on_time_filers_q_prev": 8288,
+        "total_on_time_relationship_edges": 4036
+      },
       "is_googl_note": false,
       "is_in_contract_pass_range": true,
-      "mad_log": 0.0488,
+      "mad_log": 0.042,
+      "multi_sequence_other_manager": {
+        "q_curr_multi_sequence_rows": 171,
+        "q_prev_multi_sequence_rows": 180,
+        "samples": [
+          "Blue Chip Partners LLC",
+          "1 4",
+          "1 3 4",
+          "Sheaff Brock",
+          "Atlantic Edge Private Wealth Management"
+        ]
+      },
       "q_curr": "2022-09-30",
       "q_prev": "2022-06-30",
       "raw_median_ratio": 3.0,
@@ -405,28 +481,46 @@
       "waterfall_state": "KNOWN_SPLIT_PASS"
     },
     {
-      "adjusted_median_ratio": 1.0094,
-      "contract_ex_date": "2022-06-06",
-      "contract_split_factor": 20.0,
-      "cusip": "023135106",
-      "eligible_continuous_entity_count": 2948,
-      "exclusions": {
-        "confidential_omission_entities_excluded": 77,
-        "exit_positions_count": 365,
-        "late_filings_excluded_q_curr": 630,
-        "late_filings_excluded_q_prev": 755,
-        "membership_incomplete_entities_excluded": 30,
-        "new_positions_count": 248,
+      "adjusted_median_ratio": 1.0113,
+      "component_level_exclusions": {
+        "amendment_unresolved_components_excluded": 0,
+        "confidential_omission_components_excluded": 59,
+        "exit_positions_count": 216,
+        "membership_incomplete_components_excluded": 196,
+        "new_positions_count": 121,
         "unresolved_ownership_rows_excluded_q_curr": 1570,
         "unresolved_ownership_rows_excluded_q_prev": 1496
       },
-      "execution_time_sec": 31.458,
+      "contract_ex_date": "2022-06-06",
+      "contract_split_factor": 20.0,
+      "cusip": "023135106",
+      "eligible_continuous_entity_count": 2417,
+      "execution_time_sec": 31.116,
+      "global_dataset_context": {
+        "late_filings_excluded_q_curr": 630,
+        "late_filings_excluded_q_prev": 755,
+        "total_connected_components_in_graph": 6483,
+        "total_on_time_filers_q_curr": 8288,
+        "total_on_time_filers_q_prev": 8250,
+        "total_on_time_relationship_edges": 3981
+      },
       "is_googl_note": false,
       "is_in_contract_pass_range": true,
-      "mad_log": 0.0619,
+      "mad_log": 0.0593,
+      "multi_sequence_other_manager": {
+        "q_curr_multi_sequence_rows": 248,
+        "q_prev_multi_sequence_rows": 223,
+        "samples": [
+          "Blue Chip Partners LLC",
+          "1 4",
+          "1 3 4",
+          "Sheaff Brock",
+          "Signal Advisors"
+        ]
+      },
       "q_curr": "2022-06-30",
       "q_prev": "2022-03-31",
-      "raw_median_ratio": 20.1875,
+      "raw_median_ratio": 20.2265,
       "stock_symbol": "AMZN",
       "waterfall_action": "INCLUDE",
       "waterfall_sensitivity_action": "INCLUDE",
@@ -434,24 +528,42 @@
     },
     {
       "adjusted_median_ratio": 1.0,
-      "contract_ex_date": "2022-07-18",
-      "contract_split_factor": 20.0,
-      "cusip": "02079K305",
-      "eligible_continuous_entity_count": 2612,
-      "exclusions": {
-        "confidential_omission_entities_excluded": 68,
-        "exit_positions_count": 277,
-        "late_filings_excluded_q_curr": 698,
-        "late_filings_excluded_q_prev": 630,
-        "membership_incomplete_entities_excluded": 17,
-        "new_positions_count": 241,
+      "component_level_exclusions": {
+        "amendment_unresolved_components_excluded": 1,
+        "confidential_omission_components_excluded": 49,
+        "exit_positions_count": 133,
+        "membership_incomplete_components_excluded": 195,
+        "new_positions_count": 133,
         "unresolved_ownership_rows_excluded_q_curr": 1201,
         "unresolved_ownership_rows_excluded_q_prev": 1326
       },
-      "execution_time_sec": 27.003,
+      "contract_ex_date": "2022-07-18",
+      "contract_split_factor": 20.0,
+      "cusip": "02079K305",
+      "eligible_continuous_entity_count": 2068,
+      "execution_time_sec": 27.035,
+      "global_dataset_context": {
+        "late_filings_excluded_q_curr": 698,
+        "late_filings_excluded_q_prev": 630,
+        "total_connected_components_in_graph": 6438,
+        "total_on_time_filers_q_curr": 8179,
+        "total_on_time_filers_q_prev": 8288,
+        "total_on_time_relationship_edges": 4036
+      },
       "is_googl_note": true,
       "is_in_contract_pass_range": true,
-      "mad_log": 0.0357,
+      "mad_log": 0.035,
+      "multi_sequence_other_manager": {
+        "q_curr_multi_sequence_rows": 232,
+        "q_prev_multi_sequence_rows": 271,
+        "samples": [
+          "Blue Chip Partners LLC",
+          "1 3 4",
+          "1 4",
+          "Sheaff Brock",
+          "myCIO Wealth Partners LLC"
+        ]
+      },
       "q_curr": "2022-09-30",
       "q_prev": "2022-06-30",
       "raw_median_ratio": 20.0,
@@ -468,5 +580,5 @@
     "size_bytes": 25881661440
   },
   "status": "STAGE C PART C1 DISCOVERY UNDER CODEX AUDIT",
-  "total_execution_time_sec": 104.826
+  "total_execution_time_sec": 104.299
 }

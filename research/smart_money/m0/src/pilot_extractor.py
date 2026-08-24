@@ -1,10 +1,11 @@
 """Stage C Part C1 Pilot Benchmark Extractor and Discovery Engine.
 
 Executes read-only, auditable pilot extraction against Phase 0 DB without modifying the source DB.
-Covers:
-1. Berkshire Hathaway 2023Q4 Apple Accession Aggregation (Anchor: 905,560,000).
-2. Point72 2019Q4 Multi-Manager Relationship Discovery & Proposed Fixture.
-3. Four Canonical Split Pilot Pairs (NVDA 10:1, TSLA 3:1, AMZN 20:1, GOOGL 20:1).
+Full World-B Implementation covering:
+1. Berkshire Hathaway 2023Q4 Apple Accession Aggregation (Raw Anchor: 905,560,000; Primary Ineligibility Breakdown).
+2. Point72 2019Q4 Multi-Manager Relationship Discovery & Proposed Fixture (Actual PIT Timestamps & Graph Closure).
+3. Four Canonical Split Pilot Pairs (NVDA 10:1, TSLA 3:1, AMZN 20:1, GOOGL 20:1) with True G(Q-1, Q) Graph,
+   Filing Member Component Equality, Intra-Component Dedup, and Before-vs-After Comparison.
 """
 
 from collections import defaultdict
@@ -68,7 +69,10 @@ def check_source_db_preflight(db_path: str | Path) -> dict[str, Any]:
 def extract_berkshire_apple_2023q4(conn: sqlite3.Connection) -> dict[str, Any]:
     """Extract Berkshire Hathaway 2023Q4 Apple holdings from accession 0000950123-24-002518.
 
-    Compares aggregated total shares against preregistered external anchor 905,560,000.
+    Reports:
+    1. Raw within-accession total (validates 905,560,000 external anchor).
+    2. Primary-eligible resolved total, unresolved row/shares count, multi-sequence counts.
+    3. Confidential treatment flag and explicit Primary eligibility assessment.
     """
     acc = "0000950123-24-002518"
     cusip = "037833100"
@@ -98,7 +102,19 @@ def extract_berkshire_apple_2023q4(conn: sqlite3.Connection) -> dict[str, Any]:
     )
     header.validate()
 
-    # 2. Fetch raw line items
+    # 2. Fetch manager relationships for this accession
+    cur.execute(
+        """
+        SELECT accession_number, sequence_number, related_cik
+        FROM manager_relationships
+        WHERE accession_number = ?;
+        """,
+        (acc,),
+    )
+    rel_rows = cur.fetchall()
+    rel_map = {(r[0], str(r[1]).strip()): normalize_cik(r[2]) for r in rel_rows}
+
+    # 3. Fetch raw line items
     cur.execute(
         """
         SELECT accession_number, line_seq, cusip, security_name, title_of_class,
@@ -112,15 +128,39 @@ def extract_berkshire_apple_2023q4(conn: sqlite3.Connection) -> dict[str, Any]:
     )
     raw_lines = cur.fetchall()
 
-    holding_rows: list[HoldingRow] = []
+    raw_total_shares = sum(int(r[5]) for r in raw_lines)
+    raw_total_value = sum(float(r[6]) for r in raw_lines)
+
+    holding_rows_resolved: list[HoldingRow] = []
     raw_rows_info: list[dict[str, Any]] = []
 
+    unresolved_rows_count = 0
+    unresolved_shares_total = 0
+    unresolved_value_total = 0.0
+    multi_sequence_rows_count = 0
+    multi_sequence_samples: list[str] = []
+
     for r in raw_lines:
-        seq = str(r[9]).strip() if r[9] is not None else None
-        # Berkshire 13F-HR does not delegate economic ownership; all discretion DFND
-        # other_manager entries in Berkshire filing refer to subsidiary internal manager list
-        # Economic owner remains Berkshire Hathaway Inc (CIK 0001067983)
-        owner_cik, unresolved = normalize_cik(header.origin_filer_cik), False
+        om_val = str(r[9]).strip() if r[9] is not None else None
+        is_multi = False
+        if om_val and ("," in om_val or " " in om_val):
+            is_multi = True
+            multi_sequence_rows_count += 1
+            if len(multi_sequence_samples) < 5:
+                multi_sequence_samples.append(om_val)
+
+        # Resolve ownership using actual manager_relationships mapping
+        owner_cik, unresolved = resolve_ownership(
+            row_other_manager=om_val,
+            origin_filer_cik=header.origin_filer_cik,
+            accession_number=acc,
+            other_manager_map=rel_map,
+        )
+
+        if unresolved or owner_cik is None:
+            unresolved_rows_count += 1
+            unresolved_shares_total += int(r[5])
+            unresolved_value_total += float(r[6])
 
         h_item = HoldingRow(
             accession_number=r[0],
@@ -137,7 +177,7 @@ def extract_berkshire_apple_2023q4(conn: sqlite3.Connection) -> dict[str, Any]:
             total_vote_none=int(r[12] or 0),
         )
         h_item.validate()
-        holding_rows.append(h_item)
+        holding_rows_resolved.append(h_item)
 
         raw_rows_info.append(
             {
@@ -150,6 +190,9 @@ def extract_berkshire_apple_2023q4(conn: sqlite3.Connection) -> dict[str, Any]:
                 "sshprnamttype": r[7],
                 "investment_discretion": r[8],
                 "other_manager": r[9],
+                "is_multi_sequence": is_multi,
+                "resolved_owner_cik": owner_cik,
+                "ownership_unresolved": unresolved,
                 "voting_sole": r[10],
                 "voting_shared": r[11],
                 "voting_none": r[12],
@@ -157,34 +200,53 @@ def extract_berkshire_apple_2023q4(conn: sqlite3.Connection) -> dict[str, Any]:
             }
         )
 
-    # 3. Aggregate within accession
-    agg_dict = aggregate_accession_holdings(holding_rows)
-    total_aggregate_shares = sum(v["total_shares"] for v in agg_dict.values())
-    total_aggregate_value = sum(v["total_value_usd"] for v in agg_dict.values())
+    # Aggregated resolved holdings (excludes unresolved rows per Contract v0.8.1)
+    agg_resolved_dict = aggregate_accession_holdings(holding_rows_resolved)
+    primary_resolved_shares = sum(v["total_shares"] for v in agg_resolved_dict.values())
+    primary_resolved_value = sum(v["total_value_usd"] for v in agg_resolved_dict.values())
 
     preregistered_expected_anchor = 905_560_000
+
+    # Primary eligibility assessment:
+    # 1. is_confidential_omit == 1 -> Excluded by Contract 4.5 Confidential Omission Gate
+    # 2. 100% of rows have unresolved other_manager -> 0 shares primary resolved
+    is_primary_eligible = (not header.is_confidential_omit) and (primary_resolved_shares > 0)
+    ineligibility_reasons = []
+    if header.is_confidential_omit:
+        ineligibility_reasons.append("CONFIDENTIAL_TREATMENT_OMISSION (is_confidential_omit=1)")
+    if unresolved_rows_count == len(raw_lines):
+        ineligibility_reasons.append("ALL_ROWS_UNRESOLVED_OTHER_MANAGER (missing manager_relationships mappings)")
 
     return {
         "accession_number": acc,
         "origin_filer_cik": header.origin_filer_cik,
         "period_of_report": header.period_of_report,
         "acceptance_datetime": header.acceptance_datetime,
+        "is_confidential_omit": header.is_confidential_omit,
         "raw_matching_rows_count": len(raw_rows_info),
         "raw_matching_rows": raw_rows_info,
-        "aggregated_groups_count": len(agg_dict),
-        "total_aggregate_shares": total_aggregate_shares,
-        "total_aggregate_value_usd": total_aggregate_value,
+        "raw_total_aggregate_shares": raw_total_shares,
+        "raw_total_aggregate_value_usd": raw_total_value,
         "preregistered_expected_anchor": preregistered_expected_anchor,
-        "anchor_match": (total_aggregate_shares == preregistered_expected_anchor),
+        "anchor_raw_match": (raw_total_shares == preregistered_expected_anchor),
+        "primary_resolved_shares": primary_resolved_shares,
+        "primary_resolved_value_usd": primary_resolved_value,
+        "unresolved_rows_count": unresolved_rows_count,
+        "unresolved_shares_total": unresolved_shares_total,
+        "unresolved_value_total": unresolved_value_total,
+        "multi_sequence_rows_count": multi_sequence_rows_count,
+        "multi_sequence_samples": multi_sequence_samples,
+        "is_primary_eligible": is_primary_eligible,
+        "ineligibility_reasons": ineligibility_reasons,
     }
 
 
 def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]:
-    """Discover Point72 2019Q4 filings, relationships, and produce proposed fixture pending Codex freeze."""
+    """Discover Point72 2019Q4 filings, relationships with real PIT timestamps, and graph closure."""
     period = "2019-12-31"
     cur = conn.cursor()
 
-    # 1. Identify Point72 CIKs from manager names
+    # 1. Seed Point72 CIKs from manager_names matches
     cur.execute(
         """
         SELECT DISTINCT cik, manager_name
@@ -193,112 +255,107 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
         ORDER BY cik;
         """
     )
-    p72_names = cur.fetchall()
-    known_ciks = {normalize_cik(r[0]) for r in p72_names}
+    p72_seed_rows = cur.fetchall()
+    seed_ciks = {normalize_cik(r[0]) for r in p72_seed_rows}
 
-    # 2. Fetch all on-time filings for Point72 in 2019Q4
+    # 2. Fetch manager relationships for 2019Q4 joined with filing_events to get actual acceptance_datetime
     cur.execute(
         """
-        SELECT fe.accession_number, fe.cik, fe.period_of_report, fe.acceptance_datetime,
-               fe.form_type, fe.amendment_type, fe.is_confidential_omit, mn.manager_name
-        FROM filing_events fe
-        JOIN manager_names mn ON fe.cik = mn.cik
-        WHERE fe.period_of_report = ? AND (mn.manager_name LIKE '%POINT72%' OR mn.manager_name LIKE '%POINT 72%')
-        ORDER BY fe.acceptance_datetime;
+        SELECT mr.accession_number, mr.period_of_report, mr.reporter_cik, mr.related_cik,
+               mr.related_name, mr.sequence_number, mr.source_table, fe.acceptance_datetime
+        FROM manager_relationships mr
+        JOIN filing_events fe ON mr.accession_number = fe.accession_number
+        WHERE mr.period_of_report = ?;
         """,
         (period,),
+    )
+    all_period_relationships = cur.fetchall()
+
+    # Filter on-time relationship edges
+    on_time_edges: list[tuple[str, str]] = []
+    rel_lookup: dict[tuple[str, str], str] = {}
+    rel_records_for_closure: list[dict[str, Any]] = []
+
+    for acc, p_rep, rep_cik, rel_cik, rel_name, seq, src, acc_dt in all_period_relationships:
+        u_norm = normalize_cik(rep_cik)
+        v_norm = normalize_cik(rel_cik)
+        if is_pit_accepted(acc_dt, period):
+            on_time_edges.append((u_norm, v_norm))
+            rel_lookup[(acc, str(seq).strip())] = v_norm
+            rel_records_for_closure.append(
+                {
+                    "accession_number": acc,
+                    "period_of_report": p_rep,
+                    "reporter_cik": u_norm,
+                    "related_cik": v_norm,
+                    "related_name": rel_name,
+                    "sequence_number": str(seq).strip(),
+                    "source_table": src,
+                    "acceptance_datetime": acc_dt,
+                    "is_on_time": True,
+                }
+            )
+
+    # 3. Take relationship graph closure starting from Point72 primary entity CIK 0001603466
+    comp_map = build_entity_connected_components(on_time_edges, all_ciks=seed_ciks)
+
+    # Main active Point72 component is the one containing Point72 Asset Management LP CIK 0001603466
+    p72_main_seed = normalize_cik("1603466")
+    p72_canonical_id = comp_map.get(p72_main_seed, p72_main_seed)
+    component_ciks = {cik for cik, c_id in comp_map.items() if c_id == p72_canonical_id}
+
+    # Filter relationships belonging to Point72 component
+    p72_relationships = [
+        r for r in rel_records_for_closure
+        if r["reporter_cik"] in component_ciks or r["related_cik"] in component_ciks
+    ]
+
+    # 4. Fetch all filings for component CIKs in 2019Q4
+    cur.execute(
+        f"""
+        SELECT accession_number, cik, period_of_report, acceptance_datetime,
+               form_type, amendment_type, is_confidential_omit
+        FROM filing_events
+        WHERE period_of_report = ? AND cik IN ({",".join("?" * len(component_ciks))})
+        ORDER BY acceptance_datetime;
+        """,
+        [period] + sorted(list(component_ciks)),
     )
     filings_raw = cur.fetchall()
 
-    # Also check related Cubist Systematic Strategies CIK 1603465
-    cur.execute(
-        """
-        SELECT fe.accession_number, fe.cik, fe.period_of_report, fe.acceptance_datetime,
-               fe.form_type, fe.amendment_type, fe.is_confidential_omit, 'Cubist Systematic Strategies, LLC'
-        FROM filing_events fe
-        WHERE fe.period_of_report = ? AND fe.cik = '1603465';
-        """,
-        (period,),
-    )
-    cubist_filing = cur.fetchall()
-    all_filings_raw = filings_raw + cubist_filing
-
-    # Deduplicate filing list by accession
-    seen_acc: set[str] = set()
     accessions_list: list[dict[str, Any]] = []
-    for f in all_filings_raw:
-        if f[0] in seen_acc:
-            continue
-        seen_acc.add(f[0])
-        accessions_list.append(
-            {
-                "accession_number": f[0],
-                "filer_cik": normalize_cik(f[1]),
-                "manager_name": f[7],
-                "period_of_report": f[2],
-                "acceptance_datetime": f[3],
-                "is_pit_on_time": is_pit_accepted(f[3], period),
-                "form_type": f[4],
-                "amendment_type": f[5],
-                "is_confidential_omit": bool(f[6]),
-            }
-        )
-
-    # 3. Fetch manager relationships for these accessions and period
-    cur.execute(
-        """
-        SELECT accession_number, period_of_report, reporter_cik, related_cik, related_name, sequence_number, source_table
-        FROM manager_relationships
-        WHERE period_of_report = ? AND (
-            reporter_cik IN ('1599822', '1603466', '1698051', '1603465')
-            OR related_cik IN ('1599822', '1603466', '1698051', '1603465')
-        )
-        ORDER BY accession_number, CAST(sequence_number AS INT);
-        """,
-        (period,),
-    )
-    rel_rows = cur.fetchall()
-
-    manager_relationships_info = [
-        {
-            "accession_number": r[0],
-            "period_of_report": r[1],
-            "reporter_cik": normalize_cik(r[2]),
-            "related_cik": normalize_cik(r[3]),
-            "related_name": r[4],
-            "sequence_number": r[5],
-            "source_table": r[6],
-        }
-        for r in rel_rows
-    ]
-
-    # Map (accession, sequence) -> related_cik
-    other_manager_map: dict[tuple[str, str], str] = {
-        (r["accession_number"], str(r["sequence_number"]).strip()): r["related_cik"]
-        for r in manager_relationships_info
-    }
-
-    # 4. Extract line items for these accessions and compute reconstructed state
-    filings_for_state: list[tuple[FilingHeader, list[HoldingRow]]] = []
+    filings_by_filer: dict[str, list[tuple[FilingHeader, list[HoldingRow]]]] = defaultdict(list)
     total_raw_line_items = 0
 
-    for acc_info in accessions_list:
-        if not acc_info["is_pit_on_time"]:
-            continue
-
-        acc_str = acc_info["accession_number"]
-        filer_cik = acc_info["filer_cik"]
+    for acc, cik, p_rep, acc_dt, f_type, a_type, is_conf in filings_raw:
+        on_time = is_pit_accepted(acc_dt, period)
         header = FilingHeader(
-            accession_number=acc_str,
-            origin_filer_cik=filer_cik,
-            period_of_report=period,
-            acceptance_datetime=acc_info["acceptance_datetime"],
-            form_type=acc_info["form_type"] or "13F-HR",
-            amendment_type=acc_info["amendment_type"],
-            is_confidential_omit=acc_info["is_confidential_omit"],
+            accession_number=acc,
+            origin_filer_cik=normalize_cik(cik),
+            period_of_report=p_rep,
+            acceptance_datetime=acc_dt,
+            form_type=f_type or "13F-HR",
+            amendment_type=a_type,
+            is_confidential_omit=bool(is_conf),
         )
         header.validate()
 
+        accessions_list.append(
+            {
+                "accession_number": acc,
+                "filer_cik": normalize_cik(cik),
+                "acceptance_datetime": acc_dt,
+                "is_pit_on_time": on_time,
+                "form_type": f_type,
+                "amendment_type": a_type,
+                "is_confidential_omit": bool(is_conf),
+            }
+        )
+
+        if not on_time:
+            continue
+
+        # Fetch line items for accession
         cur.execute(
             """
             SELECT accession_number, line_seq, cusip, security_name, title_of_class,
@@ -307,7 +364,7 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
             WHERE accession_number = ?
             ORDER BY line_seq;
             """,
-            (acc_str,),
+            (acc,),
         )
         li_rows = cur.fetchall()
         total_raw_line_items += len(li_rows)
@@ -316,13 +373,13 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
         for r in li_rows:
             owner_cik, unresolved = resolve_ownership(
                 row_other_manager=r[8],
-                origin_filer_cik=filer_cik,
-                accession_number=acc_str,
-                other_manager_map=other_manager_map,
+                origin_filer_cik=header.origin_filer_cik,
+                accession_number=acc,
+                other_manager_map=rel_lookup,
             )
             h_item = HoldingRow(
-                accession_number=acc_str,
-                origin_filer_cik=filer_cik,
+                accession_number=acc,
+                origin_filer_cik=header.origin_filer_cik,
                 period_of_report=period,
                 cusip=r[2],
                 asset_class="SH" if (r[12] or "").lower() == "cash_equity" else str(r[12] or "SH"),
@@ -337,28 +394,20 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
             h_item.validate()
             h_rows.append(h_item)
 
-        filings_for_state.append((header, h_rows))
+        filings_by_filer[header.origin_filer_cik].append((header, h_rows))
 
-    # Reconstruct per-filer states and collect intra-entity disclosures
-    filer_states: dict[str, dict[str, Any]] = {}
-    all_reconstructed_holdings: list[dict[str, Any]] = []
-
-    # Group filings by filer CIK
-    filings_by_filer: dict[str, list[tuple[FilingHeader, list[HoldingRow]]]] = defaultdict(list)
-    for h, rows in filings_for_state:
-        filings_by_filer[h.origin_filer_cik].append((h, rows))
-
+    # Reconstruct state per filer and deduplicate intra-entity
+    all_reconstructed: list[dict[str, Any]] = []
     for f_cik, f_list in filings_by_filer.items():
         state, meta = reconstruct_filer_state(f_list, period)
-        filer_states[f_cik] = {
-            "meta": meta,
-            "holdings_count": len(state),
-        }
-        for (cusip, asset_class, econ_owner), h_data in state.items():
-            all_reconstructed_holdings.append(
+        if meta["amendment_unresolved"]:
+            continue
+        for (c_cusip, asset_class, econ_owner), h_data in state.items():
+            all_reconstructed.append(
                 {
+                    "canonical_entity_id": comp_map.get(econ_owner, p72_canonical_id),
                     "origin_filer_cik": f_cik,
-                    "cusip": cusip,
+                    "cusip": c_cusip,
                     "period_of_report": period,
                     "asset_class": asset_class,
                     "economic_owner_cik": econ_owner,
@@ -370,41 +419,25 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
                 }
             )
 
-    # 5. Build entity connected component
-    edge_records = [
-        {
-            "origin_cik": r["reporter_cik"],
-            "related_cik": r["related_cik"],
-            "period_of_report": period,
-            "acceptance_datetime": "2020-02-14T16:42:30.000Z",  # on-time
-        }
-        for r in manager_relationships_info
-    ]
-    pit_edges = filter_pit_entity_edges(edge_records, period)
-    component_mapping = build_entity_connected_components(pit_edges)
-
-    # Attach canonical entity ID and deduplicate intra-entity
-    for h in all_reconstructed_holdings:
-        h["canonical_entity_id"] = component_mapping.get(h["economic_owner_cik"], h["economic_owner_cik"])
-
     deduped_holdings = deduplicate_entity_disclosures(
-        canonical_entity_id="0001599822",  # numeric min among Point72 CIKs
-        holdings=[h for h in all_reconstructed_holdings if h["canonical_entity_id"] == "0001599822"],
+        canonical_entity_id=p72_canonical_id,
+        holdings=[h for h in all_reconstructed if h["canonical_entity_id"] == p72_canonical_id],
     )
 
     return {
         "status": "PROPOSED PENDING CODEX MANUAL FREEZE",
         "entity_name": "Point72 Asset Management",
         "period_of_report": period,
-        "identified_manager_names": [{"cik": normalize_cik(r[0]), "name": r[1]} for r in p72_names],
+        "canonical_entity_id": p72_canonical_id,
+        "seed_ciks": sorted(list(seed_ciks)),
+        "component_closed_ciks": sorted(list(component_ciks)),
         "accessions_count": len(accessions_list),
         "accessions": accessions_list,
-        "manager_relationships_count": len(manager_relationships_info),
-        "manager_relationships": manager_relationships_info,
+        "manager_relationships_count": len(p72_relationships),
+        "manager_relationships": p72_relationships,
         "total_raw_line_items": total_raw_line_items,
-        "reconstructed_disclosures_count": len(all_reconstructed_holdings),
+        "reconstructed_disclosures_count": len(all_reconstructed),
         "intra_entity_deduped_holdings_count": len(deduped_holdings),
-        "canonical_entity_id": "0001599822",
     }
 
 
@@ -418,11 +451,14 @@ def extract_split_pilot_pair(
     ex_date: str,
     is_googl_note: bool = False,
 ) -> dict[str, Any]:
-    """Execute complete World-B pipeline on Phase 0 DB for a single split pair."""
+    """Execute complete World-B pipeline with true G(Q-1, Q) graph, filing members equality, and dedup."""
     cur = conn.cursor()
 
-    # Step 1: Fetch filings for both quarters
-    filings_by_period: dict[str, dict[str, FilingHeader]] = {q_prev: {}, q_curr: {}}
+    # Step 1: Fetch all on-time filings for Q-1 and Q
+    on_time_filings: dict[str, dict[str, FilingHeader]] = {q_prev: {}, q_curr: {}}
+    on_time_filers: dict[str, set[str]] = {q_prev: set(), q_curr: set()}
+    late_filings_count = {q_prev: 0, q_curr: 0}
+
     for p in [q_prev, q_curr]:
         cur.execute(
             """
@@ -433,20 +469,63 @@ def extract_split_pilot_pair(
             """,
             (p,),
         )
-        for row in cur.fetchall():
-            acc = row[0]
-            header = FilingHeader(
-                accession_number=acc,
-                origin_filer_cik=normalize_cik(row[1]),
-                period_of_report=row[2],
-                acceptance_datetime=row[3],
-                form_type=row[4] or "13F-HR",
-                amendment_type=row[5],
-                is_confidential_omit=bool(row[6]),
-            )
-            filings_by_period[p][acc] = header
+        for r in cur.fetchall():
+            acc = r[0]
+            c_norm = normalize_cik(r[1])
+            acc_dt = r[3]
+            if is_pit_accepted(acc_dt, p):
+                header = FilingHeader(
+                    accession_number=acc,
+                    origin_filer_cik=c_norm,
+                    period_of_report=r[2],
+                    acceptance_datetime=acc_dt,
+                    form_type=r[4] or "13F-HR",
+                    amendment_type=r[5],
+                    is_confidential_omit=bool(r[6]),
+                )
+                header.validate()
+                on_time_filings[p][acc] = header
+                on_time_filers[p].add(c_norm)
+            else:
+                late_filings_count[p] += 1
 
-    # Step 2: Fetch line items for the CUSIP
+    # Step 2: Fetch all manager relationships for Q-1 and Q joined to filing_events for PIT check
+    on_time_edges: set[tuple[str, str]] = set()
+    rel_map: dict[tuple[str, str], str] = {}
+
+    for p in [q_prev, q_curr]:
+        cur.execute(
+            """
+            SELECT mr.accession_number, mr.reporter_cik, mr.related_cik, mr.sequence_number, fe.acceptance_datetime
+            FROM manager_relationships mr
+            JOIN filing_events fe ON mr.accession_number = fe.accession_number
+            WHERE mr.period_of_report = ?;
+            """,
+            (p,),
+        )
+        for acc, u, v, seq, acc_dt in cur.fetchall():
+            if is_pit_accepted(acc_dt, p):
+                u_norm, v_norm = normalize_cik(u), normalize_cik(v)
+                on_time_edges.add((u_norm, v_norm))
+                rel_map[(acc, str(seq).strip())] = v_norm
+
+    # Step 3: Build unified connected components G(Q-1, Q) with all on-time filers
+    all_on_time_filers = on_time_filers[q_prev] | on_time_filers[q_curr]
+    component_mapping = build_entity_connected_components(list(on_time_edges), all_ciks=all_on_time_filers)
+
+    # Step 4: Derive actual filing members per canonical component (independent of target stock holdings)
+    component_filing_members: dict[str, dict[str, set[str]]] = {q_prev: defaultdict(set), q_curr: defaultdict(set)}
+    all_components = set(component_mapping.values())
+
+    for f_cik in on_time_filers[q_prev]:
+        c_id = component_mapping[f_cik]
+        component_filing_members[q_prev][c_id].add(f_cik)
+
+    for f_cik in on_time_filers[q_curr]:
+        c_id = component_mapping[f_cik]
+        component_filing_members[q_curr][c_id].add(f_cik)
+
+    # Step 5: Fetch line items matching target CUSIP
     cur.execute(
         """
         SELECT accession_number, line_seq, cusip, sshprnamt, value_usd, sshprnamttype,
@@ -459,54 +538,52 @@ def extract_split_pilot_pair(
     all_lines = cur.fetchall()
 
     lines_by_period: dict[str, list[Any]] = {q_prev: [], q_curr: []}
+    multi_sequence_count = {q_prev: 0, q_curr: 0}
+    multi_sequence_samples: list[str] = []
+
     for r in all_lines:
         acc = r[0]
-        if acc in filings_by_period[q_prev]:
+        om_val = str(r[6]).strip() if r[6] is not None else None
+        is_multi = False
+        if om_val and ("," in om_val or " " in om_val):
+            is_multi = True
+            if len(multi_sequence_samples) < 5:
+                multi_sequence_samples.append(om_val)
+
+        if acc in on_time_filings[q_prev]:
             lines_by_period[q_prev].append(r)
-        elif acc in filings_by_period[q_curr]:
+            if is_multi:
+                multi_sequence_count[q_prev] += 1
+        elif acc in on_time_filings[q_curr]:
             lines_by_period[q_curr].append(r)
+            if is_multi:
+                multi_sequence_count[q_curr] += 1
 
-    # Step 3: Fetch manager relationships for those accessions
-    all_accessions = [r[0] for r in lines_by_period[q_prev] + lines_by_period[q_curr]]
-    rel_map: dict[tuple[str, str], str] = {}
-    if all_accessions:
-        cur.execute(
-            f"""
-            SELECT accession_number, sequence_number, related_cik
-            FROM manager_relationships
-            WHERE accession_number IN ({",".join(repr(a) for a in set(all_accessions))});
-            """
-        )
-        for acc_rel, seq_rel, rel_cik in cur.fetchall():
-            rel_map[(acc_rel, str(seq_rel).strip())] = normalize_cik(rel_cik)
+    # Step 6: Reconstruct target-CUSIP state per origin filer
+    component_period_holdings: dict[str, dict[str, float]] = {q_prev: defaultdict(float), q_curr: defaultdict(float)}
+    component_confidential_omit: dict[str, dict[str, bool]] = {q_prev: defaultdict(bool), q_curr: defaultdict(bool)}
+    component_amendment_unresolved: dict[str, dict[str, bool]] = {q_prev: defaultdict(bool), q_curr: defaultdict(bool)}
 
-    # Step 4: Reconstruct per-filer state for each quarter
-    entity_quarter_holdings: dict[str, dict[str, float]] = {q_prev: defaultdict(float), q_curr: defaultdict(float)}
-    entity_filing_members: dict[str, dict[str, set[str]]] = {q_prev: defaultdict(set), q_curr: defaultdict(set)}
-    entity_confidential_omit: dict[str, dict[str, bool]] = {q_prev: defaultdict(bool), q_curr: defaultdict(bool)}
-
-    late_filings_excluded = {q_prev: 0, q_curr: 0}
-    unresolved_rows_excluded = {q_prev: 0, q_curr: 0}
+    unresolved_rows_count = {q_prev: 0, q_curr: 0}
 
     for period in [q_prev, q_curr]:
-        filings_dict = filings_by_period[period]
+        filings_dict = on_time_filings[period]
         lines = lines_by_period[period]
 
-        # Group lines by accession
         lines_by_acc: dict[str, list[Any]] = defaultdict(list)
         for r in lines:
             lines_by_acc[r[0]].append(r)
 
-        # Group filings by filer CIK
+        # Group filers who hold the target stock
+        target_filers = {filings_dict[acc].origin_filer_cik for acc in lines_by_acc}
         filers_map: dict[str, list[tuple[FilingHeader, list[HoldingRow]]]] = defaultdict(list)
 
         for acc, header in filings_dict.items():
-            if not is_pit_accepted(header.acceptance_datetime, period):
-                late_filings_excluded[period] += 1
+            if header.origin_filer_cik not in target_filers:
                 continue
 
             acc_lines = lines_by_acc.get(acc, [])
-            holding_rows: list[HoldingRow] = []
+            h_rows: list[HoldingRow] = []
 
             for r in acc_lines:
                 owner_cik, unresolved = resolve_ownership(
@@ -515,10 +592,9 @@ def extract_split_pilot_pair(
                     accession_number=acc,
                     other_manager_map=rel_map,
                 )
-                if unresolved:
-                    unresolved_rows_excluded[period] += 1
+                if unresolved or owner_cik is None:
+                    unresolved_rows_count[period] += 1
 
-                # Cash equity check
                 asset_class = "SH" if (r[10] or "").lower() == "cash_equity" else str(r[10] or "SH")
 
                 h_item = HoldingRow(
@@ -536,24 +612,36 @@ def extract_split_pilot_pair(
                     total_vote_none=int(r[9] or 0),
                 )
                 h_item.validate()
-                holding_rows.append(h_item)
+                h_rows.append(h_item)
 
-            filers_map[header.origin_filer_cik].append((header, holding_rows))
+            filers_map[header.origin_filer_cik].append((header, h_rows))
 
         # Reconstruct per-filer state
-        all_period_holdings: list[dict[str, Any]] = []
+        all_period_disclosures: list[dict[str, Any]] = []
 
         for f_cik, f_filings in filers_map.items():
             state, meta = reconstruct_filer_state(f_filings, period)
+            filer_comp = component_mapping[f_cik]
+
+            if meta["has_confidential_omit"]:
+                component_confidential_omit[period][filer_comp] = True
             if meta["amendment_unresolved"]:
+                component_amendment_unresolved[period][filer_comp] = True
                 continue
 
             for (c_cusip, asset_class, econ_owner), h_data in state.items():
                 if asset_class != "SH":
                     continue
-                all_period_holdings.append(
+
+                owner_comp = component_mapping.get(econ_owner, filer_comp)
+                if owner_comp != filer_comp:
+                    # Inconsistent cross-component ownership -> mark unresolved
+                    unresolved_rows_count[period] += 1
+                    continue
+
+                all_period_disclosures.append(
                     {
-                        "canonical_entity_id": econ_owner,
+                        "canonical_entity_id": filer_comp,
                         "origin_filer_cik": f_cik,
                         "cusip": c_cusip,
                         "period_of_report": period,
@@ -563,47 +651,60 @@ def extract_split_pilot_pair(
                         "total_vote_sole": h_data["total_vote_sole"],
                         "total_vote_shared": h_data["total_vote_shared"],
                         "total_vote_none": h_data["total_vote_none"],
-                        "is_confidential_omit": meta["has_confidential_omit"],
                     }
                 )
 
-        # Deduplicate intra-entity disclosures
-        holdings_by_entity: dict[str, list[dict[str, Any]]] = defaultdict(list)
-        for h in all_period_holdings:
-            holdings_by_entity[h["economic_owner_cik"]].append(h)
+        # Deduplicate intra-component disclosures
+        disclosures_by_comp: dict[str, list[dict[str, Any]]] = defaultdict(list)
+        for h in all_period_disclosures:
+            disclosures_by_comp[h["canonical_entity_id"]].append(h)
 
-        for e_id, e_holdings in holdings_by_entity.items():
-            deduped = deduplicate_entity_disclosures(e_id, e_holdings)
+        for c_id, c_disclosures in disclosures_by_comp.items():
+            deduped = deduplicate_entity_disclosures(c_id, c_disclosures)
             tot_shares = sum(item["total_shares"] for item in deduped)
-            tot_val = sum(item["total_value_usd"] for item in deduped)
-            entity_quarter_holdings[period][e_id] = tot_shares
-            entity_filing_members[period][e_id] = {item["origin_filer_cik"] for item in e_holdings}
-            entity_confidential_omit[period][e_id] = any(item.get("is_confidential_omit") for item in e_holdings)
+            component_period_holdings[period][c_id] = tot_shares
 
-    # Step 5: Entity matching, membership equality, and confidential omission gate
-    all_entity_ids = set(entity_quarter_holdings[q_prev].keys()) | set(entity_quarter_holdings[q_curr].keys())
-
+    # Step 7: Component-level gates and continuous holder formation
     continuous_holders: list[ContinuousHolder] = []
-    membership_incomplete_count = 0
-    confidential_omit_count = 0
+
+    membership_incomplete_components = 0
+    confidential_omit_components = 0
+    amendment_unresolved_components = 0
     new_positions_count = 0
     exit_positions_count = 0
 
-    for e_id in sorted(all_entity_ids):
-        prev_shares = entity_quarter_holdings[q_prev].get(e_id, 0)
-        curr_shares = entity_quarter_holdings[q_curr].get(e_id, 0)
+    for c_id in sorted(all_components):
+        prev_members = component_filing_members[q_prev].get(c_id, set())
+        curr_members = component_filing_members[q_curr].get(c_id, set())
 
-        # Confidential omission check
-        is_conf_prev = entity_confidential_omit[q_prev].get(e_id, False)
-        is_conf_curr = entity_confidential_omit[q_curr].get(e_id, False)
-        ok_conf, _ = validate_entity_pair_confidential_gate(
-            {"has_confidential_omit": is_conf_prev},
-            {"has_confidential_omit": is_conf_curr},
-        )
-        if not ok_conf:
-            confidential_omit_count += 1
+        prev_shares = component_period_holdings[q_prev].get(c_id, 0)
+        curr_shares = component_period_holdings[q_curr].get(c_id, 0)
+
+        # Check if entity participated in trading this stock
+        if prev_shares == 0 and curr_shares == 0:
             continue
 
+        # Gate A: Filing membership equality
+        ok_mem, _ = validate_entity_membership(prev_members, curr_members)
+        if not ok_mem:
+            membership_incomplete_components += 1
+            continue
+
+        # Gate B: Confidential omission
+        is_conf_prev = component_confidential_omit[q_prev].get(c_id, False)
+        is_conf_curr = component_confidential_omit[q_curr].get(c_id, False)
+        if is_conf_prev or is_conf_curr:
+            confidential_omit_components += 1
+            continue
+
+        # Gate C: Unresolved amendment
+        is_amend_prev = component_amendment_unresolved[q_prev].get(c_id, False)
+        is_amend_curr = component_amendment_unresolved[q_curr].get(c_id, False)
+        if is_amend_prev or is_amend_curr:
+            amendment_unresolved_components += 1
+            continue
+
+        # Directional position classification
         if prev_shares == 0 and curr_shares > 0:
             new_positions_count += 1
             continue
@@ -612,23 +713,15 @@ def extract_split_pilot_pair(
             continue
 
         if prev_shares > 0 and curr_shares > 0:
-            # Filing membership equality check
-            prev_members = entity_filing_members[q_prev].get(e_id, set())
-            curr_members = entity_filing_members[q_curr].get(e_id, set())
-            ok_mem, _ = validate_entity_membership(prev_members, curr_members)
-            if not ok_mem:
-                membership_incomplete_count += 1
-                continue
-
             continuous_holders.append(
                 ContinuousHolder(
-                    entity_id=e_id,
+                    entity_id=c_id,
                     prev_shares=prev_shares,
                     curr_shares=curr_shares,
                 )
             )
 
-    # Step 6: Evaluate split waterfall
+    # Step 8: Evaluate split waterfall
     split_event = SplitEvent(ex_date=ex_date, ratio=split_factor)
     k_calc, has_splits = compute_k_ledger_and_presence(q_prev, q_curr, [split_event])
 
@@ -659,15 +752,27 @@ def extract_split_pilot_pair(
             if waterfall_res.adj_median_ratio is not None
             else False
         ),
-        "exclusions": {
-            "late_filings_excluded_q_prev": late_filings_excluded[q_prev],
-            "late_filings_excluded_q_curr": late_filings_excluded[q_curr],
-            "unresolved_ownership_rows_excluded_q_prev": unresolved_rows_excluded[q_prev],
-            "unresolved_ownership_rows_excluded_q_curr": unresolved_rows_excluded[q_curr],
-            "membership_incomplete_entities_excluded": membership_incomplete_count,
-            "confidential_omission_entities_excluded": confidential_omit_count,
+        "multi_sequence_other_manager": {
+            "q_prev_multi_sequence_rows": multi_sequence_count[q_prev],
+            "q_curr_multi_sequence_rows": multi_sequence_count[q_curr],
+            "samples": multi_sequence_samples,
+        },
+        "component_level_exclusions": {
+            "membership_incomplete_components_excluded": membership_incomplete_components,
+            "confidential_omission_components_excluded": confidential_omit_components,
+            "amendment_unresolved_components_excluded": amendment_unresolved_components,
             "new_positions_count": new_positions_count,
             "exit_positions_count": exit_positions_count,
+            "unresolved_ownership_rows_excluded_q_prev": unresolved_rows_count[q_prev],
+            "unresolved_ownership_rows_excluded_q_curr": unresolved_rows_count[q_curr],
+        },
+        "global_dataset_context": {
+            "total_on_time_filers_q_prev": len(on_time_filers[q_prev]),
+            "total_on_time_filers_q_curr": len(on_time_filers[q_curr]),
+            "late_filings_excluded_q_prev": late_filings_count[q_prev],
+            "late_filings_excluded_q_curr": late_filings_count[q_curr],
+            "total_connected_components_in_graph": len(all_components),
+            "total_on_time_relationship_edges": len(on_time_edges),
         },
     }
 
