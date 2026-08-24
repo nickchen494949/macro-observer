@@ -127,7 +127,7 @@ def resolve_openfigi_waterfall(
     candidates: list[OpenFIGICandidate],
 ) -> tuple[str | None, dict[str, Any]]:
     """Resolve primary stock identifier via deterministic OpenFIGI waterfall.
-    
+
     Selects only highest-name-score candidates before ambiguity check.
     Two distinct IDs at different scores are not ambiguity (higher score wins).
     """

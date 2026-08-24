@@ -37,7 +37,7 @@ def get_default_m0_root() -> Path:
 
 def create_run_paths(run_id: str, m0_root: str | Path | None = None) -> RunPaths:
     """Create and validate physically isolated RunPaths for a given run_id.
-    
+
     Enforces:
     1. Valid identifier syntax for run_id (no path traversal '..' or slashes).
     2. Strict child relationship of runs_root to m0_root (rejecting symlink escapes).

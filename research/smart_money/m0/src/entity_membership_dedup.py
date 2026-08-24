@@ -1,6 +1,7 @@
 """Entity connected component construction (numeric-min CIK), filing membership validation, and unrounded exact dedup."""
 
 from collections import defaultdict
+from datetime import date
 import math
 from typing import Any
 
@@ -16,7 +17,7 @@ def build_entity_connected_components(
     edges: list[tuple[str, str]], all_ciks: set[str] | None = None
 ) -> dict[str, str]:
     """Build connected components from undirected CIK relationship edges.
-    
+
     Assigns canonical_entity_id = min(int(c) for c in component), zero-padded to 10 digits.
     Raises ValueError on ANY invalid or blank CIK in edges or all_ciks.
     """
@@ -71,7 +72,7 @@ def validate_entity_membership(
     prev_filing_members: set[str], curr_filing_members: set[str]
 ) -> tuple[bool, str]:
     """Validate that filing membership is identical between Q-1 and Q.
-    
+
     Raises ValueError on any invalid or blank CIK in members.
     Returns (is_eligible, reason).
     """
@@ -99,7 +100,7 @@ def deduplicate_entity_disclosures(
     holdings: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     """Deduplicate disclosures within a single canonical entity.
-    
+
     Cross-disclosure deduplication is STRICTLY confined within the same canonical_entity_id.
     Requires valid economic_owner_cik.
     Shares and voting fields must be finite non-negative INTEGERS.
@@ -125,6 +126,10 @@ def deduplicate_entity_disclosures(
         period = str(row.get("period_of_report", "")).strip()
         if not period:
             raise ValueError("Blank or empty period_of_report in holding row.")
+        try:
+            date.fromisoformat(period)
+        except (TypeError, ValueError) as err:
+            raise ValueError(f"Invalid ISO period_of_report in holding row: {period!r}") from err
 
         econ_owner_raw = row.get("economic_owner_cik")
         if econ_owner_raw is None or not is_valid_cik(econ_owner_raw):

@@ -19,10 +19,10 @@ def compute_censor_weight(
     curr_value_usd: int | float,
 ) -> tuple[float, str]:
     """Apply conservative 3x Censor-Risk Heuristic weighting and validate state consistency.
-    
+
     SEC Exemption statutory threshold is (shares < 10,000 AND value < $200,000).
     Conservative 3x heuristic uses OR condition: (shares < 30,000 OR value < $600,000).
-    
+
     Rejects bool and non-numeric/negative data.
     Returns:
         (censor_weight, label)
@@ -100,11 +100,11 @@ def aggregate_m0_signals(
     entity_signals: list[dict[str, Any]],
 ) -> dict[tuple[str, str], float]:
     """Aggregate entity-level delta shares to (primary_stock_id, period_of_report) level M0 signals.
-    
+
     Censor weight input MUST be exactly 0.3 or 1.0.
     Preserves exact (stock, period) composite key.
     M0_signal(stock, Q) = sum(delta_shares * censor_weight)
-    
+
     Returns:
         dict: (primary_stock_id, period_of_report) -> aggregated m0_signal
     """

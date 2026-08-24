@@ -14,7 +14,7 @@ _HEX_64_PATTERN = re.compile(r"^[0-9a-fA-F]{64}$")
 
 def validate_canonical_json_value(val: Any) -> None:
     """Recursively validate that value conforms strictly to standard canonical JSON data types.
-    
+
     Rejects:
     - Non-string dictionary keys (e.g. ints, tuples)
     - Tuples (must be standard lists)
@@ -47,7 +47,7 @@ def validate_canonical_json_value(val: Any) -> None:
 
 def canonical_json_dumps(obj: Any) -> str:
     """Serialize object to canonical deterministic JSON after strict type validation.
-    
+
     Enforces sort_keys=True, indent=2, UTF-8 unicode output, and allow_nan=False.
     Raises TypeError if non-string keys, tuples, sets, or non-standard types are found.
     Raises ValueError if NaN or Inf values are present.
@@ -90,7 +90,7 @@ def compute_sha256_json(obj: Any) -> str:
 
 def check_git_clean_tree(repo_path: str | Path | None = None) -> bool:
     """Check whether the git working tree is completely clean.
-    
+
     Returns True if clean (no uncommitted or untracked changes), False otherwise.
     """
     cwd = str(repo_path) if repo_path is not None else os.getcwd()
@@ -109,7 +109,7 @@ def check_git_clean_tree(repo_path: str | Path | None = None) -> bool:
 
 def verify_clean_tree_gate(repo_path: str | Path | None = None) -> None:
     """Enforce working tree clean invariant before production runs.
-    
+
     Raises RuntimeError if git working tree contains any uncommitted changes.
     """
     if not check_git_clean_tree(repo_path):
@@ -118,7 +118,7 @@ def verify_clean_tree_gate(repo_path: str | Path | None = None) -> None:
 
 def verify_cache_integrity(cache_data: bytes | str, expected_sha256: str) -> bool:
     """Verify raw cache payload against expected SHA-256 hash.
-    
+
     Validates that expected_sha256 is exactly 64 hexadecimal characters.
     Raises ValueError if expected_sha256 is invalid or payload hash does not match.
     """
@@ -145,7 +145,7 @@ def parse_and_validate_manifest(
     manifest_bytes: bytes,
 ) -> tuple[dict[str, Any], bytes, str]:
     """Parse raw manifest bytes, enforce exact canonical JSON byte representation, and compute SHA-256.
-    
+
     Requires raw bytes input. Rejects non-canonical JSON byte streams (e.g. unformatted or differently sorted).
     """
     if not isinstance(manifest_bytes, bytes):
@@ -175,7 +175,7 @@ def verify_manifest_binding(
     price_manifest_bytes: bytes,
 ) -> None:
     """Verify cryptographic and identifier binding between Signal Manifest and Price Manifest.
-    
+
     Requires exact canonical raw bytes for both manifests.
     Validates manifest_type, git_tree_dirty is exactly False, and matching binding hashes.
     """

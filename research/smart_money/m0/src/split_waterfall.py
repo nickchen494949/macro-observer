@@ -82,7 +82,7 @@ def compute_k_ledger_and_presence(
     prev_period: str, curr_period: str, vendor_splits: list[SplitEvent]
 ) -> tuple[float, bool]:
     """Compute period-pair split coefficient K_ledger and whether vendor split events occurred.
-    
+
     Validates ISO date format and enforces prev_period < curr_period.
     Includes splits with prev_period < ex_date <= curr_period.
     Product of all split ratios; returns (1.0, False) if empty.
@@ -115,7 +115,7 @@ def compute_holder_log_statistics(
     holders: list[ContinuousHolder], k_ledger: float
 ) -> tuple[float | None, float | None, float | None, int]:
     """Compute log-ratio median, MAD_log, and K_ledger-adjusted median for continuous holders.
-    
+
     Rejects invalid holders and enforces N consistency (N == len(holders)).
     """
     if not is_strict_positive_number(k_ledger):
@@ -165,7 +165,7 @@ def evaluate_split_waterfall(
     holders: list[ContinuousHolder],
 ) -> SplitWaterfallResult:
     """Execute ordered split waterfall precedence (Gates 0, 1, 2) matching Contract v0.8.1.
-    
+
     Strictly validates bool gate flags and enforces has_vendor_splits=False implies k_ledger==1.0.
     """
     if type(is_corporate_action_unknown) is not bool:

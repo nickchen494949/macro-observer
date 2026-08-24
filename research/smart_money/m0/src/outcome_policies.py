@@ -1,9 +1,25 @@
 """Return calculation, cash M&A settlement, rolling day selection, and cardinality invariant LEFT JOIN."""
 
+from datetime import date
 import math
 from typing import Any
 
-from research.smart_money.m0.src.ownership_state_machine import is_strict_positive_number
+from research.smart_money.m0.src.ownership_state_machine import (
+    is_strict_nonnegative_number,
+    is_strict_positive_number,
+)
+
+
+def _validate_iso_date(date_str: Any, field_name: str = "date") -> str:
+    """Validate string as a valid ISO YYYY-MM-DD date."""
+    if not isinstance(date_str, str) or not date_str.strip():
+        raise ValueError(f"{field_name} must be a non-empty ISO date string, got {date_str!r}")
+    clean = date_str.strip()
+    try:
+        date.fromisoformat(clean)
+    except ValueError as err:
+        raise ValueError(f"Invalid ISO date format for {field_name}: {date_str!r}") from err
+    return clean
 
 
 def compute_adjusted_open_price(
@@ -12,7 +28,7 @@ def compute_adjusted_open_price(
     adj_close: Any,
 ) -> float | None:
     """Compute split/dividend forward-adjusted open price.
-    
+
     Formula: adjusted_open(T) = raw_open(T) * (adj_close(T) / raw_close(T))
     Validates that all inputs are strictly positive, finite numbers (rejecting bool).
     """
@@ -45,7 +61,7 @@ def settle_cash_m_and_a(
     is_cash_only: bool,
 ) -> tuple[float | None, str]:
     """Settle pure-cash M&A privatization against entry open price.
-    
+
     Non-cash or unknown cash consideration is excluded (returns None, 'CORPORATE_ACTION_UNKNOWN').
     """
     if (
@@ -69,18 +85,41 @@ def select_open_price_with_roll(
     max_roll_days: int = 5,
 ) -> tuple[float | None, int, str | None]:
     """Select open price with exchange calendar roll forward up to max_roll_days inclusive.
-    
+
     Checks target trading session (offset 0) plus up to max_roll_days subsequent sessions inclusive
     (i.e. offsets 0, 1, 2, ..., max_roll_days).
+    Requires max_roll_days to be a strict non-negative integer (rejecting bool).
+    Validates target_date and calendar dates as ISO dates.
+    Rejects duplicate calendar sessions.
     Each exchange session without a valid price consumes a roll quota.
-    
+
     Returns:
         (price, days_rolled, actual_trade_date)
     """
-    cal_sorted = sorted(trading_days_calendar)
+    if type(max_roll_days) is not int or max_roll_days < 0:
+        raise ValueError(
+            f"max_roll_days must be a strict non-negative integer, got {max_roll_days!r} ({type(max_roll_days).__name__})"
+        )
+
+    target_clean = _validate_iso_date(target_date, "target_date")
+
+    if not isinstance(trading_days_calendar, list):
+        raise TypeError("trading_days_calendar must be a list of ISO date strings.")
+
+    # Validate all calendar dates
+    clean_calendar: list[str] = []
+    seen_dates: set[str] = set()
+    for d in trading_days_calendar:
+        d_clean = _validate_iso_date(d, "calendar_date")
+        if d_clean in seen_dates:
+            raise ValueError(f"trading_days_calendar contains duplicate date: {d_clean}")
+        seen_dates.add(d_clean)
+        clean_calendar.append(d_clean)
+
+    cal_sorted = sorted(clean_calendar)
     start_idx = None
     for i, d in enumerate(cal_sorted):
-        if d >= target_date:
+        if d >= target_clean:
             start_idx = i
             break
 
@@ -104,15 +143,31 @@ def verify_cardinality_invariant(
     forward_returns: list[dict[str, Any]],
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Execute single official preregistered LEFT JOIN and enforce cardinality conservation.
-    
+
     Enforces:
-    1. Unique primary key (primary_stock_id, period_of_report) in signals;
-    2. Unique primary key (primary_stock_id, period_of_report) in forward_returns;
-    3. Output rows == Input signals count (COUNT(joined) == COUNT(signals)).
+    1. Valid non-blank primary_stock_id and ISO period_of_report for all inputs;
+    2. Finite numeric m0_signal (rejecting bool, NaN, Inf);
+    3. Valid outcome_status and finite numeric returns (preserving legitimate missing None);
+    4. Unique composite primary key (primary_stock_id, period_of_report) in signals and returns;
+    5. Cardinality conservation: COUNT(joined) == COUNT(signals).
     """
     seen_signal_keys: set[tuple[str, str]] = set()
     for s in signals:
-        key = (str(s["primary_stock_id"]).strip(), str(s["period_of_report"]).strip())
+        stock_id = str(s.get("primary_stock_id", "")).strip()
+        if not stock_id:
+            raise ValueError("Blank or empty primary_stock_id in signals.")
+
+        period = _validate_iso_date(s.get("period_of_report"), "signals.period_of_report")
+
+        sig_val = s.get("m0_signal")
+        if (
+            isinstance(sig_val, bool)
+            or not isinstance(sig_val, (int, float))
+            or not math.isfinite(sig_val)
+        ):
+            raise ValueError(f"Invalid non-numeric or non-finite m0_signal for stock {stock_id}: {sig_val!r}")
+
+        key = (stock_id, period)
         if key in seen_signal_keys:
             raise ValueError(f"Duplicate key in m0_signals: {key}")
         seen_signal_keys.add(key)
@@ -120,7 +175,35 @@ def verify_cardinality_invariant(
     seen_return_keys: set[tuple[str, str]] = set()
     returns_by_key: dict[tuple[str, str], dict[str, Any]] = {}
     for r in forward_returns:
-        key = (str(r["primary_stock_id"]).strip(), str(r["period_of_report"]).strip())
+        stock_id = str(r.get("primary_stock_id", "")).strip()
+        if not stock_id:
+            raise ValueError("Blank or empty primary_stock_id in forward_returns.")
+
+        period = _validate_iso_date(r.get("period_of_report"), "forward_returns.period_of_report")
+
+        outcome_status = str(r.get("outcome_status", "")).strip()
+        if not outcome_status:
+            raise ValueError(f"Blank outcome_status in forward_returns for stock {stock_id}")
+
+        fwd_ret = r.get("forward_return")
+        if fwd_ret is not None:
+            if (
+                isinstance(fwd_ret, bool)
+                or not isinstance(fwd_ret, (int, float))
+                or not math.isfinite(fwd_ret)
+            ):
+                raise ValueError(f"Invalid non-numeric forward_return for stock {stock_id}: {fwd_ret!r}")
+
+        rolled_ret = r.get("rolled_le_5_return")
+        if rolled_ret is not None:
+            if (
+                isinstance(rolled_ret, bool)
+                or not isinstance(rolled_ret, (int, float))
+                or not math.isfinite(rolled_ret)
+            ):
+                raise ValueError(f"Invalid non-numeric rolled_le_5_return for stock {stock_id}: {rolled_ret!r}")
+
+        key = (stock_id, period)
         if key in seen_return_keys:
             raise ValueError(f"Duplicate key in m0_forward_returns: {key}")
         seen_return_keys.add(key)
@@ -130,7 +213,9 @@ def verify_cardinality_invariant(
     missing_count = 0
 
     for s in signals:
-        key = (str(s["primary_stock_id"]).strip(), str(s["period_of_report"]).strip())
+        stock_id = str(s["primary_stock_id"]).strip()
+        period = str(s["period_of_report"]).strip()
+        key = (stock_id, period)
         ret_record = returns_by_key.get(key)
 
         if ret_record is not None:

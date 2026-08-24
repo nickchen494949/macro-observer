@@ -141,7 +141,7 @@ def _get_sec_holidays(year: int) -> set[date]:
 
 def compute_13f_deadline(period_of_report: str) -> str:
     """Compute SEC 13F filing deadline (SEC Rule 0-3).
-    
+
     Base: 45 calendar days after period_of_report.
     If falling on Saturday, Sunday, or US Federal Holiday, rolls forward to the next business day.
     """
@@ -185,7 +185,7 @@ def resolve_ownership(
     other_manager_map: dict[tuple[str, str], str] | None = None,
 ) -> tuple[str | None, bool]:
     """Resolve economic owner CIK from row's other_manager sequence keyed by (accession_number, sequence).
-    
+
     Returns:
         (economic_owner_cik, ownership_unresolved)
     """
@@ -270,8 +270,18 @@ class HoldingRow:
 
     def validate(self) -> None:
         """Validate holding row fields, semantic invariant, and integral counts."""
+        if not self.accession_number or not str(self.accession_number).strip():
+            raise ValueError("HoldingRow accession_number cannot be blank or empty.")
+        if not self.asset_class or not str(self.asset_class).strip():
+            raise ValueError("HoldingRow asset_class cannot be blank or empty.")
+        if not self.period_of_report or not str(self.period_of_report).strip():
+            raise ValueError("HoldingRow period_of_report cannot be blank or empty.")
+        try:
+            date.fromisoformat(self.period_of_report.strip())
+        except (TypeError, ValueError) as err:
+            raise ValueError(f"Invalid ISO period_of_report in HoldingRow: {self.period_of_report!r}") from err
         if not self.cusip or not str(self.cusip).strip():
-            raise ValueError("HoldingRow cusip cannot be empty.")
+            raise ValueError("HoldingRow cusip cannot be blank or empty.")
         normalize_cik(self.origin_filer_cik)
 
         if type(self.ownership_unresolved) is not bool:
@@ -309,7 +319,7 @@ def aggregate_accession_holdings(
     holdings: list[HoldingRow],
 ) -> dict[tuple[str, str, str], dict[str, Any]]:
     """Aggregate holding rows within a single accession by (cusip, asset_class, economic_owner_cik).
-    
+
     Rejects mixed accession_number, origin_filer_cik, or period_of_report.
     Excludes rows where ownership_unresolved == True.
     """
@@ -372,7 +382,7 @@ def reconstruct_filer_state(
     period_of_report: str,
 ) -> tuple[dict[tuple[str, str, str], dict[str, Any]], dict[str, Any]]:
     """Reconstruct point-in-time holdings state for a single origin filer in a given quarter.
-    
+
     Rejects invalid form/amendment combinations.
     If an unknown amendment is encountered, marks amendment_unresolved=True and invalidates (wipes) the state.
     """

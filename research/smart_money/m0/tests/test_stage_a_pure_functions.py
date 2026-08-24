@@ -85,7 +85,7 @@ from research.smart_money.m0.src.outcome_policies import (
 
 
 # ============================================================================
-# Module 1: Storage Guard Tests
+# Module 1: Storage Guard Tests (P0-1)
 # ============================================================================
 
 def test_storage_guard_readonly_uri_and_immutable(tmp_path: Path):
@@ -116,6 +116,34 @@ def test_storage_guard_readonly_uri_and_immutable(tmp_path: Path):
 
     with pytest.raises(sqlite3.OperationalError):
         cur.execute("INSERT INTO test VALUES (99);")
+    ro_conn.close()
+
+
+def test_storage_guard_reject_sidecars(tmp_path: Path):
+    """Test that immutable=True rejects DB when sibling .db-wal/.db-shm exist, while immutable=False allows it."""
+    db_file = tmp_path / "frozen.db"
+    wal_file = tmp_path / "frozen.db-wal"
+
+    conn = sqlite3.connect(str(db_file))
+    conn.execute("CREATE TABLE t (x INT);")
+    conn.commit()
+    conn.close()
+
+    # Create dummy WAL sidecar
+    wal_file.write_bytes(b"dummy_wal_content")
+
+    # immutable=True must reject opening
+    with pytest.raises(ValueError, match="sibling sidecar"):
+        open_readonly_sqlite(db_file, immutable=True)
+
+    with pytest.raises(ValueError, match="sibling sidecar"):
+        make_readonly_sqlite_uri(db_file, immutable=True)
+
+    # immutable=False must allow connecting with mode=ro
+    ro_conn = open_readonly_sqlite(db_file, immutable=False)
+    cur = ro_conn.cursor()
+    cur.execute("SELECT count(*) FROM t;")
+    assert cur.fetchone()[0] == 0
     ro_conn.close()
 
 
@@ -153,7 +181,7 @@ def test_storage_guard_schema_init(tmp_path: Path):
 
 
 # ============================================================================
-# Module 2: Run Paths Tests (Finding 5)
+# Module 2: Run Paths Tests
 # ============================================================================
 
 def test_run_paths_valid_isolation(tmp_path: Path):
@@ -177,7 +205,6 @@ def test_run_paths_path_traversal_and_symlink_escape(tmp_path: Path):
         with pytest.raises(ValueError):
             create_run_paths(bad_id, m0_root=tmp_path)
 
-    # Symlink escape test: m0_root/runs pointing outside
     outside_dir = tmp_path / "outside_jail"
     outside_dir.mkdir(parents=True, exist_ok=True)
     m0_root = tmp_path / "m0_root"
@@ -191,7 +218,7 @@ def test_run_paths_path_traversal_and_symlink_escape(tmp_path: Path):
 
 
 # ============================================================================
-# Module 3: Manifest Integrity Tests (Finding 1)
+# Module 3: Manifest Integrity Tests
 # ============================================================================
 
 def test_manifest_integrity_canonical_json_and_strict_types():
@@ -260,19 +287,15 @@ def test_manifest_raw_bytes_exactness_and_binding():
     }
     canonical_pri_bytes = canonical_json_dumps(valid_pri).encode("utf-8")
 
-    # Exact bytes pass
     verify_manifest_binding(canonical_sig_bytes, canonical_pri_bytes)
 
-    # Non-canonical raw bytes must raise ValueError
     non_canonical_sig_bytes = b'{"manifest_type":"SIGNAL_MANIFEST","run_id":"run_001","contract_sha256":"contract_hash_123","source_git_sha":"git_hash_abc","m0_code_git_sha":"code_hash_xyz","git_tree_dirty":false}'
     with pytest.raises(ValueError):
         parse_and_validate_manifest(non_canonical_sig_bytes)
 
-    # Dict input to verify_manifest_binding must raise TypeError
     with pytest.raises(TypeError):
         verify_manifest_binding(valid_sig, valid_pri)
 
-    # git_tree_dirty = True must raise ValueError
     dirty_sig = dict(valid_sig)
     dirty_sig["git_tree_dirty"] = True
     with pytest.raises(ValueError):
@@ -280,7 +303,7 @@ def test_manifest_raw_bytes_exactness_and_binding():
 
 
 # ============================================================================
-# Module 4: Ownership & State Machine Tests (Findings 3, 4, 7, 9)
+# Module 4: Ownership & State Machine Tests (P1-3)
 # ============================================================================
 
 def test_compute_13f_deadline_sec_calendar():
@@ -298,11 +321,23 @@ def test_is_pit_accepted():
 
 
 def test_holding_row_semantic_invariants_and_direct_aggregation():
-    """Test HoldingRow semantic invariants and aggregate_accession_holdings direct call validation."""
+    """Test HoldingRow semantic invariants, accession/asset_class/ISO validation, and direct aggregation."""
     filer = "0001000001"
     acc1 = "0001-24-000001"
     acc2 = "0001-24-000002"
     period = "2024-03-31"
+
+    # Blank accession_number rejected
+    with pytest.raises(ValueError):
+        HoldingRow("", filer, period, "037833100", "SH", filer, False, 100, 100).validate()
+
+    # Blank asset_class rejected
+    with pytest.raises(ValueError):
+        HoldingRow(acc1, filer, period, "037833100", "", filer, False, 100, 100).validate()
+
+    # Non-ISO period rejected
+    with pytest.raises(ValueError):
+        HoldingRow(acc1, filer, "not-a-date", "037833100", "SH", filer, False, 100, 100).validate()
 
     # Invariant: ownership_unresolved=True requires economic_owner_cik=None
     with pytest.raises(ValueError):
@@ -476,7 +511,7 @@ def test_reconstruct_filer_state_add_new_holdings_upsert():
 
 
 # ============================================================================
-# Module 5: Entity Membership & Dedup Tests (Findings 2, 3, 4)
+# Module 5: Entity Membership & Dedup Tests (P1-3)
 # ============================================================================
 
 def test_entity_components_and_membership_invalid_ciks():
@@ -500,8 +535,13 @@ def test_entity_connected_components_numeric_min():
 
 
 def test_deduplicate_entity_disclosures_integral_and_owner_requirements():
-    """Test deduplicate_entity_disclosures requires economic_owner_cik and integral shares/votes."""
+    """Test deduplicate_entity_disclosures requires economic_owner_cik, ISO period, and integral shares/votes."""
     entity_id = "0000000100"
+
+    # Invalid ISO period must raise ValueError
+    with pytest.raises(ValueError):
+        bad_date = [{"canonical_entity_id": entity_id, "cusip": "037833100", "period_of_report": "not-a-date", "economic_owner_cik": entity_id, "total_shares": 100, "total_value_usd": 100.0}]
+        deduplicate_entity_disclosures(entity_id, bad_date)
 
     with pytest.raises(ValueError):
         bad = [{"canonical_entity_id": entity_id, "cusip": "037833100", "period_of_report": "2024-03-31", "economic_owner_cik": None, "total_shares": 100, "total_value_usd": 100.0}]
@@ -565,7 +605,7 @@ def test_openfigi_top_score_ambiguity_and_jaro():
 
 
 # ============================================================================
-# Module 7: Split Waterfall Tests (Findings 6 & 7)
+# Module 7: Split Waterfall Tests
 # ============================================================================
 
 def test_rational_split_factors_size():
@@ -627,7 +667,6 @@ def test_split_waterfall_iso_dates_and_gate_invariants():
     """Test split waterfall ISO date checks, prev < curr, and gate flag invariants."""
     splits = [SplitEvent("2024-01-15", 2.0), SplitEvent("2024-02-15", 0.5)]
 
-    # prev >= curr must raise ValueError
     with pytest.raises(ValueError):
         compute_k_ledger_and_presence("2024-06-30", "2024-03-31", splits)
 
@@ -635,25 +674,21 @@ def test_split_waterfall_iso_dates_and_gate_invariants():
     assert k == pytest.approx(1.0)
     assert has_splits is True
 
-    # has_vendor_splits=False with k_ledger != 1.0 must raise ValueError
     with pytest.raises(ValueError):
         evaluate_split_waterfall(False, False, 2.0, [ContinuousHolder("0001", 100, 100)])
 
-    # Non-bool gate flags must raise TypeError
     with pytest.raises(TypeError):
         evaluate_split_waterfall(1, True, 1.0, [ContinuousHolder("0001", 100, 100)])
 
-    # Bool in split ratio must raise ValueError
     with pytest.raises(ValueError):
         SplitEvent("2024-01-15", True).validate()
 
-    # Bool in ContinuousHolder shares must raise ValueError
     with pytest.raises(ValueError):
         ContinuousHolder("0001", True, 100).validate()
 
 
 # ============================================================================
-# Module 8: Signal Math Tests (Finding 7)
+# Module 8: Signal Math Tests
 # ============================================================================
 
 def test_signal_math_reject_bool_and_censor_weights():
@@ -664,11 +699,9 @@ def test_signal_math_reject_bool_and_censor_weights():
     with pytest.raises(ValueError):
         compute_entity_delta_shares(True, 100, 1.0)
 
-    # Censor weight != 0.3 and != 1.0 must raise ValueError
     with pytest.raises(ValueError):
         aggregate_m0_signals([{"primary_stock_id": "STK_A", "period_of_report": "2024-03-31", "delta_shares": 100, "censor_weight": 0.5}])
 
-    # Valid weights 0.3 and 1.0 pass
     signals = aggregate_m0_signals([
         {"primary_stock_id": "STK_A", "period_of_report": "2024-03-31", "delta_shares": 100, "censor_weight": 0.3},
         {"primary_stock_id": "STK_A", "period_of_report": "2024-03-31", "delta_shares": 200, "censor_weight": 1.0},
@@ -677,12 +710,14 @@ def test_signal_math_reject_bool_and_censor_weights():
 
 
 # ============================================================================
-# Module 9: Coverage Keys Tests
+# Module 9: Coverage Keys Tests (P1-4)
 # ============================================================================
 
 def test_coverage_tracker():
-    """Test dual-denominator tracking and summary generation."""
+    """Test dual-denominator tracking, validation, and summary generation."""
     tracker = CoverageTracker()
+
+    # Valid records pass
     tracker.record_d1("037833100", "2024-03-31", filer_count=5, value_usd=1000000.0)
     tracker.record_d1("67066G104", "2024-03-31", filer_count=10, value_usd=2000000.0)
 
@@ -695,9 +730,28 @@ def test_coverage_tracker():
     assert summary["openfigi_mapping_rate"] == 0.5
     assert "CLEAN" in summary["split_state_distribution"]
 
+    # Invalid validations
+    with pytest.raises(ValueError):
+        tracker.record_d1("", "2024-03-31", 1, 100.0)
+
+    with pytest.raises(ValueError):
+        tracker.record_d1("037833100", "not-a-date", 1, 100.0)
+
+    with pytest.raises(ValueError):
+        tracker.record_d1("037833100", "2024-03-31", -1, 100.0)
+
+    with pytest.raises(ValueError):
+        tracker.record_d1("037833100", "2024-03-31", 1, float("nan"))
+
+    with pytest.raises(ValueError):
+        tracker.record_d2_mapping("", "2024-03-31", "BBG001S5N8V8")
+
+    with pytest.raises(ValueError):
+        tracker.record_split_state("BBG001S5N8V8", "2024-03-31", "")
+
 
 # ============================================================================
-# Module 10: Outcome Policies Tests
+# Module 10: Outcome Policies Tests (P1-1 & P1-2)
 # ============================================================================
 
 def test_outcome_policies_calendar_roll_session_inclusive():
@@ -718,6 +772,19 @@ def test_outcome_policies_calendar_roll_session_inclusive():
     assert price == 150.0
     assert roll_days == 5
     assert trade_date == "2024-05-22"
+
+    # Counterexamples: negative max_roll_days, bool max_roll_days, duplicate calendar dates, non-ISO dates
+    with pytest.raises(ValueError):
+        select_open_price_with_roll(calendar, price_by_date, "2024-05-15", max_roll_days=-1)
+
+    with pytest.raises(ValueError):
+        select_open_price_with_roll(calendar, price_by_date, "2024-05-15", max_roll_days=True)
+
+    with pytest.raises(ValueError):
+        select_open_price_with_roll(["2024-05-15", "2024-05-15"], price_by_date, "2024-05-15", max_roll_days=5)
+
+    with pytest.raises(ValueError):
+        select_open_price_with_roll(["not-a-date"], price_by_date, "2024-05-15", max_roll_days=5)
 
 
 def test_outcome_policies_adjusted_open_and_return():
@@ -768,3 +835,29 @@ def test_outcome_policies_cardinality_invariant_and_sensitivities():
     assert len(branches["missing_minus_100"]) == 3
     assert len(branches["missing_zero"]) == 3
     assert len(branches["rolled_le_5"]) == 2
+
+    # Cardinality input integrity counterexamples (P1-2)
+    # Blank stock ID in signals
+    with pytest.raises(ValueError):
+        verify_cardinality_invariant([{"primary_stock_id": "", "period_of_report": "2024-03-31", "m0_signal": 10.0}], returns)
+
+    # Non-ISO period in signals
+    with pytest.raises(ValueError):
+        verify_cardinality_invariant([{"primary_stock_id": "STK_1", "period_of_report": "not-a-date", "m0_signal": 10.0}], returns)
+
+    # NaN / bool m0_signal
+    with pytest.raises(ValueError):
+        verify_cardinality_invariant([{"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "m0_signal": float("nan")}], returns)
+
+    with pytest.raises(ValueError):
+        verify_cardinality_invariant([{"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "m0_signal": True}], returns)
+
+    # Blank outcome_status in returns
+    with pytest.raises(ValueError):
+        bad_returns = [{"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "forward_return": 0.05, "outcome_status": ""}]
+        verify_cardinality_invariant(signals, bad_returns)
+
+    # Bool forward_return in returns
+    with pytest.raises(ValueError):
+        bad_ret2 = [{"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "forward_return": True, "outcome_status": "CLEAN"}]
+        verify_cardinality_invariant(signals, bad_ret2)
