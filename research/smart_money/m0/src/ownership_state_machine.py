@@ -268,9 +268,11 @@ class FilingHeader:
                 raise ValueError(f"Original 13F-HR filing cannot have amendment_type: {self.amendment_type!r}")
         elif form == "13F-HR/A":
             pass
-        elif form in ("13F-NT", "13F-NT/A"):
-            if amend in ("RESTATEMENT", "ADD_NEW_HOLDINGS"):
-                raise ValueError(f"13F-NT Notice filing cannot have holding amendment_type: {self.amendment_type!r}")
+        elif form == "13F-NT":
+            if amend:
+                raise ValueError(f"Original 13F-NT filing cannot have amendment_type: {self.amendment_type!r}")
+        elif form == "13F-NT/A":
+            pass
         else:
             raise ValueError(f"Unsupported form_type in FilingHeader: {self.form_type!r}")
 
