@@ -733,6 +733,23 @@ def test_format_markdown_report_contains_point72_and_section5_metrics():
                 "line_map_entries_count": 6,
                 "graph_edges_count": 6,
             },
+            "raw_all_asset_anchor": {
+                "total_component_raw_lines": 4457,
+                "total_component_raw_shares": 563789558,
+                "total_component_raw_value_usd": 25013024000.0,
+                "main_accession_raw_lines_total": 917,
+                "main_accession_shares_total": 418109088,
+                "main_accession_value_usd_total": 19018144000.0,
+                "main_accession_asset_breakdown": {
+                    "cash_equity": {"rows": 877, "shares": 404693788, "value_usd": 17857865000.0},
+                    "call_option": {"rows": 31, "shares": 8930800, "value_usd": 556255000.0},
+                    "put_option": {"rows": 9, "shares": 4484500, "value_usd": 604024000.0},
+                },
+                "primary_all_asset_deduped_shares": 563789558,
+                "primary_all_asset_deduped_value_usd": 25013024000.0,
+                "zero_excluded_all_asset_deduped_shares": 145680470,
+                "zero_excluded_all_asset_deduped_value_usd": 5994880000.0,
+            },
             "total_raw_line_items": 4457,
             "on_time_confidential_filings_count": 0,
             "all_period_confidential_filings_count": 0,
@@ -741,33 +758,42 @@ def test_format_markdown_report_contains_point72_and_section5_metrics():
             "cross_component_excluded_count": 0,
             "execution_time_sec": 0.45,
             "primary_m0": {
-                "raw_line_items_count": 4457,
+                "asset_scope": "CASH_EQUITY_ONLY",
+                "raw_line_items_count": 4408,
                 "unresolved_rows_count": 0,
                 "unresolved_shares_total": 0,
                 "unresolved_value_total": 0.0,
-                "reconstructed_disclosures_count": 4457,
-                "intra_entity_deduped_holdings_count": 4457,
-                "total_shares_deduped": 563789558,
-                "total_value_usd_deduped": 25013024000.0,
-                "main_accession_shares_before_dedup": 418109088,
-                "main_accession_value_before_dedup": 19018144000.0,
-                "main_accession_raw_lines_retained": 917,
+                "reconstructed_disclosures_count": 4408,
+                "intra_entity_deduped_holdings_count": 4408,
+                "total_shares_deduped": 549534258,
+                "total_value_usd_deduped": 23800447000.0,
+                "main_accession_shares_before_dedup": 404693788,
+                "main_accession_value_before_dedup": 17857865000.0,
+                "main_accession_raw_lines_retained": 877,
             },
             "zero_excluded_sensitivity": {
-                "raw_line_items_count": 4457,
-                "unresolved_rows_count": 917,
-                "unresolved_shares_total": 418109088,
-                "unresolved_value_total": 19018144000.0,
-                "reconstructed_disclosures_count": 3540,
-                "intra_entity_deduped_holdings_count": 3540,
-                "total_shares_deduped": 145680470,
-                "total_value_usd_deduped": 5994880000.0,
+                "asset_scope": "CASH_EQUITY_ONLY",
+                "raw_line_items_count": 4408,
+                "unresolved_rows_count": 877,
+                "unresolved_shares_total": 404693788,
+                "unresolved_value_total": 17857865000.0,
+                "reconstructed_disclosures_count": 3531,
+                "intra_entity_deduped_holdings_count": 3531,
+                "total_shares_deduped": 144840470,
+                "total_value_usd_deduped": 5942582000.0,
                 "main_accession_shares_before_dedup": 0,
                 "main_accession_value_before_dedup": 0.0,
                 "main_accession_raw_lines_retained": 0,
             },
             "accessions": [],
             "manager_relationships": [],
+        },
+        "mapping_conflict_diagnostics": {
+            "total_conflict_keys_in_othermanager2": 50,
+            "referenced_conflict_keys_count": 17,
+            "affected_raw_line_items_count": 5472,
+            "affected_shares_total": 659481568,
+            "affected_value_usd_total": 42779736343.0,
         },
         "evidence_c_split_pilot_pairs": [
             {
@@ -817,10 +843,13 @@ def test_format_markdown_report_contains_point72_and_section5_metrics():
     assert "Point72 2019Q4 Multi-Manager Discovery" in md
     assert "Line-Level Sequence Lookup Source" in md
     assert "OTHERMANAGER2.tsv only" in md
-    assert "ZERO_SENTINEL_EXCLUDED (Pre-Aggregation)" in md
+    assert "ZERO_SENTINEL_EXCLUDED (Cash Equity Only)" in md
     assert "On-Time Confidential Filings**: 0" in md
     # Check Section 5 header and free text column
     assert "## 5. Real-Data Assumption Discovery: Multi-Manager Sequences and Free-Text Manager Names" in md
     assert "Q-1 Free-Text Rows" in md
     assert "Blue Chip Partners LLC" in md
-    assert "## 7. C1 Implementation Audit & Contract v0.8.2 Reconciliation" in md
+    assert "## 6. Whole-Database Manager Mapping Conflict Diagnostics & Quarantine Audit" in md
+    assert "50" in md
+    assert "5,472" in md
+    assert "## 8. C1 Implementation Audit & Contract v0.8.3 Reconciliation" in md

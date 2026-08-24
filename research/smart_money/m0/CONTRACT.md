@@ -1,7 +1,7 @@
-# M0 Contract v0.8.2 — Frozen Signal & Data Engineering Specification
+# M0 Contract v0.8.3 — Frozen Signal & Data Engineering Specification
 
-**Version**: 0.8.2 (Canonical Frozen Amended Specification)
-**Status**: FROZEN AMENDED SPECIFICATION; STAGE A PASS; STAGE B PASS; STAGE C1 BLOCKED PENDING v0.8.2 IMPLEMENTATION AND CODEX RE-AUDIT
+**Version**: 0.8.3 (Canonical Frozen Amended Specification)
+**Status**: FROZEN AMENDED SPECIFICATION; STAGE A PASS; STAGE B PASS; STAGE C1 BLOCKED PENDING v0.8.3 IMPLEMENTATION AND CODEX RE-AUDIT
 **Sample Period**: 2013Q3–2026Q1, World B
 **Role**: Baseline Diagnostic Model ($\Delta\text{Shares}$)
 **Official Title**: *“M0 Signal Performance in the OpenFIGI-Mapped, yfinance-Price-Covered, Frozen-Vendor-Ledger-Adjusted US Equity Subset (2013Q3–2026Q1, World B)”*
@@ -51,11 +51,18 @@ def compute_13f_deadline(period_of_report: str) -> str:
 
 ---
 
-## 3. 规范 M0 申报状态机与所有权作用域 (Contract v0.8.2 修订)
+## 3. 规范 M0 申报状态机、资产范围与所有权作用域 (Contract v0.8.3 修订)
 
 严禁盲目套用 Phase 0 的 `reconstruct_state()`（其按 `(cusip, investment_discretion)` 聚合且丢失了所有权作用域）。M0 必须执行规范的单机构状态机重构：
 
-### 3.1 所有权标识解析与 Column 7 规范化规则
+### 3.0 M0 现货股票法定资产范围门槛 (Cash Equity Only Gate)
+根据 `smart_money_research_matrix.md` 及 Phase 0 README 定义，M0–M6 研究对象**严格限定为现货普通股（Cash Equity Only）**：
+- **有效资产类别**：仅纳入 `asset_class IN ('cash_equity', 'SH')`；
+- **衍生品与期权排除**：`call_option`, `put_option`, `PRN` 等非现货资产在明细行过滤阶段必须**直接排除**，严禁进入 M0 申报人状态重构、实体去重及信号聚合；
+- **标的穿透防范**：OpenFIGI 标的 CUSIP 映射严禁将期权/衍生品行静默混入现货股票信号；
+- **双层审计披露**：报告中必须明确区分“全资产原始锚点”（Raw All-Asset Anchor，用于检验原始所有权哨兵值与原始数据一致性）与“M0 现货合格指标”（M0 Cash-Equity Eligible Metrics）。
+
+### 3.1 所有权标识解析、信源隔离与冲突确定性隔离规则
 每一条原始持仓明细强制解析双重身份：
 - `origin_filer_cik`：提交该份 13F 的实际申报人 CIK（强制 10 位标准化格式）；
 - `economic_owner_cik`：
@@ -67,11 +74,14 @@ def compute_13f_deadline(period_of_report: str) -> str:
      - `"0"` (字符串精确匹配，**仅作为明确的经验性 SEC 数据兼容规则**；官方 SEC FAQ 未正式批准 `"0"`，但由于 SEC 真实关系序列表 `OTHERMANAGER2.tsv` 严格为 1-based 正整数且不存在序号 0，该值在经验上表示该持仓明细未指向正整数编号的其他被包含管理人，归属于申报人的法定申报范围)。
      - 命中上述任一哨兵值时：
        $$\text{economic\_owner\_cik} = \text{origin\_filer\_cik}, \quad \text{ownership\_unresolved} = \text{False}$$
-  3. **正整数序列号解析 (Positive Integer Sequences)**：
+  3. **正整数序列号解析、信源隔离与冲突隔离 (Positive Sequences & Conflict Quarantine)**：
      - 若 `other_manager` 为单一正整数（如 `"1"`, `"2"`），必须**严格在同一 accession 且 `source_table = 'OTHERMANAGER2.tsv'` 的关系表中查找 `related_cik`**。
      - **严禁**使用 `OTHERMANAGER.tsv`（其包含的是 SEC 内部代理键 `OTHERMANAGER_SK`，非明细行 Column 7 序号）进行行级所有权序列号解析。
-     - 查找成功则 $\text{economic\_owner\_cik} = \text{related\_cik}, \text{ownership\_unresolved} = \text{False}$；
-     - 查找失败（未知或缺失序号）则 $\text{economic\_owner\_cik} = \text{None}, \text{ownership\_unresolved} = \text{True}$。
+     - **PIT 缺失时间戳严格闭合 (Fail-Closed PIT)**：当传入 `period` 参数时，关系记录必须具备有效且符合截止日限制的 `acceptance_datetime`；缺失时间戳或迟交的关系记录必须严格排除（Fail Closed）。
+     - **精确重复折叠**：若同一 `(accession_number, sequence_number)` 存在多条记录但指向相同的标准化 `related_cik`，确定性折叠为单一映射。
+     - **多目标映射冲突确定性隔离 (Conflict Quarantine)**：若同一 `(accession_number, sequence_number)` 对应多个不同的有效 `related_cik`（真实 SEC 库存在 50 个冲突键，涉及 17 个被引用键与 5,472 行明细），**严禁静默覆盖或随机选取**；该键必须判定为冲突键并隔离（Quarantined Conflict Key）。凡引用该键的明细行，一律判定为 $\text{economic\_owner\_cik} = \text{None}, \text{ownership\_unresolved} = \text{True}$，从 Primary M0 排除，并在发现报告中独立披露冲突统计。
+     - 查找成功（无冲突单映射）则 $\text{economic\_owner\_cik} = \text{related\_cik}, \text{ownership\_unresolved} = \text{False}$；
+     - 查找失败（未知序号、缺失映射或冲突隔离）则 $\text{economic\_owner\_cik} = \text{None}, \text{ownership\_unresolved} = \text{True}$。
   4. **脏数据与非规范值隔离 (Strict Exclusion of Dirty Variants)**：
      - 值如 `"NONE"`, `"NA"`, `"NOT APPLICABLE"`, `"N / A"`, `"00"`, `"0.0"` 等脏字符串、多数字列表（如 `"1,2,4,11"`）及自由文本（如 `"Blue Chip Partners LLC"`）**严禁静默标准化**；必须判定为 $\text{ownership\_unresolved} = \text{True}, \text{economic\_owner\_cik} = \text{None}$，从 Primary M0 排除。
 
@@ -81,7 +91,7 @@ def compute_13f_deadline(period_of_report: str) -> str:
 key = (row.accession_number, row.cusip, row.asset_class, row.economic_owner_cik)
 # 汇总字段: total_shares, total_value_usd, total_vote_sole, total_vote_shared, total_vote_none
 ```
-`ownership_unresolved = True` 的记录单独隔离，从 Primary M0 排除。
+`ownership_unresolved = True` 及非现货股票记录单独隔离，从 Primary M0 排除。
 
 ### 3.3 规范 M0 单申报人状态重构 (Per-Origin-Filer State Reconstruction)
 针对每一个 `(origin_filer_cik, period_of_report)`，仅提取 `acceptance_date_eastern <= deadline(period_of_report)` 的申报，**严格按带时区的绝对时间戳 (UTC Instant ASC) 及 accession_number ASC 排序**执行确定性状态转移：

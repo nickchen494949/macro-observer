@@ -1,7 +1,7 @@
 # M0 Staged Implementation Plan — Test-Before-Production Protocol
 
-**Version**: v0.8.2 Implementation Plan
-**Status**: FROZEN AMENDED PLAN; STAGE A PASS; STAGE B PASS; STAGE C1 BLOCKED PENDING v0.8.2 IMPLEMENTATION AND CODEX RE-AUDIT
+**Version**: v0.8.3 Implementation Plan
+**Status**: FROZEN AMENDED PLAN; STAGE A PASS; STAGE B PASS; STAGE C1 BLOCKED PENDING v0.8.3 IMPLEMENTATION AND CODEX RE-AUDIT
 **Guiding Principle**: 先测试后生产，先证明再入库；源数据库绝对只读，信号与收益物理隔离；单向预注册 LEFT JOIN 评估；未获 Codex 审计批准前，严禁触碰未来价格数据。
 
 ---
@@ -14,7 +14,7 @@
 │ └── 门控 A: 10 大独立模块纯函数单元测试 100% PASS (无网络、不读历史价格 K 线) │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │ Stage B: 合约级 6 大类参数化合成反例对抗测试套件 (Synthetic Test Matrix)      │
-│ └── 门控 B: 严格对应 B01–B23 测试用例及 B07.1–B07.4 哨兵/序列表反例         │
+│ └── 门控 B: 严格对应 B01–B23 测试用例及 B07.1–B07.7 哨兵/序列表/冲突/资产反例│
 ├─────────────────────────────────────────────────────────────────────────────┤
 │ Stage C: 真实样本 Pilot 基准验证 (基于冻结 Fixture 与 SEC 8-K 一手对账)       │
 │ └── 门控 C: 真实申报与 SEC 8-K 证据对账 100% 吻合 (Point72 / Berkshire / 拆股)│
@@ -55,7 +55,7 @@
 1. `storage_guard.py`: SQLite 只读模式守护器 (`mode=ro` URI 编码)、写入拦截阻断与派生库 Schema 初始化（含 `m0_signals` 与 `m0_signals_zero_excluded` 两张信号表）。
 2. `run_paths.py`: 物理真实路径隔离管理器 (`realpath` 解析、禁止符号链接逃逸与目录重叠)。
 3. `manifest_integrity.py`: 规范化标准 JSON 序列化 (`allow_nan=False`)、确定性 SHA-256 计算、工作区 Clean Tree 校验、缓存哈希核验（违规立即抛错）及跨阶段 Manifest 绑定核验（同时绑定两张信号表 SHA-256 与政策声明）。
-4. `ownership_state_machine.py`: 所有权归属解析（Contract v0.8.2：空白 / `"N/A"` / 经验性 `"0"` 哨兵值赋为 `origin_filer_cik`；单一正整数仅通过 `OTHERMANAGER2.tsv` 解析；脏值/多序号/自由文本标记为 `ownership_unresolved = True`）、机密申报门控与单机构申报状态机重构（严格按绝对时间戳 UTC instant ASC 及 accession_number ASC 排序；拒绝混入不同申报人或元数据不符行）。
+4. `ownership_state_machine.py`: 所有权归属解析（Contract v0.8.3：空白 / `"N/A"` / 经验性 `"0"` 哨兵值赋为 `origin_filer_cik`；单一正整数仅通过 `OTHERMANAGER2.tsv` 解析并严格隔离映射冲突键；缺失时间戳严格闭合；脏值/多序号/自由文本标记为 `ownership_unresolved = True`）、现货股票资产过滤（排除期权衍生品）、机密申报门控与单机构申报状态机重构（严格按绝对时间戳 UTC instant ASC 及 accession_number ASC 排序；拒绝混入不同申报人或元数据不符行）。
 5. `entity_membership_dedup.py`: PIT 实体图构建（合并 `OTHERMANAGER.tsv` 与 `OTHERMANAGER2.tsv` 有效边）、独立申报成员一致性校验与跨申报经济签名去重（严格限定在同一 `canonical_entity_id` 内部）。
 6. `security_mapping.py`: OpenFIGI 确定性瀑布决议（排除 ETF、非权益资产与非法 CUSIP）、名称相似度计算与多重候选歧义拒决。
 7. `split_waterfall.py`: 期间配对厂商拆股系数 $K_{\text{ledger}}$ 计算（严格检验正实数与日期）、对数中位数与 $\text{MAD}_{\text{log}}$ 计算（强制持有者数量与样本一致）、Gate 0/1/2 严格有序瀑布状态机。
@@ -75,7 +75,7 @@
 ### Stage B: 合约级 6 大参数化对抗测试套件矩阵 (B01–B23)
 
 #### 目标
-在接触任何生产数据前，编写 6 大类参数化合成测试用例，严格对齐 B01–B23 编号及 B07.1–B07.4 哨兵/序列表反例，验证所有边界逻辑与基数不变量已被代码阻断。**所有 Stage B 测试均为纯数据逻辑测试，绝不读取真实历史价格 K 线**。
+在接触任何生产数据前，编写 6 大类参数化合成测试用例，严格对齐 B01–B23 编号及 B07.1–B07.7 哨兵/序列表/冲突/资产反例，验证所有边界逻辑与基数不变量已被代码阻断。**所有 Stage B 测试均为纯数据逻辑测试，绝不读取真实历史价格 K 线**。
 
 #### 6 大类参数化测试套件 (`research/smart_money/m0/tests/test_stage_b_counterexamples.py`)
 
@@ -92,7 +92,10 @@
     - **Test-B07.1 (哨兵值解析)**: 空白、大小写规范化 `"N/A"` 及精确字符串 `"0"` 被成功识别为 Primary 初始持有人哨兵值；脏值（`"NONE"`, `"NA"`, `"00"`, `"0.0"`）严格标记为 `ownership_unresolved = True`；
     - **Test-B07.2 (信源表隔离)**: 同一序列号存在于两张表时，行级所有权解析必须严格匹配 `OTHERMANAGER2.tsv`，`OTHERMANAGER.tsv` 代理键被严格忽略；
     - **Test-B07.3 (同一申报内混存)**: 单一申报内同时存在 `other_manager = '0'` 与 `other_manager = '1'` 时，0 行归属于申报人，1 行归属于映射管理人；
-    - **Test-B07.4 (零哨兵敏感性前置独立派生与绑定)**: `ZERO_SENTINEL_EXCLUDED` 分支在明细行聚合前独立剔除 `'0'` 行，生成独立的 `m0_signals_zero_excluded` 信号表，独立完成到同一 `m0_forward_returns` 表的 LEFT JOIN 基数守恒校验 ($\text{rows}(\text{joined}) \equiv \text{rows}(\text{signals\_zero\_excluded})$)，且两套信号表在 Manifest 中分别计算并绑定 SHA-256。
+    - **Test-B07.4 (零哨兵敏感性前置独立派生与绑定)**: `ZERO_SENTINEL_EXCLUDED` 分支在明细行聚合前独立剔除 `'0'` 行，生成独立的 `m0_signals_zero_excluded` 信号表，独立完成到同一 `m0_forward_returns` 表的 LEFT JOIN 基数守恒校验 ($\text{rows}(\text{joined}) \equiv \text{rows}(\text{signals\_zero\_excluded})$)，且两套信号表在 Manifest 中分别计算并绑定 SHA-256；
+    - **Test-B07.5 (关系表映射冲突确定性隔离)**: 当同一 accession 在 `OTHERMANAGER2.tsv` 中相同的 `sequence_number` 映射到多个不同的合法 CIK 时，该键被确定性判定为冲突并隔离；引用该键的持仓行解析为 `ownership_unresolved = True`，从 Primary M0 排除；若多条记录指向相同的标准化 CIK 则确定性折叠；
+    - **Test-B07.6 (PIT 关系记录缺失时间戳严格闭合)**: 当提供 `period` 参数时，缺失或非法 `acceptance_datetime` 的关系记录被严格排除（Fail Closed）；
+    - **Test-B07.7 (M0 纯现货股票门槛)**: 验证 `call_option` 和 `put_option` 等衍生品行在明细行过滤阶段被严格排除，不得进入 M0 持仓重构与信号聚合，即使其底层 CUSIP 在 OpenFIGI 中存在有效现货股票映射。
   - Test-B08: 作用域重叠持仓保留与去重（必须在同一 `canonical_entity_id` 内部去重，严禁跨实体合并）；
   - Test-B09: 非独立申报顾问节点连通性（不作为 expected filing member）；
   - Test-B10: 独立申报成员缺报/迟交假清仓防范（16-CIK 实体 1 成员迟交触发 `membership_incomplete`，整实体当季置为 Missing）；
@@ -137,12 +140,13 @@
 #### 目标
 在真实 13F 历史数据切片中，先固化手工可审计的期望值夹具（Expected Fixtures）与 SEC 一手 8-K 证据，再执行程序对账。
 
-#### 核心验证标的与固定夹具 (Contract v0.8.2 修订)
+#### 核心验证标的与固定夹具 (Contract v0.8.3 修订)
 - **Point72 实体组件** (2019Q4 真实对账夹具):
-  - **主申报 Accession `0001567619-20-004063`**: Primary M0 必须完整保留其全部 917 行 `DFND` / `'0'` 明细，去重前申报总股数严格等于 **418,109,088 股**，申报总市值严格等于 **$19,018,144,000 USD**；
-  - **信源表验证**: 证明行级序列号仅通过 `OTHERMANAGER2.tsv` 解析；
+  - **主申报 Accession `0001567619-20-004063` 原始全资产锚点**: Primary M0 必须完整保留其全部 917 行 `DFND` / `'0'` 明细（877 行现货、31 行看涨期权、9 行看跌期权），去重前原始申报总股数严格等于 **418,109,088 股**，申报总市值严格等于 **$19,018,144,000 USD**；
+  - **M0 现货合格指标 (Cash Equity Only)**: 仅纳入 877 行现货股票明细，去重前申报总股数严格等于 **404,693,788 股**，申报总市值严格等于 **$17,857,865,000 USD**；
+  - **信源表与映射冲突验证**: 证明行级序列号仅通过 `OTHERMANAGER2.tsv` 解析，并报告全库 50 个冲突键（涉及 17 个被引用键与 5,472 行明细）的确定性隔离结果；
   - **敏感性对比**: `ZERO_SENTINEL_EXCLUDED` 分支必须排除上述 917 行主申报记录；
-  - **跨 CIK 去重**: 待 v0.8.2 重跑后，依据真实对账数据固化跨 CIK 相同经济签名精确去重基准（严禁在重跑前虚构去重后股数）。
+  - **跨 CIK 去重**: 依据真实对账数据固化跨 CIK 相同经济签名精确去重基准（真实 Point72 数据去重数为 0，如实报告；正向去重逻辑由 Stage B 合成测试验证）。
 - **Berkshire Hathaway 苹果持仓** (CIK `0001067983`, CUSIP `037833100`):
   - 引用原始申报 `0000950123-24-002518`；
   - 验证 2023Q4 原始申报总股数严格等于 SEC 官方申报的 905,560,000 股。
@@ -171,7 +175,7 @@
 4. **变更检测校验和清单**: `SHA256_SIGNAL_MANIFEST.json`，完整记录：
    - `phase0_db_path` 与 `phase0_db_sha256`
    - `source_git_sha` 与 `m0_code_git_sha`、`git_tree_dirty` 状态 (必须为 `False`)
-   - `contract_version` (v0.8.2) 与 `contract_sha256`
+   - `contract_version` (v0.8.3) 与 `contract_sha256`
    - `schema_versions` 与 `query_versions`
    - `primary_empirical_zero_policy` 与 `zero_excluded_sensitivity` 策略声明
    - `python_version`、`os_info` 与 `dependency_versions` (含精确版本号)

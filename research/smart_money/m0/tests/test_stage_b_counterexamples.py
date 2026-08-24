@@ -434,6 +434,137 @@ def test_b07_4_zero_sentinel_excluded_pre_aggregation():
     assert met_z["cardinality_conserved"] is True and len(joined_z) == 1
 
 
+def test_b07_5_manager_mapping_conflict_quarantine():
+    """Test-B07.5: Conflicted OTHERMANAGER2.tsv mappings to >1 distinct CIKs are quarantined deterministically."""
+    from research.smart_money.m0.src.pilot_extractor import build_line_level_manager_map_with_diagnostics
+
+    acc = "0000728889-17-000311"
+    filer_cik = "0000728889"
+    period = "2017-03-31"
+
+    # Synthetic relationship rows:
+    # seq 1 has conflicting CIKs: CIK_A and CIK_B
+    # seq 2 has duplicate rows with same CIK_C -> collapsed to single mapping
+    # seq 3 has single CIK_D
+    rel_rows = [
+        # (acc, p_rep, rep_cik, rel_cik, rel_name, seq, src, acc_dt)
+        (acc, period, filer_cik, "0000022222", "Mgr 2", "1", "OTHERMANAGER2.tsv", "2017-05-10T12:00:00Z"),
+        (acc, period, filer_cik, "0000033333", "Mgr 3", "1", "OTHERMANAGER2.tsv", "2017-05-10T12:00:00Z"),
+        (acc, period, filer_cik, "0000044444", "Mgr 4", "2", "OTHERMANAGER2.tsv", "2017-05-10T12:00:00Z"),
+        (acc, period, filer_cik, "0000044444", "Mgr 4 (Dup)", "2", "OTHERMANAGER2.tsv", "2017-05-10T12:00:00Z"),
+        (acc, period, filer_cik, "0000055555", "Mgr 5", "3", "OTHERMANAGER2.tsv", "2017-05-10T12:00:00Z"),
+    ]
+
+    line_map, conflicts = build_line_level_manager_map_with_diagnostics(rel_rows, period)
+
+    # Conflicted key (acc, '1') must be quarantined
+    assert (acc, "1") not in line_map
+    assert (acc, "1") in conflicts
+    assert conflicts[(acc, "1")] == ["0000022222", "0000033333"]
+
+    # Clean keys (acc, '2') and (acc, '3') must be resolved
+    assert line_map[(acc, "2")] == "0000044444"
+    assert line_map[(acc, "3")] == "0000055555"
+
+    # Holding row referencing quarantined seq 1 must resolve to ownership_unresolved = True
+    owner_1, unres_1 = resolve_ownership("1", filer_cik, acc, line_map)
+    assert owner_1 is None and unres_1 is True
+
+    # Holding row referencing clean seq 2 resolves successfully
+    owner_2, unres_2 = resolve_ownership("2", filer_cik, acc, line_map)
+    assert owner_2 == "0000044444" and unres_2 is False
+
+    # Pre-aggregation check: row referencing seq 1 is excluded from Primary M0 aggregation
+    h_rows = [
+        HoldingRow(acc, filer_cik, period, "037833100", "SH", owner_1, unres_1, 1000, 150000.0),
+        HoldingRow(acc, filer_cik, period, "037833100", "SH", owner_2, unres_2, 2000, 300000.0),
+    ]
+    agg = aggregate_accession_holdings(h_rows)
+    assert len(agg) == 1
+    assert ("037833100", "SH", "0000044444") in agg
+
+
+def test_b07_6_fail_closed_pit_timestamp():
+    """Test-B07.6: Relationship records with missing or late acceptance_datetime fail closed."""
+    from research.smart_money.m0.src.pilot_extractor import build_line_level_manager_map, build_entity_graph_edges
+
+    period = "2024-03-31"  # Deadline: 2024-05-15
+    acc = "0000010000-24-000001"
+    filer = "0000010000"
+
+    rel_rows = [
+        # On-time
+        (acc, period, filer, "0000020000", "Valid Mgr", "1", "OTHERMANAGER2.tsv", "2024-05-14T10:00:00Z"),
+        # Late
+        (acc, period, filer, "0000030000", "Late Mgr", "2", "OTHERMANAGER2.tsv", "2024-05-16T10:00:00Z"),
+        # Missing acceptance_datetime (None) -> Fail closed
+        (acc, period, filer, "0000040000", "Missing DT Mgr", "3", "OTHERMANAGER2.tsv", None),
+        # Empty string acceptance_datetime -> Fail closed
+        (acc, period, filer, "0000050000", "Empty DT Mgr", "4", "OTHERMANAGER2.tsv", "   "),
+    ]
+
+    line_map = build_line_level_manager_map(rel_rows, period)
+    assert (acc, "1") in line_map
+    assert (acc, "2") not in line_map
+    assert (acc, "3") not in line_map
+    assert (acc, "4") not in line_map
+
+    edges = build_entity_graph_edges(rel_rows, period)
+    assert (filer, "0000020000") in edges
+    assert (filer, "0000030000") not in edges
+    assert (filer, "0000040000") not in edges
+    assert (filer, "0000050000") not in edges
+
+
+def test_b07_7_cash_equity_only_m0_gate():
+    """Test-B07.7: Options and derivative line items are excluded from M0 holding state and signal calculation."""
+    from research.smart_money.m0.src.ownership_state_machine import is_cash_equity_asset_class
+
+    acc = "0001567619-20-004063"
+    filer = "0001603466"
+    period = "2019-12-31"
+    cusip = "037833100"  # Apple CUSIP
+
+    raw_items = [
+        # (cusip, asset_class, shares, value_usd)
+        (cusip, "cash_equity", 10000, 1500000.0),
+        (cusip, "call_option", 5000, 750000.0),
+        (cusip, "put_option", 2000, 300000.0),
+        (cusip, "bond", 1000, 100000.0),
+    ]
+
+    # Cash-equity only filtering in M0 pipeline
+    m0_holding_rows = []
+    excluded_derivative_rows = []
+
+    for c, ac, shrs, val in raw_items:
+        if is_cash_equity_asset_class(ac):
+            m0_holding_rows.append(
+                HoldingRow(
+                    accession_number=acc,
+                    origin_filer_cik=filer,
+                    period_of_report=period,
+                    cusip=c,
+                    asset_class="SH",
+                    economic_owner_cik=filer,
+                    ownership_unresolved=False,
+                    total_shares=shrs,
+                    total_value_usd=val,
+                )
+            )
+        else:
+            excluded_derivative_rows.append((c, ac, shrs, val))
+
+    assert len(m0_holding_rows) == 1
+    assert len(excluded_derivative_rows) == 3
+    assert m0_holding_rows[0].total_shares == 10000
+
+    # Aggregate holdings
+    agg = aggregate_accession_holdings(m0_holding_rows)
+    assert len(agg) == 1
+    assert agg[(cusip, "SH", filer)]["total_shares"] == 10000
+
+
 def test_b08_intra_entity_dedup_and_cross_entity_blocking():
     """Test-B08: Intra-entity disclosure deduplication preserves exact unrounded signatures and blocks cross-entity."""
     entity_a = "0000000100"

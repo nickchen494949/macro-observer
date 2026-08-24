@@ -32,6 +32,7 @@ from research.smart_money.m0.src.ownership_state_machine import (
     HoldingRow,
     OwnershipPolicy,
     aggregate_accession_holdings,
+    is_cash_equity_asset_class,
     is_pit_accepted,
     is_valid_cik,
     normalize_cik,
@@ -88,15 +89,50 @@ def classify_other_manager(om_val: str | None) -> tuple[str, list[str]]:
     return "FREE_TEXT_NAME", tokens
 
 
-def build_line_level_manager_map(
+def resolve_line_level_manager_mappings(
+    raw_items: list[tuple[str, str, Any]],
+) -> tuple[dict[tuple[str, str], str], dict[tuple[str, str], list[str]]]:
+    """Pure helper to resolve (accession_number, sequence_number) -> related_cik mappings.
+
+    Contract v0.8.3 rules:
+    1. Exact duplicate rows pointing to the same normalized CIK within (acc, seq) are collapsed to one.
+    2. Keys mapping to >1 distinct valid CIKs are identified as conflicted and quarantined.
+
+    Returns:
+        (clean_resolved_map, quarantined_conflict_keys)
+    """
+    raw_groups: dict[tuple[str, str], set[str]] = {}
+    for acc, seq, rel_cik in raw_items:
+        acc_clean = str(acc).strip()
+        seq_clean = str(seq).strip()
+        if not acc_clean or not seq_clean:
+            continue
+        if is_valid_cik(rel_cik):
+            norm_cik = normalize_cik(rel_cik)
+            raw_groups.setdefault((acc_clean, seq_clean), set()).add(norm_cik)
+
+    resolved_map: dict[tuple[str, str], str] = {}
+    conflicted_keys: dict[tuple[str, str], list[str]] = {}
+
+    for key, ciks in raw_groups.items():
+        if len(ciks) == 1:
+            resolved_map[key] = next(iter(ciks))
+        else:
+            conflicted_keys[key] = sorted(list(ciks))
+
+    return resolved_map, conflicted_keys
+
+
+def build_line_level_manager_map_with_diagnostics(
     relationship_rows: list[Any],
     period: str | None = None,
-) -> dict[tuple[str, str], str]:
-    """Build line-level Column 7 sequence lookup map strictly from OTHERMANAGER2.tsv.
+) -> tuple[dict[tuple[str, str], str], dict[tuple[str, str], list[str]]]:
+    """Build line-level Column 7 sequence lookup map strictly from OTHERMANAGER2.tsv with conflict diagnostics.
 
-    Filters source_table == 'OTHERMANAGER2.tsv' and acceptance_datetime if period is provided.
+    Filters source_table == 'OTHERMANAGER2.tsv'.
+    Fails closed on missing or late acceptance_datetime when period is supplied.
     """
-    rel_map: dict[tuple[str, str], str] = {}
+    raw_items: list[tuple[str, str, Any]] = []
     for r in relationship_rows:
         if isinstance(r, dict):
             acc = str(r["accession_number"]).strip()
@@ -138,13 +174,24 @@ def build_line_level_manager_map(
         if src != "OTHERMANAGER2.tsv":
             continue
 
-        if period is not None and acc_dt is not None:
+        # Fail-closed PIT filtering
+        if period is not None:
+            if acc_dt is None or not str(acc_dt).strip():
+                continue
             if not is_pit_accepted(acc_dt, period):
                 continue
 
-        if is_valid_cik(rel_cik):
-            rel_map[(acc, seq)] = normalize_cik(rel_cik)
+        raw_items.append((acc, seq, rel_cik))
 
+    return resolve_line_level_manager_mappings(raw_items)
+
+
+def build_line_level_manager_map(
+    relationship_rows: list[Any],
+    period: str | None = None,
+) -> dict[tuple[str, str], str]:
+    """Build line-level Column 7 sequence lookup map strictly from OTHERMANAGER2.tsv."""
+    rel_map, _ = build_line_level_manager_map_with_diagnostics(relationship_rows, period)
     return rel_map
 
 
@@ -154,7 +201,8 @@ def build_entity_graph_edges(
 ) -> list[tuple[str, str]]:
     """Build institutional relationship graph edges unioning both OTHERMANAGER.tsv and OTHERMANAGER2.tsv.
 
-    Filters source_table IN ('OTHERMANAGER.tsv', 'OTHERMANAGER2.tsv') and acceptance_datetime if period is provided.
+    Filters source_table IN ('OTHERMANAGER.tsv', 'OTHERMANAGER2.tsv').
+    Fails closed on missing or late acceptance_datetime when period is supplied.
     """
     edges: list[tuple[str, str]] = []
     for r in relationship_rows:
@@ -187,7 +235,10 @@ def build_entity_graph_edges(
         if src not in ("OTHERMANAGER.tsv", "OTHERMANAGER2.tsv"):
             continue
 
-        if period is not None and acc_dt is not None:
+        # Fail-closed PIT filtering
+        if period is not None:
+            if acc_dt is None or not str(acc_dt).strip():
+                continue
             if not is_pit_accepted(acc_dt, period):
                 continue
 
@@ -531,6 +582,11 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
     unresolved_value_z = 0.0
 
     main_acc = "0001567619-20-004063"
+    main_acc_shares_all_raw = 0
+    main_acc_value_all_raw = 0.0
+    main_acc_lines_all_raw = 0
+    main_acc_breakdown: dict[str, dict[str, Any]] = defaultdict(lambda: {"rows": 0, "shares": 0, "value_usd": 0.0})
+
     main_acc_shares_p = 0
     main_acc_value_p = 0.0
     main_acc_lines_p = 0
@@ -538,6 +594,17 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
     main_acc_shares_z = 0
     main_acc_value_z = 0.0
     main_acc_lines_z = 0
+
+    cash_equity_raw_lines_total = 0
+    cash_equity_raw_shares_total = 0
+    cash_equity_raw_value_total = 0.0
+
+    all_raw_shares_total = 0
+    all_raw_value_total = 0.0
+
+    # Also build all-asset HoldingRow lists for all-asset comparison anchor
+    filings_all_asset_p: dict[str, list[tuple[FilingHeader, list[HoldingRow]]]] = defaultdict(list)
+    filings_all_asset_z: dict[str, list[tuple[FilingHeader, list[HoldingRow]]]] = defaultdict(list)
 
     for acc, cik, p_rep, acc_dt, f_type, a_type, is_conf in filings_raw:
         on_time = is_pit_accepted(acc_dt, period)
@@ -592,6 +659,8 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
 
         p_h_rows: list[HoldingRow] = []
         z_h_rows: list[HoldingRow] = []
+        p_all_rows: list[HoldingRow] = []
+        z_all_rows: list[HoldingRow] = []
 
         for r in li_rows:
             shrs = int(r[5])
@@ -599,7 +668,25 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
             v_sole = int(r[9] or 0)
             v_shared = int(r[10] or 0)
             v_none = int(r[11] or 0)
-            ac = "SH" if (r[12] or "").lower() == "cash_equity" else str(r[12] or "SH")
+            raw_ac = str(r[12] or "SH").strip()
+            is_cash = is_cash_equity_asset_class(raw_ac)
+
+            all_raw_shares_total += shrs
+            all_raw_value_total += val
+
+            if is_cash:
+                cash_equity_raw_lines_total += 1
+                cash_equity_raw_shares_total += shrs
+                cash_equity_raw_value_total += val
+
+            if acc == main_acc:
+                main_acc_lines_all_raw += 1
+                main_acc_shares_all_raw += shrs
+                main_acc_value_all_raw += val
+                cat_key = "cash_equity" if is_cash else raw_ac.lower()
+                main_acc_breakdown[cat_key]["rows"] += 1
+                main_acc_breakdown[cat_key]["shares"] += shrs
+                main_acc_breakdown[cat_key]["value_usd"] += val
 
             # 1. Primary M0 Ownership Resolution
             owner_p, unres_p = resolve_ownership(
@@ -609,17 +696,13 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
                 other_manager_map=rel_lookup,
                 policy=OwnershipPolicy.PRIMARY_EMPIRICAL_ZERO,
             )
-            if unres_p or owner_p is None:
-                unresolved_rows_p += 1
-                unresolved_shares_p += shrs
-                unresolved_value_p += val
-
-            p_item = HoldingRow(
+            # All-asset row for all-asset comparison anchor
+            all_p_item = HoldingRow(
                 accession_number=acc,
                 origin_filer_cik=header.origin_filer_cik,
                 period_of_report=period,
                 cusip=r[2],
-                asset_class=ac,
+                asset_class=raw_ac,
                 economic_owner_cik=owner_p,
                 ownership_unresolved=unres_p,
                 total_shares=shrs,
@@ -628,13 +711,36 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
                 total_vote_shared=v_shared,
                 total_vote_none=v_none,
             )
-            p_item.validate()
-            p_h_rows.append(p_item)
+            all_p_item.validate()
+            p_all_rows.append(all_p_item)
 
-            if acc == main_acc and not unres_p and owner_p is not None:
-                main_acc_shares_p += shrs
-                main_acc_value_p += val
-                main_acc_lines_p += 1
+            if is_cash:
+                if unres_p or owner_p is None:
+                    unresolved_rows_p += 1
+                    unresolved_shares_p += shrs
+                    unresolved_value_p += val
+
+                p_item = HoldingRow(
+                    accession_number=acc,
+                    origin_filer_cik=header.origin_filer_cik,
+                    period_of_report=period,
+                    cusip=r[2],
+                    asset_class="SH",
+                    economic_owner_cik=owner_p,
+                    ownership_unresolved=unres_p,
+                    total_shares=shrs,
+                    total_value_usd=val,
+                    total_vote_sole=v_sole,
+                    total_vote_shared=v_shared,
+                    total_vote_none=v_none,
+                )
+                p_item.validate()
+                p_h_rows.append(p_item)
+
+                if acc == main_acc and not unres_p and owner_p is not None:
+                    main_acc_shares_p += shrs
+                    main_acc_value_p += val
+                    main_acc_lines_p += 1
 
             # 2. Zero-Excluded Sensitivity Resolution (Pre-Aggregation)
             owner_z, unres_z = resolve_ownership(
@@ -644,17 +750,12 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
                 other_manager_map=rel_lookup,
                 policy=OwnershipPolicy.ZERO_SENTINEL_EXCLUDED,
             )
-            if unres_z or owner_z is None:
-                unresolved_rows_z += 1
-                unresolved_shares_z += shrs
-                unresolved_value_z += val
-
-            z_item = HoldingRow(
+            all_z_item = HoldingRow(
                 accession_number=acc,
                 origin_filer_cik=header.origin_filer_cik,
                 period_of_report=period,
                 cusip=r[2],
-                asset_class=ac,
+                asset_class=raw_ac,
                 economic_owner_cik=owner_z,
                 ownership_unresolved=unres_z,
                 total_shares=shrs,
@@ -663,18 +764,43 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
                 total_vote_shared=v_shared,
                 total_vote_none=v_none,
             )
-            z_item.validate()
-            z_h_rows.append(z_item)
+            all_z_item.validate()
+            z_all_rows.append(all_z_item)
 
-            if acc == main_acc and not unres_z and owner_z is not None:
-                main_acc_shares_z += shrs
-                main_acc_value_z += val
-                main_acc_lines_z += 1
+            if is_cash:
+                if unres_z or owner_z is None:
+                    unresolved_rows_z += 1
+                    unresolved_shares_z += shrs
+                    unresolved_value_z += val
+
+                z_item = HoldingRow(
+                    accession_number=acc,
+                    origin_filer_cik=header.origin_filer_cik,
+                    period_of_report=period,
+                    cusip=r[2],
+                    asset_class="SH",
+                    economic_owner_cik=owner_z,
+                    ownership_unresolved=unres_z,
+                    total_shares=shrs,
+                    total_value_usd=val,
+                    total_vote_sole=v_sole,
+                    total_vote_shared=v_shared,
+                    total_vote_none=v_none,
+                )
+                z_item.validate()
+                z_h_rows.append(z_item)
+
+                if acc == main_acc and not unres_z and owner_z is not None:
+                    main_acc_shares_z += shrs
+                    main_acc_value_z += val
+                    main_acc_lines_z += 1
 
         filings_primary[header.origin_filer_cik].append((header, p_h_rows))
         filings_zero_excl[header.origin_filer_cik].append((header, z_h_rows))
+        filings_all_asset_p[header.origin_filer_cik].append((header, p_all_rows))
+        filings_all_asset_z[header.origin_filer_cik].append((header, z_all_rows))
 
-    # Reconstruct state per filer for Primary M0
+    # Reconstruct state per filer for Primary M0 (Cash Equity)
     all_reconstructed_p: list[dict[str, Any]] = []
     cross_component_excluded_count_p = 0
 
@@ -712,7 +838,7 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
         holdings=all_reconstructed_p,
     )
 
-    # Reconstruct state per filer for Zero-Excluded Sensitivity
+    # Reconstruct state per filer for Zero-Excluded Sensitivity (Cash Equity)
     all_reconstructed_z: list[dict[str, Any]] = []
     cross_component_excluded_count_z = 0
 
@@ -750,6 +876,47 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
         holdings=all_reconstructed_z,
     )
 
+    # Reconstruct all-asset comparison anchor
+    all_asset_p_reconstructed: list[dict[str, Any]] = []
+    for f_cik, f_list in filings_all_asset_p.items():
+        state, _ = reconstruct_filer_state(f_list, period)
+        for (c_cusip, asset_class, econ_owner), h_data in state.items():
+            if econ_owner is not None and comp_map.get(econ_owner) == p72_canonical_id:
+                all_asset_p_reconstructed.append({
+                    "canonical_entity_id": p72_canonical_id,
+                    "origin_filer_cik": f_cik,
+                    "cusip": c_cusip,
+                    "period_of_report": period,
+                    "asset_class": asset_class,
+                    "economic_owner_cik": econ_owner,
+                    "total_shares": h_data["total_shares"],
+                    "total_value_usd": h_data["total_value_usd"],
+                    "total_vote_sole": h_data["total_vote_sole"],
+                    "total_vote_shared": h_data["total_vote_shared"],
+                    "total_vote_none": h_data["total_vote_none"],
+                })
+    all_asset_p_deduped = deduplicate_entity_disclosures(p72_canonical_id, all_asset_p_reconstructed)
+
+    all_asset_z_reconstructed: list[dict[str, Any]] = []
+    for f_cik, f_list in filings_all_asset_z.items():
+        state, _ = reconstruct_filer_state(f_list, period)
+        for (c_cusip, asset_class, econ_owner), h_data in state.items():
+            if econ_owner is not None and comp_map.get(econ_owner) == p72_canonical_id:
+                all_asset_z_reconstructed.append({
+                    "canonical_entity_id": p72_canonical_id,
+                    "origin_filer_cik": f_cik,
+                    "cusip": c_cusip,
+                    "period_of_report": period,
+                    "asset_class": asset_class,
+                    "economic_owner_cik": econ_owner,
+                    "total_shares": h_data["total_shares"],
+                    "total_value_usd": h_data["total_value_usd"],
+                    "total_vote_sole": h_data["total_vote_sole"],
+                    "total_vote_shared": h_data["total_vote_shared"],
+                    "total_vote_none": h_data["total_vote_none"],
+                })
+    all_asset_z_deduped = deduplicate_entity_disclosures(p72_canonical_id, all_asset_z_reconstructed)
+
     return {
         "status": "PROPOSED PENDING CODEX MANUAL FREEZE",
         "entity_name": "Point72 Asset Management",
@@ -767,6 +934,19 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
             "line_map_entries_count": len(rel_lookup),
             "graph_edges_count": len(on_time_edges),
         },
+        "raw_all_asset_anchor": {
+            "total_component_raw_lines": total_raw_line_items,
+            "total_component_raw_shares": all_raw_shares_total,
+            "total_component_raw_value_usd": all_raw_value_total,
+            "main_accession_raw_lines_total": main_acc_lines_all_raw,
+            "main_accession_shares_total": main_acc_shares_all_raw,
+            "main_accession_value_usd_total": main_acc_value_all_raw,
+            "main_accession_asset_breakdown": dict(main_acc_breakdown),
+            "primary_all_asset_deduped_shares": sum(h["total_shares"] for h in all_asset_p_deduped),
+            "primary_all_asset_deduped_value_usd": sum(h["total_value_usd"] for h in all_asset_p_deduped),
+            "zero_excluded_all_asset_deduped_shares": sum(h["total_shares"] for h in all_asset_z_deduped),
+            "zero_excluded_all_asset_deduped_value_usd": sum(h["total_value_usd"] for h in all_asset_z_deduped),
+        },
         "total_raw_line_items": total_raw_line_items,
         "on_time_confidential_filings_count": on_time_confidential_filings_count,
         "all_period_confidential_filings_count": all_period_confidential_filings_count,
@@ -774,7 +954,8 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
         "all_period_amendment_filings_count": all_period_amendment_filings_count,
         "cross_component_excluded_count": cross_component_excluded_count_p,
         "primary_m0": {
-            "raw_line_items_count": total_raw_line_items,
+            "asset_scope": "CASH_EQUITY_ONLY",
+            "raw_line_items_count": cash_equity_raw_lines_total,
             "unresolved_rows_count": unresolved_rows_p,
             "unresolved_shares_total": unresolved_shares_p,
             "unresolved_value_total": unresolved_value_p,
@@ -788,7 +969,8 @@ def extract_point72_2019q4_discovery(conn: sqlite3.Connection) -> dict[str, Any]
             "main_accession_raw_lines_retained": main_acc_lines_p,
         },
         "zero_excluded_sensitivity": {
-            "raw_line_items_count": total_raw_line_items,
+            "asset_scope": "CASH_EQUITY_ONLY",
+            "raw_line_items_count": cash_equity_raw_lines_total,
             "unresolved_rows_count": unresolved_rows_z,
             "unresolved_shares_total": unresolved_shares_z,
             "unresolved_value_total": unresolved_value_z,
@@ -928,6 +1110,8 @@ def extract_split_pilot_pair(
     multi_sequence_samples: list[str] = []
 
     for r in all_lines:
+        if not is_cash_equity_asset_class(r[10]):
+            continue
         acc = r[0]
         om_raw = r[6]
         om_cat, _ = classify_other_manager(om_raw)
@@ -953,6 +1137,10 @@ def extract_split_pilot_pair(
     component_period_holdings: dict[str, dict[str, float]] = {q_prev: defaultdict(float), q_curr: defaultdict(float)}
     unresolved_rows_count = {q_prev: 0, q_curr: 0}
     duplicate_disclosures_removed = {q_prev: 0, q_curr: 0}
+    component_exclusions = {
+        q_prev: {"membership_incomplete": 0, "confidential_omission": 0, "amendment_unresolved": 0, "ownership_unresolved": 0},
+        q_curr: {"membership_incomplete": 0, "confidential_omission": 0, "amendment_unresolved": 0, "ownership_unresolved": 0},
+    }
 
     for period in [q_prev, q_curr]:
         filings_dict = on_time_filings[period]
@@ -974,6 +1162,8 @@ def extract_split_pilot_pair(
             h_rows: list[HoldingRow] = []
 
             for r in acc_lines:
+                if not is_cash_equity_asset_class(r[10]):
+                    continue
                 om_raw = r[6]
                 owner_cik, unresolved = resolve_ownership(
                     row_other_manager=om_raw,
@@ -985,7 +1175,7 @@ def extract_split_pilot_pair(
                 if unresolved or owner_cik is None:
                     unresolved_rows_count[period] += 1
 
-                asset_class = "SH" if (r[10] or "").lower() == "cash_equity" else str(r[10] or "SH")
+                asset_class = "SH"
 
                 h_item = HoldingRow(
                     accession_number=acc,
@@ -1013,111 +1203,98 @@ def extract_split_pilot_pair(
             state, meta = reconstruct_filer_state(f_filings, period)
             filer_comp = component_mapping[f_cik]
 
-            if meta["amendment_unresolved"]:
-                continue
+            for key, row in state.items():
+                if row.get("cusip") == cusip:
+                    owner_cik = row["economic_owner_cik"]
+                    is_valid_owner, failure_reason, owner_comp = resolve_owner_component_strict(
+                        econ_owner=owner_cik,
+                        filer_comp=filer_comp,
+                        component_mapping=component_mapping,
+                    )
+                    if not is_valid_owner:
+                        component_exclusions[period]["ownership_unresolved"] += 1
+                        continue
 
-            for (c_cusip, asset_class, econ_owner), h_data in state.items():
-                if asset_class != "SH":
-                    continue
+                    assert owner_comp is not None
+                    all_period_disclosures.append(
+                        {
+                            "canonical_entity_id": owner_comp,
+                            "origin_filer_cik": f_cik,
+                            "cusip": cusip,
+                            "period_of_report": period,
+                            "asset_class": row.get("asset_class", "SH"),
+                            "economic_owner_cik": owner_cik,
+                            "total_shares": row["total_shares"],
+                            "total_value_usd": row["total_value_usd"],
+                            "total_vote_sole": row["total_vote_sole"],
+                            "total_vote_shared": row["total_vote_shared"],
+                            "total_vote_none": row["total_vote_none"],
+                        }
+                    )
 
-                is_ok_owner, reason, resolved_comp = resolve_owner_component_strict(
-                    econ_owner=econ_owner,
-                    filer_comp=filer_comp,
-                    component_mapping=component_mapping,
-                )
-                if not is_ok_owner:
-                    unresolved_rows_count[period] += 1
-                    continue
-
-                all_period_disclosures.append(
-                    {
-                        "canonical_entity_id": filer_comp,
-                        "origin_filer_cik": f_cik,
-                        "cusip": c_cusip,
-                        "period_of_report": period,
-                        "economic_owner_cik": econ_owner,
-                        "total_shares": h_data["total_shares"],
-                        "total_value_usd": h_data["total_value_usd"],
-                        "total_vote_sole": h_data["total_vote_sole"],
-                        "total_vote_shared": h_data["total_vote_shared"],
-                        "total_vote_none": h_data["total_vote_none"],
-                    }
-                )
-
-        # Deduplicate intra-component disclosures
+        # Cross-disclosure dedup per canonical component
         disclosures_by_comp: dict[str, list[dict[str, Any]]] = defaultdict(list)
-        for h in all_period_disclosures:
-            disclosures_by_comp[h["canonical_entity_id"]].append(h)
+        for disc in all_period_disclosures:
+            disclosures_by_comp[disc["canonical_entity_id"]].append(disc)
 
-        pre_dedup_count = len(all_period_disclosures)
-        post_dedup_count = 0
+        for c_id, comp_discs in disclosures_by_comp.items():
+            deduped = deduplicate_entity_disclosures(c_id, comp_discs)
+            duplicate_disclosures_removed[period] += len(comp_discs) - len(deduped)
+            for d in deduped:
+                component_period_holdings[period][c_id] += d["total_shares"]
 
-        for c_id, c_disclosures in disclosures_by_comp.items():
-            deduped = deduplicate_entity_disclosures(c_id, c_disclosures)
-            post_dedup_count += len(deduped)
-            tot_shares = sum(item["total_shares"] for item in deduped)
-            component_period_holdings[period][c_id] = tot_shares
+    # Step 8: Apply all component-level exclusion gates
+    q_prev_eligible_entities: set[str] = set()
+    q_curr_eligible_entities: set[str] = set()
 
-        duplicate_disclosures_removed[period] = pre_dedup_count - post_dedup_count
+    for c_id in all_components:
+        m_prev = component_filing_members[q_prev].get(c_id, set())
+        m_curr = component_filing_members[q_curr].get(c_id, set())
 
-    # Step 8: Component-level gates and continuous holder formation
+        # Gate 1: Entity membership equality
+        if not m_prev or not m_curr or m_prev != m_curr:
+            if c_id in component_period_holdings[q_prev] or c_id in component_period_holdings[q_curr]:
+                component_exclusions[q_curr]["membership_incomplete"] += 1
+            continue
+
+        # Gate 2: Confidential omission across any filing
+        if component_confidential_omit[q_prev][c_id] or component_confidential_omit[q_curr][c_id]:
+            if c_id in component_period_holdings[q_prev] or c_id in component_period_holdings[q_curr]:
+                component_exclusions[q_curr]["confidential_omission"] += 1
+            continue
+
+        # Gate 3: Unresolved amendment across any filing
+        if component_amendment_unresolved[q_prev][c_id] or component_amendment_unresolved[q_curr][c_id]:
+            if c_id in component_period_holdings[q_prev] or c_id in component_period_holdings[q_curr]:
+                component_exclusions[q_curr]["amendment_unresolved"] += 1
+            continue
+
+        if c_id in component_period_holdings[q_prev]:
+            q_prev_eligible_entities.add(c_id)
+        if c_id in component_period_holdings[q_curr]:
+            q_curr_eligible_entities.add(c_id)
+
+    # Step 9: Continuous holder pair matching and ratio computation
+    continuous_entities = q_prev_eligible_entities & q_curr_eligible_entities
+    new_positions = q_curr_eligible_entities - q_prev_eligible_entities
+    exit_positions = q_prev_eligible_entities - q_curr_eligible_entities
+
+    component_exclusions[q_curr]["new_positions"] = len(new_positions)
+    component_exclusions[q_curr]["exit_positions"] = len(exit_positions)
+
     continuous_holders: list[ContinuousHolder] = []
-
-    membership_incomplete_components = 0
-    confidential_omit_components = 0
-    amendment_unresolved_components = 0
-    new_positions_count = 0
-    exit_positions_count = 0
-
-    for c_id in sorted(all_components):
-        prev_members = component_filing_members[q_prev].get(c_id, set())
-        curr_members = component_filing_members[q_curr].get(c_id, set())
-
-        prev_shares = component_period_holdings[q_prev].get(c_id, 0)
-        curr_shares = component_period_holdings[q_curr].get(c_id, 0)
-
-        # Check if entity participated in trading this stock
-        if prev_shares == 0 and curr_shares == 0:
-            continue
-
-        # Gate A: Filing membership equality across all on-time members
-        ok_mem, _ = validate_entity_membership(prev_members, curr_members)
-        if not ok_mem:
-            membership_incomplete_components += 1
-            continue
-
-        # Gate B: Confidential omission across ALL on-time members in component
-        is_conf_prev = component_confidential_omit[q_prev].get(c_id, False)
-        is_conf_curr = component_confidential_omit[q_curr].get(c_id, False)
-        if is_conf_prev or is_conf_curr:
-            confidential_omit_components += 1
-            continue
-
-        # Gate C: Unresolved amendment across ALL on-time members in component
-        is_amend_prev = component_amendment_unresolved[q_prev].get(c_id, False)
-        is_amend_curr = component_amendment_unresolved[q_curr].get(c_id, False)
-        if is_amend_prev or is_amend_curr:
-            amendment_unresolved_components += 1
-            continue
-
-        # Directional position classification
-        if prev_shares == 0 and curr_shares > 0:
-            new_positions_count += 1
-            continue
-        if prev_shares > 0 and curr_shares == 0:
-            exit_positions_count += 1
-            continue
-
-        if prev_shares > 0 and curr_shares > 0:
+    for c_id in sorted(list(continuous_entities)):
+        s_prev = component_period_holdings[q_prev][c_id]
+        s_curr = component_period_holdings[q_curr][c_id]
+        if s_prev > 0 and s_curr > 0:
             continuous_holders.append(
                 ContinuousHolder(
                     entity_id=c_id,
-                    prev_shares=prev_shares,
-                    curr_shares=curr_shares,
+                    prev_shares=s_prev,
+                    curr_shares=s_curr,
                 )
             )
 
-    # Step 9: Evaluate split waterfall
     split_event = SplitEvent(ex_date=ex_date, ratio=split_factor)
     k_calc, has_splits = compute_k_ledger_and_presence(q_prev, q_curr, [split_event])
 
@@ -1156,11 +1333,11 @@ def extract_split_pilot_pair(
             "samples": multi_sequence_samples,
         },
         "component_level_exclusions": {
-            "membership_incomplete_components_excluded": membership_incomplete_components,
-            "confidential_omission_components_excluded": confidential_omit_components,
-            "amendment_unresolved_components_excluded": amendment_unresolved_components,
-            "new_positions_count": new_positions_count,
-            "exit_positions_count": exit_positions_count,
+            "membership_incomplete_components_excluded": component_exclusions[q_curr]["membership_incomplete"],
+            "confidential_omission_components_excluded": component_exclusions[q_curr]["confidential_omission"],
+            "amendment_unresolved_components_excluded": component_exclusions[q_curr]["amendment_unresolved"],
+            "new_positions_count": component_exclusions[q_curr]["new_positions"],
+            "exit_positions_count": component_exclusions[q_curr]["exit_positions"],
             "unresolved_ownership_rows_excluded_q_prev": unresolved_rows_count[q_prev],
             "unresolved_ownership_rows_excluded_q_curr": unresolved_rows_count[q_curr],
             "duplicate_disclosures_removed_q_prev": duplicate_disclosures_removed[q_prev],
@@ -1183,6 +1360,45 @@ def run_full_c1_discovery(db_path: str | Path) -> dict[str, Any]:
     preflight = check_source_db_preflight(db_path)
 
     conn = open_readonly_sqlite(db_path, immutable=True)
+    cur = conn.cursor()
+
+    # Whole-database mapping conflict diagnostics
+    cur.execute(
+        """
+        SELECT accession_number, TRIM(sequence_number) as seq, COUNT(DISTINCT related_cik) as c_cnt
+        FROM manager_relationships
+        WHERE source_table = 'OTHERMANAGER2.tsv' AND sequence_number != ''
+        GROUP BY accession_number, TRIM(sequence_number)
+        HAVING c_cnt > 1;
+        """
+    )
+    all_conflict_keys = cur.fetchall()
+
+    cur.execute(
+        """
+        WITH conflict_keys AS (
+            SELECT accession_number, TRIM(sequence_number) as seq
+            FROM manager_relationships
+            WHERE source_table = 'OTHERMANAGER2.tsv' AND sequence_number != ''
+            GROUP BY accession_number, TRIM(sequence_number)
+            HAVING COUNT(DISTINCT related_cik) > 1
+        )
+        SELECT COUNT(DISTINCT li.accession_number || ':' || TRIM(li.other_manager)),
+               COUNT(*),
+               SUM(li.sshprnamt),
+               SUM(li.value_usd)
+        FROM filing_line_items li
+        JOIN conflict_keys ck ON li.accession_number = ck.accession_number AND TRIM(li.other_manager) = ck.seq;
+        """
+    )
+    ref_stats = cur.fetchone()
+    mapping_conflict_diagnostics = {
+        "total_conflict_keys_in_othermanager2": len(all_conflict_keys),
+        "referenced_conflict_keys_count": int(ref_stats[0] or 0),
+        "affected_raw_line_items_count": int(ref_stats[1] or 0),
+        "affected_shares_total": int(ref_stats[2] or 0),
+        "affected_value_usd_total": float(ref_stats[3] or 0.0),
+    }
 
     # 1. Berkshire Apple 2023Q4
     t_berk0 = time.time()
@@ -1229,6 +1445,7 @@ def run_full_c1_discovery(db_path: str | Path) -> dict[str, Any]:
         "created_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "total_execution_time_sec": round(t_total, 3),
         "preflight": preflight,
+        "mapping_conflict_diagnostics": mapping_conflict_diagnostics,
         "evidence_a_berkshire_apple_2023q4": berkshire_res,
         "evidence_b_point72_2019q4_discovery": point72_res,
         "evidence_c_split_pilot_pairs": split_results,

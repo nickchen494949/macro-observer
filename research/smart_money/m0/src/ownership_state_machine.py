@@ -200,8 +200,16 @@ def is_pit_accepted(acceptance_datetime: str, period_of_report: str) -> bool:
     return eastern_date_str <= deadline_str
 
 
+def is_cash_equity_asset_class(val: Any) -> bool:
+    """Check if asset_class represents cash equity ('cash_equity', 'SH', case-insensitive), rejecting options and derivatives."""
+    if val is None or isinstance(val, bool):
+        return False
+    s = str(val).strip().upper()
+    return s in ("CASH_EQUITY", "SH")
+
+
 class OwnershipPolicy(str, enum.Enum):
-    """Deterministic ownership resolution policies under Contract v0.8.2."""
+    """Deterministic ownership resolution policies under Contract v0.8.3."""
     PRIMARY_EMPIRICAL_ZERO = "PRIMARY_EMPIRICAL_ZERO"
     ZERO_SENTINEL_EXCLUDED = "ZERO_SENTINEL_EXCLUDED"
 
@@ -213,7 +221,7 @@ def resolve_ownership(
     other_manager_map: dict[tuple[str, str], str] | None = None,
     policy: OwnershipPolicy | str = OwnershipPolicy.PRIMARY_EMPIRICAL_ZERO,
 ) -> tuple[str | None, bool]:
-    """Resolve economic owner CIK from row's other_manager under Contract v0.8.2 rules.
+    """Resolve economic owner CIK from row's other_manager under Contract v0.8.3 rules.
 
     Primary Origin Sentinels:
     - None (NULL) -> origin_filer_cik, False

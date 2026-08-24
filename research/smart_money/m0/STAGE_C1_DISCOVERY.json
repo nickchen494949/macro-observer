@@ -1,10 +1,10 @@
 {
-  "created_utc": "2026-08-24T07:54:51Z",
+  "created_utc": "2026-08-24T08:18:10Z",
   "evidence_a_berkshire_apple_2023q4": {
     "acceptance_datetime": "2024-02-14T21:02:18.000Z",
     "accession_number": "0000950123-24-002518",
     "anchor_raw_match": true,
-    "execution_time_sec": 0.005,
+    "execution_time_sec": 0.006,
     "free_text_name_rows_count": 0,
     "ineligibility_reasons": [
       "CONFIDENTIAL_TREATMENT_OMISSION (is_confidential_omit=1)",
@@ -301,8 +301,8 @@
     ],
     "cross_component_excluded_count": 0,
     "entity_name": "Point72 Asset Management",
-    "execution_time_sec": 0.543,
-    "intra_entity_deduped_holdings_count": 4457,
+    "execution_time_sec": 0.589,
+    "intra_entity_deduped_holdings_count": 4408,
     "manager_relationships": [
       {
         "acceptance_datetime": "2020-02-14T21:44:41.000Z",
@@ -376,20 +376,50 @@
     "on_time_confidential_filings_count": 0,
     "period_of_report": "2019-12-31",
     "primary_m0": {
+      "asset_scope": "CASH_EQUITY_ONLY",
       "duplicate_disclosures_removed_count": 0,
-      "intra_entity_deduped_holdings_count": 4457,
-      "main_accession_raw_lines_retained": 917,
-      "main_accession_shares_before_dedup": 418109088,
-      "main_accession_value_before_dedup": 19018144000.0,
-      "raw_line_items_count": 4457,
-      "reconstructed_disclosures_count": 4457,
-      "total_shares_deduped": 563789558,
-      "total_value_usd_deduped": 25013024000.0,
+      "intra_entity_deduped_holdings_count": 4408,
+      "main_accession_raw_lines_retained": 877,
+      "main_accession_shares_before_dedup": 404693788,
+      "main_accession_value_before_dedup": 17857865000.0,
+      "raw_line_items_count": 4408,
+      "reconstructed_disclosures_count": 4408,
+      "total_shares_deduped": 549534258,
+      "total_value_usd_deduped": 23800447000.0,
       "unresolved_rows_count": 0,
       "unresolved_shares_total": 0,
       "unresolved_value_total": 0.0
     },
-    "reconstructed_disclosures_count": 4457,
+    "raw_all_asset_anchor": {
+      "main_accession_asset_breakdown": {
+        "call_option": {
+          "rows": 31,
+          "shares": 8930800,
+          "value_usd": 556255000.0
+        },
+        "cash_equity": {
+          "rows": 877,
+          "shares": 404693788,
+          "value_usd": 17857865000.0
+        },
+        "put_option": {
+          "rows": 9,
+          "shares": 4484500,
+          "value_usd": 604024000.0
+        }
+      },
+      "main_accession_raw_lines_total": 917,
+      "main_accession_shares_total": 418109088,
+      "main_accession_value_usd_total": 19018144000.0,
+      "primary_all_asset_deduped_shares": 563789558,
+      "primary_all_asset_deduped_value_usd": 25013024000.0,
+      "total_component_raw_lines": 4457,
+      "total_component_raw_shares": 563789558,
+      "total_component_raw_value_usd": 25013024000.0,
+      "zero_excluded_all_asset_deduped_shares": 145680470,
+      "zero_excluded_all_asset_deduped_value_usd": 5994880000.0
+    },
+    "reconstructed_disclosures_count": 4408,
     "seed_ciks": [
       "0001599822",
       "0001603466",
@@ -404,25 +434,26 @@
       "graph_edges_count": 2283,
       "graph_edges_source_tables": "OTHERMANAGER.tsv and OTHERMANAGER2.tsv union",
       "line_lookup_source_table": "OTHERMANAGER2.tsv only",
-      "line_map_entries_count": 1566
+      "line_map_entries_count": 1565
     },
     "status": "PROPOSED PENDING CODEX MANUAL FREEZE",
     "total_raw_line_items": 4457,
     "unresolved_rows_count": 0,
     "unresolved_shares_total": 0,
     "zero_excluded_sensitivity": {
+      "asset_scope": "CASH_EQUITY_ONLY",
       "duplicate_disclosures_removed_count": 0,
-      "intra_entity_deduped_holdings_count": 3540,
+      "intra_entity_deduped_holdings_count": 3531,
       "main_accession_raw_lines_retained": 0,
       "main_accession_shares_before_dedup": 0,
       "main_accession_value_before_dedup": 0.0,
-      "raw_line_items_count": 4457,
-      "reconstructed_disclosures_count": 3540,
-      "total_shares_deduped": 145680470,
-      "total_value_usd_deduped": 5994880000.0,
-      "unresolved_rows_count": 917,
-      "unresolved_shares_total": 418109088,
-      "unresolved_value_total": 19018144000.0
+      "raw_line_items_count": 4408,
+      "reconstructed_disclosures_count": 3531,
+      "total_shares_deduped": 144840470,
+      "total_value_usd_deduped": 5942582000.0,
+      "unresolved_rows_count": 877,
+      "unresolved_shares_total": 404693788,
+      "unresolved_value_total": 17857865000.0
     }
   },
   "evidence_c_split_pilot_pairs": [
@@ -433,17 +464,17 @@
         "confidential_omission_components_excluded": 27,
         "duplicate_disclosures_removed_q_curr": 0,
         "duplicate_disclosures_removed_q_prev": 0,
-        "exit_positions_count": 97,
+        "exit_positions_count": 95,
         "membership_incomplete_components_excluded": 289,
         "new_positions_count": 263,
-        "unresolved_ownership_rows_excluded_q_curr": 795,
-        "unresolved_ownership_rows_excluded_q_prev": 779
+        "unresolved_ownership_rows_excluded_q_curr": 753,
+        "unresolved_ownership_rows_excluded_q_prev": 720
       },
       "contract_ex_date": "2024-06-10",
       "contract_split_factor": 10.0,
       "cusip": "67066G104",
       "eligible_continuous_entity_count": 3169,
-      "execution_time_sec": 24.959,
+      "execution_time_sec": 25.412,
       "global_dataset_context": {
         "late_filings_excluded_q_curr": 599,
         "late_filings_excluded_q_prev": 605,
@@ -456,10 +487,10 @@
       "is_in_contract_pass_range": true,
       "mad_log": 0.0712,
       "multi_sequence_other_manager": {
-        "q_curr_free_text_rows": 217,
-        "q_curr_multi_sequence_rows": 211,
-        "q_prev_free_text_rows": 214,
-        "q_prev_multi_sequence_rows": 210,
+        "q_curr_free_text_rows": 205,
+        "q_curr_multi_sequence_rows": 190,
+        "q_prev_free_text_rows": 204,
+        "q_prev_multi_sequence_rows": 188,
         "samples": [
           "1, 2",
           "1,3",
@@ -483,17 +514,17 @@
         "confidential_omission_components_excluded": 46,
         "duplicate_disclosures_removed_q_curr": 1,
         "duplicate_disclosures_removed_q_prev": 1,
-        "exit_positions_count": 81,
+        "exit_positions_count": 82,
         "membership_incomplete_components_excluded": 171,
         "new_positions_count": 179,
-        "unresolved_ownership_rows_excluded_q_curr": 637,
-        "unresolved_ownership_rows_excluded_q_prev": 657
+        "unresolved_ownership_rows_excluded_q_curr": 576,
+        "unresolved_ownership_rows_excluded_q_prev": 585
       },
       "contract_ex_date": "2022-08-25",
       "contract_split_factor": 3.0,
       "cusip": "88160R101",
       "eligible_continuous_entity_count": 1694,
-      "execution_time_sec": 21.13,
+      "execution_time_sec": 21.421,
       "global_dataset_context": {
         "late_filings_excluded_q_curr": 633,
         "late_filings_excluded_q_prev": 570,
@@ -506,10 +537,10 @@
       "is_in_contract_pass_range": true,
       "mad_log": 0.0436,
       "multi_sequence_other_manager": {
-        "q_curr_free_text_rows": 270,
-        "q_curr_multi_sequence_rows": 133,
-        "q_prev_free_text_rows": 270,
-        "q_prev_multi_sequence_rows": 147,
+        "q_curr_free_text_rows": 247,
+        "q_curr_multi_sequence_rows": 114,
+        "q_prev_free_text_rows": 250,
+        "q_prev_multi_sequence_rows": 104,
         "samples": [
           "1,2",
           "1 2 3",
@@ -535,15 +566,15 @@
         "duplicate_disclosures_removed_q_prev": 0,
         "exit_positions_count": 223,
         "membership_incomplete_components_excluded": 222,
-        "new_positions_count": 121,
-        "unresolved_ownership_rows_excluded_q_curr": 1005,
-        "unresolved_ownership_rows_excluded_q_prev": 1129
+        "new_positions_count": 120,
+        "unresolved_ownership_rows_excluded_q_curr": 952,
+        "unresolved_ownership_rows_excluded_q_prev": 1072
       },
       "contract_ex_date": "2022-06-06",
       "contract_split_factor": 20.0,
       "cusip": "023135106",
       "eligible_continuous_entity_count": 2776,
-      "execution_time_sec": 31.339,
+      "execution_time_sec": 33.037,
       "global_dataset_context": {
         "late_filings_excluded_q_curr": 570,
         "late_filings_excluded_q_prev": 668,
@@ -556,10 +587,10 @@
       "is_in_contract_pass_range": true,
       "mad_log": 0.0595,
       "multi_sequence_other_manager": {
-        "q_curr_free_text_rows": 421,
-        "q_curr_multi_sequence_rows": 209,
-        "q_prev_free_text_rows": 527,
-        "q_prev_multi_sequence_rows": 203,
+        "q_curr_free_text_rows": 398,
+        "q_curr_multi_sequence_rows": 197,
+        "q_prev_free_text_rows": 513,
+        "q_prev_multi_sequence_rows": 188,
         "samples": [
           "1,2,5",
           "1,2,3",
@@ -586,14 +617,14 @@
         "exit_positions_count": 125,
         "membership_incomplete_components_excluded": 217,
         "new_positions_count": 133,
-        "unresolved_ownership_rows_excluded_q_curr": 865,
-        "unresolved_ownership_rows_excluded_q_prev": 954
+        "unresolved_ownership_rows_excluded_q_curr": 837,
+        "unresolved_ownership_rows_excluded_q_prev": 876
       },
       "contract_ex_date": "2022-07-18",
       "contract_split_factor": 20.0,
       "cusip": "02079K305",
       "eligible_continuous_entity_count": 2409,
-      "execution_time_sec": 27.339,
+      "execution_time_sec": 27.273,
       "global_dataset_context": {
         "late_filings_excluded_q_curr": 633,
         "late_filings_excluded_q_prev": 570,
@@ -606,10 +637,10 @@
       "is_in_contract_pass_range": true,
       "mad_log": 0.035,
       "multi_sequence_other_manager": {
-        "q_curr_free_text_rows": 360,
-        "q_curr_multi_sequence_rows": 185,
-        "q_prev_free_text_rows": 361,
-        "q_prev_multi_sequence_rows": 236,
+        "q_curr_free_text_rows": 349,
+        "q_curr_multi_sequence_rows": 176,
+        "q_prev_free_text_rows": 348,
+        "q_prev_multi_sequence_rows": 179,
         "samples": [
           "1,2",
           "1,2,5",
@@ -627,6 +658,13 @@
       "waterfall_state": "KNOWN_SPLIT_PASS"
     }
   ],
+  "mapping_conflict_diagnostics": {
+    "affected_raw_line_items_count": 5472,
+    "affected_shares_total": 659481568,
+    "affected_value_usd_total": 42779736343.0,
+    "referenced_conflict_keys_count": 17,
+    "total_conflict_keys_in_othermanager2": 50
+  },
   "preflight": {
     "db_filename": "13f_full_4409f14.db",
     "db_path": "research/smart_money/phase0/data/13f_full_4409f14.db",
@@ -634,5 +672,5 @@
     "size_bytes": 25881661440
   },
   "status": "STAGE C PART C1 DISCOVERY UNDER CODEX RE-AUDIT",
-  "total_execution_time_sec": 105.32
+  "total_execution_time_sec": 108.5
 }

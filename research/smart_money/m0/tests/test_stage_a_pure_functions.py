@@ -953,3 +953,74 @@ def test_outcome_policies_cardinality_invariant_and_sensitivities():
     with pytest.raises(ValueError):
         bad_ret2 = [{"primary_stock_id": "STK_1", "period_of_report": "2024-03-31", "forward_return": True, "outcome_status": "CLEAN"}]
         verify_cardinality_invariant(signals, bad_ret2)
+
+
+def test_is_cash_equity_asset_class():
+    """Test is_cash_equity_asset_class accepts only cash equity / SH and rejects options/derivatives."""
+    from research.smart_money.m0.src.ownership_state_machine import is_cash_equity_asset_class
+
+    assert is_cash_equity_asset_class("cash_equity") is True
+    assert is_cash_equity_asset_class("CASH_EQUITY") is True
+    assert is_cash_equity_asset_class("SH") is True
+    assert is_cash_equity_asset_class("sh") is True
+
+    # Options and derivatives rejected
+    assert is_cash_equity_asset_class("call_option") is False
+    assert is_cash_equity_asset_class("put_option") is False
+    assert is_cash_equity_asset_class("PRN") is False
+    assert is_cash_equity_asset_class("bond") is False
+    assert is_cash_equity_asset_class(None) is False
+    assert is_cash_equity_asset_class("") is False
+    assert is_cash_equity_asset_class(True) is False
+
+
+def test_resolve_line_level_manager_mappings_duplicate_and_conflict():
+    """Test resolve_line_level_manager_mappings collapses duplicates and quarantines multi-CIK conflict keys."""
+    from research.smart_money.m0.src.pilot_extractor import resolve_line_level_manager_mappings
+
+    # Case 1: Exact duplicate rows pointing to the same CIK -> collapsed to single mapping
+    raw_items = [
+        ("0001-20-000001", "1", "1603466"),
+        ("0001-20-000001", "1", "0001603466"),  # same CIK
+        ("0001-20-000001", "2", "1599822"),
+    ]
+    resolved, conflicts = resolve_line_level_manager_mappings(raw_items)
+    assert resolved == {
+        ("0001-20-000001", "1"): "0001603466",
+        ("0001-20-000001", "2"): "0001599822",
+    }
+    assert conflicts == {}
+
+    # Case 2: Mapping conflict where (acc, seq) points to >1 distinct CIKs -> quarantined
+    conflict_items = [
+        ("0001-20-000002", "1", "1603466"),
+        ("0001-20-000002", "1", "1599822"),  # different CIK for same seq 1
+        ("0001-20-000002", "2", "1698051"),  # clean single mapping
+    ]
+    resolved2, conflicts2 = resolve_line_level_manager_mappings(conflict_items)
+    assert ("0001-20-000002", "1") not in resolved2
+    assert resolved2[("0001-20-000002", "2")] == "0001698051"
+    assert conflicts2[("0001-20-000002", "1")] == ["0001599822", "0001603466"]
+
+
+def test_fail_closed_pit_acceptance_datetime_handling():
+    """Test that build_line_level_manager_map and build_entity_graph_edges fail closed on missing/late timestamps."""
+    from research.smart_money.m0.src.pilot_extractor import build_line_level_manager_map, build_entity_graph_edges
+
+    period = "2024-03-31"  # deadline is 2024-05-15
+    rows = [
+        # (acc, p_rep, rep_cik, rel_cik, rel_name, seq, src, acc_dt)
+        ("0001-24-000001", period, "0001000001", "0001000002", "Sub Mgr", "1", "OTHERMANAGER2.tsv", "2024-05-14T12:00:00Z"),  # On-time
+        ("0001-24-000002", period, "0001000001", "0001000003", "Late Mgr", "1", "OTHERMANAGER2.tsv", "2024-05-16T12:00:00Z"),  # Late
+        ("0001-24-000003", period, "0001000001", "0001000004", "Missing DT", "1", "OTHERMANAGER2.tsv", None),  # Missing DT -> Must fail closed!
+    ]
+
+    rel_map = build_line_level_manager_map(rows, period)
+    assert ("0001-24-000001", "1") in rel_map
+    assert ("0001-24-000002", "1") not in rel_map
+    assert ("0001-24-000003", "1") not in rel_map
+
+    edges = build_entity_graph_edges(rows, period)
+    assert ("0001000001", "0001000002") in edges
+    assert ("0001000001", "0001000003") not in edges
+    assert ("0001000001", "0001000004") not in edges

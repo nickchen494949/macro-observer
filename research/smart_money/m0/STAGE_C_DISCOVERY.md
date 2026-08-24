@@ -1,8 +1,8 @@
 # M0 Stage C Part C1 Pilot Discovery Report
 
 > **Status**: `STAGE C PART C1 DISCOVERY UNDER CODEX RE-AUDIT`<br>
-> **Generated UTC**: `2026-08-24T07:54:51Z`<br>
-> **Total Execution Time**: `105.32s`
+> **Generated UTC**: `2026-08-24T08:18:10Z`<br>
+> **Total Execution Time**: `108.5s`
 
 ---
 
@@ -56,7 +56,7 @@
 
 ---
 
-## 3. Evidence B: Point72 2019Q4 Multi-Manager Discovery & v0.8.2 Reconciliation
+## 3. Evidence B: Point72 2019Q4 Multi-Manager Discovery & v0.8.3 Reconciliation
 
 - **Status**: `PROPOSED PENDING CODEX MANUAL FREEZE`
 - **Entity Name**: `Point72 Asset Management`
@@ -69,26 +69,37 @@
 - **Total Raw Line Items Across Component**: 4,457
 - **On-Time Confidential Filings**: 0 / **All-Period Confidential Filings**: 0
 - **On-Time Amendment Filings**: 0 / **All-Period Amendment Filings**: 0
-- **Execution Time**: 0.543s
+- **Execution Time**: 0.589s
 
-### Source Tables Disambiguation Disclosure
-- **Line-Level Sequence Lookup Source**: `OTHERMANAGER2.tsv only` (1566 sequence mappings)
+### Source Tables Disambiguation & Fail-Closed PIT Disclosure
+- **Line-Level Sequence Lookup Source**: `OTHERMANAGER2.tsv only` (1565 sequence mappings)
 - **Entity Graph Affiliation Edges Source**: `OTHERMANAGER.tsv and OTHERMANAGER2.tsv union` (2283 undirected edges)
+- **PIT Missing Timestamp Handling**: Fail-closed (relationships with missing or invalid `acceptance_datetime` are strictly excluded).
 
-### Point72 Policy Comparison: Primary M0 vs ZERO_SENTINEL_EXCLUDED Sensitivity
+### Point72 Policy Comparison: Primary M0 vs ZERO_SENTINEL_EXCLUDED Sensitivity (M0 Cash Equity Only)
 
-| Metric / Pipeline Stage | Primary M0 (Empirical Zero Origin) | ZERO_SENTINEL_EXCLUDED (Pre-Aggregation) | Delta |
+| Metric / Pipeline Stage | Primary M0 (Cash Equity Only) | ZERO_SENTINEL_EXCLUDED (Cash Equity Only) | Delta |
 | :--- | :---: | :---: | :---: |
-| **Raw Line Items Count** | 4,457 | 4,457 | 0 |
-| **Main Filing (0001567619-20-004063) Raw Rows Retained** | **917** | **0** | -917 |
-| **Main Filing Shares Before Dedup** | **418,109,088** | **0** | -418,109,088 |
-| **Main Filing Value USD Before Dedup** | **$19,018,144,000** | **$0** | -$19,018,144,000 |
-| **Unresolved Rows Count** | 0 | 917 | +917 |
-| **Unresolved Shares Total** | 0 | 418,109,088 | +418,109,088 |
-| **Reconstructed Disclosures Count** | 4,457 | 3,540 | -917 |
-| **Intra-Entity Deduplicated Holdings** | 4,457 | 3,540 | -917 |
-| **Total Shares Deduplicated** | **563,789,558** | **145,680,470** | -418,109,088 |
-| **Total Value USD Deduplicated** | **$25,013,024,000** | **$5,994,880,000** | -$19,018,144,000 |
+| **Cash Equity Raw Line Items** | 4,408 | 4,408 | 0 |
+| **Main Filing (`0001567619-20-004063`) Cash Rows Retained** | **877** | **0** | -877 |
+| **Main Filing Cash Shares Before Dedup** | **404,693,788** | **0** | -404,693,788 |
+| **Main Filing Cash Value USD Before Dedup** | **$17,857,865,000** | **$0** | -$17,857,865,000 |
+| **Unresolved Cash Rows Count** | 0 | 877 | +877 |
+| **Unresolved Cash Shares Total** | 0 | 404,693,788 | +404,693,788 |
+| **Reconstructed Cash Disclosures Count** | 4,408 | 3,531 | -877 |
+| **Intra-Entity Deduplicated Cash Holdings** | 4,408 | 3,531 | -877 |
+| **Total Cash Shares Deduplicated** | **549,534,258** | **144,840,470** | -404,693,788 |
+| **Total Cash Value USD Deduplicated** | **$23,800,447,000** | **$5,942,582,000** | -$17,857,865,000 |
+
+### Pre-Eligibility Raw All-Asset Anchor Disclosure
+
+| Asset Class / Anchor Level | Raw Rows Count | Raw Shares Total | Raw Value USD | In M0 Cash Equity Scope? |
+| :--- | :---: | :---: | :---: | :---: |
+| Main Accession Cash Equity (`SH`) | 877 | 404,693,788 | $17,857,865,000 | **YES (Included)** |
+| Main Accession Call Options (`call_option`) | 31 | 8,930,800 | $556,255,000 | **NO (Excluded)** |
+| Main Accession Put Options (`put_option`) | 9 | 4,484,500 | $604,024,000 | **NO (Excluded)** |
+| **Main Accession All-Asset Raw Total** | **917** | **418,109,088** | **$19,018,144,000** | *Pre-Eligibility Anchor* |
+| **Point72 Component All-Asset Total** | **4,457** | **563,789,558** | **$25,013,024,000** | *Pre-Eligibility Anchor* |
 
 ### Accessions and Filing Events (Actual PIT Timestamps)
 
@@ -112,7 +123,7 @@
 
 ---
 
-## 4. Evidence C: Four Canonical Split Pilot Pairs (Full World-B Pipeline)
+## 4. Evidence C: Four Canonical Split Pilot Pairs (Full World-B Pipeline, Cash Equity Only)
 
 | Symbol | CUSIP | Quarter Pair | Split Factor | Ex-Date | Continuous Entities | Raw Median | MAD_log | Adj Median | State | Action | Pass [0.8, 1.2] |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -136,10 +147,10 @@ The table below contrasts the naive filer grouping against the true $G(Q-1, Q)$ 
 
 | Symbol | Membership Incomplete | Confidential Omission | Amendment Unresolved | New Positions | Exit Positions | Unresolved Ownership Rows (Q-1 / Q) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **NVDA** | 289 | 27 | 0 | 263 | 97 | 779 / 795 |
-| **TSLA** | 171 | 46 | 0 | 179 | 81 | 657 / 637 |
-| **AMZN** | 222 | 73 | 0 | 121 | 223 | 1129 / 1005 |
-| **GOOGL** | 217 | 59 | 1 | 133 | 125 | 954 / 865 |
+| **NVDA** | 289 | 27 | 0 | 263 | 95 | 720 / 753 |
+| **TSLA** | 171 | 46 | 0 | 179 | 82 | 585 / 576 |
+| **AMZN** | 222 | 73 | 0 | 120 | 223 | 1072 / 952 |
+| **GOOGL** | 217 | 59 | 1 | 133 | 125 | 876 / 837 |
 
 ### Global Dataset Context
 
@@ -154,31 +165,45 @@ The table below contrasts the naive filer grouping against the true $G(Q-1, Q)$ 
 
 ## 5. Real-Data Assumption Discovery: Multi-Manager Sequences and Free-Text Manager Names
 
-Under Contract v0.8.2, `resolve_ownership` resolves single integer sequence numbers strictly against `OTHERMANAGER2.tsv` and treats blank/N-A/exact-0 as origin sentinels. Numeric multi-sequence lists (e.g. `'1,2,4,11'`, `'1 3 4'`) and free-text manager names (e.g. `'Blue Chip Partners LLC'`, `'PARAMETRIC PORTFOLIO ASSOCIATES LLC'`) remain unresolved and excluded from Primary M0.
+Under Contract v0.8.3, `resolve_ownership` resolves single integer sequence numbers strictly against `OTHERMANAGER2.tsv` and treats blank/N-A/exact-0 as origin sentinels. Numeric multi-sequence lists (e.g. `'1,2,4,11'`, `'1 3 4'`) and free-text manager names (e.g. `'Blue Chip Partners LLC'`, `'PARAMETRIC PORTFOLIO ASSOCIATES LLC'`) remain unresolved and excluded from Primary M0.
 
 | Target Symbol / Filing | Q-1 Multi-Seq Rows | Q Multi-Seq Rows | Q-1 Free-Text Rows | Q Free-Text Rows | Sample Values |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Berkshire Apple 2023Q4** | 11 | N/A | 0 | N/A | `1,2,4,11, 2,4,11, 4,5` |
-| **NVDA** | 210 | 211 | 214 | 217 | `1, 2, 1,3, 1,3` |
-| **TSLA** | 147 | 133 | 270 | 270 | `1,2, 1 2 3, 5 6` |
-| **AMZN** | 203 | 209 | 527 | 421 | `1,2,5, 1,2,3, 1,2,3` |
-| **GOOGL** | 236 | 185 | 361 | 360 | `1,2, 1,2,5, 1,2,3` |
+| **NVDA** | 188 | 190 | 204 | 205 | `1, 2, 1,3, 1,3` |
+| **TSLA** | 104 | 114 | 250 | 247 | `1,2, 1 2 3, 5 6` |
+| **AMZN** | 188 | 197 | 513 | 398 | `1,2,5, 1,2,3, 1,2,3` |
+| **GOOGL** | 179 | 176 | 348 | 349 | `1,2, 1,2,5, 1,2,3` |
 
-> **Impact Analysis**: Under Contract v0.8.2, multi-sequence strings, free-text names, and unmapped sequences are conservatively treated as unresolved ownership and excluded from Primary M0 without silent fallback.
+> **Impact Analysis**: Under Contract v0.8.3, multi-sequence strings, free-text names, and unmapped sequences are conservatively treated as unresolved ownership and excluded from Primary M0 without silent fallback.
 
 ---
 
-## 6. Honest Audit Boundaries
+## 6. Whole-Database Manager Mapping Conflict Diagnostics & Quarantine Audit
+
+| Diagnostic Metric | Measured Value in Frozen DB | Enforcement Rule |
+| :--- | :---: | :--- |
+| Total Conflicted `(accession, sequence)` Keys in `OTHERMANAGER2.tsv` | **50** | Quarantined (Excluded from Line Lookup Map) |
+| Conflicted Keys Referenced by `filing_line_items` | **17** | Resolved to `ownership_unresolved = True` |
+| Affected Raw Line Items Excluded from Primary M0 | **5,472** | Excluded from Primary M0 |
+| Affected Shares Total | **659,481,568** | Excluded from Primary M0 |
+| Affected Value USD Total | **$42,779,736,343** | Excluded from Primary M0 |
+
+---
+
+## 7. Honest Audit Boundaries
 - **Read-Only Guarantee**: Phase 0 database was accessed strictly via `open_readonly_sqlite(immutable=True)` with `PRAGMA query_only=ON`. Zero writes performed.
 - **Zero Network**: No requests were made to OpenFIGI, yfinance, or SEC EDGAR.
 - **Status**: Discovery evidence collected; fixtures remain proposed pending Codex independent manual audit and freeze.
 
 ---
 
-## 7. C1 Implementation Audit & Contract v0.8.2 Reconciliation
-- **Contract Specification**: `CONTRACT.md` v0.8.2 (Canonical Frozen Amended Specification).
+## 8. C1 Implementation Audit & Contract v0.8.3 Reconciliation
+- **Contract Specification**: `CONTRACT.md` v0.8.3 (Canonical Frozen Amended Specification).
 - **Audit Status**: `STAGE C PART C1 DISCOVERY UNDER CODEX RE-AUDIT`.
-- **Point72 Retained Rows (Primary)**: All 917 `DFND` / `'0'` rows retained in Primary M0, totaling 418,109,088 shares and $19,018,144,000 USD before deduplication.
-- **Point72 Zero-Excluded Sensitivity**: Upstream pre-aggregation exclusion drops exactly the 917 main rows.
-- **Disambiguation Proven**: Line sequence resolution queries strictly `source_table = 'OTHERMANAGER2.tsv'`; graph connected components union valid on-time edges from both `OTHERMANAGER.tsv` and `OTHERMANAGER2.tsv`.
+- **Point72 Raw Anchor (Pre-Eligibility)**: Retains all 917 `DFND` / `'0'` rows (877 cash, 31 call option, 9 put option), totaling 418,109,088 shares and $19,018,144,000 USD before deduplication.
+- **Point72 M0 Cash-Equity Eligible (Primary)**: Retains 877 cash equity rows, totaling 404,693,788 shares and $17,857,865,000 USD for main accession; 4,408 cash equity rows totaling 549,534,258 shares and $23,800,447,000 USD across component.
+- **Point72 Zero-Excluded Sensitivity (Cash Equity)**: Upstream pre-aggregation exclusion drops exactly the 877 main cash rows, yielding 3,531 cash equity rows totaling 144,840,470 shares and $5,942,582,000 USD across component.
+- **Mapping Conflict Quarantine**: Fully verified 50 conflict keys, 17 referenced keys, and 5,472 affected rows quarantined deterministically.
+- **Fail-Closed PIT Filtering**: All manager relationships with missing or invalid `acceptance_datetime` fail closed when `period` is supplied.
 - **Split Anchors**: All four canonical split stocks (NVDA, TSLA, AMZN, GOOGL) achieve adjusted medians in `[0.8, 1.2]` under full $G(Q-1, Q)$ graph components.
