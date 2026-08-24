@@ -2,6 +2,7 @@
 
 import argparse
 import hashlib
+import json
 import math
 import os
 import shutil
@@ -9,11 +10,14 @@ import sqlite3
 import subprocess
 import tempfile
 import time
+import re
 from pathlib import Path
 
-from research.smart_money.m0.src.storage_guard import open_readonly_sqlite, _check_sqlite_sidecars
+from research.smart_money.m0.src.storage_guard import open_readonly_sqlite, _check_sqlite_sidecars, init_signal_db
 from research.smart_money.m0.src.run_paths import create_run_paths, get_default_m0_root
 from research.smart_money.m0.src.manifest_integrity import compute_sha256_file, canonical_json_dumps, compute_sha256_str
+
+_HEX_40_OR_64_PATTERN = re.compile(r"^([0-9a-fA-F]{40}|[0-9a-fA-F]{64})$")
 
 def generate_51_contract_periods():
     periods = []
@@ -25,7 +29,8 @@ def generate_51_contract_periods():
             if p > "2026-03-31":
                 break
             periods.append(p)
-    assert len(periods) == 51
+    if len(periods) != 51:
+        raise RuntimeError("Missing contract periods")
     return periods
 
 def normalize_cusip(c):
@@ -34,16 +39,28 @@ def normalize_cusip(c):
     c = str(c).strip().upper()
     return c if c else None
 
-def get_synthetic_id(cusip):
-    # Deterministic exactly-12-char ID
-    return hashlib.md5(cusip.encode('utf-8')).hexdigest()[:12].upper()
+def build_injective_mapping(cusip_sets):
+    all_cusips = set()
+    for s in cusip_sets:
+        all_cusips.update(s)
+    
+    sorted_cusips = sorted(all_cusips)
+    mapping = {}
+    for i, c in enumerate(sorted_cusips):
+        sid = f"P{i:011d}"
+        if len(sid) != 12:
+            raise RuntimeError(f"Synthetic ID capacity exceeded or invalid length: {sid}")
+        mapping[c] = sid
+    return mapping
 
 def compute_projection_and_gates(base_bytes, inserted_rows, populated_bytes, all_period_upper_rows, page_size, free_bytes):
     two_branch_all_period_upper_rows = 2 * all_period_upper_rows
-    if inserted_rows > 0:
-        bytes_per_row = math.ceil((populated_bytes - base_bytes) / inserted_rows)
-    else:
-        bytes_per_row = 0
+    if inserted_rows <= 0:
+        raise RuntimeError("inserted_rows is not positive")
+    if populated_bytes <= base_bytes:
+        raise RuntimeError("populated_bytes is not greater than base_bytes")
+        
+    bytes_per_row = math.ceil((populated_bytes - base_bytes) / inserted_rows)
     
     empirical_signal_db_bytes = math.ceil(1.20 * (base_bytes + bytes_per_row * two_branch_all_period_upper_rows) / page_size) * page_size
     explicit_non_db_reserve = 512 * 1024 * 1024
@@ -71,29 +88,49 @@ def compute_projection_and_gates(base_bytes, inserted_rows, populated_bytes, all
     }
 
 def get_git_info(m0_root):
+    m0_path = Path(m0_root).resolve()
     try:
-        sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=m0_root, stderr=subprocess.STDOUT).decode("utf-8").strip()
-        repo_root = subprocess.check_output(["git", "rev-parse", "--show-toplevel"], cwd=m0_root, stderr=subprocess.STDOUT).decode("utf-8").strip()
-        status_out = subprocess.check_output(["git", "status", "--porcelain"], cwd=repo_root, stderr=subprocess.STDOUT).decode("utf-8")
+        sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=str(m0_path), stderr=subprocess.STDOUT).decode("utf-8").strip()
+        if not _HEX_40_OR_64_PATTERN.match(sha):
+            raise RuntimeError(f"Invalid SHA format: {sha}")
+            
+        repo_root_str = subprocess.check_output(["git", "rev-parse", "--show-toplevel"], cwd=str(m0_path), stderr=subprocess.STDOUT).decode("utf-8").strip()
+        repo_path = Path(repo_root_str).resolve()
+        
+        if not str(m0_path).startswith(str(repo_path)):
+            raise RuntimeError(f"m0_root {m0_path} is not inside repo root {repo_path}")
+            
+        status_out = subprocess.check_output(["git", "status", "--porcelain=v1", "-z"], cwd=str(repo_path), stderr=subprocess.STDOUT)
     except subprocess.SubprocessError as e:
-        raise RuntimeError(f"Git command failed: {e}")
+        output = getattr(e, 'output', b'').decode('utf-8')
+        raise RuntimeError(f"Git command failed: {output}")
         
     dirty_paths = []
-    for line in status_out.splitlines():
-        if len(line) > 3:
-            dirty_paths.append(line[3:])
+    if status_out:
+        parts = status_out.split(b'\0')
+        i = 0
+        while i < len(parts):
+            if not parts[i]:
+                i += 1
+                continue
+            status = parts[i][:2].decode('utf-8')
+            path = parts[i][3:].decode('utf-8')
+            dirty_paths.append(path)
+            if status[0] in ('R', 'C'):
+                i += 1
+            i += 1
             
     try:
-        rel_m0 = Path(m0_root).resolve().relative_to(Path(repo_root).resolve())
+        rel_m0 = m0_path.relative_to(repo_path)
     except ValueError:
-        rel_m0 = "research/smart_money/m0"
+        raise RuntimeError(f"m0_root {m0_path} is not inside repo root {repo_path}")
         
     rel_m0_str = str(rel_m0)
     if not rel_m0_str.endswith('/'):
         rel_m0_str += '/'
         
-    m0_dirty = any(p.startswith(rel_m0_str) for p in dirty_paths)
-    return sha, repo_root, m0_dirty, dirty_paths
+    m0_dirty_paths = [p for p in dirty_paths if p.startswith(rel_m0_str)]
+    return sha, str(repo_path), bool(m0_dirty_paths), m0_dirty_paths, dirty_paths
 
 def write_atomic_canonical_json(filepath, data):
     dir_path = filepath.parent
@@ -117,18 +154,38 @@ def get_page_info(db_path):
     pc = conn.execute("PRAGMA page_count").fetchone()[0]
     conn.close()
     return ps, pc
+    
+def get_schema_hash(db_path):
+    conn = sqlite3.connect(db_path)
+    rows = conn.execute("SELECT name, sql FROM sqlite_master WHERE type='table' ORDER BY name").fetchall()
+    conn.close()
+    
+    schema_str = ""
+    for name, sql in rows:
+        if name in ("m0_signals", "m0_signals_zero_excluded"):
+            norm_sql = " ".join(sql.replace("\n", " ").split())
+            schema_str += f"{name}:{norm_sql};"
+    return compute_sha256_str(schema_str)
 
 def run_calibration(run_id, source_db_path):
     t0 = time.time()
-    m0_root = get_default_m0_root()
     
-    sha, repo_root, m0_dirty_before, global_dirty_before = get_git_info(m0_root)
-    if m0_dirty_before:
-        raise RuntimeError(f"M0 dirty preflight abort: working tree must be clean in {m0_root}")
-        
     paths = create_run_paths(run_id)
     if paths.base_dir.exists():
         raise FileExistsError(f"Run directory already exists, refusing to overwrite: {paths.base_dir}")
+        
+    m0_root = get_default_m0_root()
+    
+    parent_dir = paths.base_dir.parent
+    if not parent_dir.exists():
+        parent_dir.mkdir(parents=True, exist_ok=True)
+    preflight_free_bytes = shutil.disk_usage(parent_dir).free
+    if preflight_free_bytes < 256 * 1024 * 1024:
+        raise RuntimeError("Preflight failed: Insufficient disk space (< 256MB)")
+    
+    sha, repo_root, m0_dirty_before, m0_dirty_paths_before, global_dirty_before = get_git_info(m0_root)
+    if m0_dirty_before:
+        raise RuntimeError(f"M0 dirty preflight abort: working tree must be clean in {m0_root}. Dirty: {m0_dirty_paths_before}")
         
     source_p = Path(source_db_path).resolve()
     if not source_p.is_file():
@@ -139,16 +196,13 @@ def run_calibration(run_id, source_db_path):
         raise FileNotFoundError(f"CONTRACT.md missing at {contract_p}")
     contract_hash = compute_sha256_file(contract_p)
     
-    schema_ddl = "CREATE TABLE IF NOT EXISTS m0_signals (primary_stock_id TEXT NOT NULL, period_of_report TEXT NOT NULL, m0_signal REAL NOT NULL, PRIMARY KEY (primary_stock_id, period_of_report));\nCREATE TABLE IF NOT EXISTS m0_signals_zero_excluded (primary_stock_id TEXT NOT NULL, period_of_report TEXT NOT NULL, m0_signal REAL NOT NULL, PRIMARY KEY (primary_stock_id, period_of_report));"
-    schema_hash = compute_sha256_str(schema_ddl)
+    import research.smart_money.m0.src.storage_guard
+    storage_guard_hash = compute_sha256_file(Path(research.smart_money.m0.src.storage_guard.__file__))
     runner_hash = compute_sha256_file(Path(__file__))
     
     source_size_before = source_p.stat().st_size
     source_mtime_before = source_p.stat().st_mtime_ns
     sidecars_before = sorted([s.name for s in _check_sqlite_sidecars(source_p)])
-    
-    conn = open_readonly_sqlite(source_p, immutable=True)
-    query_only_val = conn.execute("PRAGMA query_only").fetchone()[0]
     
     periods = generate_51_contract_periods()
     period_counts = {}
@@ -160,49 +214,75 @@ def run_calibration(run_id, source_db_path):
         if len(sorted_keys) > 4:
             del top4_sets[sorted_keys[-1]]
 
-    cursor = conn.cursor()
-    cursor.arraysize = 500
+    conn = None
+    query_only_val = -1
+    scan_exception = None
     
-    for p in periods:
-        cursor.execute("SELECT accession_number FROM filing_events WHERE period_of_report = ?", (p,))
-        period_cusips = set()
-        while True:
-            acc_batch = cursor.fetchmany(500)
-            if not acc_batch:
-                break
-            acc_list = [row[0] for row in acc_batch]
-            qs = ",".join("?" * len(acc_list))
-            query = f"SELECT cusip FROM filing_line_items WHERE accession_number IN ({qs}) AND asset_class = 'cash_equity'"
-            c2 = conn.cursor()
-            c2.execute(query, acc_list)
-            while True:
-                cbatch = c2.fetchmany(500)
-                if not cbatch:
-                    break
-                for row in cbatch:
-                    norm = normalize_cusip(row[0])
-                    if norm:
-                        period_cusips.add(norm)
-            c2.close()
-        
-        c = len(period_cusips)
-        period_counts[p] = c
-        update_top4(c, p, period_cusips)
-        
-    conn.close()
-    
+    try:
+        conn = open_readonly_sqlite(source_p, immutable=True)
+        query_only_val = conn.execute("PRAGMA query_only").fetchone()[0]
+        if query_only_val != 1:
+            raise RuntimeError(f"query_only PRAGMA is {query_only_val}, expected 1")
+            
+        cursor = conn.cursor()
+        cursor.arraysize = 500
+        try:
+            for p in periods:
+                cursor.execute("SELECT accession_number FROM filing_events WHERE period_of_report = ?", (p,))
+                period_cusips = set()
+                while True:
+                    acc_batch = cursor.fetchmany(500)
+                    if not acc_batch:
+                        break
+                    acc_list = [row[0] for row in acc_batch]
+                    qs = ",".join("?" * len(acc_list))
+                    query = f"SELECT cusip FROM filing_line_items WHERE accession_number IN ({qs}) AND asset_class = 'cash_equity'"
+                    c2 = conn.cursor()
+                    try:
+                        c2.execute(query, acc_list)
+                        while True:
+                            cbatch = c2.fetchmany(500)
+                            if not cbatch:
+                                break
+                            for row in cbatch:
+                                norm = normalize_cusip(row[0])
+                                if norm:
+                                    period_cusips.add(norm)
+                    finally:
+                        c2.close()
+                
+                c = len(period_cusips)
+                if c < 0:
+                    raise RuntimeError("Impossible count")
+                period_counts[p] = c
+                update_top4(c, p, period_cusips)
+        finally:
+            cursor.close()
+            
+    except Exception as e:
+        scan_exception = e
+    finally:
+        if conn:
+            conn.close()
+            
     source_size_after = source_p.stat().st_size
     source_mtime_after = source_p.stat().st_mtime_ns
     sidecars_after = sorted([s.name for s in _check_sqlite_sidecars(source_p)])
     
     invariance_pass = (source_size_before == source_size_after) and \
                       (source_mtime_before == source_mtime_after) and \
-                      (sidecars_before == []) and (sidecars_after == []) and \
+                      (sidecars_before == sidecars_after) and \
                       (query_only_val == 1)
+
+    if scan_exception:
+        if not invariance_pass:
+            raise RuntimeError(f"Scan exception AND Invariance failure: {scan_exception}") from scan_exception
+        raise scan_exception
                       
     paths.ensure_directories()
     
     manifest = {
+        "source_db_canonical_path": str(source_p),
         "source_db_exact_size": source_size_before,
         "source_db_exact_size_after": source_size_after,
         "source_db_mtime": source_mtime_before,
@@ -214,15 +294,15 @@ def run_calibration(run_id, source_db_path):
         "repo_root": repo_root,
         "contract_hash": contract_hash,
         "contract_version": "0.8.3",
-        "schema_hash": schema_hash,
-        "schema_version": "1.0",
+        "storage_guard_hash": storage_guard_hash,
         "runner_hash": runner_hash,
         "m0_tree_dirty_preflight": m0_dirty_before,
+        "m0_dirty_paths_preflight": m0_dirty_paths_before,
         "m0_dirty_scope": "research/smart_money/m0",
         "global_dirty_paths_preflight": global_dirty_before,
         "periods": periods,
-        "per_period_counts": period_counts,
-        "selected_pilot_periods": [],
+        "raw_upper_bound_per_period_counts": period_counts,
+        "preflight_free_bytes": preflight_free_bytes,
         "formulas": {},
         "reserves": {},
         "final_decision": "BLOCK"
@@ -236,34 +316,32 @@ def run_calibration(run_id, source_db_path):
     sorted_top4_keys = sorted(top4_sets.keys(), key=lambda k: (-top4_sets[k][0], k))
     
     pilot_db_path = paths.signal_dir / "m0_signal.db"
-    conn_pilot = sqlite3.connect(pilot_db_path)
-    conn_pilot.execute("PRAGMA auto_vacuum = 0;")
-    conn_pilot.executescript(schema_ddl)
-    conn_pilot.commit()
-    conn_pilot.close()
+    init_signal_db(pilot_db_path)
     
     base_bytes = pilot_db_path.stat().st_size
     base_ps, base_pc = get_page_info(pilot_db_path)
     
+    schema_hash = get_schema_hash(pilot_db_path)
+    manifest["schema_definition_sha256"] = schema_hash
+    manifest["schema_version"] = "1.0"
+    
+    cusip_list_of_sets = [top4_sets[p][1] for p in sorted_top4_keys]
+    id_mapping = build_injective_mapping(cusip_list_of_sets)
+    
     conn_pilot = sqlite3.connect(pilot_db_path)
     inserted_rows = 0
     selected_sets_info = {}
-    id_mapping = {}
     with conn_pilot:
         for p in sorted_top4_keys:
             count, cusips = top4_sets[p]
             rows = []
+            
             c_list = sorted(list(cusips))
-            selected_sets_info[p] = {"count": count, "cusips": c_list}
+            set_hash = compute_sha256_str(canonical_json_dumps(c_list))
+            selected_sets_info[p] = {"count": count, "hash": set_hash}
+            
             for c in c_list:
-                sid = get_synthetic_id(c)
-                if c in id_mapping and id_mapping[c] != sid:
-                    raise RuntimeError("Collision in synthetic ID mapping")
-                if sid in id_mapping.values() and c not in id_mapping:
-                     assigned = [k for k,v in id_mapping.items() if v == sid]
-                     if assigned and assigned[0] != c:
-                         raise RuntimeError("Collision: different CUSIPs mapped to same synthetic ID")
-                id_mapping[c] = sid
+                sid = id_mapping[c]
                 rows.append((sid, p, 1.0))
             conn_pilot.executemany("INSERT INTO m0_signals VALUES (?, ?, ?)", rows)
             conn_pilot.executemany("INSERT INTO m0_signals_zero_excluded VALUES (?, ?, ?)", rows)
@@ -277,20 +355,24 @@ def run_calibration(run_id, source_db_path):
     populated_bytes = pilot_db_path.stat().st_size
     pop_ps, pop_pc = get_page_info(pilot_db_path)
     
-    assert base_ps == pop_ps, "Page size must remain stable"
-    assert populated_bytes == pop_ps * pop_pc, "File size must equal page_size * page_count after VACUUM"
+    if base_ps != pop_ps:
+        raise RuntimeError("Page size is not stable")
+    if populated_bytes != pop_ps * pop_pc:
+        raise RuntimeError("File size mismatch after VACUUM")
     
-    free_bytes = shutil.disk_usage(paths.base_dir).free
     real_disk = os.stat(paths.base_dir)
     disk_device = real_disk.st_dev
     disk_path = str(paths.base_dir.resolve())
+    free_bytes = shutil.disk_usage(disk_path).free
     
     all_upper = sum(period_counts.values())
     proj_gates = compute_projection_and_gates(base_bytes, inserted_rows, populated_bytes, all_upper, pop_ps, free_bytes)
     
-    _, _, _, global_dirty_after = get_git_info(m0_root)
+    _, _, m0_dirty_after, m0_dirty_paths_after, global_dirty_after = get_git_info(m0_root)
     
     manifest.update({
+        "m0_tree_dirty_after_output": m0_dirty_after,
+        "m0_dirty_paths_after": m0_dirty_paths_after,
         "global_dirty_paths_after": global_dirty_after,
         "selected_pilot_periods": sorted_top4_keys,
         "selected_sets": selected_sets_info,
@@ -308,7 +390,7 @@ def run_calibration(run_id, source_db_path):
             "persistent_margin": 1.2
         },
         "formulas": {
-            "bytes_per_row": "ceil((populated_bytes - base_bytes) / inserted_rows) if inserted_rows > 0 else 0",
+            "bytes_per_row": "ceil((populated_bytes - base_bytes) / inserted_rows)",
             "empirical_signal_db_bytes": "ceil(1.20 * (base_bytes + bytes_per_row * two_branch_all_period_upper_rows) / page_size) * page_size",
             "projected_total_persistent_bytes": "max(empirical_signal_db_bytes + explicit_non_db_reserve, provisional_floor)",
             "gate_persistent": "free_bytes >= 2 * projected_total_persistent_bytes",
