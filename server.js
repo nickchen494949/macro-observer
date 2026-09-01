@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const { execFile } = require('child_process');
 const { evaluateDiagnostics } = require('./macro_engine');
+const { fetchAllNews, loadNewsFromDisk } = require('./lib/fetch_news');
 
 const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
@@ -722,6 +723,9 @@ async function smartUpdate(includeYahoo = false) {
   await updateFedPath();
   // Update SEP Path
   await updateSepPath();
+
+  // Update macro news (GDELT + Fed RSS)
+  try { await fetchAllNews(); } catch(e) { console.log(`  ⚠️  News update failed: ${e.message}`); }
 
   dlStatus = { state:'ready', progress:0, total:0, msg:'Updated' };
   console.log('  ✅ Update done\n');
@@ -2783,6 +2787,13 @@ const server = http.createServer(async (req, res) => {
         res.end(JSON.stringify({ ok: true, points: filtered.length, last }));
       } catch(e) { res.writeHead(400); res.end(JSON.stringify({ error: e.message })); }
     });
+  } else if (p === '/api/news') {
+    const news = loadNewsFromDisk();
+    res.end(JSON.stringify(news));
+  } else if (p === '/api/news/refresh') {
+    if (!requireLocalAdmin(req, res)) return;
+    res.end(JSON.stringify({ status: 'started' }));
+    fetchAllNews().catch(e => console.error('[News] Refresh error:', e));
   } else {
     // Serve HTML pages
     const fs = require('fs');
@@ -2815,6 +2826,7 @@ server.listen(PORT, '127.0.0.1', async () => {
   console.log('  ╠══════════════════════════════════════════╣');
   console.log(`  ║  🌐 http://localhost:${PORT}               ║`);
   console.log('  ║  GET /api/data      Dashboard data       ║');
+  console.log('  ║  GET /api/news      Macro news feed      ║');
   console.log('  ║  GET /api/refresh   Incremental update   ║');
   console.log('  ║  GET /api/status    Download progress    ║');
   console.log('  ║  GET /api/redownload Full re-download    ║');
@@ -2867,4 +2879,15 @@ server.listen(PORT, '127.0.0.1', async () => {
   setInterval(() => {
     smartUpdate(true).catch(e => console.error('Update error:', e));
   }, DAY);
+
+  // Hourly news refresh (GDELT + Fed RSS)
+  const HOUR = 60 * 60 * 1000;
+  setInterval(() => {
+    fetchAllNews().catch(e => console.error('[News] Hourly refresh error:', e));
+  }, HOUR);
+
+  // Initial news fetch: 10s after startup (fast, don't block)
+  setTimeout(() => {
+    fetchAllNews().catch(e => console.error('[News] Initial fetch error:', e));
+  }, 10000);
 });
