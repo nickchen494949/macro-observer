@@ -1603,29 +1603,70 @@ function renderNews(data) {
 
   const articles = data.articles || [];
   if (articles.length === 0) {
-    body.innerHTML = '<div style="color:#888;padding:12px;text-align:center">No macro news available. Data will appear after first fetch.</div>';
+    body.innerHTML = '<div style="color:#aaa;padding:12px;text-align:center">No macro news available. Data will appear after first fetch.</div>';
     section.style.display = '';
     return;
   }
 
-  countEl.textContent = articles.length + ' articles';
+  // ── Importance scoring ──
+  const HIGH_KW = /FOMC|rate cut|rate hike|fed funds|CPI|NFP|nonfarm|payroll|GDP|recession|tariff|trade war|jobs report|employment|powell|warsh|inflation data|treasury yield/i;
+  const MED_KW = /federal reserve|interest rate|central bank|unemployment|consumer price|housing start|retail sales|PMI|ISM|durable goods|oil price|bond market|yield curve/i;
+  const TOP_DOMAINS = ['reuters.com','bloomberg.com','wsj.com','ft.com','cnbc.com','federalreserve.gov','bls.gov','bea.gov'];
 
-  let html = '';
-  for (const a of articles) {
-    const icon = a.sourceType === 'fed' ? '🏛' : '📰';
+  function scoreArticle(a) {
+    let s = 0;
+    if (a.sourceType === 'fed') {
+      s += 50;
+      // Boost FOMC statements & minutes over enforcement actions
+      if (/FOMC|monetary|statement|minutes|testimony|semiannual/i.test(a.title)) s += 30;
+    }
+    if (HIGH_KW.test(a.title)) s += 40;
+    if (MED_KW.test(a.title)) s += 20;
+    if (TOP_DOMAINS.some(d => (a.source||'').includes(d))) s += 15;
+    // Recency boost: <6h = +10, <12h = +5
+    const hrs = (Date.now() - new Date(a.date).getTime()) / 3600000;
+    if (hrs < 6) s += 10;
+    else if (hrs < 12) s += 5;
+    return s;
+  }
+
+  const scored = articles.map(a => ({ ...a, _score: scoreArticle(a) }));
+  scored.sort((a, b) => b._score - a._score);
+
+  const SHOW_DEFAULT = 8;
+
+  countEl.textContent = scored.length + ' articles';
+
+  function buildItem(a, idx) {
+    const isHigh = a._score >= 50;
+    const isMed = a._score >= 30 && a._score < 50;
+    const icon = a.sourceType === 'fed' ? '🏛' : (isHigh ? '🔴' : (isMed ? '🟡' : '📰'));
     const badge = a.sourceType === 'fed'
       ? '<span style="background:#1a3a5c;color:#60a5fa;padding:1px 6px;border-radius:3px;font-size:10px;margin-right:6px">Fed</span>'
       : '';
     const ago = timeAgo(a.date);
     const domain = a.source || '';
-    html += `<div style="padding:8px 0;border-bottom:1px solid #333;display:flex;align-items:flex-start;gap:8px">
-      <span style="font-size:16px;flex-shrink:0;margin-top:2px">${icon}</span>
+    const titleColor = isHigh ? '#fff' : (isMed ? '#e0e0e0' : '#bbb');
+    const titleWeight = isHigh ? 'font-weight:600' : '';
+    const hidden = idx >= SHOW_DEFAULT ? 'style="display:none" class="news-extra"' : '';
+    return `<div ${hidden} style="${idx >= SHOW_DEFAULT ? 'display:none;' : ''}padding:8px 0;border-bottom:1px solid #333;display:flex;align-items:flex-start;gap:8px" class="${idx >= SHOW_DEFAULT ? 'news-extra' : ''}">
+      <span style="font-size:14px;flex-shrink:0;margin-top:3px">${icon}</span>
       <div style="flex:1;min-width:0">
         <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
-          ${badge}<a href="${a.url}" target="_blank" rel="noopener" style="color:#e0e0e0;text-decoration:none;font-size:13px;line-height:1.4">${a.title}</a>
+          ${badge}<a href="${a.url}" target="_blank" rel="noopener" style="color:${titleColor};text-decoration:none;font-size:13px;line-height:1.4;${titleWeight}">${a.title}</a>
         </div>
         <div style="color:#888;font-size:11px;margin-top:2px">${domain} · ${ago}</div>
       </div>
+    </div>`;
+  }
+
+  let html = scored.map((a, i) => buildItem(a, i)).join('');
+
+  if (scored.length > SHOW_DEFAULT) {
+    html += `<div style="text-align:center;padding:8px 0">
+      <button id="newsToggleBtn" onclick="toggleNewsExpand()" style="background:none;border:1px solid #555;color:#aaa;border-radius:4px;padding:4px 16px;cursor:pointer;font-size:12px">
+        Show ${scored.length - SHOW_DEFAULT} more ▼
+      </button>
     </div>`;
   }
   body.innerHTML = html;
@@ -1638,6 +1679,14 @@ function renderNews(data) {
   }
 
   section.style.display = '';
+}
+
+function toggleNewsExpand() {
+  const extras = document.querySelectorAll('.news-extra');
+  const btn = document.getElementById('newsToggleBtn');
+  const isHidden = extras.length > 0 && extras[0].style.display === 'none';
+  extras.forEach(el => el.style.display = isHidden ? '' : 'none');
+  if (btn) btn.textContent = isHidden ? 'Show less ▲' : `Show ${extras.length} more ▼`;
 }
 
 async function refreshNews() {
