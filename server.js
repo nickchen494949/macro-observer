@@ -2701,8 +2701,8 @@ const server = http.createServer(async (req, res) => {
   } else {
     // Serve HTML pages
     const fs = require('fs');
-    let htmlFile = 'world.html';  // default: world overview
-    if (p === '/us' || p === '/index.html') htmlFile = 'index.html';
+    let htmlFile = 'index.html';  // default: US dashboard
+    if (p === '/world' || p === '/world.html') htmlFile = 'world.html';
     if (p === '/flow' || p === '/flow.html') htmlFile = 'flow.html';
     const htmlPath = require('path').join(__dirname, htmlFile);
     try {
