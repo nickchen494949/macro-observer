@@ -2630,6 +2630,17 @@ const server = http.createServer(async (req, res) => {
       return +((last - prev[1]) / prev[1] * 100).toFixed(2);
     };
     const lastVal = (vals) => vals && vals.length ? vals[vals.length - 1][1] : null;
+    const lastDate = (vals) => vals && vals.length ? vals[vals.length - 1][0] : null;
+
+    const buildItem = (label, key, vals) => ({
+      label, key,
+      value: lastVal(vals),
+      date: lastDate(vals),
+      change1d: calcChange(vals, 1),
+      change1w: calcChange(vals, 7),
+      change1m: calcChange(vals, 30),
+      change1q: calcChange(vals, 90),
+    });
 
     // Pulse items
     const pulseConfig = [
@@ -2645,12 +2656,7 @@ const server = http.createServer(async (req, res) => {
     ];
     const pulse = pulseConfig.map(pc => {
       const vals = pc.yahoo ? store.yahoo[pc.yahoo] : store.fred[pc.fred];
-      return {
-        label: pc.label, key: pc.key,
-        value: lastVal(vals),
-        change1d: calcChange(vals, 1),
-        change1w: calcChange(vals, 7),
-      };
+      return buildItem(pc.label, pc.key, vals);
     });
 
     // Region status
@@ -2662,20 +2668,22 @@ const server = http.createServer(async (req, res) => {
     };
     const mkInd = (label, key) => {
       const p = pulse.find(x => x.key === key);
-      return { label, value: p?.value, change1d: p?.change1d };
+      return { label, value: p?.value, change1d: p?.change1d, change1w: p?.change1w, change1m: p?.change1m, change1q: p?.change1q };
     };
     const soxxVals = store.yahoo['SOXX'];
-    const soxxInd = { label: 'SOXX 半导体', value: lastVal(soxxVals), change1d: calcChange(soxxVals, 1) };
+    const soxxInd = buildItem('SOXX 半导体', 'soxx', soxxVals);
     const jpyVals = store.yahoo['JPY=X'];
-    const jpyInd = { label: 'USD/JPY', value: lastVal(jpyVals), change1d: calcChange(jpyVals, 1) };
-    const copperInd = (() => { const v = store.yahoo['HG=F']; return { label: 'Copper 铜', value: lastVal(v), change1d: calcChange(v, 1) }; })();
+    const jpyInd = buildItem('USD/JPY', 'jpyx', jpyVals);
+    const copperInd = buildItem('Copper 铜', 'copper', store.yahoo['HG=F']);
+    const bdiVals = (store.valuation['BDI'] || []);
+    const bdiInd = buildItem('BDI', 'bdi', bdiVals);
 
     const regions = [
-      { name: '美国', emoji: '🇺🇸', link: '/us', indicators: [mkInd('S&P 500','sp500'), mkInd('DXY','dxy'), mkInd('10Y','us10y')] },
+      { name: '美国', emoji: '🇺🇸', link: '/', indicators: [mkInd('S&P 500','sp500'), mkInd('DXY','dxy'), mkInd('10Y','us10y')] },
       { name: '中国', emoji: '🇨🇳', link: null, indicators: [mkInd('上证','sse'), copperInd] },
       { name: '欧洲', emoji: '🇪🇺', link: null, indicators: [mkInd('STOXX 600','stoxx')] },
       { name: '日本', emoji: '🇯🇵', link: null, indicators: [mkInd('Nikkei','nikkei'), jpyInd] },
-      { name: '中东', emoji: '🛢️', link: null, indicators: [mkInd('Oil','oil'), mkInd('Gold','gold')] },
+      { name: '中东', emoji: '🛢️', link: null, indicators: [mkInd('Oil','oil'), mkInd('Gold','gold'), bdiInd] },
       { name: '台韩', emoji: '🔬', link: null, indicators: [soxxInd] },
     ];
     regions.forEach(r => { r.status = regionStatus(r.indicators); });

@@ -1,8 +1,134 @@
 {
-  "updated": "2026-09-02T07:38:46.635Z",
-  "gdeltCount": 0,
+  "updated": "2026-09-02T08:48:10.741Z",
+  "gdeltCount": 14,
   "fedCount": 20,
   "articles": [
+    {
+      "title": "Canadian dollar weakens ahead of BoC rate decision , 10 - year yield hits a two - year high",
+      "url": "https://www.theglobeandmail.com/investing/article-canadian-dollar-weakens-ahead-of-boc-rate-decision-10-year-yield-hits/",
+      "source": "theglobeandmail.com",
+      "sourceType": "gdelt",
+      "date": "2026-09-01T21:30:00.000Z",
+      "image": "https://www.theglobeandmail.com/resizer/v2/JW5Q6DS2AVE4VMEU2BJWPMCVPI.JPG?auth=1152f121c1181678a94f6253d76b05cc1aa9e72abfff5d4ab7880a2a87c93089&quality=80&smart=true",
+      "country": "Canada"
+    },
+    {
+      "title": "Will mortgage interest rates improve this September ? 3 things to consider now",
+      "url": "http://www.cbsnews.com/news/will-mortgage-interest-rates-improve-september-2026-things-to-consider/",
+      "source": "cbsnews.com",
+      "sourceType": "gdelt",
+      "date": "2026-09-01T20:15:00.000Z",
+      "image": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/08/25/1afea15c-bcc7-40a2-8cee-8d5124c97792/thumbnail/1200x630/6aa8b3bfa05b27c000814d01d2417822/gettyimages-2276700347.jpg",
+      "country": "United States"
+    },
+    {
+      "title": "Yen drops to 160 per dollar as oil spike , rising yields revive inflation fears",
+      "url": "https://www.staradvertiser.com/2026/09/01/breaking-news/yen-drops-to-160-per-dollar-as-oil-spike-rising-yields-revive-inflation-fears/",
+      "source": "staradvertiser.com",
+      "sourceType": "gdelt",
+      "date": "2026-09-01T20:15:00.000Z",
+      "image": "https://www.staradvertiser.com/wp-content/uploads/2026/09/web1_20260901_brk_yen01.jpg",
+      "country": "United States"
+    },
+    {
+      "title": "Rising bond yields threaten to push up U . S . borrowing costs , experts say . Here what to know . ",
+      "url": "https://www.cbsnews.com/news/rising-bond-yields-borrowing-costs-inflation/",
+      "source": "cbsnews.com",
+      "sourceType": "gdelt",
+      "date": "2026-09-01T20:15:00.000Z",
+      "image": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/09/01/a334d951-1283-42c4-a644-6c06017fd68d/thumbnail/1200x630/690b588292296ddd45e735cd49892376/gettyimages-2290743252.jpg",
+      "country": "United States"
+    },
+    {
+      "title": "Bitcoin Just Had Its Best Month Since 2024 . A Crucial Jobs Report Could Put That Rally To The Test . ",
+      "url": "https://www.ibtimes.com/bitcoin-just-had-its-best-month-since-2024-crucial-jobs-report-could-put-that-rally-test-3807033",
+      "source": "ibtimes.com",
+      "sourceType": "gdelt",
+      "date": "2026-09-01T20:15:00.000Z",
+      "image": "https://d.ibtimes.com/en/full/4603163/bitcoin.jpg",
+      "country": "United States"
+    },
+    {
+      "title": "What a good money market account rate considered to be this September ? ",
+      "url": "http://www.cbsnews.com/news/whats-good-money-market-account-rate-september-2026/",
+      "source": "cbsnews.com",
+      "sourceType": "gdelt",
+      "date": "2026-09-01T20:15:00.000Z",
+      "image": "https://assets1.cbsnewsstatic.com/hub/i/r/2026/08/31/c0179dcb-964c-4eb5-bdb5-ab6e144e3643/thumbnail/1200x630/4325d76ced36f522fcd4f4dcfbf2c1f9/gettyimages-1407859018.jpg",
+      "country": "United States"
+    },
+    {
+      "title": "How much will a $75 , 000 home equity loan cost monthly if opened now ? ",
+      "url": "https://www.cbsnews.com/news/how-much-will-75000-home-equity-loan-cost-monthly-september-2026/",
+      "source": "cbsnews.com",
+      "sourceType": "gdelt",
+      "date": "2026-09-01T20:15:00.000Z",
+      "image": "https://assets2.cbsnewsstatic.com/hub/i/r/2026/09/01/7163e69e-f809-40bb-b411-1ecd1c4b2a75/thumbnail/1200x630/1e211407129e03179148d54bc993097f/gettyimages-2289493551.jpg",
+      "country": "United States"
+    },
+    {
+      "title": "US job openings rise slightly to 7 . 3 million as labor market remains sturdy despite higher costs",
+      "url": "https://www.news4jax.com/business/2026/09/01/us-job-openings-rise-slightly-to-73-million-as-labor-market-remains-sturdy-despite-higher-costs/",
+      "source": "news4jax.com",
+      "sourceType": "gdelt",
+      "date": "2026-09-01T19:15:00.000Z",
+      "image": "https://res.cloudinary.com/graham-media-group/image/upload/f_auto/q_auto/c_thumb,w_700/v1/media/gmg/5V46D5TUL5AHJBK6XGVETYZP2E.jpg?_a=DATAg1kSZAA0",
+      "country": "United States"
+    },
+    {
+      "title": "The Labor Market Is Getting Harder for Americans Who Want to Leave Their Job",
+      "url": "https://www.aol.com/articles/labor-market-getting-harder-americans-160524000.html",
+      "source": "aol.com",
+      "sourceType": "gdelt",
+      "date": "2026-09-01T16:45:00.000Z",
+      "image": "https://hermes.media.static.aol.com/media/2026/09/01/2d2ee4f7-3991-3f67-9c66-a0ded21c632c/21d0aafa-731f-458e-a4e1-c4c5d05fa77e.jpg",
+      "country": "United States"
+    },
+    {
+      "title": "U . S . job openings rise slightly to 7 . 3 million as labor market remains sturdy despite higher costs",
+      "url": "https://www.newsday.com/business/employment-economy-inflation-layoffs-d33406",
+      "source": "newsday.com",
+      "sourceType": "gdelt",
+      "date": "2026-09-01T15:45:00.000Z",
+      "image": "https://cdn.newsday.com/ace/c:YTI4MDhmYWItMGVmMC00:ZTE5YjdkYjItYjY0Ny00/landscape/1280",
+      "country": "United States"
+    },
+    {
+      "title": "Bond yields surge and stocks tumble as inflation fears grow",
+      "url": "https://www.nbcnews.com/business/markets/bond-yields-stocks-oil-prices-inflation-fears-rcna595519",
+      "source": "nbcnews.com",
+      "sourceType": "gdelt",
+      "date": "2026-09-01T15:45:00.000Z",
+      "image": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-09/260901-nyse-vl-1021a-c732d4.jpg",
+      "country": "United States"
+    },
+    {
+      "title": "Fresnillo and Endeavour Mining fall as gold retreats to two - week low",
+      "url": "https://www.proactiveinvestors.co.uk/companies/news/1097894/fresnillo-and-endeavour-mining-fall-as-gold-retreats-to-two-week-low-1097894.html",
+      "source": "proactiveinvestors.co.uk",
+      "sourceType": "gdelt",
+      "date": "2026-09-01T14:00:00.000Z",
+      "image": "https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA5XC9zaHV0dGVyc3RvY2stMTE3NzA4NzQ1OS5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjEyMDAsImhlaWdodCI6NjMwLCJmaXQiOiJjb3ZlciJ9fX0=",
+      "country": "United Kingdom"
+    },
+    {
+      "title": "Gold tumbles ₹2 , 700 To ₹1 . 58 lakh , Five - Day Decline Reaches ₹8 , 900",
+      "url": "https://www.freepressjournal.in/business/gold-tumbles-2700-to-158-lakh-five-day-decline-reaches-8900",
+      "source": "freepressjournal.in",
+      "sourceType": "gdelt",
+      "date": "2026-09-01T13:00:00.000Z",
+      "image": "https://media.assettype.com/freepressjournal/2026-09-01/4jn1i5h1/gold-price-fall.jpg",
+      "country": "India"
+    },
+    {
+      "title": "Euro zone inflation rises above 3 % on higher energy costs",
+      "url": "https://www.rte.ie/news/business/2026/0901/1589924-euro-zone-inflation-flash-reading/",
+      "source": "rte.ie",
+      "sourceType": "gdelt",
+      "date": "2026-09-01T11:30:00.000Z",
+      "image": "https://www.rte.ie/images/001c8127-1600.jpg",
+      "country": "Ireland"
+    },
     {
       "title": "Federal Reserve Board issues enforcement action with former employee of Banco Popular de Puerto Rico",
       "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260827a.htm",
