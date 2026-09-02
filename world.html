@@ -291,8 +291,7 @@ async function fetchNews() {
   try {
     const res = await fetch('/api/news');
     const data = await res.json();
-    const all = [...(data.gdelt||[]), ...(data.fed||[])];
-    renderNews(all);
+    renderNews(data.articles || []);
   } catch(e) { console.error('News fetch error:', e); }
 }
 
