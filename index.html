@@ -523,9 +523,10 @@
 
 <header class="header">
   <div class="header-inner">
-    <div style="display:flex;align-items:center">
-      <h1 class="logo">🔭 宏观观察器</h1>
-      <span class="tagline">Macro Market Dashboard</span>
+    <div style="display:flex;align-items:center;gap:12px">
+      <a href="/" style="color:#888;text-decoration:none;font-size:14px" title="← World Overview">🌍</a>
+      <h1 class="logo">🇺🇸 US Deep Dive</h1>
+      <span class="tagline">美国详细体检</span>
     </div>
     <div class="header-right">
       <div class="status-pills">
@@ -716,17 +717,9 @@
     </div><!-- end cycle-body -->
   </div><!-- end cycle-section -->
 
-  <!-- Conclusions -->
-  <div class="conclusions" id="conclusionsBox" style="display:none">
-    <div class="conclusions-header">
-      <div class="conclusions-title">🧠 Macro Conclusions 宏观判断</div>
-      <div class="lang-toggle">
-        <button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
-        <button class="lang-btn" id="btnZH" onclick="setLang('zh')">中文</button>
-      </div>
-    </div>
-    <div id="conclusionsBody"></div>
-  </div>
+
+  <!-- Conclusions removed -->
+
 
   <!-- ==========================================
        V2 FRONTEND ARCHITECTURE
@@ -793,26 +786,9 @@
     </div>
   </section>
 
-  <!-- LAYER 2: MACRO TRANSMISSION -->
-  <div class="layer-header">
-    <div class="layer-num l2">Ⅱ</div>
-    <div>
-      <div class="layer-title">Macro Transmission <span style="font-weight:400;color:var(--text2)">传导机制</span></div>
-      <div class="layer-sub">为什么会这样 · Credit, fiscal, liquidity & inflation breakdown</div>
-    </div>
-  </div>
 
-  <section class="card">
-    <div class="card-head">
-      <h2>🔗 信贷传导 Credit & Financial Conditions</h2>
-      <span class="badge badge-fred">FRED</span>
-    </div>
-    <div class="tbl-wrap">
-      <table><thead><tr>
-        <th>Indicator</th><th>Current</th><th>Z %ile (4Y)</th><th>Z %ile (All)</th><th>1D Δ</th><th>1W Δ</th><th>1M Δ</th><th>1Q Δ</th><th>6M Δ</th><th>1Y Δ</th>
-      </tr></thead><tbody id="transBody"></tbody></table>
-    </div>
-  </section>
+  <!-- Macro Transmission removed -->
+
 
   <!-- LAYER 3: MARKET PRICING -->
   <div class="layer-header">
@@ -964,36 +940,8 @@ function setLang(lang) {
   currentLang = lang;
   document.getElementById('btnEN').classList.toggle('active', lang === 'en');
   document.getElementById('btnZH').classList.toggle('active', lang === 'zh');
-  // Update UI conclusions language
-  const btnEN1 = document.querySelector('#conclusionsBox .lang-btn:nth-child(1)');
-  const btnZH1 = document.querySelector('#conclusionsBox .lang-btn:nth-child(2)');
-  if (btnEN1) btnEN1.classList.toggle('active', lang === 'en');
-  if (btnZH1) btnZH1.classList.toggle('active', lang === 'zh');
-  if (window._lastConclusions) renderConclusions(window._lastConclusions);
 }
 
-function renderConclusions(c) {
-  window._lastConclusions = c;
-  if (!c) return;
-  const box = document.getElementById('conclusionsBox');
-  const body = document.getElementById('conclusionsBody');
-  if (!box || !body) return;
-  const t = c[currentLang];
-  if (!t) return;
-  box.style.display = 'block';
-  const items = [
-    { num: '1', cls: 'c1', text: t.s1 },
-    { num: '2', cls: 'c2', text: t.s2 },
-    { num: '3', cls: 'c3', text: t.s3 },
-    { num: '4', cls: 'c4', text: t.s4 },
-  ];
-  body.innerHTML = items.map(it => `
-    <div class="conclusion-row">
-      <div class="c-num ${it.cls}">${it.num}</div>
-      <div class="c-text">${it.text}</div>
-    </div>
-  `).join('');
-}
 
 
 // ============================================
@@ -1510,25 +1458,8 @@ function render(data) {
   }
   document.getElementById('econBody').innerHTML = econHtml;
 
-  // Transmission table with subgroup headers
-  const transRows = data.macroTransmission || [];
-  let transHtml = '';
-  const transSubgroups = [
-    { match: 'C&I Loans', header: '🔗 信贷条件 Credit Conditions' },
-    { match: 'SLOOS', header: '📋 SLOOS 银行贷款调查' },
-    { match: 'Fiscal Deficit', header: '🏛️ 财政传导 Fiscal Transmission' },
-    { match: 'TGA', header: '💧 流动性 Liquidity' },
-    { match: 'PPI', header: '📊 通胀分解 Inflation Breakdown' },
-  ];
-  for (const r of transRows) {
-    const sg = transSubgroups.find(s => r.label.includes(s.match));
-    if (sg) {
-      transHtml += `<tr class="group-row"><td colspan="10">${sg.header}</td></tr>`;
-      transSubgroups.splice(transSubgroups.indexOf(sg), 1);
-    }
-    transHtml += row(r);
-  }
-  document.getElementById('transBody').innerHTML = transHtml;
+
+  // Transmission rendering removed (HTML section deleted)
 
   let sh = '';
   for (const g of data.stocks) {
@@ -1555,7 +1486,7 @@ function render(data) {
   document.getElementById('updateTime').textContent = new Date(data.updated).toLocaleTimeString('en-US',{hour12:false});
   
   renderCycle(data.cycleAnalysis);
-  renderConclusions(data.conclusions);
+  // conclusions rendering removed
   if (data.diagnostics) renderDiagnostics(data.diagnostics);
   if (data.factorModel) renderFactorModel(data.factorModel);
   if (data.inflationForecast) renderInflationForecast(data.inflationForecast);

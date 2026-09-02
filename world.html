@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 宏观观察器 — World Overview</title>
+    <style>
+        :root {
+            --bg-body: #1a1a2e;
+            --bg-card: #16213e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #aaa;
+            --text-muted: #666;
+            --border: #333;
+            --green: #4ade80;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+            --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            line-height: 1.5;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header .subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        .header-right a {
+            color: var(--green);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .header-right a:hover {
+            text-decoration: underline;
+        }
+
+        .meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+
+        /* Section A: Global Pulse */
+        .pulse-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        @media (max-width: 900px) {
+            .pulse-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .pulse-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .pulse-card {
+            display: flex;
+            flex-direction: column;
+            border-left-width: 4px;
+            border-left-style: solid;
+            border-left-color: #555; /* Default */
+        }
+
+        .pulse-header {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .pulse-value {
+            font-family: var(--font-mono);
+            font-size: 20px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .pulse-changes {
+            display: flex;
+            gap: 15px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+        }
+
+        .change-up { color: var(--green); }
+        .change-down { color: var(--red); }
+        .change-flat { color: var(--text-secondary); }
+
+        /* Section B: Regional Status */
+        .region-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        @media (max-width: 900px) {
+            .region-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .region-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .region-card {
+            cursor: default;
+            position: relative;
+        }
+
+        .region-card.clickable {
+            cursor: pointer;
+        }
+        .region-card.clickable:hover {
+            border-color: var(--text-secondary);
+        }
+
+        .region-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .status-green { background-color: var(--green); box-shadow: 0 0 5px var(--green); }
+        .status-yellow { background-color: var(--yellow); box-shadow: 0 0 5px var(--yellow); }
+        .status-red { background-color: var(--red); box-shadow: 0 0 5px var(--red); }
+        .status-calm { background-color: #fff; opacity: 0.5; }
+
+        .region-indicator {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #222;
+        }
+        .region-indicator:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .region-indicator-val {
+            font-family: var(--font-mono);
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 100px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 110%;
+            left: 50%;
+            margin-left: -50px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Section C: Hotspots */
+        .hotspot-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .hotspot-item {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 5px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        /* Section D: News */
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .news-item {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .news-title {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .news-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .news-high { border-left: 3px solid var(--red); }
+        .news-med { border-left: 3px solid var(--yellow); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>🌍 宏观观察器 — World Overview</h1>
+            <div class="subtitle">全球脉搏 Global Pulse</div>
+        </div>
+        <div class="header-right">
+            <a href="/us">🇺🇸 US Deep Dive &rarr;</a>
+            <div class="meta" id="update-meta">
+                Updated: <span id="last-updated">-</span> | Refresh in: <span id="countdown">300</span>s
+            </div>
+        </div>
+    </div>
+
+    <h2>Global Pulse</h2>
+    <div class="pulse-grid" id="pulse-container">
+        <!-- Cards injected here -->
+        Loading...
+    </div>
+
+    <h2>Regional Status</h2>
+    <div class="region-grid" id="region-container">
+        <!-- Regions injected here -->
+        Loading...
+    </div>
+
+    <h2>Military Hotspots</h2>
+    <div class="hotspot-row" id="hotspot-container">
+        <!-- Hotspots injected here -->
+        Loading...
+    </div>
+
+    <h2>Macro News</h2>
+    <div class="news-list" id="news-container">
+        <!-- News injected here -->
+        Loading...
+    </div>
+
+    <script>
+        // Config
+        const REFRESH_INTERVAL = 300; // 5 minutes in seconds
+        let countdown = REFRESH_INTERVAL;
+        let timerId = null;
+
+        const HIGH_KW = ['war', 'attack', 'crash', 'plunge', 'emergency', 'crisis', 'rate cut', 'rate hike', 'fed', '战争', '暴跌', '危机', '降息', '加息', '美联储'];
+        const MED_KW = ['warns', 'expected', 'data', 'cpi', 'pmi', 'gdp', '警告', '预期', '数据', '通胀'];
+
+        // Formatting Utils
+        function formatNumber(num) {
+            if (num === undefined || num === null) return '-';
+            return new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(num);
+        }
+
+        function formatChange(val) {
+            if (val === undefined || val === null) return '-';
+            const sign = val > 0 ? '+' : '';
+            return `${sign}${val.toFixed(2)}%`;
+        }
+
+        function getChangeColorClass(val) {
+            if (!val) return 'change-flat';
+            if (val > 0) return 'change-up';
+            if (val < 0) return 'change-down';
+            return 'change-flat';
+        }
+
+        function getBorderColor(change1d) {
+            const abs = Math.abs(change1d || 0);
+            if (abs > 3) return 'var(--red)';
+            if (abs >= 1) return 'var(--yellow)';
+            return '#555';
+        }
+
+        function getStatusClass(status) {
+            if (status === 'green') return 'status-green';
+            if (status === 'yellow') return 'status-yellow';
+            if (status === 'red') return 'status-red';
+            return 'status-calm';
+        }
+
+        // Render Functions
+        function renderPulse(pulseData) {
+            const container = document.getElementById('pulse-container');
+            if (!pulseData || pulseData.length === 0) {
+                container.innerHTML = '<div class="text-muted">No pulse data available</div>';
+                return;
+            }
+
+            container.innerHTML = pulseData.map(item => {
+                const borderCol = getBorderColor(item.change1d);
+                return `
+                    <div class="card pulse-card" style="border-left-color: ${borderCol}">
+                        <div class="pulse-header">
+                            <span>${item.label || item.key}</span>
+                        </div>
+                        <div class="pulse-value">${formatNumber(item.value)}</div>
+                        <div class="pulse-changes">
+                            <div>1D: <span class="${getChangeColorClass(item.change1d)}">${formatChange(item.change1d)}</span></div>
+                            <div>1W: <span class="${getChangeColorClass(item.change1w)}">${formatChange(item.change1w)}</span></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderRegions(regionData) {
+            const container = document.getElementById('region-container');
+            if (!regionData || regionData.length === 0) {
+                container.innerHTML = '<div class="text-muted">No region data available</div>';
+                return;
+            }
+
+            container.innerHTML = regionData.map(region => {
+                const isUs = region.link === '/us';
+                const wrapperStart = isUs ? `<div class="card region-card clickable" onclick="window.location.href='${region.link}'">` : `<div class="card region-card tooltip">`;
+                const tooltipHtml = !isUs ? `<span class="tooltiptext">Coming soon</span>` : '';
+                
+                const indicatorsHtml = (region.indicators || []).map(ind => `
+                    <div class="region-indicator">
+                        <span>${ind.label}</span>
+                        <span class="region-indicator-val">
+                            ${formatNumber(ind.value)} 
+                            <span class="${getChangeColorClass(ind.change1d)}" style="font-size:11px; margin-left:4px">${formatChange(ind.change1d)}</span>
+                        </span>
+                    </div>
+                `).join('');
+
+                return `
+                    ${wrapperStart}
+                        ${tooltipHtml}
+                        <div class="region-header">
+                            <span>${region.emoji || ''}</span>
+                            <span>${region.name || 'Unknown'}</span>
+                            <span class="status-dot ${getStatusClass(region.status)}"></span>
+                        </div>
+                        <div class="indicators">
+                            ${indicatorsHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderHotspots(hotspotData) {
+            const container = document.getElementById('hotspot-container');
+            if (!hotspotData || hotspotData.length === 0) {
+                container.innerHTML = '<div class="text-muted">No hotspot data</div>';
+                return;
+            }
+
+            container.innerHTML = hotspotData.map(spot => `
+                <div class="hotspot-item">
+                    <span>${spot.nameCn || spot.name}</span>
+                    <span class="status-dot ${getStatusClass(spot.status)}"></span>
+                </div>
+            `).join('');
+        }
+
+        function scoreNews(title) {
+            const lower = title.toLowerCase();
+            if (HIGH_KW.some(kw => lower.includes(kw))) return 'high';
+            if (MED_KW.some(kw => lower.includes(kw))) return 'med';
+            return 'low';
+        }
+
+        function renderNews(newsData) {
+            const container = document.getElementById('news-container');
+            if (!newsData || newsData.length === 0) {
+                container.innerHTML = '<div class="text-muted">No recent news</div>';
+                return;
+            }
+
+            container.innerHTML = newsData.map(item => {
+                const score = scoreNews(item.title || '');
+                const borderClass = score === 'high' ? 'news-high' : (score === 'med' ? 'news-med' : '');
+                
+                return `
+                    <div class="news-item ${borderClass}">
+                        <div class="news-title">${item.title}</div>
+                        <div class="news-meta">
+                            <span>${item.source || 'Unknown'}</span>
+                            <span>${item.timeAgo || ''}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Data Fetching
+        async function fetchWorldData() {
+            try {
+                const response = await fetch('/api/world');
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    if (data.updated) {
+                        const d = new Date(data.updated);
+                        document.getElementById('last-updated').innerText = d.toLocaleTimeString();
+                    }
+                    
+                    renderPulse(data.pulse);
+                    renderRegions(data.regions);
+                    renderHotspots(data.hotspots);
+                } else {
+                    console.error("Failed to fetch world data");
+                }
+            } catch (err) {
+                console.error("Error fetching world data", err);
+            }
+        }
+
+        async function fetchNewsData() {
+            try {
+                const response = await fetch('/api/news');
+                if (response.ok) {
+                    const data = await response.json();
+                    renderNews(data);
+                } else {
+                    console.error("Failed to fetch news data");
+                }
+            } catch (err) {
+                console.error("Error fetching news data", err);
+            }
+        }
+
+        async function refreshAll() {
+            await Promise.all([fetchWorldData(), fetchNewsData()]);
+            countdown = REFRESH_INTERVAL;
+            updateCountdownDisplay();
+        }
+
+        function updateCountdownDisplay() {
+            document.getElementById('countdown').innerText = countdown;
+        }
+
+        function startTimer() {
+            if (timerId) clearInterval(timerId);
+            timerId = setInterval(() => {
+                countdown--;
+                if (countdown <= 0) {
+                    refreshAll();
+                } else {
+                    updateCountdownDisplay();
+                }
+            }, 1000);
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            refreshAll();
+            startTimer();
+        });
+    </script>
+</body>
+</html>

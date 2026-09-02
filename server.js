@@ -265,14 +265,22 @@ const STOCK_GROUPS = [
 
 const CTA_ETF_UPDATE_SYMBOLS = ['SPY', 'QQQ', 'IWM', 'IEF', 'USO', 'GLD'];
 
+// World overview tickers (global indices, USD, JPY)
+const WORLD_YAHOO_SYMBOLS = [
+  '^STOXX',     // Euro Stoxx 600
+  '^N225',      // Nikkei 225
+  '000001.SS',  // Shanghai Composite
+  'DX-Y.NYB',   // US Dollar Index (DXY)
+  'JPY=X',      // USD/JPY
+];
+
 function allYahooSymbols() {
   const s = new Set();
   for (const r of RATE_ROWS) { if (r.yahoo) s.add(r.yahoo); }
   for (const r of COMMODITY_ROWS) { if (r.yahoo) s.add(r.yahoo); }
   for (const g of STOCK_GROUPS) { for (const i of g.items) { if (i.yahoo) s.add(i.yahoo); } }
-  // Flow-engine CTA ETF proxies are model inputs even when they are not rendered
-  // as standalone dashboard rows. Keep them in the same hourly Yahoo refresh.
   for (const sym of CTA_ETF_UPDATE_SYMBOLS) s.add(sym);
+  for (const sym of WORLD_YAHOO_SYMBOLS) s.add(sym);
   return [...s];
 }
 
@@ -912,7 +920,7 @@ function buildDashboard() {
   const dffVals = store.fred['DFF'];
   const currentDFF = dffVals && dffVals.length ? dffVals[dffVals.length - 1][1] : null;
 
-  // Align T10YIE to same last date as DGS10 so table & conclusions both show the same breakeven change
+  // Align T10YIE to same last date as DGS10 so table shows the same breakeven change
   const _dgs10Last = (store.fred['DGS10']||[]).reduce((a,[d]) => d > a ? d : a, '');
 
   const rates = RATE_ROWS.map(r => {
@@ -1346,7 +1354,7 @@ function buildDashboard() {
     fedPathHistory: store.valuation['FED_PATH_HISTORY'] || [],
     sepHistory: store.valuation['SEP_HISTORY'] || [],
     macroState: economy, economy, macroTransmission,
-    conclusions: generateConclusions(economy, macroTransmission, rates),
+    // conclusions removed — user requested deletion
     cycleAnalysis: generateCycleAnalysis(economy, macroTransmission, rates),
     diagnostics: diagnosticEngineOutput
   };
@@ -1509,7 +1517,7 @@ function buildDashboard() {
       const overallRisk = hasDamage ? 'high' : (maxDamageSev >= 3 ? 'elevated' : (maxPressureSev >= 3 ? 'elevated' : (maxPressureSev >= 2 ? 'moderate' : 'low')));
       
       // Use legacy contradictions if available
-      const hasContradiction = (resPayload.conclusions?.contradictions?.length || 0) > 0;
+      const hasContradiction = false; // conclusions removed
       
       const actionContextOutput = actionContextEngine.generateActionContext({
          maxRiskSeverity: maxPressureSev,
@@ -2078,184 +2086,6 @@ function generateCycleAnalysis(macroState, macroTransmission, rates) {
 }
 
 
-function generateConclusions(macroState, macroTransmission, rates) {
-  const getV = (arr, label) => (arr||[]).find(r => r.label === label)?.current ?? null;
-  const getC = (arr, label, p='1m') => (arr||[]).find(r => r.label === label)?.changes?.[p] ?? null;
-
-  const nfp        = getV(macroState, 'Nonfarm Payrolls (MoM \u0394)');
-  const gdpnow     = getV(macroState, 'Atlanta Fed GDPNow \u4e9a\u7279\u5170\u5927\u8054\u50a8');
-  const corePce    = getV(macroState, 'Core PCE 通胀 (YoY)');
-  const unrate     = getV(macroState, 'Unemployment 失业率');
-  const unChg      = getC(macroState, 'Unemployment 失业率');
-  const claims     = getV(macroState, 'Initial Claims');
-  const rpceMom    = getV(macroState, 'Real PCE (MoM)');
-  const ip         = getV(macroState, 'Industrial Production (YoY)');
-  const nfci       = getV(macroTransmission, 'Chicago Fed NFCI');
-  const ciLoans    = getV(macroTransmission, 'C&I Loans (YoY)');
-  const ppi        = getV(macroTransmission, 'PPI Final Demand (YoY)');
-  const govExp     = getV(macroTransmission, 'Federal Expenditures (YoY)');
-  const tgaChg     = getC(macroTransmission, 'TGA Balance');
-  const trsyIssue  = getV(macroTransmission, 'Treasury Net Issuance');
-  const hyig       = getV(rates, '(垃圾-优质) 利差 HY-IG');
-  const y10        = getV(rates, '10Y');
-  const y10Chg     = getC(rates, '10Y');           // bp (bpChanges)
-  const tipsChg    = getC(rates, 'TIP Yield (10Y TIPS)'); // bp
-  const termPremChg1M = getC(rates, '10Y ACM Term Premium (Model Est.)', '1m');
-  const termPremChg3M = getC(rates, '10Y ACM Term Premium (Model Est.)', '3m');
-  const termPrem      = getV(rates, '10Y ACM Term Premium (Model Est.)');
-  // ── Breakeven: computed from same reference dates as DGS10 & DFII10 ──
-  // Using y10Chg - tipsChg ensures date alignment (avoids T10YIE being 1 day newer)
-  const be10yChgAligned = (y10Chg != null && tipsChg != null) ? +(y10Chg - tipsChg).toFixed(1) : getC(rates, '10Y Breakeven Inflation');
-  const be10yCurrent    = getV(rates, '10Y Breakeven Inflation');
-  const fmt   = (v, d=1) => v != null ? (+v).toFixed(d) : '—';
-  const fmtBP = v => v != null ? (v > 0 ? '+' : '') + Math.round(v) + 'bp' : '—';
-
-  // ── S1: Growth & Inflation ──
-  const consumptionOK = (rpceMom??0) > 0;
-  const industryWeak  = (ip??0) < 1;
-  const aggHours      = getV(macroState, 'Agg Weekly Hours 总工时 (YoY)');
-  const laborCooling  = (nfp??0) < 100;
-  const outputPositive = (gdpnow??0) > 1.5;
-  // Distinguish labor demand cooling from aggregate output
-  let gEN, gZH;
-  if ((nfp??0) > 200 && (gdpnow??0) > 2.5) { gEN = 'strong across labor and output'; gZH = '就业与产出均强劲'; }
-  else if (laborCooling && outputPositive) {
-    gEN = 'diverging — labor demand cooling while aggregate output remains positive';
-    gZH = '信号分化——劳动需求降温但总体产出仍正';
-  } else if ((nfp??0) > 100 && (gdpnow??0) > 1.5) { gEN = 'moderate'; gZH = '温和'; }
-  else if ((nfp??0) < 0 || (gdpnow??1) < 0) { gEN = 'contracting'; gZH = '收缩'; }
-  else { gEN = 'slowing but positive'; gZH = '放缓但仍为正'; }
-
-  let iEN = 'above target', iZH = '高于目标';
-  if ((corePce??0) > 3.5) { iEN = 'hot'; iZH = '过热'; }
-  else if ((corePce??0) < 2.5) { iEN = 'near target'; iZH = '接近目标'; }
-  const energyRisk = (ppi??0) > 4;
-
-  // Inflation breadth analysis: core vs trimmed/median
-  const trimmedPce = getV(macroState, 'Trimmed Mean PCE 12M');
-  const medianCpi  = getV(macroState, 'Median CPI YoY 中位CPI');
-  const corePce3M  = getV(macroState, 'Core PCE 3M Ann 季化');
-  const sahm       = getV(macroState, 'Sahm Rule 衰退指标');
-  const breadthAvg = (trimmedPce != null && medianCpi != null) ? (trimmedPce + medianCpi) / 2 : null;
-  const breadthGap = (corePce != null && breadthAvg != null) ? +(corePce - breadthAvg).toFixed(2) : null;
-  // If core is >0.5pp above breadth measures → concentrated inflation
-  const inflConcentrated = breadthGap != null && breadthGap > 0.5;
-  const inflBreadthEN = inflConcentrated
-    ? `, but breadth measures materially lower (Trimmed Mean PCE ${fmt(trimmedPce)}%, Median CPI ${fmt(medianCpi)}% → gap ${fmt(breadthGap,2)}pp — consistent with less broad-based pressure, though positive price skew means trimmed readings are not yet definitive evidence of disinflation)`
-    : breadthAvg != null ? `, breadth measures confirm (Trimmed ${fmt(trimmedPce)}%, Median CPI ${fmt(medianCpi)}%)` : '';
-  const inflBreadthZH = inflConcentrated
-    ? `，但广度指标明显较低（Trimmed Mean PCE ${fmt(trimmedPce)}%，Median CPI ${fmt(medianCpi)}% → 差距${fmt(breadthGap,2)}pp——与通胀压力较集中一致，但价格分布正偏时trimmed mean可能低估真实趋势，尚不能确认通胀已全面缓解）`
-    : breadthAvg != null ? `，广度指标确认（Trimmed ${fmt(trimmedPce)}%，Median CPI ${fmt(medianCpi)}%）` : '';
-
-  // Breakeven direction (date-aligned)
-  const beUp   = (be10yChgAligned??0) >  3;
-  const beDown = (be10yChgAligned??0) < -3;
-  const beStr    = beDown ? `, but market 10Y inflation expectations actually easing (breakeven ${fmtBP(be10yChgAligned)} MoM)`
-                 : beUp   ? `, market lifting 10Y inflation expectations (breakeven ${fmtBP(be10yChgAligned)} MoM)`
-                 :           `, 10Y market inflation expectations roughly stable (breakeven ${fmtBP(be10yChgAligned)} MoM)`;
-  const beStrZH  = beDown ? `，但10年期市场通胀预期实际下降（盈亏平衡${fmtBP(be10yChgAligned)}）`
-                 : beUp   ? `，市场通胀预期上升（盈亏平衡${fmtBP(be10yChgAligned)}）`
-                 :           `，10年期市场通胀预期基本稳定（盈亏平衡${fmtBP(be10yChgAligned)}）`;
-
-  // ── S2: Labour ──
-  let laborEN = 'cooling but not crashing', laborZH = '降温但未崩坏';
-  if ((nfp??0) < 0 || (claims??250) > 265) { laborEN = 'deteriorating'; laborZH = '明显恶化'; }
-  else if ((nfp??0) > 200) { laborEN = 'robust'; laborZH = '强劲'; }
-  const claimsOK = (claims??250) < 230;
-  // Unemployment: only call directional if move >= 0.1pp (BLS "little changed" language)
-  const unDir = (unChg??0) > 0.1 ? ', rising' : (unChg??0) < -0.1 ? ', falling' : ', little changed';
-  const unDirZH = (unChg??0) > 0.1 ? '，上行' : (unChg??0) < -0.1 ? '，下行' : '，变化不大';
-
-  // Drivers — fiscal: avoid asserting "expansion driving growth" without Fiscal Impulse data
-  const dEN = [], dZH = [];
-  if ((govExp??0) > 5)   { 
-    if (trsyIssue == null) {
-      dEN.push('fiscal demand stance loose (expenditure growth elevated), but Treasury financing conditions appear tight, confirmed by elevated term premium and real yields; issuance data remain unavailable'); 
-      dZH.push('财政需求端偏宽松（支出增速偏高），但国债融资条件偏紧（由期限溢价与TIPS确认，发行数据待补）'); 
-    } else {
-      dEN.push('fiscal demand stance loose (expenditure growth elevated), but Treasury financing conditions tight (supply high, term premium rising)'); 
-      dZH.push('财政需求端偏宽松（支出增速偏高），但国债融资条件偏紧（净发行高、期限溢价上升）'); 
-    }
-  }
-  else if ((govExp??0) > 0) { dEN.push('fiscal neutral to mildly expansionary'); dZH.push('财政立场中性偏松'); }
-  if ((tgaChg??0) < -80) { dEN.push('TGA drawdown (adding reserves)'); dZH.push('TGA释放流动性'); }
-  if ((ciLoans??0) < 0)  { dEN.push('credit contraction'); dZH.push('信贷收缩'); }
-  if ((ppi??0) > 4)      { dEN.push('supply-side / energy cost pressure'); dZH.push('供给侧/能源成本压力'); }
-  if (dEN.length === 0)  { dEN.push('balanced macro mix'); dZH.push('宏观环境均衡'); }
-
-  // ── S3: Market Regime ──
-  // Decompose 10Y: Δnominal = Δreal(TIPS) + Δbreakeven (date-aligned)
-  // Term Premium: use 1M direction for recent narrative; 3M/6M for structural backdrop
-  const nomUp      = (y10Chg??0) >  10;
-  const nomDown    = (y10Chg??0) < -10;
-  const spreadWide = (hyig??200) > 320;
-  const spreadTight= (hyig??200) < 250;
-  const tpElevated = (termPrem??0) > 0.5;  // structurally high (>50bp)
-  const tpRising1M = (termPremChg1M??0) > 3; // actually rising this month
-  let mEN, mZH, mDetail, mDetailZH;
-
-  if (spreadWide && nomDown) {
-    mEN = 'recession trade'; mZH = '衰退交易';
-    mDetail = `spreads widening to ${Math.round(hyig??0)}bp, yields falling — markets pricing growth deterioration`;
-    mDetailZH = `信用利差走阔至${Math.round(hyig??0)}bp，收益率下行——市场预期增长恶化`;
-  } else if (nomUp && (!beUp || (beUp && tipsChg >= be10yChgAligned))) {
-    // Nominal up, but either breakeven is flat/down OR real rates drove the majority of the rise
-    mEN = beUp ? 'higher real rates, with a modest rise in inflation compensation' : 'rising real rates'; 
-    mZH = beUp ? '长端利率上升（主要由实际利率推动，同时通胀预期小幅回升）' : '真实利率上升';
-    const tpNote = tpElevated
-      ? ` Model estimates term premium at ${fmt(termPrem,2)}%${tpRising1M ? ' and rising over past month' : ' — elevated but roughly flat/slightly lower over past month (structurally high over past quarter)'}.`
-      : '';
-    const tpNoteZH = tpElevated
-      ? ` 模型估算期限溢价处于高位（${fmt(termPrem,2)}%）${tpRising1M ? '，近期仍在上升' : '，近一个月略有回落，但中期仍明显高于此前'}。（注：期限溢价为纽约联储ACM模型推算，非直接可观察值。）`
-      : '';
-    mDetail = `10Y ${fmtBP(y10Chg)} MoM (TIPS ${fmtBP(tipsChg)}, breakeven ${fmtBP(be10yChgAligned)}) → real rates driving yield rise${beUp ? ' (inflation compensation contributed a minor share)' : ', not inflation expectations'}.${tpNote} Credit stable (HY-IG ${Math.round(hyig??0)}bp)`;
-    mDetailZH = `10Y月变${fmtBP(y10Chg)}（TIPS ${fmtBP(tipsChg)}，盈亏平衡${fmtBP(be10yChgAligned)}）→收益率上升主要来自真实利率，通胀预期${beUp ? '仅贡献小部分' : '并未拉动'}。${tpNoteZH}信用市场仍稳定（HY-IG ${Math.round(hyig??0)}bp）`;
-  } else if (nomUp && beUp && be10yChgAligned > tipsChg) {
-    mEN = 'reflation'; mZH = '再通胀';
-    mDetail = `10Y ${fmtBP(y10Chg)} MoM, breakeven ${fmtBP(be10yChgAligned)} (TIPS ${fmtBP(tipsChg)}) → markets lifting inflation expectations as primary driver. Credit ${spreadTight ? 'easy' : 'widening'} (HY-IG ${Math.round(hyig??0)}bp)`;
-    mDetailZH = `10Y月变${fmtBP(y10Chg)}，盈亏平衡通胀率${fmtBP(be10yChgAligned)}（TIPS ${fmtBP(tipsChg)}）→市场通胀预期上升为主要推力。信用${spreadTight ? '宽松' : '走阔'}（HY-IG ${Math.round(hyig??0)}bp）`;
-  } else {
-    mEN = 'risk-on / soft landing'; mZH = '风险偏好/软着陆';
-    mDetail = `HY-IG ${Math.round(hyig??0)}bp, credit healthy, financial conditions easy (NFCI ${fmt(nfci,2)})`;
-    mDetailZH = `HY-IG ${Math.round(hyig??0)}bp，信用健康，金融条件宽松（NFCI ${fmt(nfci,2)}）`;
-  }
-
-  // ── S4: Contradictions & Risks ──
-  const conEN = [], conZH = [];
-  if ((nfci??0) < -0.3 && (corePce??0) > 3) {
-    conEN.push('easy financial conditions vs persistent core inflation — constrains Fed cut room');
-    conZH.push('金融条件宽松但核心通胀持续——限制降息空间');
-  }
-  if (nomUp && !beUp && spreadTight) {
-    conEN.push('real rates rising yet credit spreads tight — watch for lag transmission to credit & equity valuations');
-    conZH.push('真实利率上升但信用利差仍窄——需警惕对信贷与股票估值的滞后传导');
-  }
-  if ((gdpnow??0) > 1.5 && (nfp??0) < 80) {
-    conEN.push(`GDPNow estimates ${fmt(gdpnow)}% but payrolls only +${Math.round(nfp??0)}k — growth-employment divergence needs confirmation from total hours & GDP components`);
-    conZH.push(`GDPNow估算${fmt(gdpnow)}%但非农仅+${Math.round(nfp??0)}k——增长与就业背离，需总工时及GDP分项数据确认`);
-  }
-  if ((nfp??0) > 80 && (claims??200) > 235) {
-    conEN.push('payrolls positive but claims rising — leading vs lagging indicator divergence');
-    conZH.push('非农为正但初请上升——领先与滞后指标出现背离');
-  }
-  if (conEN.length === 0) { conEN.push('no major data contradictions currently visible'); conZH.push('当前数据暂无明显矛盾'); }
-
-  return {
-    en: {
-      s1: `Growth ${gEN} (NFP +${Math.round(nfp??0)}k, GDPNow ${fmt(gdpnow)}%${aggHours != null ? `, agg hours YoY +${fmt(aggHours)}%` : ''}${consumptionOK ? ', consumption solid' : ', consumption soft'}${industryWeak ? ', industrial weak' : ''}). Inflation ${iEN}${energyRisk ? ', energy upside risk' : ''}${inflBreadthEN}${beStr} (Core PCE ${fmt(corePce)}%).`,
-      s2: `Labor ${laborEN}: claims ${claimsOK ? 'low' : Math.round(claims??0)+'k'}, payrolls +${Math.round(nfp??0)}k (net change — gross hiring needs JOLTS confirmation). Unemployment ${fmt(unrate)}%${unDir}${sahm != null ? `. Sahm Rule ${fmt(sahm,2)}pp (trigger=0.50)` : ''}. Drivers: ${dEN.join(', ')}.`,
-      s3: `Markets primarily pricing ${mEN}. ${mDetail}.`,
-      s4: `Key risks & contradictions: ${conEN.join('; ')}.`,
-    },
-    zh: {
-      s1: `增长${gZH}（NFP +${Math.round(nfp??0)}k，GDPNow ${fmt(gdpnow)}%${aggHours != null ? `，总工时YoY +${fmt(aggHours)}%` : ''}${consumptionOK ? '，消费尚可' : '，消费偏弱'}${industryWeak ? '，工业偏弱' : ''}）。通胀${iZH}${energyRisk ? '，能源价格带来上行风险' : ''}${inflBreadthZH}${beStrZH}（核心PCE ${fmt(corePce)}%）。`,
-      s2: `就业${laborZH}——初请${claimsOK ? '仍低' : Math.round(claims??0)+'k'}，非农净增+${Math.round(nfp??0)}k（净增≠招聘率，仍需JOLTS数据确认）。失业率${fmt(unrate)}%${unDirZH}${sahm != null ? `。Sahm Rule ${fmt(sahm,2)}pp（触发线0.50）` : ''}。驱动力：${dZH.join('、')}。`,
-      s3: `市场主要交易${mZH}。${mDetailZH}。`,
-      s4: `最大矛盾与风险：${conZH.join('；')}。`,
-    }
-  };
-}
-
 
 
 // ============================================
@@ -2787,6 +2617,80 @@ const server = http.createServer(async (req, res) => {
         res.end(JSON.stringify({ ok: true, points: filtered.length, last }));
       } catch(e) { res.writeHead(400); res.end(JSON.stringify({ error: e.message })); }
     });
+  } else if (p === '/api/world') {
+    // ── World Overview API ──
+    const calcChange = (vals, daysBack) => {
+      if (!vals || vals.length < 2) return null;
+      const last = vals[vals.length - 1][1];
+      const cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - daysBack);
+      const cutStr = cutoff.toISOString().slice(0, 10);
+      const prev = [...vals].reverse().find(([d]) => d <= cutStr);
+      if (!prev || prev[1] === 0) return null;
+      return +((last - prev[1]) / prev[1] * 100).toFixed(2);
+    };
+    const lastVal = (vals) => vals && vals.length ? vals[vals.length - 1][1] : null;
+
+    // Pulse items
+    const pulseConfig = [
+      { label: 'S&P 500',    key: 'sp500',   yahoo: '^GSPC' },
+      { label: 'STOXX 600',  key: 'stoxx',   yahoo: '^STOXX' },
+      { label: 'Nikkei 225', key: 'nikkei',  yahoo: '^N225' },
+      { label: '上证 SSE',    key: 'sse',     yahoo: '000001.SS' },
+      { label: 'DXY 美元',    key: 'dxy',     yahoo: 'DX-Y.NYB' },
+      { label: '10Y Yield',  key: 'us10y',   fred: 'DGS10' },
+      { label: 'Oil WTI',    key: 'oil',     yahoo: 'CL=F' },
+      { label: 'Gold',       key: 'gold',    yahoo: 'GC=F' },
+      { label: 'VIX',        key: 'vix',     yahoo: '^VIX' },
+    ];
+    const pulse = pulseConfig.map(pc => {
+      const vals = pc.yahoo ? store.yahoo[pc.yahoo] : store.fred[pc.fred];
+      return {
+        label: pc.label, key: pc.key,
+        value: lastVal(vals),
+        change1d: calcChange(vals, 1),
+        change1w: calcChange(vals, 7),
+      };
+    });
+
+    // Region status
+    const regionStatus = (indicators) => {
+      const maxAbs = Math.max(...indicators.map(i => Math.abs(i.change1d || 0)));
+      if (maxAbs > 3) return 'red';
+      if (maxAbs > 1.5) return 'yellow';
+      return 'green';
+    };
+    const mkInd = (label, key) => {
+      const p = pulse.find(x => x.key === key);
+      return { label, value: p?.value, change1d: p?.change1d };
+    };
+    const soxxVals = store.yahoo['SOXX'];
+    const soxxInd = { label: 'SOXX 半导体', value: lastVal(soxxVals), change1d: calcChange(soxxVals, 1) };
+    const jpyVals = store.yahoo['JPY=X'];
+    const jpyInd = { label: 'USD/JPY', value: lastVal(jpyVals), change1d: calcChange(jpyVals, 1) };
+    const copperInd = (() => { const v = store.yahoo['HG=F']; return { label: 'Copper 铜', value: lastVal(v), change1d: calcChange(v, 1) }; })();
+
+    const regions = [
+      { name: '美国', emoji: '🇺🇸', link: '/us', indicators: [mkInd('S&P 500','sp500'), mkInd('DXY','dxy'), mkInd('10Y','us10y')] },
+      { name: '中国', emoji: '🇨🇳', link: null, indicators: [mkInd('上证','sse'), copperInd] },
+      { name: '欧洲', emoji: '🇪🇺', link: null, indicators: [mkInd('STOXX 600','stoxx')] },
+      { name: '日本', emoji: '🇯🇵', link: null, indicators: [mkInd('Nikkei','nikkei'), jpyInd] },
+      { name: '中东', emoji: '🛢️', link: null, indicators: [mkInd('Oil','oil'), mkInd('Gold','gold')] },
+      { name: '台韩', emoji: '🔬', link: null, indicators: [soxxInd] },
+    ];
+    regions.forEach(r => { r.status = regionStatus(r.indicators); });
+
+    // Hotspots (manual — stored in valuation or default calm)
+    const hotspotData = store.valuation['HOTSPOTS'] || {};
+    const hotspots = [
+      { name: 'Hormuz',  nameCn: '霍尔木兹', status: hotspotData['hormuz']  || 'calm' },
+      { name: '俄乌',     nameCn: '俄乌',     status: hotspotData['ukraine'] || 'calm' },
+      { name: '台海',     nameCn: '台湾海峡',  status: hotspotData['taiwan']  || 'calm' },
+      { name: '红海',     nameCn: '红海',     status: hotspotData['redsea']  || 'calm' },
+      { name: '朝鲜半岛', nameCn: '朝鲜半岛',  status: hotspotData['korea']   || 'calm' },
+    ];
+
+    res.end(JSON.stringify({ updated: new Date().toISOString(), pulse, regions, hotspots }));
   } else if (p === '/api/news') {
     const news = loadNewsFromDisk();
     res.end(JSON.stringify(news));
@@ -2797,7 +2701,8 @@ const server = http.createServer(async (req, res) => {
   } else {
     // Serve HTML pages
     const fs = require('fs');
-    let htmlFile = 'index.html';
+    let htmlFile = 'world.html';  // default: world overview
+    if (p === '/us' || p === '/index.html') htmlFile = 'index.html';
     if (p === '/flow' || p === '/flow.html') htmlFile = 'flow.html';
     const htmlPath = require('path').join(__dirname, htmlFile);
     try {
