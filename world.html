@@ -391,8 +391,8 @@
 
             container.innerHTML = regionData.map(region => {
                 const isUs = region.link === '/us';
-                const wrapperStart = isUs ? `<div class="card region-card clickable" onclick="window.location.href='${region.link}'">` : `<div class="card region-card tooltip">`;
-                const tooltipHtml = !isUs ? `<span class="tooltiptext">Coming soon</span>` : '';
+                const wrapperStart = isUs ? `<div class="card region-card clickable" onclick="window.location.href='${region.link}'">` : `<div class="card region-card">`;
+
                 
                 const indicatorsHtml = (region.indicators || []).map(ind => `
                     <div class="region-indicator">
@@ -406,7 +406,6 @@
 
                 return `
                     ${wrapperStart}
-                        ${tooltipHtml}
                         <div class="region-header">
                             <span>${region.emoji || ''}</span>
                             <span>${region.name || 'Unknown'}</span>
