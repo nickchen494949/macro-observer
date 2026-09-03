@@ -1332,14 +1332,12 @@ function buildDashboard() {
       vintageMode: 'latest_available',
       featureFlags: {
         ruleEngineV2: true,
-        eventAttribution: true,
         pca: false,
         inflationForecast: false
       }
     },
     engineStatus: {
       coreDiagnosis: 'ok',
-      eventAttribution: 'unavailable',
       qqqStrategy: 'ok'
     },
     updated: new Date().toISOString(),
@@ -1539,18 +1537,6 @@ function buildDashboard() {
         rulebookVersion: "2.0.0"
       };
       
-      // Top-level extensions for V2 frontend — Event Attribution (shadow/read-only)
-      try {
-        const EventScanner = require('./lib/event_scanner');
-        const scanner = new EventScanner({ store, indicatorRegistry: null });
-        resPayload.eventAttribution = scanner.scan({ lookbackDays: 90 });
-      } catch (eaError) {
-        resPayload.eventAttribution = {
-          status: 'scanner_error',
-          events: [],
-          error: eaError.message
-        };
-      }
       resPayload.actionContext = actionContextOutput;
     } catch (e) {
       console.error("V2 Engine Error:", e);
