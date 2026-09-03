@@ -2623,11 +2623,18 @@ const server = http.createServer(async (req, res) => {
       const RELEASE_CONFIG = [
         { id: 10,  label: 'CPI',  tier: 'S', color: '#dc3545' },
         { id: 50,  label: 'NFP',  tier: 'S', color: '#dc3545' },
-        { id: 101, label: 'FOMC', tier: 'S', color: '#dc3545' },
         { id: 54,  label: 'PCE',  tier: 'A', color: '#f59e0b' },
         { id: 53,  label: 'GDP',  tier: 'A', color: '#f59e0b' },
         { id: 46,  label: 'PPI',  tier: 'B', color: '#3b82f6' },
-        { id: 14,  label: 'ISM',  tier: 'B', color: '#3b82f6' },
+      ];
+      // FOMC decision dates — hardcoded from Fed published calendar
+      const FOMC_DATES = [
+        '2021-01-27','2021-03-17','2021-04-28','2021-06-16','2021-07-28','2021-09-22','2021-11-03','2021-12-15',
+        '2022-01-26','2022-03-16','2022-05-04','2022-06-15','2022-07-27','2022-09-21','2022-11-02','2022-12-14',
+        '2023-02-01','2023-03-22','2023-05-03','2023-06-14','2023-07-26','2023-09-20','2023-11-01','2023-12-13',
+        '2024-01-31','2024-03-20','2024-05-01','2024-06-12','2024-07-31','2024-09-18','2024-11-07','2024-12-18',
+        '2025-01-29','2025-03-19','2025-05-07','2025-06-18','2025-07-30','2025-09-17','2025-10-29','2025-12-17',
+        '2026-01-28','2026-03-18','2026-04-29','2026-06-17','2026-07-29','2026-09-16','2026-11-04','2026-12-16',
       ];
       const apiKey = process.env.FRED_API_KEY;
       const allDates = [];
@@ -2650,6 +2657,10 @@ const server = http.createServer(async (req, res) => {
           }
         } catch(e) { console.log(`  ⚠️ Release ${rel.label} fetch failed: ${e.message}`); }
         await sleep(200);
+      }
+      // Add FOMC meeting dates
+      for (const fd of FOMC_DATES) {
+        allDates.push({ date: fd, label: 'FOMC', tier: 'S', color: '#dc3545' });
       }
       store._releases = allDates;
       store._releasesTs = Date.now();
