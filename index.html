@@ -1348,10 +1348,17 @@ function setupFedPathSlider(history) {
 }
 
 function updateFedPathFromSlider() {
-  const idx = parseInt(document.getElementById('fedPathSlider').value);
+  const slider = document.getElementById('fedPathSlider');
+  const idx = parseInt(slider.value);
+  const maxIdx = currentFedPathHistory.length - 1;
   const [date, pathData] = currentFedPathHistory[idx];
   document.getElementById('fedPathDateLabel').textContent = `(As of: ${date})`;
-  renderFedPath(pathData);
+  // Show newest as ghost dotted line when viewing any historical frame
+  if (idx < maxIdx) {
+    renderFedPath(pathData, currentFedPathHistory[maxIdx][1]);
+  } else {
+    renderFedPath(pathData);
+  }
 }
 
 function renderFedPath(pathData, ghostData) {
