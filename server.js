@@ -2662,6 +2662,58 @@ const server = http.createServer(async (req, res) => {
       for (const fd of FOMC_DATES) {
         allDates.push({ date: fd, label: 'FOMC', tier: 'S', color: '#dc3545', url: 'https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm' });
       }
+
+      // Look up actual released values from FRED store
+      const RELEASE_SERIES = {
+        'CPI':  { series: 'MEDCPIM159SFRBCLE', transform: null, suffix: '% (Median YoY)' },
+        'NFP':  { series: 'PAYEMS', transform: 'mom_abs', suffix: 'k jobs' },
+        'PCE':  { series: 'PCEPILFE', transform: 'yoy', suffix: '% YoY' },
+        'GDP':  { series: 'GDPNOW', transform: null, suffix: '%' },
+        'PPI':  { series: 'PPIFIS', transform: 'yoy', suffix: '% YoY' },
+        'FOMC': { series: 'DFF', transform: null, suffix: '%' },
+      };
+      for (const item of allDates) {
+        const cfg = RELEASE_SERIES[item.label];
+        if (!cfg) continue;
+        const vals = store.fred[cfg.series];
+        if (!vals || vals.length < 2) continue;
+        // Find latest value on or before release date
+        let val = null;
+        for (let i = vals.length - 1; i >= 0; i--) {
+          if (vals[i][0] <= item.date) { val = vals[i][1]; break; }
+        }
+        if (val == null) continue;
+        if (cfg.transform === 'yoy') {
+          // Find value ~12 months earlier
+          const cutDate = new Date(item.date);
+          cutDate.setFullYear(cutDate.getFullYear() - 1);
+          const cutStr = cutDate.toISOString().slice(0, 10);
+          let prev = null;
+          for (let i = vals.length - 1; i >= 0; i--) {
+            if (vals[i][0] <= cutStr) { prev = vals[i][1]; break; }
+          }
+          if (prev && prev !== 0) {
+            item.figure = +((val - prev) / prev * 100).toFixed(2);
+            item.figureStr = item.figure.toFixed(1) + cfg.suffix;
+          }
+        } else if (cfg.transform === 'mom_abs') {
+          // Month-over-month absolute change
+          const cutDate = new Date(item.date);
+          cutDate.setMonth(cutDate.getMonth() - 1);
+          const cutStr = cutDate.toISOString().slice(0, 10);
+          let prev = null;
+          for (let i = vals.length - 1; i >= 0; i--) {
+            if (vals[i][0] <= cutStr) { prev = vals[i][1]; break; }
+          }
+          if (prev != null) {
+            item.figure = val - prev;
+            item.figureStr = (item.figure >= 0 ? '+' : '') + item.figure.toFixed(0) + cfg.suffix;
+          }
+        } else {
+          item.figure = val;
+          item.figureStr = val.toFixed(2) + cfg.suffix;
+        }
+      }
       store._releases = allDates;
       store._releasesTs = Date.now();
     }

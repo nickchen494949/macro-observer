@@ -1666,16 +1666,20 @@ function renderChart(data) {
 
       const key = rel.label + '|' + rel.tier + '|' + rel.color;
       if (!tiers[key]) tiers[key] = { label: rel.label, tier: rel.tier, color: rel.color, url: rel.url, points: [] };
-      tiers[key].points.push({ x: matchDate, y: dateMap[matchDate], fullLabel: rel.label, date: rel.date, url: rel.url });
+      tiers[key].points.push({ x: matchDate, y: dateMap[matchDate], fullLabel: rel.label, date: rel.date, url: rel.url, figureStr: rel.figureStr || null });
     }
 
     for (const tk of Object.keys(tiers)) {
       const t = tiers[tk];
-      // Create a sparse array aligned to labels
+      // Create sparse arrays aligned to labels
       const scatterData = labels.map(() => null);
+      const figureStrs = labels.map(() => null);
       for (const pt of t.points) {
         const idx = labels.indexOf(pt.x);
-        if (idx >= 0) scatterData[idx] = pt.y;
+        if (idx >= 0) {
+          scatterData[idx] = pt.y;
+          figureStrs[idx] = pt.figureStr;
+        }
       }
       datasets.push({
         label: t.label,
@@ -1694,6 +1698,7 @@ function renderChart(data) {
         hidden: t.label !== 'FOMC',
         _releasePoints: t.points,
         _url: t.url,
+        _figureStrs: figureStrs,
       });
     }
   }
@@ -1738,11 +1743,12 @@ function renderChart(data) {
             label: ctx => {
               const v = ctx.parsed.y;
               if (v == null) return null;
-              // Release dot tooltip: just mark the event date
+              // Release dot tooltip: show actual released figure
               if (ctx.datasetIndex > 0) {
                 const ds = ctx.dataset;
-                const dateStr = ctx.label || '';
-                return `📅 ${ds.label} release  (click → source)`;
+                const fig = ds._figureStrs?.[ctx.dataIndex];
+                if (fig) return `📅 ${ds.label}: ${fig}  (click → source)`;
+                return `📅 ${ds.label}  (click → source)`;
               }
               if (chartCurrentUnit === '%') return v.toFixed(2) + '%';
               if (chartCurrentUnit === 'bp') return v.toFixed(1) + ' bp';
