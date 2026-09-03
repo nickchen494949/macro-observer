@@ -415,9 +415,15 @@
         <canvas id="sepPathCanvas" height="160"></canvas>
       </div>
       <div style="margin-top:15px; display:flex; align-items:center; gap:10px; min-width:600px;">
+        <button id="sepPathPlayBtn" onclick="toggleSepPathPlay()" style="width:34px;height:34px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:.15s;" title="Animate curve evolution">▶️</button>
         <span style="font-size:0.8em; color:var(--text2);" id="sepPathSliderStart"></span>
         <input type="range" id="sepPathSlider" min="0" max="0" value="0" style="flex:1; cursor:pointer; accent-color:#9333ea;">
         <span style="font-size:0.8em; color:var(--text2);" id="sepPathSliderEnd"></span>
+        <select id="sepPathSpeed" style="font-size:11px;padding:2px 6px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text2);cursor:pointer;" title="Animation speed">
+          <option value="600">Slow</option>
+          <option value="350" selected>Normal</option>
+          <option value="150">Fast</option>
+        </select>
       </div>
     </div>
 
@@ -1539,13 +1545,19 @@ function setupSepPathSlider(history) {
 }
 
 function updateSepPathFromSlider() {
-  const idx = parseInt(document.getElementById('sepPathSlider').value);
+  const slider = document.getElementById('sepPathSlider');
+  const idx = parseInt(slider.value);
+  const maxIdx = currentSepHistory.length - 1;
   const [date, pathData] = currentSepHistory[idx];
   document.getElementById('sepPathDateLabel').textContent = `(As of: ${date})`;
-  renderSepPath(pathData);
+  if (idx < maxIdx) {
+    renderSepPath(pathData, currentSepHistory[maxIdx][1]);
+  } else {
+    renderSepPath(pathData);
+  }
 }
 
-function renderSepPath(pathData) {
+function renderSepPath(pathData, ghostData) {
   if (sepPathChartInstance) { sepPathChartInstance.destroy(); sepPathChartInstance = null; }
   const canvas = document.getElementById('sepPathCanvas');
   if (!canvas) return;
@@ -1559,38 +1571,57 @@ function renderSepPath(pathData) {
   gradient.addColorStop(0, 'rgba(147,51,234,0.2)');
   gradient.addColorStop(1, 'rgba(147,51,234,0)');
 
+  const datasets = [{
+    label: 'Median Projection (%)',
+    data: values,
+    borderColor: '#9333ea',
+    backgroundColor: gradient,
+    borderWidth: 2,
+    borderDash: [5, 5],
+    pointBackgroundColor: '#fff',
+    pointBorderColor: '#9333ea',
+    pointRadius: 6,
+    pointHoverRadius: 8,
+    fill: true,
+    tension: 0.1,
+  }];
+
+  if (ghostData) {
+    const ghostLabels = ghostData.map(d => d.year);
+    const ghostValues = ghostData.map(d => d.rate);
+    const aligned = labels.map(l => {
+      const idx = ghostLabels.indexOf(l);
+      return idx >= 0 ? ghostValues[idx] : null;
+    });
+    datasets.push({
+      label: 'Current (newest)',
+      data: aligned,
+      borderColor: 'rgba(220,53,69,0.5)',
+      borderWidth: 2,
+      borderDash: [6, 3],
+      pointRadius: 0,
+      fill: false,
+      tension: 0.1,
+    });
+  }
+
   sepPathChartInstance = new Chart(ctx, {
     type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Median Projection (%)',
-        data: values,
-        borderColor: '#9333ea',
-        backgroundColor: gradient,
-        borderWidth: 2,
-        borderDash: [5, 5],
-        pointBackgroundColor: '#fff',
-        pointBorderColor: '#9333ea',
-        pointRadius: 6,
-        pointHoverRadius: 8,
-        fill: true,
-        tension: 0.1,
-      }]
-    },
+    data: { labels, datasets },
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      animation: { duration: ghostData ? 0 : 400 },
       layout: { padding: { top: 10, bottom: 5, left: 5, right: 15 } },
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: false },
+        legend: { display: !!ghostData, position: 'top', labels: { boxWidth: 20, font: { size: 10 } } },
         tooltip: {
           backgroundColor: 'rgba(26,31,54,0.92)',
           titleFont: { family: "'Inter', sans-serif", size: 12 },
           bodyFont: { family: "'JetBrains Mono', monospace", size: 13, weight: '600' },
           callbacks: {
-            label: (ctx) => `Rate: ${ctx.parsed.y.toFixed(2)}%`
+            label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}%`
           }
         }
       },
@@ -1610,6 +1641,62 @@ function renderSepPath(pathData) {
       }
     }
   });
+}
+
+// ── SEP Path Play/Pause Animation ──
+let sepPathPlayTimer = null;
+let sepPathPlaying = false;
+
+function toggleSepPathPlay() {
+  if (sepPathPlaying) { stopSepPathPlay(); }
+  else { startSepPathPlay(); }
+}
+
+function startSepPathPlay() {
+  if (!currentSepHistory.length) return;
+  sepPathPlaying = true;
+  const btn = document.getElementById('sepPathPlayBtn');
+  btn.textContent = '⏸️';
+  btn.style.background = 'var(--accent-light)';
+  btn.style.borderColor = 'var(--accent)';
+
+  const slider = document.getElementById('sepPathSlider');
+  const speed = parseInt(document.getElementById('sepPathSpeed').value) || 350;
+  const maxIdx = currentSepHistory.length - 1;
+  const newestPath = currentSepHistory[maxIdx][1];
+
+  let idx = 0;
+  slider.value = idx;
+
+  function step() {
+    if (!sepPathPlaying || idx > maxIdx) {
+      slider.value = maxIdx;
+      updateSepPathFromSlider();
+      stopSepPathPlay();
+      return;
+    }
+    slider.value = idx;
+    const [date, pathData] = currentSepHistory[idx];
+    document.getElementById('sepPathDateLabel').textContent = `(As of: ${date})`;
+    
+    if (idx < maxIdx) {
+      renderSepPath(pathData, newestPath);
+    } else {
+      renderSepPath(pathData);
+    }
+    idx++;
+    sepPathPlayTimer = setTimeout(step, speed);
+  }
+  step();
+}
+
+function stopSepPathPlay() {
+  sepPathPlaying = false;
+  if (sepPathPlayTimer) { clearTimeout(sepPathPlayTimer); sepPathPlayTimer = null; }
+  const btn = document.getElementById('sepPathPlayBtn');
+  btn.textContent = '▶️';
+  btn.style.background = '#fff';
+  btn.style.borderColor = '';
 }
 
 function renderChart(data) {
