@@ -1360,17 +1360,18 @@ function setChartRange(range) {
 
 
 // Chart.js plugin: pulsing glow on datasets with _isPulse: true
+let _pulseInterval = null;
 const pulsePlugin = {
   id: 'pulseGlow',
-  _frame: 0,
   afterDraw(chart) {
+    if (!chart.data.datasets.some(ds => ds._isPulse)) return;
     const ctx = chart.ctx;
     chart.data.datasets.forEach((ds, di) => {
       if (!ds._isPulse) return;
       const meta = chart.getDatasetMeta(di);
       meta.data.forEach(pt => {
-        if (pt.skip || !pt.parsed || pt.parsed.y == null) return;
-        const t = (Date.now() % 1500) / 1500; // 0→1 over 1.5s
+        if (!pt || pt.skip || !pt.parsed || pt.parsed.y == null) return;
+        const t = (Date.now() % 1500) / 1500;
         const alpha = 0.15 + 0.35 * Math.abs(Math.sin(t * Math.PI));
         const radius = 5 + 8 * Math.abs(Math.sin(t * Math.PI));
         ctx.save();
@@ -1381,10 +1382,23 @@ const pulsePlugin = {
         ctx.restore();
       });
     });
-    // Keep animating
-    if (chart.data.datasets.some(ds => ds._isPulse)) {
-      requestAnimationFrame(() => chart.draw());
-    }
+  },
+  afterInit(chart) {
+    if (_pulseInterval) clearInterval(_pulseInterval);
+    chart._pulseDrawing = false;
+    _pulseInterval = setInterval(() => {
+      if (chart._pulseDrawing) return;
+      try {
+        if (chart.canvas && !chart._destroyed && chart.data.datasets.some(ds => ds._isPulse)) {
+          chart._pulseDrawing = true;
+          chart.draw();
+          chart._pulseDrawing = false;
+        }
+      } catch(e) { /* chart destroyed */ }
+    }, 80);
+  },
+  beforeDestroy(chart) {
+    if (_pulseInterval) { clearInterval(_pulseInterval); _pulseInterval = null; }
   }
 };
 
