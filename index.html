@@ -920,6 +920,10 @@ function render(data) {
   }
   document.getElementById('stockBody').innerHTML = sh;
   
+  // Store current Fed Funds Rate for chart reference dots
+  const ffRow = data.rates.find(r => r.id === 'fed_fund_rate');
+  window._currentFedRate = ffRow ? ffRow.current : null;
+
   if (data.fedPathHistory && data.fedPathHistory.length > 0) {
     document.getElementById('fedPathContainer').style.display = 'block';
     setupFedPathSlider(data.fedPathHistory);
@@ -1428,7 +1432,7 @@ function renderFedPath(pathData, ghostData) {
       return idx >= 0 ? ghostValues[idx] : null;
     });
     datasets.push({
-      label: 'Current (newest)',
+      label: 'Reference (ghost)',
       data: aligned,
       borderColor: 'rgba(220,53,69,0.5)',
       borderWidth: 2,
@@ -1439,6 +1443,24 @@ function renderFedPath(pathData, ghostData) {
     });
   }
 
+  // Current Fed Funds Rate dot
+  if (window._currentFedRate != null) {
+    const dotData = labels.map(() => null);
+    dotData[0] = window._currentFedRate;
+    datasets.push({
+      label: `Current Rate (${window._currentFedRate.toFixed(2)}%)`,
+      data: dotData,
+      borderWidth: 0,
+      pointRadius: [8, ...Array(labels.length - 1).fill(0)],
+      pointBackgroundColor: '#10b981',
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2,
+      pointHoverRadius: 10,
+      pointStyle: 'circle',
+      fill: false,
+      showLine: false,
+    });
+  }
   fedPathChartInstance = new Chart(ctx, {
     type: 'line',
     data: { labels, datasets },
@@ -1449,7 +1471,7 @@ function renderFedPath(pathData, ghostData) {
       layout: { padding: { top: 10, bottom: 5, left: 5, right: 15 } },
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: !!ghostData, position: 'top', labels: { boxWidth: 20, font: { size: 10 } } },
+        legend: { display: datasets.length > 1, position: 'top', labels: { boxWidth: 20, font: { size: 10 } } },
         tooltip: {
           backgroundColor: 'rgba(26,31,54,0.92)',
           titleFont: { family: "'Inter', sans-serif", size: 12 },
@@ -1607,7 +1629,7 @@ function renderSepPath(pathData, ghostData) {
       return idx >= 0 ? ghostValues[idx] : null;
     });
     datasets.push({
-      label: 'Current (newest)',
+      label: 'Reference (ghost)',
       data: aligned,
       borderColor: 'rgba(220,53,69,0.5)',
       borderWidth: 2,
@@ -1615,6 +1637,25 @@ function renderSepPath(pathData, ghostData) {
       pointRadius: 0,
       fill: false,
       tension: 0.1,
+    });
+  }
+
+  // Current Fed Funds Rate dot
+  if (window._currentFedRate != null) {
+    const dotData = labels.map(() => null);
+    dotData[0] = window._currentFedRate;
+    datasets.push({
+      label: `Current Rate (${window._currentFedRate.toFixed(2)}%)`,
+      data: dotData,
+      borderWidth: 0,
+      pointRadius: [8, ...Array(labels.length - 1).fill(0)],
+      pointBackgroundColor: '#10b981',
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2,
+      pointHoverRadius: 10,
+      pointStyle: 'circle',
+      fill: false,
+      showLine: false,
     });
   }
 
@@ -1628,7 +1669,7 @@ function renderSepPath(pathData, ghostData) {
       layout: { padding: { top: 10, bottom: 5, left: 5, right: 15 } },
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: !!ghostData, position: 'top', labels: { boxWidth: 20, font: { size: 10 } } },
+        legend: { display: datasets.length > 1, position: 'top', labels: { boxWidth: 20, font: { size: 10 } } },
         tooltip: {
           backgroundColor: 'rgba(26,31,54,0.92)',
           titleFont: { family: "'Inter', sans-serif", size: 12 },
