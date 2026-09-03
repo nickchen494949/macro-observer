@@ -277,13 +277,6 @@
   
   <div id="v2-dashboard">
     <!-- Meta & Status -->
-    <div style="display:flex; justify-content:space-between; margin-bottom: 20px; font-family:var(--mono); font-size:11px; color:var(--text3);">
-      <span id="v2-meta">Schema: -- | Generated: --</span>
-      <span id="v2-engine-status">Engine Status: --</span>
-    </div>
-
-
-
 
   </div>
   <!-- LAYER 1: MACRO STATE -->
@@ -2588,29 +2581,6 @@ render = function(data) {
   window._v2Classified = (data.v2 && data.v2.classified) ? data.v2.classified : {};
   originalRender(data);
   // V2 mapping
-  if (data.meta) {
-    const v2Meta = document.getElementById('v2-meta');
-    if (v2Meta) v2Meta.innerText = 'Schema: ' + (data.meta.schemaVersion||'--') + ' | Generated: ' + (data.meta.generatedAt ? new Date(data.meta.generatedAt).toLocaleString() : '--');
-  }
-  if (data.engineStatus) {
-    const v2Status = document.getElementById('v2-engine-status');
-    if (v2Status && data.v2) {
-      const modCov = (data.v2.moduleCoverage || 0) + '%';
-      const evCov = (data.v2.evidenceCoverage || 0) + '%';
-      const critCov = (data.v2.criticalCoverage || 'unknown').replace(/_/g, ' ');
-      const risk = data.v2.risk || {};
-      const riskIcons = { 'high': '🔴', 'elevated': '🟠', 'moderate': '🟡', 'low': '🟢' };
-      const riskLabel = (risk.overall || 'unknown').toUpperCase();
-      const riskIcon = riskIcons[risk.overall] || '⚪';
-      const fb = (risk.fiscalBurden || 'unknown').replace(/_/g, ' ');
-      const dmg = (risk.damage || 'unknown').replace(/_/g, ' ');
-      const sys = (risk.systemic || 'unknown').replace(/_/g, ' ');
-      v2Status.innerText = 'Engine: ' + (data.engineStatus.coreDiagnosis||'--')
-        + ' · Modules: ' + modCov + ' · Evidence: ' + evCov + ' · Critical: ' + critCov
-        + ' · ' + riskIcon + ' ' + riskLabel
-        + ' · Fiscal: ' + fb + ' · Growth/Credit/Market Damage: ' + dmg + ' · Liquidity Functioning: unknown · Systemic: ' + sys;
-    }
-  }
   // V2 Diagnostic Cards — wire legacy diagnostics into the 4-card layout
   const legacyDiag = data.diagnostics || {};
   const v2d = (data.v2 && data.v2.diagnostics) ? data.v2.diagnostics : {};
