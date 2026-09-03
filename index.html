@@ -1738,11 +1738,11 @@ function renderChart(data) {
             label: ctx => {
               const v = ctx.parsed.y;
               if (v == null) return null;
-              // Release dot tooltip: show name + value
+              // Release dot tooltip: just mark the event date
               if (ctx.datasetIndex > 0) {
                 const ds = ctx.dataset;
-                const fmtV = chartCurrentUnit === '%' ? v.toFixed(2) + '%' : chartCurrentUnit === 'bp' ? v.toFixed(1) + ' bp' : v.toLocaleString('en', {maximumFractionDigits:2});
-                return `📅 ${ds.label}: ${fmtV}  (click → source)`;
+                const dateStr = ctx.label || '';
+                return `📅 ${ds.label} release  (click → source)`;
               }
               if (chartCurrentUnit === '%') return v.toFixed(2) + '%';
               if (chartCurrentUnit === 'bp') return v.toFixed(1) + ' bp';
