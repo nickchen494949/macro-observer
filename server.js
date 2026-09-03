@@ -1347,7 +1347,7 @@ function buildDashboard() {
     yahooLoaded: Object.keys(store.yahoo).length,
     rates, commodities, stocks,
     fedPathHistory: store.valuation['FED_PATH_HISTORY'] || [],
-    sepHistory: store.valuation['SEP_HISTORY'] || [],
+    sepHistory: (store.valuation['SEP_HISTORY'] || []).filter(([_d, curve]) => curve.length >= 3),
     macroState: economy, economy, macroTransmission,
     // conclusions removed — user requested deletion
     cycleAnalysis: generateCycleAnalysis(economy, macroTransmission, rates),
