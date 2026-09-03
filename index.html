@@ -1358,6 +1358,36 @@ function setChartRange(range) {
   renderChart(filtered);
 }
 
+
+// Chart.js plugin: pulsing glow on datasets with _isPulse: true
+const pulsePlugin = {
+  id: 'pulseGlow',
+  _frame: 0,
+  afterDraw(chart) {
+    const ctx = chart.ctx;
+    chart.data.datasets.forEach((ds, di) => {
+      if (!ds._isPulse) return;
+      const meta = chart.getDatasetMeta(di);
+      meta.data.forEach(pt => {
+        if (pt.skip || pt.parsed.y == null) return;
+        const t = (Date.now() % 1500) / 1500; // 0→1 over 1.5s
+        const alpha = 0.15 + 0.35 * Math.abs(Math.sin(t * Math.PI));
+        const radius = 5 + 8 * Math.abs(Math.sin(t * Math.PI));
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(16,185,129,${alpha})`;
+        ctx.fill();
+        ctx.restore();
+      });
+    });
+    // Keep animating
+    if (chart.data.datasets.some(ds => ds._isPulse)) {
+      requestAnimationFrame(() => chart.draw());
+    }
+  }
+};
+
 let fedPathChartInstance = null;
 let currentFedPathHistory = [];
 
@@ -1451,19 +1481,21 @@ function renderFedPath(pathData, ghostData) {
       label: `Current Rate (${window._currentFedRate.toFixed(2)}%)`,
       data: dotData,
       borderWidth: 0,
-      pointRadius: [8, ...Array(labels.length - 1).fill(0)],
+      pointRadius: [5, ...Array(labels.length - 1).fill(0)],
       pointBackgroundColor: '#10b981',
       pointBorderColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 10,
+      pointBorderWidth: 1.5,
+      pointHoverRadius: 7,
       pointStyle: 'circle',
       fill: false,
       showLine: false,
+      _isPulse: true,
     });
   }
   fedPathChartInstance = new Chart(ctx, {
     type: 'line',
     data: { labels, datasets },
+    plugins: [pulsePlugin],
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -1648,20 +1680,22 @@ function renderSepPath(pathData, ghostData) {
       label: `Current Rate (${window._currentFedRate.toFixed(2)}%)`,
       data: dotData,
       borderWidth: 0,
-      pointRadius: [8, ...Array(labels.length - 1).fill(0)],
+      pointRadius: [5, ...Array(labels.length - 1).fill(0)],
       pointBackgroundColor: '#10b981',
       pointBorderColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 10,
+      pointBorderWidth: 1.5,
+      pointHoverRadius: 7,
       pointStyle: 'circle',
       fill: false,
       showLine: false,
+      _isPulse: true,
     });
   }
 
   sepPathChartInstance = new Chart(ctx, {
     type: 'line',
     data: { labels, datasets },
+    plugins: [pulsePlugin],
     options: {
       responsive: true,
       maintainAspectRatio: false,
