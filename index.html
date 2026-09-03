@@ -400,6 +400,10 @@
           <option value="200" selected>Normal</option>
           <option value="80">Fast</option>
         </select>
+        <select id="fedPathGhostMode" onchange="updateFedPathFromSlider()" style="font-size:11px;padding:2px 6px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text2);cursor:pointer;" title="Reference curve">
+          <option value="newest" selected>vs Newest</option>
+          <option value="prev">vs Previous</option>
+        </select>
       </div>
     </div>
 
@@ -423,6 +427,10 @@
           <option value="600">Slow</option>
           <option value="350" selected>Normal</option>
           <option value="150">Fast</option>
+        </select>
+        <select id="sepPathGhostMode" onchange="updateSepPathFromSlider()" style="font-size:11px;padding:2px 6px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text2);cursor:pointer;" title="Reference curve">
+          <option value="newest" selected>vs Newest</option>
+          <option value="prev">vs Previous</option>
         </select>
       </div>
     </div>
@@ -1373,12 +1381,14 @@ function updateFedPathFromSlider() {
   const maxIdx = currentFedPathHistory.length - 1;
   const [date, pathData] = currentFedPathHistory[idx];
   document.getElementById('fedPathDateLabel').textContent = `(As of: ${date})`;
-  // Show newest as ghost dotted line when viewing any historical frame
-  if (idx < maxIdx) {
-    renderFedPath(pathData, currentFedPathHistory[maxIdx][1]);
-  } else {
-    renderFedPath(pathData);
+  const mode = document.getElementById('fedPathGhostMode')?.value || 'newest';
+  let ghost = null;
+  if (idx < maxIdx && mode === 'newest') {
+    ghost = currentFedPathHistory[maxIdx][1];
+  } else if (idx > 0 && mode === 'prev') {
+    ghost = currentFedPathHistory[idx - 1][1];
   }
+  renderFedPath(pathData, ghost);
 }
 
 function renderFedPath(pathData, ghostData) {
@@ -1487,15 +1497,14 @@ function startFedPathPlay() {
   const slider = document.getElementById('fedPathSlider');
   const speed = parseInt(document.getElementById('fedPathSpeed').value) || 200;
   const maxIdx = currentFedPathHistory.length - 1;
-  const newestPath = currentFedPathHistory[maxIdx][1]; // ghost reference
+  const mode = document.getElementById('fedPathGhostMode')?.value || 'newest';
+  const newestPath = currentFedPathHistory[maxIdx][1];
 
-  // Start from beginning
   let idx = 0;
   slider.value = idx;
 
   function step() {
     if (!fedPathPlaying || idx > maxIdx) {
-      // Animation done — show final frame without ghost
       slider.value = maxIdx;
       updateFedPathFromSlider();
       stopFedPathPlay();
@@ -1505,12 +1514,13 @@ function startFedPathPlay() {
     const [date, pathData] = currentFedPathHistory[idx];
     document.getElementById('fedPathDateLabel').textContent = `(As of: ${date})`;
     
-    // Show ghost on all frames except the last
-    if (idx < maxIdx) {
-      renderFedPath(pathData, newestPath);
-    } else {
-      renderFedPath(pathData);
+    let ghost = null;
+    if (mode === 'newest' && idx < maxIdx) {
+      ghost = newestPath;
+    } else if (mode === 'prev' && idx > 0) {
+      ghost = currentFedPathHistory[idx - 1][1];
     }
+    renderFedPath(pathData, ghost);
     idx++;
     fedPathPlayTimer = setTimeout(step, speed);
   }
@@ -1550,11 +1560,14 @@ function updateSepPathFromSlider() {
   const maxIdx = currentSepHistory.length - 1;
   const [date, pathData] = currentSepHistory[idx];
   document.getElementById('sepPathDateLabel').textContent = `(As of: ${date})`;
-  if (idx < maxIdx) {
-    renderSepPath(pathData, currentSepHistory[maxIdx][1]);
-  } else {
-    renderSepPath(pathData);
+  const mode = document.getElementById('sepPathGhostMode')?.value || 'newest';
+  let ghost = null;
+  if (idx < maxIdx && mode === 'newest') {
+    ghost = currentSepHistory[maxIdx][1];
+  } else if (idx > 0 && mode === 'prev') {
+    ghost = currentSepHistory[idx - 1][1];
   }
+  renderSepPath(pathData, ghost);
 }
 
 function renderSepPath(pathData, ghostData) {
@@ -1663,6 +1676,7 @@ function startSepPathPlay() {
   const slider = document.getElementById('sepPathSlider');
   const speed = parseInt(document.getElementById('sepPathSpeed').value) || 350;
   const maxIdx = currentSepHistory.length - 1;
+  const mode = document.getElementById('sepPathGhostMode')?.value || 'newest';
   const newestPath = currentSepHistory[maxIdx][1];
 
   let idx = 0;
@@ -1679,11 +1693,13 @@ function startSepPathPlay() {
     const [date, pathData] = currentSepHistory[idx];
     document.getElementById('sepPathDateLabel').textContent = `(As of: ${date})`;
     
-    if (idx < maxIdx) {
-      renderSepPath(pathData, newestPath);
-    } else {
-      renderSepPath(pathData);
+    let ghost = null;
+    if (mode === 'newest' && idx < maxIdx) {
+      ghost = newestPath;
+    } else if (mode === 'prev' && idx > 0) {
+      ghost = currentSepHistory[idx - 1][1];
     }
+    renderSepPath(pathData, ghost);
     idx++;
     sepPathPlayTimer = setTimeout(step, speed);
   }
