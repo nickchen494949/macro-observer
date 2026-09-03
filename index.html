@@ -1263,6 +1263,17 @@ let chartFullData = null;
 let chartCurrentRange = 'all';
 let chartCurrentLabel = '';
 let chartCurrentUnit = '';
+let cachedReleases = null;
+
+async function loadReleases() {
+  if (cachedReleases) return cachedReleases;
+  try {
+    const r = await fetch('/api/releases');
+    const d = await r.json();
+    cachedReleases = d.releases || [];
+  } catch(e) { cachedReleases = []; }
+  return cachedReleases;
+}
 
 async function openChart(key, label, unit) {
   const modal = document.getElementById('chartModal');
@@ -1276,6 +1287,9 @@ async function openChart(key, label, unit) {
   // Highlight active range button
   document.querySelectorAll('.chart-range-btn').forEach(b => b.classList.remove('active'));
   document.querySelector('.chart-range-btn:last-child').classList.add('active');
+
+  // Preload release dates
+  loadReleases();
 
   try {
     const r = await fetch(API + '/api/chart?key=' + encodeURIComponent(key));
@@ -1612,32 +1626,93 @@ function renderChart(data) {
   const lineColor = isUp ? '#0ea371' : '#dc3545';
   const fillColor = isUp ? 'rgba(14,163,113,0.08)' : 'rgba(220,53,69,0.08)';
 
-  // Thin out labels for readability
-  const maxLabels = 80;
-  const step = Math.max(1, Math.floor(labels.length / maxLabels));
+  const datasets = [{
+    label: chartCurrentLabel,
+    data: values,
+    borderColor: lineColor,
+    backgroundColor: fillColor,
+    borderWidth: 1.5,
+    pointRadius: 0,
+    pointHitRadius: 8,
+    fill: true,
+    tension: 0.1,
+    order: 2,
+  }];
+
+  // Build a date→value lookup for interpolation
+  const dateMap = {};
+  for (let i = 0; i < labels.length; i++) dateMap[labels[i]] = values[i];
+  const dateSet = new Set(labels);
+  const firstDate = labels[0];
+  const lastDate = labels[labels.length - 1];
+
+  // Overlay release date dots grouped by tier
+  if (cachedReleases && cachedReleases.length > 0) {
+    // Group releases by tier for separate scatter datasets
+    const tiers = {};
+    for (const rel of cachedReleases) {
+      if (rel.date < firstDate || rel.date > lastDate) continue;
+      // Find nearest chart date (exact or closest before)
+      let matchDate = null;
+      if (dateSet.has(rel.date)) {
+        matchDate = rel.date;
+      } else {
+        // Find closest date <= rel.date
+        for (let i = labels.length - 1; i >= 0; i--) {
+          if (labels[i] <= rel.date) { matchDate = labels[i]; break; }
+        }
+      }
+      if (!matchDate || dateMap[matchDate] == null) continue;
+
+      const key = rel.label + '|' + rel.tier + '|' + rel.color;
+      if (!tiers[key]) tiers[key] = { label: rel.label, tier: rel.tier, color: rel.color, points: [] };
+      tiers[key].points.push({ x: matchDate, y: dateMap[matchDate], fullLabel: rel.label, date: rel.date });
+    }
+
+    for (const tk of Object.keys(tiers)) {
+      const t = tiers[tk];
+      // Create a sparse array aligned to labels
+      const scatterData = labels.map(() => null);
+      for (const pt of t.points) {
+        const idx = labels.indexOf(pt.x);
+        if (idx >= 0) scatterData[idx] = pt.y;
+      }
+      datasets.push({
+        label: t.label,
+        data: scatterData,
+        type: 'line',
+        borderWidth: 0,
+        pointRadius: scatterData.map(v => v != null ? 5 : 0),
+        pointBackgroundColor: t.color,
+        pointBorderColor: '#fff',
+        pointBorderWidth: 1.5,
+        pointHoverRadius: 8,
+        pointStyle: 'circle',
+        fill: false,
+        showLine: false,
+        order: 1,
+        _releasePoints: t.points,
+      });
+    }
+  }
 
   chartInstance = new Chart(ctx, {
     type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        label: chartCurrentLabel,
-        data: values,
-        borderColor: lineColor,
-        backgroundColor: fillColor,
-        borderWidth: 1.5,
-        pointRadius: 0,
-        pointHitRadius: 8,
-        fill: true,
-        tension: 0.1,
-      }]
-    },
+    data: { labels, datasets },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: false },
+        legend: {
+          display: datasets.length > 1,
+          position: 'top',
+          labels: {
+            boxWidth: 8, boxHeight: 8, usePointStyle: true, pointStyle: 'circle',
+            font: { size: 10 },
+            filter: (item) => item.datasetIndex > 0,
+          }
+        },
         tooltip: {
           backgroundColor: 'rgba(26,31,54,0.92)',
           titleFont: { family: "'Inter', sans-serif", size: 12 },
@@ -1648,6 +1723,12 @@ function renderChart(data) {
             title: ctx => ctx[0]?.label || '',
             label: ctx => {
               const v = ctx.parsed.y;
+              if (v == null) return null;
+              // Release dot tooltip
+              if (ctx.datasetIndex > 0) {
+                const ds = ctx.dataset;
+                return `📅 ${ds.label}`;
+              }
               if (chartCurrentUnit === '%') return v.toFixed(2) + '%';
               if (chartCurrentUnit === 'bp') return v.toFixed(1) + ' bp';
               return '$' + (Math.abs(v) >= 1000 ? v.toLocaleString('en',{maximumFractionDigits:2}) : v.toFixed(2));

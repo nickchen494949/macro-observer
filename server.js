@@ -2617,6 +2617,44 @@ const server = http.createServer(async (req, res) => {
         res.end(JSON.stringify({ ok: true, points: filtered.length, last }));
       } catch(e) { res.writeHead(400); res.end(JSON.stringify({ error: e.message })); }
     });
+   } else if (p === '/api/releases') {
+    // ── Economic Release Dates (cached daily) ──
+    if (!store._releases || Date.now() - (store._releasesTs || 0) > 86400000) {
+      const RELEASE_CONFIG = [
+        { id: 10,  label: 'CPI',  tier: 'S', color: '#dc3545' },
+        { id: 50,  label: 'NFP',  tier: 'S', color: '#dc3545' },
+        { id: 101, label: 'FOMC', tier: 'S', color: '#dc3545' },
+        { id: 54,  label: 'PCE',  tier: 'A', color: '#f59e0b' },
+        { id: 53,  label: 'GDP',  tier: 'A', color: '#f59e0b' },
+        { id: 46,  label: 'PPI',  tier: 'B', color: '#3b82f6' },
+        { id: 14,  label: 'ISM',  tier: 'B', color: '#3b82f6' },
+      ];
+      const apiKey = process.env.FRED_API_KEY;
+      const allDates = [];
+      for (const rel of RELEASE_CONFIG) {
+        try {
+          const url = `https://api.stlouisfed.org/fred/release/dates?release_id=${rel.id}&api_key=${apiKey}&file_type=json&sort_order=desc&limit=60`;
+          const resp = await new Promise((resolve, reject) => {
+            https.get(url, r => {
+              let body = '';
+              r.on('data', c => body += c);
+              r.on('end', () => resolve(body));
+              r.on('error', reject);
+            }).on('error', reject);
+          });
+          const parsed = JSON.parse(resp);
+          if (parsed.release_dates) {
+            for (const rd of parsed.release_dates) {
+              allDates.push({ date: rd.date, label: rel.label, tier: rel.tier, color: rel.color });
+            }
+          }
+        } catch(e) { console.log(`  ⚠️ Release ${rel.label} fetch failed: ${e.message}`); }
+        await sleep(200);
+      }
+      store._releases = allDates;
+      store._releasesTs = Date.now();
+    }
+    res.end(JSON.stringify({ releases: store._releases || [] }));
   } else if (p === '/api/world') {
     // ── World Overview API ──
     const calcChange = (vals, daysBack) => {

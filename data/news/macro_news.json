@@ -1,8 +1,26 @@
 {
-  "updated": "2026-09-03T02:14:44.514Z",
-  "gdeltCount": 11,
+  "updated": "2026-09-03T03:58:03.499Z",
+  "gdeltCount": 12,
   "fedCount": 20,
   "articles": [
+    {
+      "title": "GLOBAL MARKETS - Shares , Bonds Rally as Markets Await Signals for Fed Rates",
+      "url": "https://english.kontan.co.id/news/global-markets-shares-bonds-rally-as-markets-await-signals-for-fed-rates",
+      "source": "english.kontan.co.id",
+      "sourceType": "gdelt",
+      "date": "2026-09-03T03:30:00.000Z",
+      "image": "https://foto.kontan.co.id/iQTaCnR1cgqWHBzboZTYfLTOaNs=/smart/filters:format(webp)/2026/09/03/1899958612p.jpg",
+      "country": "Indonesia"
+    },
+    {
+      "title": "Gold holds gain as Trump war comments ease inflation jitters",
+      "url": "https://www.businesstimes.com.sg/companies-markets/energy-commodities/gold-holds-gain-trumps-war-comments-ease-inflation-jitters",
+      "source": "businesstimes.com.sg",
+      "sourceType": "gdelt",
+      "date": "2026-09-03T02:30:00.000Z",
+      "image": "https://cassette.sphdigital.com.sg/image/businesstimes/016df79ed1449eb5f2de241a4179e36167579fa7eab26913107d122157176f5f?&f=webp",
+      "country": "Singapore"
+    },
     {
       "title": "No Longer Lagging , Oregon Economic Growth is Catching Up with the Nation ",
       "url": "https://corvallisadvocate.com/no-longer-lagging-oregons-economic-growth-is-catching-up-with-the-nations/",
@@ -64,15 +82,6 @@
       "sourceType": "gdelt",
       "date": "2026-09-02T15:30:00.000Z",
       "image": "https://d.ibtimes.com/en/full/4651842/john-williams.jpg",
-      "country": "United States"
-    },
-    {
-      "title": "Stocks rise as oil prices , bond yields hold relatively steady",
-      "url": "https://www.ocregister.com/2026/09/02/wall-street-job-market-updates-iran-war/",
-      "source": "ocregister.com",
-      "sourceType": "gdelt",
-      "date": "2026-09-02T15:30:00.000Z",
-      "image": "https://www.ocregister.com/wp-content/uploads/2026/09/Financial_Markets_Wall_Street_82553-1.jpg",
       "country": "United States"
     },
     {
