@@ -1369,7 +1369,7 @@ const pulsePlugin = {
       if (!ds._isPulse) return;
       const meta = chart.getDatasetMeta(di);
       meta.data.forEach(pt => {
-        if (pt.skip || pt.parsed.y == null) return;
+        if (pt.skip || !pt.parsed || pt.parsed.y == null) return;
         const t = (Date.now() % 1500) / 1500; // 0→1 over 1.5s
         const alpha = 0.15 + 0.35 * Math.abs(Math.sin(t * Math.PI));
         const radius = 5 + 8 * Math.abs(Math.sin(t * Math.PI));
