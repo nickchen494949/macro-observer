@@ -2621,11 +2621,11 @@ const server = http.createServer(async (req, res) => {
     // ── Economic Release Dates (cached daily) ──
     if (!store._releases || Date.now() - (store._releasesTs || 0) > 86400000) {
       const RELEASE_CONFIG = [
-        { id: 10,  label: 'CPI',  tier: 'S', color: '#dc3545' },
-        { id: 50,  label: 'NFP',  tier: 'S', color: '#dc3545' },
-        { id: 54,  label: 'PCE',  tier: 'A', color: '#f59e0b' },
-        { id: 53,  label: 'GDP',  tier: 'A', color: '#f59e0b' },
-        { id: 46,  label: 'PPI',  tier: 'B', color: '#3b82f6' },
+        { id: 10,  label: 'CPI',  tier: 'S', color: '#dc3545', url: 'https://www.bls.gov/cpi/' },
+        { id: 50,  label: 'NFP',  tier: 'S', color: '#dc3545', url: 'https://www.bls.gov/news.release/empsit.nr0.htm' },
+        { id: 54,  label: 'PCE',  tier: 'A', color: '#f59e0b', url: 'https://www.bea.gov/data/personal-consumption-expenditures-price-index' },
+        { id: 53,  label: 'GDP',  tier: 'A', color: '#f59e0b', url: 'https://www.bea.gov/data/gdp/gross-domestic-product' },
+        { id: 46,  label: 'PPI',  tier: 'B', color: '#3b82f6', url: 'https://www.bls.gov/ppi/' },
       ];
       // FOMC decision dates — hardcoded from Fed published calendar
       const FOMC_DATES = [
@@ -2652,7 +2652,7 @@ const server = http.createServer(async (req, res) => {
           const parsed = JSON.parse(resp);
           if (parsed.release_dates) {
             for (const rd of parsed.release_dates) {
-              allDates.push({ date: rd.date, label: rel.label, tier: rel.tier, color: rel.color });
+              allDates.push({ date: rd.date, label: rel.label, tier: rel.tier, color: rel.color, url: rel.url });
             }
           }
         } catch(e) { console.log(`  ⚠️ Release ${rel.label} fetch failed: ${e.message}`); }
@@ -2660,7 +2660,7 @@ const server = http.createServer(async (req, res) => {
       }
       // Add FOMC meeting dates
       for (const fd of FOMC_DATES) {
-        allDates.push({ date: fd, label: 'FOMC', tier: 'S', color: '#dc3545' });
+        allDates.push({ date: fd, label: 'FOMC', tier: 'S', color: '#dc3545', url: 'https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm' });
       }
       store._releases = allDates;
       store._releasesTs = Date.now();

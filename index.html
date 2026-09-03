@@ -1665,8 +1665,8 @@ function renderChart(data) {
       if (!matchDate || dateMap[matchDate] == null) continue;
 
       const key = rel.label + '|' + rel.tier + '|' + rel.color;
-      if (!tiers[key]) tiers[key] = { label: rel.label, tier: rel.tier, color: rel.color, points: [] };
-      tiers[key].points.push({ x: matchDate, y: dateMap[matchDate], fullLabel: rel.label, date: rel.date });
+      if (!tiers[key]) tiers[key] = { label: rel.label, tier: rel.tier, color: rel.color, url: rel.url, points: [] };
+      tiers[key].points.push({ x: matchDate, y: dateMap[matchDate], fullLabel: rel.label, date: rel.date, url: rel.url });
     }
 
     for (const tk of Object.keys(tiers)) {
@@ -1691,7 +1691,9 @@ function renderChart(data) {
         fill: false,
         showLine: false,
         order: 1,
+        hidden: t.label !== 'FOMC',
         _releasePoints: t.points,
+        _url: t.url,
       });
     }
   }
@@ -1703,6 +1705,18 @@ function renderChart(data) {
       responsive: true,
       maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
+      onClick: (evt, elements) => {
+        // Click on release dot → open source URL
+        if (elements && elements.length > 0) {
+          for (const el of elements) {
+            const ds = datasets[el.datasetIndex];
+            if (ds._url && el.datasetIndex > 0) {
+              window.open(ds._url, '_blank');
+              return;
+            }
+          }
+        }
+      },
       plugins: {
         legend: {
           display: datasets.length > 1,
@@ -1724,10 +1738,11 @@ function renderChart(data) {
             label: ctx => {
               const v = ctx.parsed.y;
               if (v == null) return null;
-              // Release dot tooltip
+              // Release dot tooltip: show name + value
               if (ctx.datasetIndex > 0) {
                 const ds = ctx.dataset;
-                return `📅 ${ds.label}`;
+                const fmtV = chartCurrentUnit === '%' ? v.toFixed(2) + '%' : chartCurrentUnit === 'bp' ? v.toFixed(1) + ' bp' : v.toLocaleString('en', {maximumFractionDigits:2});
+                return `📅 ${ds.label}: ${fmtV}  (click → source)`;
               }
               if (chartCurrentUnit === '%') return v.toFixed(2) + '%';
               if (chartCurrentUnit === 'bp') return v.toFixed(1) + ' bp';
