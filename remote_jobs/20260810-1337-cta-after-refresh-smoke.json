@@ -1,0 +1,7 @@
+{
+  "id": "20260810-1337-cta-after-refresh-smoke",
+  "enabled": true,
+  "action": "api_get",
+  "path": "/api/flows",
+  "timeoutMs": 60000
+}

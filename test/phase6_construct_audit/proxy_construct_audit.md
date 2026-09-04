@@ -1,0 +1,92 @@
+# Phase 6: Proxy Construct Audit
+
+The purpose of this audit is to strictly evaluate whether our codebase's mathematical formulas genuinely represent the real-world institutional capital flows they claim to proxy. This audit does not use predictive performance (SPX forward returns) as a metric for validity. It evaluates **Construct Validity**, identifying hard-coded parameters, missing mechanisms, and simplifying assumptions that decouple the proxy from reality.
+
+---
+
+## 1. Risk Parity
+
+### Mechanism & Implementation
+- **Current Formula**: Computes 5-day and 20-day annualized realized volatility for equities (`^GSPC`) and bonds (`DGS10`). Assigns asset weights inversely proportional to their univariate volatilities.
+- **Input Series**: `^GSPC` (price), `DGS10` (yield -> bond return approximation using fixed duration 8).
+- **State Variables**: `equityWeight`, `bondWeight`, `leverage`.
+- **Timing Assumptions**: Signal available at NY close, executable at the next open.
+- **Economic Quantity Measured**: Naive inverse-volatility relative asset weights.
+
+### Structural Validity Critique
+- **Major Missing Mechanism 1 (Covariance)**: True Risk Parity targets equal *risk contribution*. This requires computing the equity-bond covariance matrix to size allocations. The current engine does compute a 60D stock-bond correlation for `deleveragingPressure` classification, but this covariance/correlation is **not** incorporated into actual portfolio allocation or leverage sizing.
+- **Major Missing Mechanism 2 (Leverage)**: True Risk Parity funds apply significant portfolio-level leverage to scale the low-risk bond side up to meet a total portfolio return/volatility target. Our model explicitly hardcodes `modelLeverageChange5d = 0`.
+- **Dollar Flow Estimation**: It estimates relative allocation shift, not dollar flow or deleveraging pressure.
+
+**Verdict**: **`MAJOR_GAPS`**
+*The current Risk Parity proxy completely misses the two defining features of the strategy: covariance-based risk contribution and portfolio-level leverage scaling.*
+
+### Proposed V2 Construct
+- Implement a true covariance matrix (e.g., exponentially weighted moving average).
+- Define a fixed target portfolio volatility (e.g., 10%).
+- Compute the required total portfolio leverage to hit the target volatility.
+- The flow output must explicitly model **Deleveraging** (when both asset classes fall and correlations spike, forcing gross leverage reduction).
+
+---
+
+## 2. CTA ETF Proxy
+
+### Mechanism & Implementation
+- **Current Formula**: Computes 50-day, 100-day, and 200-day Simple Moving Averages. Counts binary crossovers (`price > SMA`). Standardizes this binary count by dividing by the asset's 20-day realized volatility. Outputs the today-versus-yesterday change in this normalized position (`equityAggregatePositionChange`).
+- **Input Series**: ETF prices (`SPY`, `QQQ`, `IWM`, `IEF`, `USO`, `GLD`).
+- **State Variables**: `positionSize`.
+
+### Structural Validity Critique
+- **Simplifying Assumptions**: Assumes 100% of the CTA industry operates on three identical, medium-to-long-term SMA crossovers.
+- **Missing Mechanisms**: Ignores fast trend models (e.g., 20/60 crossovers), breakout models (N-day highs/lows), and time-series momentum (absolute return over N months). 
+- **Economic Quantity Measured**: Estimated aggregate position change for a very specific, homogenous medium-term trend model. 
+
+**Verdict**: **`MAJOR_GAPS`**
+*The proxy is too homogeneous and resembles a "textbook" moving-average strategy rather than the diverse universe of real-world Managed Futures funds.*
+
+### Proposed V2 Construct
+- Create a **Heterogeneous CTA Ensemble**.
+- Implement multiple speeds: Fast (e.g., 20/60), Medium (50/100), Slow (100/200).
+- Implement multiple methodologies: SMA crossovers, Donchian channel breakouts, and MACD.
+- Output metrics: `Ensemble Estimated Exposure`, `Estimated Forced Buying/Selling`, and `Model Disagreement` (dispersion among CTA models).
+
+---
+
+## 3. Volatility Control
+
+### Mechanism & Implementation
+- **Current Formula**: Forecast Volatility = `0.65 * Vol_20d + 0.35 * Vol_60d`. Target Exposure = `10% / Forecast Volatility`. Actual exposure applies a recursive smoothing filter: `PrevExposure + 0.25 * (Target - PrevExposure)`.
+- **Input Series**: `^GSPC` (price -> realized volatility).
+- **Hard-coded Parameters**: Target Vol = 10%. Adjustment Speed = 25%. AUM = $400bn.
+- **State Variables**: `actualExposure`.
+- **Economic Quantity Measured**: Synthetic estimated dollar-equivalent flow (because AUM and model parameters are assumed rather than observed).
+
+### Structural Validity Critique
+- **Simplifying Assumptions**: Like the CTA proxy, it assumes the entire $400bn industry behaves identically as a single massive fund with a 10% target and 25% adjustment speed.
+- **Missing Mechanisms**: Different funds target different volatility levels (8%, 10%, 12%, 15%). Some adjust daily regardless of magnitude, while others use "thresholds" (only trade if target deviates by >5% from actual).
+- **Common-Driver Contamination**: Heavily correlated to Risk Parity (both rely purely on inverse realized volatility).
+
+**Verdict**: **`MAJOR_GAPS`**
+*Treating a diverse ecosystem of Variable Annuity and Indexed Annuity overlays as a single monolithic equation creates artificial "cliffs" in the data.*
+
+### Proposed V2 Construct
+- Create a **Heterogeneous Fund Population**.
+- Simulate multiple funds with varying targets (8%, 10%, 12%, 15%), lookbacks (fast vs. slow volatility forecasting), and rebalance triggers (continuous vs. threshold-based).
+- Output the `Sum(AUM_j * Delta_Exposure_j)` to reflect a smoother, more realistic aggregate industry flow.
+
+---
+
+## 4. Pension Rebalance
+
+### Mechanism & Implementation
+- **Current Formula**: Tracks Month-To-Date (MTD) returns of equities (`^GSPC`) and bonds (`DGS10`). Applies these to a static 60/40 benchmark to measure intra-month drift. The deviation from 60% equity is the `equityOverweightPct`.
+- **Input Series**: `^GSPC`, `DGS10`.
+- **Timing**: Signals are restricted to a strict rebalance window: pre-month-end (last 3-5 days) and post-month-end (first 2 days).
+- **Economic Quantity Measured**: Estimated position drift requiring mean-reversion flows.
+
+### Structural Validity Critique
+- **Construct Validity**: Stronger mechanical justification than other modules. Fixed-weight rebalancing is mechanically mandated by institutional investment policy statements (IPS). The MTD drift mechanism maps to a real-world mechanical flow imperative.
+- **Simplifying Assumptions**: The fixed duration of 8 for bonds and the strict 60/40 assumption are simplifications.
+
+**Verdict**: **`STRUCTURALLY_PLAUSIBLE`**
+*This mechanism possesses genuine structural logic, though its parameters (magnitude and exact timing) are not yet validated against external aggregate pension flow data.*

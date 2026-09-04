@@ -1,0 +1,7 @@
+{
+  "id": "20260810-1312-rp-node-check",
+  "enabled": true,
+  "action": "node_check",
+  "files": ["lib/rp_mechanical.js", "test/rp_forward_validation.js"],
+  "timeoutMs": 30000
+}

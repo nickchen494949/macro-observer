@@ -1,0 +1,7 @@
+{
+  "id": "20260810-1307-rp-live-payload",
+  "enabled": true,
+  "action": "api_get",
+  "path": "/api/flows",
+  "timeoutMs": 30000
+}

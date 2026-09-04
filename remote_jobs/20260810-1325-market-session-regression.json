@@ -1,0 +1,8 @@
+{
+  "id": "20260810-1325-market-session-regression",
+  "enabled": true,
+  "action": "node_script",
+  "path": "test/production_market_session_test.js",
+  "args": [],
+  "timeoutMs": 60000
+}

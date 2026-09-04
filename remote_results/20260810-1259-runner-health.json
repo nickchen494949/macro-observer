@@ -1,0 +1,16 @@
+{
+  "runnerVersion": 1,
+  "jobId": "20260810-1259-runner-health",
+  "action": "health",
+  "status": "passed",
+  "exitCode": 0,
+  "signal": null,
+  "error": "",
+  "stdout": "HTTP 200\n{\"status\":\"ok\",\"fred\":83,\"yahoo\":35}",
+  "stderr": "",
+  "startedAt": "2026-08-10T05:03:16.883Z",
+  "finishedAt": "2026-08-10T05:03:16.940Z",
+  "durationMs": 56,
+  "localHeadBefore": "f125c1327abf",
+  "codeWorktreeStatusAfter": ""
+}

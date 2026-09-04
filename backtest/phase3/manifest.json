@@ -1,6 +1,8 @@
 {
   "registryFreezeCommit": "1d5c051",
-  "artifactGenerationCommit": "4c9cf1829da3532f7b80232e6680503062494e57",
+  "snapshotGenerationCommit": "4c9cf1829da3532f7b80232e6680503062494e57",
+  "modelStateGenerationCommit": "4c9cf1829da3532f7b80232e6680503062494e57",
+  "forwardLabelGeneratorCommit": "1d40ee1bc89a71b40de9213137d6e476fb87c8b4",
   "signalRegistrySHA256": "16d95da57066496e6d63d706a8a0a4ebdf181836bac06e642c588b905f40c32f",
   "hypothesisRegistrySHA256": "ee009b4649157f163b0170a527385e91f032d26e9eab624621a05e52643aa667",
   "baselineRegistrySHA256": "e6cef6d45b6a6c46743f7f35cce0548dc5b2c661bd5d492d0f8d0bd7cb95140a",

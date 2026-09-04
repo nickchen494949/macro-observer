@@ -1,5 +1,34 @@
 # 🔭 宏观观察器 — Macro Dashboard
 
+## 🌳 Sector Rotation Research Tree
+
+```text
+Sector Rotation
+│
+├── 9-feature Random Forest      ❌ FAIL (Overfit to noise on small N)
+│
+├── Individual ETF features      ❌ weak / mostly noise
+│
+├── ETF-implied EPS              ❌ FAIL (Magnitude/Accel IC ≈ 0 on true universe)
+│
+├── Macro Shock × Sector
+│      ├── Composite             ❌ FAIL (IC +0.034, p=0.265)
+│      │
+│      ├── Real Yield            🟢 BEST LEAD (IC +0.094, FWER p=0.018)
+│      │      ├── Group-spread confirmation ⏳ NEXT
+│      │      ├── Time stability            ⏳
+│      │      ├── Lag robustness            ⏳
+│      │      └── Dynamic realized beta     ⏳
+│      │
+│      └── Macro Event Study     ⏳ NOT TESTED
+│             └── Does market price shocks immediately?
+│
+├── Waterfall Autopsy            ⏳ NOT COMPLETED
+│
+└── True Constituent EPS         💤 PAUSED (Research design ready, pending data)
+```
+
+
 A macroeconomic dashboard tracking rates, commodities, equities, and macro indicators — all stored locally, updated once per day.
 
 ---
