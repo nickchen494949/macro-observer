@@ -343,6 +343,7 @@
         <select id="fedPathGhostMode" onchange="updateFedPathFromSlider()" style="font-size:11px;padding:2px 6px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text2);cursor:pointer;" title="Reference curve">
           <option value="newest" selected>vs Newest</option>
           <option value="prev">vs Previous</option>
+          <option value="next">vs Next</option>
         </select>
       </div>
     </div>
@@ -371,6 +372,7 @@
         <select id="sepPathGhostMode" onchange="updateSepPathFromSlider()" style="font-size:11px;padding:2px 6px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text2);cursor:pointer;" title="Reference curve">
           <option value="newest" selected>vs Newest</option>
           <option value="prev">vs Previous</option>
+          <option value="next">vs Next</option>
         </select>
       </div>
     </div>
@@ -1373,6 +1375,8 @@ function updateFedPathFromSlider() {
     ghost = currentFedPathHistory[maxIdx][1];
   } else if (idx > 0 && mode === 'prev') {
     ghost = currentFedPathHistory[idx - 1][1];
+  } else if (idx < maxIdx && mode === 'next') {
+    ghost = currentFedPathHistory[idx + 1][1];
   }
   renderFedPath(pathData, ghost);
 }
@@ -1525,6 +1529,8 @@ function startFedPathPlay() {
       ghost = newestPath;
     } else if (mode === 'prev' && idx > 0) {
       ghost = currentFedPathHistory[idx - 1][1];
+    } else if (mode === 'next' && idx < maxIdx) {
+      ghost = currentFedPathHistory[idx + 1][1];
     }
     renderFedPath(pathData, ghost);
     idx++;
@@ -1572,6 +1578,8 @@ function updateSepPathFromSlider() {
     ghost = currentSepHistory[maxIdx][1];
   } else if (idx > 0 && mode === 'prev') {
     ghost = currentSepHistory[idx - 1][1];
+  } else if (idx < maxIdx && mode === 'next') {
+    ghost = currentSepHistory[idx + 1][1];
   }
   renderSepPath(pathData, ghost);
 }
@@ -1725,6 +1733,8 @@ function startSepPathPlay() {
       ghost = newestPath;
     } else if (mode === 'prev' && idx > 0) {
       ghost = currentSepHistory[idx - 1][1];
+    } else if (mode === 'next' && idx < maxIdx) {
+      ghost = currentSepHistory[idx + 1][1];
     }
     renderSepPath(pathData, ghost);
     idx++;
