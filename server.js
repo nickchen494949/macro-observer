@@ -898,6 +898,44 @@ function getYearAgoValue(vals, currentIndex) {
 // ============================================
 // BUILD DASHBOARD RESPONSE
 // ============================================
+function buildYieldCurveHistory() {
+  try {
+    const TENORS = [
+      { series: 'DGS3MO', label: '3M' },
+      { series: 'DGS1',   label: '1Y' },
+      { series: 'DGS2',   label: '2Y' },
+      { series: 'DGS3',   label: '3Y' },
+      { series: 'DGS5',   label: '5Y' },
+      { series: 'DGS7',   label: '7Y' },
+      { series: 'DGS10',  label: '10Y' },
+      { series: 'DGS20',  label: '20Y' },
+      { series: 'DGS30',  label: '30Y' },
+    ];
+    const maps = {};
+    for (const t of TENORS) {
+      const vals = store.fred[t.series] || [];
+      maps[t.series] = new Map(vals.map(([d, v]) => [d, v]));
+    }
+    const allDates = (store.fred['DGS10'] || []).map(([d]) => d);
+    const history = [];
+    for (const date of allDates) {
+      const curve = [];
+      for (const t of TENORS) {
+        const v = maps[t.series].get(date);
+        if (v == null) continue;
+        curve.push({ tenor: t.label, rate: v });
+      }
+      if (curve.length >= 4) history.push([date, curve]);
+    }
+    const result = history.filter((_, i) => i % 5 === 0 || i === history.length - 1);
+    console.log(`  📐 Yield curve history: ${result.length} weekly snapshots (${result[0]?.[0]} → ${result[result.length-1]?.[0]})`);
+    return result;
+  } catch (e) {
+    console.error('  ❌ buildYieldCurveHistory error:', e.message);
+    return [];
+  }
+}
+
 function buildDashboard() {
   // Helper: pick the source with the most recent data point
   function pickBest(fredKey, yahooKey) {
@@ -1345,6 +1383,7 @@ function buildDashboard() {
     yahooLoaded: Object.keys(store.yahoo).length,
     rates, commodities, stocks,
     fedPathHistory: store.valuation['FED_PATH_HISTORY'] || [],
+    yieldCurveHistory: buildYieldCurveHistory(),
     sepHistory: (store.valuation['SEP_HISTORY'] || []).filter(([_d, curve]) => curve.length >= 3),
     macroState: economy, economy, macroTransmission,
     // conclusions removed — user requested deletion
