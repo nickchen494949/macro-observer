@@ -2027,46 +2027,54 @@ function renderSepCorePce(curveData, ghostData) {
   const labels = curveData.map(d => d.year);
   const values = curveData.map(d => d.rate);
 
-  const gradient = ctx.createLinearGradient(0, 0, 0, 160);
-  gradient.addColorStop(0, 'rgba(249,115,22,0.25)');
-  gradient.addColorStop(1, 'rgba(249,115,22,0)');
+  // Tight y-axis: zoom to actual data range so small diffs are visible
+  const ghostVals = ghostData ? ghostData.map(d => d.rate) : [];
+  const allVals = [...values, ...ghostVals].filter(v => v != null);
+  const dataMin = Math.min(...allVals);
+  const dataMax = Math.max(...allVals);
+  const pad = 0.1;
+  const yMin = Math.max(0, parseFloat((dataMin - pad).toFixed(2)));
+  const yMax = parseFloat((dataMax + pad).toFixed(2));
 
-  const datasets = [{
-    label: 'Core PCE Projection (%)',
-    data: values,
-    borderColor: '#f97316',
-    backgroundColor: gradient,
-    borderWidth: 2.5,
-    pointBackgroundColor: '#fff',
-    pointBorderColor: '#f97316',
-    pointRadius: 6,
-    pointHoverRadius: 8,
-    fill: true,
-    tension: 0.2,
-  }];
+  const datasets = [];
 
   if (ghostData) {
+    // Ghost line FIRST (index 0) so current can fill toward it
     const ghostLabels = ghostData.map(d => d.year);
     const aligned = labels.map(l => { const i = ghostLabels.indexOf(l); return i >= 0 ? ghostData[i].rate : null; });
     datasets.push({
-      label: 'Previous',
+      label: 'Reference',
       data: aligned,
-      borderColor: '#ef4444',
-      borderWidth: 2.5,
-      pointRadius: 6,
-      pointBackgroundColor: '#ef4444',
+      borderColor: '#6366f1',
+      borderWidth: 2,
+      pointRadius: 5,
+      pointBackgroundColor: '#6366f1',
       pointBorderColor: '#fff',
       pointBorderWidth: 1.5,
-      pointHoverRadius: 8,
       fill: false,
       tension: 0.2,
+      order: 1,
     });
   }
 
-  // Auto-fit y-axis: zoom in so small differences are visible
-  const allVals = [...values, ...(ghostData ? ghostData.map(d => d.rate) : [])].filter(v => v != null);
-  const yMin = allVals.length ? Math.max(0, Math.floor((Math.min(...allVals) - 0.3) * 2) / 2) : 1.5;
-  const yMax = allVals.length ? Math.ceil((Math.max(...allVals) + 0.3) * 2) / 2 : 5;
+  // Current line — fills TO the ghost (index 0) creating a colored band between them
+  datasets.push({
+    label: 'Current',
+    data: values,
+    borderColor: '#f97316',
+    borderWidth: 2.5,
+    pointBackgroundColor: '#fff',
+    pointBorderColor: '#f97316',
+    pointBorderWidth: 2,
+    pointRadius: 6,
+    pointHoverRadius: 8,
+    // Fill between current and reference — orange if current > ref, blue if current < ref
+    fill: ghostData
+      ? { target: 0, above: 'rgba(249,115,22,0.35)', below: 'rgba(99,102,241,0.35)' }
+      : false,
+    tension: 0.2,
+    order: 0,
+  });
 
   sepCorePceChartInstance = new Chart(ctx, {
     type: 'line',
@@ -2074,27 +2082,28 @@ function renderSepCorePce(curveData, ghostData) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      animation: { duration: ghostData ? 0 : 300 },
+      animation: { duration: 250 },
       layout: { padding: { top: 10, bottom: 5, left: 5, right: 15 } },
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: true, position: 'top', labels: { boxWidth: 20, font: { size: 10 } } },
+        legend: { display: !!ghostData, position: 'top', labels: { boxWidth: 20, font: { size: 10 } } },
         tooltip: {
           backgroundColor: 'rgba(26,31,54,0.92)',
           titleFont: { family: "'Inter', sans-serif", size: 12 },
           bodyFont: { family: "'JetBrains Mono', monospace", size: 13, weight: '600' },
           callbacks: {
-            label: (ctx) => {
-              if (ctx.parsed.y == null) return null;
-              const val = ctx.parsed.y.toFixed(2) + '%';
-              // Show delta vs other dataset
-              const other = datasets.find((d, i) => i !== ctx.datasetIndex);
-              if (other && other.data[ctx.dataIndex] != null) {
-                const delta = (ctx.parsed.y - other.data[ctx.dataIndex]);
+            label: (c) => {
+              if (c.parsed.y == null) return null;
+              const val = c.parsed.y.toFixed(2) + '%';
+              // find the other visible dataset
+              const others = datasets.filter((_, i) => i !== c.datasetIndex);
+              const other = others[0];
+              if (other && other.data[c.dataIndex] != null) {
+                const delta = c.parsed.y - other.data[c.dataIndex];
                 const sign = delta >= 0 ? '+' : '';
-                return ctx.dataset.label + ': ' + val + '  (' + sign + delta.toFixed(2) + '%)';
+                return c.dataset.label + ': ' + val + ' (' + sign + delta.toFixed(2) + '%)';
               }
-              return ctx.dataset.label + ': ' + val;
+              return c.dataset.label + ': ' + val;
             }
           }
         }
