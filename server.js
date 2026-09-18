@@ -1385,6 +1385,7 @@ function buildDashboard() {
     fedPathHistory: store.valuation['FED_PATH_HISTORY'] || [],
     yieldCurveHistory: buildYieldCurveHistory(),
     sepHistory: (store.valuation['SEP_HISTORY'] || []).filter(([_d, curve]) => curve.length >= 3),
+    sepCorePceHistory: (store.valuation['SEP_CORE_PCE_HISTORY'] || []).filter(([_d, curve]) => curve.length >= 2),
     macroState: economy, economy, macroTransmission,
     // conclusions removed — user requested deletion
     cycleAnalysis: generateCycleAnalysis(economy, macroTransmission, rates),

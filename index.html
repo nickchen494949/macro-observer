@@ -407,6 +407,35 @@
       </div>
     </div>
 
+    <div id="sepCorePceContainer" style="display:none; padding:16px 20px; border-bottom:1px solid var(--border); overflow-x:auto;">
+      <div style="font-size:0.9em; font-weight:600; color:var(--text); margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <span>🌡️ FOMC Core PCE Inflation Projections</span>
+          <span style="font-size:0.85em; font-weight:400; color:var(--text2); margin-left:10px;" id="sepCorePceDateLabel"></span>
+        </div>
+        <span style="font-size:0.85em; font-weight:400; color:var(--text2);">Source: Federal Reserve SEP</span>
+      </div>
+      <div style="height:160px; position:relative; min-width:500px;">
+        <canvas id="sepCorePceCanvas" height="160"></canvas>
+      </div>
+      <div style="margin-top:15px; display:flex; align-items:center; gap:10px; min-width:500px;">
+        <button id="sepCorePcePlayBtn" onclick="toggleSepCorePcePlay()" style="width:34px;height:34px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:.15s;" title="Animate projection evolution">▶️</button>
+        <span style="font-size:0.8em; color:var(--text2);" id="sepCorePceSliderStart"></span>
+        <input type="range" id="sepCorePceSlider" min="0" max="0" value="0" style="flex:1; cursor:pointer; accent-color:#f97316;">
+        <span style="font-size:0.8em; color:var(--text2);" id="sepCorePceSliderEnd"></span>
+        <select id="sepCorePceSpeed" style="font-size:11px;padding:2px 6px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text2);cursor:pointer;">
+          <option value="800">Slow</option>
+          <option value="400" selected>Normal</option>
+          <option value="150">Fast</option>
+        </select>
+        <select id="sepCorePceGhostMode" onchange="updateSepCorePceFromSlider()" style="font-size:11px;padding:2px 6px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text2);cursor:pointer;">
+          <option value="newest" selected>vs Newest</option>
+          <option value="prev">vs Previous</option>
+          <option value="none">No Ghost</option>
+        </select>
+      </div>
+    </div>
+
     <div class="tbl-wrap">
       <table><thead><tr>
         <th>Indicator</th><th>Current</th><th>Z %ile (4Y)</th><th>Z %ile (All)</th><th>1D Δ</th><th>1W Δ</th><th>1M Δ</th><th>1Q Δ</th><th>6M Δ</th><th>1Y Δ</th>
@@ -908,6 +937,10 @@ function render(data) {
 
   if (data.yieldCurveHistory && data.yieldCurveHistory.length > 0) {
     setupYieldCurveSlider(data.yieldCurveHistory);
+  }
+
+  if (data.sepCorePceHistory && data.sepCorePceHistory.length > 0) {
+    setupSepCorePceSlider(data.sepCorePceHistory);
   }
 
   // Status
@@ -1948,6 +1981,163 @@ function stopYieldCurvePlay() {
   btn.textContent = '▶️';
   btn.style.background = '#fff';
   btn.style.borderColor = '';
+}
+
+// ══════════════════════════════════════════════════════════
+// FOMC CORE PCE PROJECTION CHART
+// ══════════════════════════════════════════════════════════
+let sepCorePceChartInstance = null;
+let currentSepCorePceHistory = [];
+let sepCorePcePlayTimer = null;
+let sepCorePcePlaying = false;
+
+function setupSepCorePceSlider(history) {
+  if (!history || !history.length) return;
+  currentSepCorePceHistory = history;
+  const slider = document.getElementById('sepCorePceSlider');
+  const maxIdx = history.length - 1;
+  slider.max = maxIdx;
+  slider.value = maxIdx;
+  document.getElementById('sepCorePceSliderStart').textContent = history[0][0];
+  document.getElementById('sepCorePceSliderEnd').textContent = history[maxIdx][0];
+  document.getElementById('sepCorePceContainer').style.display = '';
+  slider.oninput = updateSepCorePceFromSlider;
+  updateSepCorePceFromSlider();
+}
+
+function updateSepCorePceFromSlider() {
+  const slider = document.getElementById('sepCorePceSlider');
+  const idx = parseInt(slider.value);
+  const maxIdx = currentSepCorePceHistory.length - 1;
+  const [date, curveData] = currentSepCorePceHistory[idx];
+  document.getElementById('sepCorePceDateLabel').textContent = '(As of: ' + date + ')';
+  const mode = document.getElementById('sepCorePceGhostMode')?.value || 'newest';
+  let ghost = null;
+  if (mode === 'newest' && idx < maxIdx) ghost = currentSepCorePceHistory[maxIdx][1];
+  else if (mode === 'prev' && idx > 0)   ghost = currentSepCorePceHistory[idx - 1][1];
+  renderSepCorePce(curveData, ghost);
+}
+
+function renderSepCorePce(curveData, ghostData) {
+  if (sepCorePceChartInstance) { sepCorePceChartInstance.destroy(); sepCorePceChartInstance = null; }
+  const canvas = document.getElementById('sepCorePceCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  const labels = curveData.map(d => d.year);
+  const values = curveData.map(d => d.rate);
+
+  const gradient = ctx.createLinearGradient(0, 0, 0, 160);
+  gradient.addColorStop(0, 'rgba(249,115,22,0.25)');
+  gradient.addColorStop(1, 'rgba(249,115,22,0)');
+
+  const datasets = [{
+    label: 'Core PCE Projection (%)',
+    data: values,
+    borderColor: '#f97316',
+    backgroundColor: gradient,
+    borderWidth: 2.5,
+    pointBackgroundColor: '#fff',
+    pointBorderColor: '#f97316',
+    pointRadius: 6,
+    pointHoverRadius: 8,
+    fill: true,
+    tension: 0.2,
+  }];
+
+  // 2% target line
+  datasets.push({
+    label: '2% Target',
+    data: labels.map(() => 2.0),
+    borderColor: 'rgba(100,100,100,0.4)',
+    borderWidth: 1,
+    borderDash: [4, 4],
+    pointRadius: 0,
+    fill: false,
+    tension: 0,
+  });
+
+  if (ghostData) {
+    const ghostLabels = ghostData.map(d => d.year);
+    const aligned = labels.map(l => { const i = ghostLabels.indexOf(l); return i >= 0 ? ghostData[i].rate : null; });
+    datasets.push({
+      label: 'Reference (ghost)',
+      data: aligned,
+      borderColor: 'rgba(99,102,241,0.55)',
+      borderWidth: 2,
+      borderDash: [6, 3],
+      pointRadius: 3,
+      pointBackgroundColor: 'rgba(99,102,241,0.55)',
+      fill: false,
+      tension: 0.2,
+    });
+  }
+
+  sepCorePceChartInstance = new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: ghostData ? 0 : 300 },
+      layout: { padding: { top: 10, bottom: 5, left: 5, right: 15 } },
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: datasets.length > 2, position: 'top', labels: { boxWidth: 20, font: { size: 10 } } },
+        tooltip: {
+          backgroundColor: 'rgba(26,31,54,0.92)',
+          titleFont: { family: "'Inter', sans-serif", size: 12 },
+          bodyFont: { family: "'JetBrains Mono', monospace", size: 13, weight: '600' },
+          callbacks: { label: (ctx) => ctx.dataset.label + ': ' + (ctx.parsed.y != null ? ctx.parsed.y.toFixed(1) + '%' : 'N/A') }
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, ticks: { color: 'var(--text2)', font: { size: 11 } } },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false },
+          ticks: { color: 'var(--text2)', font: { family: "'JetBrains Mono', monospace", size: 11 }, callback: v => v.toFixed(1) + '%' },
+          min: 1.5
+        }
+      }
+    }
+  });
+}
+
+function toggleSepCorePcePlay() {
+  if (sepCorePcePlaying) { stopSepCorePcePlay(); } else { startSepCorePcePlay(); }
+}
+
+function startSepCorePcePlay() {
+  if (!currentSepCorePceHistory.length) return;
+  sepCorePcePlaying = true;
+  const btn = document.getElementById('sepCorePcePlayBtn');
+  btn.textContent = '⏸️'; btn.style.background = 'rgba(249,115,22,0.1)'; btn.style.borderColor = '#f97316';
+  const slider = document.getElementById('sepCorePceSlider');
+  const speed = parseInt(document.getElementById('sepCorePceSpeed').value) || 400;
+  const maxIdx = currentSepCorePceHistory.length - 1;
+  const newest = currentSepCorePceHistory[maxIdx][1];
+  const mode = document.getElementById('sepCorePceGhostMode')?.value || 'newest';
+  let idx = 0; slider.value = idx;
+  function step() {
+    if (!sepCorePcePlaying || idx > maxIdx) { slider.value = maxIdx; updateSepCorePceFromSlider(); stopSepCorePcePlay(); return; }
+    slider.value = idx;
+    const [date, curveData] = currentSepCorePceHistory[idx];
+    document.getElementById('sepCorePceDateLabel').textContent = '(As of: ' + date + ')';
+    let ghost = null;
+    if (mode === 'newest' && idx < maxIdx) ghost = newest;
+    else if (mode === 'prev' && idx > 0)   ghost = currentSepCorePceHistory[idx - 1][1];
+    renderSepCorePce(curveData, ghost);
+    idx++;
+    sepCorePcePlayTimer = setTimeout(step, speed);
+  }
+  step();
+}
+
+function stopSepCorePcePlay() {
+  sepCorePcePlaying = false;
+  if (sepCorePcePlayTimer) { clearTimeout(sepCorePcePlayTimer); sepCorePcePlayTimer = null; }
+  const btn = document.getElementById('sepCorePcePlayBtn');
+  btn.textContent = '▶️'; btn.style.background = '#fff'; btn.style.borderColor = '';
 }
 
 function renderChart(data) {
