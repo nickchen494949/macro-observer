@@ -1,16 +1,11 @@
 {
   "meta": {
-    "contractVersion": "1.2",
-    "description": "Implementation contract locking in all deterministic Python execution details before generating outcome statistics. Restores previously approved precise computational semantics."
+    "contractVersion": "1.1",
+    "description": "Implementation contract locking in all deterministic Python execution details before generating outcome statistics."
   },
   "01_ic_and_preprocessing": {
     "icSignal": "02 and 05 IC calculations一律使用 raw eligible signal (no winsor/ECDF). rank(method='average'). Pension uses only eligible rebalance rows.",
-    "oosPreprocessing": "03/04 OOS preprocessing strictly follows signal registry per-module. VC/RP/CTA use TRAIN-only winsor -> TRAIN ECDF. Pension (transform: none / winsor: none) remains unchanged.",
-    "rankMethod": "average",
-    "ecdfFormula": "Count(train <= x) / N_train",
-    "winsorizationInterpolation": "linear",
-    "stdDdof": 1,
-    "insufficientVariationPolicy": "If standard deviation is zero, evaluation folds fail closed (insufficient_training_variation)."
+    "oosPreprocessing": "03/04 OOS preprocessing strictly follows signal registry per-module. VC/RP/CTA use TRAIN-only winsor -> TRAIN ECDF. Pension (transform: none / winsor: none) remains unchanged."
   },
   "02_partial_rank_ic": {
     "sample": "Strict complete-case intersection of (S, Y, momentum, vol).",

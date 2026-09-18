@@ -27,4 +27,4 @@
 
 ## GitHub Workflow
 - **Repository**: `https://github.com/nickchen494949/macro-observer`
-- When the user asks to "update" or "push to github", run `git add .`, `git commit -m "[Brief summary]"`, and `git push origin main` (or the active branch). If permissions are required, prompt the user or run it with sandbox bypass if requested.
+- **AUTOMATIC COMMIT & PUSH**: Every time you create, modify, or delete a file, you MUST automatically run `git add .`, `git commit -m "[Brief summary]"`, and `git push` to the active branch. Do NOT wait for the user to ask you to push. Always keep the remote repository strictly synced with your local edits.

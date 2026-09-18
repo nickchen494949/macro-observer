@@ -27,13 +27,13 @@ console.log("Starting Full Replay Determinism Test (2016-2024)");
 
 // 1. Run Replay A
 console.log("\nExecuting Replay A...");
-execSync('node backtest/build_historical_snapshots.js 2016-01-01 2024-01-01 snapshots_test_A.json', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
+execSync('node backtest/build_historical_snapshots.js 2016-01-01 2025-01-01 snapshots_test_A.json', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
 const snapA = path.join(__dirname, 'snapshots_test_A.json');
 const stateA = path.join(__dirname, 'model_states_test_A.jsonl');
 
 // 2. Run Replay B
 console.log("\nExecuting Replay B...");
-execSync('node backtest/build_historical_snapshots.js 2016-01-01 2024-01-01 snapshots_test_B.json', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
+execSync('node backtest/build_historical_snapshots.js 2016-01-01 2025-01-01 snapshots_test_B.json', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
 const snapB = path.join(__dirname, 'snapshots_test_B.json');
 const stateB = path.join(__dirname, 'model_states_test_B.jsonl');
 

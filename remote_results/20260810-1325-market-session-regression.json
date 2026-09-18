@@ -1,0 +1,16 @@
+{
+  "runnerVersion": 1,
+  "jobId": "20260810-1325-market-session-regression",
+  "action": "node_script",
+  "status": "passed",
+  "exitCode": 0,
+  "signal": null,
+  "error": "",
+  "stdout": "{\n  \"status\": \"PASS\",\n  \"preOpenMarketDataAsOf\": \"2026-08-07\",\n  \"afterCloseMarketDataAsOf\": \"2026-08-10\",\n  \"laggedAfterCloseMarketDataAsOf\": \"2026-08-07\",\n  \"timezoneBoundaryDecisionDate\": \"2026-08-09\"\n}\n",
+  "stderr": "",
+  "startedAt": "2026-08-10T05:25:51.398Z",
+  "finishedAt": "2026-08-10T05:25:51.492Z",
+  "durationMs": 94,
+  "localHeadBefore": "e44f40b3a771",
+  "codeWorktreeStatusAfter": ""
+}

@@ -1,0 +1,25 @@
+{
+  "benchmark": "RPAR",
+  "model": "RP_Mechanical_Pressure",
+  "period": {
+    "start": "2019-12-16",
+    "end": "2026-08-04",
+    "years": 6.633812457221081
+  },
+  "observations": 1655,
+  "dailyPearsonCorrelation": 0.7669,
+  "directionAgreementPct": 80,
+  "trackingErrorAnnualized": 8.17,
+  "modelVolVsRparVol20Corr": 0.5718,
+  "modelVolVsRparVol60Corr": 0.8179,
+  "leverageVolInverseCorr": -0.2092,
+  "bigDelevEvents": 428,
+  "bigDelevRparMatchPct": 52.1,
+  "rparAnnReturn": 3.96,
+  "modelAnnReturn": 2.32,
+  "rparRealizedVol": 12.73,
+  "modelRealizedVol": 10.06,
+  "verdict": "A. MECHANISM_VALIDATED",
+  "verdictReason": "Strong vol correlation, daily return agreement, and directional consistency with real RP product.",
+  "timestamp": "2026-08-09T16:33:54.643Z"
+}

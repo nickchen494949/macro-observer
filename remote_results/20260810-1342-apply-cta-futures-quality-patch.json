@@ -1,0 +1,16 @@
+{
+  "runnerVersion": 1,
+  "jobId": "20260810-1342-apply-cta-futures-quality-patch",
+  "action": "node_script",
+  "status": "passed",
+  "exitCode": 0,
+  "signal": null,
+  "error": "",
+  "stdout": "PASS: CTA Futures remains visible but no longer downgrades formal snapshot quality/timing.\n",
+  "stderr": "",
+  "startedAt": "2026-08-10T05:44:28.184Z",
+  "finishedAt": "2026-08-10T05:44:30.782Z",
+  "durationMs": 2597,
+  "localHeadBefore": "19aceacea71a",
+  "codeWorktreeStatusAfter": ""
+}

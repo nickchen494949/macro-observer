@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "registryVersion": "1.0",
+    "createdBeforeCompositeOutcomeEvaluation": true,
+    "frozen": true,
+    "phase3ResultsRemainLocked": true,
+    "productionFlowEngineUntouchedUntilSupported": true
+  },
+  "dataPeriods": {
+    "developmentStart": "2016-01-01",
+    "developmentEnd": "2024-12-31",
+    "holdoutStart": "2025-01-01",
+    "holdoutYears": [2025, 2026],
+    "holdoutEndPolicy": "latest available session with a complete 5D forward label"
+  },
+  "inputs": {
+    "developmentSnapshots": "backtest/phase3/snapshots_phase3.json",
+    "developmentLabels": "backtest/phase3/forward_labels_phase3.json",
+    "holdoutSnapshots": "backtest/phase4/snapshots_phase4_holdout.json",
+    "spx": "data/yahoo/_GSPC.json",
+    "phase3StatisticalContract": "test/phase3_validation/config/pipeline_contract.json"
+  },
+  "compositeDefinition": {
+    "interpretation": "higher score = stronger expected systematic equity buying pressure",
+    "normalization": "For each module observation, apply sign orientation first, then ECDF using only eligible observations of that same module with firstTradableSession strictly earlier than the current module firstTradableSession.",
+    "ecdfFormula": "count(history <= signedRawSignal) / N_history",
+    "scalingFormula": "moduleScore = 2 * ECDF - 1",
+    "aggregation": "equal-weight arithmetic mean of active module scores",
+    "weightOptimization": "prohibited",
+    "compositeSignalAvailableAt": "max(signalAvailableAt of active components)",
+    "compositeFirstTradableSession": "max(firstTradableSession of active components)",
+    "requiredCoreModules": ["volControl", "ctaEtfProxy", "riskParity"],
+    "failClosedRule": "If any required core module is not status ok, lacks its primary raw signal, lacks timing metadata, or lacks prior ECDF history, the composite row is insufficient_data."
+  },
+  "modules": {
+    "volControl": {
+      "signalPath": "nextDayEstimateIfTargetUnchanged",
+      "sign": 1,
+      "required": true,
+      "eligibility": "status == 'ok'"
+    },
+    "ctaEtfProxy": {
+      "signalPath": "equityAggregatePositionChange",
+      "sign": 1,
+      "required": true,
+      "eligibility": "status == 'ok'"
+    },
+    "riskParity": {
+      "signalPath": "equityAllocationChange5d",
+      "sign": 1,
+      "required": true,
+      "eligibility": "status == 'ok'"
+    },
+    "pensionRebalance": {
+      "signalPath": "equityOverweightPct",
+      "sign": -1,
+      "required": false,
+      "eligibility": "status == 'ok' AND isRebalanceWindow == true",
+      "inactivePolicy": "exclude from numerator and denominator; never fill zero"
+    }
+  },
+  "outcomes": {
+    "asset": "^GSPC",
+    "entry": "AdjOpen[compositeFirstTradableSession]",
+    "forwardReturnFormula": "AdjClose[F+h-1] / AdjOpen[F] - 1",
+    "primary": {
+      "horizon": 5,
+      "expectedDirection": 1
+    },
+    "secondary": [
+      {"horizon": 1, "expectedDirection": 1},
+      {"horizon": 20, "expectedDirection": 1}
+    ],
+    "secondaryGatePolicy": "ignored for SUPPORTED verdict"
+  },
+  "statistics": {
+    "minimumN": 60,
+    "rankMethod": "average",
+    "HACMaxLag": "max(h - 1, floor(4 * (N/100)^(2/9)))",
+    "bootstrapIterations": 5000,
+    "bootstrapSeed": 20260807,
+    "bootstrapBlockLength": 20,
+    "bootstrapMethod": "overlapping moving blocks, sample with replacement, concatenate, truncate to N, no circular wrap",
+    "icGate": "Spearman direction correct AND two-sided HAC p < 0.05 AND 95% moving-block percentile CI excludes zero in expected direction AND Partial Rank IC direction preserved",
+    "partialRankIC": "corr(resid(rank(composite)), resid(rank(outcome))) after both are residualized by OLS with intercept against rank(momentumRaw) and rank(vol20Raw) on the same complete-case development sample"
+  },
+  "oos": {
+    "testYears": [2025, 2026],
+    "refitFrequency": "annual",
+    "purge": "training lastLabelSession5d < firstTestTradableSession",
+    "baselineAsOf": "last completed ^GSPC session strictly before compositeFirstTradableSession",
+    "baseline": "y = alpha + beta * (z_mom - z_vol)",
+    "enhanced": "y = alpha + beta * (z_mom - z_vol) + gamma * compositeScore",
+    "estimator": "OLS with intercept; no interactions; no regularization; no hyperparameter tuning",
+    "baselineNormalization": "training-window-only mean/std, ddof=1, fixed for entire test year",
+    "commonSample": "baseline and enhanced use exactly the same train and test rows",
+    "lossDifferential": "d_t = squared_error_baseline - squared_error_enhanced",
+    "formalGate": "mean(d_t) > 0 AND two-sided intercept-only HAC p < 0.05 AND 95% moving-block bootstrap lower bound > 0",
+    "deltaMAE": "confirmatory only",
+    "deltaR2": "descriptive only",
+    "requiredHoldoutYears": [2025, 2026]
+  },
+  "robustness": {
+    "period": "development only (2016-2024)",
+    "annualMinimumN": 30,
+    "eligibleYearsSameDirectionMinPct": 0.70,
+    "maxYearContributionShare": 0.50,
+    "yearContribution": "(N_year / sum(N_eligible_years)) * IC_year",
+    "leaveOneYearOutMedianSameDirection": true,
+    "maxCatastrophicSignReversals": 1,
+    "catastrophicSignReversal": "sign(IC_year) != sign(IC_aggregate) AND abs(IC_year) >= 0.5 * abs(IC_aggregate)"
+  },
+  "finalGate": {
+    "supportedCondition": "primary 5D IC gate passes AND true 2025-2026 pooled OOS gate passes AND all development robustness rules pass",
+    "verdicts": ["SUPPORTED", "NOT_SUPPORTED"]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "signal": "systematicFlowComposite",
+  "primaryHorizon": 5,
+  "status": "NOT_SUPPORTED",
+  "failure_reasons": [
+    "Primary 5D HAC rank-regression gate failed.",
+    "Primary 5D IC moving-block bootstrap CI includes zero/wrong direction.",
+    "True 2025-2026 pooled OOS squared-error gate failed.",
+    "Development annual/LOYO robustness rules failed."
+  ],
+  "secondaryHypothesesUsedForGate": false,
+  "productionFlowEngineMayBeChanged": false
+}

@@ -1,0 +1,16 @@
+{
+  "runnerVersion": 1,
+  "jobId": "20260810-1350-summary-narrative-fix",
+  "action": "node_script",
+  "status": "passed",
+  "exitCode": 0,
+  "signal": null,
+  "error": "",
+  "stdout": "PASS: Chinese summary narrative now maps no_dominant_flow correctly.\n",
+  "stderr": "",
+  "startedAt": "2026-08-10T05:49:32.780Z",
+  "finishedAt": "2026-08-10T05:49:36.217Z",
+  "durationMs": 3437,
+  "localHeadBefore": "626bba152822",
+  "codeWorktreeStatusAfter": ""
+}

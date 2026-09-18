@@ -1,109 +1,16 @@
+/Users/happygolucky/projects/宏观观察器/server.js:16
+  throw new Error('FRED_API_KEY is required in .env');
+  ^
 
-  ╔══════════════════════════════════════════╗
-  ║  🔭 宏观观察器 — Data Server              ║
-  ╠══════════════════════════════════════════╣
-  ║  🌐 http://localhost:8765               ║
-  ║  GET /api/data      Dashboard data       ║
-  ║  GET /api/refresh   Incremental update   ║
-  ║  GET /api/status    Download progress    ║
-  ║  GET /api/redownload Full re-download    ║
-  ╚══════════════════════════════════════════╝
-
-  📂 Loaded 128 cached files (FRED: 83, Yahoo: 30)
-  📄 Exported 113 CSV files to csv/ folder
-  ✅ All data present, ready!
-
-  ⏰ FRED + Yahoo: once per day
-
-
-  🔄 Incremental update...
-  📈 Updating Yahoo...
-  📈 Yahoo: 28 ok, 0 failed
-  📈 Updating Fed Funds Futures path...
-  ⚠️  Failed to fetch ZQZ27.CBT: parse: 'timestamp'
-  ⚠️  Failed to fetch ZQF28.CBT: HTTP 404
-  ✅ Saved FED_PATH_HISTORY with 16 months for 2026-08-06 (total 259 days)
-  📈 Updating FOMC SEP Dot Plot...
-  ✅ Saved SEP_HISTORY with 58 meetings
-  ✅ Update done
-
-
-  🔄 Incremental update...
-  📈 Updating Yahoo...
-  📈 Yahoo: 28 ok, 0 failed
-  📈 Updating Fed Funds Futures path...
-  ⚠️  Failed to fetch ZQZ27.CBT: parse: 'timestamp'
-  ⚠️  Failed to fetch ZQF28.CBT: HTTP 404
-  ✅ Saved FED_PATH_HISTORY with 16 months for 2026-08-06 (total 259 days)
-  📈 Updating FOMC SEP Dot Plot...
-  ✅ Saved SEP_HISTORY with 58 meetings
-  ✅ Update done
-
-
-  🔄 Incremental update...
-  📈 Updating Yahoo...
-  📈 Yahoo: 28 ok, 0 failed
-  📈 Updating Fed Funds Futures path...
-  ⚠️  Failed to fetch ZQZ27.CBT: parse: 'timestamp'
-  ⚠️  Failed to fetch ZQF28.CBT: HTTP 404
-  ✅ Saved FED_PATH_HISTORY with 16 months for 2026-08-06 (total 259 days)
-  📈 Updating FOMC SEP Dot Plot...
-  ✅ Saved SEP_HISTORY with 58 meetings
-  ✅ Update done
-
-
-  🔄 Incremental update...
-  📈 Updating Yahoo...
-  📈 Yahoo: 28 ok, 0 failed
-  📈 Updating Fed Funds Futures path...
-  ⚠️  Failed to fetch ZQZ27.CBT: parse: 'timestamp'
-  ⚠️  Failed to fetch ZQF28.CBT: HTTP 404
-  ✅ Saved FED_PATH_HISTORY with 16 months for 2026-08-06 (total 259 days)
-  📈 Updating FOMC SEP Dot Plot...
-  ✅ Saved SEP_HISTORY with 58 meetings
-  ✅ Update done
-
-
-  🔄 Incremental update...
-  📈 Updating Yahoo...
-  📈 Yahoo: 28 ok, 0 failed
-  📈 Updating Fed Funds Futures path...
-  ⚠️  Failed to fetch ZQZ27.CBT: parse: 'timestamp'
-  ⚠️  Failed to fetch ZQF28.CBT: HTTP 404
-  ✅ Saved FED_PATH_HISTORY with 16 months for 2026-08-06 (total 259 days)
-  📈 Updating FOMC SEP Dot Plot...
-  ✅ Saved SEP_HISTORY with 58 meetings
-  ✅ Update done
-
-
-  🔄 Incremental update...
-  📈 Updating Yahoo...
-  📈 Yahoo: 28 ok, 0 failed
-  📈 Updating Fed Funds Futures path...
-  ⚠️  Failed to fetch ZQZ27.CBT: parse: 'timestamp'
-  ⚠️  Failed to fetch ZQF28.CBT: HTTP 404
-  ✅ Saved FED_PATH_HISTORY with 16 months for 2026-08-06 (total 259 days)
-  📈 Updating FOMC SEP Dot Plot...
-  ✅ Saved SEP_HISTORY with 58 meetings
-  ✅ Update done
-
-
-  🔄 Incremental update...
-  📂 Reloaded Yahoo from disk: 31 files
-  📈 Updating Yahoo...
-/Users/happygolucky/Desktop/宏观观察器/server.js:749
-    const targetStr = targetDate.toISOString().split('T')[0];
-                                 ^
-
-RangeError: Invalid time value
-    at Date.toISOString (<anonymous>)
-    at calcMetrics (/Users/happygolucky/Desktop/宏观观察器/server.js:749:34)
-    at /Users/happygolucky/Desktop/宏观观察器/server.js:1150:17
-    at Array.map (<anonymous>)
-    at buildDashboard (/Users/happygolucky/Desktop/宏观观察器/server.js:1146:31)
-    at Server.<anonymous> (/Users/happygolucky/Desktop/宏观观察器/server.js:2655:28)
-    at Server.emit (node:events:507:28)
-    at parserOnIncoming (node:_http_server:1153:12)
-    at HTTPParser.parserOnHeadersComplete (node:_http_common:117:17)
+Error: FRED_API_KEY is required in .env
+    at Object.<anonymous> (/Users/happygolucky/projects/宏观观察器/server.js:16:9)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Object..js (node:internal/modules/cjs/loader:1899:10)
+    at Module.load (node:internal/modules/cjs/loader:1469:32)
+    at Function._load (node:internal/modules/cjs/loader:1286:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:151:5)
+    at node:internal/main/run_main_module:33:47
 
 Node.js v23.11.0

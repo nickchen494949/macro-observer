@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌍 宏观观察器 — World Overview</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --bg: #f4f6f9; --card: #ffffff; --header-bg: #ffffff;
+      --row-hover: #f0f4ff; --row-alt: #f8f9fb; --group-bg: #eef1f8;
+      --text: #1a1f36; --text2: #5e6685; --text3: #9aa2b8;
+      --border: #e4e7ef; --accent: #3b6df5; --accent-light: #eef2ff;
+      --pos: #0ea371; --neg: #dc3545;
+      --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03);
+      --radius: 14px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --mono: 'JetBrains Mono', 'SF Mono', monospace;
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:var(--font); background:var(--bg); color:var(--text); min-height:100vh; -webkit-font-smoothing:antialiased; }
+    ::-webkit-scrollbar { width:6px; height:6px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:rgba(0,0,0,0.1); border-radius:3px; }
+
+    .header { position:sticky; top:0; z-index:100; background:var(--header-bg); border-bottom:1px solid var(--border); padding:0 28px; height:60px; backdrop-filter:blur(12px); }
+    .header-inner { max-width:1500px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:100%; }
+    .logo { font-size:20px; font-weight:800; color:var(--accent); letter-spacing:-0.5px; }
+    .tagline { font-size:11px; color:var(--text3); margin-left:14px; padding-left:14px; border-left:1px solid var(--border); }
+    .header-right { display:flex; align-items:center; gap:16px; }
+    .meta { font-family:var(--mono); font-size:12px; color:var(--text2); }
+    .countdown { color:var(--accent); font-weight:600; }
+    .nav-btn { padding:8px 18px; border-radius:8px; border:1px solid var(--accent); background:var(--accent); color:#fff; cursor:pointer; font-size:13px; font-weight:600; font-family:var(--font); transition:.15s; text-decoration:none; display:flex; align-items:center; gap:6px; }
+    .nav-btn:hover { background:#2f5cd4; }
+
+    .main { max-width:1500px; margin:0 auto; padding:24px 28px; }
+
+    .card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); margin-bottom:24px; overflow:hidden; animation:slideUp .4s ease both; }
+    .card-head { display:flex; align-items:center; justify-content:space-between; padding:16px 22px; border-bottom:1px solid var(--border); }
+    .card-head h2 { font-size:15px; font-weight:700; color:var(--text); }
+
+    /* TABLES — same as US dashboard */
+    .tbl-wrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; font-size:13px; white-space:nowrap; }
+    thead th { position:sticky; top:0; background:#fafbfd; padding:9px 14px; text-align:right; font-size:10.5px; font-weight:600; color:var(--text2); text-transform:uppercase; letter-spacing:.5px; border-bottom:2px solid var(--border); z-index:2; }
+    thead th:first-child { text-align:left; position:sticky; left:0; z-index:3; background:#fafbfd; }
+    tbody td { padding:8px 14px; text-align:right; font-family:var(--mono); font-size:12.5px; font-weight:500; border-bottom:1px solid #f0f1f5; color:var(--text); }
+    tbody td:first-child { text-align:left; font-family:var(--font); font-weight:500; position:sticky; left:0; background:var(--card); z-index:1; min-width:175px; color:var(--text); }
+    tbody tr:nth-child(even) td { background:var(--row-alt); }
+    tbody tr:nth-child(even) td:first-child { background:#f8f9fb; }
+    tbody tr:hover td { background:var(--row-hover) !important; }
+    tbody tr:hover td:first-child { background:#eaf0ff !important; }
+    .group-row td { background:var(--group-bg) !important; font-family:var(--font) !important; font-weight:700 !important; font-size:11px !important; text-transform:uppercase; letter-spacing:.7px; color:var(--accent) !important; border-bottom:1px solid #dde3f0; padding:7px 14px; }
+    .pos { color:var(--pos); } .neg { color:var(--neg); }
+    .na { color:var(--text3); font-style:italic; font-size:11px; }
+
+    /* STATUS DOTS */
+    .status-dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+    .status-green { background:#0ea371; }
+    .status-yellow { background:#f59e0b; }
+    .status-red { background:#dc3545; }
+    .status-calm { background:#9aa2b8; }
+
+    /* HOTSPOTS BAR */
+    .hotspots-bar { display:flex; gap:16px; flex-wrap:wrap; padding:14px 22px; }
+    .hotspot-item { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:500; color:var(--text); }
+    .hotspot-dot { width:8px; height:8px; border-radius:50%; }
+    .hotspot-calm { background:#9aa2b8; }
+    .hotspot-elevated { background:#f59e0b; }
+    .hotspot-critical { background:#dc3545; }
+
+    /* REGION CARDS */
+    .region-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:16px; padding:16px 22px; }
+    .region-card { background:#fafbfd; border:1px solid var(--border); border-radius:10px; padding:14px 16px; transition:.15s; }
+    .region-card:hover { border-color:var(--accent); box-shadow:0 2px 8px rgba(59,109,245,0.08); }
+    .region-card.clickable { cursor:pointer; }
+    .region-header { display:flex; align-items:center; gap:8px; margin-bottom:10px; font-size:15px; font-weight:700; }
+    .region-ind { display:flex; justify-content:space-between; font-size:12px; padding:3px 0; font-family:var(--mono); }
+    .region-ind-label { color:var(--text2); font-family:var(--font); font-weight:500; }
+
+    /* NEWS */
+    .news-list { padding:12px 22px; }
+    .news-item { padding:8px 0; border-bottom:1px solid #f0f1f5; }
+    .news-item:last-child { border-bottom:none; }
+    .news-title { font-size:13px; font-weight:500; color:var(--text); }
+    .news-title a { color:var(--text); text-decoration:none; }
+    .news-title a:hover { color:var(--accent); }
+    .news-meta { font-size:11px; color:var(--text3); margin-top:2px; }
+    .news-badge { font-size:9px; font-weight:700; padding:1px 5px; border-radius:3px; margin-right:4px; }
+    .news-high { background:#fee2e2; color:#991b1b; }
+    .news-med { background:#fef3c7; color:#92400e; }
+
+    @keyframes slideUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+    .footer { text-align:center; padding:20px 28px 36px; font-size:12px; color:var(--text3); }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center">
+      <h1 class="logo">🌍 宏观观察器</h1>
+      <span class="tagline">World Overview · 全球脉搏</span>
+    </div>
+    <div class="header-right">
+      <div class="meta">
+        <span id="updateTime">—</span> · <span class="countdown" id="cd">--:--</span>
+      </div>
+      <a href="/" class="nav-btn">🔭 US Dashboard</a>
+    </div>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- GLOBAL PULSE TABLE -->
+  <div class="card">
+    <div class="card-head">
+      <h2>📊 全球脉搏 Global Pulse</h2>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Indicator</th><th>Current</th><th>1D Δ</th><th>1W Δ</th><th>1M Δ</th><th>1Q Δ</th>
+        </tr></thead>
+        <tbody id="pulseBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- REGIONS -->
+  <div class="card">
+    <div class="card-head">
+      <h2>🗺️ 六大区域 Regional Status</h2>
+    </div>
+    <div class="region-grid" id="regionContainer"></div>
+  </div>
+
+  <!-- HOTSPOTS -->
+  <div class="card">
+    <div class="card-head">
+      <h2>⚡ 军事热点 Geopolitical Hotspots</h2>
+    </div>
+    <div class="hotspots-bar" id="hotspotsBar"></div>
+  </div>
+
+  <!-- NEWS -->
+  <div class="card">
+    <div class="card-head">
+      <h2>📰 宏观新闻 Macro News</h2>
+      <span style="font-size:11px;color:var(--text3)" id="newsCount"></span>
+    </div>
+    <div class="news-list" id="newsList">Loading...</div>
+  </div>
+
+</div>
+
+<div class="footer">宏观观察器 · World Overview · Data: Yahoo Finance / FRED / GDELT</div>
+
+<script>
+// ── FORMATTING ──
+function fmtVal(v) {
+  if (v == null) return '<span class="na">—</span>';
+  if (Math.abs(v) >= 10000) return v.toLocaleString('en-US', {maximumFractionDigits:0});
+  if (Math.abs(v) >= 100) return v.toFixed(1);
+  return v.toFixed(2);
+}
+function fmtChg(v) {
+  if (v == null) return '<span class="na">—</span>';
+  const cls = v > 0 ? 'pos' : v < 0 ? 'neg' : '';
+  const sign = v > 0 ? '+' : '';
+  return `<span class="${cls}">${sign}${v.toFixed(2)}%</span>`;
+}
+
+// ── PULSE TABLE ──
+function renderPulse(pulse) {
+  const body = document.getElementById('pulseBody');
+  body.innerHTML = pulse.map(p => `
+    <tr>
+      <td>${p.label}</td>
+      <td>${fmtVal(p.value)}</td>
+      <td>${fmtChg(p.change1d)}</td>
+      <td>${fmtChg(p.change1w)}</td>
+      <td>${fmtChg(p.change1m)}</td>
+      <td>${fmtChg(p.change1q)}</td>
+    </tr>
+  `).join('');
+}
+
+// ── REGIONS ──
+function renderRegions(regions) {
+  const container = document.getElementById('regionContainer');
+  container.innerHTML = regions.map(r => {
+    const cls = r.link ? 'region-card clickable' : 'region-card';
+    const onclick = r.link ? `onclick="window.location.href='${r.link}'"` : '';
+    const dotCls = 'status-dot status-' + (r.status || 'calm');
+    const inds = (r.indicators || []).map(i => `
+      <div class="region-ind">
+        <span class="region-ind-label">${i.label}</span>
+        <span>${fmtVal(i.value)} ${fmtChg(i.change1d)}</span>
+      </div>
+    `).join('');
+    return `
+      <div class="${cls}" ${onclick}>
+        <div class="region-header">
+          <span>${r.emoji || ''}</span>
+          <span>${r.name}</span>
+          <span class="${dotCls}"></span>
+        </div>
+        ${inds}
+      </div>
+    `;
+  }).join('');
+}
+
+// ── HOTSPOTS ──
+function renderHotspots(hotspots) {
+  const bar = document.getElementById('hotspotsBar');
+  const statusMap = { calm:'hotspot-calm', elevated:'hotspot-elevated', critical:'hotspot-critical' };
+  const labelMap = { calm:'⚪ 平静', elevated:'🟡 关注', critical:'🔴 紧张' };
+  bar.innerHTML = hotspots.map(h => `
+    <div class="hotspot-item">
+      <span class="hotspot-dot ${statusMap[h.status] || 'hotspot-calm'}"></span>
+      <span>${h.name}</span>
+      <span style="font-size:11px;color:var(--text3)">${labelMap[h.status] || '⚪ 平静'}</span>
+    </div>
+  `).join('');
+}
+
+// ── NEWS ──
+const HIGH_KW = /war|attack|missile|nuclear|invasion|sanction|default|crash|recession|emergency|blackout|coup|martial law/i;
+const MED_KW = /inflation|fed |tariff|opec|rate cut|rate hike|gdp|unemployment|oil price|gold price|treasury|drone|ceasefire|nato|strike/i;
+const TOP_DOMAINS = ['reuters.com','apnews.com','bloomberg.com','ft.com','wsj.com','bbc.com','nytimes.com','cnbc.com'];
+
+function scoreArticle(a) {
+  let s = 0;
+  if (HIGH_KW.test(a.title)) s += 3;
+  if (MED_KW.test(a.title)) s += 2;
+  if (TOP_DOMAINS.some(d => (a.domain||'').includes(d))) s += 1;
+  const mins = a.seendate ? (Date.now() - new Date(a.seendate).getTime()) / 60000 : 9999;
+  if (mins < 120) s += 1;
+  return s;
+}
+
+function renderNews(articles) {
+  const list = document.getElementById('newsList');
+  const countEl = document.getElementById('newsCount');
+  if (!articles || articles.length === 0) { list.innerHTML = '<div style="color:var(--text3);padding:8px 0;">No news available</div>'; return; }
+  const scored = articles.map(a => ({...a, score: scoreArticle(a)})).sort((a,b) => b.score - a.score);
+  const top = scored.slice(0, 10);
+  countEl.textContent = `${articles.length} articles`;
+  list.innerHTML = top.map(a => {
+    const badge = a.score >= 3 ? '<span class="news-badge news-high">HIGH</span>' : a.score >= 2 ? '<span class="news-badge news-med">MED</span>' : '';
+    const ago = timeAgo(a.seendate);
+    return `
+      <div class="news-item">
+        <div class="news-title">${badge}<a href="${a.url}" target="_blank">${a.title}</a></div>
+        <div class="news-meta">${a.domain || ''} · ${ago}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function timeAgo(d) {
+  if (!d) return '';
+  const ms = Date.now() - new Date(d).getTime();
+  const m = Math.floor(ms/60000);
+  if (m < 60) return m + 'm ago';
+  const h = Math.floor(m/60);
+  if (h < 24) return h + 'h ago';
+  return Math.floor(h/24) + 'd ago';
+}
+
+// ── DATA FETCH ──
+let nextRefresh;
+
+async function fetchWorld() {
+  try {
+    const res = await fetch('/api/world');
+    const data = await res.json();
+    renderPulse(data.pulse || []);
+    renderRegions(data.regions || []);
+    renderHotspots(data.hotspots || []);
+    document.getElementById('updateTime').textContent = new Date(data.updated).toLocaleTimeString('en-US',{hour12:false});
+  } catch(e) { console.error('World fetch error:', e); }
+}
+
+async function fetchNews() {
+  try {
+    const res = await fetch('/api/news');
+    const data = await res.json();
+    renderNews(data.articles || []);
+  } catch(e) { console.error('News fetch error:', e); }
+}
+
+function startCountdown() {
+  nextRefresh = Date.now() + 300000;
+  setInterval(() => {
+    const rem = Math.max(0, nextRefresh - Date.now());
+    const m = Math.floor(rem/60000);
+    const s = Math.floor((rem%60000)/1000);
+    document.getElementById('cd').textContent = `${m}:${String(s).padStart(2,'0')}`;
+    if (rem <= 0) { fetchWorld(); fetchNews(); nextRefresh = Date.now() + 300000; }
+  }, 1000);
+}
+
+fetchWorld();
+fetchNews();
+startCountdown();
+</script>
+</body>
+</html>

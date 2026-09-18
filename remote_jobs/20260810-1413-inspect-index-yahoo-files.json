@@ -1,0 +1,8 @@
+{
+  "id": "20260810-1413-inspect-index-yahoo-files",
+  "enabled": true,
+  "action": "node_script",
+  "path": "scripts/inspect_index_yahoo_files.js",
+  "args": [],
+  "timeoutMs": 60000
+}

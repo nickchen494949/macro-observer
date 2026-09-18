@@ -1,0 +1,8 @@
+{
+  "id": "20260810-1417-recover-main-yahoo-cache",
+  "enabled": true,
+  "action": "node_script",
+  "path": "scripts/recover_main_yahoo_numeric_cache.js",
+  "args": [],
+  "timeoutMs": 120000
+}
