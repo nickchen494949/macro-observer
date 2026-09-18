@@ -2068,10 +2068,7 @@ function renderSepCorePce(curveData, ghostData) {
     pointBorderWidth: 2,
     pointRadius: 6,
     pointHoverRadius: 8,
-    // Fill between current and reference — orange if current > ref, blue if current < ref
-    fill: ghostData
-      ? { target: 0, above: 'rgba(249,115,22,0.35)', below: 'rgba(99,102,241,0.35)' }
-      : false,
+    fill: false,
     tension: 0.2,
     order: 0,
   });
