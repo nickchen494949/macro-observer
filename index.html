@@ -341,8 +341,8 @@
           <option value="80">Fast</option>
         </select>
         <select id="fedPathGhostMode" onchange="updateFedPathFromSlider()" style="font-size:11px;padding:2px 6px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text2);cursor:pointer;" title="Reference curve">
-          <option value="newest" selected>vs Newest</option>
-          <option value="prev">vs Previous</option>
+          <option value="newest">vs Newest</option>
+          <option value="prev" selected>vs Previous</option>
           <option value="next">vs Next</option>
         </select>
       </div>
@@ -370,8 +370,8 @@
           <option value="150">Fast</option>
         </select>
         <select id="sepPathGhostMode" onchange="updateSepPathFromSlider()" style="font-size:11px;padding:2px 6px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text2);cursor:pointer;" title="Reference curve">
-          <option value="newest" selected>vs Newest</option>
-          <option value="prev">vs Previous</option>
+          <option value="newest">vs Newest</option>
+          <option value="prev" selected>vs Previous</option>
           <option value="next">vs Next</option>
         </select>
       </div>
@@ -399,8 +399,8 @@
           <option value="60">Fast</option>
         </select>
         <select id="yieldCurveGhostMode" onchange="updateYieldCurveFromSlider()" style="font-size:11px;padding:2px 6px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text2);cursor:pointer;" title="Reference curve">
-          <option value="newest" selected>vs Newest</option>
-          <option value="prev">vs Previous</option>
+          <option value="newest">vs Newest</option>
+          <option value="prev" selected>vs Previous</option>
           <option value="next">vs Next</option>
           <option value="none">No Ghost</option>
         </select>
@@ -429,8 +429,8 @@
           <option value="150">Fast</option>
         </select>
         <select id="sepCorePceGhostMode" onchange="updateSepCorePceFromSlider()" style="font-size:11px;padding:2px 6px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text2);cursor:pointer;">
-          <option value="newest" selected>vs Newest</option>
-          <option value="prev">vs Previous</option>
+          <option value="newest">vs Newest</option>
+          <option value="prev" selected>vs Previous</option>
           <option value="none">No Ghost</option>
         </select>
       </div>
@@ -1436,7 +1436,7 @@ function updateFedPathFromSlider() {
   const maxIdx = currentFedPathHistory.length - 1;
   const [date, pathData] = currentFedPathHistory[idx];
   document.getElementById('fedPathDateLabel').textContent = `(As of: ${date})`;
-  const mode = document.getElementById('fedPathGhostMode')?.value || 'newest';
+  const mode = document.getElementById('fedPathGhostMode')?.value || 'prev';
   let ghost = null;
   if (idx < maxIdx && mode === 'newest') {
     ghost = currentFedPathHistory[maxIdx][1];
@@ -1574,7 +1574,7 @@ function startFedPathPlay() {
   const slider = document.getElementById('fedPathSlider');
   const speed = parseInt(document.getElementById('fedPathSpeed').value) || 200;
   const maxIdx = currentFedPathHistory.length - 1;
-  const mode = document.getElementById('fedPathGhostMode')?.value || 'newest';
+  const mode = document.getElementById('fedPathGhostMode')?.value || 'prev';
   const newestPath = currentFedPathHistory[maxIdx][1];
 
   let idx = 0;
@@ -1639,7 +1639,7 @@ function updateSepPathFromSlider() {
   const maxIdx = currentSepHistory.length - 1;
   const [date, pathData] = currentSepHistory[idx];
   document.getElementById('sepPathDateLabel').textContent = `(As of: ${date})`;
-  const mode = document.getElementById('sepPathGhostMode')?.value || 'newest';
+  const mode = document.getElementById('sepPathGhostMode')?.value || 'prev';
   let ghost = null;
   if (idx < maxIdx && mode === 'newest') {
     ghost = currentSepHistory[maxIdx][1];
@@ -1778,7 +1778,7 @@ function startSepPathPlay() {
   const slider = document.getElementById('sepPathSlider');
   const speed = parseInt(document.getElementById('sepPathSpeed').value) || 350;
   const maxIdx = currentSepHistory.length - 1;
-  const mode = document.getElementById('sepPathGhostMode')?.value || 'newest';
+  const mode = document.getElementById('sepPathGhostMode')?.value || 'prev';
   const newestPath = currentSepHistory[maxIdx][1];
 
   let idx = 0;
@@ -1847,7 +1847,7 @@ function updateYieldCurveFromSlider() {
   const maxIdx = currentYieldCurveHistory.length - 1;
   const [date, curveData] = currentYieldCurveHistory[idx];
   document.getElementById('yieldCurveDateLabel').textContent = '(As of: ' + date + ')';
-  const mode = document.getElementById('yieldCurveGhostMode')?.value || 'newest';
+  const mode = document.getElementById('yieldCurveGhostMode')?.value || 'prev';
   let ghost = null;
   if (mode === 'newest' && idx < maxIdx) ghost = currentYieldCurveHistory[maxIdx][1];
   else if (mode === 'prev' && idx > 0)   ghost = currentYieldCurveHistory[idx - 1][1];
@@ -1955,7 +1955,7 @@ function startYieldCurvePlay() {
   const speed = parseInt(document.getElementById('yieldCurveSpeed').value) || 200;
   const maxIdx = currentYieldCurveHistory.length - 1;
   const newestCurve = currentYieldCurveHistory[maxIdx][1];
-  const mode = document.getElementById('yieldCurveGhostMode')?.value || 'newest';
+  const mode = document.getElementById('yieldCurveGhostMode')?.value || 'prev';
   let idx = 0;
   slider.value = idx;
   function step() {
@@ -2011,7 +2011,7 @@ function updateSepCorePceFromSlider() {
   const maxIdx = currentSepCorePceHistory.length - 1;
   const [date, curveData] = currentSepCorePceHistory[idx];
   document.getElementById('sepCorePceDateLabel').textContent = '(As of: ' + date + ')';
-  const mode = document.getElementById('sepCorePceGhostMode')?.value || 'newest';
+  const mode = document.getElementById('sepCorePceGhostMode')?.value || 'prev';
   let ghost = null;
   if (mode === 'newest' && idx < maxIdx) ghost = currentSepCorePceHistory[maxIdx][1];
   else if (mode === 'prev' && idx > 0)   ghost = currentSepCorePceHistory[idx - 1][1];
@@ -2131,7 +2131,7 @@ function startSepCorePcePlay() {
   const speed = parseInt(document.getElementById('sepCorePceSpeed').value) || 400;
   const maxIdx = currentSepCorePceHistory.length - 1;
   const newest = currentSepCorePceHistory[maxIdx][1];
-  const mode = document.getElementById('sepCorePceGhostMode')?.value || 'newest';
+  const mode = document.getElementById('sepCorePceGhostMode')?.value || 'prev';
   let idx = 0; slider.value = idx;
   function step() {
     if (!sepCorePcePlaying || idx > maxIdx) { slider.value = maxIdx; updateSepCorePceFromSlider(); stopSepCorePcePlay(); return; }
