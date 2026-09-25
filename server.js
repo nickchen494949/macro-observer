@@ -643,25 +643,46 @@ async function smartUpdate(includeYahoo = false) {
   }
 
   // FRED: always update (free, no rate limits)
-  const tenDaysAgo = new Date();
-  tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
-  const startStr = tenDaysAgo.toISOString().split('T')[0];
+  // Use 90-day lookback to catch monthly data (observation_date may be weeks before publication)
+  // MERGE logic: update existing dates (handles BLS revisions) + append new dates
+  const lookbackDate = new Date();
+  lookbackDate.setDate(lookbackDate.getDate() - 90);
+  const startStr = lookbackDate.toISOString().split('T')[0];
   for (const id of FRED_SERIES_IDS) {
     try {
       const newVals = await fetchFred(id, startStr);
       if (newVals.length && store.fred[id]) {
         const existing = store.fred[id];
-        const lastDate = existing.length ? existing[existing.length - 1][0] : '';
-        const fresh = newVals.filter(v => v[0] > lastDate);
-        if (fresh.length) {
-          store.fred[id] = [...existing, ...fresh];
-        } else if (newVals.length) {
-          const latest = newVals[newVals.length - 1];
-          if (existing.length && existing[existing.length-1][0] === latest[0]) {
-            existing[existing.length-1][1] = latest[1];
+        // Build a map of existing dates for fast lookup
+        const dateMap = new Map();
+        for (let k = 0; k < existing.length; k++) {
+          dateMap.set(existing[k][0], k);
+        }
+        let merged = 0, appended = 0;
+        for (const [d, v] of newVals) {
+          const idx = dateMap.get(d);
+          if (idx !== undefined) {
+            // Update existing date if value changed (handles BLS/BEA revisions)
+            if (existing[idx][1] !== v) {
+              existing[idx][1] = v;
+              merged++;
+            }
+          } else {
+            // New date — append
+            existing.push([d, v]);
+            dateMap.set(d, existing.length - 1);
+            appended++;
           }
         }
-        saveFile('fred', id, store.fred[id]);
+        if (appended > 0) {
+          // Re-sort after appending (monthly obs may arrive out of order)
+          existing.sort((a, b) => a[0].localeCompare(b[0]));
+        }
+        if (merged > 0 || appended > 0) {
+          store.fred[id] = existing;
+          saveFile('fred', id, store.fred[id]);
+          if (merged > 0) console.log(`  🔄 FRED ${id}: ${merged} revised, ${appended} new`);
+        }
       }
     } catch(e) {
       console.log(`  ⚠️  FRED ${id} failed: ${e.message}`);
@@ -955,6 +976,9 @@ function buildDashboard() {
 
   // Align T10YIE to same last date as DGS10 so table shows the same breakeven change
   const _dgs10Last = (store.fred['DGS10']||[]).reduce((a,[d]) => d > a ? d : a, '');
+  // Align T10Y3M spread to min of DGS10 and DGS3MO so components and spread show same date
+  const _dgs3moLast = (store.fred['DGS3MO']||[]).reduce((a,[d]) => d > a ? d : a, '');
+  const _spreadClipDate = _dgs10Last && _dgs3moLast ? (_dgs10Last < _dgs3moLast ? _dgs10Last : _dgs3moLast) : (_dgs10Last || _dgs3moLast);
 
   const rates = RATE_ROWS.map(r => {
     let vals = [];
@@ -990,6 +1014,10 @@ function buildDashboard() {
     // Clip T10YIE to same last date as DGS10 for date-aligned breakeven calculation
     if (r.series === 'T10YIE' && vals && _dgs10Last) {
       vals = vals.filter(([d]) => d <= _dgs10Last);
+    }
+    // Clip T10Y3M spread to same date as its components (DGS10 & DGS3MO)
+    if (r.series === 'T10Y3M' && vals && _spreadClipDate) {
+      vals = vals.filter(([d]) => d <= _spreadClipDate);
     }
 
     // bpValue: multiply raw values ×100 (e.g. spread 1.93% → 193 bp)
