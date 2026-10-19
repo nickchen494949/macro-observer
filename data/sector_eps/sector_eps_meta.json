@@ -1,0 +1,15 @@
+{
+  "source": "S&P Dow Jones Indices, sp-500-eps-est.xlsx (sheet SECTOR EPS)",
+  "source_url": "https://www.spglobal.com/spdji/en/documents/additional-material/sp-500-eps-est.xlsx",
+  "file_as_of": "2026-01-29",
+  "header_actuals_through": "2025-09-30",
+  "last_actual_quarter": {
+    "operating": "2025Q2",
+    "as_reported": "2025Q3"
+  },
+  "first_estimate_quarter": {
+    "operating": "2025Q3",
+    "as_reported": null
+  },
+  "note": "Sector EPS is per sector-index unit; levels are NOT additive across sectors."
+}

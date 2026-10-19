@@ -467,6 +467,20 @@
     </div>
   </section>
 
+  <section class="card" id="sectorEpsSection">
+    <div class="card-head">
+      <h2>🏭 板块 EPS Sector EPS (S&amp;P 500, 季度)</h2>
+      <div style="display:flex;gap:6px;align-items:center">
+        <button id="secEpsBtnOp" class="badge badge-fred" style="cursor:pointer" onclick="sectorEpsSetBasis('operating')">经营性 Operating</button>
+        <button id="secEpsBtnAr" class="badge badge-yahoo" style="cursor:pointer" onclick="sectorEpsSetBasis('as_reported')">GAAP 报告 As Reported</button>
+      </div>
+    </div>
+    <div id="secEpsNote" style="font-size:12px;color:#888;margin:4px 0 8px"></div>
+    <div class="tbl-wrap">
+      <table><thead id="secEpsHead"></thead><tbody id="secEpsBody"></tbody></table>
+    </div>
+  </section>
+
   <section class="card" id="newsSection" style="display:none">
     <div class="card-head">
       <h2>📰 宏观新闻 Macro News</h2>
@@ -3160,5 +3174,40 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
+<script>
+// ============ SECTOR EPS (S&P 500 GICS sectors; source: S&P DJI official workbook) ============
+let _secEps = null, _secBasis = 'operating';
+const _SEC_CN = { 'ALL (index)': 'S&P 500 整体', 'Information Technology': '信息技术', 'Communication Services': '通信服务',
+  'Consumer Discretionary': '可选消费', 'Consumer Staples': '必需消费', 'Health Care': '医疗保健', 'Financials': '金融',
+  'Industrials': '工业', 'Energy': '能源', 'Materials': '材料', 'Utilities': '公用事业', 'Real Estate': '房地产' };
+function sectorEpsSetBasis(b) { _secBasis = b; renderSectorEps(); }
+function renderSectorEps() {
+  if (!_secEps) return;
+  const NQ = 8, b = _secBasis, m = _secEps.meta;
+  const last = m.last_actual_quarter[b];
+  const note = document.getElementById('secEpsNote');
+  note.innerHTML = `来源 S&amp;P Dow Jones Indices 官方文件（文件日期 ${m.file_as_of}）· <strong>${b === 'operating' ? '经营性' : 'GAAP 报告'} EPS 最新实际季度：${last}</strong>`
+    + ` · ⚠️ 板块 EPS 为“板块指数口径”，各板块水平<strong>不可相加或直接比较</strong>，适合看趋势/同比。`
+    + ` · 之后的季度尚未收录（需更新 S&amp;P 文件，见 scripts/sector_eps）。`;
+  const periods = _secEps.sectors[0][b].actual.map(x => x[0]).slice(-NQ);
+  document.getElementById('secEpsHead').innerHTML = '<tr><th>板块 Sector</th>' + periods.map(p => `<th>${p}</th>`).join('') + '<th>TTM</th><th>TTM YoY</th></tr>';
+  const f = v => (v == null ? '–' : v.toFixed(2));
+  document.getElementById('secEpsBody').innerHTML = _secEps.sectors.map(s => {
+    const a = s[b].actual, map = new Map(a);
+    const ttm = i => (i >= 3 ? a.slice(i - 3, i + 1).reduce((x, y) => x + y[1], 0) : null);
+    const iLast = a.length - 1, t = ttm(iLast), t0 = ttm(iLast - 4);
+    const yoy = (t != null && t0 != null && t0 > 0) ? (t / t0 - 1) * 100 : null;
+    const cls = yoy == null ? '' : (yoy >= 0 ? 'pos' : 'neg');
+    return `<tr><td>${_SEC_CN[s.sector] || s.sector} <span style="color:#999;font-size:11px">${s.sector === 'ALL (index)' ? '' : s.sector}</span></td>`
+      + periods.map(p => `<td>${f(map.get(p))}</td>`).join('')
+      + `<td>${f(t)}</td><td class="${cls}">${yoy == null ? 'n/m' : (yoy >= 0 ? '+' : '') + yoy.toFixed(1) + '%'}</td></tr>`;
+  }).join('');
+  document.getElementById('secEpsBtnOp').style.opacity = b === 'operating' ? 1 : .4;
+  document.getElementById('secEpsBtnAr').style.opacity = b === 'as_reported' ? 1 : .4;
+}
+fetch('/api/sector-eps').then(r => r.json()).then(d => { if (d.sectors) { _secEps = d; renderSectorEps(); } })
+  .catch(e => { const n = document.getElementById('secEpsNote'); if (n) n.textContent = 'Sector EPS 数据加载失败: ' + e; });
+</script>
+
 </body>
 </html>

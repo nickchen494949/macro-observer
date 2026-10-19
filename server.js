@@ -2849,6 +2849,28 @@ const server = http.createServer(async (req, res) => {
     ];
 
     res.end(JSON.stringify({ updated: new Date().toISOString(), pulse, regions, hotspots }));
+  } else if (p === '/api/sector-eps') {
+    // S&P 500 sector EPS (quarterly), parsed from S&P DJI's official workbook by scripts/sector_eps/build_sector_eps.py
+    try {
+      const dir = path.join(DATA_DIR, 'sector_eps');
+      const lines = fs.readFileSync(path.join(dir, 'sector_eps_quarterly.csv'), 'utf8').trim().split(/\r?\n/);
+      const head = lines.shift().split(',');
+      const ix = Object.fromEntries(head.map((h, i) => [h, i]));
+      const bySector = {};
+      for (const ln of lines) {
+        const c = ln.split(',');
+        if (c[ix.index] !== 'S&P 500') continue;
+        const s = (bySector[c[ix.sector]] ||= { sector: c[ix.sector], operating: { actual: [], estimate: [] }, as_reported: { actual: [], estimate: [] } });
+        s[c[ix.basis]][c[ix.status]].push([c[ix.period], Number(c[ix.eps])]);
+      }
+      const meta = JSON.parse(fs.readFileSync(path.join(dir, 'sector_eps_meta.json'), 'utf8'));
+      const order = ['ALL (index)', 'Information Technology', 'Communication Services', 'Consumer Discretionary', 'Consumer Staples',
+        'Health Care', 'Financials', 'Industrials', 'Energy', 'Materials', 'Utilities', 'Real Estate'];
+      const sectors = order.filter(k => bySector[k]).map(k => bySector[k]);
+      res.end(JSON.stringify({ meta, sectors }));
+    } catch (e) {
+      res.writeHead(500); res.end(JSON.stringify({ error: 'sector-eps data unavailable: ' + e.message }));
+    }
   } else if (p === '/api/news') {
     const news = loadNewsFromDisk();
     res.end(JSON.stringify(news));
