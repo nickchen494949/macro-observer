@@ -3189,6 +3189,19 @@ function renderSectorEps() {
   note.innerHTML = `来源 S&amp;P Dow Jones Indices 官方文件（文件日期 ${m.file_as_of}）· <strong>${b === 'operating' ? '经营性' : 'GAAP 报告'} EPS 最新实际季度：${last}</strong>`
     + ` · ⚠️ 板块 EPS 为“板块指数口径”，各板块水平<strong>不可相加或直接比较</strong>，适合看趋势/同比。`
     + ` · 之后的季度尚未收录（需更新 S&amp;P 文件，见 scripts/sector_eps）。`;
+  // staleness warning (file age > 45d, or latest actual quarter ended > 135d ago)
+  const qEnd = q => { const y = +q.slice(0, 4), n = +q.slice(5); return new Date(Date.UTC(y, n * 3, 0)); };
+  const dayMs = 86400000, now = Date.now();
+  const fileAge = Math.floor((now - new Date(m.file_as_of + 'T00:00:00Z')) / dayMs);
+  const qAge = Math.floor((now - qEnd(last)) / dayMs);
+  let ban = document.getElementById('secEpsStale');
+  if (!ban) { ban = document.createElement('div'); ban.id = 'secEpsStale'; note.parentNode.insertBefore(ban, note); }
+  if (fileAge > 45 || qAge > 135) {
+    const lo = m.last_actual_quarter.operating, la = m.last_actual_quarter.as_reported;
+    ban.style.cssText = 'background:#fef3c7;border:1px solid #f59e0b;color:#92400e;padding:8px 10px;border-radius:6px;font-size:12px;margin:6px 0';
+    ban.innerHTML = `⚠️ 数据已过期：S&P 文件日期 ${m.file_as_of}（已过 ${fileAge} 天）；经营性最新实际 ${lo}，GAAP 最新实际 ${la}（当前所选 ${last} 距今 ${qAge} 天）。`
+      + `后面的季度 S&P 在该文件里只给“估计”，这里不显示。请到 S&P 官网用浏览器下载最新 sp-500-eps-est.xlsx 后更新。`;
+  } else { ban.style.display = 'none'; }
   const periods = _secEps.sectors[0][b].actual.map(x => x[0]).slice(-NQ);
   document.getElementById('secEpsHead').innerHTML = '<tr><th>板块 Sector</th>' + periods.map(p => `<th>${p}</th>`).join('') + '<th>TTM</th><th>TTM YoY</th></tr>';
   const f = v => (v == null ? '–' : v.toFixed(2));
