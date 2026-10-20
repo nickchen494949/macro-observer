@@ -1,53 +1,8 @@
 {
-  "updated": "2026-10-20T12:03:14.664Z",
-  "gdeltCount": 5,
+  "updated": "2026-10-20T12:03:55.628Z",
+  "gdeltCount": 0,
   "fedCount": 20,
   "articles": [
-    {
-      "title": "RBA extreme interest rates push economy towards potential recession",
-      "url": "http://www.australianherald.com/news/279386007/rba-extreme-interest-rates-push-economy-towards-potential-recession",
-      "source": "australianherald.com",
-      "sourceType": "gdelt",
-      "date": "2026-10-20T02:15:00.000Z",
-      "image": "https://chitra-api.kreatio.com/api/v1/wps/7044325/7d2dec95-92ed-4ddf-b622-fa091430d190/0/Y2FkNmE1OGYtMzN-600x315.jpg",
-      "country": "Australia"
-    },
-    {
-      "title": "RBA extreme interest rates push economy towards potential recession",
-      "url": "http://www.australiannews.net/news/279386007/rba-extreme-interest-rates-push-economy-towards-potential-recession",
-      "source": "australiannews.net",
-      "sourceType": "gdelt",
-      "date": "2026-10-20T01:45:00.000Z",
-      "image": "https://chitra-api.kreatio.com/api/v1/wps/7044325/7d2dec95-92ed-4ddf-b622-fa091430d190/0/Y2FkNmE1OGYtMzN-600x315.jpg",
-      "country": "Australia"
-    },
-    {
-      "title": "RBA extreme interest rates push economy towards potential recession",
-      "url": "https://independentaustralia.net/politics/politics-display/rbas-extreme-interest-rates-push-economy-towards-potential-recession,21690",
-      "source": "independentaustralia.net",
-      "sourceType": "gdelt",
-      "date": "2026-10-19T22:45:00.000Z",
-      "image": "https://independentaustralia.net/_lib/slir/w900-c4x3/i/article/img/article-21690-hero.jpg",
-      "country": "Australia"
-    },
-    {
-      "title": "Canadian Dollar Gains as October Bank of Canada Rate Odds Reach 80 % ",
-      "url": "https://econotimes.com/Canadian-Dollar-Gains-as-October-Bank-of-Canada-Rate-Odds-Reach-80-1756819",
-      "source": "econotimes.com",
-      "sourceType": "gdelt",
-      "date": "2026-10-19T20:15:00.000Z",
-      "image": "https://wfuxxvxhdynkhcrlavdu.supabase.co/storage/v1/object/public/article-media/articles/390b2c46522f665811bfbd9ead4bfdd333cf4c4a9452cef366caa6601f92637d.webp",
-      "country": "United States"
-    },
-    {
-      "title": "EDITORIAL : The art of economic policy",
-      "url": "https://www.taipeitimes.com/News/editorials/archives/2026/10/20/2003866262",
-      "source": "taipeitimes.com",
-      "sourceType": "gdelt",
-      "date": "2026-10-19T16:45:00.000Z",
-      "image": null,
-      "country": "Taiwan"
-    },
     {
       "title": "Federal Reserve Board announces termination of enforcement actions with Gardner Bancshares, Inc. and Small Business Bank",
       "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20261016a.htm",
