@@ -37,7 +37,7 @@ A macroeconomic dashboard tracking rates, commodities, equities, and macro indic
 
 ```bash
 cd ~/Desktop/宏观观察器
-node server.js
+node --env-file=.env server.js   # .env must define FRED_API_KEY and LOCAL_ADMIN_TOKEN
 ```
 
 Then open **http://localhost:8765** in your browser.

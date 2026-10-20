@@ -7,7 +7,7 @@ if lsof -i :8765 -t >/dev/null 2>&1; then
   echo "✅ Server already running on :8765"
 else
   echo "🚀 Starting server..."
-  nohup node server.js > /tmp/macro-server.log 2>&1 &
+  nohup node --env-file=.env server.js > /tmp/macro-server.log 2>&1 &
   # Wait for server to be ready
   for i in {1..15}; do
     sleep 1
