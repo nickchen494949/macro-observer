@@ -467,48 +467,18 @@
     </div>
   </section>
 
-  <!-- HIDDEN until complete data found: remove display:none to restore -->
-  <section class="card" id="sectorEpsSection" style="display:none">
+  <section class="card" id="sectorEpsSection">
     <div class="card-head">
-      <h2>🏭 板块 EPS Sector EPS (S&amp;P 500, 季度)</h2>
+      <h2>🏭 板块 EPS Sector EPS (S&amp;P 500, 季度 · Yardeni / LSEG I/B/E/S)</h2>
       <div style="display:flex;gap:6px;align-items:center">
-        <button id="secEpsBtnOp" class="badge badge-fred" style="cursor:pointer" onclick="sectorEpsSetBasis('operating')">经营性 Operating</button>
-        <button id="secEpsBtnAr" class="badge badge-yahoo" style="cursor:pointer" onclick="sectorEpsSetBasis('as_reported')">GAAP 报告 As Reported</button>
+        <span id="secEpsBtnOp" class="badge badge-fred">经营性 Operating</span>
+        <a class="badge badge-yahoo" href="https://yardeni.com/charts/us-stock-market/stock-market-fundamentals/sp-500-quarterly-metrics" target="_blank" rel="noopener">来源 Yardeni 原页 ↗</a>
       </div>
     </div>
     <div id="secEpsNote" style="font-size:12px;color:#888;margin:4px 0 8px"></div>
     <div class="tbl-wrap">
       <table><thead id="secEpsHead"></thead><tbody id="secEpsBody"></tbody></table>
     </div>
-  </section>
-
-  <!-- HIDDEN until complete data found: remove display:none to restore -->
-  <section class="card" id="yardeniEpsSection" style="display:none">
-    <div class="card-head">
-      <h2>🏭 板块 EPS · Yardeni / LSEG I/B/E/S (最新季度 Q2-2026)</h2>
-      <a class="badge badge-yahoo" href="https://yardeni.com/charts/us-stock-market/stock-market-fundamentals/sp-500-quarterly-metrics" target="_blank" rel="noopener">来源 Yardeni 原页 ↗</a>
-    </div>
-    <div style="background:#fef3c7;border:1px solid #f59e0b;color:#92400e;padding:8px 10px;border-radius:6px;font-size:12px;margin:6px 0">
-      ⚠️ 这是另一套数据（LSEG I/B/E/S 经营性 EPS，Yardeni 整理），<strong>口径和上面 S&amp;P 官方表不同，数值不能互相比较</strong>。下表数字为 2026-10-19 从 Yardeni 图上标注的 Q2-2026 读取（手动记录，不会自动更新）；下方图是 Yardeni 的实时图，历史走势看图。
-    </div>
-    <div class="tbl-wrap">
-      <table><thead><tr><th>板块 Sector</th><th>Q2-2026 Operating EPS</th></tr></thead><tbody>
-        <tr><td>S&amp;P 500 整体</td><td>100.32</td></tr>
-        <tr><td>信息技术 Information Technology</td><td>65.70</td></tr>
-        <tr><td>通信服务 Communication Services</td><td>10.22</td></tr>
-        <tr><td>可选消费 Consumer Discretionary</td><td>28.98</td></tr>
-        <tr><td>必需消费 Consumer Staples</td><td>10.99</td></tr>
-        <tr><td>医疗保健 Health Care</td><td>21.40</td></tr>
-        <tr><td>金融 Financials</td><td>15.76</td></tr>
-        <tr><td>工业 Industrials</td><td>13.96</td></tr>
-        <tr><td>能源 Energy</td><td>23.88</td></tr>
-        <tr><td>材料 Materials</td><td>9.54</td></tr>
-        <tr><td>公用事业 Utilities</td><td>5.05</td></tr>
-        <tr><td>房地产 Real Estate</td><td>3.52</td></tr>
-      </tbody></table>
-    </div>
-    <img alt="Yardeni S&P 500 Sectors Quarterly Operating EPS (LSEG I/B/E/S)" loading="lazy" style="max-width:100%;margin-top:8px;border-radius:6px"
-      src="https://product.datastream.com/dscharting/gateway.aspx?guid=a5e52a8a-c58e-4673-accd-3c2b41bcb43c&amp;action=REFRESH">
   </section>
 
   <section class="card" id="newsSection" style="display:none">
@@ -3205,7 +3175,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 <script>
-// ============ SECTOR EPS (S&P 500 GICS sectors; source: S&P DJI official workbook) ============
+// ============ SECTOR EPS (S&P 500 GICS sectors; source: Yardeni / LSEG I/B/E/S operating EPS) ============
 let _secEps = null, _secBasis = 'operating';
 const _SEC_CN = { 'ALL (index)': 'S&P 500 整体', 'Information Technology': '信息技术', 'Communication Services': '通信服务',
   'Consumer Discretionary': '可选消费', 'Consumer Staples': '必需消费', 'Health Care': '医疗保健', 'Financials': '金融',
@@ -3216,9 +3186,9 @@ function renderSectorEps() {
   const NQ = 8, b = _secBasis, m = _secEps.meta;
   const last = m.last_actual_quarter[b];
   const note = document.getElementById('secEpsNote');
-  note.innerHTML = `来源 S&amp;P Dow Jones Indices 官方文件（文件日期 ${m.file_as_of}）· <strong>${b === 'operating' ? '经营性' : 'GAAP 报告'} EPS 最新实际季度：${last}</strong>`
-    + ` · ⚠️ 板块 EPS 为“板块指数口径”，各板块水平<strong>不可相加或直接比较</strong>，适合看趋势/同比。`
-    + ` · 之后的季度尚未收录（需更新 S&amp;P 文件，见 scripts/sector_eps）。`;
+  note.innerHTML = `来源 Yardeni Research / LSEG I/B/E/S（文件日期 ${m.file_as_of}）· <strong>经营性 EPS 最新季度：${last}</strong>`
+    + ` · ⚠️ 仅经营性口径；${m.n_curve_approx != null ? `其中 ${m.n_curve_approx}/${m.n_values} 个数是从 Yardeni 图表曲线读取的<strong>近似值</strong>，仅最新季度 ${m.n_printed} 个为图上印刷值` : '多数为曲线近似值'}。`
+    + ` · 板块 EPS 为“板块指数口径”，各板块水平<strong>不可相加或直接比较</strong>，适合看趋势/同比；与 S&amp;P DJI 官方口径不同，不可互相比较。`;
   // staleness warning (file age > 45d, or latest actual quarter ended > 135d ago)
   const qEnd = q => { const y = +q.slice(0, 4), n = +q.slice(5); return new Date(Date.UTC(y, n * 3, 0)); };
   const dayMs = 86400000, now = Date.now();
@@ -3227,10 +3197,10 @@ function renderSectorEps() {
   let ban = document.getElementById('secEpsStale');
   if (!ban) { ban = document.createElement('div'); ban.id = 'secEpsStale'; note.parentNode.insertBefore(ban, note); }
   if (fileAge > 45 || qAge > 135) {
-    const lo = m.last_actual_quarter.operating, la = m.last_actual_quarter.as_reported;
+    const lo = m.last_actual_quarter.operating;
     ban.style.cssText = 'background:#fef3c7;border:1px solid #f59e0b;color:#92400e;padding:8px 10px;border-radius:6px;font-size:12px;margin:6px 0';
-    ban.innerHTML = `⚠️ 数据已过期：S&P 文件日期 ${m.file_as_of}（已过 ${fileAge} 天）；经营性最新实际 ${lo}，GAAP 最新实际 ${la}（当前所选 ${last} 距今 ${qAge} 天）。`
-      + `后面的季度 S&P 在该文件里只给“估计”，这里不显示。请到 S&P 官网用浏览器下载最新 sp-500-eps-est.xlsx 后更新。`;
+    ban.innerHTML = `⚠️ 数据可能过期：Yardeni 文件日期 ${m.file_as_of}（已过 ${fileAge} 天）；经营性最新季度 ${lo}（距今 ${qAge} 天）。`
+      + `请到 Yardeni 页面查看新季度数值，更新 xlsm 后运行 scripts/sector_eps/build_yardeni_eps.py。`;
   } else { ban.style.display = 'none'; }
   const periods = _secEps.sectors[0][b].actual.map(x => x[0]).slice(-NQ);
   document.getElementById('secEpsHead').innerHTML = '<tr><th>板块 Sector</th>' + periods.map(p => `<th>${p}</th>`).join('') + '<th>TTM</th><th>TTM YoY</th></tr>';
@@ -3245,8 +3215,7 @@ function renderSectorEps() {
       + periods.map(p => `<td>${f(map.get(p))}</td>`).join('')
       + `<td>${f(t)}</td><td class="${cls}">${yoy == null ? 'n/m' : (yoy >= 0 ? '+' : '') + yoy.toFixed(1) + '%'}</td></tr>`;
   }).join('');
-  document.getElementById('secEpsBtnOp').style.opacity = b === 'operating' ? 1 : .4;
-  document.getElementById('secEpsBtnAr').style.opacity = b === 'as_reported' ? 1 : .4;
+  document.getElementById('secEpsBtnOp').style.opacity = 1;
 }
 fetch('/api/sector-eps').then(r => r.json()).then(d => { if (d.sectors) { _secEps = d; renderSectorEps(); } })
   .catch(e => { const n = document.getElementById('secEpsNote'); if (n) n.textContent = 'Sector EPS 数据加载失败: ' + e; });
