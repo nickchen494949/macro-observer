@@ -450,7 +450,7 @@
     </div>
     <div class="tbl-wrap">
       <table><thead><tr>
-        <th>Indicator</th><th>Current</th><th>Z %ile (4Y)</th><th>Z %ile (All)</th><th>1D Δ</th><th>1W Δ</th><th>1M Δ</th><th>1Q Δ</th><th>6M Δ</th><th>1Y Δ</th>
+        <th>Indicator</th><th>Current</th><th>Z %ile (4Y)</th><th>Z %ile (All)</th><th title="今天的实时涨跌 vs 前结算价（期货近 24 小时交易，自动更新）。1D Δ 是上一个完整交易日。">实时 %</th><th>1D Δ</th><th>1W Δ</th><th>1M Δ</th><th>1Q Δ</th><th>6M Δ</th><th>1Y Δ</th>
       </tr></thead><tbody id="comBody"></tbody></table>
     </div>
   </section>
@@ -893,19 +893,8 @@ function renderFactorModel(fm) {
 // ============================================
 function render(data) {
   document.getElementById('ratesBody').innerHTML = data.rates.map(r => row(r)).join('');
-  document.getElementById('comBody').innerHTML = data.commodities.map(r => {
-    if (r.label === 'Baltic Dry Index') {
-      const baseRow = row(r);
-      const badge = bdiStaleBadge(r.lastDate);
-      const ld = r.lastDate || '';
-      const lv = r.current || '';
-      return baseRow.replace(
-        '<td>Baltic Dry Index</td>',
-        `<td>Baltic Dry Index ${badge} <button onclick="event.stopPropagation();showBdiEntry('${ld}',${lv})" style="margin-left:4px;padding:1px 7px;font-size:0.7em;cursor:pointer;border:1px solid #555;border-radius:4px;background:#1a1a2e;color:#aaa" title="Enter latest BDI value">✏️</button></td>`
-      );
-    }
-    return row(r);
-  }).join('');
+  window._comData = data.commodities;
+  renderComTable();
   bdiTopBanner(data.commodities.find(r => r.label === 'Baltic Dry Index')?.lastDate,
                data.commodities.find(r => r.label === 'Baltic Dry Index')?.current);
   // Economy table with subgroup headers
@@ -1106,11 +1095,30 @@ function preCellFor(item) {
   if (!pm || !pm.active || !pm.items) return na;
   const it = pm.items[item.chartKey];
   if (!it) return na;
-  const lbl = { pre: '盘前', regular: '盘中', close: '收盘', post: '盘后' }[it.kind] || '';
+  const lbl = { pre: '盘前', regular: '盘中', close: '收盘', post: '盘后', live: '实时' }[it.kind] || '';
   const tag = it.kind === 'fut'
     ? `<span title="指数没有盘前报价，这里用期货 ${it.proxy} 的涨跌近似（相对期货前结算价）" style="font-size:0.75em;opacity:.7;margin-left:3px">期货≈</span>`
     : `<span title="${lbl}价 ${it.price} vs 昨收 ${it.prev}（${new Date(it.ts * 1000).toLocaleTimeString('en-US', { hour12: false })}）" style="font-size:0.75em;opacity:.7;margin-left:3px">${lbl}</span>`;
   return fmtChg(it.pct, '%') + tag;
+}
+
+function renderComTable() {
+  const coms = window._comData;
+  const body = document.getElementById('comBody');
+  if (!coms || !body) return;
+  body.innerHTML = coms.map(r => {
+    if (r.label === 'Baltic Dry Index') {
+      const baseRow = row(r, '<span class="na">—</span>');
+      const badge = bdiStaleBadge(r.lastDate);
+      const ld = r.lastDate || '';
+      const lv = r.current || '';
+      return baseRow.replace(
+        '<td>Baltic Dry Index</td>',
+        `<td>Baltic Dry Index ${badge} <button onclick="event.stopPropagation();showBdiEntry('${ld}',${lv})" style="margin-left:4px;padding:1px 7px;font-size:0.7em;cursor:pointer;border:1px solid #555;border-radius:4px;background:#1a1a2e;color:#aaa" title="Enter latest BDI value">✏️</button></td>`
+      );
+    }
+    return row(r, preCellFor(r));
+  }).join('');
 }
 
 function renderStockTable() {
@@ -1142,6 +1150,7 @@ async function loadPremarket() {
     const pm = await r.json();
     window._premarket = pm;
     renderStockTable();
+    renderComTable();
     updatePreStatus(pm);
   } catch (e) { console.warn('premarket load failed', e); }
 }

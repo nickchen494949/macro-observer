@@ -795,7 +795,9 @@ function premarketSymbols() {
     if (!i.yahoo) continue;
     (i.yahoo.startsWith('^') ? indices : etfs).push(i.yahoo);
   }
-  return { etfs, indices, futures: Object.values(PREMARKET_FUTURES) };
+  // commodity futures trade ~23h/day → included in every spark call (no extra requests)
+  const commods = COMMODITY_ROWS.filter(r => r.yahoo).map(r => r.yahoo);
+  return { etfs, indices, commods, futures: Object.values(PREMARKET_FUTURES) };
 }
 
 // ---- New York clock + NYSE calendar (data/nyse_calendar.json; falls back to weekdays if not covered)
@@ -905,13 +907,13 @@ async function liveTick() {
   if (!dueFut && !duePreEtf && !dueSpark && !dueClose) return;
 
   isUpdating = true; premarket.updating = true;
-  const { etfs, indices, futures } = premarketSymbols();
+  const { etfs, indices, commods, futures } = premarketSymbols();
   if (premarket.session !== et.date) { premarket.session = et.date; premarket.items = {}; premarket.closeDoneFor = null; }
   const items = premarket.items;
   try {
     if (dueSpark || dueClose) {
       const kind = dueClose ? 'close' : 'regular';
-      const data = await fetchYahooSpark([...etfs, ...indices]);
+      const data = await fetchYahooSpark([...etfs, ...indices, ...commods]);
       for (const [sym, r] of Object.entries(data)) {
         items[sym] = { price: r.price, prev: r.prev, pct: pct(r.price, r.prev), ts: r.ts, kind };
         try { fillPrevCloseGap(sym, r.prev, et.date); } catch (e) { console.log(`  ⚠️  gap-fill ${sym}: ${e.message}`); }
@@ -920,10 +922,14 @@ async function liveTick() {
       if (dueClose) premarket.closeDoneFor = et.date;
     }
     if (dueFut) {
-      const data = await fetchYahooSpark(futures);
+      const data = await fetchYahooSpark([...futures, ...commods]);
       for (const [idx, fut] of Object.entries(PREMARKET_FUTURES)) {
         const r = data[fut];
         if (r) items[idx] = { price: r.price, prev: r.prev, pct: pct(r.price, r.prev), ts: r.ts, kind: 'fut', proxy: fut };
+      }
+      for (const sym of commods) {
+        const r = data[sym];
+        if (r) items[sym] = { price: r.price, prev: r.prev, pct: pct(r.price, r.prev), ts: r.ts, kind: 'live' };
       }
       premarket.lastFut = now;
     }
