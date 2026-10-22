@@ -460,13 +460,12 @@
       <h2>📈 股票板块 Stock Sectors</h2>
       <span style="display:flex;align-items:center;gap:8px">
         <span id="preStatus" style="font-size:11px;color:#64748b"></span>
-        <button id="preBtn" onclick="refreshPremarket()" title="抓取实时价（盘前/盘中/盘后；ETF + 指数，30 分钟冷却）" style="background:none;border:1px solid #94a3b8;color:#475569;border-radius:4px;padding:2px 8px;cursor:pointer;font-size:12px">🌅 刷新实时价</button>
         <span class="badge badge-yahoo">Yahoo Finance</span>
       </span>
     </div>
     <div class="tbl-wrap">
       <table><thead><tr>
-        <th>Indicator</th><th>Current</th><th>Z %ile (4Y)</th><th>Z %ile (All)</th><th title="实时涨跌 vs 昨收（盘前/盘中/盘后，手动刷新）">实时 %</th><th>1D Δ</th><th>1W Δ</th><th>1M Δ</th><th>1Q Δ</th><th>6M Δ</th><th>1Y Δ</th>
+        <th>Indicator</th><th>Current</th><th>Z %ile (4Y)</th><th>Z %ile (All)</th><th title="今天的实时涨跌 vs 昨收（盘前/盘中/收盘，自动更新）。1D Δ 是上一个完整交易日的涨跌。">实时 %</th><th>1D Δ</th><th>1W Δ</th><th>1M Δ</th><th>1Q Δ</th><th>6M Δ</th><th>1Y Δ</th>
       </tr></thead><tbody id="stockBody"></tbody></table>
     </div>
   </section>
@@ -1107,7 +1106,7 @@ function preCellFor(item) {
   if (!pm || !pm.active || !pm.items) return na;
   const it = pm.items[item.chartKey];
   if (!it) return na;
-  const lbl = { pre: '盘前', regular: '盘中', post: '盘后' }[it.kind];
+  const lbl = { pre: '盘前', regular: '盘中', close: '收盘', post: '盘后' }[it.kind] || '';
   const tag = it.kind === 'fut'
     ? `<span title="指数没有盘前报价，这里用期货 ${it.proxy} 的涨跌近似（相对期货前结算价）" style="font-size:0.75em;opacity:.7;margin-left:3px">期货≈</span>`
     : `<span title="${lbl}价 ${it.price} vs 昨收 ${it.prev}（${new Date(it.ts * 1000).toLocaleTimeString('en-US', { hour12: false })}）" style="font-size:0.75em;opacity:.7;margin-left:3px">${lbl}</span>`;
@@ -1130,10 +1129,8 @@ function updatePreStatus(pm) {
   const st = document.getElementById('preStatus');
   if (!st) return;
   const t = ts => new Date(ts).toLocaleTimeString('en-US', { hour12: false });
-  if (pm.updating) st.textContent = '抓取盘前价中… ' + (pm.progress || '');
-  else if (pm.active) st.textContent = `实时快照 ${t(pm.fetchedAt)}（${Object.keys(pm.items || {}).length} 个）`;
-  else if (pm.fetchedAt) st.textContent = '实时快照已过期，请重新刷新';
-  else st.textContent = '';
+  if (pm.active && pm.fetchedAt) st.textContent = `实时价 ${pm.session} · 更新于 ${t(pm.fetchedAt)}（自动）`;
+  else st.textContent = '实时价：等待美股盘前开始（自动）';
   if (pm.error) st.textContent += ' ⚠️ ' + pm.error;
 }
 
@@ -1146,21 +1143,9 @@ async function loadPremarket() {
     window._premarket = pm;
     renderStockTable();
     updatePreStatus(pm);
-    clearTimeout(_preTimer);
-    if (pm.updating) _preTimer = setTimeout(loadPremarket, 5000);
   } catch (e) { console.warn('premarket load failed', e); }
 }
-setInterval(loadPremarket, 60000); // local endpoint only — never touches Yahoo
-
-async function refreshPremarket() {
-  const st = document.getElementById('preStatus');
-  try {
-    const r = await fetch(API + '/api/premarket/refresh', { method: 'POST' });
-    const j = await r.json();
-    await loadPremarket();
-    if (st && !j.ok) st.textContent = j.msg || j.error || '盘前刷新被拒绝';
-  } catch (e) { if (st) st.textContent = '盘前刷新失败: ' + e.message; }
-}
+setInterval(loadPremarket, 60000); // local endpoint only — never touches Yahoo; server refreshes automatically
 
 async function refreshNews() {
   const body = document.getElementById('newsBody');

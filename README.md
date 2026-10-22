@@ -159,18 +159,25 @@ python3 fetch_yahoo.py "^GSPC" 5d   # test connection
 - `"ok": true` → working, problem elsewhere
 - `HTTP 429` → IP blocked — wait 12–24h, do NOT restart server repeatedly
 
-### Live column (🌅 刷新实时价)
+### Live column (实时 %) — fully automatic
 
-The stock table has a **实时 %** column (change vs previous close, in pre-market / regular session / after-hours). It is a *manual* snapshot, not a scheduled job, so the "once per day" rule above still holds for the automatic updates (those only store daily closes, so the main table always shows the last completed session).
+Two different things in the stock table:
+- **Current / 1D Δ** = the last **completed** session (daily store). Today's unfinished bar is never stored (`dropUnfinishedBar`: US symbols until 18:00 ET; Nikkei/Shanghai/STOXX after their close).
+- **实时 %** = today's move vs previous close, refreshed automatically by the server (`liveTick`, checked every 5 min). No button, nothing to click.
 
-- Click **🌅 刷新实时价** in the Stock Sectors card → `POST /api/premarket/refresh` (local only) → `fetch_yahoo_live.py` (Python, 1 request per symbol, 5–10s apart, ~2–4 min total).
-- Symbols: sector ETFs + the 5 indices. In the regular session / after-hours indices have a real quote. **Before the open** indices have no Yahoo quote, so those rows fall back to index futures `YM=F / ES=F / NQ=F / RTY=F` and are tagged `期货≈`. VIX has no futures fallback.
-- Tags: `盘前` / `盘中` / `盘后` / `期货≈`. Hover shows the price and its timestamp.
-- **30-min cooldown**; HTTP 429 blocks the button for 12h; shares the `isUpdating` lock with the daily batch.
-- A snapshot stays visible until the next day's pre-market start (then it expires and the column shows `—`).
-- `GET /api/premarket` returns the snapshot + status (reads local state only, never calls Yahoo). Snapshot cached in `data/premarket.json`.
-- **Gap fill:** Yahoo's daily chart sometimes drops a bar (2026-10-21 was missing for US equities). The live snapshot uses each symbol's true previous close to insert the missing previous NYSE session (`data/nyse_calendar.json`) — never overwrites existing bars.
-- **Restarts:** the startup update skips the Yahoo batch if Yahoo files were written < 20h ago (FRED still updates), so restarting does not re-hit Yahoo or lock the button.
+Schedule on NYSE trading days (New York time), all via Python:
+
+| Window | What | Requests |
+|---|---|---|
+| 04:00–09:30 pre-market | index futures `ES/NQ/YM/RTY=F` via one spark request every 15 min (index rows tagged `期货≈`); ETF pre-market quotes (`fetch_yahoo_live.py`, 1 per symbol, 5–10s apart) once per hour | ≈125 |
+| 09:30–16:05 regular | all ETFs + indices via `fetch_yahoo_spark.py` (2 requests) every 10 min, tagged `盘中` | ≈78 |
+| 16:05–20:00 | one final spark run, tagged `收盘` | 2 |
+
+- Shares the `isUpdating` lock with the daily batch. HTTP 429 → live prices pause 12h.
+- The snapshot stays visible until the next pre-market (weekends show Friday). `GET /api/premarket` reads local state only. Cached in `data/premarket.json`.
+- **Gap fill:** Yahoo's daily chart sometimes drops a bar (2026-10-21 was missing for US equities). The live previous close fills the missing previous NYSE session (`data/nyse_calendar.json`) — never overwrites existing bars.
+- **Daily merge** overwrites every overlapping date in the 5-day window, so bars captured mid-session (VIX, futures, FX trade at 08:15 ET) are corrected the next day. VIX history was repaired against the official CBOE file once (2026-10-22).
+- **Restarts:** the startup update skips the Yahoo batch if Yahoo files were written < 20h ago (FRED still updates).
 
 ---
 
@@ -245,7 +252,8 @@ The user has confirmed these design choices. All future UI work must respect the
 server.js            — Main server (Node.js, port 8765)
 index.html           — Frontend dashboard
 fetch_yahoo.py       — Python Yahoo fetcher (DO NOT DELETE)
-fetch_yahoo_live.py  — Python live/pre-market fetcher (used by the 🌅 button)
+fetch_yahoo_live.py  — Python single-symbol quote incl. pre-market (live column)
+fetch_yahoo_spark.py — Python batch quote, up to 20 symbols per request (live column)
 import_bdi.py        — One-time BDI CSV importer (Investing.com)
 data/fred/           — Cached FRED JSON (42 series)
 data/yahoo/          — Cached Yahoo JSON (26 tickers)

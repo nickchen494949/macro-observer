@@ -603,6 +603,16 @@ except Exception as e:
 let lastYahooUpdate = 0;
 let isUpdating = false; // lock to prevent concurrent updates
 
+// The daily store only keeps COMPLETED sessions, so "Current"/"1D Δ" always mean the last finished day
+// (today's live move lives in the 实时 % column). A bar dated today (New York date) is dropped until the
+// symbol's session is over: US stocks/ETFs/futures/VIX/FX after 18:00 ET, Asia/Europe indices earlier.
+const BAR_COMPLETE_AFTER_ET_MIN = { '^N225': 180, '000001.SS': 240, '^STOXX': 720 };
+function dropUnfinishedBar(sym, vals) {
+  const et = etNow();
+  const cutoff = BAR_COMPLETE_AFTER_ET_MIN[sym] ?? 18 * 60;
+  return vals.filter(v => v[0] < et.date || (v[0] === et.date && et.min >= cutoff));
+}
+
 async function smartUpdate(includeYahoo = false) {
   if (isUpdating) {
     console.log('  ⏭️  Update already running, skipping.');
@@ -704,21 +714,21 @@ async function smartUpdate(includeYahoo = false) {
         break;
       }
       try {
-        const newVals = await fetchYahoo(sym, '5d');
+        let newVals = await fetchYahoo(sym, '5d');
+        newVals = dropUnfinishedBar(sym, newVals);
         if (!newVals.length) { yFail++; continue; }
         const existing = store.yahoo[sym] || [];
         if (existing.length > 0) {
-          const lastDate = existing[existing.length - 1][0];
-          const fresh = newVals.filter(v => v[0] > lastDate);
-          if (fresh.length) {
-            store.yahoo[sym] = [...existing, ...fresh];
-          } else {
-            const latest = newVals[newVals.length - 1];
-            if (existing.length && existing[existing.length-1][0] === latest[0]) {
-              existing[existing.length-1][1] = latest[1];
-            }
-            store.yahoo[sym] = existing;
+          // Overwrite every overlapping date (fixes bars captured mid-session, e.g. VIX/futures at 08:15 ET),
+          // then append newer dates.
+          const idx = new Map(existing.map((v, k) => [v[0], k]));
+          for (const v of newVals) {
+            const k = idx.get(v[0]);
+            if (k !== undefined) existing[k][1] = v[1];
+            else { existing.push([v[0], v[1]]); idx.set(v[0], existing.length - 1); }
           }
+          existing.sort((a, b) => a[0].localeCompare(b[0]));
+          store.yahoo[sym] = existing;
         } else {
           store.yahoo[sym] = newVals;
         }
@@ -759,18 +769,24 @@ async function smartUpdate(includeYahoo = false) {
 }
 
 // ============================================
-// PRE-MARKET SNAPSHOT (manual button only — see README "Pre-market")
-// One Python request per symbol, 5-10s apart, 30-min cooldown, shares the isUpdating lock
-// with the daily Yahoo batch so two Yahoo batches never run at once.
+// LIVE PRICES — fully automatic (see README "Live column")
+// Yahoo via Python only. Request budget per NYSE trading day ≈ 200:
+//   pre-market 04:00–09:30 ET : index futures via 1 spark request every 15 min
+//                               + ETF pre-market quotes (1 request each, 5–10s apart) once per hour
+//   regular   09:30–16:05 ET  : all ETFs + indices via spark (2 requests) every 10 min
+//   after close 16:05–20:00   : one final spark run (closing move)
+// Shares the isUpdating lock with the daily batch; an HTTP 429 pauses everything for 12h.
+// This NEVER writes today's bar into the daily store — "1D Δ" stays the last completed session.
 // ============================================
 const PREMARKET_FILE = path.join(DATA_DIR, 'premarket.json');
-const PREMARKET_COOLDOWN_MS = 30 * 60 * 1000;
-const PREMARKET_BLOCK_MS = 12 * 60 * 60 * 1000; // after an HTTP 429
+const LIVE_BLOCK_MS = 12 * 60 * 60 * 1000; // after an HTTP 429
 // Indices have no pre-market quote on Yahoo → approximate with the matching futures.
 const PREMARKET_FUTURES = { '^DJI': 'YM=F', '^GSPC': 'ES=F', '^IXIC': 'NQ=F', '^RUT': 'RTY=F' };
-const premarket = { fetchedAt: 0, updating: false, progress: '', gate: null, items: {}, blockedUntil: 0, error: null };
+const premarket = { session: null, fetchedAt: 0, updating: false, items: {}, blockedUntil: 0, error: null,
+                    lastFut: 0, lastPreEtf: 0, lastSpark: 0, closeDoneFor: null };
 try {
-  Object.assign(premarket, JSON.parse(fs.readFileSync(PREMARKET_FILE, 'utf8')), { updating: false, progress: '' });
+  const saved = JSON.parse(fs.readFileSync(PREMARKET_FILE, 'utf8'));
+  if (saved && saved.session) Object.assign(premarket, saved, { updating: false });
 } catch (e) { /* no snapshot yet */ }
 
 function premarketSymbols() {
@@ -782,36 +798,63 @@ function premarketSymbols() {
   return { etfs, indices, futures: Object.values(PREMARKET_FUTURES) };
 }
 
-// Yahoo's daily chart sometimes drops a bar (e.g. 2026-10-21 missing for US equities while today's bar exists).
-// Then "1D Δ" is computed vs two sessions ago. The live quote carries the true previous close, so use it to
-// fill exactly one missing bar: the NYSE trading day before today (data/nyse_calendar.json). Never overwrites.
+// ---- New York clock + NYSE calendar (data/nyse_calendar.json; falls back to weekdays if not covered)
+const _etFmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hourCycle: 'h23',
+  year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+function etNow() {
+  const p = _etFmt.formatToParts(new Date());
+  const g = t => p.find(x => x.type === t).value;
+  return { date: `${g('year')}-${g('month')}-${g('day')}`, min: +g('hour') * 60 + +g('minute') };
+}
 let _nyseDays = null;
-function prevNyseDay(today) {
+function nyseDays() {
   if (!_nyseDays) {
     try { _nyseDays = JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'nyse_calendar.json'), 'utf8')); } catch (e) { _nyseDays = []; }
   }
-  let prev = null;
-  for (const d of _nyseDays) { if (d < today) prev = d; else break; }
-  return prev && today <= _nyseDays[_nyseDays.length - 1] ? prev : null; // calendar must cover today
+  return _nyseDays;
 }
-function fillPrevCloseGap(sym, r) {
+function calendarCovers(d) { const c = nyseDays(); return c.length && d >= c[0] && d <= c[c.length - 1]; }
+function isNyseDay(d) {
+  if (calendarCovers(d)) return nyseDays().includes(d);
+  const wd = new Date(d + 'T00:00:00Z').getUTCDay();
+  return wd !== 0 && wd !== 6;
+}
+function prevNyseDay(today) {
+  const d = new Date(today + 'T00:00:00Z');
+  for (let k = 0; k < 10; k++) {
+    d.setUTCDate(d.getUTCDate() - 1);
+    const s = d.toISOString().slice(0, 10);
+    if (isNyseDay(s)) return s;
+  }
+  return null;
+}
+// Session whose move the live column shows: today from 04:00 ET on a trading day, else the last trading day.
+function currentSessionDate() {
+  const et = etNow();
+  if (isNyseDay(et.date) && et.min >= 240) return et.date;
+  return prevNyseDay(et.date);
+}
+
+// Yahoo's daily chart sometimes drops a bar (e.g. 2026-10-21 missing for US equities while today's bar exists).
+// Then "1D Δ" is computed vs two sessions ago. The live quote carries the true previous close, so use it to
+// fill exactly one missing bar: the NYSE trading day before the live session. Never overwrites.
+function fillPrevCloseGap(sym, prevClose, sessionDate) {
   const s = store.yahoo[sym];
-  if (!Array.isArray(s) || s.length < 2 || !r || !r.prev_close || !r.price_ts) return false;
-  const today = new Date(r.price_ts * 1000).toISOString().slice(0, 10);
-  const pd = prevNyseDay(today);
+  if (!Array.isArray(s) || s.length < 2 || !prevClose || !sessionDate) return false;
+  const pd = prevNyseDay(sessionDate);
   if (!pd) return false;
   let i = s.length - 1;
-  while (i >= 0 && s[i][0] >= today) i--;
+  while (i >= 0 && s[i][0] >= sessionDate) i--;
   if (i < 0 || s[i][0] >= pd) return false; // bar for the previous session already stored
-  s.splice(i + 1, 0, [pd, +(+r.prev_close).toFixed(4)]);
+  s.splice(i + 1, 0, [pd, +(+prevClose).toFixed(4)]);
   saveFile('yahoo', sym, s);
-  console.log(`  🩹 ${sym}: filled missing ${pd} close ${r.prev_close} from live quote`);
+  console.log(`  🩹 ${sym}: filled missing ${pd} close ${prevClose} from live quote`);
   return true;
 }
 
-function fetchYahooLive(symbol) {
+function runPy(script, arg, timeout) {
   return new Promise((resolve, reject) => {
-    execFile('python3', [path.join(__dirname, 'fetch_yahoo_live.py'), symbol], { timeout: 25000 }, (err, stdout, stderr) => {
+    execFile('python3', [path.join(__dirname, script), arg], { timeout }, (err, stdout, stderr) => {
       if (err) return reject(new Error(err.message || stderr));
       try {
         const r = JSON.parse(stdout.trim());
@@ -821,73 +864,101 @@ function fetchYahooLive(symbol) {
     });
   });
 }
+const fetchYahooLive = sym => runPy('fetch_yahoo_live.py', sym, 25000);
+async function fetchYahooSpark(syms) {
+  const out = {};
+  for (let k = 0; k < syms.length; k += 20) {
+    const r = await runPy('fetch_yahoo_spark.py', syms.slice(k, k + 20).join(','), 30000);
+    Object.assign(out, r.data || {});
+    if (k + 20 < syms.length) await sleep(5000 + Math.random() * 5000);
+  }
+  return out;
+}
 
 function premarketStatus() {
-  const nowS = Date.now() / 1000;
-  const g = premarket.gate;
-  // A snapshot is shown from that day's pre-market start until the next day's pre-market start
-  // (so it covers pre-market, regular session and after-hours; weekends fall out after 24h).
-  const active = !!(g && g.preStart && nowS >= g.preStart && nowS < g.preStart + 24 * 3600);
+  const active = !!premarket.session && premarket.session === currentSessionDate();
   return {
-    updating: premarket.updating, progress: premarket.progress, error: premarket.error,
-    fetchedAt: premarket.fetchedAt, active,
-    cooldownUntil: premarket.fetchedAt + PREMARKET_COOLDOWN_MS, blockedUntil: premarket.blockedUntil,
-    preStart: g ? g.preStart : null, regStart: g ? g.regStart : null,
+    updating: premarket.updating, error: premarket.error, fetchedAt: premarket.fetchedAt,
+    session: premarket.session, active, blockedUntil: premarket.blockedUntil,
     items: active ? premarket.items : {},
   };
 }
 
-async function refreshPremarket() {
-  if (isUpdating || premarket.updating) return { ok: false, reason: 'busy', msg: '另一个 Yahoo 更新正在运行，请稍后' };
-  if (Date.now() < premarket.blockedUntil) return { ok: false, reason: 'blocked', msg: 'Yahoo 之前返回 429，已暂停至 ' + new Date(premarket.blockedUntil).toLocaleString() };
-  if (Date.now() < premarket.fetchedAt + PREMARKET_COOLDOWN_MS) return { ok: false, reason: 'cooldown', msg: '冷却中（每 30 分钟最多一次）' };
-  isUpdating = true; premarket.updating = true; premarket.error = null; premarket.progress = '0';
-  (async () => {
-    const { etfs, indices, futures } = premarketSymbols();
-    const items = {}; let gate = null, fails = 0, aborted = false;
-    // pass 1: ETFs + indices (indices give a real quote in the regular session; before the open they have none)
-    // pass 2: index futures, only for indices that had no live quote (i.e. pre-market)
-    const live = {};
-    const run = async (list) => {
-      for (let n = 0; n < list.length && !aborted; n++) {
-        const sym = list[n];
-        premarket.progress = `${sym}`;
+function saveLive() {
+  const { updating, ...rest } = premarket;
+  fs.writeFileSync(PREMARKET_FILE, JSON.stringify(rest));
+}
+
+const pct = (p, prev) => +((p / prev - 1) * 100).toFixed(2);
+
+async function liveTick() {
+  if (isUpdating || premarket.updating) return;
+  if (Date.now() < premarket.blockedUntil) return;
+  const et = etNow();
+  if (!isNyseDay(et.date)) return;
+  const m = et.min, now = Date.now();
+  const PRE = m >= 240 && m < 570, REG = m >= 570 && m < 965, AFTER = m >= 965 && m < 1200;
+  const dueFut = PRE && now - premarket.lastFut >= 15 * 60000 - 30000;
+  const duePreEtf = PRE && m >= 245 && now - premarket.lastPreEtf >= 60 * 60000 - 30000;
+  const dueSpark = REG && now - premarket.lastSpark >= 10 * 60000 - 30000;
+  const dueClose = AFTER && premarket.closeDoneFor !== et.date;
+  if (!dueFut && !duePreEtf && !dueSpark && !dueClose) return;
+
+  isUpdating = true; premarket.updating = true;
+  const { etfs, indices, futures } = premarketSymbols();
+  if (premarket.session !== et.date) { premarket.session = et.date; premarket.items = {}; premarket.closeDoneFor = null; }
+  const items = premarket.items;
+  try {
+    if (dueSpark || dueClose) {
+      const kind = dueClose ? 'close' : 'regular';
+      const data = await fetchYahooSpark([...etfs, ...indices]);
+      for (const [sym, r] of Object.entries(data)) {
+        items[sym] = { price: r.price, prev: r.prev, pct: pct(r.price, r.prev), ts: r.ts, kind };
+        try { fillPrevCloseGap(sym, r.prev, et.date); } catch (e) { console.log(`  ⚠️  gap-fill ${sym}: ${e.message}`); }
+      }
+      premarket.lastSpark = now;
+      if (dueClose) premarket.closeDoneFor = et.date;
+    }
+    if (dueFut) {
+      const data = await fetchYahooSpark(futures);
+      for (const [idx, fut] of Object.entries(PREMARKET_FUTURES)) {
+        const r = data[fut];
+        if (r) items[idx] = { price: r.price, prev: r.prev, pct: pct(r.price, r.prev), ts: r.ts, kind: 'fut', proxy: fut };
+      }
+      premarket.lastFut = now;
+    }
+    if (duePreEtf) {
+      let fails = 0;
+      for (const sym of etfs) {
         try {
           const r = await fetchYahooLive(sym);
           fails = 0;
-          live[sym] = r;
-          if (!gate && !sym.startsWith('^') && !futures.includes(sym) && r.pre_start && r.reg_start) gate = { preStart: r.pre_start, regStart: r.reg_start };
+          if (r.session === 'pre' && r.prev_close && r.price) {
+            items[sym] = { price: r.price, prev: r.prev_close, pct: pct(r.price, r.prev_close), ts: r.price_ts, kind: 'pre' };
+          }
         } catch (e) {
-          if (e.message === 'RATE_LIMITED') { premarket.blockedUntil = Date.now() + PREMARKET_BLOCK_MS; premarket.error = 'Yahoo 429'; aborted = true; }
-          else if (++fails >= 3) { premarket.error = '连续 3 次失败，已中止: ' + e.message; aborted = true; }
+          if (e.message === 'RATE_LIMITED') throw e;
+          if (++fails >= 3) { premarket.error = '盘前连续 3 次失败: ' + e.message; break; }
         }
-        if (!aborted) await sleep(5000 + Math.random() * 5000);
+        await sleep(5000 + Math.random() * 5000);
       }
-    };
-    const mk = (r, kind, extra = {}) => ({ price: r.price, prev: r.prev_close, pct: +((r.price / r.prev_close - 1) * 100).toFixed(2), ts: r.price_ts, kind, ...extra });
-    try {
-      await run([...etfs, ...indices]);
-      for (const sym of [...etfs, ...indices]) {
-        const r = live[sym];
-        if (r && r.prev_close && r.price && ['pre', 'regular', 'post'].includes(r.session)) items[sym] = mk(r, r.session);
-        if (r && r.session !== 'pre') { try { fillPrevCloseGap(sym, r); } catch (e) { console.log(`  ⚠️  gap-fill ${sym}: ${e.message}`); } }
-      }
-      const needFut = indices.filter(i => PREMARKET_FUTURES[i] && !items[i]);
-      await run(needFut.map(i => PREMARKET_FUTURES[i]));
-      for (const idx of needFut) {
-        const r = live[PREMARKET_FUTURES[idx]];
-        if (r && r.prev_close && r.price) items[idx] = mk(r, 'fut', { proxy: PREMARKET_FUTURES[idx] });
-      }
-      if (gate) premarket.gate = gate;
-      premarket.items = items;
-      premarket.fetchedAt = Date.now();
-      fs.writeFileSync(PREMARKET_FILE, JSON.stringify({ fetchedAt: premarket.fetchedAt, gate: premarket.gate, items, blockedUntil: premarket.blockedUntil }));
-      console.log(`  🌅 Live snapshot: ${Object.keys(items).length} symbols${premarket.error ? ' (' + premarket.error + ')' : ''}`);
-    } finally {
-      premarket.updating = false; premarket.progress = ''; isUpdating = false;
+      premarket.lastPreEtf = now;
     }
-  })().catch(e => { premarket.error = e.message; console.error('Pre-market error:', e); });
-  return { ok: true, msg: '已开始抓取实时价（约 2–4 分钟）' };
+    premarket.error = null;
+    premarket.fetchedAt = Date.now();
+    console.log(`  📡 Live ${dueClose ? 'close' : dueSpark ? 'regular' : 'pre-market'} snapshot: ${Object.keys(items).length} symbols`);
+  } catch (e) {
+    if (e.message === 'RATE_LIMITED') {
+      premarket.blockedUntil = Date.now() + LIVE_BLOCK_MS;
+      premarket.error = 'Yahoo 429 — 实时价暂停 12 小时';
+    } else {
+      premarket.error = e.message;
+    }
+    console.log(`  ⚠️  Live snapshot: ${premarket.error}`);
+  } finally {
+    premarket.updating = false; isUpdating = false;
+    try { saveLive(); } catch (e) {}
+  }
 }
 
 // ============================================
@@ -3005,18 +3076,6 @@ const server = http.createServer(async (req, res) => {
     }
   } else if (p === '/api/premarket') {
     res.end(JSON.stringify(premarketStatus()));
-  } else if (p === '/api/premarket/refresh') {
-    // Local POST from the dashboard itself only; 30-min cooldown + 429 block enforced in refreshPremarket()
-    const ra = req.socket.remoteAddress;
-    const isLocal = ra === '127.0.0.1' || ra === '::ffff:127.0.0.1' || ra === '::1';
-    const origin = req.headers['origin'] || '';
-    const originOk = !origin || /^http:\/\/(localhost|127\.0\.0\.1):8765$/.test(origin);
-    if (req.method !== 'POST' || !isLocal || !originOk) {
-      res.writeHead(403); res.end(JSON.stringify({ error: 'Access denied: local POST only' }));
-    } else {
-      refreshPremarket().then(r => res.end(JSON.stringify({ ...r, status: premarketStatus() })))
-        .catch(e => { res.writeHead(500); res.end(JSON.stringify({ ok: false, msg: e.message })); });
-    }
   } else if (p === '/api/news') {
     const news = loadNewsFromDisk();
     res.end(JSON.stringify(news));
@@ -3125,6 +3184,10 @@ server.listen(PORT, '127.0.0.1', async () => {
   setInterval(() => {
     fetchAllNews().catch(e => console.error('[News] Hourly refresh error:', e));
   }, HOUR);
+
+  // Live prices: the scheduler checks every 5 min; liveTick() decides what (if anything) is due.
+  setTimeout(() => liveTick().catch(e => console.error('Live error:', e)), 20000);
+  setInterval(() => liveTick().catch(e => console.error('Live error:', e)), 5 * 60 * 1000);
 
   // Initial news fetch: 10s after startup (fast, don't block)
   setTimeout(() => {
