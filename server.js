@@ -782,6 +782,33 @@ function premarketSymbols() {
   return { etfs, indices, futures: Object.values(PREMARKET_FUTURES) };
 }
 
+// Yahoo's daily chart sometimes drops a bar (e.g. 2026-10-21 missing for US equities while today's bar exists).
+// Then "1D Δ" is computed vs two sessions ago. The live quote carries the true previous close, so use it to
+// fill exactly one missing bar: the NYSE trading day before today (data/nyse_calendar.json). Never overwrites.
+let _nyseDays = null;
+function prevNyseDay(today) {
+  if (!_nyseDays) {
+    try { _nyseDays = JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'nyse_calendar.json'), 'utf8')); } catch (e) { _nyseDays = []; }
+  }
+  let prev = null;
+  for (const d of _nyseDays) { if (d < today) prev = d; else break; }
+  return prev && today <= _nyseDays[_nyseDays.length - 1] ? prev : null; // calendar must cover today
+}
+function fillPrevCloseGap(sym, r) {
+  const s = store.yahoo[sym];
+  if (!Array.isArray(s) || s.length < 2 || !r || !r.prev_close || !r.price_ts) return false;
+  const today = new Date(r.price_ts * 1000).toISOString().slice(0, 10);
+  const pd = prevNyseDay(today);
+  if (!pd) return false;
+  let i = s.length - 1;
+  while (i >= 0 && s[i][0] >= today) i--;
+  if (i < 0 || s[i][0] >= pd) return false; // bar for the previous session already stored
+  s.splice(i + 1, 0, [pd, +(+r.prev_close).toFixed(4)]);
+  saveFile('yahoo', sym, s);
+  console.log(`  🩹 ${sym}: filled missing ${pd} close ${r.prev_close} from live quote`);
+  return true;
+}
+
 function fetchYahooLive(symbol) {
   return new Promise((resolve, reject) => {
     execFile('python3', [path.join(__dirname, 'fetch_yahoo_live.py'), symbol], { timeout: 25000 }, (err, stdout, stderr) => {
@@ -843,6 +870,7 @@ async function refreshPremarket() {
       for (const sym of [...etfs, ...indices]) {
         const r = live[sym];
         if (r && r.prev_close && r.price && ['pre', 'regular', 'post'].includes(r.session)) items[sym] = mk(r, r.session);
+        if (r && r.session !== 'pre') { try { fillPrevCloseGap(sym, r); } catch (e) { console.log(`  ⚠️  gap-fill ${sym}: ${e.message}`); } }
       }
       const needFut = indices.filter(i => PREMARKET_FUTURES[i] && !items[i]);
       await run(needFut.map(i => PREMARKET_FUTURES[i]));
@@ -3073,9 +3101,18 @@ server.listen(PORT, '127.0.0.1', async () => {
 
   console.log(`\n  ⏰ FRED + Yahoo: once per day\n`);
 
-  // Initial update: 60s after startup
+  // Initial update: 60s after startup. Skip the Yahoo batch if it already ran in the last 20h
+  // (restarts must not re-hit Yahoo — once per day rule; it also locks the live-price button for ~8 min).
   setTimeout(() => {
-    smartUpdate(true).catch(e => console.error('Update error:', e));
+    let lastYahooMs = 0;
+    try {
+      for (const f of fs.readdirSync(YAHOO_DIR)) {
+        if (f.endsWith('.json')) lastYahooMs = Math.max(lastYahooMs, fs.statSync(path.join(YAHOO_DIR, f)).mtimeMs);
+      }
+    } catch (e) {}
+    const doYahoo = Date.now() - lastYahooMs > 20 * 60 * 60 * 1000;
+    if (!doYahoo) console.log('  ⏭️  Yahoo updated < 20h ago — startup update is FRED only');
+    smartUpdate(doYahoo).catch(e => console.error('Update error:', e));
   }, 60000);
 
   // Daily refresh (FRED + Yahoo together)

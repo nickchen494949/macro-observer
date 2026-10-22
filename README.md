@@ -169,6 +169,8 @@ The stock table has a **实时 %** column (change vs previous close, in pre-mark
 - **30-min cooldown**; HTTP 429 blocks the button for 12h; shares the `isUpdating` lock with the daily batch.
 - A snapshot stays visible until the next day's pre-market start (then it expires and the column shows `—`).
 - `GET /api/premarket` returns the snapshot + status (reads local state only, never calls Yahoo). Snapshot cached in `data/premarket.json`.
+- **Gap fill:** Yahoo's daily chart sometimes drops a bar (2026-10-21 was missing for US equities). The live snapshot uses each symbol's true previous close to insert the missing previous NYSE session (`data/nyse_calendar.json`) — never overwrites existing bars.
+- **Restarts:** the startup update skips the Yahoo batch if Yahoo files were written < 20h ago (FRED still updates), so restarting does not re-hit Yahoo or lock the button.
 
 ---
 

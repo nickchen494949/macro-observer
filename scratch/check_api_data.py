@@ -1,12 +1,7 @@
 import json
 d = json.load(open('scratch/api_data.json'))
-print('keys:', list(d.keys())[:40])
-print('updated:', d.get('updated'), 'yahooLoaded', d.get('yahooLoaded'))
+print('updated:', d.get('updated'), 'keys ok:', all(k in d for k in ('rates', 'commodities', 'stocks', 'macroState', 'diagnostics')))
 for g in d['stocks']:
     for i in g['items']:
-        if i['label'] in ('S&P 500', 'Dow Jones', 'Nasdaq', 'XLK 科技股', 'VIX'):
-            print(g.get('group'), i['label'], 'current', i.get('current'), '1d', i.get('changes', {}).get('1d'), 'lastObs', i.get('lastObsDate'))
-# store view
-for k in ('commodities',):
-    for i in d[k][:4]:
-        print(k, i['label'], i.get('current'), i.get('changes', {}).get('1d'), i.get('lastDate') or i.get('lastObsDate'))
+        c = i.get('changes', {})
+        print('%-24s cur=%-12s 1d=%-7s 1w=%s' % (i['label'], i.get('current'), c.get('1d'), c.get('1w')))
