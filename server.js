@@ -774,11 +774,12 @@ try {
 } catch (e) { /* no snapshot yet */ }
 
 function premarketSymbols() {
-  const etfs = [];
+  const etfs = [], indices = [];
   for (const g of STOCK_GROUPS) for (const i of g.items) {
-    if (i.yahoo && !i.yahoo.startsWith('^')) etfs.push(i.yahoo);
+    if (!i.yahoo) continue;
+    (i.yahoo.startsWith('^') ? indices : etfs).push(i.yahoo);
   }
-  return { etfs, futures: Object.values(PREMARKET_FUTURES) };
+  return { etfs, indices, futures: Object.values(PREMARKET_FUTURES) };
 }
 
 function fetchYahooLive(symbol) {
@@ -797,7 +798,9 @@ function fetchYahooLive(symbol) {
 function premarketStatus() {
   const nowS = Date.now() / 1000;
   const g = premarket.gate;
-  const active = !!(g && g.preStart && g.regStart && nowS >= g.preStart && nowS < g.regStart);
+  // A snapshot is shown from that day's pre-market start until the next day's pre-market start
+  // (so it covers pre-market, regular session and after-hours; weekends fall out after 24h).
+  const active = !!(g && g.preStart && nowS >= g.preStart && nowS < g.preStart + 24 * 3600);
   return {
     updating: premarket.updating, progress: premarket.progress, error: premarket.error,
     fetchedAt: premarket.fetchedAt, active,
@@ -813,41 +816,50 @@ async function refreshPremarket() {
   if (Date.now() < premarket.fetchedAt + PREMARKET_COOLDOWN_MS) return { ok: false, reason: 'cooldown', msg: '冷却中（每 30 分钟最多一次）' };
   isUpdating = true; premarket.updating = true; premarket.error = null; premarket.progress = '0';
   (async () => {
-    const { etfs, futures } = premarketSymbols();
-    const syms = [...etfs, ...futures];
-    const items = {}; let gate = null, fails = 0;
-    try {
-      for (let n = 0; n < syms.length; n++) {
-        const sym = syms[n], isFut = futures.includes(sym);
-        premarket.progress = `${n}/${syms.length}`;
+    const { etfs, indices, futures } = premarketSymbols();
+    const items = {}; let gate = null, fails = 0, aborted = false;
+    // pass 1: ETFs + indices (indices give a real quote in the regular session; before the open they have none)
+    // pass 2: index futures, only for indices that had no live quote (i.e. pre-market)
+    const live = {};
+    const run = async (list) => {
+      for (let n = 0; n < list.length && !aborted; n++) {
+        const sym = list[n];
+        premarket.progress = `${sym}`;
         try {
           const r = await fetchYahooLive(sym);
           fails = 0;
-          if (!isFut && !gate && r.pre_start && r.reg_start) gate = { preStart: r.pre_start, regStart: r.reg_start };
-          if (r.prev_close && r.price) {
-            const pct = +((r.price / r.prev_close - 1) * 100).toFixed(2);
-            // equities: only a genuine pre-market print; futures: the live futures move (approximation)
-            if (isFut || r.session === 'pre') items[sym] = { price: r.price, prev: r.prev_close, pct, ts: r.price_ts, kind: isFut ? 'fut' : 'pre' };
-          }
+          live[sym] = r;
+          if (!gate && !sym.startsWith('^') && !futures.includes(sym) && r.pre_start && r.reg_start) gate = { preStart: r.pre_start, regStart: r.reg_start };
         } catch (e) {
-          if (e.message === 'RATE_LIMITED') { premarket.blockedUntil = Date.now() + PREMARKET_BLOCK_MS; premarket.error = 'Yahoo 429'; break; }
-          if (++fails >= 3) { premarket.error = '连续 3 次失败，已中止: ' + e.message; break; }
+          if (e.message === 'RATE_LIMITED') { premarket.blockedUntil = Date.now() + PREMARKET_BLOCK_MS; premarket.error = 'Yahoo 429'; aborted = true; }
+          else if (++fails >= 3) { premarket.error = '连续 3 次失败，已中止: ' + e.message; aborted = true; }
         }
-        await sleep(5000 + Math.random() * 5000);
+        if (!aborted) await sleep(5000 + Math.random() * 5000);
+      }
+    };
+    const mk = (r, kind, extra = {}) => ({ price: r.price, prev: r.prev_close, pct: +((r.price / r.prev_close - 1) * 100).toFixed(2), ts: r.price_ts, kind, ...extra });
+    try {
+      await run([...etfs, ...indices]);
+      for (const sym of [...etfs, ...indices]) {
+        const r = live[sym];
+        if (r && r.prev_close && r.price && ['pre', 'regular', 'post'].includes(r.session)) items[sym] = mk(r, r.session);
+      }
+      const needFut = indices.filter(i => PREMARKET_FUTURES[i] && !items[i]);
+      await run(needFut.map(i => PREMARKET_FUTURES[i]));
+      for (const idx of needFut) {
+        const r = live[PREMARKET_FUTURES[idx]];
+        if (r && r.prev_close && r.price) items[idx] = mk(r, 'fut', { proxy: PREMARKET_FUTURES[idx] });
       }
       if (gate) premarket.gate = gate;
-      // map futures back to the index symbols they stand in for
-      for (const [idx, fut] of Object.entries(PREMARKET_FUTURES)) if (items[fut]) items[idx] = { ...items[fut], proxy: fut };
-      for (const fut of futures) delete items[fut];
       premarket.items = items;
       premarket.fetchedAt = Date.now();
       fs.writeFileSync(PREMARKET_FILE, JSON.stringify({ fetchedAt: premarket.fetchedAt, gate: premarket.gate, items, blockedUntil: premarket.blockedUntil }));
-      console.log(`  🌅 Pre-market snapshot: ${Object.keys(items).length} symbols${premarket.error ? ' (' + premarket.error + ')' : ''}`);
+      console.log(`  🌅 Live snapshot: ${Object.keys(items).length} symbols${premarket.error ? ' (' + premarket.error + ')' : ''}`);
     } finally {
       premarket.updating = false; premarket.progress = ''; isUpdating = false;
     }
   })().catch(e => { premarket.error = e.message; console.error('Pre-market error:', e); });
-  return { ok: true, msg: '已开始抓取盘前价（约 2–4 分钟）' };
+  return { ok: true, msg: '已开始抓取实时价（约 2–4 分钟）' };
 }
 
 // ============================================

@@ -159,14 +159,15 @@ python3 fetch_yahoo.py "^GSPC" 5d   # test connection
 - `"ok": true` → working, problem elsewhere
 - `HTTP 429` → IP blocked — wait 12–24h, do NOT restart server repeatedly
 
-### Pre-market column (🌅 刷新盘前)
+### Live column (🌅 刷新实时价)
 
-The stock table has a **盘前 %** column (pre-market change vs previous close). It is a *manual* snapshot, not a scheduled job, so the "once per day" rule above still holds for the automatic updates.
+The stock table has a **实时 %** column (change vs previous close, in pre-market / regular session / after-hours). It is a *manual* snapshot, not a scheduled job, so the "once per day" rule above still holds for the automatic updates (those only store daily closes, so the main table always shows the last completed session).
 
-- Click **🌅 刷新盘前** in the Stock Sectors card → `POST /api/premarket/refresh` (local only) → `fetch_yahoo_live.py` (Python, 1 request per symbol, 5–10s apart, ~2–4 min total).
-- Symbols: the sector ETFs only, plus index futures `YM=F / ES=F / NQ=F / RTY=F`. Indices (`^DJI ^GSPC ^IXIC ^RUT`) have no Yahoo pre-market quote, so those rows show the futures move, tagged `期货≈`. VIX is not covered.
+- Click **🌅 刷新实时价** in the Stock Sectors card → `POST /api/premarket/refresh` (local only) → `fetch_yahoo_live.py` (Python, 1 request per symbol, 5–10s apart, ~2–4 min total).
+- Symbols: sector ETFs + the 5 indices. In the regular session / after-hours indices have a real quote. **Before the open** indices have no Yahoo quote, so those rows fall back to index futures `YM=F / ES=F / NQ=F / RTY=F` and are tagged `期货≈`. VIX has no futures fallback.
+- Tags: `盘前` / `盘中` / `盘后` / `期货≈`. Hover shows the price and its timestamp.
 - **30-min cooldown**; HTTP 429 blocks the button for 12h; shares the `isUpdating` lock with the daily batch.
-- The column only shows while the US market is in pre-market (04:00–09:30 ET; ≈16:00–21:30 Beijing in summer time, 17:00–22:30 in winter). After the open the snapshot is hidden automatically; the normal `1D Δ` column then takes over.
+- A snapshot stays visible until the next day's pre-market start (then it expires and the column shows `—`).
 - `GET /api/premarket` returns the snapshot + status (reads local state only, never calls Yahoo). Snapshot cached in `data/premarket.json`.
 
 ---
