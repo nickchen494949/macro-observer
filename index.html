@@ -458,11 +458,15 @@
   <section class="card">
     <div class="card-head">
       <h2>📈 股票板块 Stock Sectors</h2>
-      <span class="badge badge-yahoo">Yahoo Finance</span>
+      <span style="display:flex;align-items:center;gap:8px">
+        <span id="preStatus" style="font-size:11px;color:#64748b"></span>
+        <button id="preBtn" onclick="refreshPremarket()" title="抓取盘前价（只抓 ETF + 指数期货，30 分钟冷却）" style="background:none;border:1px solid #94a3b8;color:#475569;border-radius:4px;padding:2px 8px;cursor:pointer;font-size:12px">🌅 刷新盘前</button>
+        <span class="badge badge-yahoo">Yahoo Finance</span>
+      </span>
     </div>
     <div class="tbl-wrap">
       <table><thead><tr>
-        <th>Indicator</th><th>Current</th><th>Z %ile (4Y)</th><th>Z %ile (All)</th><th>1D Δ</th><th>1W Δ</th><th>1M Δ</th><th>1Q Δ</th><th>6M Δ</th><th>1Y Δ</th>
+        <th>Indicator</th><th>Current</th><th>Z %ile (4Y)</th><th>Z %ile (All)</th><th title="盘前涨跌 vs 昨收（仅美东 04:00–09:30 显示）">盘前 %</th><th>1D Δ</th><th>1W Δ</th><th>1M Δ</th><th>1Q Δ</th><th>6M Δ</th><th>1Y Δ</th>
       </tr></thead><tbody id="stockBody"></tbody></table>
     </div>
   </section>
@@ -599,7 +603,7 @@ function renderZS(p) {
   return `<div class="zs"><div class="zs-track"><div class="zs-fill" style="width:${p}%;background:${c}"></div></div><span class="zs-val" style="color:${c}">${p}%</span></div>`;
 }
 
-function row(item) {
+function row(item, preCell) {
   const c = item.changes || {};
   // Determine change unit label based on data type
   let chgSuffix;
@@ -647,14 +651,15 @@ function row(item) {
     <td>${currentCell}</td>
     <td>${renderZS(item.zscore)}</td>
     <td>${renderZS(item.zscoreAll)}</td>
+    ${preCell !== undefined ? `<td>${preCell}</td>` : ''}
     <td>${fmtChg(c['1d'],chgSuffix)}</td><td>${fmtChg(c['1w'],chgSuffix)}</td><td>${fmtChg(c['1m'],chgSuffix)}</td>
     <td>${fmtChg(c['1q'],chgSuffix)}</td><td>${fmtChg(c['6m'],chgSuffix)}</td><td>${fmtChg(c['1y'],chgSuffix)}</td>
   </tr>`;
 }
 
 
-function groupRow(name) {
-  return `<tr class="group-row"><td colspan="10">${name}</td></tr>`;
+function groupRow(name, span = 10) {
+  return `<tr class="group-row"><td colspan="${span}">${name}</td></tr>`;
 }
 
 
@@ -928,12 +933,9 @@ function render(data) {
 
   // Transmission rendering removed (HTML section deleted)
 
-  let sh = '';
-  for (const g of data.stocks) {
-    sh += groupRow(g.group);
-    sh += g.items.map(i => row(i)).join('');
-  }
-  document.getElementById('stockBody').innerHTML = sh;
+  window._stocksData = data.stocks;
+  renderStockTable();
+  try { loadPremarket(); } catch (e) { console.warn('premarket load failed', e); }
   
   // Store current Fed Funds Rate for chart reference dots
   const ffRow = data.rates.find(r => r.id === 'fed_fund_rate');
@@ -1095,6 +1097,68 @@ function toggleNewsExpand() {
   const isHidden = extras.length > 0 && extras[0].style.display === 'none';
   extras.forEach(el => el.style.display = isHidden ? '' : 'none');
   if (btn) btn.textContent = isHidden ? 'Show less ▲' : `Show ${extras.length} more ▼`;
+}
+
+// ===== Pre-market column (stock table) =====
+// Data comes from /api/premarket (manual snapshot via the 🌅 button; only valid before the US open).
+function preCellFor(item) {
+  const na = '<span class="na">—</span>';
+  const pm = window._premarket;
+  if (!pm || !pm.active || !pm.items) return na;
+  const it = pm.items[item.chartKey];
+  if (!it) return na;
+  const tag = it.kind === 'fut'
+    ? `<span title="指数没有盘前报价，这里用期货 ${it.proxy} 的涨跌近似（相对期货前结算价）" style="font-size:0.75em;opacity:.7;margin-left:3px">期货≈</span>`
+    : `<span title="盘前价 ${it.price} vs 昨收 ${it.prev}" style="font-size:0.75em;opacity:.7;margin-left:3px">盘前</span>`;
+  return fmtChg(it.pct, '%') + tag;
+}
+
+function renderStockTable() {
+  const stocks = window._stocksData;
+  const body = document.getElementById('stockBody');
+  if (!stocks || !body) return;
+  let sh = '';
+  for (const g of stocks) {
+    sh += groupRow(g.group, 11);
+    sh += g.items.map(i => row(i, preCellFor(i))).join('');
+  }
+  body.innerHTML = sh;
+}
+
+function updatePreStatus(pm) {
+  const st = document.getElementById('preStatus');
+  if (!st) return;
+  const t = ts => new Date(ts).toLocaleTimeString('en-US', { hour12: false });
+  if (pm.updating) st.textContent = '抓取盘前价中… ' + (pm.progress || '');
+  else if (pm.active) st.textContent = `盘前快照 ${t(pm.fetchedAt)}（${Object.keys(pm.items || {}).length} 个）`;
+  else if (pm.fetchedAt) st.textContent = '盘前快照已过期（非美股盘前时段）';
+  else st.textContent = '';
+  if (pm.error) st.textContent += ' ⚠️ ' + pm.error;
+}
+
+let _preTimer = null;
+async function loadPremarket() {
+  try {
+    const r = await fetch(API + '/api/premarket');
+    if (!r.ok) return;
+    const pm = await r.json();
+    window._premarket = pm;
+    renderStockTable();
+    updatePreStatus(pm);
+    clearTimeout(_preTimer);
+    if (pm.updating) _preTimer = setTimeout(loadPremarket, 5000);
+  } catch (e) { console.warn('premarket load failed', e); }
+}
+setInterval(loadPremarket, 60000); // local endpoint only — never touches Yahoo
+
+async function refreshPremarket() {
+  const st = document.getElementById('preStatus');
+  try {
+    const r = await fetch(API + '/api/premarket/refresh', { method: 'POST' });
+    const j = await r.json();
+    await loadPremarket();
+    if (st && !j.ok) st.textContent = j.msg || j.error || '盘前刷新被拒绝';
+  } catch (e) { if (st) st.textContent = '盘前刷新失败: ' + e.message; }
 }
 
 async function refreshNews() {

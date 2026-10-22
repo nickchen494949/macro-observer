@@ -159,6 +159,16 @@ python3 fetch_yahoo.py "^GSPC" 5d   # test connection
 - `"ok": true` → working, problem elsewhere
 - `HTTP 429` → IP blocked — wait 12–24h, do NOT restart server repeatedly
 
+### Pre-market column (🌅 刷新盘前)
+
+The stock table has a **盘前 %** column (pre-market change vs previous close). It is a *manual* snapshot, not a scheduled job, so the "once per day" rule above still holds for the automatic updates.
+
+- Click **🌅 刷新盘前** in the Stock Sectors card → `POST /api/premarket/refresh` (local only) → `fetch_yahoo_live.py` (Python, 1 request per symbol, 5–10s apart, ~2–4 min total).
+- Symbols: the sector ETFs only, plus index futures `YM=F / ES=F / NQ=F / RTY=F`. Indices (`^DJI ^GSPC ^IXIC ^RUT`) have no Yahoo pre-market quote, so those rows show the futures move, tagged `期货≈`. VIX is not covered.
+- **30-min cooldown**; HTTP 429 blocks the button for 12h; shares the `isUpdating` lock with the daily batch.
+- The column only shows while the US market is in pre-market (04:00–09:30 ET; ≈16:00–21:30 Beijing in summer time, 17:00–22:30 in winter). After the open the snapshot is hidden automatically; the normal `1D Δ` column then takes over.
+- `GET /api/premarket` returns the snapshot + status (reads local state only, never calls Yahoo). Snapshot cached in `data/premarket.json`.
+
 ---
 
 ## 🎨 UI/UX Design Preferences — Must Follow
@@ -232,6 +242,7 @@ The user has confirmed these design choices. All future UI work must respect the
 server.js            — Main server (Node.js, port 8765)
 index.html           — Frontend dashboard
 fetch_yahoo.py       — Python Yahoo fetcher (DO NOT DELETE)
+fetch_yahoo_live.py  — Python live/pre-market fetcher (used by the 🌅 button)
 import_bdi.py        — One-time BDI CSV importer (Investing.com)
 data/fred/           — Cached FRED JSON (42 series)
 data/yahoo/          — Cached Yahoo JSON (26 tickers)

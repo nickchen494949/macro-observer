@@ -1,44 +1,8 @@
 {
-  "updated": "2026-10-21T04:01:01.505Z",
-  "gdeltCount": 4,
+  "updated": "2026-10-22T13:05:02.323Z",
+  "gdeltCount": 0,
   "fedCount": 20,
   "articles": [
-    {
-      "title": "Trumpflation Is Here - OpEd - Eurasia Review",
-      "url": "https://www.eurasiareview.com/21102026-trumpflation-is-here-oped/",
-      "source": "eurasiareview.com",
-      "sourceType": "gdelt",
-      "date": "2026-10-21T02:30:00.000Z",
-      "image": "https://www.eurasiareview.com/wp-content/uploads/2020/03/a-27.jpg",
-      "country": "United States"
-    },
-    {
-      "title": "RBA deputy warns inflation outlook  materially worse  ahead of November meeting",
-      "url": "https://www.abc.net.au/news/2026-10-21/reserve-bank-hauser-warns-inflation-outlook-materially-worse/107288574",
-      "source": "abc.net.au",
-      "sourceType": "gdelt",
-      "date": "2026-10-21T01:30:00.000Z",
-      "image": "https://live-production.wcms.abc-cdn.net.au/88556f9347e5b5988f37e7ef10a437a8?impolicy=wcms_watermark_news&cropH=1177&cropW=2092&xPos=0&yPos=0&imformat=generic",
-      "country": "Australia"
-    },
-    {
-      "title": "One single Trump decision is the direct cause of your shrinking paycheck",
-      "url": "https://www.alternet.org/trump-inflation-cause/",
-      "source": "alternet.org",
-      "sourceType": "gdelt",
-      "date": "2026-10-20T23:30:00.000Z",
-      "image": "https://www.alternet.org/media-library/us-president-trump-meets-an-attendee-as-he-participates-in-a-midterm-election-rally-for-oklahoma-republican-gubernatorial-candid.jpg?id=68489357&coordinates=0%2C172%2C0%2C173",
-      "country": "United States"
-    },
-    {
-      "title": "Trump tariffs can do more damage to economy than recession",
-      "url": "https://financialpost.com/news/trump-tariffs-more-damage-economy-than-recession",
-      "source": "financialpost.com",
-      "sourceType": "gdelt",
-      "date": "2026-10-20T15:30:00.000Z",
-      "image": null,
-      "country": "Canada"
-    },
     {
       "title": "Federal Reserve Board announces termination of enforcement actions with Gardner Bancshares, Inc. and Small Business Bank",
       "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20261016a.htm",

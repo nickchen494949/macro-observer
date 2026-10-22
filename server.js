@@ -759,6 +759,98 @@ async function smartUpdate(includeYahoo = false) {
 }
 
 // ============================================
+// PRE-MARKET SNAPSHOT (manual button only — see README "Pre-market")
+// One Python request per symbol, 5-10s apart, 30-min cooldown, shares the isUpdating lock
+// with the daily Yahoo batch so two Yahoo batches never run at once.
+// ============================================
+const PREMARKET_FILE = path.join(DATA_DIR, 'premarket.json');
+const PREMARKET_COOLDOWN_MS = 30 * 60 * 1000;
+const PREMARKET_BLOCK_MS = 12 * 60 * 60 * 1000; // after an HTTP 429
+// Indices have no pre-market quote on Yahoo → approximate with the matching futures.
+const PREMARKET_FUTURES = { '^DJI': 'YM=F', '^GSPC': 'ES=F', '^IXIC': 'NQ=F', '^RUT': 'RTY=F' };
+const premarket = { fetchedAt: 0, updating: false, progress: '', gate: null, items: {}, blockedUntil: 0, error: null };
+try {
+  Object.assign(premarket, JSON.parse(fs.readFileSync(PREMARKET_FILE, 'utf8')), { updating: false, progress: '' });
+} catch (e) { /* no snapshot yet */ }
+
+function premarketSymbols() {
+  const etfs = [];
+  for (const g of STOCK_GROUPS) for (const i of g.items) {
+    if (i.yahoo && !i.yahoo.startsWith('^')) etfs.push(i.yahoo);
+  }
+  return { etfs, futures: Object.values(PREMARKET_FUTURES) };
+}
+
+function fetchYahooLive(symbol) {
+  return new Promise((resolve, reject) => {
+    execFile('python3', [path.join(__dirname, 'fetch_yahoo_live.py'), symbol], { timeout: 25000 }, (err, stdout, stderr) => {
+      if (err) return reject(new Error(err.message || stderr));
+      try {
+        const r = JSON.parse(stdout.trim());
+        if (!r.ok) return reject(new Error(r.error && r.error.includes('429') ? 'RATE_LIMITED' : (r.error || 'unknown')));
+        resolve(r);
+      } catch (e) { reject(new Error('parse: ' + e.message)); }
+    });
+  });
+}
+
+function premarketStatus() {
+  const nowS = Date.now() / 1000;
+  const g = premarket.gate;
+  const active = !!(g && g.preStart && g.regStart && nowS >= g.preStart && nowS < g.regStart);
+  return {
+    updating: premarket.updating, progress: premarket.progress, error: premarket.error,
+    fetchedAt: premarket.fetchedAt, active,
+    cooldownUntil: premarket.fetchedAt + PREMARKET_COOLDOWN_MS, blockedUntil: premarket.blockedUntil,
+    preStart: g ? g.preStart : null, regStart: g ? g.regStart : null,
+    items: active ? premarket.items : {},
+  };
+}
+
+async function refreshPremarket() {
+  if (isUpdating || premarket.updating) return { ok: false, reason: 'busy', msg: '另一个 Yahoo 更新正在运行，请稍后' };
+  if (Date.now() < premarket.blockedUntil) return { ok: false, reason: 'blocked', msg: 'Yahoo 之前返回 429，已暂停至 ' + new Date(premarket.blockedUntil).toLocaleString() };
+  if (Date.now() < premarket.fetchedAt + PREMARKET_COOLDOWN_MS) return { ok: false, reason: 'cooldown', msg: '冷却中（每 30 分钟最多一次）' };
+  isUpdating = true; premarket.updating = true; premarket.error = null; premarket.progress = '0';
+  (async () => {
+    const { etfs, futures } = premarketSymbols();
+    const syms = [...etfs, ...futures];
+    const items = {}; let gate = null, fails = 0;
+    try {
+      for (let n = 0; n < syms.length; n++) {
+        const sym = syms[n], isFut = futures.includes(sym);
+        premarket.progress = `${n}/${syms.length}`;
+        try {
+          const r = await fetchYahooLive(sym);
+          fails = 0;
+          if (!isFut && !gate && r.pre_start && r.reg_start) gate = { preStart: r.pre_start, regStart: r.reg_start };
+          if (r.prev_close && r.price) {
+            const pct = +((r.price / r.prev_close - 1) * 100).toFixed(2);
+            // equities: only a genuine pre-market print; futures: the live futures move (approximation)
+            if (isFut || r.session === 'pre') items[sym] = { price: r.price, prev: r.prev_close, pct, ts: r.price_ts, kind: isFut ? 'fut' : 'pre' };
+          }
+        } catch (e) {
+          if (e.message === 'RATE_LIMITED') { premarket.blockedUntil = Date.now() + PREMARKET_BLOCK_MS; premarket.error = 'Yahoo 429'; break; }
+          if (++fails >= 3) { premarket.error = '连续 3 次失败，已中止: ' + e.message; break; }
+        }
+        await sleep(5000 + Math.random() * 5000);
+      }
+      if (gate) premarket.gate = gate;
+      // map futures back to the index symbols they stand in for
+      for (const [idx, fut] of Object.entries(PREMARKET_FUTURES)) if (items[fut]) items[idx] = { ...items[fut], proxy: fut };
+      for (const fut of futures) delete items[fut];
+      premarket.items = items;
+      premarket.fetchedAt = Date.now();
+      fs.writeFileSync(PREMARKET_FILE, JSON.stringify({ fetchedAt: premarket.fetchedAt, gate: premarket.gate, items, blockedUntil: premarket.blockedUntil }));
+      console.log(`  🌅 Pre-market snapshot: ${Object.keys(items).length} symbols${premarket.error ? ' (' + premarket.error + ')' : ''}`);
+    } finally {
+      premarket.updating = false; premarket.progress = ''; isUpdating = false;
+    }
+  })().catch(e => { premarket.error = e.message; console.error('Pre-market error:', e); });
+  return { ok: true, msg: '已开始抓取盘前价（约 2–4 分钟）' };
+}
+
+// ============================================
 // METRICS CALCULATION
 // ============================================
 // absoluteChanges=true: changes are pp differences, not % of %. Use for series that are already rates/percentages.
@@ -2870,6 +2962,20 @@ const server = http.createServer(async (req, res) => {
       res.end(JSON.stringify({ meta, sectors }));
     } catch (e) {
       res.writeHead(500); res.end(JSON.stringify({ error: 'sector-eps data unavailable: ' + e.message }));
+    }
+  } else if (p === '/api/premarket') {
+    res.end(JSON.stringify(premarketStatus()));
+  } else if (p === '/api/premarket/refresh') {
+    // Local POST from the dashboard itself only; 30-min cooldown + 429 block enforced in refreshPremarket()
+    const ra = req.socket.remoteAddress;
+    const isLocal = ra === '127.0.0.1' || ra === '::ffff:127.0.0.1' || ra === '::1';
+    const origin = req.headers['origin'] || '';
+    const originOk = !origin || /^http:\/\/(localhost|127\.0\.0\.1):8765$/.test(origin);
+    if (req.method !== 'POST' || !isLocal || !originOk) {
+      res.writeHead(403); res.end(JSON.stringify({ error: 'Access denied: local POST only' }));
+    } else {
+      refreshPremarket().then(r => res.end(JSON.stringify({ ...r, status: premarketStatus() })))
+        .catch(e => { res.writeHead(500); res.end(JSON.stringify({ ok: false, msg: e.message })); });
     }
   } else if (p === '/api/news') {
     const news = loadNewsFromDisk();
