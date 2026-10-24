@@ -1,0 +1,53 @@
+{
+  "valid": true,
+  "folds": [
+    {
+      "year": 2025,
+      "valid": true,
+      "N_train": 1857,
+      "N_test": 250,
+      "firstTestTradableSession": "2025-01-02",
+      "trainLastLabelSessionMax": "2024-12-31",
+      "baselineCoefficients": {
+        "const": 0.0023176959521583607,
+        "baseline": -0.001022740093358568
+      },
+      "enhancedCoefficients": {
+        "const": 0.0023285836580722056,
+        "baseline": -0.0010454467595908071,
+        "composite": 0.002760408788170508
+      }
+    },
+    {
+      "year": 2026,
+      "valid": true,
+      "N_train": 2107,
+      "N_test": 144,
+      "firstTestTradableSession": "2026-01-02",
+      "trainLastLabelSessionMax": "2025-12-31",
+      "baselineCoefficients": {
+        "const": 0.0023840655620540625,
+        "baseline": -0.0011907073288406921
+      },
+      "enhancedCoefficients": {
+        "const": 0.002389782648408654,
+        "baseline": -0.0012097467908507157,
+        "composite": 0.0017233776701391162
+      }
+    }
+  ],
+  "requiredHoldoutYears": [
+    2025,
+    2026
+  ],
+  "N_pooled": 394,
+  "mean_d": -5.1246744377615425e-06,
+  "hac_p_two_sided": 0.051048364968700875,
+  "hac_maxlag": 5,
+  "bootstrap_ci_low": -9.92411582236328e-06,
+  "bootstrap_ci_high": -7.630006536908169e-08,
+  "oos_loss_bootstrap_pass": false,
+  "delta_mae": -0.0001237076793179307,
+  "delta_r2": -0.012213965715652142,
+  "squared_error_pass": false
+}

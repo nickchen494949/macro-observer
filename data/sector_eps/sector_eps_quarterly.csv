@@ -1,0 +1,701 @@
+index,sector,basis,period,period_end,eps,status,method,sens_2px
+S&P 500,Communication Services,operating,2010Q1,2010-03-31,1.792,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2010Q2,2010-06-30,1.96,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2010Q3,2010-09-30,1.679,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2010Q4,2010-12-31,1.679,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2011Q1,2011-03-31,1.842,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2011Q2,2011-06-30,2.072,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2011Q3,2011-09-30,1.953,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2011Q4,2011-12-31,1.28,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2012Q1,2012-03-31,1.795,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2012Q2,2012-06-30,1.959,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2012Q3,2012-09-30,2.009,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2012Q4,2012-12-31,1.119,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2013Q1,2013-03-31,2.015,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2013Q2,2013-06-30,2.407,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2013Q3,2013-09-30,2.517,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2013Q4,2013-12-31,2.358,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2014Q1,2014-03-31,2.86,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2014Q2,2014-06-30,2.801,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2014Q3,2014-09-30,2.788,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2014Q4,2014-12-31,2.242,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2015Q1,2015-03-31,2.911,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2015Q2,2015-06-30,3.248,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2015Q3,2015-09-30,3.188,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2015Q4,2015-12-31,2.798,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2016Q1,2016-03-31,3.189,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2016Q2,2016-06-30,3.017,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2016Q3,2016-09-30,3.08,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2016Q4,2016-12-31,2.792,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2017Q1,2017-03-31,3.023,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2017Q2,2017-06-30,3.197,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2017Q3,2017-09-30,3.076,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2017Q4,2017-12-31,2.967,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2018Q1,2018-03-31,3.934,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2018Q2,2018-06-30,3.798,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2018Q3,2018-09-30,2.125,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2018Q4,2018-12-31,2.294,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2019Q1,2019-03-31,1.903,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2019Q2,2019-06-30,2.181,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2019Q3,2019-09-30,2.13,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2019Q4,2019-12-31,2.511,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2020Q1,2020-03-31,1.966,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2020Q2,2020-06-30,1.779,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2020Q3,2020-09-30,2.245,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2020Q4,2020-12-31,2.756,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2021Q1,2021-03-31,3.013,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2021Q2,2021-06-30,3.143,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2021Q3,2021-09-30,3.016,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2021Q4,2021-12-31,3.193,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2022Q1,2022-03-31,2.961,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2022Q2,2022-06-30,2.519,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2022Q3,2022-09-30,2.288,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2022Q4,2022-12-31,2.288,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2023Q1,2023-03-31,2.521,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2023Q2,2023-06-30,2.965,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2023Q3,2023-09-30,3.3,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2023Q4,2023-12-31,3.42,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2024Q1,2024-03-31,3.634,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2024Q2,2024-06-30,3.201,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2024Q3,2024-09-30,4.253,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2024Q4,2024-12-31,4.485,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2025Q1,2025-03-31,4.762,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2025Q2,2025-06-30,4.759,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2025Q3,2025-09-30,3.926,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2025Q4,2025-12-31,5.028,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2026Q1,2026-03-31,7.118,actual,curve_approx,0.0862
+S&P 500,Communication Services,operating,2026Q2,2026-06-30,10.22,actual,printed,0.0862
+S&P 500,Consumer Discretionary,operating,2010Q1,2010-03-31,4.198,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2010Q2,2010-06-30,4.62,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2010Q3,2010-09-30,4.351,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2010Q4,2010-12-31,5.186,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2011Q1,2011-03-31,4.758,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2011Q2,2011-06-30,5.472,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2011Q3,2011-09-30,5.038,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2011Q4,2011-12-31,5.606,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2012Q1,2012-03-31,4.914,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2012Q2,2012-06-30,5.609,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2012Q3,2012-09-30,5.881,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2012Q4,2012-12-31,6.443,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2013Q1,2013-03-31,5.753,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2013Q2,2013-06-30,6.435,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2013Q3,2013-09-30,7.567,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2013Q4,2013-12-31,7.001,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2014Q1,2014-03-31,6.167,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2014Q2,2014-06-30,7.147,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2014Q3,2014-09-30,7.284,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2014Q4,2014-12-31,7.848,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2015Q1,2015-03-31,6.607,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2015Q2,2015-06-30,7.562,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2015Q3,2015-09-30,8.273,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2015Q4,2015-12-31,8.684,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2016Q1,2016-03-31,7.579,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2016Q2,2016-06-30,8.414,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2016Q3,2016-09-30,8.258,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2016Q4,2016-12-31,8.133,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2017Q1,2017-03-31,7.979,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2017Q2,2017-06-30,8.722,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2017Q3,2017-09-30,8.71,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2017Q4,2017-12-31,8.959,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2018Q1,2018-03-31,8.557,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2018Q2,2018-06-30,7.97,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2018Q3,2018-09-30,10.515,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2018Q4,2018-12-31,9.941,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2019Q1,2019-03-31,9.106,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2019Q2,2019-06-30,10.35,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2019Q3,2019-09-30,10.94,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2019Q4,2019-12-31,10.364,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2020Q1,2020-03-31,4.241,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2020Q2,2020-06-30,3.617,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2020Q3,2020-09-30,10.915,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2020Q4,2020-12-31,8.116,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2021Q1,2021-03-31,10.238,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2021Q2,2021-06-30,11.19,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2021Q3,2021-09-30,10.242,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2021Q4,2021-12-31,11.884,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2022Q1,2022-03-31,7.148,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2022Q2,2022-06-30,9.107,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2022Q3,2022-09-30,10.923,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2022Q4,2022-12-31,9.126,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2023Q1,2023-03-31,9.939,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2023Q2,2023-06-30,13.833,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2023Q3,2023-09-30,15.413,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2023Q4,2023-12-31,12.594,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2024Q1,2024-03-31,12.065,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2024Q2,2024-06-30,15.101,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2024Q3,2024-09-30,16.536,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2024Q4,2024-12-31,15.544,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2025Q1,2025-03-31,12.748,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2025Q2,2025-06-30,15.677,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2025Q3,2025-09-30,17.518,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2025Q4,2025-12-31,14.946,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2026Q1,2026-03-31,17.72,actual,curve_approx,0.2154
+S&P 500,Consumer Discretionary,operating,2026Q2,2026-06-30,28.98,actual,printed,0.2154
+S&P 500,Consumer Staples,operating,2010Q1,2010-03-31,4.874,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2010Q2,2010-06-30,5.332,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2010Q3,2010-09-30,5.529,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2010Q4,2010-12-31,5.952,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2011Q1,2011-03-31,5.268,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2011Q2,2011-06-30,5.991,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2011Q3,2011-09-30,6.087,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2011Q4,2011-12-31,6.247,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2012Q1,2012-03-31,5.565,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2012Q2,2012-06-30,6.179,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2012Q3,2012-09-30,6.35,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2012Q4,2012-12-31,6.965,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2013Q1,2013-03-31,5.923,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2013Q2,2013-06-30,6.547,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2013Q3,2013-09-30,6.842,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2013Q4,2013-12-31,7.291,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2014Q1,2014-03-31,6.258,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2014Q2,2014-06-30,7.19,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2014Q3,2014-09-30,7.267,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2014Q4,2014-12-31,7.258,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2015Q1,2015-03-31,6.615,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2015Q2,2015-06-30,6.997,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2015Q3,2015-09-30,7.075,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2015Q4,2015-12-31,7.065,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2016Q1,2016-03-31,5.763,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2016Q2,2016-06-30,6.35,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2016Q3,2016-09-30,6.841,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2016Q4,2016-12-31,6.571,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2017Q1,2017-03-31,6.024,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2017Q2,2017-06-30,6.541,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2017Q3,2017-09-30,6.514,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2017Q4,2017-12-31,7.455,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2018Q1,2018-03-31,6.48,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2018Q2,2018-06-30,7.436,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2018Q3,2018-09-30,7.917,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2018Q4,2018-12-31,7.555,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2019Q1,2019-03-31,6.84,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2019Q2,2019-06-30,7.689,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2019Q3,2019-09-30,8.082,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2019Q4,2019-12-31,7.69,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2020Q1,2020-03-31,7.299,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2020Q2,2020-06-30,7.295,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2020Q3,2020-09-30,8.602,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2020Q4,2020-12-31,8.212,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2021Q1,2021-03-31,8.081,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2021Q2,2021-06-30,8.748,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2021Q3,2021-09-30,9.194,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2021Q4,2021-12-31,8.805,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2022Q1,2022-03-31,8.768,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2022Q2,2022-06-30,8.937,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2022Q3,2022-09-30,9.295,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2022Q4,2022-12-31,9.555,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2023Q1,2023-03-31,8.9,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2023Q2,2023-06-30,9.488,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2023Q3,2023-09-30,9.751,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2023Q4,2023-12-31,9.391,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2024Q1,2024-03-31,9.521,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2024Q2,2024-06-30,9.817,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2024Q3,2024-09-30,10.309,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2024Q4,2024-12-31,9.681,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2025Q1,2025-03-31,8.972,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2025Q2,2025-06-30,9.78,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2025Q3,2025-09-30,10.313,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2025Q4,2025-12-31,9.91,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2026Q1,2026-03-31,9.507,actual,curve_approx,0.0504
+S&P 500,Consumer Staples,operating,2026Q2,2026-06-30,10.99,actual,printed,0.0504
+S&P 500,Energy,operating,2010Q1,2010-03-31,8.194,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2010Q2,2010-06-30,9.555,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2010Q3,2010-09-30,8.324,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2010Q4,2010-12-31,9.68,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2011Q1,2011-03-31,11.382,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2011Q2,2011-06-30,12.96,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2011Q3,2011-09-30,12.944,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2011Q4,2011-12-31,10.815,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2012Q1,2012-03-31,11.377,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2012Q2,2012-06-30,10.961,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2012Q3,2012-09-30,10.973,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2012Q4,2012-12-31,11.812,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2013Q1,2013-03-31,11.662,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2013Q2,2013-06-30,10.428,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2013Q3,2013-09-30,10.957,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2013Q4,2013-12-31,11.244,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2014Q1,2014-03-31,11.793,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2014Q2,2014-06-30,12.227,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2014Q3,2014-09-30,12.173,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2014Q4,2014-12-31,8.578,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2015Q1,2015-03-31,4.931,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2015Q2,2015-06-30,5.227,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2015Q3,2015-09-30,5.046,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2015Q4,2015-12-31,2.271,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2016Q1,2016-03-31,-0.244,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2016Q2,2016-06-30,0.748,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2016Q3,2016-09-30,1.564,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2016Q4,2016-12-31,2.008,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2017Q1,2017-03-31,3.097,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2017Q2,2017-06-30,2.974,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2017Q3,2017-09-30,3.96,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2017Q4,2017-12-31,4.374,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2018Q1,2018-03-31,6.069,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2018Q2,2018-06-30,6.902,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2018Q3,2018-09-30,8.591,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2018Q4,2018-12-31,7.848,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2019Q1,2019-03-31,4.374,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2019Q2,2019-06-30,6.197,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2019Q3,2019-09-30,5.345,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2019Q4,2019-12-31,4.687,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2020Q1,2020-03-31,2.892,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2020Q2,2020-06-30,-4.277,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2020Q3,2020-09-30,-0.324,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2020Q4,2020-12-31,-0.338,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2021Q1,2021-03-31,3.618,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2021Q2,2021-06-30,6.244,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2021Q3,2021-09-30,9.72,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2021Q4,2021-12-31,11.622,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2022Q1,2022-03-31,13.735,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2022Q2,2022-06-30,23.833,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2022Q3,2022-09-30,23.164,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2022Q4,2022-12-31,18.274,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2023Q1,2023-03-31,16.02,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2023Q2,2023-06-30,12.523,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2023Q3,2023-09-30,15.051,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2023Q4,2023-12-31,14.038,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2024Q1,2024-03-31,12.365,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2024Q2,2024-06-30,12.389,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2024Q3,2024-09-30,10.956,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2024Q4,2024-12-31,9.845,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2025Q1,2025-03-31,9.988,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2025Q2,2025-06-30,9.834,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2025Q3,2025-09-30,10.698,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2025Q4,2025-12-31,10.068,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2026Q1,2026-03-31,10.124,actual,curve_approx,0.2158
+S&P 500,Energy,operating,2026Q2,2026-06-30,23.88,actual,printed,0.2158
+S&P 500,Financials,operating,2010Q1,2010-03-31,3.697,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2010Q2,2010-06-30,3.762,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2010Q3,2010-09-30,3.759,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2010Q4,2010-12-31,3.7,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2011Q1,2011-03-31,4.146,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2011Q2,2011-06-30,2.841,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2011Q3,2011-09-30,4.425,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2011Q4,2011-12-31,3.881,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2012Q1,2012-03-31,4.875,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2012Q2,2012-06-30,4.547,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2012Q3,2012-09-30,4.803,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2012Q4,2012-12-31,4.548,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2013Q1,2013-03-31,5.532,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2013Q2,2013-06-30,5.854,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2013Q3,2013-09-30,4.812,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2013Q4,2013-12-31,5.59,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2014Q1,2014-03-31,5.402,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2014Q2,2014-06-30,5.396,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2014Q3,2014-09-30,5.463,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2014Q4,2014-12-31,5.332,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2015Q1,2015-03-31,6.181,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2015Q2,2015-06-30,6.315,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2015Q3,2015-09-30,5.974,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2015Q4,2015-12-31,5.531,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2016Q1,2016-03-31,5.198,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2016Q2,2016-06-30,5.671,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2016Q3,2016-09-30,6.505,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2016Q4,2016-12-31,6.116,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2017Q1,2017-03-31,6.702,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2017Q2,2017-06-30,6.903,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2017Q3,2017-09-30,6.049,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2017Q4,2017-12-31,6.978,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2018Q1,2018-03-31,8.671,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2018Q2,2018-06-30,8.673,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2018Q3,2018-09-30,8.734,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2018Q4,2018-12-31,7.891,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2019Q1,2019-03-31,9.206,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2019Q2,2019-06-30,9.252,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2019Q3,2019-09-30,8.805,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2019Q4,2019-12-31,8.663,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2020Q1,2020-03-31,5.592,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2020Q2,2020-06-30,4.999,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2020Q3,2020-09-30,8.525,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2020Q4,2020-12-31,10.447,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2021Q1,2021-03-31,13.324,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2021Q2,2021-06-30,12.774,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2021Q3,2021-09-30,11.427,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2021Q4,2021-12-31,11.29,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2022Q1,2022-03-31,10.753,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2022Q2,2022-06-30,10.156,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2022Q3,2022-09-30,9.545,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2022Q4,2022-12-31,11.413,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2023Q1,2023-03-31,10.188,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2023Q2,2023-06-30,10.038,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2023Q3,2023-09-30,10.63,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2023Q4,2023-12-31,9.595,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2024Q1,2024-03-31,11.288,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2024Q2,2024-06-30,11.684,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2024Q3,2024-09-30,11.222,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2024Q4,2024-12-31,12.336,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2025Q1,2025-03-31,11.809,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2025Q2,2025-06-30,12.972,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2025Q3,2025-09-30,13.65,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2025Q4,2025-12-31,13.24,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2026Q1,2026-03-31,14.179,actual,curve_approx,0.1007
+S&P 500,Financials,operating,2026Q2,2026-06-30,15.76,actual,printed,0.1007
+S&P 500,Health Care,operating,2010Q1,2010-03-31,7.98,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2010Q2,2010-06-30,7.97,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2010Q3,2010-09-30,8.057,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2010Q4,2010-12-31,7.747,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2011Q1,2011-03-31,8.505,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2011Q2,2011-06-30,8.638,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2011Q3,2011-09-30,8.626,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2011Q4,2011-12-31,8.292,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2012Q1,2012-03-31,8.845,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2012Q2,2012-06-30,8.972,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2012Q3,2012-09-30,8.726,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2012Q4,2012-12-31,8.295,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2013Q1,2013-03-31,8.729,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2013Q2,2013-06-30,8.861,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2013Q3,2013-09-30,8.843,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2013Q4,2013-12-31,8.857,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2014Q1,2014-03-31,9.741,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2014Q2,2014-06-30,10.873,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2014Q3,2014-09-30,10.767,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2014Q4,2014-12-31,11.228,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2015Q1,2015-03-31,11.997,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2015Q2,2015-06-30,12.562,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2015Q3,2015-09-30,12.445,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2015Q4,2015-12-31,12.11,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2016Q1,2016-03-31,12.455,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2016Q2,2016-06-30,13.347,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2016Q3,2016-09-30,13.003,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2016Q4,2016-12-31,12.444,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2017Q1,2017-03-31,13.263,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2017Q2,2017-06-30,14.015,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2017Q3,2017-09-30,13.923,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2017Q4,2017-12-31,13.465,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2018Q1,2018-03-31,15.61,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2018Q2,2018-06-30,16.27,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2018Q3,2018-09-30,15.705,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2018Q4,2018-12-31,15.396,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2019Q1,2019-03-31,16.612,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2019Q2,2019-06-30,17.855,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2019Q3,2019-09-30,17.174,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2019Q4,2019-12-31,16.723,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2020Q1,2020-03-31,17.413,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2020Q2,2020-06-30,18.394,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2020Q3,2020-09-30,19.21,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2020Q4,2020-12-31,18.297,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2021Q1,2021-03-31,21.912,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2021Q2,2021-06-30,22.833,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2021Q3,2021-09-30,23.452,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2021Q4,2021-12-31,22.258,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2022Q1,2022-03-31,25.158,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2022Q2,2022-06-30,24.369,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2022Q3,2022-09-30,23.596,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2022Q4,2022-12-31,21.453,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2023Q1,2023-03-31,21.327,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2023Q2,2023-06-30,17.533,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2023Q3,2023-09-30,19.094,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2023Q4,2023-12-31,18.049,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2024Q1,2024-03-31,16.103,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2024Q2,2024-06-30,21.07,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2024Q3,2024-09-30,22.012,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2024Q4,2024-12-31,20.781,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2025Q1,2025-03-31,23.473,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2025Q2,2025-06-30,23.025,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2025Q3,2025-09-30,23.127,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2025Q4,2025-12-31,21.097,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2026Q1,2026-03-31,22.566,actual,curve_approx,0.173
+S&P 500,Health Care,operating,2026Q2,2026-06-30,21.4,actual,printed,0.173
+S&P 500,Industrials,operating,2010Q1,2010-03-31,3.587,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2010Q2,2010-06-30,4.698,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2010Q3,2010-09-30,4.784,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2010Q4,2010-12-31,5.076,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2011Q1,2011-03-31,4.771,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2011Q2,2011-06-30,5.536,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2011Q3,2011-09-30,5.439,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2011Q4,2011-12-31,5.752,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2012Q1,2012-03-31,5.526,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2012Q2,2012-06-30,6.187,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2012Q3,2012-09-30,6.124,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2012Q4,2012-12-31,5.822,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2013Q1,2013-03-31,5.898,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2013Q2,2013-06-30,6.723,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2013Q3,2013-09-30,6.643,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2013Q4,2013-12-31,6.71,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2014Q1,2014-03-31,5.981,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2014Q2,2014-06-30,7.309,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2014Q3,2014-09-30,7.473,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2014Q4,2014-12-31,7.842,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2015Q1,2015-03-31,6.264,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2015Q2,2015-06-30,7.604,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2015Q3,2015-09-30,7.698,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2015Q4,2015-12-31,7.462,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2016Q1,2016-03-31,6.193,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2016Q2,2016-06-30,7.34,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2016Q3,2016-09-30,7.985,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2016Q4,2016-12-31,7.089,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2017Q1,2017-03-31,6.277,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2017Q2,2017-06-30,7.989,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2017Q3,2017-09-30,7.98,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2017Q4,2017-12-31,7.301,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2018Q1,2018-03-31,7.86,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2018Q2,2018-06-30,9.635,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2018Q3,2018-09-30,9.326,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2018Q4,2018-12-31,9.193,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2019Q1,2019-03-31,8.424,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2019Q2,2019-06-30,8.67,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2019Q3,2019-09-30,9.623,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2019Q4,2019-12-31,8.358,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2020Q1,2020-03-31,5.76,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2020Q2,2020-06-30,1.345,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2020Q3,2020-09-30,4.628,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2020Q4,2020-12-31,5.528,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2021Q1,2021-03-31,5.765,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2021Q2,2021-06-30,8.366,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2021Q3,2021-09-30,8.732,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2021Q4,2021-12-31,7.76,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2022Q1,2022-03-31,7.707,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2022Q2,2022-06-30,11.096,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2022Q3,2022-09-30,10.467,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2022Q4,2022-12-31,11.344,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2023Q1,2023-03-31,9.945,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2023Q2,2023-06-30,12.612,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2023Q3,2023-09-30,11.579,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2023Q4,2023-12-31,11.345,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2024Q1,2024-03-31,9.557,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2024Q2,2024-06-30,11.943,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2024Q3,2024-09-30,10.313,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2024Q4,2024-12-31,12.089,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2025Q1,2025-03-31,10.896,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2025Q2,2025-06-30,12.312,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2025Q3,2025-09-30,12.408,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2025Q4,2025-12-31,14.262,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2026Q1,2026-03-31,11.533,actual,curve_approx,0.1149
+S&P 500,Industrials,operating,2026Q2,2026-06-30,13.96,actual,printed,0.1149
+S&P 500,Information Technology,operating,2010Q1,2010-03-31,6.506,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2010Q2,2010-06-30,7.202,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2010Q3,2010-09-30,7.861,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2010Q4,2010-12-31,8.824,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2011Q1,2011-03-31,8.18,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2011Q2,2011-06-30,8.812,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2011Q3,2011-09-30,8.187,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2011Q4,2011-12-31,10.16,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2012Q1,2012-03-31,9.188,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2012Q2,2012-06-30,9.153,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2012Q3,2012-09-30,8.521,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2012Q4,2012-12-31,10.458,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2013Q1,2013-03-31,9.156,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2013Q2,2013-06-30,8.84,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2013Q3,2013-09-30,9.155,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2013Q4,2013-12-31,11.124,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2014Q1,2014-03-31,9.504,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2014Q2,2014-06-30,9.574,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2014Q3,2014-09-30,9.53,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2014Q4,2014-12-31,12.428,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2015Q1,2015-03-31,10.149,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2015Q2,2015-06-30,9.466,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2015Q3,2015-09-30,9.844,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2015Q4,2015-12-31,12.709,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2016Q1,2016-03-31,9.539,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2016Q2,2016-06-30,9.799,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2016Q3,2016-09-30,11.136,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2016Q4,2016-12-31,13.717,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2017Q1,2017-03-31,11.472,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2017Q2,2017-06-30,11.769,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2017Q3,2017-09-30,13.413,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2017Q4,2017-12-31,16.714,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2018Q1,2018-03-31,15.683,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2018Q2,2018-06-30,14.713,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2018Q3,2018-09-30,17.633,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2018Q4,2018-12-31,18.962,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2019Q1,2019-03-31,15.352,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2019Q2,2019-06-30,16.001,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2019Q3,2019-09-30,17.347,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2019Q4,2019-12-31,20.333,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2020Q1,2020-03-31,15.989,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2020Q2,2020-06-30,16.362,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2020Q3,2020-09-30,18.627,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2020Q4,2020-12-31,24.235,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2021Q1,2021-03-31,23.494,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2021Q2,2021-06-30,24.53,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2021Q3,2021-09-30,25.467,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2021Q4,2021-12-31,29.41,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2022Q1,2022-03-31,26.772,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2022Q2,2022-06-30,24.214,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2022Q3,2022-09-30,25.183,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2022Q4,2022-12-31,24.175,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2023Q1,2023-03-31,24.13,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2023Q2,2023-06-30,25.547,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2023Q3,2023-09-30,28.529,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2023Q4,2023-12-31,33.248,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2024Q1,2024-03-31,30.424,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2024Q2,2024-06-30,31.04,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2024Q3,2024-09-30,33.655,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2024Q4,2024-12-31,39.915,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2025Q1,2025-03-31,35.626,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2025Q2,2025-06-30,37.905,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2025Q3,2025-09-30,43.475,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2025Q4,2025-12-31,52.564,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2026Q1,2026-03-31,54.993,actual,curve_approx,0.5027
+S&P 500,Information Technology,operating,2026Q2,2026-06-30,65.7,actual,printed,0.5027
+S&P 500,Materials,operating,2010Q1,2010-03-31,3.155,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2010Q2,2010-06-30,3.486,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2010Q3,2010-09-30,3.01,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2010Q4,2010-12-31,3.257,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2011Q1,2011-03-31,4.84,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2011Q2,2011-06-30,5.636,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2011Q3,2011-09-30,4.126,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2011Q4,2011-12-31,2.876,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2012Q1,2012-03-31,4.511,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2012Q2,2012-06-30,4.453,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2012Q3,2012-09-30,2.918,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2012Q4,2012-12-31,3.26,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2013Q1,2013-03-31,4.744,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2013Q2,2013-06-30,4.372,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2013Q3,2013-09-30,3.44,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2013Q4,2013-12-31,3.804,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2014Q1,2014-03-31,4.516,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2014Q2,2014-06-30,4.696,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2014Q3,2014-09-30,4.179,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2014Q4,2014-12-31,3.997,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2015Q1,2015-03-31,4.608,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2015Q2,2015-06-30,5.199,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2015Q3,2015-09-30,3.53,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2015Q4,2015-12-31,3.344,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2016Q1,2016-03-31,3.872,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2016Q2,2016-06-30,4.783,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2016Q3,2016-09-30,3.671,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2016Q4,2016-12-31,3.396,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2017Q1,2017-03-31,4.746,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2017Q2,2017-06-30,3.666,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2017Q3,2017-09-30,3.246,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2017Q4,2017-12-31,3.436,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2018Q1,2018-03-31,3.347,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2018Q2,2018-06-30,4.71,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2018Q3,2018-09-30,6.103,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2018Q4,2018-12-31,4.924,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2019Q1,2019-03-31,4.564,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2019Q2,2019-06-30,4.227,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2019Q3,2019-09-30,4.231,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2019Q4,2019-12-31,3.67,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2020Q1,2020-03-31,3.581,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2020Q2,2020-06-30,3.849,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2020Q3,2020-09-30,4.517,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2020Q4,2020-12-31,5.165,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2021Q1,2021-03-31,6.259,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2021Q2,2021-06-30,8.953,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2021Q3,2021-09-30,8.395,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2021Q4,2021-12-31,8.295,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2022Q1,2022-03-31,9.016,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2022Q2,2022-06-30,10.343,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2022Q3,2022-09-30,7.565,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2022Q4,2022-12-31,6.851,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2023Q1,2023-03-31,7.275,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2023Q2,2023-06-30,7.969,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2023Q3,2023-09-30,6.481,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2023Q4,2023-12-31,5.44,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2024Q1,2024-03-31,5.74,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2024Q2,2024-06-30,7.219,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2024Q3,2024-09-30,5.737,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2024Q4,2024-12-31,5.254,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2025Q1,2025-03-31,5.598,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2025Q2,2025-06-30,7.115,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2025Q3,2025-09-30,6.484,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2025Q4,2025-12-31,6.14,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2026Q1,2026-03-31,7.009,actual,curve_approx,0.0719
+S&P 500,Materials,operating,2026Q2,2026-06-30,9.54,actual,printed,0.0719
+S&P 500,Real Estate,operating,2016Q3,2016-09-30,2.281,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2016Q4,2016-12-31,2.555,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2017Q1,2017-03-31,2.233,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2017Q2,2017-06-30,2.44,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2017Q3,2017-09-30,2.246,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2017Q4,2017-12-31,2.289,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2018Q1,2018-03-31,2.232,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2018Q2,2018-06-30,2.32,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2018Q3,2018-09-30,2.335,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2018Q4,2018-12-31,2.38,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2019Q1,2019-03-31,2.366,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2019Q2,2019-06-30,2.434,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2019Q3,2019-09-30,2.478,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2019Q4,2019-12-31,2.559,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2020Q1,2020-03-31,2.275,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2020Q2,2020-06-30,2.009,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2020Q3,2020-09-30,2.117,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2020Q4,2020-12-31,2.208,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2021Q1,2021-03-31,2.337,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2021Q2,2021-06-30,2.778,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2021Q3,2021-09-30,2.818,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2021Q4,2021-12-31,2.617,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2022Q1,2022-03-31,3.177,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2022Q2,2022-06-30,3.253,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2022Q3,2022-09-30,3.096,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2022Q4,2022-12-31,2.303,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2023Q1,2023-03-31,2.816,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2023Q2,2023-06-30,3.062,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2023Q3,2023-09-30,2.852,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2023Q4,2023-12-31,2.74,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2024Q1,2024-03-31,3.002,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2024Q2,2024-06-30,2.977,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2024Q3,2024-09-30,2.603,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2024Q4,2024-12-31,3.241,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2025Q1,2025-03-31,2.781,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2025Q2,2025-06-30,3.071,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2025Q3,2025-09-30,3.19,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2025Q4,2025-12-31,3.419,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2026Q1,2026-03-31,3.368,actual,curve_approx,0.0115
+S&P 500,Real Estate,operating,2026Q2,2026-06-30,3.52,actual,printed,0.0115
+S&P 500,Utilities,operating,2010Q1,2010-03-31,3.301,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2010Q2,2010-06-30,2.843,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2010Q3,2010-09-30,4.261,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2010Q4,2010-12-31,2.424,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2011Q1,2011-03-31,3.498,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2011Q2,2011-06-30,3.19,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2011Q3,2011-09-30,4.358,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2011Q4,2011-12-31,2.44,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2012Q1,2012-03-31,2.971,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2012Q2,2012-06-30,2.88,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2012Q3,2012-09-30,4.069,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2012Q4,2012-12-31,2.679,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2013Q1,2013-03-31,3.047,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2013Q2,2013-06-30,2.845,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2013Q3,2013-09-30,4.088,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2013Q4,2013-12-31,2.466,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2014Q1,2014-03-31,3.682,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2014Q2,2014-06-30,2.865,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2014Q3,2014-09-30,4.264,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2014Q4,2014-12-31,2.774,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2015Q1,2015-03-31,3.766,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2015Q2,2015-06-30,2.998,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2015Q3,2015-09-30,4.263,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2015Q4,2015-12-31,2.642,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2016Q1,2016-03-31,3.639,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2016Q2,2016-06-30,3.17,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2016Q3,2016-09-30,4.836,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2016Q4,2016-12-31,2.808,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2017Q1,2017-03-31,3.698,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2017Q2,2017-06-30,3.755,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2017Q3,2017-09-30,4.635,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2017Q4,2017-12-31,3.154,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2018Q1,2018-03-31,4.379,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2018Q2,2018-06-30,3.633,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2018Q3,2018-09-30,5.154,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2018Q4,2018-12-31,2.718,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2019Q1,2019-03-31,4.106,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2019Q2,2019-06-30,3.446,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2019Q3,2019-09-30,5.2,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2019Q4,2019-12-31,3.194,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2020Q1,2020-03-31,4.313,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2020Q2,2020-06-30,3.636,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2020Q3,2020-09-30,5.214,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2020Q4,2020-12-31,3.127,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2021Q1,2021-03-31,4.253,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2021Q2,2021-06-30,4.13,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2021Q3,2021-09-30,5.781,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2021Q4,2021-12-31,3.105,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2022Q1,2022-03-31,5.322,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2022Q2,2022-06-30,3.98,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2022Q3,2022-09-30,5.454,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2022Q4,2022-12-31,3.042,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2023Q1,2023-03-31,4.225,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2023Q2,2023-06-30,4.025,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2023Q3,2023-09-30,5.809,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2023Q4,2023-12-31,4.169,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2024Q1,2024-03-31,5.489,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2024Q2,2024-06-30,4.653,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2024Q3,2024-09-30,6.602,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2024Q4,2024-12-31,4.547,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2025Q1,2025-03-31,5.719,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2025Q2,2025-06-30,4.593,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2025Q3,2025-09-30,6.958,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2025Q4,2025-12-31,4.527,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2026Q1,2026-03-31,6.874,actual,curve_approx,0.036
+S&P 500,Utilities,operating,2026Q2,2026-06-30,5.05,actual,printed,0.036

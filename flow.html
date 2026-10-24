@@ -354,19 +354,54 @@
           <div id="vol-stale" class="badge stale-badge" style="display:none;">STALE</div>
         </div>
       </div>
-      <div class="row" style="margin-bottom: 12px;">
-        <div class="data-label">Daily Position Change</div>
-        <div class="big-value" id="vol-change-prominent">--</div>
+      <!-- V1 Regime State -->
+      <div style="margin-bottom: 12px;">
+        <div style="font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">V1 Regime State <span style="opacity:0.6">(ρ=0.97 vs S&P ref)</span></div>
+        <div class="row"><span class="data-label">Target Exposure (V1)</span><span class="data-value" id="vol-exposure">--</span></div>
+        <div class="row"><span class="data-label">Smoothed Exposure (V1)</span><span class="data-value" id="vol-actual">--</span></div>
+        <div class="row"><span class="data-label">Regime</span><span class="data-value" id="vol-pressure">--</span></div>
       </div>
-      <div class="row" style="margin-bottom: 16px;">
-        <div class="data-label">Estimated Flow USD</div>
-        <div class="data-value" id="vol-est-flow">--</div>
-      </div>
-      
-      <div style="margin-top: 8px;">
-        <div class="row"><span class="data-label">Target Exposure Today</span><span class="data-value" id="vol-exposure">--</span></div>
-        <div class="row"><span class="data-label">Actual Exposure Today</span><span class="data-value" id="vol-actual">--</span></div>
-        <div class="row"><span class="data-label">Flow Pressure / Regime</span><span class="data-value" id="vol-pressure">--</span></div>
+      <hr style="border: none; border-top: 1px solid var(--border); margin: 8px 0;">
+      <!-- Mechanical Pressure (S&P-style) -->
+      <div>
+        <div style="font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Mechanical Pressure <span style="opacity:0.6">(S&P 10% RC rules)</span></div>
+        <div class="row" style="margin-bottom: 8px;">
+          <div class="data-label">Pressure Direction</div>
+          <div class="big-value" id="mech-pressure-dir">--</div>
+        </div>
+        <div class="row"><span class="data-label">Target Exposure (Mech.)</span><span class="data-value" id="mech-target">--</span></div>
+        <div class="row"><span class="data-label">ΔExposure</span><span class="data-value" id="mech-delta">--</span></div>
+        <div class="row"><span class="data-label">Selected Vol (T-2)</span><span class="data-value" id="mech-vol">--</span></div>
+        <div class="row"><span class="data-label">Extreme Deleveraging</span><span class="data-value" id="mech-extreme">--</span></div>
+        <div id="mech-disclaimer" style="font-size: 10px; color: var(--text3); margin-top: 6px; font-style: italic;">Validated against SPXAV10P (r=0.998). Model-implied pressure proxy. Not actual industry flow.</div>
+        <div style="font-size: 10px; color: #16a34a; background: rgba(22,163,74,0.1); padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 6px;">✓ EXTERNALLY VALIDATED — near-reproduction vs SPXAV10P (r=0.998)</div>
+
+        <!-- Forward Mechanical Pressure Section -->
+        <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--border);">
+          <div style="font-size: 12px; font-weight: 700; color: var(--text1); margin-bottom: 8px;">
+            🔮 FORWARD MECHANICAL PRESSURE
+            <span id="vcf-binding" style="font-size: 10px; font-weight: 500; color: var(--text2); margin-left: 6px;">Binding: --</span>
+          </div>
+          <div id="vcf-transition-banner" style="display:none; font-size: 10px; padding: 3px 8px; margin-bottom: 6px; border-radius: 4px; background: rgba(59,130,246,0.08); color: #2563eb; border: 1px solid rgba(59,130,246,0.2);">⚡ Binding window transition detected</div>
+          <div id="vcf-dominant" style="font-size: 11px; font-weight: 600; margin-bottom: 8px; color: var(--text2);">—</div>
+          <table class="table" style="font-size: 11px;">
+            <thead>
+              <tr>
+                <th style="width:44px;">Horizon</th>
+                <th style="width:56px;">Type</th>
+                <th>Target</th>
+                <th>vs Today</th>
+                <th>Daily Flow</th>
+                <th style="width:80px;">Vol</th>
+                <th style="width:32%;">Today's Roll-Off</th>
+              </tr>
+            </thead>
+            <tbody id="vcf-horizons">
+              <tr><td colspan="7" style="text-align:center; color:var(--text3);">Loading...</td></tr>
+            </tbody>
+          </table>
+          <div id="vcf-disclaimer" style="font-size: 9px; color: var(--text3); margin-top: 4px; font-style: italic;">T+1/T+2: deterministic from known data. T+3/T+5: conditional on zero future SPX returns.</div>
+        </div>
       </div>
     </div>
 
@@ -444,24 +479,76 @@
     <div class="card" id="card-rp">
       <div class="card-header">
         <div>
-          <div class="card-title">🛡️ 风险平价配置与去风险代理</div>
-          <div style="font-size: 12px; color: var(--text2);">Risk-Parity Allocation & De-Risking Proxy</div>
+          <div class="card-title">🛡️ 股债反波动配置</div>
+          <div style="font-size: 12px; color: var(--text2);">Stock-Bond Inverse-Vol Risk Parity</div>
         </div>
         <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
           <div id="rp-asof" class="asof-badge">--</div>
           <div id="rp-stale" class="badge stale-badge" style="display:none;">STALE</div>
         </div>
       </div>
+      <!-- Data Freshness Banner -->
+      <div id="rpm-freshness-banner" style="display:none; background: rgba(251,191,36,0.12); color: #d97706; padding: 6px 10px; border-radius: 4px; font-size: 11px; font-weight: 500; margin-bottom: 10px; border: 1px solid rgba(251,191,36,0.3);">
+      </div>
       <div id="rp-warning" style="display:none; background: var(--red-bg); color: var(--red); padding: 8px; border-radius: 4px; font-size: 13px; font-weight: 600; text-align: center; margin-bottom: 12px; border: 1px solid var(--red);">
         ⚠️ Dual Selloff Risk Active
       </div>
-      <div class="row" style="margin-bottom: 12px;">
-        <div class="data-label">Allocation Shift (5D, pp)</div>
-        <div class="big-value" id="rp-alloc-change">--</div>
+      <!-- V1 Allocation -->
+      <div style="margin-bottom: 12px;">
+        <div style="font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">V1 Allocation Shift</div>
+        <div class="row">
+          <div class="data-label">Allocation Shift (5D, pp)</div>
+          <div class="big-value" id="rp-alloc-change">--</div>
+        </div>
+        <div class="row" style="border-top: 1px solid var(--card-border); padding-top: 8px; margin-top: 8px;">
+          <span class="data-label">Dual Vol Regime</span>
+          <span class="data-value" id="rp-deleverage" style="text-transform: capitalize;">--</span>
+        </div>
       </div>
-      <div class="row" style="border-top: 1px solid var(--card-border); padding-top: 8px; margin-top: 8px;">
-        <span class="data-label">Total De-Risking</span>
-        <span class="data-value" id="rp-deleverage" style="text-transform: capitalize;">--</span>
+      <hr style="border: none; border-top: 1px solid var(--card-border); margin: 8px 0;">
+      <!-- RP Mechanical Pressure -->
+      <div>
+        <div style="font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Mechanical Pressure <span style="opacity:0.6">(2-asset target-vol 10%)</span></div>
+        <div class="row" style="margin-bottom: 8px;">
+          <div class="data-label">Pressure Direction</div>
+          <div class="big-value" id="rpm-pressure-dir">--</div>
+        </div>
+        <div class="row"><span class="data-label">Target Leverage</span><span class="data-value" id="rpm-leverage">--</span></div>
+        <div class="row"><span class="data-label">ΔLeverage (1d)</span><span class="data-value" id="rpm-delta-lev">--</span></div>
+        <div class="row"><span class="data-label">ΔLeverage (5d)</span><span class="data-value" id="rpm-delta-lev5">--</span></div>
+        <div class="row"><span class="data-label">Portfolio Vol (ann.)</span><span class="data-value" id="rpm-portvol">--</span></div>
+        <div class="row"><span class="data-label">Eq Weight / Bond Weight</span><span class="data-value" id="rpm-weights">--</span></div>
+        <div class="row"><span class="data-label">Stock-Bond Correlation</span><span class="data-value" id="rpm-corr">--</span></div>
+        <div class="row"><span class="data-label">Broad Deleveraging</span><span class="data-value" id="rpm-broad-delev">--</span></div>
+        <div id="rpm-data-through" style="font-size: 10px; color: var(--text3); margin-top: 6px;"></div>
+        <div style="font-size: 10px; color: var(--text3); margin-top: 4px; font-style: italic;">2-asset proxy (SPX + DGS10). Does not represent actual RP fund positions or AUM.</div>
+        <div style="font-size: 10px; color: #d97706; background: rgba(217,119,6,0.1); padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 6px;">○ EXTERNAL REGIME SUPPORTED — vs RPAR (r=0.77)</div>
+      </div>
+      <!-- RP Forward Mechanical Pressure -->
+      <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--border);">
+        <div style="font-size: 12px; font-weight: 700; color: var(--text1); margin-bottom: 8px;">
+          🔮 FORWARD DECAY PATH
+          <span id="rpf-model-date" style="font-size: 10px; font-weight: 500; color: var(--text2); margin-left: 6px;">Model: --</span>
+        </div>
+        <div id="rpf-dominant" style="font-size: 11px; font-weight: 600; margin-bottom: 8px; color: var(--text2);">—</div>
+        <table class="table" style="font-size: 11px;">
+          <thead>
+            <tr>
+              <th style="width:44px;">Horizon</th>
+              <th style="width:60px;">Type</th>
+              <th>Leverage</th>
+              <th>vs Model</th>
+              <th>Daily ΔLev / Realloc</th>
+              <th style="width:70px;">Port Vol</th>
+              <th style="width:70px;">Corr</th>
+              <th style="width:26%;">Roll-Off</th>
+            </tr>
+          </thead>
+          <tbody id="rpf-horizons">
+            <tr><td colspan="8" style="text-align:center; color:var(--text3);">Loading...</td></tr>
+          </tbody>
+        </table>
+        <div style="font-size: 9px; color: var(--text3); margin-top: 4px; font-style: italic;">Zero-shock decay path: equity return = 0, yield change = 0. NOT a market forecast.</div>
       </div>
     </div>
 
@@ -718,16 +805,27 @@
              };
            }
            if (mech === 'volControl') {
-             const gap = data.volControl.remainingExposureGap;
-             const gapDir = gap != null ? (gap > 0 ? 'addition' : 'reduction') : '';
-             const gapAbs = data.volControl.remainingExposureGap != null ? Math.abs(data.volControl.remainingExposureGap * 400e9) : null;
-             return {
-               icon: dirIcon(data.volControl.flowPressure),
-               label: data.volControl.flowPressure === 'selling' ? 'Vol-control reducing exposure' : 'Vol-control increasing exposure',
-               detail: `Latest daily adjustment: ${data.volControl.estimatedDailyFlowUsd != null ? formatUsd(data.volControl.estimatedDailyFlowUsd) : '—'}. Remaining model exposure gap: ~${gapAbs != null ? formatUsdAbs(gapAbs) : '—'} of potential ${gapDir} if target remains unchanged.`,
-               conditional: `Execution path: decaying, conditional on realized volatility`
-             };
-           }
+              // Use mechanical pressure if available, fall back to V1 regime
+              const mech_p = data.vcMechanicalPressure;
+              if (mech_p && mech_p.status === 'ok') {
+                const mechDir = mech_p.pressureDirection;
+                const mechDelta = mech_p.deltaExposure;
+                const mechDeltaStr = mechDelta != null ? ((mechDelta > 0 ? '+' : '') + formatFiniteNumber(mechDelta * 100, 2) + '%') : '—';
+                return {
+                  icon: dirIcon(mechDir),
+                  label: mechDir === 'selling' ? 'Vol-control mechanical: reducing exposure' : mechDir === 'buying' ? 'Vol-control mechanical: increasing exposure' : 'Vol-control mechanical: neutral',
+                  detail: `ΔExposure: ${mechDeltaStr}. Target: ${formatFiniteNumber(mech_p.targetExposure * 100, 1)}%. Vol(T-2): ${formatFiniteNumber(mech_p.selectedVol, 1)}%.${mech_p.extremeDeleveraging ? ' ⚠️ EXTREME DELEVERAGING' : ''}`,
+                  conditional: 'S&P RC 10% reference mechanics. Model-implied, not actual industry flow.'
+                };
+              }
+              // Fallback to V1 regime state (no dollar amounts)
+              return {
+                icon: dirIcon(data.volControl.flowPressure),
+                label: data.volControl.flowPressure === 'selling' ? 'Vol-control reducing exposure' : 'Vol-control increasing exposure',
+                detail: `Regime: ${formatText(data.volControl.flowPressure)}. V1 exposure: ${data.volControl.actualExposureToday != null ? formatFiniteNumber(data.volControl.actualExposureToday * 100, 1) + '%' : '—'}`,
+                conditional: 'V1 regime indicator. Dollar estimates removed (unvalidated).'
+              };
+            }
            if (mech === 'ctaTrend') {
              return { icon: dirIcon(data.ctaTrend.flowPressure), label: 'CTA trend-following adjustment', detail: '', conditional: 'Manager-dependent timing' };
            }
@@ -830,24 +928,7 @@
       if(!data) return;
       updateFreshness('vol', data, viewState, globalDate);
       
-      const change = data?.dailyPositionChange;
-      const changeEl = document.getElementById('vol-change-prominent');
-      changeEl.textContent = change != null ? ((change>0?'+':'') + formatFiniteNumber(change * 100, 2) + '%') : '—';
-      changeEl.className = 'big-value ' + colorize(change);
-
-      let flowStr = '—';
-      if(data?.estimatedDailyFlowUsd != null) {
-        flowStr = formatUsd(data.estimatedDailyFlowUsd);
-        if(data?.estimatedFlowRange?.low != null && data?.estimatedFlowRange?.high != null) {
-          const lo = Math.min(data.estimatedFlowRange.low, data.estimatedFlowRange.high);
-          const hi = Math.max(data.estimatedFlowRange.low, data.estimatedFlowRange.high);
-          flowStr += ` (${formatUsd(lo)} to ${formatUsd(hi)})`;
-        }
-      }
-      const flowEl = document.getElementById('vol-est-flow');
-      flowEl.textContent = flowStr;
-      flowEl.className = 'data-value ' + colorize(data?.estimatedDailyFlowUsd);
-      
+      // V1 Regime State
       const tgt = data?.targetExposureToday;
       document.getElementById('vol-exposure').textContent = tgt != null ? formatFiniteNumber(tgt * 100, 1) + '%' : '—';
       
@@ -856,7 +937,154 @@
       
       const p = data?.flowPressure || '—';
       document.getElementById('vol-pressure').textContent = formatText(p);
+    }
 
+    function renderVcMechanicalPressure(data) {
+      if(!data || data.status !== 'ok') {
+        document.getElementById('mech-pressure-dir').textContent = '—';
+        document.getElementById('mech-target').textContent = '—';
+        document.getElementById('mech-delta').textContent = '—';
+        document.getElementById('mech-vol').textContent = '—';
+        document.getElementById('mech-extreme').textContent = '—';
+        return;
+      }
+
+      const dirEl = document.getElementById('mech-pressure-dir');
+      const dir = data.pressureDirection || 'neutral';
+      const dirLabel = dir === 'buying' ? '🟢 Buying' : dir === 'selling' ? '🔴 Selling' : '⚪ Neutral';
+      const magStr = data.pressureMagnitudePct != null ? ` (${formatFiniteNumber(data.pressureMagnitudePct, 2)}%)` : '';
+      dirEl.textContent = dirLabel + magStr;
+      dirEl.className = 'big-value ' + (dir === 'buying' ? 'positive' : dir === 'selling' ? 'negative' : '');
+
+      document.getElementById('mech-target').textContent = data.targetExposure != null ? formatFiniteNumber(data.targetExposure * 100, 1) + '%' : '—';
+      
+      const deltaEl = document.getElementById('mech-delta');
+      if (data.deltaExposure != null) {
+        deltaEl.textContent = (data.deltaExposure > 0 ? '+' : '') + formatFiniteNumber(data.deltaExposure * 100, 2) + '%';
+        deltaEl.className = 'data-value ' + colorize(data.deltaExposure);
+      } else {
+        deltaEl.textContent = '—';
+      }
+
+      document.getElementById('mech-vol').textContent = data.selectedVol != null ? formatFiniteNumber(data.selectedVol, 1) + '%' : '—';
+      
+      const extEl = document.getElementById('mech-extreme');
+      if (data.extremeDeleveraging) {
+        extEl.textContent = '⚠️ YES';
+        extEl.className = 'data-value negative';
+      } else {
+        extEl.textContent = 'No';
+        extEl.className = 'data-value';
+      }
+    }
+
+    function renderVcForwardPressure(data) {
+      const tbody = document.getElementById('vcf-horizons');
+      const bindingEl = document.getElementById('vcf-binding');
+      const dominantEl = document.getElementById('vcf-dominant');
+      const transitionBanner = document.getElementById('vcf-transition-banner');
+
+      if (!data || data.status !== 'ok' || !data.horizons || !data.horizons.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--text3);">Unavailable</td></tr>';
+        bindingEl.textContent = 'Binding: \u2014';
+        dominantEl.textContent = '\u2014';
+        transitionBanner.style.display = 'none';
+        return;
+      }
+
+      // Binding window
+      bindingEl.textContent = 'Binding: ' + (data.currentBindingWindow || '\u2014');
+
+      // Binding window transition
+      if (data.bindingWindowTransition) {
+        var bt = data.bindingWindowTransition;
+        transitionBanner.textContent = '\u26A1 Binding window shifts ' + bt.from + ' \u2192 ' + bt.to + ' at ' + bt.transitAt;
+        transitionBanner.style.display = 'block';
+      } else {
+        transitionBanner.style.display = 'none';
+      }
+
+      // Dominant signal (now based on daily pressure, not cumulative)
+      var sig = data.dominantForwardSignal || '';
+      var sigLabel = '\u26AA Neutral under zero-return path';
+      var sigClass = '';
+      if (sig.indexOf('buying') >= 0) { sigLabel = '\uD83D\uDFE2 Net daily mechanical buying under zero-return path'; sigClass = 'positive'; }
+      else if (sig.indexOf('selling') >= 0) { sigLabel = '\uD83D\uDD34 Net daily mechanical selling under zero-return path'; sigClass = 'negative'; }
+      dominantEl.innerHTML = '<span class="' + sigClass + '">' + sigLabel + '</span>';
+
+      // Horizon rows
+      var rowsHtml = '';
+      for (var idx = 0; idx < data.horizons.length; idx++) {
+        var h = data.horizons[idx];
+        if (h.status === 'insufficient_data') {
+          rowsHtml += '<tr><td>' + (h.label || 'T+' + h.horizon) + '</td><td colspan="6" style="color:var(--text3);">Insufficient data</td></tr>';
+          continue;
+        }
+
+        // Certainty badge
+        var typeBadge = h.certaintyLevel === 'LOCKED'
+          ? '<span style="font-size:9px; padding:1px 5px; border-radius:3px; background:rgba(22,163,74,0.12); color:#16a34a; font-weight:600;">LOCKED</span>'
+          : '<span style="font-size:9px; padding:1px 5px; border-radius:3px; background:rgba(59,130,246,0.12); color:#2563eb; font-weight:600;">SCENARIO</span>';
+
+        // Target exposure
+        var targetStr = h.targetExposure != null ? formatFiniteNumber(h.targetExposure * 100, 1) + '%' : '\u2014';
+
+        // Cumulative vs today (position path)
+        var cumDelta = h.deltaFromCurrentPct;
+        var cumStr = '\u2014';
+        var cumClass = '';
+        if (cumDelta != null) {
+          cumStr = (cumDelta > 0 ? '+' : '') + formatFiniteNumber(cumDelta, 2) + 'pp';
+          if (cumDelta > 0.5) cumClass = 'positive';
+          else if (cumDelta < -0.5) cumClass = 'negative';
+        }
+
+        // Daily mechanical flow (THE key signal)
+        var dailyDir = h.dailyPressureDirection || 'neutral';
+        var dailyDelta = h.dailyDeltaPct;
+        var dailyIcon = dailyDir === 'buying' ? '\uD83D\uDFE2' : dailyDir === 'selling' ? '\uD83D\uDD34' : '\u26AA';
+        var dailyStr = '\u26AA Flat';
+        var dailyClass = '';
+        if (dailyDelta != null && dailyDir !== 'neutral') {
+          dailyStr = dailyIcon + ' ' + (dailyDelta > 0 ? '+' : '') + formatFiniteNumber(dailyDelta, 2) + 'pp';
+          if (dailyDir === 'buying') dailyClass = 'positive';
+          else if (dailyDir === 'selling') dailyClass = 'negative';
+        }
+
+        // Vol with direction
+        var volStr = '\u2014';
+        if (h.selectedVol != null) {
+          var volArrow = '';
+          var volColor = 'var(--text2)';
+          if (h.volDirection === 'falling') { volArrow = ' \u2193'; volColor = '#16a34a'; }
+          else if (h.volDirection === 'rising') { volArrow = ' \u2191'; volColor = '#dc2626'; }
+          volStr = '<span style="color:' + volColor + ';">' + formatFiniteNumber(h.prevSelectedVol, 1) + '\u2192' + formatFiniteNumber(h.selectedVol, 1) + '%' + volArrow + '</span>';
+        }
+
+        // Horizon-specific roll-off (what drops off on THIS day)
+        var rollOffStr = '<span style="color:var(--text3);">\u2014</span>';
+        if (h.primaryRollOff) {
+          var ro = h.primaryRollOff;
+          var retStr = (ro.returnPct > 0 ? '+' : '') + formatFiniteNumber(ro.returnPct, 2) + '%';
+          var retColor = Math.abs(ro.returnPct) > 1 ? (ro.returnPct < 0 ? '#dc2626' : '#16a34a') : 'var(--text2)';
+          var dateStr = ro.date || '';
+          rollOffStr = '<span style="color:' + retColor + '; font-weight:600;">' + retStr + '</span> <span style="color:var(--text3);">\xB7 ' + dateStr + '</span>';
+          if (h.allDroppedReturns && h.allDroppedReturns.length > 1) {
+            rollOffStr += ' <span style="font-size:9px; color:var(--text3);">+' + (h.allDroppedReturns.length - 1) + ' more</span>';
+          }
+        }
+
+        rowsHtml += '<tr>'
+          + '<td style="font-weight:600;">' + h.label + '</td>'
+          + '<td>' + typeBadge + '</td>'
+          + '<td style="font-weight:600;">' + targetStr + '</td>'
+          + '<td class="' + cumClass + '">' + cumStr + '</td>'
+          + '<td class="' + dailyClass + '" style="font-weight:600;">' + dailyStr + '</td>'
+          + '<td style="font-size:10px;">' + volStr + '</td>'
+          + '<td style="font-size:10px;">' + rollOffStr + '</td>'
+          + '</tr>';
+      }
+      tbody.innerHTML = rowsHtml;
     }
 
     function renderLetf(data, viewState, globalDate) {
@@ -955,9 +1183,284 @@
       }
 
       const delEl = document.getElementById('rp-deleverage');
-      const dp = data?.deleveragingPressure || 'none';
-      delEl.textContent = dp === 'none' ? 'None detected' : formatText(dp);
-      delEl.style.color = (dp === 'broad_deleveraging') ? 'var(--red)' : (dp === 'moderate_deleveraging' ? 'var(--amber)' : 'var(--text2)');
+      const dp = data?.dualVolatilityRegime || 'none';
+      delEl.textContent = dp === 'none' ? 'Normal' : dp === 'high_dual_vol' ? 'High Dual Vol' : dp === 'elevated_single_vol' ? 'Elevated Single Vol' : formatText(dp);
+      delEl.style.color = (dp === 'high_dual_vol') ? 'var(--red)' : (dp === 'elevated_single_vol' ? 'var(--amber)' : 'var(--text2)');
+    }
+
+    function renderRpMechanicalPressure(data) {
+      const ids = ['rpm-pressure-dir','rpm-leverage','rpm-delta-lev','rpm-delta-lev5','rpm-portvol','rpm-weights','rpm-corr','rpm-broad-delev'];
+      const banner = document.getElementById('rpm-freshness-banner');
+      const dataThrough = document.getElementById('rpm-data-through');
+
+      if (!data || data.status !== 'ok') {
+        ids.forEach(id => { const el = document.getElementById(id); if(el) el.textContent = '—'; });
+        if (banner) banner.style.display = 'none';
+        if (dataThrough) dataThrough.textContent = '';
+        return;
+      }
+
+      // --- Data Freshness / Staleness ---
+      const fresh = data.dataFreshness;
+      const isStale = fresh?.isStale === true;
+      const lagDays = fresh?.lagTradingDays;
+      const spxDate = fresh?.spxLastDate;
+      const bondDate = fresh?.dgs10LastDate;
+      const latestDataDate = (spxDate && bondDate) ? (spxDate > bondDate ? bondDate : spxDate) : (spxDate || bondDate);
+
+      if (banner) {
+        if (isStale && lagDays != null) {
+          banner.style.display = 'block';
+          banner.innerHTML = `⚠️ STALE DATA — Model data through: <b>${latestDataDate || '?'}</b> · ${lagDays} trading sessions behind`;
+        } else {
+          banner.style.display = 'none';
+        }
+      }
+      if (dataThrough) {
+        if (latestDataDate) {
+          dataThrough.textContent = `Model data through: ${latestDataDate}` + (lagDays != null ? ` (${lagDays} trading day${lagDays !== 1 ? 's' : ''} lag)` : '');
+        } else {
+          dataThrough.textContent = '';
+        }
+      }
+
+      // --- Stale-aware label prefix ---
+      const stalePrefix = isStale ? 'Last valid signal: ' : '';
+
+      // --- Pressure Direction ---
+      const dirEl = document.getElementById('rpm-pressure-dir');
+      const dir1d = data.pressureDirection1d || 'neutral';
+      let dirLabel;
+      if (dir1d === 'leveraging') dirLabel = '🟢 Leveraging';
+      else if (dir1d === 'deleveraging') dirLabel = '🔴 Deleveraging';
+      else dirLabel = '⚪ Neutral';
+      dirEl.textContent = stalePrefix + dirLabel;
+      dirEl.className = 'big-value ' + (isStale ? '' : (dir1d === 'leveraging' ? 'positive' : dir1d === 'deleveraging' ? 'negative' : ''));
+      dirEl.style.opacity = isStale ? '0.6' : '1';
+
+      // --- Target Leverage ---
+      const levEl = document.getElementById('rpm-leverage');
+      levEl.textContent = data.targetLeverage != null ? formatFiniteNumber(data.targetLeverage, 2) + 'x' : '—';
+
+      // --- Delta Leverage 1d ---
+      const dLevEl = document.getElementById('rpm-delta-lev');
+      if (data.leverageChange1d != null) {
+        dLevEl.textContent = (data.leverageChange1d > 0 ? '+' : '') + formatFiniteNumber(data.leverageChange1d, 3);
+        dLevEl.className = 'data-value ' + (isStale ? '' : colorize(data.leverageChange1d));
+      } else {
+        dLevEl.textContent = '—';
+        dLevEl.className = 'data-value';
+      }
+
+      // --- Delta Leverage 5d ---
+      const dLev5El = document.getElementById('rpm-delta-lev5');
+      if (data.leverageChange5d != null) {
+        dLev5El.textContent = (data.leverageChange5d > 0 ? '+' : '') + formatFiniteNumber(data.leverageChange5d, 3);
+        dLev5El.className = 'data-value ' + (isStale ? '' : colorize(data.leverageChange5d));
+      } else {
+        dLev5El.textContent = '—';
+        dLev5El.className = 'data-value';
+      }
+
+      // --- Portfolio Vol ---
+      document.getElementById('rpm-portvol').textContent = data.portfolioVol != null ? formatFiniteNumber(data.portfolioVol * 100, 1) + '%' : '—';
+
+      // --- Weights ---
+      document.getElementById('rpm-weights').textContent =
+        (data.equityWeight != null ? formatFiniteNumber(data.equityWeight * 100, 0) + '% / ' : '— / ') +
+        (data.bondWeight != null ? formatFiniteNumber(data.bondWeight * 100, 0) + '%' : '—');
+
+      // --- Stock-Bond Correlation (graduated coloring) ---
+      // <0 = green (favorable), 0-0.1 = neutral, 0.1-0.3 = amber, >0.3 = red/warning
+      const corrEl = document.getElementById('rpm-corr');
+      if (data.stockBondCorrelation != null) {
+        const c = data.stockBondCorrelation;
+        corrEl.textContent = formatFiniteNumber(c, 2);
+        if (isStale) {
+          corrEl.style.color = 'var(--text2)';
+        } else if (c > 0.3) {
+          corrEl.style.color = 'var(--red)';
+          corrEl.title = 'High positive corr — RP diversification severely degraded';
+        } else if (c > 0.1) {
+          corrEl.style.color = 'var(--amber)';
+          corrEl.title = 'Moderate positive corr — RP diversification reduced';
+        } else if (c >= 0) {
+          corrEl.style.color = 'var(--text2)';
+          corrEl.title = 'Near-zero corr — neutral for RP diversification';
+        } else {
+          corrEl.style.color = 'var(--green)';
+          corrEl.title = 'Negative corr — RP diversification benefit active';
+        }
+      } else {
+        corrEl.textContent = '—';
+        corrEl.style.color = 'var(--text2)';
+      }
+
+      // --- Broad Deleveraging (stale-aware) ---
+      const bdEl = document.getElementById('rpm-broad-delev');
+      if (data.broadDeleveraging1d) {
+        bdEl.textContent = isStale ? 'Last valid: YES' : '⚠️ YES';
+        bdEl.className = 'data-value ' + (isStale ? '' : 'negative');
+      } else {
+        bdEl.textContent = 'No';
+        bdEl.className = 'data-value';
+      }
+
+      // --- Dim all data values when stale ---
+      if (isStale) {
+        const staleIds = ['rpm-leverage','rpm-delta-lev','rpm-delta-lev5','rpm-portvol','rpm-weights','rpm-corr','rpm-broad-delev'];
+        staleIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.opacity = '0.6';
+        });
+      } else {
+        const freshIds = ['rpm-leverage','rpm-delta-lev','rpm-delta-lev5','rpm-portvol','rpm-weights','rpm-corr','rpm-broad-delev'];
+        freshIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.opacity = '1';
+        });
+      }
+    }
+
+    function renderRpForwardPressure(data) {
+      var tbody = document.getElementById('rpf-horizons');
+      var modelEl = document.getElementById('rpf-model-date');
+      var dominantEl = document.getElementById('rpf-dominant');
+
+      if (!data || data.status !== 'ok' || !data.horizons || !data.horizons.length) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:var(--text3);">Unavailable</td></tr>';
+        modelEl.textContent = 'Model: \u2014';
+        dominantEl.textContent = '\u2014';
+        return;
+      }
+
+      modelEl.textContent = 'Model: ' + (data.modelDate || '\u2014');
+
+      // Dominant signal
+      var sig = data.dominantForwardSignal || '';
+      var sigLabel = '\u26AA Neutral under zero-return path';
+      var sigClass = '';
+      if (sig.indexOf('leveraging') >= 0 && sig.indexOf('deleveraging') < 0) { sigLabel = '\uD83D\uDFE2 Net mechanical leveraging under zero-shock path'; sigClass = 'positive'; }
+      else if (sig.indexOf('deleveraging') >= 0) { sigLabel = '\uD83D\uDD34 Net mechanical deleveraging under zero-shock path'; sigClass = 'negative'; }
+      dominantEl.innerHTML = '<span class="' + sigClass + '">' + sigLabel + '</span>';
+
+      var rowsHtml = '';
+      for (var idx = 0; idx < data.horizons.length; idx++) {
+        var h = data.horizons[idx];
+        if (h.status === 'insufficient_data') {
+          rowsHtml += '<tr><td>' + (h.label || 'T+' + h.horizon) + '</td><td colspan="7" style="color:var(--text3);">Insufficient data</td></tr>';
+          continue;
+        }
+
+        // Type badge — never LOCKED
+        var typeBadge;
+        if (h.certaintyLevel === 'PARTIAL_SCENARIO') {
+          typeBadge = '<span style="font-size:9px; padding:1px 5px; border-radius:3px; background:rgba(251,191,36,0.12); color:#d97706; font-weight:600; display:inline-block; line-height:1.2;">PARTIAL<br><span style="font-size:8px;">(RECON)</span></span>';
+        } else if (h.certaintyLevel === 'OBSERVED') {
+          typeBadge = '<span style="font-size:9px; padding:1px 5px; border-radius:3px; background:rgba(22,163,74,0.12); color:#16a34a; font-weight:600;">OBSERVED</span>';
+        } else {
+          typeBadge = '<span style="font-size:9px; padding:1px 5px; border-radius:3px; background:rgba(59,130,246,0.12); color:#2563eb; font-weight:600;">SCENARIO</span>';
+        }
+
+        // Leverage
+        var levStr = h.targetLeverage != null ? formatFiniteNumber(h.targetLeverage, 2) + 'x' : '\u2014';
+
+        // Cumulative vs today
+        var cumLev = h.leverageDeltaFromCurrent;
+        var cumStr = '\u2014';
+        var cumClass = '';
+        if (cumLev != null) {
+          cumStr = (cumLev > 0 ? '+' : '') + formatFiniteNumber(cumLev, 3);
+          if (cumLev > 0.01) cumClass = 'positive';
+          else if (cumLev < -0.01) cumClass = 'negative';
+        }
+
+        // Daily flow
+        var dailyDir = h.dailyPressureDirection || 'neutral';
+        var dailyLev = h.dailyLeverageDelta;
+        var dailyStr = '\u2014';
+        var dailyClass = '';
+        if (dailyLev != null) {
+          var dLevStr = (dailyLev > 0 ? '+' : '') + formatFiniteNumber(dailyLev, 3);
+          if (dailyDir === 'leveraging') { dailyClass = 'positive'; dailyStr = '\uD83D\uDFE2 ' + dLevStr; }
+          else if (dailyDir === 'deleveraging') { dailyClass = 'negative'; dailyStr = '\uD83D\uDD34 ' + dLevStr; }
+          else { dailyStr = '\u26AA ' + dLevStr; }
+          
+          if (h.dailyEqExposureDelta != null && h.dailyBondExposureDelta != null) {
+            var eqd = (h.dailyEqExposureDelta * 100 > 0 ? '+' : '') + formatFiniteNumber(h.dailyEqExposureDelta * 100, 1) + 'pp';
+            var bdd = (h.dailyBondExposureDelta * 100 > 0 ? '+' : '') + formatFiniteNumber(h.dailyBondExposureDelta * 100, 1) + 'pp';
+            dailyStr += '<br><span style="font-size:9px; color:var(--text3); font-weight:normal;">Eq ' + eqd + ' / Bd ' + bdd + '</span>';
+          }
+        }
+
+        // Portfolio vol
+        var volStr = '\u2014';
+        if (h.portfolioVol != null) {
+          var pvPrev = h.prevPortfolioVol != null ? formatFiniteNumber(h.prevPortfolioVol * 100, 1) : '?';
+          var pvCurr = formatFiniteNumber(h.portfolioVol * 100, 1);
+          var volArrow = '';
+          var volColor = 'var(--text2)';
+          if (h.portfolioVolDirection === 'falling') { volArrow = '\u2193'; volColor = '#16a34a'; }
+          else if (h.portfolioVolDirection === 'rising') { volArrow = '\u2191'; volColor = '#dc2626'; }
+          volStr = '<span style="color:' + volColor + ';">' + pvPrev + '\u2192' + pvCurr + '%' + (volArrow ? ' ' + volArrow : '') + '</span>';
+        }
+
+        // Correlation
+        var corrStr = '\u2014';
+        if (h.stockBondCorrelation != null) {
+          var cPrev = h.prevCorrelation != null ? formatFiniteNumber(h.prevCorrelation, 2) : '?';
+          var cCurr = formatFiniteNumber(h.stockBondCorrelation, 2);
+          var corrColor = 'var(--text2)';
+          if (h.correlationDirection === 'increasing') corrColor = '#dc2626';
+          else if (h.correlationDirection === 'decreasing') corrColor = '#16a34a';
+          corrStr = '<span style="color:' + corrColor + ';">' + cPrev + '\u2192' + cCurr + '</span>';
+          if (h.diversificationStatus === 'deteriorating') corrStr += ' <span style="font-size:8px; color:#dc2626;">\u26A0</span>';
+        }
+
+        // Roll-off (two layers)
+        var rollStr = '';
+        var ar = h.allocRollOff || {};
+        var rr = h.riskRollOff || {};
+        if (ar.primaryEq) {
+          var eqRet = (ar.primaryEq.returnPct > 0 ? '+' : '') + formatFiniteNumber(ar.primaryEq.returnPct, 1) + '%';
+          rollStr += '<span style="color:var(--text3);">20D:</span> eq ' + eqRet;
+          if (ar.primaryBond) {
+            var bdRet = (ar.primaryBond.returnPct > 0 ? '+' : '') + formatFiniteNumber(ar.primaryBond.returnPct, 1) + '%';
+            rollStr += ' bd ' + bdRet;
+          }
+        }
+        if (rr.primaryEq) {
+          if (rollStr) rollStr += '<br>';
+          var eqR = (rr.primaryEq.returnPct > 0 ? '+' : '') + formatFiniteNumber(rr.primaryEq.returnPct, 1) + '%';
+          rollStr += '<span style="color:var(--text3);">60D:</span> eq ' + eqR;
+          if (rr.primaryBond) {
+            var bdR = (rr.primaryBond.returnPct > 0 ? '+' : '') + formatFiniteNumber(rr.primaryBond.returnPct, 1) + '%';
+            rollStr += ' bd ' + bdR;
+          }
+        }
+        if (!rollStr) rollStr = '<span style="color:var(--text3);">\u2014</span>';
+
+        var horizonLabel = h.label;
+        if (h.targetDate) {
+          var dParts = h.targetDate.split('-');
+          if (dParts.length === 3) {
+            var mth = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(dParts[1],10)-1];
+            horizonLabel += ' \u00B7 <span style="font-weight:normal; font-size:10px; color:var(--text2);">' + mth + ' ' + parseInt(dParts[2],10) + '</span>';
+          }
+        }
+
+        rowsHtml += '<tr>'
+          + '<td style="font-weight:600;">' + horizonLabel + '</td>'
+          + '<td>' + typeBadge + '</td>'
+          + '<td style="font-weight:600;">' + levStr + '</td>'
+          + '<td class="' + cumClass + '">' + cumStr + '</td>'
+          + '<td class="' + dailyClass + '" style="font-weight:600;">' + dailyStr + '</td>'
+          + '<td style="font-size:10px;">' + volStr + '</td>'
+          + '<td style="font-size:10px;">' + corrStr + '</td>'
+          + '<td style="font-size:9px;">' + rollStr + '</td>'
+          + '</tr>';
+      }
+      tbody.innerHTML = rowsHtml;
     }
 
     function renderMonthEnd(data, viewState, globalDate) {
@@ -1074,9 +1577,13 @@
 
       renderSummary(data, viewState);
       renderVolControl(data.volControl, viewState, globalAsOfDate);
+      renderVcMechanicalPressure(data.vcMechanicalPressure);
+      renderVcForwardPressure(data.vcForwardPressure);
       renderLetf(data.leveragedEtf, viewState, globalAsOfDate);
       renderCta(data.ctaTrend, viewState, globalAsOfDate);
       renderRiskParity(data.riskParity, viewState, globalAsOfDate);
+      renderRpMechanicalPressure(data.rpMechanicalPressure);
+      renderRpForwardPressure(data.rpForwardPressure);
       renderMonthEnd(data.pensionRebalance, viewState, globalAsOfDate);
       renderDeleveraging(data.stressConditions, viewState, globalAsOfDate);
     }
@@ -1091,13 +1598,18 @@
         const res = await fetch('/api/flows', { signal: currentAbortController.signal });
         if(!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        if (data.schemaVersion !== 2) throw new Error('Unsupported flow API schema');
-        const { volControl, leveragedEtf, ctaTrend, riskParity, pensionRebalance, stressConditions } = data.modules || {};
+        if (data.schemaVersion !== 3) {
+          throw new Error(`Unsupported flow API schema: expected 3, got ${data.schemaVersion}`);
+        }
+        const { volControl, leveragedEtf, ctaTrend, riskParity, pensionRebalance, stressConditions, vcMechanicalPressure, vcForwardPressure, rpMechanicalPressure } = data.modules || {};
         // attach back to data for legacy functions
         data.volControl = volControl;
         data.leveragedEtf = leveragedEtf;
         data.ctaTrend = ctaTrend;
         data.riskParity = riskParity;
+        data.vcMechanicalPressure = vcMechanicalPressure;
+        data.vcForwardPressure = vcForwardPressure;
+        data.rpMechanicalPressure = rpMechanicalPressure;
         data.pensionRebalance = pensionRebalance;
         data.stressConditions = stressConditions;
 

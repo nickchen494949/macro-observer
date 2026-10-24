@@ -1,0 +1,24 @@
+{
+  "benchmark": "SPXAV10P",
+  "model": "VC_Mechanical_Pressure",
+  "period": {
+    "start": "2016-10-06",
+    "end": "2026-08-07",
+    "years": 9.834360027378509
+  },
+  "observations": 2471,
+  "dailyPearsonCorrelation": 0.927811,
+  "dailySpearmanCorrelation": 0.996634,
+  "trackingErrorAnnualized": 3.97,
+  "meanAbsDailyDiffBp": 2.63,
+  "directionAgreementPct": 99.6,
+  "synthAnnualizedReturn": 8.64,
+  "benchAnnualizedReturn": 9.36,
+  "synthRealizedVol": 9.73,
+  "benchRealizedVol": 10.64,
+  "medianRolling60dTE": 0.41,
+  "p95Rolling60dTE": 1.69,
+  "verdict": "C. MECHANISM_ONLY",
+  "verdictReason": "Same mechanism (vol-targeting) but significant differences in implementation details.",
+  "timestamp": "2026-08-09T16:19:58.685Z"
+}

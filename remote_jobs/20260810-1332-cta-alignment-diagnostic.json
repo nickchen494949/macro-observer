@@ -1,0 +1,8 @@
+{
+  "id": "20260810-1332-cta-alignment-diagnostic",
+  "enabled": true,
+  "action": "node_script",
+  "path": "test/cta_alignment_diagnostic.js",
+  "args": [],
+  "timeoutMs": 60000
+}

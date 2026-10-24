@@ -1,0 +1,8 @@
+# Raw data — too large for git (2.9GB ZIPs, 1.5GB+ SQLite)
+data/
+
+# Python env
+.venv/
+__pycache__/
+*.pyc
+*.pyo

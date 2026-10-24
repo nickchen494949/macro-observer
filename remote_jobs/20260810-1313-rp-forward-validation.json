@@ -1,0 +1,7 @@
+{
+  "id": "20260810-1313-rp-forward-validation",
+  "enabled": true,
+  "action": "node_script",
+  "path": "test/rp_forward_validation.js",
+  "timeoutMs": 60000
+}

@@ -1,0 +1,16 @@
+{
+  "runnerVersion": 1,
+  "jobId": "20260810-1404-yahoo-object-compat-fix",
+  "action": "node_script",
+  "status": "passed",
+  "exitCode": 0,
+  "signal": null,
+  "error": "",
+  "stdout": "[agent/phase4-composite-validation 80baf65] Restore numeric Yahoo compatibility for macro dashboard\n 1 file changed, 41 insertions(+), 10 deletions(-)\nPASS: Yahoo rich-object compatibility applied; dashboard restart requested.\n",
+  "stderr": "To https://github.com/nickchen494949/macro-observer.git\n   19734c9..80baf65  agent/phase4-composite-validation -> agent/phase4-composite-validation\n",
+  "startedAt": "2026-08-10T06:07:19.699Z",
+  "finishedAt": "2026-08-10T06:07:22.180Z",
+  "durationMs": 2480,
+  "localHeadBefore": "19734c997a4a",
+  "codeWorktreeStatusAfter": ""
+}
