@@ -171,13 +171,16 @@ Schedule on NYSE trading days (New York time), all via Python:
 |---|---|---|
 | 04:00–09:30 pre-market | index futures `ES/NQ/YM/RTY=F` via one spark request every 15 min (index rows tagged `期货≈`); ETF pre-market quotes (`fetch_yahoo_live.py`, 1 per symbol, 5–10s apart) once per hour | ≈125 |
 | 09:30–16:05 regular | all ETFs + indices via `fetch_yahoo_spark.py` (2 requests) every 10 min, tagged `盘中` | ≈78 |
-| 16:05–20:00 | one final spark run, tagged `收盘` | 2 |
+| 16:20–20:00 | one final spark run, tagged `收盘` (after VIX settles at 16:15) | 2 |
+
+- **After the daily batch stores the session**, `/api/premarket` derives the column from the same daily data, so after the close and on weekends **实时 % = 1D Δ exactly** (avoids VIX settlement, futures settlement-vs-last-trade and contract-roll differences).
+- **Daily batch schedule:** Yahoo once per completed NYSE session, at/after **18:15 ET** (≈06:15 / 07:15 Beijing); FRED once per New York calendar day. State in `data/update_state.json`; restarts only catch up what is missing (no repeated Yahoo batches). Replaces the old "every 24h from server start" timer, which could run mid-session and leave the last close missing.
 
 - Shares the `isUpdating` lock with the daily batch. HTTP 429 → live prices pause 12h.
 - The snapshot stays visible until the next pre-market (weekends show Friday). `GET /api/premarket` reads local state only. Cached in `data/premarket.json`.
 - **Gap fill:** Yahoo's daily chart sometimes drops a bar (2026-10-21 was missing for US equities). The live previous close fills the missing previous NYSE session (`data/nyse_calendar.json`) — never overwrites existing bars.
 - **Daily merge** overwrites every overlapping date in the 5-day window, so bars captured mid-session (VIX, futures, FX trade at 08:15 ET) are corrected the next day. VIX history was repaired against the official CBOE file once (2026-10-22).
-- **Restarts:** the startup update skips the Yahoo batch if Yahoo files were written < 20h ago (FRED still updates).
+- **Restarts:** catch up only what is missing per `data/update_state.json` (see "Daily batch schedule" above).
 
 ---
 

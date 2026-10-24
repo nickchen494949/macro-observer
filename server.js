@@ -601,6 +601,7 @@ except Exception as e:
 
 // ============================================
 let lastYahooUpdate = 0;
+let lastYahooOk = 0;
 let isUpdating = false; // lock to prevent concurrent updates
 
 // The daily store only keeps COMPLETED sessions, so "Current"/"1D Δ" always mean the last finished day
@@ -751,6 +752,7 @@ async function smartUpdate(includeYahoo = false) {
     }
     console.log(`  📈 Yahoo: ${yOk} ok, ${yFail} failed`);
     lastYahooUpdate = Date.now();
+    lastYahooOk = yOk;
   }
 
   // Update Fed Path
@@ -879,10 +881,26 @@ async function fetchYahooSpark(syms) {
 
 function premarketStatus() {
   const active = !!premarket.session && premarket.session === currentSessionDate();
+  let items = active ? premarket.items : {};
+  // Once the daily batch has stored this session's official closes, derive the column from the SAME daily data,
+  // so after the close / on weekends "实时 %" and "1D Δ" agree exactly (VIX settles 16:15 ET; futures use
+  // settlement prices and roll contracts — a 16:05 ET last-trade snapshot would differ slightly).
+  if (active && updateState.lastYahooSession && updateState.lastYahooSession >= premarket.session) {
+    items = {};
+    for (const [sym, it] of Object.entries(premarket.items)) {
+      const s = store.yahoo[sym];
+      const n = s ? s.length : 0;
+      if (n >= 2 && s[n - 1][0] === premarket.session && s[n - 2][1]) {
+        const price = s[n - 1][1], prev = s[n - 2][1];
+        items[sym] = { ...it, price, prev, pct: pct(price, prev), kind: 'close', source: 'daily' };
+      } else {
+        items[sym] = it;
+      }
+    }
+  }
   return {
     updating: premarket.updating, error: premarket.error, fetchedAt: premarket.fetchedAt,
-    session: premarket.session, active, blockedUntil: premarket.blockedUntil,
-    items: active ? premarket.items : {},
+    session: premarket.session, active, blockedUntil: premarket.blockedUntil, items,
   };
 }
 
@@ -893,13 +911,36 @@ function saveLive() {
 
 const pct = (p, prev) => +((p / prev - 1) * 100).toFixed(2);
 
+// ---- Daily update scheduler (see app.listen): Yahoo once per completed NYSE session, FRED once per day
+const UPDATE_STATE_FILE = path.join(DATA_DIR, 'update_state.json');
+const updateState = { lastYahooSession: null, lastFredDate: null };
+try { Object.assign(updateState, JSON.parse(fs.readFileSync(UPDATE_STATE_FILE, 'utf8'))); } catch (e) {}
+function lastCompletedSession() {
+  const et = etNow();
+  return (isNyseDay(et.date) && et.min >= 18 * 60 + 15) ? et.date : prevNyseDay(et.date);
+}
+async function dailyTick() {
+  if (isUpdating) return;
+  const et = etNow();
+  const sess = lastCompletedSession();
+  const needYahoo = !updateState.lastYahooSession || sess > updateState.lastYahooSession;
+  const needFred = updateState.lastFredDate !== et.date;
+  if (!needYahoo && !needFred) return;
+  console.log(`  🗓️  Daily update: ${needYahoo ? 'Yahoo (session ' + sess + ') + ' : ''}FRED`);
+  lastYahooOk = 0;
+  await smartUpdate(needYahoo);
+  if (needYahoo && lastYahooOk > 0) updateState.lastYahooSession = sess;
+  updateState.lastFredDate = et.date;
+  try { fs.writeFileSync(UPDATE_STATE_FILE, JSON.stringify(updateState)); } catch (e) {}
+}
+
 async function liveTick() {
   if (isUpdating || premarket.updating) return;
   if (Date.now() < premarket.blockedUntil) return;
   const et = etNow();
   if (!isNyseDay(et.date)) return;
   const m = et.min, now = Date.now();
-  const PRE = m >= 240 && m < 570, REG = m >= 570 && m < 965, AFTER = m >= 965 && m < 1200;
+  const PRE = m >= 240 && m < 570, REG = m >= 570 && m < 965, AFTER = m >= 980 && m < 1200; // close run after 16:20 ET (VIX settles 16:15)
   const dueFut = PRE && now - premarket.lastFut >= 15 * 60000 - 30000;
   const duePreEtf = PRE && m >= 245 && now - premarket.lastPreEtf >= 60 * 60000 - 30000;
   const dueSpark = REG && now - premarket.lastSpark >= 10 * 60000 - 30000;
@@ -3161,29 +3202,13 @@ server.listen(PORT, '127.0.0.1', async () => {
     console.log('  ✅ All data present, ready!');
   }
 
-  // Auto-refresh: everything once per day
-  const DAY = 24 * 60 * 60 * 1000;
-
-  console.log(`\n  ⏰ FRED + Yahoo: once per day\n`);
-
-  // Initial update: 60s after startup. Skip the Yahoo batch if it already ran in the last 20h
-  // (restarts must not re-hit Yahoo — once per day rule; it also locks the live-price button for ~8 min).
-  setTimeout(() => {
-    let lastYahooMs = 0;
-    try {
-      for (const f of fs.readdirSync(YAHOO_DIR)) {
-        if (f.endsWith('.json')) lastYahooMs = Math.max(lastYahooMs, fs.statSync(path.join(YAHOO_DIR, f)).mtimeMs);
-      }
-    } catch (e) {}
-    const doYahoo = Date.now() - lastYahooMs > 20 * 60 * 60 * 1000;
-    if (!doYahoo) console.log('  ⏭️  Yahoo updated < 20h ago — startup update is FRED only');
-    smartUpdate(doYahoo).catch(e => console.error('Update error:', e));
-  }, 60000);
-
-  // Daily refresh (FRED + Yahoo together)
-  setInterval(() => {
-    smartUpdate(true).catch(e => console.error('Update error:', e));
-  }, DAY);
+  // Daily update, anchored to the US close (not to server start time):
+  //   Yahoo batch once per completed NYSE session, at/after 18:15 ET (≈06:15/07:15 Beijing),
+  //   so "Current / 1D Δ" always reflect the last finished session and agree with the live column after the close.
+  //   FRED once per New York calendar day. Restarts catch up only what is missing (no repeated Yahoo batches).
+  console.log(`\n  ⏰ Yahoo: once per completed session (after 18:15 ET) · FRED: once per day\n`);
+  setTimeout(() => dailyTick().catch(e => console.error('Update error:', e)), 60000);
+  setInterval(() => dailyTick().catch(e => console.error('Update error:', e)), 5 * 60 * 1000);
 
   // Hourly news refresh (GDELT + Fed RSS)
   const HOUR = 60 * 60 * 1000;
