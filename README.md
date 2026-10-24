@@ -35,12 +35,12 @@ A macroeconomic dashboard tracking rates, commodities, equities, and macro indic
 
 ## 🚀 How to Start
 
-```bash
-cd ~/Desktop/宏观观察器
-node --env-file=.env server.js   # .env must define FRED_API_KEY and LOCAL_ADMIN_TOKEN
-```
+The server runs **automatically** as a macOS launchd agent (`~/Library/LaunchAgents/com.macro-observer.dashboard.plist` → `npm start` = `node --env-file=.env server.js`, `KeepAlive`, starts at login, restarts on crash). Just open **http://localhost:8765**.
 
-Then open **http://localhost:8765** in your browser.
+- Real location: `~/projects/宏观观察器` (launchd's `WorkingDirectory`). `~/Desktop/宏观观察器` is only a **symlink** to it — do NOT move the real folder, the agents (`dashboard` + `autosync`) would break.
+- Logs: `~/Library/Logs/macro-observer/server.log` / `server.err.log`
+- Restart after code changes: `launchctl kickstart -k gui/$(id -u)/com.macro-observer.dashboard`
+- Manual run (only if the agent is unloaded): `cd ~/projects/宏观观察器 && node --env-file=.env server.js   # .env must define FRED_API_KEY and LOCAL_ADMIN_TOKEN`
 
 ---
 
