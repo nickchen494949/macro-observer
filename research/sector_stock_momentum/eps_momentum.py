@@ -28,23 +28,30 @@ os.makedirs(RES, exist_ok=True)
 
 def growth_panel(form, P):
     p = pd.read_parquet(os.path.join(HERE, 'data', 'fundamentals', 'eps_quarterly_pit.parquet'),
-                        columns=['cik', 'period_end', 'eps_diluted_approx_ttm_adj', 'eps_diluted_approx_ttm_available_date'])
-    p = p.dropna().rename(columns={'eps_diluted_approx_ttm_adj': 'ttm', 'eps_diluted_approx_ttm_available_date': 'avail'})
+                        columns=['cik', 'period_end', 'eps_diluted_approx_ttm_adj', 'eps_diluted_approx_ttm_available_date',
+                                 'net_income_ttm', 'revenue_ttm'])
+    p = p.dropna(subset=['eps_diluted_approx_ttm_adj', 'eps_diluted_approx_ttm_available_date'])
+    p = p.rename(columns={'eps_diluted_approx_ttm_adj': 'ttm', 'eps_diluted_approx_ttm_available_date': 'avail'})
+    p['margin'] = p.net_income_ttm / p.revenue_ttm.where(p.revenue_ttm > 0)
     p['cik'] = p.cik.astype('int64')
     p = p.sort_values(['cik', 'period_end'])
-    prior = p[['cik', 'period_end', 'ttm']].copy()
+    prior = p[['cik', 'period_end', 'ttm', 'margin']].copy()
     prior['period_end'] = prior.period_end + pd.Timedelta(days=365)
-    prior = prior.rename(columns={'ttm': 'ttm_prior'}).sort_values('period_end')
+    prior = prior.rename(columns={'ttm': 'ttm_prior', 'margin': 'margin_prior'}).sort_values('period_end')
     p = pd.merge_asof(p.sort_values('period_end'), prior, on='period_end', by='cik', tolerance=pd.Timedelta(days=20),
                       direction='nearest')
     p = p.dropna(subset=['ttm_prior'])
     p['growth'] = np.where(p.ttm_prior > 0, p.ttm / p.ttm_prior - 1, np.nan)
     p['dEPS'] = p.ttm - p.ttm_prior
+    # protections against a tiny base: (1) base-period net margin >= 5 %, (2) symmetric growth (bounded −200…+200 %)
+    p['growth_margin5'] = np.where((p.ttm_prior > 0) & (p.margin_prior >= 0.05), p.ttm / p.ttm_prior - 1, np.nan)
+    den = (p.ttm.abs() + p.ttm_prior.abs()) / 2
+    p['growth_sym'] = np.where(den > 0, (p.ttm - p.ttm_prior) / den, np.nan)
     # for every month-end: latest row PUBLIC at t (all 4 quarters filed) with a fresh fiscal quarter
     grid = pd.DataFrame([(c, t) for c in p.cik.unique() for t in form], columns=['cik', 't']).sort_values('t')
     g = pd.merge_asof(grid, p.sort_values('avail'), left_on='t', right_on='avail', by='cik', direction='backward')
     g = g[(g.t - g.period_end).dt.days <= 200]
-    return g[['cik', 't', 'period_end', 'growth', 'dEPS', 'ttm', 'ttm_prior']]
+    return g[['cik', 't', 'period_end', 'growth', 'growth_margin5', 'growth_sym', 'dEPS', 'ttm', 'ttm_prior']]
 
 
 def main():
@@ -77,7 +84,7 @@ def main():
                 key = (t, c)
                 if c is not None and key in Gi.index:
                     r = Gi.loc[key]
-                    gv.append(r.growth if variant == 'growth' else r.dEPS / P.at[t, s])
+                    gv.append(r.dEPS / P.at[t, s] if variant == 'deps_p' else r[variant])
                 else:
                     gv.append(np.nan)
             df['g'] = gv
@@ -113,6 +120,8 @@ def main():
     R = {}
     R['A: top-10 EPS growth → best momentum (>0) else cash'], cov = run('growth')
     R['B: top-10 ΔEPS/price → best momentum (>0) else cash'], _ = run('deps_p')
+    R['F: top-10 EPS growth, base margin >= 5% → best momentum (>0) else cash'], _ = run('growth_margin5')
+    R['G: top-10 symmetric EPS growth → best momentum (>0) else cash'], _ = run('growth_sym')
     R['C: top-10 EPS growth, equal weight (no momentum)'], _ = run('growth', pick='ew')
     R['D: top-10 ΔEPS/price, equal weight'], _ = run('deps_p', pick='ew')
     R['E: pure momentum top-1 (reference)'] = eng.run(bt.SPEC, px, res, sector_filter=False)
