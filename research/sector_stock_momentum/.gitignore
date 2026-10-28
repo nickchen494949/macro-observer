@@ -7,3 +7,4 @@ data/raw_tiingo/
 data/tiingo_supported_tickers.csv
 data/raw_wiki/
 data/raw_wiki_check/
+data/raw_archive/

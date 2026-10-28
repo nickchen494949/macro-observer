@@ -27,7 +27,7 @@ def main():
     idr = pd.read_csv(os.path.join(D, 'identity_resolutions.csv'))
     idr = idr.groupby('ticker').evidence.apply(lambda s: ' | '.join(s)).to_dict()
     first_px = {}
-    for d_ in ['raw', 'raw_tiingo', 'raw_wiki']:
+    for d_ in ['raw', 'raw_tiingo', 'raw_wiki', 'raw_archive']:
         p = os.path.join(D, d_)
         for f in os.listdir(p):
             if f.endswith('.json') and not f.startswith('_'):
@@ -35,7 +35,15 @@ def main():
                 if dd['dates']:
                     k = f[:-5]
                     first_px[k] = min(first_px.get(k, dd['dates'][0]), dd['dates'][0])
-    sp = pd.read_csv(os.path.join(D, 'sp500_ticker_start_end.csv'), parse_dates=['start_date'])
+    # listing-date evidence also from Tiingo's ticker list (it records a security's first trading day even when the
+    # free API no longer serves that history, e.g. INFO = Markit from 2014-06-19)
+    tl = pd.read_csv(os.path.join(D, 'tiingo_supported_tickers.csv'), dtype=str)
+    tl = tl[tl.priceCurrency == 'USD'].dropna(subset=['startDate'])
+    for t_, g_ in tl.groupby('ticker'):
+        k = t_.upper()
+        first_px[k] = min(first_px.get(k, g_.startDate.min()), g_.startDate.min())
+    import backtest as _bt
+    sp = _bt.read_spells()
     sp['ticker'] = sp.ticker.str.replace('.', '-', regex=False)
     first_spell = sp.groupby('ticker').start_date.min()
 

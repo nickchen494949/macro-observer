@@ -44,6 +44,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RAW = os.path.join(HERE, 'data', 'raw')
 RAW_TIINGO = os.path.join(HERE, 'data', 'raw_tiingo')   # fills for delisted names Yahoo dropped
 RAW_WIKI = os.path.join(HERE, 'data', 'raw_wiki')       # last resort: Nasdaq Data Link WIKI (frozen 2018-03-27)
+RAW_ARCHIVE = os.path.join(HERE, 'data', 'raw_archive')  # QSTK Yahoo snapshot (~2012), optiontradingtips, BNSF
 WIKI_CUTOFF = pd.Timestamp('2018-03-27')                # source stops here for EVERY ticker (not a delisting)
 RES = os.path.join(HERE, 'results')
 os.makedirs(RES, exist_ok=True)
@@ -62,6 +63,17 @@ NON_STOCK = set(ETF_OF.values()) | {'SPY', 'RSP'}
 
 
 # ───────────────────────────── data ─────────────────────────────
+def read_spells():
+    """S&P membership spells (fja05680) + documented additions for members fja dropped when an acquirer took over
+    the target's ticker (data/membership_additions.csv: JCI-OLD = Johnson Controls Inc, AGN-OLD = Allergan Inc)."""
+    sp = pd.read_csv(os.path.join(HERE, 'data', 'sp500_ticker_start_end.csv'), parse_dates=['start_date', 'end_date'])
+    ap = os.path.join(HERE, 'data', 'membership_additions.csv')
+    if os.path.exists(ap):
+        add = pd.read_csv(ap, parse_dates=['start_date', 'end_date'])[['ticker', 'start_date', 'end_date']]
+        sp = pd.concat([sp, add], ignore_index=True)
+    return sp
+
+
 def check_integrity(series, extra_spells=None):
     """Guard against re-used Yahoo symbols — PIT-consistent version.
     Each daily series is cut into segments at gaps > 30 calendar days. A segment is kept if it overlaps ANY
@@ -69,7 +81,7 @@ def check_integrity(series, extra_spells=None):
     overlap a spell are dropped. All overlapping segments are kept (never "the best one"), so the decision for
     data before date C does not depend on data after C. Returns the kept series plus a segment-id series,
     so momentum and returns can refuse to bridge a gap (a gap may separate two different securities)."""
-    sp = pd.read_csv(os.path.join(HERE, 'data', 'sp500_ticker_start_end.csv'), parse_dates=['start_date', 'end_date'])
+    sp = read_spells()
     sp['ticker'] = sp.ticker.str.replace('.', '-', regex=False)
     spells = {}
     for r in sp.itertuples():
@@ -106,7 +118,7 @@ def untrusted_spells(series):
     companies: old/new CEG, DOW, FOXA, DELL …). A spell is TRUSTED only if the price series we hold for that
     ticker already exists at the spell start (a stock must trade before it is added). Untrusted spells are
     removed from the eligible universe — the price we hold belongs to a different / re-listed security."""
-    sp = pd.read_csv(os.path.join(HERE, 'data', 'sp500_ticker_start_end.csv'), parse_dates=['start_date', 'end_date'])
+    sp = read_spells()
     sp['ticker'] = sp.ticker.str.replace('.', '-', regex=False)
     bad, log = {}, []
     for r in sp.itertuples():
@@ -140,7 +152,7 @@ def load_prices(cutoff=None):
     # and Yahoo does not (missing, truncated, or starting after a spell began).
     global PRICE_SOURCE
     PRICE_SOURCE = {k: 'yahoo' for k in series}
-    sp = pd.read_csv(os.path.join(HERE, 'data', 'sp500_ticker_start_end.csv'), parse_dates=['start_date', 'end_date'])
+    sp = read_spells()
     sp['ticker'] = sp.ticker.str.replace('.', '-', regex=False)
     sp = sp[sp.end_date.isna() | (sp.end_date >= '2007-12-01')]
     tiingo = {}
@@ -216,6 +228,41 @@ def load_prices(cutoff=None):
             if w.index[-1] >= WIKI_CUTOFF - pd.Timedelta(days=5):
                 WIKI_SYMS.add(sym)      # its WIKI part ends because the SOURCE froze, not because it delisted
 
+    # ARCHIVE fill (QSTK Yahoo snapshot ~2012 validated vs current Yahoo: data/raw_archive/_validation_qstk.json;
+    # optiontradingtips; BNSF). Same rule as WIKI: only where nothing else covers the spells; trailing flat runs
+    # (stale quotes after a delisting) are dropped; series must start before the spell does (identity guard).
+    if os.path.isdir(RAW_ARCHIVE):
+        for f in sorted(os.listdir(RAW_ARCHIVE)):
+            if not f.endswith('.json') or f.startswith('_'):
+                continue
+            d = json.load(open(os.path.join(RAW_ARCHIVE, f)))
+            sym = d['symbol']
+            a_ = pd.Series(d['adjclose'], index=pd.to_datetime(d['dates']), dtype=float).dropna().sort_index()
+            a_ = a_[~a_.index.duplicated(keep='last')]
+            ch = a_.diff().fillna(1) != 0
+            last_move = a_[ch].index[-1] if ch.any() else a_.index[-1]
+            if (a_.index[-1] - last_move).days >= 7:
+                a_ = a_[a_.index <= last_move]
+            if cutoff is not None:
+                a_ = a_[a_.index <= pd.Timestamp(cutoff)]
+            if not len(a_) or covers(series.get(sym), sym) or not covers(a_, sym):
+                continue
+            succ_sym = succ_of.get(sym)
+            if succ_sym and covers(series.get(succ_sym), sym):
+                continue
+            cur = series.get(sym)
+            if cur is not None and len(cur):
+                if a_.index[-1] < cur.index[0] - pd.Timedelta(days=30):
+                    series[sym] = pd.concat([a_, cur])
+                    PRICE_SOURCE[sym] = f'archive:{d["source"]}<{a_.index[-1].date()}|{PRICE_SOURCE.get(sym)}'
+                else:
+                    # the current-source series overlaps (re-used ticker / truncated WIKI): archive wins up to its end
+                    series[sym] = pd.concat([a_, cur[cur.index > a_.index[-1] + pd.Timedelta(days=30)]])
+                    PRICE_SOURCE[sym] = f'archive:{d["source"]}<{a_.index[-1].date()}|{PRICE_SOURCE.get(sym)}'
+            else:
+                series[sym] = a_
+                PRICE_SOURCE[sym] = f'archive:{d["source"]}'
+
     # time-split identities (one ticker = two companies inside one spell)
     split_log = []
     for tk, (d, before, after, why) in TIME_SPLIT.items():
@@ -249,6 +296,20 @@ def load_prices(cutoff=None):
                 series[tk] = pd.concat([ws[ws.index < d], cur[cur.index >= d]])
                 PRICE_SOURCE[tk] = f'wiki:{tk}<{d.date()}|{PRICE_SOURCE.get(tk)}'
                 split_log.append((tk, str(d.date())))
+            elif r.action == 'use_archive_before':
+                ap_ = os.path.join(RAW_ARCHIVE, f'{tk}.json')
+                if not os.path.exists(ap_):
+                    ID_EXCLUDE.setdefault(tk, []).append((pd.Timestamp('1900-01-01'), d))
+                    continue
+                w = json.load(open(ap_))
+                ws = pd.Series(w['adjclose'], index=pd.to_datetime(w['dates']), dtype=float).dropna().sort_index()
+                ws = ws[~ws.index.duplicated(keep='last')]
+                if cutoff is not None:
+                    ws = ws[ws.index <= pd.Timestamp(cutoff)]
+                cur = series.get(tk, pd.Series(dtype=float))
+                series[tk] = pd.concat([ws[ws.index < d], cur[cur.index >= d]])
+                PRICE_SOURCE[tk] = f'archive:{w["source"]}:{tk}<{d.date()}|{PRICE_SOURCE.get(tk)}'
+                split_log.append((tk, str(d.date())))
             elif r.action == 'segment_break':
                 split_log.append((tk, str(d.date())))
             elif r.action == 'exclude_before':
@@ -258,7 +319,7 @@ def load_prices(cutoff=None):
 
     # 1) security identity across renames: decided above from raw first-price dates (Yahoo ∪ Tiingo)
     # 2) integrity: a successor's series is judged against its own spells AND its predecessors' spells
-    sp = pd.read_csv(os.path.join(HERE, 'data', 'sp500_ticker_start_end.csv'), parse_dates=['start_date', 'end_date'])
+    sp = read_spells()
     sp['ticker'] = sp.ticker.str.replace('.', '-', regex=False)
     extra = {}
     for r in aliases.itertuples():
@@ -310,6 +371,11 @@ def load_prices(cutoff=None):
     return daily, monthly, aliases, bad
 
 
+_ap = os.path.join(HERE, 'data', 'membership_additions.csv')
+ADDITIONS = (pd.read_csv(_ap, parse_dates=['start_date', 'end_date']) if os.path.exists(_ap)
+             else pd.DataFrame(columns=['ticker', 'start_date', 'end_date']))
+
+
 def load_membership(month_ends):
     h = pd.read_csv(os.path.join(HERE, 'data', 'sp500_hist_components.csv'), parse_dates=['date']).sort_values('date')
     last_date = h.date.max()
@@ -327,6 +393,9 @@ def load_membership(month_ends):
                 mem.discard(c.removed_ticker.replace('.', '-'))
             if isinstance(c.added_ticker, str):
                 mem.add(c.added_ticker.replace('.', '-'))
+        for r in ADDITIONS.itertuples():
+            if r.start_date <= t and (pd.isna(r.end_date) or t < r.end_date):
+                mem.add(r.ticker)
         out[t] = mem
     return out, ch
 
@@ -609,7 +678,7 @@ def provenance():
         except Exception:  # noqa
             return ''
     h = hashlib.sha256()
-    for d_ in [RAW, RAW_TIINGO, RAW_WIKI]:
+    for d_ in [RAW, RAW_TIINGO, RAW_WIKI, RAW_ARCHIVE]:
         if os.path.isdir(d_):
             for f in sorted(os.listdir(d_)):
                 h.update(f.encode()); h.update(open(os.path.join(d_, f), 'rb').read())
