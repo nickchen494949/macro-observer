@@ -1,0 +1,102 @@
+Ticker,Company,ISIN,ICB Industry[2],ICB Subsector[2],wiki_revid
+ADBE,Adobe Inc.,US00724F1012,Technology,Software,1381716526
+AMD,Advanced Micro Devices,US0079031078,Technology,Semiconductors,1381716526
+ABNB,Airbnb,US0090661010,Consumer Discretionary,Diversified Commercial Services,1381716526
+ALNY,Alnylam Pharmaceuticals,US02043Q1076,Health Care,Biotechnology,1381716526
+GOOGL,Alphabet Inc. (Class A),US02079K3059,Technology,Software,1381716526
+GOOG,Alphabet Inc. (Class C),US02079K1079,Technology,Software,1381716526
+AMZN,Amazon,US0231351067,Consumer Discretionary,Catalog/Specialty Distribution,1381716526
+AEP,American Electric Power,US0255371017,Utilities,Electric Utilities,1381716526
+AMGN,Amgen,US0311621009,Health Care,Biotechnology,1381716526
+ADI,Analog Devices,US0326541051,Technology,Semiconductors,1381716526
+AAPL,Apple Inc.,US0378331005,Technology,Computer Hardware,1381716526
+AMAT,Applied Materials,US0382221051,Technology,Semiconductors,1381716526
+APP,AppLovin,US03831W1080,Technology,Software,1381716526
+ARM,Arm Holdings,US0420682058,Technology,Semiconductors,1381716526
+ASML,ASML Holding,USN070592100,Technology,Industrial Machinery,1381716526
+ALAB,Astera Labs,US04626A1034,Technology,Semiconductors,1381716526
+ADSK,Autodesk,US0527691069,Technology,Software,1381716526
+ADP,Automatic Data Processing,US0530151036,Industrials,Diversified Commercial Services,1381716526
+AXON,Axon Enterprise,US05464C1018,Industrials,Ordnance & Accessories,1381716526
+BKR,Baker Hughes,US05722G1004,Energy,Oil Equipment & Services,1381716526
+BKNG,Booking Holdings,US09857L1089,Consumer Discretionary,Transportation Services,1381716526
+AVGO,Broadcom,US11135F1012,Technology,Semiconductors,1381716526
+CDNS,Cadence Design Systems,US1273871087,Technology,Software,1381716526
+CTAS,Cintas,US1729081059,Industrials,Garments & Clothing,1381716526
+CSCO,Cisco,US17275R1023,Telecommunications,Computer Communications Equipment,1381716526
+CCEP,Coca-Cola Europacific Partners,GB00BDCPN049,Consumer Staples,Soft Drinks,1381716526
+CMCSA,Comcast,US20030N1019,Telecommunications,Cable & Other Pay Television Services,1381716526
+CEG,Constellation Energy,US21037T1097,Utilities,Electric Utilities,1381716526
+CPRT,Copart,US2172041061,Consumer Discretionary,Retail,1381716526
+CRWV,CoreWeave,US21873S1087,Technology,Computer Services,1381716526
+COST,Costco,US22160K1051,Consumer Discretionary,Department/Specialty Retail Stores,1381716526
+CRWD,CrowdStrike,US22788C1053,Technology,Software,1381716526
+CSX,CSX Corporation,US1264081035,Industrials,Railroads,1381716526
+DDOG,Datadog,US23804L1035,Technology,Software,1381716526
+DXCM,DexCom,US2521311074,Health Care,Medical/Dental Instruments,1381716526
+FANG,Diamondback Energy,US25278X1090,Energy,Oil & Gas Production,1381716526
+DASH,DoorDash,US25809K1051,Technology,Software,1381716526
+EXC,Exelon,US30161N1019,Utilities,Power Generation,1381716526
+FAST,Fastenal,US3119001044,Industrials,Construction & Materials,1381716526
+FER,Ferrovial,NL0015001FS8,Industrials,"Military, Government, Technical",1381716526
+FTNT,Fortinet,US34959E1091,Technology,Computer Peripheral Equipment,1381716526
+GEHC,GE HealthCare,US36266G1076,Health Care,Medical Electronics,1381716526
+GILD,Gilead Sciences,US3755581036,Health Care,Biotechnology,1381716526
+HONA,Honeywell Aerospace,US43849R1059,Industrials,Aerospace,1381716526
+HON,Honeywell Technologies,US4385162056,Industrials,Diversified Industrials,1381716526
+IDXX,Idexx Laboratories,US45168D1046,Health Care,Biotechnology,1381716526
+INTC,Intel,US4581401001,Technology,Semiconductors,1381716526
+INTU,Intuit,US4612021034,Technology,Computer Software,1381716526
+ISRG,Intuitive Surgical,US46120E6023,Health Care,Industrial Specialties,1381716526
+KDP,Keurig Dr Pepper,US49271V1008,Consumer Staples,Soft Drinks,1381716526
+KLAC,KLA Corporation,US4824801009,Technology,Electronic Components,1381716526
+LRCX,Lam Research,US5128073062,Technology,Industrial Machinery,1381716526
+LIN,Linde plc,IE000S9YS762,Basic Materials,Major Chemicals,1381716526
+LITE,Lumentum,US55024U1097,Technology,Communication Equipment,1381716526
+MAR,Marriott International,US5719032022,Consumer Discretionary,Hotels/Resorts,1381716526
+MRVL,Marvell Technology,US5738741041,Technology,Semiconductors,1381716526
+MELI,Mercado Libre,US58733R1023,Consumer Discretionary,Catalog/Specialty Distribution,1381716526
+META,Meta Platforms,US30303M1027,Technology,Software,1381716526
+MCHP,Microchip Technology,US5950171042,Technology,Semiconductors,1381716526
+MU,Micron Technology,US5951121038,Technology,Semiconductors,1381716526
+MSFT,Microsoft,US5949181045,Technology,Software,1381716526
+MSTR,MicroStrategy,US5949724083,Technology,Software,1381716526
+MRNA,Moderna,US60770K1079,Health Care,Biotechnology,1381716526
+MDLZ,Mondelez International,US6092071058,Consumer Staples,Packaged Foods,1381716526
+MPWR,Monolithic Power Systems,US6098391054,Technology,Semiconductors,1381716526
+MNST,Monster Beverage,US61174X1090,Consumer Staples,Soft Drinks,1381716526
+NBIS,Nebius Group,NL0009805522,Technology,Computer Services,1381716526
+NFLX,"Netflix, Inc.",US64110L1061,Consumer Discretionary,Consumer Electronics,1381716526
+NVDA,Nvidia,US67066G1040,Technology,Semiconductors,1381716526
+NXPI,NXP Semiconductors,NL0009538784,Technology,Semiconductors,1381716526
+ORLY,O'Reilly Automotive,US67103H1077,Consumer Discretionary,Specialty Retailers,1381716526
+ODFL,Old Dominion Freight Line,US6795801009,Industrials,Trucking,1381716526
+PCAR,Paccar,US6937181088,Consumer Discretionary,Motor Vehicles,1381716526
+PLTR,Palantir Technologies,US69608A1088,Technology,Software,1381716526
+PANW,Palo Alto Networks,US6974351057,Technology,Computer Peripheral Equipment,1381716526
+PAYX,Paychex,US7043261079,Industrials,Diversified Commercial Services,1381716526
+PYPL,PayPal,US70450Y1038,Industrials,Diversified Commercial Services,1381716526
+PDD,PDD Holdings,US7223041028,Technology,EDP Services,1381716526
+PEP,PepsiCo,US7134481081,Consumer Staples,Soft Drinks,1381716526
+QCOM,Qualcomm,US7475251036,Technology,Semiconductors,1381716526
+REGN,Regeneron Pharmaceuticals,US75886F1075,Health Care,Biotechnology,1381716526
+RKLB,Rocket Lab,US7731211089,Industrials,Aerospace,1381716526
+ROP,Roper Technologies,US7766961061,Technology,Software,1381716526
+ROST,Ross Stores,US7782961038,Consumer Discretionary,Clothing/Shoe/Accessory Stores,1381716526
+SNDK,Sandisk,US80004C2008,Technology,Electronic Components,1381716526
+STX,Seagate Technology,IE00BKVD2N49,Technology,Electronic Components,1381716526
+SHOP,Shopify,CA82509L1076,Technology,Software,1381716526
+SPCX,SpaceX,US84615Q1031,Telecommunications,Telecommunications Services,1381716526
+SBUX,Starbucks,US8552441094,Consumer Discretionary,Restaurants,1381716526
+SNPS,Synopsys,US8716071076,Technology,Software,1381716526
+TMUS,T-Mobile US,US8725901040,Telecommunications,Telecommunications Services,1381716526
+TTWO,Take-Two Interactive,US8740541094,Consumer Discretionary,Miscellaneous Amusement & Recreation Services,1381716526
+TER,Teradyne,US8807701029,Technology,Semiconductors,1381716526
+TSLA,"Tesla, Inc.",US88160R1014,Consumer Discretionary,Automobiles & Parts,1381716526
+TXN,Texas Instruments,US8825081040,Technology,Semiconductors,1381716526
+TRI,Thomson Reuters,CA8849038812,Technology,Software,1381716526
+VRTX,Vertex Pharmaceuticals,US92532F1003,Health Care,Biotechnology,1381716526
+WMT,Walmart,US9311421039,Consumer Discretionary,Department/Specialty Retail Stores,1381716526
+WDC,Western Digital,US9581021055,Technology,Electronic Components,1381716526
+WDAY,"Workday, Inc.",US98138H1014,Technology,Software,1381716526
+XEL,Xcel Energy,US98389B1008,Utilities,Conventional Electricity,1381716526

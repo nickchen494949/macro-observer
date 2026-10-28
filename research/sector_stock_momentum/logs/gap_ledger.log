@@ -1,20 +1,20 @@
-tickers with any gap (excl. recent listings): 37
+tickers with any gap (excl. recent listings): 38
 problem
 insufficient_history: possible data gap                                  7
 insufficient_history: recent listing / spin-off (not a data gap)        49
 no_price_at_t (source history truncated / ticker re-used)               21
 no_price_data_at_source                                                  8
-untrusted_spell (held price belongs to another / re-listed security)     3
-member-months total 107065 gap 594 (0.55%)
+untrusted_spell (held price belongs to another / re-listed security)     4
+member-months total 107065 gap 659 (0.62%)
       member_months  gap_months  gap_pct
 year                                    
-2008            500           8     1.60
-2009           6010          66     1.10
-2010           6000          32     0.53
-2011           5988          33     0.55
-2012           5988          37     0.62
-2013           5988          77     1.29
-2014           6002          32     0.53
+2008            500           9     1.80
+2009           6010          78     1.30
+2010           6000          44     0.73
+2011           5988          45     0.75
+2012           5988          49     0.82
+2013           5988          89     1.49
+2014           6002          36     0.60
 2015           6023          14     0.23
 2016           6073           8     0.13
 2017           6071           0     0.00

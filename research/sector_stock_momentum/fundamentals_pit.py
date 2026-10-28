@@ -70,10 +70,17 @@ def asof(panel, date, max_age_days=200, ttm_field=None):
 
 @lru_cache(maxsize=None)
 def splits(ticker):
-    p = os.path.join(RAW, ticker.replace('.', '-') + '.json')
-    pt = os.path.join(HERE, 'data', 'raw_tiingo', ticker.replace('.', '-') + '.json')
+    """Splits recorded by the vendor whose adjusted prices we hold for `ticker` (Tiingo if its series covers the
+    membership, else Yahoo; fallbacks: WIKI (adjusted only up to its 2018-03 freeze, so only WIKI's own splits apply)
+    and data/raw_ndx (Nasdaq-100 additions, Tiingo/WIKI)). Archive sources carry no split list → factor 1."""
+    tk = ticker.replace('.', '-')
+    p = os.path.join(RAW, tk + '.json')
+    pt = os.path.join(HERE, 'data', 'raw_tiingo', tk + '.json')
     if os.path.exists(pt) and json.load(open(pt)).get('covers_membership'):
         p = pt                        # same source as the price series used for that security
+    for alt in [os.path.join(HERE, 'data', 'raw_wiki', tk + '.json'), os.path.join(HERE, 'data', 'raw_ndx', tk + '.json')]:
+        if not os.path.exists(p) and os.path.exists(alt):
+            p = alt
     if not os.path.exists(p):
         return ()
     d = json.load(open(p))
@@ -100,3 +107,24 @@ def eps_on_price_basis(df, cols=('eps_diluted', 'eps_basic', 'eps_basic_approx')
         if c in df:
             df[c + '_adj'] = df[c] / pd.Series(fac, index=df.index)
     return df
+
+
+# ── (ticker, CIK) validity windows ──
+# A ticker's price series can belong to one company while the CIK mapped to the ticker belongs to another during part
+# of the sample (acquirer took over the target's ticker, fja relabels). data/cik_validity.csv lists, with evidence,
+# the dates between which the ticker's prices and its mapped CIK are the SAME company; outside → no fundamentals.
+@lru_cache(maxsize=None)
+def _validity():
+    p = os.path.join(HERE, 'data', 'cik_validity.csv')
+    if not os.path.exists(p):
+        return {}
+    v = pd.read_csv(p, parse_dates=['valid_from', 'valid_to'])
+    return {r.ticker: (r.valid_from, r.valid_to) for r in v.itertuples()}
+
+
+def cik_valid(ticker, t):
+    w = _validity().get(ticker)
+    if w is None:
+        return True
+    a, b = w
+    return (pd.isna(a) or t >= a) and (pd.isna(b) or t < b)

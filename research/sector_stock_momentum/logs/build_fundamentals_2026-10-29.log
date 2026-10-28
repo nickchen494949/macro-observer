@@ -1,0 +1,18 @@
+filings loaded 406750 quarters 2009-04-15 00:00:00 → 2026-09-30 00:00:00
+CIK map: {'wikipedia_current': 497, 'name_exact': 318, None: 55, 'name_tokens': 13, 'manual_verified': 8, 'name_fuzzy': 3, 'sec_ticker_validated': 3, 'no_sec_filings: Coca-Cola European Partners — foreign private issuer (20-F)': 1, 'no_sec_filings: First Republic Bank — reported to FDIC': 1, 'no_sec_filings: Signature Bank — reported to FDIC': 1}
+sector source: {'wikipedia_gics': 498, 'sic_approx': 344, None: 38, 'yahoo': 20}
+long rows 1762828 companies 802
+eps panel rows 46861 companies 801
+sector
+Communication Services     36
+Consumer Discretionary     95
+Consumer Staples           53
+Energy                     53
+Financials                101
+Health Care                95
+Industrials               123
+Information Technology    121
+Materials                  47
+Real Estate                39
+Utilities                  38
+Name: cik, dtype: int64

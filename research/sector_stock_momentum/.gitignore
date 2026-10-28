@@ -8,3 +8,8 @@ data/tiingo_supported_tickers.csv
 data/raw_wiki/
 data/raw_wiki_check/
 data/raw_archive/
+data/sec_submissions/
+data/raw_volume/
+data/raw_ndx/
+data/_union_scratch/
+data/_union_scratch_fund/

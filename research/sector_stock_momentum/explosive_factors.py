@@ -69,7 +69,8 @@ def quarterly_factors(form):
     grid = pd.DataFrame([(c, t) for c in p.cik.unique() for t in form], columns=['cik', 't']).sort_values('t')
     out = grid.copy()
     for av, cols in {'av_eps': ['eps_accel'], 'av_rev': ['rev_g_q', 'rev_accel'], 'av_gm': ['gm_chg'], 'av_rd': ['rd_int']}.items():
-        x = p.dropna(subset=[av])[['cik', av, 'period_end'] + cols].sort_values(av)
+        # availability ties → latest fiscal period wins (stable sort), see ml_features.fundamental_panel
+        x = p.dropna(subset=[av])[['cik', av, 'period_end'] + cols].sort_values([av, 'period_end'], kind='mergesort')
         m = pd.merge_asof(grid, x, left_on='t', right_on=av, by='cik', direction='backward')
         stale = (m.t - m.period_end).dt.days > 200
         for c in cols:
@@ -98,6 +99,41 @@ def price_extras(daily, P, form):
     fwd6 = fwd6.where((sg.shift(-6) == sg).reindex(form))
     fwd12 = fwd12.where((sg.shift(-12) == sg).reindex(form))
     return smooth, fwd6, fwd12
+
+
+def terminal_aware_fwd(X, daily, P, k):
+    """Compound the backtest's monthly holding returns t→t+k for every panel row (bt.Prices.ret: ok / resolved_manual /
+    delisted_in_month). After a terminal event the position is cash at the T-bill rate. A row is labelled only if its
+    whole window is resolved; 'unresolved' / 'source_gap' (no price at all, outcome unknown) → NaN, counted in status."""
+    px = bt.Prices(daily, P, 0)
+    res = bt.load_resolutions()
+    months = P.index
+    rf = bt.load_rf(months + pd.offsets.MonthEnd(1))
+    pos = {t: i for i, t in enumerate(months)}
+    out, st = np.full(len(X), np.nan), np.empty(len(X), dtype=object)
+    last = pd.Timestamp(bt.END)                     # last complete holding month (2026-09)
+    for j, (t, s) in enumerate(zip(X.t, X.ticker)):
+        i = pos[t]
+        if i + k >= len(months) or months[i + k] > last:
+            st[j] = 'window_not_complete'
+            continue
+        g, status = 1.0, 'ok'
+        for m in range(k):
+            tm = months[i + m]
+            if status == 'ok':
+                r, stt = px.ret(tm, s, res)
+                if stt in ('unresolved', 'source_gap'):
+                    status = stt
+                    break
+                g *= 1 + r
+                if stt != 'ok':
+                    status = 'terminal:' + stt
+            else:
+                g *= 1 + float(rf.get(tm + pd.offsets.MonthEnd(1), 0))
+        st[j] = status
+        if status in ('ok',) or status.startswith('terminal:'):
+            out[j] = g - 1
+    return out, st
 
 
 def nw_t(x, lag=6):
@@ -145,11 +181,16 @@ def main():
         return analyse(X, form, daily, P)
     smooth, fwd6, fwd12 = price_extras(daily, P, form)
     X['smooth'] = [smooth.at[t, s] if s in smooth.columns else np.nan for t, s in zip(X.t, X.ticker)]
-    X['fwd6'] = [fwd6.at[t, s] if s in fwd6.columns else np.nan for t, s in zip(X.t, X.ticker)]
-    X['fwd12'] = [fwd12.at[t, s] if s in fwd12.columns else np.nan for t, s in zip(X.t, X.ticker)]
+    # 6- / 12-month labels: universe and ranks are fixed at formation t; the path is the backtest's own monthly holding
+    # return (terminal events: verified payouts, exit at the last trade then T-bill cash). The old price-ratio labels
+    # (P[t+6]/P[t]) silently dropped every stock without a price at t+6 — e.g. cash-acquired XLNX / ATVI (external audit)
+    X['fwd6'], X['fwd6_status'] = terminal_aware_fwd(X, daily, P, 6)
+    X['fwd12'], X['fwd12_status'] = terminal_aware_fwd(X, daily, P, 12)
     X['mom_accel'] = X.mom_3_1 - X.mom_12_1 * 3 / 11
     cm = pd.read_csv(os.path.join(HERE, 'data', 'fundamentals', 'cik_map.csv')).dropna(subset=['cik'])
     X['cik'] = X.ticker.map({t.replace('.', '-'): int(c) for t, c in zip(cm.ticker, cm.cik)})
+    from fundamentals_pit import cik_valid
+    X.loc[[not cik_valid(s, t) for s, t in zip(X.ticker, X.t)], 'cik'] = np.nan
     X = X.merge(quarterly_factors(form), on=['cik', 't'], how='left')
     X['explosive6'] = (X.groupby('t').fwd6.rank(pct=True) >= 0.95).astype(float).where(X.fwd6.notna())
     X['doubler12'] = (X.fwd12 >= 1.0).astype(float).where(X.fwd12.notna())

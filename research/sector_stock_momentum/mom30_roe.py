@@ -39,7 +39,8 @@ def roe_panel(form):
     p['roe'] = np.where(p.equity > 0, p.net_income_ttm / p.equity, np.nan)
     p['avail'] = pd.concat([p.net_income_ttm_available_date, p.filed_eq + pd.Timedelta(days=1)], axis=1).max(axis=1)
     grid = pd.DataFrame([(c, t) for c in p.cik.unique() for t in form], columns=['cik', 't']).sort_values('t')
-    g = pd.merge_asof(grid, p.sort_values('avail')[['cik', 'avail', 'period_end', 'roe']], left_on='t', right_on='avail',
+    # availability ties → latest fiscal period wins (stable sort), see ml_features.fundamental_panel
+    g = pd.merge_asof(grid, p.sort_values(['avail', 'period_end'], kind='mergesort')[['cik', 'avail', 'period_end', 'roe']], left_on='t', right_on='avail',
                       by='cik', direction='backward')
     g = g[(g.t - g.period_end).dt.days <= 200]
     return g[['cik', 't', 'roe']]
@@ -51,6 +52,8 @@ def main():
     cm = pd.read_csv(os.path.join(HERE, 'data', 'fundamentals', 'cik_map.csv')).dropna(subset=['cik'])
     t2c = {t.replace('.', '-'): int(c) for t, c in zip(cm.ticker, cm.cik)}
     X['cik'] = X.ticker.map(t2c)
+    from fundamentals_pit import cik_valid
+    X.loc[[not cik_valid(s, t) for s, t in zip(X.ticker, X.t)], 'cik'] = np.nan   # (ticker, CIK) validity window
     X = X.merge(roe_panel(form), on=['cik', 't'], how='left')
     hold = form + pd.offsets.MonthEnd(1)
     rf = bt.load_rf(hold)

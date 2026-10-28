@@ -31,7 +31,7 @@ D = os.path.join(HERE, 'data')
 F = os.path.join(D, 'fundamentals')
 RAW = os.path.join(F, 'sec_raw')
 
-YAHOO_LOG = os.path.join(HERE, 'fetch_sectors.log')
+YAHOO_LOG = os.path.join(HERE, 'logs', 'fetch_sectors.log')
 
 # Company names for removed tickers that Wikipedia's changes table does not name. These are only SEARCH
 # HINTS: a CIK is accepted only if an EDGAR filer with that (normalised) name filed during the membership window.
@@ -57,7 +57,12 @@ MANUAL_CIK = {
     'BBT': 92230,      # BB&T → Truist (same filer; ticker BBT later re-used)
     'PARA': 813828,    # Paramount Global / ViacomCBS (ticker PARA later re-used)
     'XRX': 108772,     # Xerox Corp 2009–2019 (Xerox Holdings 1770450 from 2019-11)
-    'AGN': 850693,     # Allergan Inc (S&P member as AGN until 2015)
+    # AGN: the AGN price series (and fja's AGN spell 1996-2020) is the Watson → Actavis → Allergan plc lineage
+    # (close 64.77 on 2011-06-30 = Watson; Allergan Inc traded ~83 and is held separately as AGN-OLD). The old
+    # mapping to Allergan Inc 850693 paired Allergan Inc fundamentals with Watson prices (found 2026-10-29 by
+    # identity_screen_earnings.py, ratio 0.94). Actavis plc / Allergan plc 1578845 files from 2013-10; Watson /
+    # Actavis Inc 884629 (2010-2013) is not mapped (single CIK per ticker) → fundamentals missing before 2013-10.
+    'AGN': 1578845,
     'KRFT': 1545158,   # Kraft Foods Group 2012–2015 (not Kraft Foods Inc → Mondelez)
     'AIV': 922864,     # Apartment Investment & Management Co (not Apartment Income REIT spin-off)
 }

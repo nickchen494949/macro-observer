@@ -1,0 +1,1026 @@
+start Wed Oct 28 23:58:34 +08 2026
+== run_final (truncation, determinism, backtest, gap ledger, eps_momentum) 23:58:34
+== test_fundamentals_pit 00:04:12
+AMD gating OK: 2012-03-31 revenue 1585000000.0 filed_revenue 2012-05-09 00:00:00
+NVDA split basis OK: TTM EPS (common basis) = 2.131
+ALL PASS
+== ml_features 00:04:13
+(99949, 31) 2009-12-31 2026-08-31
+t                  2009  2010  2011  2012  2013  2014  2015  2016  2017  2018  2019  2020  2021  2022  2023  2024  2025  2026
+sector_mom         1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00
+mom_12_1_secrel    1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00
+dist_sma200        1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00
+dist_sma50         1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00
+dist_52wh          1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00
+vol_3m             1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00
+vol_12m            1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00
+beta_12m           1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00
+maxret_1m          1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00
+above_sma200       1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00
+mom_12_1           1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00
+mom_6_1            1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00
+mom_3_1            1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00
+rev_1m             1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00
+eps_g              0.00  0.12  0.60  0.85  0.87  0.86  0.90  0.88  0.85  0.87  0.89  0.91  0.87  0.86  0.93  0.91  0.91  0.91
+eps_g_m5           0.00  0.08  0.43  0.64  0.63  0.64  0.68  0.67  0.65  0.66  0.71  0.75  0.71  0.72  0.79  0.76  0.77  0.76
+eps_g_sym          0.00  0.15  0.65  0.89  0.92  0.92  0.93  0.93  0.94  0.95  0.96  0.97  0.97  0.97  0.97  0.97  0.97  0.98
+margin             0.00  0.35  0.73  0.82  0.84  0.85  0.86  0.86  0.86  0.91  0.94  0.94  0.94  0.94  0.94  0.94  0.95  0.95
+margin_chg         0.00  0.14  0.61  0.81  0.83  0.84  0.85  0.85  0.85  0.87  0.92  0.93  0.93  0.93  0.94  0.94  0.94  0.95
+rev_g              0.00  0.15  0.65  0.86  0.87  0.88  0.89  0.90  0.91  0.92  0.96  0.97  0.98  0.97  0.98  0.98  0.98  0.99
+sue                0.00  0.25  0.75  0.90  0.91  0.92  0.92  0.92  0.93  0.94  0.94  0.95  0.95  0.95  0.95  0.95  0.95  0.95
+days_since_filing  0.65  0.68  0.89  0.94  0.94  0.95  0.95  0.95  0.96  0.97  0.98  0.98  0.99  0.98  0.99  0.99  1.00  1.00
+deps_p             0.00  0.15  0.65  0.89  0.92  0.92  0.93  0.93  0.94  0.95  0.96  0.97  0.97  0.97  0.97  0.97  0.97  0.98
+ep                 0.00  0.38  0.78  0.91  0.92  0.93  0.94  0.94  0.94  0.95  0.97  0.97  0.97  0.97  0.98  0.98  0.98  0.98
+log_mcap           0.49  0.56  0.68  0.70  0.71  0.72  0.72  0.72  0.72  0.72  0.73  0.73  0.74  0.76  0.77  0.76  0.77  0.77
+== ml_pipeline dev 00:04:33
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/ml_pipeline.py:117: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  return S.groupby('t').apply(lambda g: g.score.rank().corr(g.fwd_ret.rank()))
+mom {"mean_IC": -0.0011, "IC_t": -0.051, "months": 108} | top1 Sharpe 0.57 sma200 0.73 | top20 Sharpe 0.38
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/ml_pipeline.py:117: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  return S.groupby('t').apply(lambda g: g.score.rank().corr(g.fwd_ret.rank()))
+composite {"mean_IC": -0.0037, "IC_t": -0.26, "months": 108} | top1 Sharpe 0.09 sma200 0.09 | top20 Sharpe 0.39
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/ml_pipeline.py:117: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  return S.groupby('t').apply(lambda g: g.score.rank().corr(g.fwd_ret.rank()))
+ridge {"mean_IC": -0.0003, "IC_t": -0.0233, "months": 108} | top1 Sharpe 0.22 sma200 0.59 | top20 Sharpe 0.18
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/ml_pipeline.py:117: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  return S.groupby('t').apply(lambda g: g.score.rank().corr(g.fwd_ret.rank()))
+lgbm_s {"mean_IC": 0.0127, "IC_t": 0.7799, "months": 108} | top1 Sharpe -0.03 sma200 0.68 | top20 Sharpe 0.33
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/ml_pipeline.py:117: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  return S.groupby('t').apply(lambda g: g.score.rank().corr(g.fwd_ret.rank()))
+lgbm_m {"mean_IC": 0.0131, "IC_t": 0.8339, "months": 108} | top1 Sharpe 0.21 sma200 0.25 | top20 Sharpe 0.37
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/ml_pipeline.py:117: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  return S.groupby('t').apply(lambda g: g.score.rank().corr(g.fwd_ret.rank()))
+lgbm_rank {"mean_IC": -0.013, "IC_t": -0.8069, "months": 108} | top1 Sharpe 0.55 sma200 0.11 | top20 Sharpe 0.17
+
+CHOSEN: lgbm_m top1_sma200 | deflated Sharpe prob (12 trials): 0.281
+== ml_pipeline holdout (re-run after bug fixes; disclosed) 00:05:08
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/ml_pipeline.py:117: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  return S.groupby('t').apply(lambda g: g.score.rank().corr(g.fwd_ret.rank()))
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/ml_pipeline.py:117: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  return S.groupby('t').apply(lambda g: g.score.rank().corr(g.fwd_ret.rank()))
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/ml_pipeline.py:117: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  return S.groupby('t').apply(lambda g: g.score.rank().corr(g.fwd_ret.rank()))
+composite IC 0.0302 t 1.56 | top1: 15.3%/0.38/-43% | top1_sma200: 15.3%/0.38/-43% | top5: 18.0%/0.71/-18% | top20: 21.0%/1.05/-13%
+lgbm_m IC -0.0165 t -0.83 | top1: -9.4%/-0.16/-64% | top1_sma200: -15.5%/-0.48/-68% | top5: -18.4%/-0.69/-67% | top20: 2.2%/-0.03/-29%
+mom IC 0.0216 t 0.75 | top1: 137.1%/1.48/-47% | top1_sma200: 146.4%/1.53/-47% | top5: 44.1%/0.94/-26% | top20: 27.7%/0.83/-25%
+== sma200_overlay 00:05:19
+
+== IS 2010-01..2021-05
+                              CAGR  Sharpe  maxDD  cash_months
+strategy                                                      
+pure momentum top-1           21.0    0.67  -69.0            0
+pure momentum top-1 + SMA200  20.5    0.67  -62.0            0
+sector spec                   14.3    0.60  -37.0            0
+sector spec + SMA200          15.8    0.64  -37.0            0
+EPS protected (F)              5.7    0.32  -42.0            4
+EPS protected (F) + SMA200     3.5    0.24  -48.0            5
+SPY                           14.5    1.01  -19.0            0
+
+== OOS 2021-06..2026-09
+                               CAGR  Sharpe  maxDD  cash_months
+strategy                                                       
+pure momentum top-1            91.4    1.23  -47.0            0
+pure momentum top-1 + SMA200  117.9    1.45  -47.0            0
+sector spec                    71.3    1.10  -51.0            0
+sector spec + SMA200           72.1    1.11  -51.0            0
+EPS protected (F)              42.2    0.86  -48.0            0
+EPS protected (F) + SMA200     34.0    0.74  -52.0            0
+SPY                            13.4    0.67  -24.0            0
+
+== ML holdout 2023-01..2026-09
+                               CAGR  Sharpe  maxDD  cash_months
+strategy                                                       
+pure momentum top-1           137.1    1.48  -47.0            0
+pure momentum top-1 + SMA200  146.3    1.53  -47.0            0
+sector spec                    56.3    0.90  -51.0            0
+sector spec + SMA200           57.3    0.91  -51.0            0
+EPS protected (F)              71.6    1.19  -32.0            0
+EPS protected (F) + SMA200     71.6    1.19  -32.0            0
+SPY                            21.7    1.28   -8.0            0
+
+== FULL 2010-01..2026-09
+                              CAGR  Sharpe  maxDD  cash_months
+strategy                                                      
+pure momentum top-1           40.0    0.88  -69.0            0
+pure momentum top-1 + SMA200  45.5    0.97  -62.0            0
+sector spec                   30.0    0.78  -51.0            0
+sector spec + SMA200          31.3    0.80  -51.0            0
+EPS protected (F)             16.2    0.54  -56.0            4
+EPS protected (F) + SMA200    12.3    0.45  -75.0            5
+SPY                           14.2    0.90  -24.0            0
+
+== FULL to 2025-12
+                              CAGR  Sharpe  maxDD  cash_months
+strategy                                                      
+pure momentum top-1           29.6    0.78  -69.0            0
+pure momentum top-1 + SMA200  34.9    0.89  -62.0            0
+sector spec                   20.0    0.67  -51.0            0
+sector spec + SMA200          21.2    0.70  -51.0            0
+EPS protected (F)             10.6    0.42  -56.0            4
+EPS protected (F) + SMA200     6.7    0.32  -75.0            5
+SPY                           14.0    0.89  -24.0            0
+== composite3 00:05:24
+
+== 2012-01..2021-05
+                                 CAGR  Sharpe  maxDD
+strategy                                            
+composite top-1                  15.4    0.61  -47.0
+composite top-1 + SMA200         11.9    0.51  -53.0
+composite top-5 (equal weight)   12.9    0.81  -27.0
+composite top-20 (equal weight)  10.6    0.78  -20.0
+pure momentum top-1              27.3    0.81  -69.0
+pure momentum top-1 + SMA200     25.8    0.80  -62.0
+SPY                              15.9    1.15  -19.0
+
+== 2021-06..2026-09
+                                  CAGR  Sharpe  maxDD
+strategy                                             
+composite top-1                   39.7    0.74  -50.0
+composite top-1 + SMA200          35.5    0.69  -47.0
+composite top-5 (equal weight)    24.2    0.76  -28.0
+composite top-20 (equal weight)   16.4    0.63  -27.0
+pure momentum top-1               91.4    1.23  -47.0
+pure momentum top-1 + SMA200     117.9    1.45  -47.0
+SPY                               13.4    0.67  -24.0
+
+== 2023-01..2026-09
+                                  CAGR  Sharpe  maxDD
+strategy                                             
+composite top-1                   58.1    0.89  -50.0
+composite top-1 + SMA200          66.7    0.97  -32.0
+composite top-5 (equal weight)    36.5    1.04  -19.0
+composite top-20 (equal weight)   27.9    1.00  -12.0
+pure momentum top-1              137.1    1.48  -47.0
+pure momentum top-1 + SMA200     146.3    1.53  -47.0
+SPY                               21.7    1.28   -8.0
+
+== 2012-01..2025-12
+                                 CAGR  Sharpe  maxDD
+strategy                                            
+composite top-1                  18.8    0.62  -47.0
+composite top-1 + SMA200         12.0    0.45  -53.0
+composite top-5 (equal weight)   14.7    0.75  -28.0
+composite top-20 (equal weight)  10.9    0.65  -27.0
+pure momentum top-1              35.4    0.88  -69.0
+pure momentum top-1 + SMA200     41.1    1.00  -62.0
+SPY                              14.9    0.96  -24.0
+
+== 2012-01..2026-09
+                                 CAGR  Sharpe  maxDD
+strategy                                            
+composite top-1                  23.6    0.64  -50.0
+composite top-1 + SMA200         20.0    0.57  -53.0
+composite top-5 (equal weight)   16.9    0.75  -28.0
+composite top-20 (equal weight)  12.7    0.69  -27.0
+pure momentum top-1              47.5    0.97  -69.0
+pure momentum top-1 + SMA200     53.4    1.07  -62.0
+SPY                              15.0    0.96  -24.0
+
+composite top-1: top-5 months share 0.61 | most held {'NVDA': 24, 'VRSN': 11, 'DFS': 11, 'AABA': 8, 'MU': 8, 'RAI': 8, 'ALGN': 7, 'SYMC': 7}
+{2012: 22.7, 2013: 57.2, 2014: 3.9, 2015: -2.0, 2016: -9.3, 2017: 50.8, 2018: 5.7, 2019: -22.9, 2020: 59.7, 2021: 43.2, 2022: -18.0, 2023: 0.4, 2024: 171.2, 2025: -0.4, 2026: 105.4}
+== mom30_roe 00:05:28
+
+== 2012-01..2021-05
+                                        CAGR  Sharpe  maxDD  cash_months
+strategy                                                                
+mom top-30 → ROE>20% → best EPS growth   4.5    0.28  -61.0            0
+mom top-30 → ROE>20% → best ΔEPS/price  -2.5    0.05  -75.0            0
+pure momentum top-1                     27.3    0.81  -69.0            0
+pure momentum top-1 + SMA200            25.8    0.80  -62.0            0
+SPY                                     15.9    1.15  -19.0            0
+
+== 2021-06..2026-09
+                                         CAGR  Sharpe  maxDD  cash_months
+strategy                                                                 
+mom top-30 → ROE>20% → best EPS growth   28.2    0.60  -60.0            0
+mom top-30 → ROE>20% → best ΔEPS/price   41.2    0.85  -49.0            0
+pure momentum top-1                      91.4    1.23  -47.0            0
+pure momentum top-1 + SMA200            117.9    1.45  -47.0            0
+SPY                                      13.4    0.67  -24.0            0
+
+== 2023-01..2026-09
+                                         CAGR  Sharpe  maxDD  cash_months
+strategy                                                                 
+mom top-30 → ROE>20% → best EPS growth   35.1    0.65  -47.0            0
+mom top-30 → ROE>20% → best ΔEPS/price   64.8    1.13  -39.0            0
+pure momentum top-1                     137.1    1.48  -47.0            0
+pure momentum top-1 + SMA200            146.3    1.53  -47.0            0
+SPY                                      21.7    1.28   -8.0            0
+
+== 2012-01..2025-12
+                                        CAGR  Sharpe  maxDD  cash_months
+strategy                                                                
+mom top-30 → ROE>20% → best EPS growth   4.1    0.24  -65.0            0
+mom top-30 → ROE>20% → best ΔEPS/price   7.0    0.32  -78.0            0
+pure momentum top-1                     35.4    0.88  -69.0            0
+pure momentum top-1 + SMA200            41.1    1.00  -62.0            0
+SPY                                     14.9    0.96  -24.0            0
+
+== 2012-01..2026-09
+                                        CAGR  Sharpe  maxDD  cash_months
+strategy                                                                
+mom top-30 → ROE>20% → best EPS growth  12.5    0.42  -65.0            0
+mom top-30 → ROE>20% → best ΔEPS/price  11.4    0.42  -78.0            0
+pure momentum top-1                     47.5    0.97  -69.0            0
+pure momentum top-1 + SMA200            53.4    1.07  -62.0            0
+SPY                                     15.0    0.96  -24.0            0
+
+per month (2012+): top-30 names with ROE data 26.5 | with ROE > 20% 12.4 | final candidates 11.0
+top-5 months share 1.11 | most held {'NVDA': 19, 'DAL': 12, 'MU': 10, 'DHI': 10, 'NOW': 10, 'NUE': 9, 'WDC': 5, 'SYMC': 5}
+{2012: 5.8, 2013: 43.2, 2014: 46.6, 2015: 5.4, 2016: -5.2, 2017: 20.9, 2018: -26.8, 2019: -3.5, 2020: -18.1, 2021: 24.1, 2022: -4.1, 2023: -36.1, 2024: 60.3, 2025: -7.5, 2026: 225.9}
+== tech_only 00:05:33
+
+== 2010-01..2021-05
+                                     CAGR  Sharpe  maxDD
+strategy                                                
+tech: momentum top-1                 19.5    0.65  -54.0
+tech: momentum top-1 + SMA200        16.9    0.60  -63.0
+tech: three-factor score top-1       19.4    0.75  -39.0
+tech: momentum top-5 (equal weight)  15.1    0.72  -36.0
+all S&P: momentum top-1              21.0    0.67  -69.0
+XLK                                  18.9    1.13  -17.0
+SPY                                  14.5    1.01  -19.0
+
+== 2021-06..2026-09
+                                      CAGR  Sharpe  maxDD
+strategy                                                 
+tech: momentum top-1                  96.1    1.30  -47.0
+tech: momentum top-1 + SMA200         86.2    1.22  -47.0
+tech: three-factor score top-1       110.3    1.41  -29.0
+tech: momentum top-5 (equal weight)   27.8    0.69  -44.0
+all S&P: momentum top-1               91.4    1.23  -47.0
+XLK                                   22.5    0.83  -31.0
+SPY                                   13.4    0.67  -24.0
+
+== 2010-01..2025-12
+                                     CAGR  Sharpe  maxDD
+strategy                                                
+tech: momentum top-1                 29.5    0.81  -54.0
+tech: momentum top-1 + SMA200        25.3    0.73  -63.0
+tech: three-factor score top-1       30.3    0.89  -39.0
+tech: momentum top-5 (equal weight)  13.2    0.57  -44.0
+all S&P: momentum top-1              29.6    0.78  -69.0
+XLK                                  18.7    0.99  -31.0
+SPY                                  14.0    0.89  -24.0
+
+== 2010-01..2026-09
+                                     CAGR  Sharpe  maxDD
+strategy                                                
+tech: momentum top-1                 39.9    0.90  -54.0
+tech: momentum top-1 + SMA200        35.6    0.84  -63.0
+tech: three-factor score top-1       43.5    0.99  -39.0
+tech: momentum top-5 (equal weight)  19.0    0.67  -44.0
+all S&P: momentum top-1              40.0    0.88  -69.0
+XLK                                  20.0    0.99  -31.0
+SPY                                  14.2    0.90  -24.0
+
+tech momentum top-1: top-5 months share 0.35 | most held {'NVDA': 42, 'AMD': 18, 'PLTR': 12, 'MU': 11, 'FSLR': 11, 'SNDK': 10, 'ENPH': 10, 'FTNT': 7} | tech names per month 68.5
+{2010: -7.6, 2011: -41.0, 2012: 32.3, 2013: -12.1, 2014: 74.8, 2015: 36.7, 2016: 164.5, 2017: 17.5, 2018: -31.4, 2019: 79.0, 2020: 69.9, 2021: 0.3, 2022: 37.4, 2023: 46.2, 2024: 34.9, 2025: 134.6, 2026: 343.1}
+== explosive_factors 00:05:37
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/explosive_factors.py:169: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  'share_of_years_lift>1': float((pr.assign(y=pr.t.dt.year).groupby('y').apply(
+ALL S&P, target = top-5% next-6m return (base rate 5%). Factor top decile:
+             dev_lift  dev_t  dev_years>1  hold_lift  hold_t  tech_dev_lift  tech_hold_lift  dev_BUST_lift
+factor                                                                                                    
+vol_3m           2.91   9.53         1.00       3.08    5.35           2.68            1.85           3.05
+maxret_1m        2.18   7.14         1.00       2.64    4.80           1.90            1.60           2.18
+ep               2.17   7.26         1.00       2.10    9.50           1.76            1.82           2.12
+log_mcap         1.79   4.25         0.91       1.21    1.96           1.34            0.76           1.73
+rd_int           1.72   2.91         0.73       1.32    1.34           2.04            0.97           1.85
+mom_3_1          1.71   6.19         1.00       1.88    4.43           1.71            1.92           1.43
+mom_6_1          1.59   4.61         0.91       2.22    4.84           1.87            1.83           1.26
+dist_sma200      1.57   3.92         0.82       2.34    5.44           1.86            2.13           1.25
+mom_accel        1.57   4.75         0.91       1.64    2.32           1.65            1.64           1.63
+gm_chg           1.55   4.68         0.91       2.53    2.48           1.90            2.20           1.41
+rev_g_q          1.47   2.21         0.73       2.18    3.94           1.76            1.84           1.64
+mom_12_1         1.47   2.98         0.73       2.46    5.15           1.74            1.92           1.36
+eps_accel        1.34   3.79         0.82       1.26    3.08           1.52            1.06           1.36
+deps_p           1.34   2.12         0.55       1.61    7.39           1.42            1.88           1.50
+rev_accel        1.31   2.34         0.82       1.21    1.46           1.61            1.21           1.32
+eps_g            1.26   2.33         0.64       1.38    2.07           1.36            1.41           1.12
+margin_chg       1.25   1.74         0.64       1.74    5.46           1.27            1.90           1.35
+rev_g            1.24   1.98         0.64       2.18    5.00           1.28            1.90           2.01
+eps_g_m5         1.04   0.36         0.55       1.55    2.09           1.14            1.56           1.28
+sue              0.98  -0.18         0.45       1.47    3.79           1.14            1.29           0.97
+smooth           0.89  -1.25         0.18       1.24    1.28           0.99            0.90           0.96
+dist_52wh        0.70  -5.07         0.00       0.86   -1.48           0.73            1.10           0.68
+
+USEFUL (pre-declared rule: dev lift >= 1.2 and t >= 2): ['vol_3m', 'maxret_1m', 'ep', 'log_mcap', 'rd_int', 'mom_3_1', 'mom_6_1', 'mom_accel', 'dist_sma200', 'gm_chg', 'rev_g_q', 'mom_12_1', 'eps_accel', 'deps_p', 'rev_accel', 'eps_g']
+composite [all] dev explosive6: lift 1.59 (t 4.07), hit 0.082 vs base 0.051
+composite [all] dev bust6: lift 1.47 (t 3.71), hit 0.073 vs base 0.050
+composite [all] holdout explosive6: lift 2.03 (t 4.16), hit 0.105 vs base 0.052
+composite [all] holdout bust6: lift 1.26 (t 2.60), hit 0.061 vs base 0.049
+composite [tech] dev explosive6: lift 2.00 (t 4.54), hit 0.148 vs base 0.074
+composite [tech] dev bust6: lift 1.24 (t 0.82), hit 0.056 vs base 0.045
+composite [tech] holdout explosive6: lift 1.82 (t 2.16), hit 0.263 vs base 0.145
+composite [tech] holdout bust6: lift 1.07 (t 0.24), hit 0.087 vs base 0.081
+
+period                    2012-01..2022-12 (dev)  ... 2023-01..2026-09 (holdout)
+strategy                                          ...                           
+SPY                                 12.8% / 0.86  ...               21.7% / 1.28
+XLK                                 17.2% / 0.96  ...               36.7% / 1.33
+composite top-1 (all S&P)           22.0% / 0.71  ...               18.0% / 0.42
+composite top-1 (tech)              25.7% / 0.76  ...               99.4% / 1.16
+composite top-5 (all S&P)           20.8% / 0.94  ...               23.8% / 0.63
+composite top-5 (tech)              15.6% / 0.69  ...               59.1% / 1.32
+
+[6 rows x 3 columns]
+
+tech composite top-1 most held: {'NVDA': 20, 'ENPH': 12, 'AMD': 12, 'WDC': 9, 'EA': 8, 'TSS': 8, 'XLNX': 7, 'MU': 7}
+== explosive_v2 00:06:08
+kept factors: ['mom_3_1', 'mom_6_1', 'dist_sma200', 'eps_g']
+             explosive_lift  bust_lift  ratio
+factor                                       
+mom_3_1                1.71       1.43   1.19
+mom_6_1                1.59       1.26   1.26
+dist_sma200            1.57       1.25   1.25
+eps_g                  1.26       1.12   1.13
+
+[all S&P] dev: explosive6 lift 1.33 (t 2.50, hit 0.068 vs 0.051) | bust6 lift 1.15 (t 1.25, hit 0.056 vs 0.049)
+[all S&P] holdout: explosive6 lift 2.14 (t 6.12, hit 0.110 vs 0.051) | bust6 lift 0.92 (t -1.01, hit 0.045 vs 0.049)
+[tech] dev: explosive6 lift 1.51 (t 2.51, hit 0.114 vs 0.075) | bust6 lift 1.10 (t 0.55, hit 0.048 vs 0.044)
+[tech] holdout: explosive6 lift 1.92 (t 2.47, hit 0.278 vs 0.145) | bust6 lift 0.73 (t -0.94, hit 0.060 vs 0.082)
+
+period                dev 2012-01..2022-12 holdout 2023-01..2026-09 full 2012-01..2026-09
+strategy                                                                                 
+SPY                    12.8% / 0.86 / -24%       21.7% / 1.28 / -8%   15.0% / 0.96 / -24%
+XLK                    17.2% / 0.96 / -31%      36.7% / 1.33 / -11%   21.9% / 1.07 / -31%
+v2 top-1 (all S&P)   -10.3% / -0.16 / -91%      69.5% / 1.09 / -47%    5.4% / 0.30 / -91%
+v2 top-1 (tech)         9.0% / 0.40 / -61%     109.2% / 1.43 / -47%   28.6% / 0.73 / -65%
+v2 top-10 (all S&P)    10.3% / 0.58 / -35%      26.7% / 0.75 / -29%   14.3% / 0.62 / -35%
+v2 top-10 (tech)       17.6% / 0.89 / -34%      46.3% / 1.17 / -29%   24.3% / 0.96 / -34%
+v2 top-5 (all S&P)      8.8% / 0.47 / -48%      28.7% / 0.78 / -33%   13.5% / 0.56 / -48%
+v2 top-5 (tech)        15.7% / 0.73 / -43%      54.0% / 1.17 / -33%   24.4% / 0.86 / -43%
+
+v2 tech top-1 most held: {'NVDA': 19, 'MU': 16, 'AVGO': 11, 'AMD': 10, 'ENPH': 8, 'PLTR': 8, 'ANET': 6, 'DXC': 6}
+v2 tech top-1 by year: {2012: 26.0, 2013: 109.3, 2014: -2.8, 2015: 39.2, 2016: 67.2, 2017: -7.6, 2018: -35.5, 2019: 86.9, 2020: -15.6, 2021: -33.2, 2022: -31.3, 2023: 4.7, 2024: 233.2, 2025: 212.9, 2026: 45.8}
+v2 tech top-5 by year: {2012: -0.4, 2013: 59.6, 2014: 19.0, 2015: 28.8, 2016: 21.9, 2017: 20.9, 2018: -6.6, 2019: 37.1, 2020: 14.8, 2021: 45.9, 2022: -35.3, 2023: 19.5, 2024: 41.8, 2025: 76.4, 2026: 68.9}
+== improve_v3 00:06:19
+period                                                 2015-01..2022-12      2023-01..2026-09     2015-01..2026-09 2022 only
+strategy                                                                                                                    
+SPY                                                 10.1% / 0.62 / -24%    21.7% / 1.28 / -8%  13.7% / 0.80 / -24%    -18.2%
+SPY + own regime                                     5.7% / 0.45 / -20%    12.8% / 0.79 / -8%   7.9% / 0.55 / -22%    -20.5%
+XLK                                                 16.3% / 0.83 / -31%   36.7% / 1.33 / -11%  22.5% / 1.00 / -31%    -27.7%
+XLK + own regime                                    13.1% / 0.82 / -21%   26.7% / 1.12 / -11%  17.3% / 0.93 / -21%    -20.5%
+pure momentum top-1 (all S&P)                       13.3% / 0.49 / -69%  137.1% / 1.48 / -47%  43.4% / 0.88 / -69%     -9.9%
+pure momentum top-1 (all) + SPY regime               3.9% / 0.28 / -71%   74.8% / 1.12 / -47%  22.7% / 0.62 / -71%    -29.9%
+tech top-1 [annual-reselect]                         8.0% / 0.36 / -55%  101.4% / 1.35 / -47%  31.7% / 0.77 / -60%    -47.6%
+tech top-1 [annual-reselect] + XLK regime            6.8% / 0.33 / -44%   70.2% / 1.10 / -47%  24.0% / 0.65 / -54%    -34.2%
+tech top-1 [fixed]                                   0.1% / 0.20 / -61%  109.2% / 1.43 / -47%  26.6% / 0.67 / -65%    -31.3%
+tech top-1 [fixed] + XLK regime                    -6.8% / -0.00 / -72%   76.7% / 1.18 / -47%  14.3% / 0.47 / -77%    -24.9%
+tech top-5 EW [annual-reselect]                     16.3% / 0.76 / -31%   58.8% / 1.26 / -27%  28.5% / 0.94 / -31%    -25.8%
+tech top-5 EW [annual-reselect] + XLK regime        12.1% / 0.65 / -26%   41.2% / 1.05 / -27%  20.7% / 0.79 / -27%    -18.8%
+tech top-5 EW [fixed]                               12.9% / 0.58 / -43%   54.0% / 1.17 / -33%  24.6% / 0.81 / -43%    -35.3%
+tech top-5 EW [fixed] + XLK regime                  11.5% / 0.57 / -26%   37.4% / 0.95 / -33%  19.2% / 0.71 / -33%    -18.7%
+tech top-5 inv-vol [annual-reselect]                17.9% / 0.85 / -30%   56.7% / 1.23 / -25%  29.1% / 0.98 / -30%    -25.5%
+tech top-5 inv-vol [annual-reselect] + XLK regime   13.9% / 0.76 / -26%   41.4% / 1.06 / -25%  22.1% / 0.86 / -26%    -18.5%
+tech top-5 inv-vol [fixed]                          13.2% / 0.61 / -41%   49.4% / 1.10 / -32%  23.7% / 0.80 / -41%    -34.9%
+tech top-5 inv-vol [fixed] + XLK regime             12.5% / 0.64 / -22%   36.1% / 0.92 / -32%  19.5% / 0.74 / -32%    -18.2%
+
+annual factor selection (rule re-applied each January, data up to previous June):
+2015 ['vol_3m', 'ep', 'maxret_1m', 'log_mcap', 'mom_6_1', 'dist_sma200', 'mom_3_1', 'gm_chg', 'deps_p', 'eps_accel', 'eps_g']
+2016 ['ep', 'maxret_1m', 'log_mcap', 'mom_6_1', 'dist_sma200', 'mom_3_1', 'deps_p', 'gm_chg', 'eps_accel', 'eps_g']
+2017 ['maxret_1m', 'log_mcap', 'mom_3_1', 'mom_6_1', 'dist_sma200', 'gm_chg', 'deps_p']
+2018 ['log_mcap', 'dist_sma200', 'mom_3_1', 'mom_6_1', 'gm_chg']
+2019 ['log_mcap', 'mom_3_1', 'dist_sma200', 'mom_6_1', 'gm_chg', 'mom_12_1', 'eps_g']
+2020 ['log_mcap', 'mom_6_1', 'mom_3_1', 'dist_sma200', 'gm_chg']
+2021 ['mom_3_1', 'mom_6_1', 'gm_chg', 'dist_sma200', 'eps_g']
+2022 ['mom_3_1', 'gm_chg', 'mom_6_1', 'dist_sma200', 'eps_g']
+2023 ['mom_3_1', 'mom_6_1', 'dist_sma200', 'eps_g']
+2024 ['mom_3_1', 'mom_6_1', 'dist_sma200', 'eps_g']
+2025 ['mom_3_1', 'mom_6_1', 'dist_sma200', 'mom_12_1']
+2026 ['mom_3_1', 'dist_sma200', 'mom_6_1', 'gm_chg', 'mom_12_1', 'eps_g']
+regime months in cash 2015-2026: SPY 25 | XLK 23
+== earnings_factor 00:07:07
+events 56777 tickers 823 | panel coverage ear 0.965 ear_sum4 0.956
+universe  period   factor  explosive_lift  t_NW  bust_lift  ratio  months
+     all     dev      ear            1.48  6.36       1.46   1.01     126
+     all     dev ear_sum4            1.44  4.60       1.47   0.98     126
+     all     dev      sue            0.98 -0.18       0.97   1.01     126
+     all holdout ear_sum4            1.83  5.00       1.25   1.47      39
+     all holdout      ear            1.74  6.24       1.53   1.14      39
+     all holdout      sue            1.47  3.79       0.89   1.65      39
+    tech     dev ear_sum4            1.67  3.03       1.34   1.24     126
+    tech     dev      ear            1.57  3.15       1.44   1.09     126
+    tech     dev      sue            1.14  0.84       1.10   1.04     126
+    tech holdout      ear            1.77  2.96       0.91   1.95      39
+    tech holdout ear_sum4            1.55  3.18       1.68   0.92      39
+    tech holdout      sue            1.29  1.45       1.74   0.74      39
+useful on dev (pre-declared rule): none
+period                                       2015-01..2022-12     2015-01..2026-09     2023-01..2026-09
+strategy                                                                                               
+tech top-5 inv-vol, composite (baseline)  13.2% / 0.61 / -41%  23.7% / 0.80 / -41%  49.4% / 1.10 / -32%
+tech top-5 inv-vol, composite + ear       17.3% / 0.81 / -38%  28.1% / 0.95 / -38%  54.5% / 1.21 / -26%
+tech top-5 inv-vol, composite + ear_sum4  17.7% / 0.80 / -39%  27.7% / 0.94 / -39%  52.2% / 1.19 / -26%
+== identity_screen_earnings 00:07:15
+{'ok': 750, 'SUSPECT': 39, 'no_events': 36} | median ratio 2.08
+ticker     cik  events    ratio panel_first panel_last                source    flag
+   BIG  768835      16 0.875311  2009-12-31 2013-01-31                  wiki SUSPECT
+   FRX   38074      22 0.893532  2009-12-31 2014-06-30                tiingo SUSPECT
+   XOM   34088      96 1.012693  2009-12-31 2026-08-31                 yahoo SUSPECT
+   RIG 1451505      19 1.059538  2013-10-31 2017-06-30                 yahoo SUSPECT
+    SO   92122      74 1.081272  2009-12-31 2026-08-31                 yahoo SUSPECT
+   AEP    4904      71 1.082622  2009-12-31 2026-08-31                 yahoo SUSPECT
+   TFC   92230      31 1.088799  2019-12-31 2026-08-31                 yahoo SUSPECT
+   CMS  811156      72 1.095650  2009-12-31 2026-08-31                 yahoo SUSPECT
+   DTE  936340     142 1.096246  2009-12-31 2026-08-31                 yahoo SUSPECT
+   PCG 1004980      72 1.105383  2009-12-31 2026-08-31                 yahoo SUSPECT
+     D  715957      75 1.106332  2009-12-31 2026-08-31                 yahoo SUSPECT
+   MAC  912242      30 1.118762  2013-05-31 2019-11-30                 yahoo SUSPECT
+  FANG 1539838      53 1.123005  2018-12-31 2026-08-31                 yahoo SUSPECT
+   MEE   37748       9 1.130143  2009-12-31 2011-03-31           archive:ott SUSPECT
+   NVR  906163      32 1.141895  2019-09-30 2026-08-31                 yahoo SUSPECT
+   DOW 1751788      29 1.151839  2020-03-31 2026-08-31 wiki<2017-08-31|yahoo SUSPECT
+   GGP 1496048      23 1.157187  2013-12-31 2018-07-31                tiingo SUSPECT
+   DUK 1326160      90 1.162756  2009-12-31 2026-08-31                 yahoo SUSPECT
+   VLO 1035002      74 1.167098  2009-12-31 2026-08-31                 yahoo SUSPECT
+   XEL   72903      76 1.170719  2009-12-31 2026-08-31                 yahoo SUSPECT
+   WEC  783325      75 1.171004  2009-12-31 2026-08-31                 yahoo SUSPECT
+   PNW  764622      71 1.184044  2009-12-31 2026-08-31                 yahoo SUSPECT
+   BXP 1037540      71 1.189375  2009-12-31 2026-08-31                 yahoo SUSPECT
+   SLG 1040971      28 1.189779  2015-03-31 2021-02-28                 yahoo SUSPECT
+   LNT  352541      47 1.194868  2016-07-31 2026-08-31                 yahoo SUSPECT
+    NI 1111711      71 1.200333  2009-12-31 2026-08-31                 yahoo SUSPECT
+   HES    4447      66 1.212282  2009-12-31 2025-06-30                tiingo SUSPECT
+  VICI 1705696      22 1.214519  2022-06-30 2026-08-31                 yahoo SUSPECT
+     O  726728      53 1.218806  2015-04-30 2026-08-31                 yahoo SUSPECT
+   EIX  827052      72 1.221107  2009-12-31 2026-08-31                 yahoo SUSPECT
+   AAL    6201      54 1.221750  2015-03-31 2024-08-31                 yahoo SUSPECT
+   RAI 1275283      35 1.227439  2009-12-31 2017-06-30                tiingo SUSPECT
+   ATO  731802      37 1.227974  2019-02-28 2026-08-31                 yahoo SUSPECT
+   DNR  945764      34 1.234679  2009-12-31 2015-02-28                tiingo SUSPECT
+   COP 1163165      79 1.235264  2009-12-31 2026-08-31                 yahoo SUSPECT
+   MOS 1285785     101 1.245553  2011-09-30 2026-08-31                 yahoo SUSPECT
+   AVB  915912      73 1.246095  2009-12-31 2026-07-31                tiingo SUSPECT
+   EXE  895126      10 1.246171  2025-03-31 2026-08-31                 yahoo SUSPECT
+   ALK  766421      34 1.249331  2016-05-31 2023-11-30                 yahoo SUSPECT
+== risk_report 00:07:20
+Traceback (most recent call last):
+  File "/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/risk_report.py", line 125, in <module>
+    main()
+  File "/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/risk_report.py", line 73, in main
+    S = {os.path.basename(f)[3:-4]: pd.read_csv(f, parse_dates=['month']).set_index('month') for f in files}
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/risk_report.py", line 73, in <dictcomp>
+    S = {os.path.basename(f)[3:-4]: pd.read_csv(f, parse_dates=['month']).set_index('month') for f in files}
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1898, in _make_engine
+    return mapping[engine](f, **self.options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pandas/io/parsers/c_parser_wrapper.py", line 161, in __init__
+    self._validate_parse_dates_presence(self.names)  # type: ignore[has-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pandas/io/parsers/base_parser.py", line 243, in _validate_parse_dates_presence
+    raise ValueError(
+ValueError: Missing column provided to 'parse_dates': 'month'

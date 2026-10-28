@@ -1,0 +1,28 @@
+NDX-only members per month (median): 21.0 | eligible: 21.0
+sanity: S&P-only SPEC via union loader — same picks 100.0% of 213 months; max |net diff| 9.97e-17
+A SPEC (S&P ∪ NDX): months holding an NDX-only name 13.1%; most held: {'DVN': 13, 'NVDA': 13, 'TSLA': 8, 'SNDK': 8, 'S': 5, 'VST': 5, 'OXY': 5, 'AWK': 5}
+B pure momentum top-1 (S&P ∪ NDX): months holding an NDX-only name 23.5%; most held: {'NVDA': 20, 'TSLA': 17, 'AMD': 10, 'NFLX': 9, 'DVN': 8, 'SNDK': 7, 'FSLR': 7, 'GMCR': 6}
+period                                              IS                  OOS                 FULL
+strategy                                                                                        
+A SPEC (S&P only)                  12.1% / 0.53 / -37%  71.3% / 1.10 / -51%  27.4% / 0.74 / -51%
+A SPEC (S&P ∪ NDX)                  6.1% / 0.33 / -44%  87.9% / 1.25 / -47%  26.0% / 0.69 / -47%
+B pure momentum top-1 (S&P only)   18.2% / 0.61 / -69%  91.4% / 1.23 / -47%  36.6% / 0.83 / -69%
+B pure momentum top-1 (S&P ∪ NDX)   7.6% / 0.38 / -72%  76.7% / 1.12 / -47%  24.9% / 0.64 / -72%
+SPY                                15.4% / 1.02 / -19%  13.4% / 0.67 / -24%  14.8% / 0.91 / -24%
+share of eligible rows with a composite score: S&P 1.0 | NDX-only 1.0
+period                                            2012-01..2022-12      2023-01..2026-09     2012-01..2026-09     2015-01..2026-09
+strategy                                                                                                                          
+C all top-5 inv-vol (S&P only)                  9.4% / 0.51 / -46%   26.4% / 0.74 / -32%  13.5% / 0.58 / -46%  10.4% / 0.43 / -46%
+C all top-5 inv-vol (S&P ∪ NDX)                13.5% / 0.65 / -43%   20.8% / 0.58 / -36%  15.3% / 0.61 / -43%  11.9% / 0.46 / -43%
+C tech top-1 (S&P only)                         9.0% / 0.40 / -61%  109.2% / 1.43 / -47%  28.6% / 0.73 / -65%  26.6% / 0.67 / -65%
+C tech top-1 (S&P ∪ NDX)                        8.9% / 0.40 / -75%   73.6% / 1.07 / -47%  22.6% / 0.61 / -79%  17.7% / 0.53 / -79%
+C tech top-5 EW (S&P only)                     15.7% / 0.73 / -43%   54.0% / 1.17 / -33%  24.4% / 0.86 / -43%  24.6% / 0.81 / -43%
+C tech top-5 EW (S&P ∪ NDX)                    16.3% / 0.75 / -47%   57.9% / 1.19 / -36%  25.7% / 0.88 / -47%  26.2% / 0.83 / -47%
+C tech top-5 inv-vol (S&P only)                15.1% / 0.73 / -41%   49.4% / 1.10 / -32%  23.0% / 0.83 / -41%  23.7% / 0.80 / -41%
+C tech top-5 inv-vol (S&P only) + XLK regime   13.2% / 0.72 / -22%   36.1% / 0.92 / -32%  18.7% / 0.76 / -32%  19.5% / 0.74 / -32%
+C tech top-5 inv-vol (S&P ∪ NDX)               16.0% / 0.76 / -44%   54.3% / 1.13 / -36%  24.7% / 0.86 / -44%  25.6% / 0.83 / -44%
+C tech top-5 inv-vol (S&P ∪ NDX) + XLK regime  13.9% / 0.75 / -25%   40.4% / 0.97 / -36%  20.1% / 0.79 / -36%  21.0% / 0.76 / -36%
+SPY                                            12.8% / 0.86 / -24%    21.7% / 1.28 / -8%  15.0% / 0.96 / -24%  13.7% / 0.80 / -24%
+XLK                                            17.2% / 0.96 / -31%   36.7% / 1.33 / -11%  21.9% / 1.07 / -31%  22.5% / 1.00 / -31%
+union tech top-1 most held: {'NVDA': 17, 'MU': 15, 'ENPH': 8, 'AMD': 8, 'ZM': 6, 'DXC': 6, 'BIDU': 6, 'AVGO': 5, 'WDC': 5, 'PLTR': 4}
+union tech top-5: share of slots taken by NDX-only names 0.183 | most frequent NDX-only: {'ASML': 20, 'NXPI': 14, 'ZS': 12, 'YHOO': 10, 'BIDU': 10, 'TEAM': 10, 'NTES': 9, 'CRWD': 9, 'MRVL': 8, 'WDAY': 8}

@@ -20,6 +20,7 @@ import numpy as np
 import pandas as pd
 
 import backtest as bt
+from fundamentals_pit import cik_valid
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.join(HERE, 'results', 'eps_momentum')
@@ -49,7 +50,8 @@ def growth_panel(form, P):
     p['growth_sym'] = np.where(den > 0, (p.ttm - p.ttm_prior) / den, np.nan)
     # for every month-end: latest row PUBLIC at t (all 4 quarters filed) with a fresh fiscal quarter
     grid = pd.DataFrame([(c, t) for c in p.cik.unique() for t in form], columns=['cik', 't']).sort_values('t')
-    g = pd.merge_asof(grid, p.sort_values('avail'), left_on='t', right_on='avail', by='cik', direction='backward')
+    # availability ties → latest fiscal period wins (stable sort), see ml_features.fundamental_panel
+    g = pd.merge_asof(grid, p.sort_values(['avail', 'period_end'], kind='mergesort'), left_on='t', right_on='avail', by='cik', direction='backward')
     g = g[(g.t - g.period_end).dt.days <= 200]
     return g[['cik', 't', 'period_end', 'growth', 'growth_margin5', 'growth_sym', 'dEPS', 'ttm', 'ttm_prior']]
 
@@ -78,7 +80,7 @@ def main():
             df, mom = eng.eligible(t, 12)
             if df.empty:
                 continue
-            df['cik'] = [t2c.get(s) for s in df.index]
+            df['cik'] = [t2c.get(s) if cik_valid(s, t) else None for s in df.index]   # (ticker, CIK) validity window
             gv = []
             for s, c in zip(df.index, df.cik):
                 key = (t, c)

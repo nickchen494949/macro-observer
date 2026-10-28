@@ -35,6 +35,10 @@ def main():
     b = lift_table(X, FACT, 'bust6', dev_m).set_index('factor')
     sel = [f for f in e.index if e.at[f, 'lift'] >= 1.2 and e.at[f, 't_NW'] >= 2 and e.at[f, 'lift'] / b.at[f, 'lift'] >= 1.10]
     print('kept factors:', sel)
+    import json
+    json.dump({'selected': sel, 'rule': 'dev 2012-01..2022-06, all S&P, explosive6: lift >= 1.2, t_NW >= 2, explosive/bust >= 1.10',
+               'table': {f: {'explosive_lift': float(e.at[f, 'lift']), 't_NW': float(e.at[f, 't_NW']), 'bust_lift': float(b.at[f, 'lift'])}
+                         for f in e.index}}, open(os.path.join(OUT, 'v2_selected_factors.json'), 'w'), indent=1)
     print(pd.DataFrame({'explosive_lift': e.lift, 'bust_lift': b.lift, 'ratio': e.lift / b.lift}).loc[sel].round(2).to_string())
     cols = []
     for c in sel:

@@ -1,0 +1,56 @@
+ticker,cik,valid_from,valid_to,sec_name,method,sector,has_fundamentals
+ALAB,1736297,,,"Astera Labs, Inc.",ndx_manual,Information Technology,True
+ALNY,1178670,,,"ALNYLAM PHARMACEUTICALS, INC.",ndx_manual,Health Care,True
+ARM,1973239,,,ARM HOLDINGS PLC /UK,ndx_manual,Information Technology,False
+ASML,937966,,,ASML HOLDING NV,ndx_manual,Information Technology,False
+AZN,901832,,,ASTRAZENECA PLC,ndx_manual,Health Care,False
+BB,1070235,,,BLACKBERRY Ltd (formerly Research In Motion),ndx_manual,Information Technology,True
+BIDU,1329099,,,"Baidu, Inc.",ndx_manual,Communication Services,False
+BMRN,1048477,,,BIOMARIN PHARMACEUTICAL INC,ndx_manual,Health Care,True
+CHKP,1015922,,,CHECK POINT SOFTWARE TECHNOLOGIES LTD,ndx_manual,Information Technology,False
+CRWV,1769628,,,"CoreWeave, Inc.",ndx_manual,Information Technology,True
+CTRX,1363851,,,CATAMARAN CORP,ndx_manual,Health Care,True
+DOCU,1261333,,,"DOCUSIGN, INC.",ndx_manual,Information Technology,True
+FER,1468522,,,Ferrovial N.V.,ndx_manual,Industrials,False
+FWLT,1130385,,,FOSTER WHEELER AG,ndx_manual,Industrials,True
+GFS,1709048,,,GLOBALFOUNDRIES Inc.,ndx_manual,Information Technology,False
+GOLD,1175580,,,RANDGOLD RESOURCES LTD,ndx_manual,Materials,False
+INFY,1067491,,,Infosys Ltd,ndx_manual,Information Technology,False
+INSM,1104506,,,INSMED Inc,ndx_manual,Health Care,True
+JD,1549802,,,"JD.com, Inc.",ndx_manual,Consumer Discretionary,False
+LBTYA,1316631,,2013-06-07,"LIBERTY GLOBAL, INC.",ndx_manual,Communication Services,True
+LBTYA,1570585,2013-06-07,,Liberty Global Ltd. (formerly Liberty Global plc),ndx_manual,Communication Services,True
+LBTYK,1316631,,2013-06-07,"LIBERTY GLOBAL, INC.",ndx_manual,Communication Services,True
+LBTYK,1570585,2013-06-07,,Liberty Global Ltd.,ndx_manual,Communication Services,True
+LCID,1811210,,,"Lucid Group, Inc.",ndx_manual,Consumer Discretionary,True
+LMCA,1560385,,,LIBERTY MEDIA CORP,ndx_manual,Communication Services,True
+LOGI,1032975,,,LOGITECH INTERNATIONAL S.A.,ndx_manual,Information Technology,True
+MDB,1441816,,,"MongoDB, Inc.",ndx_manual,Information Technology,True
+MELI,1099590,,,MERCADOLIBRE INC,ndx_manual,Consumer Discretionary,True
+MSTR,1050446,,,Strategy Inc (formerly MicroStrategy),ndx_manual,Information Technology,True
+NBIS,1513845,,,Nebius Group N.V. (formerly Yandex N.V.),ndx_manual,Information Technology,False
+NTES,1110646,,,"NetEase, Inc.",ndx_manual,Communication Services,False
+NUAN,1002517,,,"NUANCE COMMUNICATIONS, INC.",ndx_manual,Information Technology,True
+OKTA,1660134,,,"Okta, Inc.",ndx_manual,Information Technology,True
+PDD,1737806,,,PDD Holdings Inc.,ndx_manual,Consumer Discretionary,False
+PTON,1639825,,,"PELOTON INTERACTIVE, INC.",ndx_manual,Consumer Discretionary,True
+QGEN,1015820,,,QIAGEN N.V.,ndx_manual,Health Care,False
+QVCA,1355096,,,LIBERTY INTERACTIVE CORP (today QURATE RETAIL),ndx_manual,Consumer Discretionary,True
+RIVN,1874178,,,"Rivian Automotive, Inc.",ndx_manual,Consumer Discretionary,True
+RKLB,1819994,,,Rocket Lab Corp,ndx_manual,Industrials,True
+RYAAY,1038683,,,RYANAIR HOLDINGS PLC,ndx_manual,Industrials,False
+SGEN,1060736,,,SEAGEN INC. (formerly Seattle Genetics),ndx_manual,Health Care,True
+SHOP,1594805,,,SHOPIFY INC.,ndx_manual,Information Technology,True
+SHPG,936402,,,SHIRE PLC,ndx_manual,Health Care,True
+SIRI,908937,,,SIRIUS XM HOLDINGS INC. (old holdco until the 2024-09 Liberty merger),ndx_manual,Communication Services,True
+SPLK,1353283,,,SPLUNK INC,ndx_manual,Information Technology,True
+TCOM,1269238,,,Trip.com Group Ltd (formerly Ctrip.com International),ndx_manual,Consumer Discretionary,False
+TEAM,1650372,,,Atlassian Corp,ndx_manual,Information Technology,True
+TEVA,818686,,,TEVA PHARMACEUTICAL INDUSTRIES LTD,ndx_manual,Health Care,True
+TRI,1075124,,,THOMSON REUTERS CORP /CAN/,ndx_manual,Industrials,False
+VEON,1468091,,,VEON Ltd. (formerly VimpelCom Ltd),ndx_manual,Communication Services,False
+VMED,1270400,,,VIRGIN MEDIA INC.,ndx_manual,Communication Services,True
+VOD,839923,,,VODAFONE GROUP PUBLIC LTD CO,ndx_manual,Communication Services,False
+WCRX,1323854,,,WARNER CHILCOTT PLC,ndx_manual,Health Care,True
+ZM,1585521,,,"Zoom Communications, Inc.",ndx_manual,Information Technology,True
+ZS,1713683,,,"Zscaler, Inc.",ndx_manual,Information Technology,True

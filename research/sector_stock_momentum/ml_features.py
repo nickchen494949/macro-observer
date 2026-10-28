@@ -18,7 +18,8 @@ Fundamental features (SEC PIT store; each field gated by ITS OWN availability da
   sue          (quarterly EPS − same quarter 1y ago) / std of the last 8 such differences
   margin       TTM net margin; margin_chg (YoY change)
   rev_g        TTM revenue YoY growth
-  log_mcap     log(diluted shares × price)
+  log_mcap     log(diluted shares × split factor after the shares' filing date × adjusted price) — a size PROXY
+               (weighted-average diluted shares, dividend-adjusted price), gated by the shares' own filing date
   days_since_filing
 Label: fwd_ret = holding-period return t → t+1 (same exit handling as the backtest); fwd_rank = cross-sectional
 percentile of fwd_ret within month t.
@@ -29,6 +30,7 @@ import numpy as np
 import pandas as pd
 
 import backtest as bt
+from fundamentals_pit import cik_valid
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, 'results', 'ml')
@@ -99,12 +101,24 @@ def fundamental_panel(form):
     p['avail_ttm'] = p.eps_diluted_approx_ttm_available_date
     p['avail_rev'] = p.revenue_ttm_available_date if 'revenue_ttm_available_date' in p else p.avail_ttm
     p['avail_q'] = p.available_date
+    # shares: (1) gated by THEIR OWN first-public date (filed_diluted_shares), not the EPS row's date (external audit
+    # 2026-10-28: e.g. WDC 2020-09 quarter, shares first filed 2021-11-04); (2) put on the SAME split basis as the
+    # adjusted prices: × every split after the shares' filing date (NVDA 2020-12: 630m × 40 → size proxy 329 bn, not 8 bn)
+    from fundamentals_pit import split_factor_after
+    p['avail_sh'] = p.filed_diluted_shares + pd.Timedelta(days=1)
+    fac = [split_factor_after(t, f) if isinstance(t, str) and pd.notna(f) else np.nan
+           for t, f in zip(p.ticker, p.filed_diluted_shares)]
+    p['diluted_shares_adj'] = p.diluted_shares * np.array(fac, dtype=float)
+    p['sh_period_end'] = p.period_end
     grid = pd.DataFrame([(c, t) for c in p.cik.unique() for t in form], columns=['cik', 't']).sort_values('t')
     out = grid.copy()
     blocks = {'avail_ttm': ['eps_diluted_approx_ttm_adj', 'eps_g', 'eps_g_m5', 'eps_g_sym', 'deps', 'margin', 'margin_chg'],
-              'avail_rev': ['rev_g'], 'avail_q': ['sue', 'diluted_shares', 'period_end']}
+              'avail_rev': ['rev_g'], 'avail_q': ['sue', 'period_end'], 'avail_sh': ['diluted_shares_adj', 'sh_period_end']}
     for av, cols in blocks.items():
-        x = p.dropna(subset=[av])[['cik', av] + cols].sort_values(av)
+        # ties in the availability date (several fiscal quarters first public on the same day, e.g. a 10-K/A or a
+        # catch-up filing): the LATEST fiscal period must win → stable sort by (availability, period_end)
+        x = p.dropna(subset=[av]).sort_values([av, 'period_end'], kind='mergesort')[['cik', av] + cols]
+        x = x.loc[:, ~x.columns.duplicated()]
         m = pd.merge_asof(grid, x, left_on='t', right_on=av, by='cik', direction='backward')
         if 'period_end' in cols:
             m['days_since_filing'] = (m.t - m[av]).dt.days
@@ -113,9 +127,10 @@ def fundamental_panel(form):
         out = out.merge(m, on=['cik', 't'], how='left')
     # stale fundamentals (fiscal quarter ended > 200 days before t) are not used
     stale = out.q_age > 200
-    for c in [c for c in out.columns if c not in ('cik', 't', 'q_age', 'period_end')]:
+    for c in [c for c in out.columns if c not in ('cik', 't', 'q_age', 'period_end', 'diluted_shares_adj', 'sh_period_end')]:
         out.loc[stale, c] = np.nan
-    return out.drop(columns=['period_end'])
+    out.loc[(out.t - out.sh_period_end).dt.days > 200, 'diluted_shares_adj'] = np.nan     # shares: own staleness
+    return out.drop(columns=['period_end', 'sh_period_end'])
 
 
 def build():
@@ -145,6 +160,8 @@ def build():
             for k, v in pf.items():
                 rec[k] = v.at[t, s] if s in v.columns else np.nan
             c = t2c.get(s)
+            if c is not None and not cik_valid(s, t):
+                c = None                        # ticker's prices and mapped CIK are different companies at t
             if c is not None and (t, c) in Fi.index:
                 f = Fi.loc[(t, c)]
                 price = px.at[t, s]
@@ -152,8 +169,8 @@ def build():
                                               'days_since_filing']})
                 rec['deps_p'] = f['deps'] / price if price and price > 0 else np.nan
                 rec['ep'] = f['eps_diluted_approx_ttm_adj'] / price if price and price > 0 else np.nan
-                rec['log_mcap'] = np.log(f['diluted_shares'] * price) if f['diluted_shares'] and price and price > 0 \
-                    and f['diluted_shares'] > 0 else np.nan
+                sh = f['diluted_shares_adj']
+                rec['log_mcap'] = np.log(sh * price) if np.isfinite(sh) and sh > 0 and price and price > 0 else np.nan
             r, st = px_.ret(t, s, res)
             rec['fwd_ret'], rec['exit_status'] = r, st
             rows.append(rec)

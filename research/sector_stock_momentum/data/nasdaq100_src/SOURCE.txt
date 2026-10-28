@@ -1,0 +1,1 @@
+source: https://github.com/jmccarrell/n100tickers commit 2d7be392976e339174ece643acbb00a53e973eb8 (2026-10-12), files copied verbatim on 2026-10-28

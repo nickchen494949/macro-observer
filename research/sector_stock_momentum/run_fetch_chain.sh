@@ -3,4 +3,4 @@
 cd "$(dirname "$0")"
 while pgrep -f "fetch_prices.py" >/dev/null; do sleep 30; done
 sleep 8
-python3 fetch_sectors.py > fetch_sectors.log 2>&1
+python3 fetch_sectors.py > logs/fetch_sectors.log 2>&1

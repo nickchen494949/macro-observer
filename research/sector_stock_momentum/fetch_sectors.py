@@ -34,7 +34,7 @@ YAHOO_TO_GICS = {
 
 def main():
     # state-driven: only run if the price download finished cleanly ('done'), not after a 429 stop / crash
-    plog = os.path.join(HERE, 'fetch_prices.log')
+    plog = os.path.join(HERE, 'logs', 'fetch_prices.log')
     last = open(plog).read().strip().splitlines()[-1] if os.path.exists(plog) else ''
     if last != 'done':
         print(f'fetch_prices did not finish cleanly (last line: {last!r}) — not running.', flush=True)
