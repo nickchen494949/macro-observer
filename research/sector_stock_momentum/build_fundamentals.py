@@ -33,6 +33,18 @@ RAW = os.path.join(F, 'sec_raw')
 
 YAHOO_LOG = os.path.join(HERE, 'fetch_sectors.log')
 
+# Hand-verified CIKs for tickers the automatic matcher got wrong (name re-use / ticker re-use).
+# Each checked against EDGAR filer name + filing window (see git history 2026-10-28).
+MANUAL_CIK = {
+    'CA': 356028,      # CA, Inc. (not Cantaloupe)
+    'BRCM': 1054374,   # Broadcom Corp (pre-2016; not Broadcom Ltd / Avago)
+    'BBT': 92230,      # BB&T → Truist (same filer; ticker BBT later re-used)
+    'PARA': 813828,    # Paramount Global / ViacomCBS (ticker PARA later re-used)
+    'XRX': 108772,     # Xerox Corp 2009–2019 (Xerox Holdings 1770450 from 2019-11)
+    'AGN': 850693,     # Allergan Inc (S&P member as AGN until 2015)
+    'KRFT': 1545158,   # Kraft Foods Group 2012–2015 (not Kraft Foods Inc → Mondelez)
+}
+
 # SIC → GICS sector (coarse fallback when neither Wikipedia nor Yahoo has a sector)
 def sic_to_sector(sic):
     try:
@@ -106,27 +118,43 @@ def build_cik_map(sub):
         e = e if pd.notna(e) else pd.Timestamp.today()
         return r['first'] <= e + pd.Timedelta(days=120) and r['last'] >= max(s, pd.Timestamp('2009-06-01')) - pd.Timedelta(days=30)
 
+    def overlap(cik, s, e):
+        if cik not in fil.index:
+            return -1
+        r = fil.loc[cik]
+        e = e if pd.notna(e) else pd.Timestamp.today()
+        lo, hi = max(r['first'], s, pd.Timestamp('2009-04-01')), min(r['last'], e + pd.Timedelta(days=120))
+        return (hi - lo).days
+
+    def best(cands, s, e):
+        cands = [c for c in cands if active(c, s, e)]
+        return max(cands, key=lambda c: overlap(c, s, e)) if cands else None
+
     rows = []
     for t in tickers:
         sp = spans[spans.ticker == t]
         s, e = sp.start_date.min(), (sp.end_date.max() if sp.end_date.notna().all() else pd.NaT)
         cik, how, score = None, None, None
-        if t in wiki_cik and pd.notna(wiki_cik[t]):
+        if t in MANUAL_CIK:
+            cik, how = MANUAL_CIK[t], 'manual_verified'
+        if cik is None and t in wiki_cik and pd.notna(wiki_cik[t]):
             cik, how = int(wiki_cik[t]), 'wikipedia_current'
         if cik is None and t in names:
             n = norm(names[t])
-            cands = by_norm.get(n, set())
-            cands = [c for c in cands if active(c, s, e)]
-            if len(cands) == 1:
-                cik, how, score = cands[0], 'name_exact', 1.0
+            c = best(by_norm.get(n, set()), s, e)
+            if c is not None:
+                cik, how, score = c, 'name_exact', 1.0
             else:
                 for k in difflib.get_close_matches(n, norm_keys, n=5, cutoff=0.88):
-                    cc = [c for c in by_norm[k] if active(c, s, e)]
-                    if cc:
-                        cik, how, score = cc[0], 'name_fuzzy', difflib.SequenceMatcher(None, n, k).ratio()
+                    c = best(by_norm[k], s, e)
+                    if c is not None:
+                        cik, how, score = c, 'name_fuzzy', difflib.SequenceMatcher(None, n, k).ratio()
                         break
         if cik is None and t in sec_cik and active(int(sec_cik[t]), s, e):
-            cik, how = int(sec_cik[t]), 'sec_ticker_validated'
+            c = int(sec_cik[t])
+            # tickers get re-used: if we know the historical name, it must resemble the EDGAR filer
+            if t not in names or difflib.SequenceMatcher(None, norm(names[t]), norm(fil.name.get(c, ''))).ratio() >= 0.6:
+                cik, how = c, 'sec_ticker_validated'
         rows.append({'ticker': t, 'cik': cik, 'method': how, 'match_score': score, 'name_hint': names.get(t),
                      'edgar_name': fil.name.get(cik) if cik is not None and cik in fil.index else None,
                      'member_start': s.date(), 'member_end': e.date() if pd.notna(e) else None})
@@ -145,8 +173,13 @@ def build_cik_map(sub):
 
 
 def build_long(sub, cmap):
-    good = cmap.dropna(subset=['cik', 'sector'])
-    cik2 = good.drop_duplicates('cik').set_index('cik')[['ticker', 'sector']]
+    good = cmap.dropna(subset=['cik', 'sector']).copy()
+    # renamed companies share one CIK (BBT→TFC, HRS→LHX …): label rows with the CURRENT ticker,
+    # keep every historical ticker in `all_tickers` so backtests can join on either
+    good['_prio'] = (good.method != 'wikipedia_current').astype(int)
+    alltk = good.groupby('cik').ticker.apply(lambda s: '|'.join(sorted(s)))
+    cik2 = good.sort_values(['_prio', 'ticker']).drop_duplicates('cik').set_index('cik')[['ticker', 'sector']]
+    cik2['all_tickers'] = alltk
     s = sub[sub.cik.isin(cik2.index)][['adsh', 'cik', 'form', 'fy', 'fp', 'fye', 'filed', 'accepted']]
     parts = []
     for p in sorted(glob.glob(os.path.join(RAW, 'num_*.parquet'))):
@@ -234,9 +267,9 @@ def main():
     print('long rows', len(long), 'companies', long.cik.nunique())
 
     p = eps_panel(long)
-    tk = long.drop_duplicates('cik').set_index('cik')[['ticker', 'sector']]
+    tk = long.drop_duplicates('cik').set_index('cik')[['ticker', 'all_tickers', 'sector']]
     p = p.join(tk, on='cik')
-    cols = ['ticker', 'cik', 'sector', 'ddate', 'fy', 'fp', 'form', 'filed', 'available_date', 'q4_derived',
+    cols = ['ticker', 'all_tickers', 'cik', 'sector', 'ddate', 'fy', 'fp', 'form', 'filed', 'available_date', 'q4_derived',
             'eps_diluted', 'eps_basic', 'net_income', 'revenue', 'diluted_shares',
             'eps_diluted_ttm', 'eps_basic_ttm', 'net_income_ttm', 'revenue_ttm']
     p = p[[c for c in cols if c in p]].rename(columns={'ddate': 'period_end'})

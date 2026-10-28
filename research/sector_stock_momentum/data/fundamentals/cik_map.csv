@@ -1,0 +1,901 @@
+ticker,cik,method,match_score,name_hint,edgar_name,member_start,member_end,sector,sector_source
+A,1090872,wikipedia_current,,,"AGILENT TECHNOLOGIES, INC.",2000-06-05,,Health Care,wikipedia_gics
+AABA,,,,,,1999-12-08,2017-06-19,,
+AAL,6201,name_exact,1.0,American Airlines Group,AMERICAN AIRLINES GROUP INC.,2015-03-23,2024-09-23,Industrials,sic_approx
+AAP,1158449,name_exact,1.0,Advance Auto Parts,ADVANCE AUTO PARTS INC,2015-07-09,2023-08-25,Consumer Discretionary,sic_approx
+AAPL,320193,wikipedia_current,,,APPLE INC,1996-01-02,,Information Technology,wikipedia_gics
+ABBV,1551152,wikipedia_current,,AbbVie,ABBVIE INC.,2013-01-02,,Health Care,wikipedia_gics
+ABC,,,,,,2001-08-30,2023-08-30,,
+ABI,,,,,,1996-01-02,2008-11-24,,
+ABKFQ,,,,,,2000-12-11,2008-06-11,,
+ABMD,815094,name_exact,1.0,Abiomed,ABIOMED INC,2018-05-31,2022-12-22,Health Care,sic_approx
+ABNB,1559720,wikipedia_current,,Airbnb,"AIRBNB, INC.",2023-09-18,,Consumer Discretionary,wikipedia_gics
+ABT,1800,wikipedia_current,,,ABBOTT LABORATORIES,1996-01-02,,Health Care,wikipedia_gics
+ACAS,,,,American Capital,,2007-07-09,2009-03-04,,
+ACGL,947484,wikipedia_current,,Arch Capital Group,ARCH CAPITAL GROUP LTD.,2022-11-01,,Financials,wikipedia_gics
+ACN,1467373,wikipedia_current,,Accenture,ACCENTURE PLC,2011-07-06,,Information Technology,wikipedia_gics
+ACS,,,,,,2004-04-02,2010-02-08,,
+ADBE,796343,wikipedia_current,,,ADOBE INC.,1997-05-06,,Information Technology,wikipedia_gics
+ADI,6281,wikipedia_current,,,ANALOG DEVICES INC,1999-10-12,,Information Technology,wikipedia_gics
+ADM,7084,wikipedia_current,,,ARCHER-DANIELS-MIDLAND CO,1996-01-02,,Consumer Staples,wikipedia_gics
+ADP,8670,wikipedia_current,,,AUTOMATIC DATA PROCESSING INC,1996-01-02,,Industrials,wikipedia_gics
+ADS,1101215,name_exact,1.0,Alliance Data Systems,"BREAD FINANCIAL HOLDINGS, INC.",2013-12-23,2020-06-22,Financials,sic_approx
+ADSK,769397,wikipedia_current,,,"AUTODESK, INC.",1996-01-02,,Information Technology,wikipedia_gics
+ADT,1546640,name_exact,1.0,ADT,ADT CORP,2012-10-02,2016-05-02,Industrials,sic_approx
+AEE,1002910,wikipedia_current,,,AMEREN CORP,1996-01-02,,Utilities,wikipedia_gics
+AEP,4904,wikipedia_current,,,AMERICAN ELECTRIC POWER CO INC,1996-01-02,,Utilities,wikipedia_gics
+AES,874761,wikipedia_current,,,AES CORP,1998-10-02,,Utilities,wikipedia_gics
+AET,,,,Aetna,,1996-01-02,2018-11-29,,
+AFL,4977,wikipedia_current,,,AFLAC INC,1999-05-28,,Financials,wikipedia_gics
+AGN,850693,manual_verified,,Allergan,ALLERGAN INC,1996-01-02,2020-05-12,Health Care,sic_approx
+AIG,5272,wikipedia_current,,,"AMERICAN INTERNATIONAL GROUP, INC.",1996-01-02,,Financials,wikipedia_gics
+AIV,,,,Aimco,,2003-03-14,2020-12-21,,
+AIZ,1267238,wikipedia_current,,,"ASSURANT, INC.",2007-04-10,,Financials,wikipedia_gics
+AJG,354190,wikipedia_current,,Arthur J. Gallagher & Co.,ARTHUR J. GALLAGHER & CO.,2016-05-31,,Financials,wikipedia_gics
+AKAM,1086222,wikipedia_current,,,AKAMAI TECHNOLOGIES INC,2007-07-12,,Information Technology,wikipedia_gics
+AKS,918160,name_exact,1.0,AK Steel,AK STEEL HOLDING CORP,2008-07-01,2011-12-19,Materials,sic_approx
+ALB,915913,wikipedia_current,,Albemarle Corporation,ALBEMARLE CORP,2016-07-01,,Materials,wikipedia_gics
+ALGN,1097149,wikipedia_current,,Align Technology,ALIGN TECHNOLOGY INC,2017-06-19,,Health Care,wikipedia_gics
+ALK,766421,name_exact,1.0,Alaska Air Group,"ALASKA AIR GROUP, INC.",2016-05-13,2023-12-18,Industrials,sic_approx
+ALL,899051,wikipedia_current,,,ALLSTATE CORP,1996-01-02,,Financials,wikipedia_gics
+ALLE,1579241,wikipedia_current,,,ALLEGION PLC,2013-12-02,,Industrials,wikipedia_gics
+ALTR,768251,name_exact,1.0,Altera,ALTERA CORP,2000-04-18,2015-12-28,Information Technology,sic_approx
+ALXN,899866,name_exact,1.0,Alexion Pharmaceuticals,"ALEXION PHARMACEUTICALS, INC.",2012-05-25,2021-07-21,Health Care,sic_approx
+AMAT,6951,wikipedia_current,,,APPLIED MATERIALS INC /DE,1996-01-02,,Information Technology,wikipedia_gics
+AMCR,1748790,wikipedia_current,,Amcor,AMCOR PLC,2019-06-07,,Materials,wikipedia_gics
+AMD,2488,wikipedia_current,,Advanced Micro Devices,ADVANCED MICRO DEVICES INC,1996-01-02,,Information Technology,wikipedia_gics
+AME,1037868,wikipedia_current,,Ametek,AMETEK INC/,2013-09-23,,Industrials,wikipedia_gics
+AMG,1004434,name_exact,1.0,Affiliated Managers Group,"AFFILIATED MANAGERS GROUP, INC.",2014-07-01,2019-12-23,Financials,sic_approx
+AMGN,318154,wikipedia_current,,,AMGEN INC,1996-01-02,,Health Care,wikipedia_gics
+AMP,820027,wikipedia_current,,,AMERIPRISE FINANCIAL INC,2005-10-03,,Financials,wikipedia_gics
+AMT,1053507,wikipedia_current,,,AMERICAN TOWER CORP /MA/,2007-11-19,,Real Estate,wikipedia_gics
+AMTM,2011286,name_exact,1.0,Amentum,"AMENTUM HOLDINGS, INC.",2024-09-30,2024-12-23,Industrials,sic_approx
+AMZN,1018724,wikipedia_current,,Amazon,AMAZON COM INC,2005-11-21,,Consumer Discretionary,wikipedia_gics
+AN,350698,name_exact,1.0,AutoNation,"AUTONATION, INC.",2003-02-24,2017-08-08,Consumer Discretionary,sic_approx
+ANDV,50104,name_exact,1.0,Andeavor,ANDEAVOR,2007-09-27,2018-10-01,Energy,sic_approx
+ANET,1596532,wikipedia_current,,Arista Networks,"ARISTA NETWORKS, INC.",2018-08-28,,Information Technology,wikipedia_gics
+ANF,1018840,name_exact,1.0,Abercrombie & Fitch,ABERCROMBIE & FITCH CO /DE/,2007-03-29,2013-12-23,Consumer Discretionary,sic_approx
+ANRZQ,,,,,,2011-06-02,2012-10-02,,
+ANSS,1013462,name_exact,1.0,Ansys,ANSYS INC,2017-06-19,2025-07-18,Information Technology,sic_approx
+ANTM,,,,,,2002-07-25,2022-06-28,,
+AON,315293,wikipedia_current,,,AON PLC,1996-04-23,,Financials,wikipedia_gics
+AOS,91142,wikipedia_current,,A. O. Smith,SMITH A O CORP,2017-07-26,,Industrials,wikipedia_gics
+APA,1841666,wikipedia_current,,,APA CORP,1997-07-28,,Energy,wikipedia_gics
+APC,773910,name_exact,1.0,Anadarko Petroleum,ANADARKO PETROLEUM CORP,1997-07-28,2019-08-09,Energy,sic_approx
+APD,2969,wikipedia_current,,,"AIR PRODUCTS & CHEMICALS, INC.",1996-01-02,,Materials,wikipedia_gics
+APH,820313,wikipedia_current,,,AMPHENOL CORP /DE/,2008-09-30,,Information Technology,wikipedia_gics
+APO,1858681,wikipedia_current,,Apollo Global Management,"APOLLO GLOBAL MANAGEMENT, INC.",2024-12-23,,Financials,wikipedia_gics
+APOL,929887,name_exact,1.0,Apollo Education Group,APOLLO EDUCATION GROUP INC,2002-05-15,2013-07-01,Industrials,sic_approx
+APP,1751008,wikipedia_current,,AppLovin,APPLOVIN CORP,2025-09-22,,Communication Services,wikipedia_gics
+APTV,1521332,wikipedia_current,,,APTIV PLC,2012-12-24,,Consumer Discretionary,wikipedia_gics
+ARE,1035443,wikipedia_current,,Alexandria Real Estate Equities,"ALEXANDRIA REAL ESTATE EQUITIES, INC.",2017-03-20,,Real Estate,wikipedia_gics
+ARES,1176948,wikipedia_current,,Ares Management,ARES MANAGEMENT CORP,2025-12-11,,Financials,wikipedia_gics
+ARG,804212,name_exact,1.0,Airgas,AIRGAS INC,2009-09-09,2016-05-23,Consumer Discretionary,sic_approx
+ARNC,4281,name_exact,1.0,Arconic,HOWMET AEROSPACE INC.,1996-01-02,2020-04-06,Materials,sic_approx
+ASH,,,,,,1996-01-02,2008-11-14,,
+ATGE,,,,,,2009-06-09,2012-10-01,,
+ATI,1018963,name_exact,1.0,Allegheny Technologies,ATI INC,1996-01-02,2015-07-02,Materials,sic_approx
+ATO,731802,wikipedia_current,,Atmos Energy,ATMOS ENERGY CORP,2019-02-15,,Utilities,wikipedia_gics
+ATVI,718877,name_exact,1.0,Activision Blizzard,"ACTIVISION BLIZZARD, INC.",2015-08-31,2023-10-18,Information Technology,sic_approx
+AVB,915912,name_exact,1.0,AvalonBay Communities,AVALONBAY COMMUNITIES INC,2007-01-10,2026-08-18,Real Estate,sic_approx
+AVGO,1730168,wikipedia_current,,Avago Technologies,BROADCOM INC.,2014-05-08,,Information Technology,wikipedia_gics
+AVP,8868,name_exact,1.0,Avon Products,AVON PRODUCTS INC,1996-01-02,2015-03-23,Consumer Staples,sic_approx
+AVY,8818,wikipedia_current,,,AVERY DENNISON CORP,1996-01-02,,Materials,wikipedia_gics
+AW,,,,,,1999-08-02,2008-12-05,,
+AWK,1410636,wikipedia_current,,American Water Works,"AMERICAN WATER WORKS COMPANY, INC.",2016-03-04,,Utilities,wikipedia_gics
+AXON,1069183,wikipedia_current,,Axon Enterprise,"AXON ENTERPRISE, INC.",2023-05-04,,Industrials,wikipedia_gics
+AXP,4962,wikipedia_current,,,AMERICAN EXPRESS CO,1996-01-02,,Financials,wikipedia_gics
+AYE,3673,name_exact,1.0,Allegheny Energy,"ALLEGHENY ENERGY, INC",2000-12-11,2011-02-28,Utilities,sic_approx
+AYI,1144215,name_exact,1.0,Acuity Brands,ACUITY INC. (DE),2016-05-03,2018-06-18,Industrials,sic_approx
+AZO,866787,wikipedia_current,,,AUTOZONE INC,1997-01-02,,Consumer Discretionary,wikipedia_gics
+BA,12927,wikipedia_current,,,BOEING CO,1996-01-02,,Industrials,wikipedia_gics
+BAC,70858,wikipedia_current,,,BANK OF AMERICA CORP /DE/,1996-01-02,,Financials,wikipedia_gics
+BALL,9389,wikipedia_current,,,BALL CORP,2022-05-10,,Materials,wikipedia_gics
+BAX,10456,wikipedia_current,,,BAXTER INTERNATIONAL INC,1996-01-02,,Health Care,wikipedia_gics
+BBBY,886158,name_exact,1.0,Bed Bath & Beyond,BED BATH & BEYOND INC,1999-10-01,2017-07-26,Consumer Discretionary,sic_approx
+BBT,92230,manual_verified,,,TRUIST FINANCIAL CORP,1997-12-04,2019-12-09,Financials,sic_approx
+BBWI,701985,name_exact,1.0,"Bath & Body Works, Inc.","BATH & BODY WORKS, INC.",2021-08-03,2024-10-01,Consumer Discretionary,sic_approx
+BBY,764478,wikipedia_current,,,BEST BUY CO INC,1999-06-30,,Consumer Discretionary,wikipedia_gics
+BC,,,,Brunswick,,1996-01-02,2008-06-23,,
+BCR,,,,CR Bard,,1996-01-02,2017-12-29,,
+BDK,,,,,,1996-01-02,2010-03-15,,
+BDX,10795,wikipedia_current,,,BECTON DICKINSON & CO,1996-01-02,,Health Care,wikipedia_gics
+BEAM,,,,Suntory Global Spirits,,1996-01-02,2014-05-01,,
+BEN,38777,wikipedia_current,,,FRANKLIN RESOURCES INC,1998-04-29,,Financials,wikipedia_gics
+BF.B,14693,wikipedia_current,,,BROWN FORMAN CORP,1996-01-02,,Consumer Staples,wikipedia_gics
+BG,1996862,wikipedia_current,,Bunge Global,BUNGE GLOBAL SA,2023-03-15,,Consumer Staples,wikipedia_gics
+BHF,1685040,name_exact,1.0,Brighthouse Financial,"BRIGHTHOUSE FINANCIAL, INC.",2017-08-07,2019-04-02,Financials,sic_approx
+BHGE,,,,,,1996-01-02,2019-10-18,,
+BIG,768835,name_exact,1.0,Big Lots,BIG LOTS INC,1998-01-20,2013-02-14,Consumer Discretionary,sic_approx
+BIIB,875045,wikipedia_current,,,BIOGEN INC.,2003-11-13,,Health Care,wikipedia_gics
+BIO,12208,name_exact,1.0,Bio-Rad Laboratories,"BIO-RAD LABORATORIES, INC.",2020-06-22,2024-09-23,Health Care,sic_approx
+BJS,864328,name_exact,1.0,BJ Services,BJ SERVICES CO,2002-05-15,2010-04-29,Energy,sic_approx
+BK,,,,,,1996-01-02,2026-05-21,,
+BKNG,1075531,wikipedia_current,,,BOOKING HOLDINGS INC.,2009-11-06,,Consumer Discretionary,wikipedia_gics
+BKR,1701605,wikipedia_current,,Baker Hughes,BAKER HUGHES CO,2019-10-18,,Energy,wikipedia_gics
+BLDR,1316835,name_exact,1.0,Builders FirstSource,"BUILDERS FIRSTSOURCE, INC.",2023-12-18,,Consumer Discretionary,sic_approx
+BLK,2012383,wikipedia_current,,BlackRock,"BLACKROCK, INC.",2011-04-04,,Financials,wikipedia_gics
+BLL,,,,,,1996-01-02,2022-05-10,,
+BMC,835729,name_exact,1.0,BMC Software,BMC SOFTWARE INC,1998-10-01,2013-09-11,Information Technology,sic_approx
+BMS,11199,name_exact,1.0,Bemis,BEMIS CO INC,1996-01-02,2014-12-05,Materials,sic_approx
+BMY,14272,wikipedia_current,,,BRISTOL MYERS SQUIBB CO,1996-01-02,,Health Care,wikipedia_gics
+BNI,,,,,,1996-01-02,2010-02-16,,
+BNY,1390777,wikipedia_current,,,BANK OF NEW YORK MELLON CORP,2026-05-21,,Financials,wikipedia_gics
+BR,1383312,wikipedia_current,,Broadridge Financial Solutions,"BROADRIDGE FINANCIAL SOLUTIONS, INC.",2018-06-18,,Industrials,wikipedia_gics
+BRCM,1054374,manual_verified,,Broadcom Corporation,BROADCOM CORP,2000-07-03,2016-02-01,Information Technology,sic_approx
+BRK.B,1067983,wikipedia_current,,,BERKSHIRE HATHAWAY INC,2010-02-16,,Financials,wikipedia_gics
+BRL,,,,,,2006-02-27,2008-12-23,,
+BRO,79282,wikipedia_current,,Brown & Brown,"BROWN & BROWN, INC.",2021-09-20,,Financials,wikipedia_gics
+BSC,,,,,,1998-07-01,2008-06-02,,
+BSX,885725,wikipedia_current,,,BOSTON SCIENTIFIC CORP,1996-01-02,,Health Care,wikipedia_gics
+BTUUQ,,,,,,2006-11-20,2014-09-22,,
+BUD,,,,Anheuser Busch,,1996-01-02,2008-11-18,,
+BWA,908255,name_exact,1.0,BorgWarner,BORGWARNER INC,2011-12-19,2025-03-24,Consumer Discretionary,sic_approx
+BX,1393818,wikipedia_current,,Blackstone,BLACKSTONE INC.,2023-09-18,,Financials,wikipedia_gics
+BXLT,1620546,name_exact,1.0,Baxalta,BAXALTA INC,2015-07-01,2016-06-03,Health Care,sic_approx
+BXP,1037540,wikipedia_current,,,"BXP, INC.",2006-04-03,,Real Estate,wikipedia_gics
+C,831001,wikipedia_current,,,CITIGROUP INC,1996-01-02,,Financials,wikipedia_gics
+CA,356028,manual_verified,,CA Technologies,"CA, INC.",1996-01-02,2018-11-06,Information Technology,sic_approx
+CAG,23217,name_exact,1.0,Conagra Brands,CONAGRA BRANDS INC.,1996-01-02,2026-06-30,Consumer Staples,sic_approx
+CAH,721371,wikipedia_current,,,CARDINAL HEALTH INC,1997-05-27,,Health Care,wikipedia_gics
+CAM,941548,name_exact,1.0,Cameron International,CAMERON INTERNATIONAL CORP,2008-01-29,2016-04-04,Industrials,sic_approx
+CARR,1783180,wikipedia_current,,Carrier,CARRIER GLOBAL CORP,2020-04-03,,Industrials,wikipedia_gics
+CASY,726958,wikipedia_current,,Casey's,CASEYS GENERAL STORES INC,2026-04-09,,Consumer Staples,wikipedia_gics
+CAT,18230,wikipedia_current,,,CATERPILLAR INC,1996-01-02,,Industrials,wikipedia_gics
+CB,896159,wikipedia_current,,Chubb,CHUBB LTD,1996-01-02,,Financials,wikipedia_gics
+CBE,1141982,name_exact,1.0,Cooper Industries,COOPER INDUSTRIES PLC,1996-01-02,2012-12-03,Information Technology,sic_approx
+CBH,,,,,,2006-06-06,2008-03-31,,
+CBOE,1374310,wikipedia_current,,Cboe Holdings,"CBOE GLOBAL MARKETS, INC.",2017-03-01,,Financials,wikipedia_gics
+CBRE,1138118,wikipedia_current,,,"CBRE GROUP, INC.",2006-11-10,,Real Estate,wikipedia_gics
+CBS,,,,,,1996-01-02,2019-12-05,,
+CCE,1491675,name_exact,1.0,Coca-Cola Enterprises,"COCA-COLA ENTERPRISES, INC.",1998-10-08,2016-05-31,Consumer Staples,sic_approx
+CCEP,,,,,,2016-01-04,2016-05-31,,
+CCI,1051470,wikipedia_current,,Crown Castle,CROWN CASTLE INC.,2012-03-13,,Real Estate,wikipedia_gics
+CCL,815097,wikipedia_current,,Carnival Corporation,CARNIVAL CORP LTD.,1998-12-22,,Consumer Discretionary,wikipedia_gics
+CCTYQ,,,,,,1996-01-02,2008-03-31,,
+CCU,,,,,,1997-09-02,2008-07-31,,
+CDAY,,,,Ceridian,,2021-09-20,2024-02-01,,
+CDNS,813672,wikipedia_current,,Cadence Design Systems,CADENCE DESIGN SYSTEMS INC,2017-09-18,,Information Technology,wikipedia_gics
+CDW,1402057,wikipedia_current,,CDW,CDW CORP,2019-09-23,,Information Technology,wikipedia_gics
+CE,1306830,name_exact,1.0,Celanese,CELANESE CORP,2018-12-24,2025-03-24,Materials,sic_approx
+CEG,1868275,wikipedia_current,,Constellation Energy Group,CONSTELLATION ENERGY CORP,1996-01-02,,Utilities,wikipedia_gics
+CELG,816284,name_exact,1.0,Celgene,CELGENE CORP /DE/,2006-11-06,2019-11-21,Health Care,sic_approx
+CEPH,873364,name_exact,1.0,Cephalon,CEPHALON INC,2008-11-17,2011-10-14,Health Care,sic_approx
+CERN,804753,name_exact,1.0,Cerner,CERNER CORP,2010-04-30,2022-06-08,Information Technology,sic_approx
+CF,1324404,wikipedia_current,,,"CF INDUSTRIES HOLDINGS, INC.",2008-08-27,,Materials,wikipedia_gics
+CFC,,,,Countrywide Financial Corp,,1997-06-18,2008-07-01,,
+CFG,759944,wikipedia_current,,Citizens,CITIZENS FINANCIAL GROUP INC/RI,2016-02-01,,Financials,wikipedia_gics
+CFN,1457543,name_exact,1.0,Carefusion,CAREFUSION CORP,2009-09-01,2015-03-17,Health Care,sic_approx
+CHD,313927,wikipedia_current,,Church & Dwight,CHURCH & DWIGHT CO INC /DE/,2015-12-29,,Consumer Staples,wikipedia_gics
+CHK,895126,name_exact,1.0,Chesapeake Energy,EXPAND ENERGY CORP,2006-03-03,2018-03-19,Energy,sic_approx
+CHRW,1043277,wikipedia_current,,,"C. H. ROBINSON WORLDWIDE, INC.",2007-03-02,,Industrials,wikipedia_gics
+CHTR,1091667,wikipedia_current,,Charter Communications,"CHARTER COMMUNICATIONS, INC. /MO/",2016-09-08,,Communication Services,wikipedia_gics
+CI,1739940,wikipedia_current,,,CIGNA GROUP,1996-01-02,,Health Care,wikipedia_gics
+CIEN,936395,wikipedia_current,,Ciena,CIENA CORP,2001-08-30,,Information Technology,wikipedia_gics
+CINF,20286,wikipedia_current,,,CINCINNATI FINANCIAL CORP,1997-12-18,,Financials,wikipedia_gics
+CITGQ,,,,,,2004-10-27,2009-07-27,,
+CL,21665,wikipedia_current,,,COLGATE PALMOLIVE CO,1996-01-02,,Consumer Staples,wikipedia_gics
+CLF,764065,name_exact,1.0,Cliffs Natural Resources,CLEVELAND-CLIFFS INC.,2009-12-21,2014-04-02,Materials,sic_approx
+CLX,21076,wikipedia_current,,,CLOROX CO /DE/,1996-01-02,,Consumer Staples,wikipedia_gics
+CMA,28412,name_exact,1.0,Comerica,COMERICA INC,1996-01-02,2024-06-24,Financials,sic_approx
+CMCSA,1166691,wikipedia_current,,,COMCAST CORP,1996-01-02,,Communication Services,wikipedia_gics
+CMCSK,,,,Comcast Series K,,2015-09-21,2015-12-14,,
+CME,1156375,wikipedia_current,,,CME GROUP INC.,2006-08-11,,Financials,wikipedia_gics
+CMG,1058090,wikipedia_current,,Chipotle Mexican Grill,CHIPOTLE MEXICAN GRILL INC,2011-04-28,,Consumer Discretionary,wikipedia_gics
+CMI,26172,wikipedia_current,,,CUMMINS INC,1996-01-02,,Industrials,wikipedia_gics
+CMS,811156,wikipedia_current,,,CMS ENERGY CORP,1999-05-03,,Utilities,wikipedia_gics
+CNC,1071739,wikipedia_current,,Centene Corporation,CENTENE CORP,2016-03-30,,Health Care,wikipedia_gics
+CNP,1130310,wikipedia_current,,,CENTERPOINT ENERGY INC,1996-01-02,,Utilities,wikipedia_gics
+CNX,1070412,name_exact,1.0,Consol Energy,CNX RESOURCES CORP,2006-06-28,2016-03-04,Energy,sic_approx
+COF,927628,wikipedia_current,,,CAPITAL ONE FINANCIAL CORP,1998-07-01,,Financials,wikipedia_gics
+COG,858470,name_exact,1.0,Cabot Oil & Gas,COTERRA ENERGY INC.,2008-06-23,2021-10-04,Energy,sic_approx
+COHR,820318,wikipedia_current,,Coherent Corp.,COHERENT CORP.,2026-03-23,,Information Technology,wikipedia_gics
+COIN,1679788,wikipedia_current,,Coinbase,"COINBASE GLOBAL, INC.",2025-05-19,,Financials,wikipedia_gics
+COL,1137411,name_exact,1.0,Rockwell Collins,ROCKWELL COLLINS INC,2001-07-02,2018-11-27,Industrials,sic_approx
+COO,711404,wikipedia_current,,The Cooper Companies,"COOPER COMPANIES, INC.",2016-09-23,,Health Care,wikipedia_gics
+COP,1163165,wikipedia_current,,,CONOCOPHILLIPS,1996-01-02,,Energy,wikipedia_gics
+COR,1140859,wikipedia_current,,,"CENCORA, INC.",2023-08-30,,Health Care,wikipedia_gics
+COST,909832,wikipedia_current,,,COSTCO WHOLESALE CORP /NEW,1996-01-02,,Consumer Staples,wikipedia_gics
+COTY,1024305,name_exact,1.0,Coty,COTY INC.,2016-10-03,2020-09-21,Consumer Staples,sic_approx
+COV,1385187,name_exact,1.0,Covidien,COVIDIEN PLC,2007-07-02,2015-01-27,Health Care,sic_approx
+CPAY,1175454,wikipedia_current,,,"CORPAY, INC.",2024-03-25,,Financials,wikipedia_gics
+CPB,16732,name_exact,1.0,Campbell's,CAMPBELL'S CO,1996-01-02,2026-06-22,Consumer Staples,sic_approx
+CPGX,1629995,name_exact,1.0,Columbia Pipeline Group,"COLUMBIA PIPELINE GROUP, INC.",2015-07-02,2016-07-01,Energy,sic_approx
+CPRI,1530721,name_exact,1.0,Capri Holdings,CAPRI HOLDINGS LTD,2016-01-04,2020-05-12,Industrials,sic_approx
+CPRT,900075,wikipedia_current,,Copart,COPART INC,2018-07-02,,Industrials,wikipedia_gics
+CPT,906345,wikipedia_current,,Camden Property Trust,CAMDEN PROPERTY TRUST,2022-04-04,,Real Estate,wikipedia_gics
+CPWR,859014,name_exact,1.0,Compuware,COMPUWARE CORP,1999-01-04,2012-01-03,Information Technology,sic_approx
+CRH,849395,wikipedia_current,,CRH,CRH PUBLIC LTD CO,2025-12-22,,Materials,wikipedia_gics
+CRL,1100682,wikipedia_current,,Charles River Laboratories,"CHARLES RIVER LABORATORIES INTERNATIONAL, INC.",2021-05-14,,Health Care,wikipedia_gics
+CRM,1108524,wikipedia_current,,Salesforce,"SALESFORCE, INC.",2008-09-15,,Information Technology,wikipedia_gics
+CRWD,1535527,wikipedia_current,,CrowdStrike,"CROWDSTRIKE HOLDINGS, INC.",2024-06-24,,Information Technology,wikipedia_gics
+CSCO,858877,wikipedia_current,,,"CISCO SYSTEMS, INC.",1996-01-02,,Information Technology,wikipedia_gics
+CSGP,1057352,wikipedia_current,,CoStar Group,"COSTAR GROUP, INC.",2022-09-19,,Real Estate,wikipedia_gics
+CSRA,1646383,name_exact,1.0,CSRA,CSRA INC.,2015-11-30,2018-04-04,Information Technology,sic_approx
+CSX,277948,wikipedia_current,,,CSX CORP,1996-01-02,,Industrials,wikipedia_gics
+CTAS,723254,wikipedia_current,,,CINTAS CORP,2001-03-01,,Industrials,wikipedia_gics
+CTL,,,,,,1999-03-25,2020-09-18,,
+CTLT,1596783,name_exact,1.0,Catalent,"CATALENT, INC.",2020-09-21,2024-12-23,Health Care,sic_approx
+CTRA,858470,name_exact,1.0,Coterra Energy,COTERRA ENERGY INC.,2021-10-04,2026-05-07,Energy,sic_approx
+CTSH,1058290,wikipedia_current,,,COGNIZANT TECHNOLOGY SOLUTIONS CORP,2006-11-17,,Information Technology,wikipedia_gics
+CTVA,1755672,name_exact,1.0,Corteva,"CORTEVA, INC.",2019-06-03,,Industrials,sic_approx
+CTX,,,,Centex Corp.,,1996-01-02,2009-08-19,,
+CTXS,877890,name_exact,1.0,Citrix Systems,CITRIX SYSTEMS INC,1999-12-01,2022-10-03,Information Technology,sic_approx
+CVC,1053112,name_fuzzy,0.926829268292683,Cablevision Systems,CABLEVISION SYSTEMS CORP /NY,2010-12-20,2016-06-21,Communication Services,sic_approx
+CVG,,,,Convergys,,2000-06-13,2009-12-21,,
+CVH,1054833,name_exact,1.0,Coventry Health Care,COVENTRY HEALTH CARE INC,2005-08-30,2013-05-07,Health Care,sic_approx
+CVNA,1690820,wikipedia_current,,Carvana,CARVANA CO.,2025-12-22,,Consumer Discretionary,wikipedia_gics
+CVS,64803,wikipedia_current,,,CVS HEALTH CORP,1996-01-02,,Health Care,wikipedia_gics
+CVX,93410,wikipedia_current,,,CHEVRON CORP,1996-01-02,,Energy,wikipedia_gics
+CXO,1358071,name_exact,1.0,Concho Resources,CONCHO RESOURCES INC,2016-02-22,2021-01-21,Energy,sic_approx
+CZR,1590895,name_exact,1.0,Caesars Entertainment,"CAESARS ENTERTAINMENT, INC.",2021-03-22,2025-09-22,Consumer Discretionary,sic_approx
+D,715957,wikipedia_current,,,"DOMINION ENERGY, INC",1996-01-02,,Utilities,wikipedia_gics
+DAL,27904,wikipedia_current,,Delta Air Lines,"DELTA AIR LINES, INC.",2013-09-11,,Industrials,wikipedia_gics
+DASH,1792789,wikipedia_current,,DoorDash,"DOORDASH, INC.",2025-03-24,,Consumer Discretionary,wikipedia_gics
+DAY,1725057,name_exact,1.0,Dayforce,"DAYFORCE, INC.",2024-02-01,2026-02-09,Information Technology,sic_approx
+DD,1666700,wikipedia_current,,DuPont,"DUPONT DE NEMOURS, INC.",1996-01-02,,Industrials,wikipedia_gics
+DDOG,1561550,wikipedia_current,,Datadog,"DATADOG, INC.",2025-07-09,,Information Technology,wikipedia_gics
+DDR,,,,,,2007-03-23,2009-03-30,,
+DDS,,,,,,1996-01-02,2008-10-22,,
+DE,315189,wikipedia_current,,,DEERE & CO,1996-01-02,,Industrials,wikipedia_gics
+DECK,910521,wikipedia_current,,Deckers Brands,DECKERS OUTDOOR CORP,2024-03-18,,Consumer Discretionary,wikipedia_gics
+DELL,1571996,wikipedia_current,,Dell,DELL TECHNOLOGIES INC.,1996-09-06,,Information Technology,wikipedia_gics
+DF,931336,name_exact,1.0,Dean Foods,DEAN FOODS CO,2006-04-03,2013-05-24,Consumer Staples,sic_approx
+DFS,,,,Discover Financial,,2007-07-02,2025-05-19,,
+DG,29534,wikipedia_current,,Dollar General,DOLLAR GENERAL CORP,2012-12-03,,Consumer Staples,wikipedia_gics
+DGX,1022079,wikipedia_current,,,QUEST DIAGNOSTICS INC,2002-12-12,,Health Care,wikipedia_gics
+DHI,882184,wikipedia_current,,,HORTON D R INC /DE/,2005-07-05,,Consumer Discretionary,wikipedia_gics
+DHR,313616,wikipedia_current,,,DANAHER CORP /DE/,1998-11-18,,Health Care,wikipedia_gics
+DIS,1744489,wikipedia_current,,The Walt Disney Company,WALT DISNEY CO,1996-01-02,,Communication Services,wikipedia_gics
+DISCA,1437107,name_exact,1.0,"Discovery, Inc.","WARNER BROS. DISCOVERY, INC.",2010-03-01,2022-04-11,Communication Services,sic_approx
+DISCK,1437107,name_exact,1.0,"Discovery, Inc.","WARNER BROS. DISCOVERY, INC.",2014-08-07,2022-04-11,Communication Services,sic_approx
+DISH,1001082,name_exact,1.0,Dish Network,DISH NETWORK CORP,2017-03-13,2023-06-20,Communication Services,sic_approx
+DLR,1297996,wikipedia_current,,Digital Realty,"DIGITAL REALTY TRUST, INC.",2016-05-18,,Real Estate,wikipedia_gics
+DLTR,935703,wikipedia_current,,Dollar Tree,"DOLLAR TREE, INC.",2011-12-19,,Consumer Staples,wikipedia_gics
+DNB,1115222,name_fuzzy,0.9230769230769231,Dun & Bradstreet,DUN & BRADSTREET CORP/NW,2008-12-02,2017-04-05,Industrials,sic_approx
+DNR,945764,name_exact,1.0,Denbury Resources,DENBURY INC,2009-04-02,2015-03-23,Energy,sic_approx
+DO,949039,name_exact,1.0,Diamond Offshore Drilling,"DIAMOND OFFSHORE DRILLING, INC.",2009-02-26,2016-10-03,Energy,sic_approx
+DOC,765880,wikipedia_current,,,"HEALTHPEAK PROPERTIES, INC.",2024-03-04,,Real Estate,wikipedia_gics
+DOV,29905,wikipedia_current,,,DOVER CORP,1996-01-02,,Industrials,wikipedia_gics
+DOW,1751788,wikipedia_current,,Dow Chemical Company,DOW INC.,1996-01-02,,Materials,wikipedia_gics
+DPZ,1286681,wikipedia_current,,Domino's Pizza,DOMINOS PIZZA INC,2020-05-12,,Consumer Discretionary,wikipedia_gics
+DRE,783280,name_exact,1.0,Duke Realty,DUKE REALTY CORP,2017-07-26,2022-10-03,Real Estate,sic_approx
+DRI,940944,wikipedia_current,,,DARDEN RESTAURANTS INC,1996-01-02,,Consumer Discretionary,wikipedia_gics
+DTE,936340,wikipedia_current,,,DTE ENERGY CO,1996-01-02,,Utilities,wikipedia_gics
+DTV,1465112,name_exact,1.0,DirecTV,DIRECTV,2006-12-04,2015-07-27,Communication Services,sic_approx
+DUK,1326160,wikipedia_current,,,DUKE ENERGY CORP,1996-01-02,,Utilities,wikipedia_gics
+DVA,927066,wikipedia_current,,,DAVITA INC.,2008-07-31,,Health Care,wikipedia_gics
+DVN,1090012,wikipedia_current,,,DEVON ENERGY CORP/DE,2000-08-30,,Energy,wikipedia_gics
+DWDP,,,,DuPont,,2017-09-01,2019-06-03,,
+DXC,1688568,name_exact,1.0,DXC Technology,DXC TECHNOLOGY CO,1996-01-02,2023-10-02,Information Technology,sic_approx
+DXCM,1093557,wikipedia_current,,Dexcom,DEXCOM INC,2020-05-12,,Health Care,wikipedia_gics
+DYN,,,,Dynegy,,2000-10-03,2009-12-21,,
+EA,712515,name_exact,1.0,Electronic Arts,ELECTRONIC ARTS INC.,2002-07-22,2026-08-05,Information Technology,sic_approx
+EBAY,1065088,wikipedia_current,,,EBAY INC,2002-07-22,,Consumer Discretionary,wikipedia_gics
+ECHO,1415404,wikipedia_current,,,ECHOSTAR CORP,2026-06-24,,Communication Services,wikipedia_gics
+ECL,31462,wikipedia_current,,,ECOLAB INC.,1996-01-02,,Materials,wikipedia_gics
+ED,1047862,wikipedia_current,,,CONSOLIDATED EDISON INC,1996-01-02,,Utilities,wikipedia_gics
+EDS,,,,,,1998-08-11,2008-08-26,,
+EFX,33185,wikipedia_current,,,EQUIFAX INC,1997-06-19,,Industrials,wikipedia_gics
+EG,1095073,wikipedia_current,,,"EVEREST GROUP, LTD.",2023-07-10,,Financials,wikipedia_gics
+EIX,827052,wikipedia_current,,,EDISON INTERNATIONAL,1996-01-02,,Utilities,wikipedia_gics
+EKDKQ,,,,,,1996-01-02,2010-12-20,,
+EL,1001250,wikipedia_current,,,ESTEE LAUDER COMPANIES INC,2006-01-05,,Consumer Staples,wikipedia_gics
+ELV,1156039,wikipedia_current,,,"ELEVANCE HEALTH, INC.",2022-06-28,,Health Care,wikipedia_gics
+EMC,790070,name_exact,1.0,EMC Corporation,EMC CORP,1996-03-28,2016-09-07,Information Technology,sic_approx
+EME,105634,wikipedia_current,,Emcor,"EMCOR GROUP, INC.",2025-09-22,,Industrials,wikipedia_gics
+EMN,915389,name_exact,1.0,Eastman Chemical Co.,EASTMAN CHEMICAL CO,1996-01-02,2025-11-04,Materials,sic_approx
+EMR,32604,wikipedia_current,,,EMERSON ELECTRIC CO,1996-01-02,,Industrials,wikipedia_gics
+ENDP,1593034,name_exact,1.0,Endo International,ENDO INTERNATIONAL PLC,2015-01-27,2017-03-02,Health Care,sic_approx
+ENPH,1463101,name_exact,1.0,Enphase Energy,"ENPHASE ENERGY, INC.",2021-01-07,2025-09-22,Information Technology,sic_approx
+EOG,821189,wikipedia_current,,,EOG RESOURCES INC,2000-11-02,,Energy,wikipedia_gics
+EP,1066107,name_exact,1.0,El Paso Corporation,EL PASO CORP/DE,1999-10-26,2012-05-25,Energy,sic_approx
+EPAM,1352010,name_exact,1.0,EPAM Systems,"EPAM SYSTEMS, INC.",2021-12-14,2026-06-02,Information Technology,sic_approx
+EQ,,,,,,2006-05-18,2009-07-01,,
+EQIX,1101239,wikipedia_current,,Equinix,EQUINIX INC,2015-03-23,,Real Estate,wikipedia_gics
+EQR,,,,,,2001-12-03,2026-08-18,,
+EQT,33213,wikipedia_current,,EQT Corporation,EQT CORP,2008-12-19,,Energy,wikipedia_gics
+ERIE,922621,wikipedia_current,,Erie Indemnity,ERIE INDEMNITY CO,2024-09-23,,Financials,wikipedia_gics
+ES,72741,wikipedia_current,,,EVERSOURCE ENERGY,2009-03-17,,Utilities,wikipedia_gics
+ESRX,1532063,name_exact,1.0,Express Scripts,EXPRESS SCRIPTS HOLDING CO.,2003-09-26,2018-12-21,Consumer Discretionary,sic_approx
+ESS,920522,wikipedia_current,,Essex Property Trust,"ESSEX PROPERTY TRUST, INC.",2014-04-02,,Real Estate,wikipedia_gics
+ESV,314808,name_exact,1.0,Ensco,VALARIS LTD,2007-01-04,2016-03-30,Energy,sic_approx
+ETFC,,,,E-Trade,,2004-04-01,2020-10-07,,
+ETN,1551182,wikipedia_current,,,EATON CORP PLC,1996-01-02,,Industrials,wikipedia_gics
+ETR,65984,wikipedia_current,,,ENTERGY CORP /DE/,1996-01-02,,Utilities,wikipedia_gics
+ETSY,1370637,name_exact,1.0,Etsy,ETSY INC,2020-09-21,2024-09-23,Industrials,sic_approx
+EVHC,1678531,name_exact,1.0,Envision Healthcare,ENVISION HEALTHCARE CORP,2016-12-02,2018-10-11,Health Care,sic_approx
+EVRG,1711269,wikipedia_current,,Evergy,"EVERGY, INC.",2018-06-05,,Utilities,wikipedia_gics
+EW,1099800,wikipedia_current,,Edwards Lifesciences,EDWARDS LIFESCIENCES CORP,2011-04-01,,Health Care,wikipedia_gics
+EXC,1109357,wikipedia_current,,,EXELON CORP,1996-01-02,,Utilities,wikipedia_gics
+EXE,895126,wikipedia_current,,Expand Energy,EXPAND ENERGY CORP,2025-03-24,,Energy,wikipedia_gics
+EXPD,746515,wikipedia_current,,,EXPEDITORS INTERNATIONAL OF WASHINGTON INC,2007-10-10,,Industrials,wikipedia_gics
+EXPE,1324424,wikipedia_current,,Expedia,"EXPEDIA GROUP, INC.",2007-10-02,,Consumer Discretionary,wikipedia_gics
+EXR,1289490,wikipedia_current,,Extra Space Storage,EXTRA SPACE STORAGE INC.,2016-01-19,,Real Estate,wikipedia_gics
+F,37996,wikipedia_current,,,FORD MOTOR CO,1996-01-02,,Consumer Discretionary,wikipedia_gics
+FANG,1539838,wikipedia_current,,Diamondback Energy,"DIAMONDBACK ENERGY, INC.",2018-12-03,,Energy,wikipedia_gics
+FAST,815556,wikipedia_current,,Fastenal,FASTENAL CO,2008-09-15,,Industrials,wikipedia_gics
+FB,1326801,name_exact,1.0,Facebook,"META PLATFORMS, INC.",2013-12-23,2022-06-09,Information Technology,sic_approx
+FBHS,1519751,name_exact,1.0,Fortune Brands Home & Security,"FORTUNE BRANDS INNOVATIONS, INC.",2016-06-24,2022-12-19,Materials,sic_approx
+FCPT,1650132,sec_ticker_validated,,,"FOUR CORNERS PROPERTY TRUST, INC.",2015-11-10,2015-11-17,Real Estate,sic_approx
+FCX,831259,wikipedia_current,,,FREEPORT-MCMORAN INC,1996-01-02,,Materials,wikipedia_gics
+FDO,,,,Family Dollar,,2001-08-06,2015-07-07,,
+FDS,1013237,wikipedia_current,,FactSet,FACTSET RESEARCH SYSTEMS INC,2021-12-20,,Financials,wikipedia_gics
+FDX,1048911,wikipedia_current,,,FEDEX CORP,1996-01-02,,Industrials,wikipedia_gics
+FDXF,2082247,wikipedia_current,,FedEx Freight,"FEDEX FREIGHT HOLDING COMPANY, INC.",2026-06-01,,Industrials,wikipedia_gics
+FE,1031296,wikipedia_current,,,FIRSTENERGY CORP,1996-01-02,,Utilities,wikipedia_gics
+FERG,2011641,wikipedia_current,,Ferguson Enterprises,FERGUSON ENTERPRISES INC. /DE/,2026-08-05,,Industrials,wikipedia_gics
+FFIV,1048695,wikipedia_current,,F5 Networks,"F5, INC.",2010-12-20,,Information Technology,wikipedia_gics
+FHN,36966,name_exact,1.0,First Horizon,FIRST HORIZON CORP,2002-05-06,2013-06-24,Financials,sic_approx
+FI,,,,,,2023-06-07,2025-11-11,,
+FICO,814547,wikipedia_current,,Fair Isaac,FAIR ISAAC CORP,2023-03-20,,Information Technology,wikipedia_gics
+FII,1056288,name_fuzzy,0.926829268292683,Federated Investors,"FEDERATED HERMES, INC.",2003-04-16,2013-01-02,Financials,sic_approx
+FIS,1136893,wikipedia_current,,,"FIDELITY NATIONAL INFORMATION SERVICES, INC.",2006-11-10,,Financials,wikipedia_gics
+FISV,798354,wikipedia_current,,,FISERV INC,2001-04-02,,Financials,wikipedia_gics
+FITB,35527,wikipedia_current,,,FIFTH THIRD BANCORP,1996-03-08,,Financials,wikipedia_gics
+FIX,1035983,wikipedia_current,,Comfort Systems USA,COMFORT SYSTEMS USA INC,2025-12-22,,Industrials,wikipedia_gics
+FL,850209,name_exact,1.0,Foot Locker,"FOOT LOCKER, INC.",2016-04-04,2019-08-09,Consumer Discretionary,sic_approx
+FLEX,866374,wikipedia_current,,Flex Ltd.,FLEX LTD.,2026-06-22,,Information Technology,wikipedia_gics
+FLIR,354908,name_exact,1.0,FLIR Systems,FLIR SYSTEMS INC,2009-01-02,2021-05-14,Industrials,sic_approx
+FLR,1124198,name_exact,1.0,Fluor Corporation,FLUOR CORP,2000-12-22,2019-06-03,Industrials,sic_approx
+FLS,30625,name_exact,1.0,Flowserve,FLOWSERVE CORP,2008-10-02,2021-03-22,Industrials,sic_approx
+FLT,1175454,name_exact,1.0,FleetCor Technologies,"CORPAY, INC.",2018-06-20,2024-03-25,Industrials,sic_approx
+FMC,37785,name_exact,1.0,FMC Corporation,FMC CORP,2009-08-19,2025-03-24,Materials,sic_approx
+FMCC,,,,,,1996-01-02,2008-09-11,,
+FNMA,,,,,,1996-01-02,2008-09-11,,
+FOSL,883569,name_exact,1.0,Fossil Group,"FOSSIL GROUP, INC.",2012-04-04,2016-01-05,Industrials,sic_approx
+FOX,1754301,wikipedia_current,,21st Century Fox,FOX CORP,2015-09-21,,Communication Services,wikipedia_gics
+FOXA,1754301,wikipedia_current,,21st Century Fox,FOX CORP,2004-12-20,,Communication Services,wikipedia_gics
+FRC,,,,First Republic Bank,,2019-01-02,2023-05-04,,
+FRT,34903,wikipedia_current,,Federal Realty Investment Trust,FEDERAL REALTY INVESTMENT TRUST,2016-02-01,,Real Estate,wikipedia_gics
+FRX,38074,name_exact,1.0,Forest Laboratories,FOREST LABORATORIES INC,2000-11-22,2014-07-01,Health Care,sic_approx
+FSLR,1274494,wikipedia_current,,First Solar,"FIRST SOLAR, INC.",2009-10-16,,Information Technology,wikipedia_gics
+FTI,1681459,name_exact,1.0,TechnipFMC,TECHNIPFMC PLC,2009-06-05,2021-02-12,Industrials,sic_approx
+FTNT,1262039,wikipedia_current,,Fortinet,"FORTINET, INC.",2018-10-11,,Information Technology,wikipedia_gics
+FTR,20520,name_exact,1.0,Frontier Communications,"FRONTIER COMMUNICATIONS PARENT, INC.",2001-02-27,2017-03-20,Communication Services,sic_approx
+FTV,1659166,wikipedia_current,,Fortive Corp,FORTIVE CORP,2016-07-05,,Industrials,wikipedia_gics
+GAS,1004155,name_exact,1.0,AGL Resources,SOUTHERN CO GAS,1996-01-02,2016-07-01,Utilities,sic_approx
+GD,40533,wikipedia_current,,,GENERAL DYNAMICS CORP,1996-01-02,,Industrials,wikipedia_gics
+GDDY,1609711,wikipedia_current,,GoDaddy,GODADDY INC.,2024-06-24,,Information Technology,wikipedia_gics
+GE,40545,wikipedia_current,,,GENERAL ELECTRIC CO,1996-01-02,,Industrials,wikipedia_gics
+GEHC,1932393,wikipedia_current,,GE HealthCare,GE HEALTHCARE TECHNOLOGIES INC.,2023-01-04,,Health Care,wikipedia_gics
+GEN,849399,wikipedia_current,,,GEN DIGITAL INC.,2022-11-08,,Information Technology,wikipedia_gics
+GENZ,732485,name_exact,1.0,Genzyme,GENZYME CORP,2001-12-14,2011-04-04,Health Care,sic_approx
+GEV,1996810,wikipedia_current,,GE Vernova,GE VERNOVA INC.,2024-04-02,,Industrials,wikipedia_gics
+GGP,1496048,name_exact,1.0,GGP Inc.,BROOKFIELD PROPERTY REIT INC.,2007-07-02,2018-08-28,Real Estate,sic_approx
+GHC,104889,name_exact,1.0,Graham Holdings,GRAHAM HOLDINGS CO,2007-12-31,2014-09-22,Industrials,sic_approx
+GILD,882095,wikipedia_current,,,"GILEAD SCIENCES, INC.",2004-07-01,,Health Care,wikipedia_gics
+GIS,40704,wikipedia_current,,,GENERAL MILLS INC,1996-01-02,,Consumer Staples,wikipedia_gics
+GL,320335,wikipedia_current,,,GLOBE LIFE INC.,2019-08-08,,Financials,wikipedia_gics
+GLW,24741,wikipedia_current,,,CORNING INC /NY,1996-01-02,,Information Technology,wikipedia_gics
+GM,1467858,wikipedia_current,,General Motors,GENERAL MOTORS CO,2013-06-07,,Consumer Discretionary,wikipedia_gics
+GMCR,909954,name_exact,1.0,Keurig Green Mountain,"KEURIG GREEN MOUNTAIN, INC.",2014-03-24,2016-03-03,Consumer Staples,sic_approx
+GME,1326380,name_exact,1.0,GameStop,GAMESTOP CORP.,2007-12-14,2016-04-25,Consumer Discretionary,sic_approx
+GNRC,1474735,wikipedia_current,,Generac Holdings,GENERAC HOLDINGS INC.,2021-03-22,,Industrials,wikipedia_gics
+GNW,1276520,name_exact,1.0,Genworth Financial,GENWORTH FINANCIAL INC,2005-12-02,2015-11-18,Financials,sic_approx
+GOOG,1652044,wikipedia_current,,,ALPHABET INC.,2014-04-03,,Communication Services,wikipedia_gics
+GOOGL,1652044,wikipedia_current,,Google,ALPHABET INC.,2006-04-03,,Communication Services,wikipedia_gics
+GPC,40987,wikipedia_current,,,GENUINE PARTS CO,1996-01-02,,Consumer Discretionary,wikipedia_gics
+GPN,1123360,wikipedia_current,,Global Payments,GLOBAL PAYMENTS INC,2016-04-25,,Financials,wikipedia_gics
+GPS,39911,name_exact,1.0,Gap,GAP INC,1996-01-02,2022-02-02,Consumer Discretionary,sic_approx
+GR,42542,name_exact,1.0,Goodrich Corporation,GOODRICH CORP,1996-01-02,2012-07-27,Industrials,sic_approx
+GRMN,1121788,wikipedia_current,,Garmin,GARMIN LTD,2012-12-12,,Consumer Discretionary,wikipedia_gics
+GS,886982,wikipedia_current,,,GOLDMAN SACHS GROUP INC,2002-07-22,,Financials,wikipedia_gics
+GT,42582,name_fuzzy,0.9411764705882353,The Goodyear Tire & Rubber Company,GOODYEAR TIRE & RUBBER CO /OH/,1996-01-02,2019-02-27,Industrials,sic_approx
+GWW,277135,wikipedia_current,,,"W.W. GRAINGER, INC.",1996-01-02,,Industrials,wikipedia_gics
+HAL,45012,wikipedia_current,,,HALLIBURTON CO,1996-01-02,,Energy,wikipedia_gics
+HAR,,,,Harman International,,2006-02-01,2017-03-13,,
+HAS,46080,wikipedia_current,,,"HASBRO, INC.",1996-01-02,,Consumer Discretionary,wikipedia_gics
+HBAN,49196,wikipedia_current,,,HUNTINGTON BANCSHARES INC /MD/,1997-08-06,,Financials,wikipedia_gics
+HBI,1359841,name_exact,1.0,Hanesbrands,HANESBRANDS INC.,2015-03-23,2021-12-20,Consumer Discretionary,sic_approx
+HCA,860730,wikipedia_current,,HCA Holdings,"HCA HEALTHCARE, INC.",2015-01-27,,Health Care,wikipedia_gics
+HCBK,921847,name_exact,1.0,Hudson City Bancorp,HUDSON CITY BANCORP INC,2007-02-15,2015-11-02,Financials,sic_approx
+HCP,,,,,,2008-03-31,2019-11-05,,
+HD,354950,wikipedia_current,,,"HOME DEPOT, INC.",1996-01-02,,Consumer Discretionary,wikipedia_gics
+HES,4447,name_exact,1.0,Hess Corporation,HESS CORP,1996-01-02,2025-07-23,Energy,sic_approx
+HET,,,,,,1996-01-02,2008-01-29,,
+HFC,48039,name_exact,1.0,HollyFrontier,HOLLYFRONTIER CORP,2018-06-18,2021-06-04,Energy,sic_approx
+HIG,874766,wikipedia_current,,,"HARTFORD INSURANCE GROUP, INC.",1996-01-02,,Financials,wikipedia_gics
+HII,1501585,wikipedia_current,,Huntington Ingalls Industries,"HUNTINGTON INGALLS INDUSTRIES, INC.",2018-01-03,,Industrials,wikipedia_gics
+HLT,1585689,wikipedia_current,,Hilton,HILTON WORLDWIDE HOLDINGS INC.,2017-06-19,,Consumer Discretionary,wikipedia_gics
+HNZ,,,,Heinz,,1996-01-02,2013-06-07,,
+HOG,793952,name_exact,1.0,Harley-Davidson,"HARLEY-DAVIDSON, INC.",2000-01-31,2020-06-22,Consumer Discretionary,sic_approx
+HOLX,859737,name_exact,1.0,Hologic,HOLOGIC INC,2016-03-30,2026-04-09,Health Care,sic_approx
+HON,773840,wikipedia_current,,,HONEYWELL INTERNATIONAL INC,1996-01-02,,Industrials,wikipedia_gics
+HONA,2089271,wikipedia_current,,Honeywell Aerospace,HONEYWELL AEROSPACE INC.,2026-06-29,,Industrials,wikipedia_gics
+HOOD,1783879,wikipedia_current,,Robinhood Markets,"ROBINHOOD MARKETS, INC.",2025-09-22,,Financials,wikipedia_gics
+HOT,,,,Starwood Hotels and Resorts,,2000-11-17,2016-09-23,,
+HP,46765,name_exact,1.0,Helmerich & Payne,"HELMERICH & PAYNE, INC.",2010-03-01,2020-05-22,Energy,sic_approx
+HPC,,,,,,1996-01-02,2008-11-14,,
+HPE,1645590,wikipedia_current,,Hewlett Packard Enterprise,HEWLETT PACKARD ENTERPRISE CO,2015-11-02,,Information Technology,wikipedia_gics
+HPQ,47217,wikipedia_current,,,HP INC,1996-01-02,,Information Technology,wikipedia_gics
+HRB,12659,name_exact,1.0,H&R Block,H&R BLOCK INC,1996-01-02,2020-09-21,Industrials,sic_approx
+HRL,48465,wikipedia_current,,Hormel Foods,HORMEL FOODS CORP /DE/,2009-03-04,,Consumer Staples,wikipedia_gics
+HRS,202058,name_exact,1.0,Harris Corporation,"L3HARRIS TECHNOLOGIES, INC. /DE/",2008-09-22,2019-06-01,Industrials,sic_approx
+HSH,,,,,,1996-01-02,2012-06-29,,
+HSIC,1000228,wikipedia_current,,Henry Schein,HENRY SCHEIN INC,2015-03-18,,Health Care,wikipedia_gics
+HSP,1274057,name_exact,1.0,Hospira,HOSPIRA INC,2004-05-03,2015-09-03,Health Care,sic_approx
+HST,1070750,wikipedia_current,,,"HOST HOTELS & RESORTS, INC.",2007-03-20,,Real Estate,wikipedia_gics
+HSY,47111,wikipedia_current,,,HERSHEY CO,1996-01-02,,Consumer Staples,wikipedia_gics
+HUBB,48898,wikipedia_current,,Hubbell,HUBBELL INC,2023-10-18,,Industrials,wikipedia_gics
+HUM,49071,wikipedia_current,,,HUMANA INC,1996-01-02,,Health Care,wikipedia_gics
+HWM,4281,wikipedia_current,,Howmet Aerospace,HOWMET AEROSPACE INC.,2020-04-06,,Industrials,wikipedia_gics
+IAC,,,,,,2006-12-01,2008-08-21,,
+IBKR,1381197,wikipedia_current,,Interactive Brokers,"INTERACTIVE BROKERS GROUP, INC.",2025-08-28,,Financials,wikipedia_gics
+IBM,51143,wikipedia_current,,,INTERNATIONAL BUSINESS MACHINES CORP,1996-01-02,,Information Technology,wikipedia_gics
+ICE,1571949,wikipedia_current,,Intercontinental Exchange,"INTERCONTINENTAL EXCHANGE, INC.",2007-09-26,,Financials,wikipedia_gics
+IDXX,874716,wikipedia_current,,Idexx Laboratories,IDEXX LABORATORIES INC /DE,2017-01-05,,Health Care,wikipedia_gics
+IEX,832101,wikipedia_current,,IDEX Corporation,IDEX CORP /DE/,2019-08-09,,Industrials,wikipedia_gics
+IFF,51253,wikipedia_current,,,INTERNATIONAL FLAVORS & FRAGRANCES INC,1996-01-02,,Materials,wikipedia_gics
+IGT,353944,name_exact,1.0,International Game Technology,INTERNATIONAL GAME TECHNOLOGY,2001-09-04,2014-06-20,Industrials,sic_approx
+ILMN,1110803,wikipedia_current,,"Illumina, Inc.","ILLUMINA, INC.",2015-11-19,2024-06-24,Health Care,wikipedia_gics
+INCY,879169,wikipedia_current,,Incyte,INCYTE CORP,2017-02-28,,Health Care,wikipedia_gics
+INFO,1598014,name_exact,1.0,IHS Markit,IHS MARKIT LTD.,2017-06-02,2022-03-02,Information Technology,sic_approx
+INTC,50863,wikipedia_current,,,INTEL CORP,1996-01-02,,Information Technology,wikipedia_gics
+INTU,896878,wikipedia_current,,Intuit,INTUIT INC.,2000-12-11,,Information Technology,wikipedia_gics
+INVH,1687229,wikipedia_current,,Invitation Homes,INVITATION HOMES INC.,2022-09-19,,Real Estate,wikipedia_gics
+IP,51434,wikipedia_current,,,INTERNATIONAL PAPER CO /NEW/,1996-01-02,,Materials,wikipedia_gics
+IPG,51644,name_fuzzy,0.88,Interpublic Group,"INTERPUBLIC GROUP OF COMPANIES, INC.",1996-01-02,2025-11-28,Industrials,sic_approx
+IPGP,1111928,name_exact,1.0,IPG Photonics,IPG PHOTONICS CORP,2018-03-07,2022-06-21,Information Technology,sic_approx
+IQV,1478242,wikipedia_current,,IQVIA,IQVIA HOLDINGS INC.,2017-08-29,,Health Care,wikipedia_gics
+IR,1699150,wikipedia_current,,Ingersoll Rand,INGERSOLL RAND INC.,1996-01-02,,Industrials,wikipedia_gics
+IRM,1020569,wikipedia_current,,,IRON MOUNTAIN INC,2009-01-06,,Real Estate,wikipedia_gics
+ISRG,1035267,wikipedia_current,,,INTUITIVE SURGICAL INC,2008-06-02,,Health Care,wikipedia_gics
+IT,749251,wikipedia_current,,Gartner,GARTNER INC,2017-04-05,,Information Technology,wikipedia_gics
+ITT,216228,sec_ticker_validated,,,ITT INC.,1996-01-02,2011-11-01,Industrials,sic_approx
+ITW,49826,wikipedia_current,,,ILLINOIS TOOL WORKS INC,1996-01-02,,Industrials,wikipedia_gics
+IVZ,914208,wikipedia_current,,,INVESCO LTD.,2008-08-21,,Financials,wikipedia_gics
+J,52988,wikipedia_current,,,JACOBS SOLUTIONS INC.,2019-12-10,,Industrials,wikipedia_gics
+JAVA,,,,,,1996-01-02,2010-01-27,,
+JBHT,728535,wikipedia_current,,J.B. Hunt,HUNT J B TRANSPORT SERVICES INC,2015-07-01,,Industrials,wikipedia_gics
+JBL,898293,wikipedia_current,,Jabil Circuit,JABIL INC,2001-01-30,,Information Technology,wikipedia_gics
+JCI,833444,wikipedia_current,,,JOHNSON CONTROLS INTERNATIONAL PLC,1996-01-02,,Industrials,wikipedia_gics
+JCP,,,,,,1996-01-02,2013-12-02,,
+JEC,52988,name_exact,1.0,Jacobs Engineering Group,JACOBS SOLUTIONS INC.,2007-10-26,2019-12-10,Industrials,sic_approx
+JEF,96223,name_exact,1.0,Jefferies Financial Group,JEFFERIES FINANCIAL GROUP INC.,2007-08-27,2019-09-26,Financials,sic_approx
+JKHY,779152,wikipedia_current,,Jack Henry & Associates,JACK HENRY & ASSOCIATES INC,2018-11-13,,Financials,wikipedia_gics
+JNJ,200406,wikipedia_current,,,JOHNSON & JOHNSON,1996-01-02,,Health Care,wikipedia_gics
+JNPR,1043604,name_exact,1.0,Juniper Networks,JUNIPER NETWORKS INC,2006-06-02,2025-07-09,Information Technology,sic_approx
+JNS,1065865,name_exact,1.0,Janus Capital Group,JANUS CAPITAL GROUP INC,2000-07-13,2011-11-23,Financials,sic_approx
+JNY,,,,Jones Apparel Group,,2001-12-17,2009-03-04,,
+JOY,801898,name_exact,1.0,Joy Global,JOY GLOBAL INC,2011-02-28,2015-10-08,Industrials,sic_approx
+JPM,19617,wikipedia_current,,,JPMORGAN CHASE & CO,1996-01-02,,Financials,wikipedia_gics
+JWN,72333,name_exact,1.0,Nordstrom,NORDSTROM INC,1996-01-02,2020-06-22,Consumer Discretionary,sic_approx
+K,55067,name_exact,1.0,Kellanova,KELLANOVA,1996-01-02,2025-12-11,Consumer Staples,sic_approx
+KATE,,,,,,1996-01-02,2008-12-02,,
+KBH,,,,KB Home,,1996-01-02,2009-12-21,,
+KDP,1418135,wikipedia_current,,Keurig Dr Pepper,KEURIG DR PEPPER INC.,2008-10-07,,Consumer Staples,wikipedia_gics
+KEY,91576,wikipedia_current,,,KEYCORP /NEW/,1996-01-02,,Financials,wikipedia_gics
+KEYS,1601046,wikipedia_current,,Keysight,"KEYSIGHT TECHNOLOGIES, INC.",2018-11-06,,Information Technology,wikipedia_gics
+KG,1047699,name_exact,1.0,King Pharmaceuticals,KING PHARMACEUTICALS INC,2000-10-03,2010-12-20,Health Care,sic_approx
+KHC,1637459,wikipedia_current,,Kraft Heinz,KRAFT HEINZ CO,2015-07-06,,Consumer Staples,wikipedia_gics
+KIM,879101,wikipedia_current,,,KIMCO REALTY CORP,2006-04-03,,Real Estate,wikipedia_gics
+KKR,1404912,wikipedia_current,,KKR,KKR & CO. INC.,2024-06-24,,Financials,wikipedia_gics
+KLAC,319201,wikipedia_current,,,KLA CORP,1997-09-15,,Information Technology,wikipedia_gics
+KMB,55785,wikipedia_current,,,KIMBERLY CLARK CORP,1996-01-02,,Consumer Staples,wikipedia_gics
+KMI,1506307,wikipedia_current,,Kinder Morgan,"KINDER MORGAN, INC.",2012-05-25,,Energy,wikipedia_gics
+KMX,1170010,name_exact,1.0,CarMax,CARMAX INC,2010-06-28,2025-10-31,Consumer Discretionary,sic_approx
+KO,21344,wikipedia_current,,,COCA COLA CO,1996-01-02,,Consumer Staples,wikipedia_gics
+KORS,1530721,name_exact,1.0,Michael Kors,CAPRI HOLDINGS LTD,2013-11-13,2018-09-19,Industrials,sic_approx
+KR,56873,wikipedia_current,,,KROGER CO,1996-01-02,,Consumer Staples,wikipedia_gics
+KRFT,1545158,manual_verified,,Kraft Foods,"KRAFT FOODS GROUP, INC.",2012-10-02,2015-07-06,Consumer Staples,sic_approx
+KSS,885639,name_fuzzy,0.9090909090909091,Kohl's,KOHLS CORP,1998-08-14,2020-09-21,Consumer Discretionary,sic_approx
+KSU,54480,name_exact,1.0,Kansas City Southern,KANSAS CITY SOUTHERN,2013-05-24,2021-12-14,Industrials,sic_approx
+KVUE,1944048,wikipedia_current,,Kenvue,KENVUE INC.,2023-08-25,,Consumer Staples,wikipedia_gics
+L,60086,wikipedia_current,,,LOEWS CORP,1996-01-02,,Financials,wikipedia_gics
+LB,,,,,,1996-01-02,2021-08-03,,
+LDOS,1336920,wikipedia_current,,Leidos,"LEIDOS HOLDINGS, INC.",2009-12-21,,Industrials,wikipedia_gics
+LEG,58492,name_exact,1.0,Leggett & Platt,LEGGETT & PLATT INC,1999-10-18,2021-12-20,Materials,sic_approx
+LEHMQ,,,,,,1998-01-12,2008-09-17,,
+LEN,920760,wikipedia_current,,,LENNAR CORP /NEW/,2005-10-04,,Consumer Discretionary,wikipedia_gics
+LH,920148,wikipedia_current,,,LABCORP HOLDINGS INC.,2004-11-01,,Health Care,wikipedia_gics
+LHX,202058,wikipedia_current,,,"L3HARRIS TECHNOLOGIES, INC. /DE/",2019-06-01,,Industrials,wikipedia_gics
+LIFE,1073431,name_exact,1.0,Life Technologies,LIFE TECHNOLOGIES CORP,2008-11-24,2014-01-24,Health Care,sic_approx
+LII,1069202,wikipedia_current,,Lennox International,LENNOX INTERNATIONAL INC,2024-12-23,,Industrials,wikipedia_gics
+LIN,1707925,wikipedia_current,,,LINDE PLC,2018-11-06,,Materials,wikipedia_gics
+LITE,1633978,wikipedia_current,,Lumentum,LUMENTUM HOLDINGS INC.,2026-03-23,,Information Technology,wikipedia_gics
+LKQ,1065696,name_exact,1.0,LKQ Corporation,LKQ CORP,2016-05-23,2025-12-22,Consumer Discretionary,sic_approx
+LLL,1039101,name_exact,1.0,L3 Technologies,"L3 TECHNOLOGIES, INC.",2004-12-01,2019-07-01,Information Technology,sic_approx
+LLTC,791907,name_fuzzy,0.918918918918919,Linear Technology,LINEAR TECHNOLOGY CORP /CA/,2000-04-03,2017-03-13,Information Technology,sic_approx
+LLY,59478,wikipedia_current,,,ELI LILLY & CO,1996-01-02,,Health Care,wikipedia_gics
+LM,704051,name_exact,1.0,Legg Mason,"LEGG MASON, INC.",2006-04-24,2016-12-02,Financials,sic_approx
+LMT,936468,wikipedia_current,,,LOCKHEED MARTIN CORP,1996-01-02,,Industrials,wikipedia_gics
+LNC,59558,name_exact,1.0,Lincoln National Corporation,LINCOLN NATIONAL CORP,1996-01-02,2023-09-18,Financials,sic_approx
+LNT,352541,wikipedia_current,,Alliant Energy Corp,ALLIANT ENERGY CORP,2016-07-01,,Utilities,wikipedia_gics
+LO,,,,Lorillard Tobacco Company,,2008-06-11,2015-06-12,,
+LOW,60667,wikipedia_current,,,LOWES COMPANIES INC,1996-01-02,,Consumer Discretionary,wikipedia_gics
+LRCX,707549,wikipedia_current,,Lam Research,LAM RESEARCH CORP,2012-06-05,,Information Technology,wikipedia_gics
+LSI,703360,name_exact,1.0,LSI Corporation,LSI CORP,1996-01-02,2014-05-07,Information Technology,sic_approx
+LULU,1397187,wikipedia_current,,Lululemon Athletica,LULULEMON ATHLETICA INC.,2023-10-18,,Consumer Discretionary,wikipedia_gics
+LUMN,18926,name_exact,1.0,Lumen Technologies,"LUMEN TECHNOLOGIES, INC.",2020-09-18,2023-03-20,Communication Services,sic_approx
+LUV,92380,wikipedia_current,,,SOUTHWEST AIRLINES CO,1996-01-02,,Industrials,wikipedia_gics
+LVLT,794323,name_exact,1.0,Level 3 Communications,"LEVEL 3 PARENT, LLC",2014-11-05,2017-10-13,Communication Services,sic_approx
+LVS,1300514,wikipedia_current,,Las Vegas Sands,LAS VEGAS SANDS CORP,2019-10-03,,Consumer Discretionary,wikipedia_gics
+LW,1679273,name_exact,1.0,Lamb Weston,"LAMB WESTON HOLDINGS, INC.",2018-12-03,2026-03-23,Consumer Staples,sic_approx
+LXK,,,,Lexmark,,1999-08-13,2012-10-01,,
+LYB,1489393,wikipedia_current,,LyondellBasell,LYONDELLBASELL INDUSTRIES N.V.,2012-09-05,,Materials,wikipedia_gics
+LYV,1335258,wikipedia_current,,Live Nation Entertainment,"LIVE NATION ENTERTAINMENT, INC.",2019-12-23,,Communication Services,wikipedia_gics
+M,794367,name_exact,1.0,Macy's,"MACY'S, INC.",1996-01-02,2020-04-06,Consumer Discretionary,sic_approx
+MA,1141391,wikipedia_current,,,MASTERCARD INC,2008-07-18,,Financials,wikipedia_gics
+MAA,912595,wikipedia_current,,Mid-America Apartments,MID AMERICA APARTMENT COMMUNITIES INC.,2016-12-02,,Real Estate,wikipedia_gics
+MAC,912242,name_exact,1.0,Macerich,MACERICH CO,2013-05-09,2019-12-23,Real Estate,sic_approx
+MAR,1048286,wikipedia_current,,,MARRIOTT INTERNATIONAL INC /MD/,1998-05-21,,Consumer Discretionary,wikipedia_gics
+MAS,62996,wikipedia_current,,,MASCO CORP /DE/,1996-01-02,,Industrials,wikipedia_gics
+MAT,63276,name_exact,1.0,Mattel,MATTEL INC /DE/,1996-01-02,2019-06-07,Consumer Discretionary,sic_approx
+MBI,,,,MBIA,,1996-12-03,2009-12-21,,
+MCD,63908,wikipedia_current,,,MCDONALDS CORP,1996-01-02,,Consumer Discretionary,wikipedia_gics
+MCHP,827054,wikipedia_current,,,MICROCHIP TECHNOLOGY INC,2007-09-07,,Information Technology,wikipedia_gics
+MCK,927653,wikipedia_current,,McKesson,MCKESSON CORP,1999-01-13,,Health Care,wikipedia_gics
+MCO,1059556,wikipedia_current,,,MOODYS CORP /DE/,1996-01-02,,Financials,wikipedia_gics
+MDLZ,1103982,wikipedia_current,,Mondelez,"MONDELEZ INTERNATIONAL, INC.",2007-04-02,,Consumer Staples,wikipedia_gics
+MDP,65011,name_exact,1.0,Meredith Corp,MEREDITH CORP,1996-01-02,2011-01-04,Communication Services,sic_approx
+MDT,1613103,wikipedia_current,,,MEDTRONIC PLC,1996-01-02,,Health Care,wikipedia_gics
+MEE,37748,name_exact,1.0,Massey Energy,MASSEY ENERGY CO,2008-06-23,2011-06-02,Materials,sic_approx
+MER,,,,,,1996-01-02,2009-01-02,,
+MET,1099219,wikipedia_current,,,METLIFE INC,2000-12-11,,Financials,wikipedia_gics
+META,1326801,wikipedia_current,,,"META PLATFORMS, INC.",2022-06-09,,Communication Services,wikipedia_gics
+MFE,890801,name_exact,1.0,McAfee,"MCAFEE, INC.",2008-12-23,2011-03-01,Information Technology,sic_approx
+MGM,789570,wikipedia_current,,MGM Resorts International,MGM RESORTS INTERNATIONAL,2017-07-26,,Consumer Discretionary,wikipedia_gics
+MHK,851968,name_exact,1.0,Mohawk Industries,MOHAWK INDUSTRIES INC,2013-12-23,2025-12-22,Industrials,sic_approx
+MHS,1170650,name_exact,1.0,Medco Health Solutions,MEDCO HEALTH SOLUTIONS INC,2003-08-20,2012-04-02,Consumer Discretionary,sic_approx
+MI,1399315,name_exact,1.0,Marshall & Ilsley,MARSHALL & ILSLEY CORP,2002-02-11,2011-07-06,Financials,sic_approx
+MIL,,,,Millipore,,1996-01-02,2010-07-15,,
+MJN,,,,Mead Johnson,,2009-12-21,2017-06-15,,
+MKC,63754,wikipedia_current,,,MCCORMICK & CO INC,2003-03-21,,Consumer Staples,wikipedia_gics
+MKTX,1278021,name_exact,1.0,MarketAxess,MARKETAXESS HOLDINGS INC,2019-07-01,2025-09-22,Financials,sic_approx
+MLM,916076,wikipedia_current,,Martin Marietta,MARTIN MARIETTA MATERIALS INC,2014-07-02,,Materials,wikipedia_gics
+MMC,,,,,,1996-01-02,2026-01-14,,
+MMI,1495569,name_exact,1.0,Motorola Mobility,"MOTOROLA MOBILITY HOLDINGS, INC",2011-01-04,2012-05-22,Information Technology,sic_approx
+MMM,66740,wikipedia_current,,,3M CO,1996-01-02,,Industrials,wikipedia_gics
+MNK,1567892,name_exact,1.0,Mallinckrodt,KEENOVA THERAPEUTICS PLC,2014-08-19,2017-07-26,Health Care,sic_approx
+MNST,865752,wikipedia_current,,Monster Beverage,MONSTER BEVERAGE CORP,2012-06-29,,Consumer Staples,wikipedia_gics
+MO,764180,wikipedia_current,,,"ALTRIA GROUP, INC.",1996-01-02,,Consumer Staples,wikipedia_gics
+MOH,1179929,name_exact,1.0,Molina Healthcare,"MOLINA HEALTHCARE, INC.",2022-03-02,2026-03-23,Health Care,sic_approx
+MOLX,67472,name_exact,1.0,Molex,MOLEX INC,1999-12-01,2013-12-09,Information Technology,sic_approx
+MON,1110783,name_exact,1.0,Monsanto,MONSANTO CO /NEW/,2002-08-14,2018-06-07,Materials,sic_approx
+MOS,1285785,wikipedia_current,,The Mosaic Company,MOSAIC CO,2011-09-26,,Materials,wikipedia_gics
+MPC,1510295,wikipedia_current,,Marathon Oil,MARATHON PETROLEUM CORP,2011-07-01,,Energy,wikipedia_gics
+MPWR,1280452,wikipedia_current,,Monolithic Power Systems,"MONOLITHIC POWER SYSTEMS, INC.",2021-02-12,,Information Technology,wikipedia_gics
+MRK,310158,wikipedia_current,,,"MERCK & CO., INC.",1996-01-02,,Health Care,wikipedia_gics
+MRNA,1682852,wikipedia_current,,Moderna,"MODERNA, INC.",2021-07-21,,Health Care,wikipedia_gics
+MRO,101778,name_exact,1.0,Marathon Oil,MARATHON OIL CORP,1996-01-02,2024-11-26,Energy,sic_approx
+MRSH,62709,wikipedia_current,,,"MARSH & MCLENNAN COMPANIES, INC.",2026-01-14,,Financials,wikipedia_gics
+MRVL,1835632,wikipedia_current,,Marvell Technology,"MARVELL TECHNOLOGY, INC.",2026-06-22,,Information Technology,wikipedia_gics
+MS,895421,wikipedia_current,,,MORGAN STANLEY,1996-01-02,,Financials,wikipedia_gics
+MSCI,1408198,wikipedia_current,,MSCI,MSCI INC.,2018-04-04,,Financials,wikipedia_gics
+MSFT,789019,wikipedia_current,,,MICROSOFT CORP,1996-01-02,,Information Technology,wikipedia_gics
+MSI,68505,wikipedia_current,,,"MOTOROLA SOLUTIONS, INC.",1996-01-02,,Information Technology,wikipedia_gics
+MTB,36270,wikipedia_current,,,M&T BANK CORP,2004-02-27,,Financials,wikipedia_gics
+MTCH,891103,name_exact,1.0,Match Group,"MATCH GROUP, INC.",2021-09-20,2026-03-23,Information Technology,sic_approx
+MTD,1037646,wikipedia_current,,Mettler Toledo,METTLER TOLEDO INTERNATIONAL INC/,2016-09-06,,Health Care,wikipedia_gics
+MTG,,,,,,1996-07-19,2008-10-31,,
+MTLQQ,,,,,,1996-01-02,2009-06-03,,
+MTW,,,,,,2007-11-16,2009-09-01,,
+MU,723125,wikipedia_current,,,MICRON TECHNOLOGY INC,1996-01-02,,Information Technology,wikipedia_gics
+MUR,717423,name_exact,1.0,Murphy Oil,MURPHY OIL CORP,2005-08-15,2017-07-26,Energy,sic_approx
+MWV,,,,,,1996-01-02,2015-07-02,,
+MWW,1020416,name_exact,1.0,Monster Worldwide,"MONSTER WORLDWIDE, INC.",2001-06-04,2011-12-19,Industrials,sic_approx
+MXIM,,,,Maxim Integrated,,2018-12-03,2021-08-30,,
+MYL,,,,,,2004-04-23,2020-11-17,,
+NAVI,1593538,name_exact,1.0,Navient,NAVIENT CORP,2014-05-01,2018-06-05,Financials,sic_approx
+NBL,72207,name_exact,1.0,Noble Energy,NOBLE ENERGY INC,2007-10-08,2020-10-12,Energy,sic_approx
+NBR,1163739,name_exact,1.0,Nabors Industries,NABORS INDUSTRIES LTD,2000-10-18,2015-03-23,Energy,sic_approx
+NCC,,,,National City,,1996-01-02,2009-01-02,,
+NCLH,1513761,wikipedia_current,,Norwegian Cruise Line Holdings,NORWEGIAN CRUISE LINE HOLDINGS LTD.,2017-10-13,,Consumer Discretionary,wikipedia_gics
+NDAQ,1120193,wikipedia_current,,,"NASDAQ, INC.",2008-10-22,,Financials,wikipedia_gics
+NDSN,72331,wikipedia_current,,Nordson Corporation,NORDSON CORP,2022-02-15,,Industrials,wikipedia_gics
+NE,1169055,name_exact,1.0,Noble Corporation,NOBLE CORP,2001-01-16,2015-07-20,Energy,sic_approx
+NEE,753308,wikipedia_current,,,NEXTERA ENERGY INC,1996-01-02,,Utilities,wikipedia_gics
+NEM,1164727,wikipedia_current,,,NEWMONT CORP /DE/,1996-01-02,,Materials,wikipedia_gics
+NFLX,1065280,wikipedia_current,,Netflix,NETFLIX INC,2010-12-20,,Communication Services,wikipedia_gics
+NFX,912750,name_exact,1.0,Newfield Exploration,NEWFIELD EXPLORATION CO /DE/,2010-12-20,2019-02-15,Energy,sic_approx
+NI,1111711,wikipedia_current,,,NISOURCE INC.,2000-11-02,,Utilities,wikipedia_gics
+NKE,320187,wikipedia_current,,,"NIKE, INC.",1996-01-02,,Consumer Discretionary,wikipedia_gics
+NKTR,906709,name_exact,1.0,Nektar Therapeutics,NEKTAR THERAPEUTICS,2018-03-19,2019-10-03,Health Care,sic_approx
+NLOK,,,,,,2019-11-05,2022-11-08,,
+NLSN,1492633,name_exact,1.0,Nielsen Holdings,NIELSEN HOLDINGS PLC,2013-07-09,2022-10-12,Industrials,sic_approx
+NOC,1133421,wikipedia_current,,,NORTHROP GRUMMAN CORP /DE/,1996-01-02,,Industrials,wikipedia_gics
+NOV,1021860,name_exact,1.0,Nov,NOV INC.,2005-03-14,2021-09-20,Industrials,sic_approx
+NOVL,758004,name_exact,1.0,Novell,NOVELL INC,1996-01-02,2011-04-28,Information Technology,sic_approx
+NOW,1373715,wikipedia_current,,ServiceNow,"SERVICENOW, INC.",2019-11-21,,Information Technology,wikipedia_gics
+NRG,1013871,wikipedia_current,,,"NRG ENERGY, INC.",2010-01-29,,Utilities,wikipedia_gics
+NSC,702165,wikipedia_current,,,NORFOLK SOUTHERN CORP,1996-01-02,,Industrials,wikipedia_gics
+NSM,70530,name_exact,1.0,National Semiconductor,NATIONAL SEMICONDUCTOR CORP,1996-01-02,2011-09-26,Information Technology,sic_approx
+NTAP,1002047,wikipedia_current,,,"NETAPP, INC.",1999-06-25,,Information Technology,wikipedia_gics
+NTRS,73124,wikipedia_current,,,NORTHERN TRUST CORP,1998-01-30,,Financials,wikipedia_gics
+NUE,73309,wikipedia_current,,,NUCOR CORP,1996-01-02,,Materials,wikipedia_gics
+NVDA,1045810,wikipedia_current,,,NVIDIA CORP,2001-11-30,,Information Technology,wikipedia_gics
+NVLS,836106,name_exact,1.0,Novellus Systems,NOVELLUS SYSTEMS INC,2000-06-19,2012-06-05,Information Technology,sic_approx
+NVR,906163,wikipedia_current,,NVR,NVR INC,2019-09-26,,Consumer Discretionary,wikipedia_gics
+NWL,814453,name_exact,1.0,Newell Brands,NEWELL BRANDS INC.,1996-01-02,2023-09-18,Industrials,sic_approx
+NWS,1564708,wikipedia_current,,News Corporation Class B,NEWS CORP,2015-09-21,,Communication Services,wikipedia_gics
+NWSA,1564708,wikipedia_current,,21st Century Fox,NEWS CORP,2013-07-01,,Communication Services,wikipedia_gics
+NXPI,1413447,wikipedia_current,,NXP,NXP SEMICONDUCTORS N.V.,2021-03-22,,Information Technology,wikipedia_gics
+NYT,71691,name_exact,1.0,The New York Times Company,NEW YORK TIMES CO,1996-01-02,2010-12-20,Communication Services,sic_approx
+NYX,1368007,name_exact,1.0,NYSE Euronext,NYSE EURONEXT,2007-10-25,2013-11-13,Financials,sic_approx
+O,726728,wikipedia_current,,Realty Income Corporation,REALTY INCOME CORP,2015-04-07,,Real Estate,wikipedia_gics
+ODFL,878927,wikipedia_current,,Old Dominion Freight Line,"OLD DOMINION FREIGHT LINE, INC.",2019-12-09,,Industrials,wikipedia_gics
+ODP,800240,name_exact,1.0,Office Depot,ODP CORP,1999-06-24,2010-12-20,Consumer Discretionary,sic_approx
+OGN,1821825,name_exact,1.0,Organon & Co.,ORGANON & CO.,2021-06-04,2023-10-18,Health Care,sic_approx
+OI,812074,name_exact,1.0,Owens-Illinois,"O-I GLASS, INC. /DE/",2009-01-02,2016-12-02,Materials,sic_approx
+OKE,1039684,wikipedia_current,,,ONEOK INC /NEW/,2010-03-15,,Energy,wikipedia_gics
+OMC,29989,wikipedia_current,,,OMNICOM GROUP INC.,1997-12-24,,Communication Services,wikipedia_gics
+OMX,,,,OfficeMax,,1996-01-02,2008-06-23,,
+ON,1097864,wikipedia_current,,ON Semiconductor,ON SEMICONDUCTOR CORP,2022-06-21,,Information Technology,wikipedia_gics
+ORCL,1341439,wikipedia_current,,,ORACLE CORP,1996-01-02,,Information Technology,wikipedia_gics
+ORLY,898173,wikipedia_current,,,O REILLY AUTOMOTIVE INC,2009-03-27,,Consumer Discretionary,wikipedia_gics
+OTIS,1781335,wikipedia_current,,Otis Worldwide,OTIS WORLDWIDE CORP,2020-04-03,,Industrials,wikipedia_gics
+OXY,797468,wikipedia_current,,,OCCIDENTAL PETROLEUM CORP /DE/,1996-01-02,,Energy,wikipedia_gics
+PANW,1327567,wikipedia_current,,Palo Alto Networks,PALO ALTO NETWORKS INC,2023-06-20,,Information Technology,wikipedia_gics
+PARA,813828,manual_verified,,,PARAMOUNT GLOBAL,2022-02-17,2025-08-08,Communication Services,sic_approx
+PAYC,,,,Paycom,,2020-01-28,2026-03-23,,
+PAYX,723531,wikipedia_current,,,PAYCHEX INC,1998-10-01,,Industrials,wikipedia_gics
+PBCT,1378946,name_exact,1.0,People's United Financial,"PEOPLE'S UNITED FINANCIAL, INC.",2008-11-13,2022-04-04,Financials,sic_approx
+PBG,,,,,,2001-05-14,2010-03-01,,
+PBI,78814,name_exact,1.0,Pitney Bowes,PITNEY BOWES INC /DE/,1996-01-02,2017-03-01,Information Technology,sic_approx
+PCAR,75362,wikipedia_current,,,PACCAR INC,1996-01-02,,Industrials,wikipedia_gics
+PCG,1004980,wikipedia_current,,Pacific Gas & Electric Company,PG&E CORP,1996-01-02,,Utilities,wikipedia_gics
+PCL,849213,name_exact,1.0,Plum Creek Timber,PLUM CREEK TIMBER CO INC,2002-01-17,2016-02-22,Real Estate,sic_approx
+PCP,79958,name_exact,1.0,Precision Castparts Corporation,PRECISION CASTPARTS CORP,2007-06-01,2016-02-01,Materials,sic_approx
+PDCO,891024,name_exact,1.0,Patterson Companies,"PATTERSON COMPANIES, INC.",2005-10-11,2018-03-19,Health Care,sic_approx
+PEAK,,,,,,2019-11-05,2024-03-04,,
+PEG,788784,wikipedia_current,,,PUBLIC SERVICE ENTERPRISE GROUP INC,1996-01-02,,Utilities,wikipedia_gics
+PENN,921738,name_exact,1.0,Penn Entertainment,"PENN ENTERTAINMENT, INC.",2021-03-22,2022-09-19,Consumer Discretionary,sic_approx
+PEP,77476,wikipedia_current,,,PEPSICO INC,1996-01-02,,Consumer Staples,wikipedia_gics
+PETM,863157,name_exact,1.0,PetSmart,PETSMART INC,2012-10-05,2015-03-12,Consumer Discretionary,sic_approx
+PFE,78003,wikipedia_current,,,PFIZER INC,1996-01-02,,Health Care,wikipedia_gics
+PFG,1126328,wikipedia_current,,,PRINCIPAL FINANCIAL GROUP INC,2002-07-22,,Financials,wikipedia_gics
+PG,80424,wikipedia_current,,,PROCTER & GAMBLE CO,1996-01-02,,Consumer Staples,wikipedia_gics
+PGN,1094093,name_exact,1.0,Progress Energy,PROGRESS ENERGY INC,1996-01-02,2012-07-02,Utilities,sic_approx
+PGR,80661,wikipedia_current,,,PROGRESSIVE CORP/OH/,1997-08-04,,Financials,wikipedia_gics
+PH,76334,wikipedia_current,,,PARKER-HANNIFIN CORP,1996-01-02,,Industrials,wikipedia_gics
+PHM,822416,wikipedia_current,,,PULTEGROUP INC/MI/,1996-01-02,,Consumer Discretionary,wikipedia_gics
+PKG,75677,wikipedia_current,,Packaging Corporation of America,PACKAGING CORP OF AMERICA,2017-07-26,,Materials,wikipedia_gics
+PKI,,,,,,1996-01-02,2023-05-16,,
+PLD,1045609,wikipedia_current,,,"PROLOGIS, INC.",2003-07-17,,Real Estate,wikipedia_gics
+PLL,75829,name_exact,1.0,Pall Corporation,PALL CORP,1996-01-02,2015-08-31,Industrials,sic_approx
+PLTR,1321655,wikipedia_current,,Palantir Technologies,PALANTIR TECHNOLOGIES INC.,2024-09-23,,Information Technology,wikipedia_gics
+PM,1413329,wikipedia_current,,,PHILIP MORRIS INTERNATIONAL INC.,2008-03-31,,Consumer Staples,wikipedia_gics
+PNC,713676,wikipedia_current,,,"PNC FINANCIAL SERVICES GROUP, INC.",1996-01-02,,Financials,wikipedia_gics
+PNR,77360,wikipedia_current,,Pentair,PENTAIR PLC,2012-10-01,,Industrials,wikipedia_gics
+PNW,764622,wikipedia_current,,,PINNACLE WEST CAPITAL CORP,1999-10-04,,Utilities,wikipedia_gics
+PODD,1145197,wikipedia_current,,Insulet,INSULET CORP,2023-03-15,,Health Care,wikipedia_gics
+POM,1135971,name_exact,1.0,Pepco Holdings,PEPCO HOLDINGS INC,2007-11-09,2016-03-24,Utilities,sic_approx
+POOL,945841,name_exact,1.0,Pool Corporation,POOL CORP,2020-10-07,2026-06-22,Consumer Discretionary,sic_approx
+PPG,79879,wikipedia_current,,,PPG INDUSTRIES INC,1996-01-02,,Materials,wikipedia_gics
+PPL,922224,wikipedia_current,,,PPL CORP,1996-01-02,,Utilities,wikipedia_gics
+PRGO,1585364,name_exact,1.0,Perrigo,PERRIGO CO PLC,2011-12-19,2021-09-20,Health Care,sic_approx
+PRU,1137774,wikipedia_current,,,PRUDENTIAL FINANCIAL INC,2002-07-22,,Financials,wikipedia_gics
+PSA,1393311,wikipedia_current,,,PUBLIC STORAGE,2005-08-19,,Real Estate,wikipedia_gics
+PSKY,,,,,,2025-08-08,,,
+PSX,1534701,wikipedia_current,,Phillips 66,PHILLIPS 66,2012-05-01,,Energy,wikipedia_gics
+PTC,857005,wikipedia_current,,PTC,PTC INC.,2021-04-20,,Information Technology,wikipedia_gics
+PTV,1089976,name_exact,1.0,Pactiv,PACTIV CORP,1999-11-05,2010-11-17,Materials,sic_approx
+PVH,78239,name_exact,1.0,PVH,PVH CORP. /DE/,2013-02-14,2022-09-19,Consumer Discretionary,sic_approx
+PWR,1050915,wikipedia_current,,,"QUANTA SERVICES, INC.",2009-07-01,,Industrials,wikipedia_gics
+PX,,,,,,1996-01-02,2018-10-31,,
+PXD,1038357,name_exact,1.0,Pioneer Natural Resources,PIONEER NATURAL RESOURCES CO,2008-09-24,2024-05-08,Energy,sic_approx
+PYPL,1633917,wikipedia_current,,PayPal,"PAYPAL HOLDINGS, INC.",2015-07-20,,Financials,wikipedia_gics
+Q,2058873,wikipedia_current,,QuintilesIMS,"QNITY ELECTRONICS, INC.",2000-07-06,,Information Technology,wikipedia_gics
+QCOM,804328,wikipedia_current,,,QUALCOMM INC/DE,1999-07-22,,Information Technology,wikipedia_gics
+QEP,1108827,name_exact,1.0,QEP Resources,"QEP RESOURCES, INC.",2010-07-01,2015-07-01,Energy,sic_approx
+QLGC,,,,,,2000-12-12,2011-01-18,,
+QRVO,1604778,name_exact,1.0,Qorvo,"QORVO, INC.",2015-06-12,2024-12-23,Information Technology,sic_approx
+R,85961,name_exact,1.0,Ryder System,RYDER SYSTEM INC,1996-01-02,2017-06-19,Consumer Discretionary,sic_approx
+RAI,1275283,name_exact,1.0,Reynolds American,REYNOLDS AMERICAN INC,2002-09-04,2017-07-25,Consumer Staples,sic_approx
+RCL,884887,wikipedia_current,,Royal Caribbean Cruises,ROYAL CARIBBEAN CRUISES LTD,2014-12-05,,Consumer Discretionary,wikipedia_gics
+RDC,85408,name_exact,1.0,Rowan Companies,ROWAN COMPANIES PLC,1996-01-02,2014-08-19,Energy,sic_approx
+RDDT,1713445,wikipedia_current,,Reddit,"REDDIT, INC.",2026-08-18,,Communication Services,wikipedia_gics
+RE,1095073,name_exact,1.0,Everest Re,"EVEREST GROUP, LTD.",2017-06-19,2023-07-10,Financials,sic_approx
+REG,910606,wikipedia_current,,Regency Centers,REGENCY CENTERS CORP,2017-03-02,,Real Estate,wikipedia_gics
+REGN,872589,wikipedia_current,,Regeneron Pharmaceuticals,"REGENERON PHARMACEUTICALS, INC.",2013-05-01,,Health Care,wikipedia_gics
+RF,1281761,wikipedia_current,,,REGIONS FINANCIAL CORP,1998-08-28,,Financials,wikipedia_gics
+RHI,315213,name_exact,1.0,Robert Half,ROBERT HALF INC.,2000-12-05,2024-06-24,Industrials,sic_approx
+RHT,1087423,name_exact,1.0,Red Hat,RED HAT INC,2009-07-27,2019-07-15,Information Technology,sic_approx
+RIG,1451505,name_exact,1.0,Transocean,TRANSOCEAN LTD.,1999-12-31,2017-07-26,Energy,sic_approx
+RJF,720005,wikipedia_current,,Raymond James Financial,RAYMOND JAMES FINANCIAL INC,2017-03-20,,Financials,wikipedia_gics
+RL,1037038,wikipedia_current,,,RALPH LAUREN CORP,2007-02-02,,Consumer Discretionary,wikipedia_gics
+RMD,943819,wikipedia_current,,ResMed,RESMED INC,2017-07-26,,Health Care,wikipedia_gics
+ROH,,,,,,1996-01-02,2009-04-02,,
+ROK,1024478,wikipedia_current,,,"ROCKWELL AUTOMATION, INC",1996-01-02,,Industrials,wikipedia_gics
+ROL,84839,wikipedia_current,,Rollins,ROLLINS INC,2018-10-01,,Industrials,wikipedia_gics
+ROP,882835,wikipedia_current,,,ROPER TECHNOLOGIES INC,2009-12-23,,Information Technology,wikipedia_gics
+ROST,745732,wikipedia_current,,Ross Stores,"ROSS STORES, INC.",2009-12-21,,Consumer Discretionary,wikipedia_gics
+RRC,315852,name_exact,1.0,Range Resources,RANGE RESOURCES CORP,2007-12-21,2018-06-18,Energy,sic_approx
+RRD,,,,RR Donnelley,,1996-01-02,2012-12-12,,
+RSG,1060391,wikipedia_current,,,"REPUBLIC SERVICES, INC.",2008-12-05,,Industrials,wikipedia_gics
+RSHCQ,,,,,,1996-01-02,2011-07-01,,
+RTN,1047122,name_exact,1.0,Raytheon Company,RAYTHEON CO/,1996-01-02,2020-04-06,Industrials,sic_approx
+RTX,101829,wikipedia_current,,,RTX CORP,2020-04-03,,Industrials,wikipedia_gics
+RVTY,31791,wikipedia_current,,,"REVVITY, INC.",2023-05-16,,Health Care,wikipedia_gics
+RX,,,,IMS Health,,1996-11-04,2010-02-26,,
+S,101830,name_exact,1.0,Sprint Nextel,SPRINT CORP,1996-01-02,2013-07-09,Communication Services,sic_approx
+SAF,,,,,,1996-01-02,2008-09-23,,
+SATS,1415404,name_exact,1.0,EchoStar,ECHOSTAR CORP,2026-03-23,2026-06-24,Communication Services,sic_approx
+SBAC,1034054,wikipedia_current,,SBA Communications,SBA COMMUNICATIONS CORP,2017-09-01,,Real Estate,wikipedia_gics
+SBNY,,,,Signature Bank,,2021-12-20,2023-03-15,,
+SBUX,829224,wikipedia_current,,Starbucks,STARBUCKS CORP,2000-06-08,,Consumer Discretionary,wikipedia_gics
+SCG,754737,name_exact,1.0,SCANA,SCANA CORP,2009-01-02,2019-01-02,Utilities,sic_approx
+SCHW,316709,wikipedia_current,,,SCHWAB CHARLES CORP,1997-06-02,,Financials,wikipedia_gics
+SE,1373835,name_exact,1.0,Spectra Energy,SPECTRA ENERGY CORP.,2007-01-03,2017-02-27,Energy,sic_approx
+SEDG,,,,SolarEdge,,2021-12-20,2023-12-18,,
+SEE,1012100,name_exact,1.0,Sealed Air,SEALED AIR CORP/DE,1998-04-01,2023-12-18,Materials,sic_approx
+SGP,310158,name_exact,1.0,Schering-Plough,"MERCK & CO., INC.",1996-01-02,2009-11-04,Health Care,sic_approx
+SHLD,1310067,name_exact,1.0,Sears Holdings,SEARS HOLDINGS CORP,2005-03-28,2012-09-05,Consumer Discretionary,sic_approx
+SHW,89800,wikipedia_current,,,SHERWIN WILLIAMS CO,1996-01-02,,Materials,wikipedia_gics
+SIAL,90185,name_exact,1.0,Sigma-Aldrich,SIGMA ALDRICH CORP,1996-01-02,2015-11-18,Consumer Discretionary,sic_approx
+SIG,832988,name_exact,1.0,Signet Jewelers,SIGNET JEWELERS LTD,2015-07-29,2018-03-19,Consumer Discretionary,sic_approx
+SII,721083,name_exact,1.0,Smith International,SMITH INTERNATIONAL INC,2006-10-02,2010-08-27,Industrials,sic_approx
+SIVB,719739,name_exact,1.0,SVB Financial Group,SVB FINANCIAL GROUP,2018-03-19,2023-03-15,Financials,sic_approx
+SJM,91419,wikipedia_current,,,J M SMUCKER CO,2008-11-06,,Consumer Staples,wikipedia_gics
+SLB,87347,wikipedia_current,,,SLB LIMITED/NV,1996-01-02,,Energy,wikipedia_gics
+SLG,1040971,name_exact,1.0,SL Green Realty,SL GREEN REALTY CORP,2015-03-23,2021-03-22,Real Estate,sic_approx
+SLM,1032033,name_exact,1.0,SLM Corporation,SLM CORP,1998-07-01,2014-05-01,Financials,sic_approx
+SMCI,1375365,wikipedia_current,,Supermicro,"SUPER MICRO COMPUTER, INC.",2024-03-18,,Information Technology,wikipedia_gics
+SNA,91440,wikipedia_current,,,SNAP-ON INC,1996-01-02,,Industrials,wikipedia_gics
+SNDK,2023554,wikipedia_current,,SanDisk,SANDISK CORP,2006-04-20,,Information Technology,wikipedia_gics
+SNI,1430602,name_exact,1.0,Scripps Networks Interactive,"SCRIPPS NETWORKS INTERACTIVE, INC.",2008-07-01,2018-03-07,Communication Services,sic_approx
+SNPS,883241,wikipedia_current,,Synopsys,SYNOPSYS INC,2017-03-16,,Information Technology,wikipedia_gics
+SNV,,,,,,1997-12-01,2008-01-02,,
+SO,92122,wikipedia_current,,,SOUTHERN CO,1996-01-02,,Utilities,wikipedia_gics
+SOLS,2064953,name_exact,1.0,Solstice Advanced Materials,SOLSTICE ADVANCED MATERIALS INC.,2025-10-30,2025-12-22,Materials,sic_approx
+SOLV,1964738,wikipedia_current,,Solventum,SOLVENTUM CORP,2024-04-01,,Health Care,wikipedia_gics
+SOV,,,,,,2004-07-01,2009-01-30,,
+SPG,1063761,wikipedia_current,,,SIMON PROPERTY GROUP INC.,2002-06-26,,Real Estate,wikipedia_gics
+SPGI,64040,wikipedia_current,,,S&P GLOBAL INC.,1996-01-02,,Financials,wikipedia_gics
+SPLS,791519,name_exact,1.0,Staples,STAPLES INC,1998-10-07,2017-09-13,Consumer Discretionary,sic_approx
+SRCL,861878,name_exact,1.0,Stericycle,STERICYCLE INC,2008-11-19,2018-12-03,Utilities,sic_approx
+SRE,1032208,wikipedia_current,,,SEMPRA,1998-06-29,,Utilities,wikipedia_gics
+SSP,,,,,,2005-12-20,2008-07-01,,
+STE,1757898,wikipedia_current,,Steris,STERIS PLC,2019-12-23,,Health Care,wikipedia_gics
+STI,750556,name_exact,1.0,SunTrust Banks,SUNTRUST BANKS INC,1996-01-02,2019-12-09,Financials,sic_approx
+STJ,203077,name_exact,1.0,St Jude Medical,ST JUDE MEDICAL INC,1996-01-02,2017-01-05,Health Care,sic_approx
+STLD,1022671,wikipedia_current,,Steel Dynamics,STEEL DYNAMICS INC,2022-12-22,,Materials,wikipedia_gics
+STR,751652,name_exact,1.0,Questar,QUESTAR CORP,2006-12-01,2010-07-01,Energy,sic_approx
+STT,93751,wikipedia_current,,,STATE STREET CORP,1997-08-18,,Financials,wikipedia_gics
+STX,1137789,wikipedia_current,,Seagate Technology,SEAGATE TECHNOLOGY HOLDINGS PLC,2012-07-02,,Information Technology,wikipedia_gics
+STZ,16918,wikipedia_current,,Constellation Brands,"CONSTELLATION BRANDS, INC.",2005-07-05,,Consumer Staples,wikipedia_gics
+SUN,95304,name_exact,1.0,Sunoco,SUNOCO INC,1996-01-02,2012-10-05,Energy,sic_approx
+SUNEQ,,,,,,2007-05-31,2011-12-19,,
+SVU,95521,name_exact,1.0,Supervalu,SUPERVALU INC,1996-01-02,2012-05-01,Consumer Staples,sic_approx
+SW,2005951,wikipedia_current,,,SMURFIT WESTROCK PLC,2024-07-08,,Materials,wikipedia_gics
+SWK,93556,wikipedia_current,,,"STANLEY BLACK & DECKER, INC.",1996-01-02,,Industrials,wikipedia_gics
+SWKS,4127,wikipedia_current,,Skyworks,SKYWORKS SOLUTIONS INC,2015-03-12,,Information Technology,wikipedia_gics
+SWN,7332,name_exact,1.0,Southwestern Energy,SOUTHWESTERN ENERGY CO,2008-06-06,2017-04-04,Energy,sic_approx
+SWY,86144,name_exact,1.0,Safeway,SAFEWAY INC,1998-11-13,2015-01-27,Consumer Staples,sic_approx
+SYF,1601712,wikipedia_current,,Synchrony Financial,SYNCHRONY FINANCIAL,2015-11-18,,Financials,wikipedia_gics
+SYK,310764,wikipedia_current,,,STRYKER CORP,2000-12-12,,Health Care,wikipedia_gics
+SYMC,,,,,,2003-03-31,2019-11-05,,
+SYY,96021,wikipedia_current,,,SYSCO CORP,1996-01-02,,Consumer Staples,wikipedia_gics
+T,732717,wikipedia_current,,AT&T Corporation,AT&T INC.,1996-01-02,,Communication Services,wikipedia_gics
+TAP,24545,sec_ticker_validated,,Molson Coors,MOLSON COORS BEVERAGE CO,1996-01-02,,Consumer Staples,sic_approx
+TDC,816761,name_exact,1.0,Teradata,TERADATA CORP /DE/,2007-10-01,2017-06-19,Information Technology,sic_approx
+TDG,1260221,wikipedia_current,,TransDigm Group,TRANSDIGM GROUP INC,2016-06-03,,Industrials,wikipedia_gics
+TDY,1094285,wikipedia_current,,Teledyne,TELEDYNE TECHNOLOGIES INC,2020-06-22,,Information Technology,wikipedia_gics
+TE,350563,name_exact,1.0,TECO Energy,TECO ENERGY INC,2001-10-10,2016-07-01,Utilities,sic_approx
+TECH,842023,wikipedia_current,,Bio-Techne,BIO-TECHNE CORP,2021-08-30,,Health Care,wikipedia_gics
+TEG,916863,name_exact,1.0,Integrys Energy Group,"INTEGRYS HOLDING, INC.",2007-02-22,2015-06-30,Utilities,sic_approx
+TEL,1385157,wikipedia_current,,TE Connectivity,TE CONNECTIVITY PLC,2007-07-02,,Information Technology,wikipedia_gics
+TER,97210,wikipedia_current,,Teradyne,"TERADYNE, INC",1999-11-15,,Information Technology,wikipedia_gics
+TEX,,,,,,2006-12-20,2008-11-06,,
+TFC,92230,wikipedia_current,,,TRUIST FINANCIAL CORP,2019-12-09,,Financials,wikipedia_gics
+TFX,96943,name_exact,1.0,Teleflex,TELEFLEX INC,2019-01-18,2025-03-24,Health Care,sic_approx
+TGNA,39899,name_exact,1.0,Tegna,TEGNA INC,1996-01-02,2017-06-02,Communication Services,sic_approx
+TGT,27419,wikipedia_current,,,TARGET CORP,1996-01-02,,Consumer Staples,wikipedia_gics
+THC,70318,name_exact,1.0,Tenet Healthcare,TENET HEALTHCARE CORP,1996-01-02,2016-04-18,Health Care,sic_approx
+TIE,1011657,name_exact,1.0,Titanium Metals,TITANIUM METALS CORP,2007-10-29,2012-12-24,Materials,sic_approx
+TIF,98246,name_exact,1.0,Tiffany & Co,TIFFANY & CO,2000-06-21,2021-01-07,Consumer Discretionary,sic_approx
+TJX,109198,wikipedia_current,,,TJX COMPANIES INC /DE/,1996-01-02,,Consumer Discretionary,wikipedia_gics
+TKO,1973266,wikipedia_current,,TKO Group Holdings,"TKO GROUP HOLDINGS, INC.",2025-03-24,,Communication Services,wikipedia_gics
+TLAB,317771,name_exact,1.0,Tellabs,TELLABS INC,1996-01-02,2011-12-21,Information Technology,sic_approx
+TMK,,,,,,1996-01-02,2019-08-08,,
+TMO,97745,wikipedia_current,,,THERMO FISHER SCIENTIFIC INC.,1997-01-02,,Health Care,wikipedia_gics
+TMUS,1283699,wikipedia_current,,T-Mobile US,"T-MOBILE US, INC.",2009-06-30,,Communication Services,wikipedia_gics
+TPL,1811074,wikipedia_current,,Texas Pacific Land Corporation,TEXAS PACIFIC LAND CORP,2024-11-26,,Energy,wikipedia_gics
+TPR,1116132,wikipedia_current,,,"TAPESTRY, INC.",2004-09-01,,Consumer Discretionary,wikipedia_gics
+TRGP,1389170,wikipedia_current,,Targa Resources,TARGA RESOURCES CORP.,2022-10-12,,Energy,wikipedia_gics
+TRIP,1526520,name_exact,1.0,TripAdvisor,"TRIPADVISOR, INC.",2011-12-21,2019-12-23,Information Technology,sic_approx
+TRMB,864749,wikipedia_current,,Trimble,TRIMBLE INC.,2021-01-21,,Information Technology,wikipedia_gics
+TROW,1113169,wikipedia_current,,,PRICE T ROWE GROUP INC,1999-10-13,,Financials,wikipedia_gics
+TRV,86312,wikipedia_current,,,"TRAVELERS COMPANIES, INC.",1996-01-02,,Financials,wikipedia_gics
+TSCO,916365,wikipedia_current,,Tractor Supply,TRACTOR SUPPLY CO /DE/,2014-01-24,,Consumer Discretionary,wikipedia_gics
+TSLA,1318605,wikipedia_current,,Tesla,"TESLA, INC.",2020-12-21,,Consumer Discretionary,wikipedia_gics
+TSN,100493,wikipedia_current,,,"TYSON FOODS, INC.",2005-08-11,,Consumer Staples,wikipedia_gics
+TSS,,,,TSYS,,2008-01-02,2019-09-23,,
+TT,1466258,wikipedia_current,,,TRANE TECHNOLOGIES PLC,2002-05-13,,Industrials,wikipedia_gics
+TTD,1671933,name_exact,1.0,The Trade Desk,"TRADE DESK, INC.",2025-07-18,,Information Technology,sic_approx
+TTWO,946581,wikipedia_current,,Take-Two Interactive,TAKE TWO INTERACTIVE SOFTWARE INC,2018-03-19,,Communication Services,wikipedia_gics
+TWC,1377013,name_exact,1.0,Time Warner Cable,TIME WARNER CABLE INC.,2009-03-30,2016-05-18,Communication Services,sic_approx
+TWTR,1418091,name_exact,1.0,Twitter,"TWITTER, INC.",2018-06-07,2022-11-01,Information Technology,sic_approx
+TWX,1105705,name_exact,1.0,Time Warner,TIME WARNER INC.,1996-01-02,2018-06-15,Communication Services,sic_approx
+TXN,97476,wikipedia_current,,,TEXAS INSTRUMENTS INC,1996-01-02,,Information Technology,wikipedia_gics
+TXT,217346,wikipedia_current,,,TEXTRON INC,1996-01-02,,Industrials,wikipedia_gics
+TYL,860731,wikipedia_current,,Tyler Technologies,TYLER TECHNOLOGIES INC,2020-06-22,,Information Technology,wikipedia_gics
+UA,1336917,sec_ticker_validated,,Under Armour (Class C),"UNDER ARMOUR, INC.",2016-04-08,2022-06-21,Consumer Discretionary,sic_approx
+UAA,1336917,sec_ticker_validated,,Under Armour (Class A),"UNDER ARMOUR, INC.",2014-05-01,2022-06-21,Consumer Discretionary,sic_approx
+UAL,100517,wikipedia_current,,United Continental Holdings,"UNITED AIRLINES HOLDINGS, INC.",2015-09-03,,Industrials,wikipedia_gics
+UBER,1543151,wikipedia_current,,Uber,"UBER TECHNOLOGIES, INC",2023-12-18,,Industrials,wikipedia_gics
+UDR,74208,wikipedia_current,,UDR,"UDR, INC.",2016-03-07,,Real Estate,wikipedia_gics
+UHS,352915,wikipedia_current,,Universal Health Services,UNIVERSAL HEALTH SERVICES INC,2014-09-22,,Health Care,wikipedia_gics
+UIS,,,,,,1996-01-02,2008-11-11,,
+ULTA,1403568,wikipedia_current,,Ulta Beauty,"ULTA BEAUTY, INC.",2016-04-18,,Consumer Discretionary,wikipedia_gics
+UNH,731766,wikipedia_current,,,UNITEDHEALTH GROUP INC,1996-01-02,,Health Care,wikipedia_gics
+UNM,5513,name_exact,1.0,Unum,UNUM GROUP,1996-01-02,2021-09-20,Financials,sic_approx
+UNP,100885,wikipedia_current,,,UNION PACIFIC CORP,1996-01-02,,Industrials,wikipedia_gics
+UPS,1090727,wikipedia_current,,,UNITED PARCEL SERVICE INC,2002-07-22,,Industrials,wikipedia_gics
+URBN,912615,name_exact,1.0,Urban Outfitters,URBAN OUTFITTERS INC,2010-02-08,2017-03-20,Consumer Discretionary,sic_approx
+URI,1067701,wikipedia_current,,United Rentals,"UNITED RENTALS, INC.",2014-09-22,,Industrials,wikipedia_gics
+USB,36104,wikipedia_current,,,US BANCORP DE,1996-01-02,,Financials,wikipedia_gics
+UST,,,,,,1996-01-02,2009-01-06,,
+UTX,,,,,,1996-01-02,2020-04-03,,
+V,1403161,wikipedia_current,,Visa,VISA INC.,2009-12-21,,Financials,wikipedia_gics
+VAR,203527,name_exact,1.0,Varian Medical Systems,VARIAN MEDICAL SYSTEMS INC,2007-02-12,2021-04-20,Health Care,sic_approx
+VEEV,1393052,wikipedia_current,,Veeva Systems,VEEVA SYSTEMS INC,2026-05-07,,Health Care,wikipedia_gics
+VFC,103379,sec_ticker_validated,,VF Corporation,V F CORP,1996-01-02,2024-04-01,Consumer Discretionary,sic_approx
+VIAB,1339947,name_exact,1.0,Viacom,VIACOM INC.,2006-01-03,2019-12-05,Communication Services,sic_approx
+VIAC,,,,,,2019-12-05,2022-02-17,,
+VIAV,912093,sec_ticker_validated,,,VIAVI SOLUTIONS INC.,2000-07-27,2013-12-23,Information Technology,sic_approx
+VICI,1705696,wikipedia_current,,Vici Properties,VICI PROPERTIES INC.,2022-06-08,,Real Estate,wikipedia_gics
+VLO,1035002,wikipedia_current,,,VALERO ENERGY CORP/TX,2004-04-29,,Energy,wikipedia_gics
+VLTO,1967680,wikipedia_current,,Veralto,VERALTO CORP,2023-10-02,,Industrials,wikipedia_gics
+VMC,1396009,wikipedia_current,,,VULCAN MATERIALS CO,1999-07-01,,Materials,wikipedia_gics
+VMRK,906107,wikipedia_current,,,EQUITY RESIDENTIAL,2026-08-18,,Real Estate,wikipedia_gics
+VNO,899689,name_exact,1.0,Vornado Realty Trust,VORNADO REALTY TRUST,2005-08-12,2023-01-04,Real Estate,sic_approx
+VNT,1786842,name_exact,1.0,Vontier,VONTIER CORP,2020-10-12,2021-03-22,Industrials,sic_approx
+VRSK,1442145,wikipedia_current,,Verisk Analytics,"VERISK ANALYTICS, INC.",2015-10-08,,Industrials,wikipedia_gics
+VRSN,1014473,wikipedia_current,,,VERISIGN INC/CA,2006-02-01,,Information Technology,wikipedia_gics
+VRT,1674101,wikipedia_current,,Vertiv,VERTIV HOLDINGS CO,2026-03-23,,Industrials,wikipedia_gics
+VRTX,875320,wikipedia_current,,Vertex Pharmaceuticals,VERTEX PHARMACEUTICALS INC / MA,2013-09-23,,Health Care,wikipedia_gics
+VST,1692819,wikipedia_current,,Vistra,VISTRA CORP.,2024-05-08,,Utilities,wikipedia_gics
+VTR,740260,wikipedia_current,,Ventas,"VENTAS, INC.",2009-03-04,,Real Estate,wikipedia_gics
+VTRS,1792044,wikipedia_current,,,VIATRIS INC,2020-11-17,,Health Care,wikipedia_gics
+VZ,732712,wikipedia_current,,,VERIZON COMMUNICATIONS INC,1996-01-02,,Communication Services,wikipedia_gics
+WAB,943452,wikipedia_current,,Wabtec,WESTINGHOUSE AIR BRAKE TECHNOLOGIES CORP,2019-02-27,,Industrials,wikipedia_gics
+WAMUQ,,,,,,1997-07-02,2008-09-30,,
+WAT,1000697,wikipedia_current,,,WATERS CORP /DE/,2002-01-02,,Health Care,wikipedia_gics
+WB,,,,Wachovia Bank,,1996-01-02,2009-01-02,,
+WBA,1618921,name_exact,1.0,Walgreens Boots Alliance,"WALGREENS BOOTS ALLIANCE, INC.",1996-01-02,2025-08-28,Consumer Discretionary,sic_approx
+WBD,1437107,name_exact,1.0,Warner Bros. Discovery,"WARNER BROS. DISCOVERY, INC.",2022-04-11,,Communication Services,sic_approx
+WCG,,,,WellCare,,2018-09-17,2020-01-28,,
+WDAY,1327811,wikipedia_current,,"Workday, Inc.","WORKDAY, INC.",2024-12-23,,Information Technology,wikipedia_gics
+WDC,106040,wikipedia_current,,,WESTERN DIGITAL CORP,2009-07-01,,Information Technology,wikipedia_gics
+WEC,783325,wikipedia_current,,,"WEC ENERGY GROUP, INC.",2008-10-31,,Utilities,wikipedia_gics
+WELL,766704,wikipedia_current,,,WELLTOWER INC.,2009-01-30,,Real Estate,wikipedia_gics
+WEN,,,,,,1996-01-02,2008-09-30,,
+WFC,72971,wikipedia_current,,,WELLS FARGO & COMPANY/MN,1996-01-02,,Financials,wikipedia_gics
+WFM,865436,name_exact,1.0,Whole Foods Market,WHOLE FOODS MARKET INC,2006-01-03,2017-08-28,Consumer Staples,sic_approx
+WFT,,,,,,2005-07-22,2009-02-26,,
+WHR,106640,name_exact,1.0,Whirlpool Corporation,WHIRLPOOL CORP /DE/,1996-01-02,2024-03-18,Industrials,sic_approx
+WIN,,,,Windstream Communications,,2006-07-18,2015-04-07,,
+WLTW,1140536,name_exact,1.0,Willis Towers Watson,WILLIS TOWERS WATSON PLC,2016-01-05,2022-01-10,Financials,sic_approx
+WM,823768,wikipedia_current,,,WASTE MANAGEMENT INC,1998-07-17,,Industrials,wikipedia_gics
+WMB,107263,wikipedia_current,,,"WILLIAMS COMPANIES, INC.",1996-01-02,,Energy,wikipedia_gics
+WMT,104169,wikipedia_current,,,WALMART INC.,1996-01-02,,Consumer Staples,wikipedia_gics
+WPX,1518832,name_exact,1.0,WPX Energy,"WPX ENERGY, INC.",2012-01-03,2014-03-24,Energy,sic_approx
+WRB,11544,wikipedia_current,,W. R. Berkley Corporation,BERKLEY W R CORP,2019-12-05,,Financials,wikipedia_gics
+WRK,,,,,,2015-07-02,2024-07-08,,
+WSM,719955,wikipedia_current,,"Williams-Sonoma, Inc.",WILLIAMS SONOMA INC,2025-03-24,,Consumer Discretionary,wikipedia_gics
+WST,105770,wikipedia_current,,West Pharmaceutical Services,WEST PHARMACEUTICAL SERVICES INC,2020-05-22,,Health Care,wikipedia_gics
+WTW,1140536,wikipedia_current,,Willis Towers Watson,WILLIS TOWERS WATSON PLC,2022-01-10,,Financials,wikipedia_gics
+WU,1365135,name_exact,1.0,Western Union,WESTERN UNION CO,2006-10-02,2021-12-20,Industrials,sic_approx
+WWY,,,,,,1996-01-02,2008-10-07,,
+WY,106535,wikipedia_current,,,WEYERHAEUSER CO,1996-01-02,,Real Estate,wikipedia_gics
+WYE,,,,,,1996-01-02,2009-10-16,,
+WYND,,,,,,2006-08-01,2018-05-31,,
+WYNN,1174922,wikipedia_current,,,WYNN RESORTS LTD,2008-11-14,,Consumer Discretionary,wikipedia_gics
+X,1163302,name_exact,1.0,United States Steel,UNITED STATES STEEL CORP,1996-01-02,2014-07-02,Materials,sic_approx
+XEC,1168054,name_exact,1.0,Cimarex Energy,CIMAREX ENERGY CO,2014-06-20,2020-03-03,Energy,sic_approx
+XEL,72903,wikipedia_current,,,XCEL ENERGY INC,1996-01-02,,Utilities,wikipedia_gics
+XL,875159,name_exact,1.0,XL Group,XL GROUP LTD,2001-09-04,2018-09-12,Financials,sic_approx
+XLNX,743988,name_exact,1.0,Xilinx,XILINX INC,1999-11-08,2022-02-15,Information Technology,sic_approx
+XOM,2115436,wikipedia_current,,,,1996-01-02,,Energy,wikipedia_gics
+XRAY,818479,name_exact,1.0,Dentsply Sirona,DENTSPLY SIRONA INC.,2008-11-14,2024-04-02,Health Care,sic_approx
+XRX,108772,manual_verified,,Xerox,XEROX CORP,1996-01-02,2021-03-22,Information Technology,sic_approx
+XTO,868809,name_exact,1.0,XTO Energy,XTO ENERGY INC,2004-12-29,2010-06-28,Energy,sic_approx
+XYL,1524472,wikipedia_current,,Xylem,XYLEM INC.,2011-11-01,,Industrials,wikipedia_gics
+XYZ,1512673,wikipedia_current,,"Block, Inc.","BLOCK, INC.",2025-07-23,,Financials,wikipedia_gics
+YUM,1041061,wikipedia_current,,,YUM BRANDS INC,1997-10-07,,Consumer Discretionary,wikipedia_gics
+ZBH,1136869,wikipedia_current,,,"ZIMMER BIOMET HOLDINGS, INC.",2001-08-07,,Health Care,wikipedia_gics
+ZBRA,877212,wikipedia_current,,Zebra Technologies,ZEBRA TECHNOLOGIES CORP,2019-12-23,,Information Technology,wikipedia_gics
+ZION,109380,name_fuzzy,0.9302325581395349,Zions Bancorporation,"ZIONS BANCORPORATION, NATIONAL ASSOCIATION /UT/",2001-06-25,2024-03-18,Financials,sic_approx
+ZTS,1555280,wikipedia_current,,Zoetis,ZOETIS INC.,2013-06-24,,Health Care,wikipedia_gics
