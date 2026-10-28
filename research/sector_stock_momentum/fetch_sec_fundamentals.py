@@ -104,9 +104,15 @@ def process(q, path):
         sub = sub[sub.form.isin(FORMS)].copy()
         keep = set(sub.adsh)
         parts = []
+        # 2022q4+ files have quoted `segments`/`footnote` fields that can contain tabs → standard
+        # CSV quoting is required (QUOTE_NONE breaks on them). Verify nothing is silently dropped.
+        with z.open('num.txt') as f:
+            n_lines = sum(1 for _ in f) - 1
+        n_parsed = 0
         with z.open('num.txt') as f:
             for ch in pd.read_csv(f, sep='\t', dtype=str, encoding='utf-8', encoding_errors='replace',
-                                  chunksize=1_000_000, quoting=3):
+                                  chunksize=1_000_000):
+                n_parsed += len(ch)
                 ch = ch[ch.adsh.isin(keep) & ch.tag.isin(TAGS)]
                 if 'coreg' in ch:
                     ch = ch[ch.coreg.isna() | (ch.coreg == '')]
@@ -114,6 +120,8 @@ def process(q, path):
                     ch = ch[ch.segments.isna() | (ch.segments == '')]
                 ch = ch[ch.version.str.startswith(('us-gaap', 'dei'), na=False)]
                 parts.append(ch[['adsh', 'tag', 'ddate', 'qtrs', 'uom', 'value']])
+        if n_parsed < n_lines * 0.999:
+            print(f'  WARNING {q}: parsed {n_parsed} of {n_lines} num lines', flush=True)
     num = pd.concat(parts) if parts else pd.DataFrame(columns=['adsh', 'tag', 'ddate', 'qtrs', 'uom', 'value'])
     num['value'] = pd.to_numeric(num.value, errors='coerce')
     num['qtrs'] = pd.to_numeric(num.qtrs, errors='coerce').astype('Int16')
