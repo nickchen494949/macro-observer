@@ -1,0 +1,504 @@
+ticker,sector,source
+MMM,Industrials,wikipedia_gics
+AOS,Industrials,wikipedia_gics
+ABT,Health Care,wikipedia_gics
+ABBV,Health Care,wikipedia_gics
+ACN,Information Technology,wikipedia_gics
+ADBE,Information Technology,wikipedia_gics
+AMD,Information Technology,wikipedia_gics
+AES,Utilities,wikipedia_gics
+AFL,Financials,wikipedia_gics
+A,Health Care,wikipedia_gics
+APD,Materials,wikipedia_gics
+ABNB,Consumer Discretionary,wikipedia_gics
+AKAM,Information Technology,wikipedia_gics
+ALB,Materials,wikipedia_gics
+ARE,Real Estate,wikipedia_gics
+ALGN,Health Care,wikipedia_gics
+ALLE,Industrials,wikipedia_gics
+LNT,Utilities,wikipedia_gics
+ALL,Financials,wikipedia_gics
+GOOGL,Communication Services,wikipedia_gics
+GOOG,Communication Services,wikipedia_gics
+MO,Consumer Staples,wikipedia_gics
+AMZN,Consumer Discretionary,wikipedia_gics
+AMCR,Materials,wikipedia_gics
+AEE,Utilities,wikipedia_gics
+AEP,Utilities,wikipedia_gics
+AXP,Financials,wikipedia_gics
+AIG,Financials,wikipedia_gics
+AMT,Real Estate,wikipedia_gics
+AWK,Utilities,wikipedia_gics
+AMP,Financials,wikipedia_gics
+AME,Industrials,wikipedia_gics
+AMGN,Health Care,wikipedia_gics
+APH,Information Technology,wikipedia_gics
+ADI,Information Technology,wikipedia_gics
+AON,Financials,wikipedia_gics
+APA,Energy,wikipedia_gics
+APO,Financials,wikipedia_gics
+AAPL,Information Technology,wikipedia_gics
+AMAT,Information Technology,wikipedia_gics
+APP,Communication Services,wikipedia_gics
+APTV,Consumer Discretionary,wikipedia_gics
+ACGL,Financials,wikipedia_gics
+ADM,Consumer Staples,wikipedia_gics
+ARES,Financials,wikipedia_gics
+ANET,Information Technology,wikipedia_gics
+AJG,Financials,wikipedia_gics
+AIZ,Financials,wikipedia_gics
+T,Communication Services,wikipedia_gics
+ATO,Utilities,wikipedia_gics
+ADSK,Information Technology,wikipedia_gics
+ADP,Industrials,wikipedia_gics
+AZO,Consumer Discretionary,wikipedia_gics
+AVY,Materials,wikipedia_gics
+AXON,Industrials,wikipedia_gics
+BKR,Energy,wikipedia_gics
+BALL,Materials,wikipedia_gics
+BAC,Financials,wikipedia_gics
+BAX,Health Care,wikipedia_gics
+BDX,Health Care,wikipedia_gics
+BRK-B,Financials,wikipedia_gics
+BBY,Consumer Discretionary,wikipedia_gics
+TECH,Health Care,wikipedia_gics
+BIIB,Health Care,wikipedia_gics
+BLK,Financials,wikipedia_gics
+BX,Financials,wikipedia_gics
+XYZ,Financials,wikipedia_gics
+BE,Industrials,wikipedia_gics
+BNY,Financials,wikipedia_gics
+BA,Industrials,wikipedia_gics
+BKNG,Consumer Discretionary,wikipedia_gics
+BSX,Health Care,wikipedia_gics
+BMY,Health Care,wikipedia_gics
+AVGO,Information Technology,wikipedia_gics
+BR,Industrials,wikipedia_gics
+BRO,Financials,wikipedia_gics
+BF-B,Consumer Staples,wikipedia_gics
+BG,Consumer Staples,wikipedia_gics
+BXP,Real Estate,wikipedia_gics
+CHRW,Industrials,wikipedia_gics
+CDNS,Information Technology,wikipedia_gics
+CPT,Real Estate,wikipedia_gics
+COF,Financials,wikipedia_gics
+CAH,Health Care,wikipedia_gics
+CCL,Consumer Discretionary,wikipedia_gics
+CARR,Industrials,wikipedia_gics
+CVNA,Consumer Discretionary,wikipedia_gics
+CASY,Consumer Staples,wikipedia_gics
+CAT,Industrials,wikipedia_gics
+CBOE,Financials,wikipedia_gics
+CBRE,Real Estate,wikipedia_gics
+CDW,Information Technology,wikipedia_gics
+COR,Health Care,wikipedia_gics
+CNC,Health Care,wikipedia_gics
+CNP,Utilities,wikipedia_gics
+CF,Materials,wikipedia_gics
+CRL,Health Care,wikipedia_gics
+SCHW,Financials,wikipedia_gics
+CHTR,Communication Services,wikipedia_gics
+CVX,Energy,wikipedia_gics
+CMG,Consumer Discretionary,wikipedia_gics
+CB,Financials,wikipedia_gics
+CHD,Consumer Staples,wikipedia_gics
+CIEN,Information Technology,wikipedia_gics
+CI,Health Care,wikipedia_gics
+CINF,Financials,wikipedia_gics
+CTAS,Industrials,wikipedia_gics
+CSCO,Information Technology,wikipedia_gics
+C,Financials,wikipedia_gics
+CFG,Financials,wikipedia_gics
+CLX,Consumer Staples,wikipedia_gics
+CME,Financials,wikipedia_gics
+CMS,Utilities,wikipedia_gics
+KO,Consumer Staples,wikipedia_gics
+CTSH,Information Technology,wikipedia_gics
+COHR,Information Technology,wikipedia_gics
+COIN,Financials,wikipedia_gics
+CL,Consumer Staples,wikipedia_gics
+CMCSA,Communication Services,wikipedia_gics
+FIX,Industrials,wikipedia_gics
+COP,Energy,wikipedia_gics
+ED,Utilities,wikipedia_gics
+STZ,Consumer Staples,wikipedia_gics
+CEG,Utilities,wikipedia_gics
+COO,Health Care,wikipedia_gics
+CPRT,Industrials,wikipedia_gics
+GLW,Information Technology,wikipedia_gics
+CPAY,Financials,wikipedia_gics
+CSGP,Real Estate,wikipedia_gics
+COST,Consumer Staples,wikipedia_gics
+CRH,Materials,wikipedia_gics
+CRWD,Information Technology,wikipedia_gics
+CCI,Real Estate,wikipedia_gics
+CSX,Industrials,wikipedia_gics
+CMI,Industrials,wikipedia_gics
+CVS,Health Care,wikipedia_gics
+DHR,Health Care,wikipedia_gics
+DRI,Consumer Discretionary,wikipedia_gics
+DDOG,Information Technology,wikipedia_gics
+DVA,Health Care,wikipedia_gics
+DECK,Consumer Discretionary,wikipedia_gics
+DE,Industrials,wikipedia_gics
+DELL,Information Technology,wikipedia_gics
+DAL,Industrials,wikipedia_gics
+DVN,Energy,wikipedia_gics
+DXCM,Health Care,wikipedia_gics
+FANG,Energy,wikipedia_gics
+DLR,Real Estate,wikipedia_gics
+DG,Consumer Staples,wikipedia_gics
+DLTR,Consumer Staples,wikipedia_gics
+D,Utilities,wikipedia_gics
+DPZ,Consumer Discretionary,wikipedia_gics
+DASH,Consumer Discretionary,wikipedia_gics
+DOV,Industrials,wikipedia_gics
+DOW,Materials,wikipedia_gics
+DHI,Consumer Discretionary,wikipedia_gics
+DTE,Utilities,wikipedia_gics
+DUK,Utilities,wikipedia_gics
+DD,Industrials,wikipedia_gics
+ETN,Industrials,wikipedia_gics
+EBAY,Consumer Discretionary,wikipedia_gics
+ECHO,Communication Services,wikipedia_gics
+ECL,Materials,wikipedia_gics
+EIX,Utilities,wikipedia_gics
+EW,Health Care,wikipedia_gics
+ELV,Health Care,wikipedia_gics
+EME,Industrials,wikipedia_gics
+EMR,Industrials,wikipedia_gics
+ETR,Utilities,wikipedia_gics
+EOG,Energy,wikipedia_gics
+EQT,Energy,wikipedia_gics
+EFX,Industrials,wikipedia_gics
+EQIX,Real Estate,wikipedia_gics
+ERIE,Financials,wikipedia_gics
+ESS,Real Estate,wikipedia_gics
+EL,Consumer Staples,wikipedia_gics
+EG,Financials,wikipedia_gics
+EVRG,Utilities,wikipedia_gics
+P,Information Technology,wikipedia_gics
+ES,Utilities,wikipedia_gics
+EXC,Utilities,wikipedia_gics
+EXE,Energy,wikipedia_gics
+EXPE,Consumer Discretionary,wikipedia_gics
+EXPD,Industrials,wikipedia_gics
+EXR,Real Estate,wikipedia_gics
+XOM,Energy,wikipedia_gics
+FFIV,Information Technology,wikipedia_gics
+FDS,Financials,wikipedia_gics
+FICO,Information Technology,wikipedia_gics
+FAST,Industrials,wikipedia_gics
+FRT,Real Estate,wikipedia_gics
+FDX,Industrials,wikipedia_gics
+FDXF,Industrials,wikipedia_gics
+FERG,Industrials,wikipedia_gics
+FIS,Financials,wikipedia_gics
+FITB,Financials,wikipedia_gics
+FSLR,Information Technology,wikipedia_gics
+FE,Utilities,wikipedia_gics
+FISV,Financials,wikipedia_gics
+FLEX,Information Technology,wikipedia_gics
+F,Consumer Discretionary,wikipedia_gics
+FTNT,Information Technology,wikipedia_gics
+FTV,Industrials,wikipedia_gics
+FOXA,Communication Services,wikipedia_gics
+FOX,Communication Services,wikipedia_gics
+BEN,Financials,wikipedia_gics
+FCX,Materials,wikipedia_gics
+GRMN,Consumer Discretionary,wikipedia_gics
+IT,Information Technology,wikipedia_gics
+GE,Industrials,wikipedia_gics
+GEHC,Health Care,wikipedia_gics
+GEV,Industrials,wikipedia_gics
+GEN,Information Technology,wikipedia_gics
+GNRC,Industrials,wikipedia_gics
+GD,Industrials,wikipedia_gics
+GIS,Consumer Staples,wikipedia_gics
+GM,Consumer Discretionary,wikipedia_gics
+GPC,Consumer Discretionary,wikipedia_gics
+GILD,Health Care,wikipedia_gics
+GPN,Financials,wikipedia_gics
+GL,Financials,wikipedia_gics
+GDDY,Information Technology,wikipedia_gics
+GS,Financials,wikipedia_gics
+HAL,Energy,wikipedia_gics
+HIG,Financials,wikipedia_gics
+HAS,Consumer Discretionary,wikipedia_gics
+HCA,Health Care,wikipedia_gics
+DOC,Real Estate,wikipedia_gics
+HSIC,Health Care,wikipedia_gics
+HSY,Consumer Staples,wikipedia_gics
+HPE,Information Technology,wikipedia_gics
+HLT,Consumer Discretionary,wikipedia_gics
+HD,Consumer Discretionary,wikipedia_gics
+HONA,Industrials,wikipedia_gics
+HON,Industrials,wikipedia_gics
+HRL,Consumer Staples,wikipedia_gics
+HST,Real Estate,wikipedia_gics
+HWM,Industrials,wikipedia_gics
+HPQ,Information Technology,wikipedia_gics
+HUBB,Industrials,wikipedia_gics
+HUM,Health Care,wikipedia_gics
+HBAN,Financials,wikipedia_gics
+HII,Industrials,wikipedia_gics
+IBM,Information Technology,wikipedia_gics
+IEX,Industrials,wikipedia_gics
+IDXX,Health Care,wikipedia_gics
+ITW,Industrials,wikipedia_gics
+ILMN,Health Care,wikipedia_gics
+INCY,Health Care,wikipedia_gics
+IR,Industrials,wikipedia_gics
+PODD,Health Care,wikipedia_gics
+INTC,Information Technology,wikipedia_gics
+IBKR,Financials,wikipedia_gics
+ICE,Financials,wikipedia_gics
+IFF,Materials,wikipedia_gics
+IP,Materials,wikipedia_gics
+INTU,Information Technology,wikipedia_gics
+ISRG,Health Care,wikipedia_gics
+IVZ,Financials,wikipedia_gics
+INVH,Real Estate,wikipedia_gics
+IQV,Health Care,wikipedia_gics
+IRM,Real Estate,wikipedia_gics
+JBHT,Industrials,wikipedia_gics
+JBL,Information Technology,wikipedia_gics
+JKHY,Financials,wikipedia_gics
+J,Industrials,wikipedia_gics
+JNJ,Health Care,wikipedia_gics
+JCI,Industrials,wikipedia_gics
+JPM,Financials,wikipedia_gics
+KVUE,Consumer Staples,wikipedia_gics
+KDP,Consumer Staples,wikipedia_gics
+KEY,Financials,wikipedia_gics
+KEYS,Information Technology,wikipedia_gics
+KMB,Consumer Staples,wikipedia_gics
+KIM,Real Estate,wikipedia_gics
+KMI,Energy,wikipedia_gics
+KKR,Financials,wikipedia_gics
+KLAC,Information Technology,wikipedia_gics
+KHC,Consumer Staples,wikipedia_gics
+KR,Consumer Staples,wikipedia_gics
+LHX,Industrials,wikipedia_gics
+LH,Health Care,wikipedia_gics
+LRCX,Information Technology,wikipedia_gics
+LVS,Consumer Discretionary,wikipedia_gics
+LDOS,Industrials,wikipedia_gics
+LEN,Consumer Discretionary,wikipedia_gics
+LII,Industrials,wikipedia_gics
+LLY,Health Care,wikipedia_gics
+LIN,Materials,wikipedia_gics
+LYV,Communication Services,wikipedia_gics
+LMT,Industrials,wikipedia_gics
+L,Financials,wikipedia_gics
+LOW,Consumer Discretionary,wikipedia_gics
+LULU,Consumer Discretionary,wikipedia_gics
+LITE,Information Technology,wikipedia_gics
+LYB,Materials,wikipedia_gics
+MTB,Financials,wikipedia_gics
+MPC,Energy,wikipedia_gics
+MAR,Consumer Discretionary,wikipedia_gics
+MRSH,Financials,wikipedia_gics
+MLM,Materials,wikipedia_gics
+MRVL,Information Technology,wikipedia_gics
+MAS,Industrials,wikipedia_gics
+MA,Financials,wikipedia_gics
+MKC,Consumer Staples,wikipedia_gics
+MCD,Consumer Discretionary,wikipedia_gics
+MCK,Health Care,wikipedia_gics
+MDT,Health Care,wikipedia_gics
+MRK,Health Care,wikipedia_gics
+META,Communication Services,wikipedia_gics
+MET,Financials,wikipedia_gics
+MTD,Health Care,wikipedia_gics
+MGM,Consumer Discretionary,wikipedia_gics
+MCHP,Information Technology,wikipedia_gics
+MU,Information Technology,wikipedia_gics
+MSFT,Information Technology,wikipedia_gics
+MAA,Real Estate,wikipedia_gics
+MRNA,Health Care,wikipedia_gics
+MDLZ,Consumer Staples,wikipedia_gics
+MPWR,Information Technology,wikipedia_gics
+MNST,Consumer Staples,wikipedia_gics
+MCO,Financials,wikipedia_gics
+MS,Financials,wikipedia_gics
+MOS,Materials,wikipedia_gics
+MSI,Information Technology,wikipedia_gics
+MSCI,Financials,wikipedia_gics
+NDAQ,Financials,wikipedia_gics
+NTAP,Information Technology,wikipedia_gics
+NFLX,Communication Services,wikipedia_gics
+NEM,Materials,wikipedia_gics
+NWSA,Communication Services,wikipedia_gics
+NWS,Communication Services,wikipedia_gics
+NEE,Utilities,wikipedia_gics
+NKE,Consumer Discretionary,wikipedia_gics
+NI,Utilities,wikipedia_gics
+NDSN,Industrials,wikipedia_gics
+NSC,Industrials,wikipedia_gics
+NTRS,Financials,wikipedia_gics
+NOC,Industrials,wikipedia_gics
+NCLH,Consumer Discretionary,wikipedia_gics
+NRG,Utilities,wikipedia_gics
+NUE,Materials,wikipedia_gics
+NVDA,Information Technology,wikipedia_gics
+NVR,Consumer Discretionary,wikipedia_gics
+NXPI,Information Technology,wikipedia_gics
+ORLY,Consumer Discretionary,wikipedia_gics
+OXY,Energy,wikipedia_gics
+ODFL,Industrials,wikipedia_gics
+OMC,Communication Services,wikipedia_gics
+ON,Information Technology,wikipedia_gics
+OKE,Energy,wikipedia_gics
+ORCL,Information Technology,wikipedia_gics
+OTIS,Industrials,wikipedia_gics
+PCAR,Industrials,wikipedia_gics
+PKG,Materials,wikipedia_gics
+PLTR,Information Technology,wikipedia_gics
+PANW,Information Technology,wikipedia_gics
+PH,Industrials,wikipedia_gics
+PAYX,Industrials,wikipedia_gics
+PYPL,Financials,wikipedia_gics
+PNR,Industrials,wikipedia_gics
+PEP,Consumer Staples,wikipedia_gics
+PFE,Health Care,wikipedia_gics
+PCG,Utilities,wikipedia_gics
+PM,Consumer Staples,wikipedia_gics
+PSX,Energy,wikipedia_gics
+PNW,Utilities,wikipedia_gics
+PNC,Financials,wikipedia_gics
+PPG,Materials,wikipedia_gics
+PPL,Utilities,wikipedia_gics
+PFG,Financials,wikipedia_gics
+PG,Consumer Staples,wikipedia_gics
+PGR,Financials,wikipedia_gics
+PLD,Real Estate,wikipedia_gics
+PRU,Financials,wikipedia_gics
+PTC,Information Technology,wikipedia_gics
+PEG,Utilities,wikipedia_gics
+PSA,Real Estate,wikipedia_gics
+PHM,Consumer Discretionary,wikipedia_gics
+Q,Information Technology,wikipedia_gics
+QCOM,Information Technology,wikipedia_gics
+PWR,Industrials,wikipedia_gics
+DGX,Health Care,wikipedia_gics
+RL,Consumer Discretionary,wikipedia_gics
+RJF,Financials,wikipedia_gics
+RDDT,Communication Services,wikipedia_gics
+O,Real Estate,wikipedia_gics
+REG,Real Estate,wikipedia_gics
+REGN,Health Care,wikipedia_gics
+RF,Financials,wikipedia_gics
+RSG,Industrials,wikipedia_gics
+RMD,Health Care,wikipedia_gics
+RVTY,Health Care,wikipedia_gics
+HOOD,Financials,wikipedia_gics
+ROK,Industrials,wikipedia_gics
+ROL,Industrials,wikipedia_gics
+ROP,Information Technology,wikipedia_gics
+ROST,Consumer Discretionary,wikipedia_gics
+RCL,Consumer Discretionary,wikipedia_gics
+RTX,Industrials,wikipedia_gics
+SPGI,Financials,wikipedia_gics
+CRM,Information Technology,wikipedia_gics
+SNDK,Information Technology,wikipedia_gics
+SBAC,Real Estate,wikipedia_gics
+SLB,Energy,wikipedia_gics
+STX,Information Technology,wikipedia_gics
+SRE,Utilities,wikipedia_gics
+NOW,Information Technology,wikipedia_gics
+SHW,Materials,wikipedia_gics
+SPG,Real Estate,wikipedia_gics
+SKYD,Communication Services,wikipedia_gics
+SWKS,Information Technology,wikipedia_gics
+SJM,Consumer Staples,wikipedia_gics
+SW,Materials,wikipedia_gics
+SNA,Industrials,wikipedia_gics
+SOLV,Health Care,wikipedia_gics
+SO,Utilities,wikipedia_gics
+LUV,Industrials,wikipedia_gics
+SWK,Industrials,wikipedia_gics
+SBUX,Consumer Discretionary,wikipedia_gics
+STT,Financials,wikipedia_gics
+STLD,Materials,wikipedia_gics
+STE,Health Care,wikipedia_gics
+SYK,Health Care,wikipedia_gics
+SMCI,Information Technology,wikipedia_gics
+SYF,Financials,wikipedia_gics
+SNPS,Information Technology,wikipedia_gics
+SYY,Consumer Staples,wikipedia_gics
+TMUS,Communication Services,wikipedia_gics
+TROW,Financials,wikipedia_gics
+TTWO,Communication Services,wikipedia_gics
+TPR,Consumer Discretionary,wikipedia_gics
+TRGP,Energy,wikipedia_gics
+TGT,Consumer Staples,wikipedia_gics
+TEL,Information Technology,wikipedia_gics
+TDY,Information Technology,wikipedia_gics
+TER,Information Technology,wikipedia_gics
+TSLA,Consumer Discretionary,wikipedia_gics
+TXN,Information Technology,wikipedia_gics
+TPL,Energy,wikipedia_gics
+TXT,Industrials,wikipedia_gics
+TMO,Health Care,wikipedia_gics
+TJX,Consumer Discretionary,wikipedia_gics
+TKO,Communication Services,wikipedia_gics
+TSCO,Consumer Discretionary,wikipedia_gics
+TT,Industrials,wikipedia_gics
+TDG,Industrials,wikipedia_gics
+TRV,Financials,wikipedia_gics
+TRMB,Information Technology,wikipedia_gics
+TFC,Financials,wikipedia_gics
+TWLO,Information Technology,wikipedia_gics
+TYL,Information Technology,wikipedia_gics
+TSN,Consumer Staples,wikipedia_gics
+USB,Financials,wikipedia_gics
+UBER,Industrials,wikipedia_gics
+UDR,Real Estate,wikipedia_gics
+ULTA,Consumer Discretionary,wikipedia_gics
+UNP,Industrials,wikipedia_gics
+UAL,Industrials,wikipedia_gics
+UPS,Industrials,wikipedia_gics
+URI,Industrials,wikipedia_gics
+UNH,Health Care,wikipedia_gics
+UHS,Health Care,wikipedia_gics
+VLO,Energy,wikipedia_gics
+VEEV,Health Care,wikipedia_gics
+VTR,Real Estate,wikipedia_gics
+VLTO,Industrials,wikipedia_gics
+VRSN,Information Technology,wikipedia_gics
+VRSK,Industrials,wikipedia_gics
+VZ,Communication Services,wikipedia_gics
+VRTX,Health Care,wikipedia_gics
+VRT,Industrials,wikipedia_gics
+VTRS,Health Care,wikipedia_gics
+VICI,Real Estate,wikipedia_gics
+V,Financials,wikipedia_gics
+VST,Utilities,wikipedia_gics
+VMRK,Real Estate,wikipedia_gics
+VMC,Materials,wikipedia_gics
+VYLR,Consumer Staples,wikipedia_gics
+WRB,Financials,wikipedia_gics
+GWW,Industrials,wikipedia_gics
+WAB,Industrials,wikipedia_gics
+WMT,Consumer Staples,wikipedia_gics
+DIS,Communication Services,wikipedia_gics
+WM,Industrials,wikipedia_gics
+WAT,Health Care,wikipedia_gics
+WEC,Utilities,wikipedia_gics
+WFC,Financials,wikipedia_gics
+WELL,Real Estate,wikipedia_gics
+WST,Health Care,wikipedia_gics
+WDC,Information Technology,wikipedia_gics
+WY,Real Estate,wikipedia_gics
+WSM,Consumer Discretionary,wikipedia_gics
+WMB,Energy,wikipedia_gics
+WTW,Financials,wikipedia_gics
+WDAY,Information Technology,wikipedia_gics
+WYNN,Consumer Discretionary,wikipedia_gics
+XEL,Utilities,wikipedia_gics
+XYL,Industrials,wikipedia_gics
+YUM,Consumer Discretionary,wikipedia_gics
+ZBRA,Information Technology,wikipedia_gics
+ZBH,Health Care,wikipedia_gics
+ZTS,Health Care,wikipedia_gics
