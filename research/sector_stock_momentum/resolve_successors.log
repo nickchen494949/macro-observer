@@ -1,0 +1,21 @@
+ADS → BFH accepted
+ARNC → HWM rejected: HWM history starts 2016-11-01
+CHK → EXE rejected: EXE history starts 2021-02-10
+EQR → VMRK accepted
+ESV → VAL rejected: VAL history starts 2021-05-03
+FB → META accepted
+FBHS → FBIN accepted
+FII → FHI accepted
+FLT → CPAY accepted
+FOX → FOXA rejected: FOXA history starts 2019-03-12
+FOXA → FOX rejected: FOX history starts 2019-03-13
+GPS → GAP accepted
+HRS → LHX accepted
+JEC → J accepted
+KORS → CPRI accepted
+PSKY → SKYD accepted
+RE → EG accepted
+SATS → ECHO accepted
+SGP → MRK accepted
+WLTW → WTW accepted
+done

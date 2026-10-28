@@ -1,0 +1,8 @@
+ticker,spell,check,metric,detail
+DHR,1998-11-18..2026-09-30,cross_source_vs_wiki,0.695,"111 months, corr 0.695, 1 months |diff|>5% (used: yahoo; first diff month 2016-07-31 00:00:00)"
+EVHC,2016-12-02..2018-10-11,cross_source_vs_wiki,0.12,"15 months, corr 0.120, 1 months |diff|>5% (used: tiingo; first diff month 2016-12-31 00:00:00)"
+FHN,2002-05-06..2013-06-24,cross_source_vs_wiki,0.95,"54 months, corr 0.950, 9 months |diff|>5% (used: yahoo; first diff month 2008-12-31 00:00:00)"
+HPE,2015-11-02..2026-09-30,cross_source_vs_wiki,0.79,"27 months, corr 0.790, 2 months |diff|>5% (used: yahoo; first diff month 2017-04-30 00:00:00)"
+MSI,1996-01-02..2026-09-30,cross_source_vs_wiki,0.86,"111 months, corr 0.860, 1 months |diff|>5% (used: yahoo; first diff month 2011-01-31 00:00:00)"
+PARA,2022-02-17..2025-08-08,market_cap,75.9,"median cap $76m over 7 quarters (source yahoo, CIK 813828) — implausible for an S&P 500 member"
+XRX,1996-01-02..2021-03-22,cross_source_vs_wiki,0.836,"111 months, corr 0.836, 1 months |diff|>5% (used: yahoo; first diff month 2017-01-31 00:00:00)"

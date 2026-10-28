@@ -1,0 +1,25 @@
+cut 2011-06-30 SPEC  : 31 formation months compared, 0 differ
+cut 2011-06-30 ETF   : 31 formation months compared, 0 differ
+cut 2011-06-30 GRIDPT: 31 formation months compared, 0 differ
+cut 2011-06-30 NOFILTER: 31 formation months compared, 0 differ
+cut 2014-12-31 SPEC  : 73 formation months compared, 0 differ
+cut 2014-12-31 ETF   : 73 formation months compared, 0 differ
+cut 2014-12-31 GRIDPT: 73 formation months compared, 0 differ
+cut 2014-12-31 NOFILTER: 73 formation months compared, 0 differ
+cut 2018-03-31 SPEC  : 112 formation months compared, 0 differ
+cut 2018-03-31 ETF   : 112 formation months compared, 0 differ
+cut 2018-03-31 GRIDPT: 112 formation months compared, 0 differ
+cut 2018-03-31 NOFILTER: 112 formation months compared, 0 differ
+cut 2021-04-30 SPEC  : 149 formation months compared, 0 differ
+cut 2021-04-30 ETF   : 149 formation months compared, 0 differ
+cut 2021-04-30 GRIDPT: 149 formation months compared, 0 differ
+cut 2021-04-30 NOFILTER: 149 formation months compared, 0 differ
+cut 2024-06-30 SPEC  : 187 formation months compared, 0 differ
+cut 2024-06-30 ETF   : 187 formation months compared, 0 differ
+cut 2024-06-30 GRIDPT: 187 formation months compared, 0 differ
+cut 2024-06-30 NOFILTER: 187 formation months compared, 0 differ
+cut 2026-01-31 SPEC  : 206 formation months compared, 0 differ
+cut 2026-01-31 ETF   : 206 formation months compared, 0 differ
+cut 2026-01-31 GRIDPT: 206 formation months compared, 0 differ
+cut 2026-01-31 NOFILTER: 206 formation months compared, 0 differ
+RESULT: PASS

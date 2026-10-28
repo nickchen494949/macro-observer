@@ -1,504 +1,668 @@
-ticker,sector,source
-MMM,Industrials,wikipedia_gics
-AOS,Industrials,wikipedia_gics
-ABT,Health Care,wikipedia_gics
-ABBV,Health Care,wikipedia_gics
-ACN,Information Technology,wikipedia_gics
-ADBE,Information Technology,wikipedia_gics
-AMD,Information Technology,wikipedia_gics
-AES,Utilities,wikipedia_gics
-AFL,Financials,wikipedia_gics
-A,Health Care,wikipedia_gics
-APD,Materials,wikipedia_gics
-ABNB,Consumer Discretionary,wikipedia_gics
-AKAM,Information Technology,wikipedia_gics
-ALB,Materials,wikipedia_gics
-ARE,Real Estate,wikipedia_gics
-ALGN,Health Care,wikipedia_gics
-ALLE,Industrials,wikipedia_gics
-LNT,Utilities,wikipedia_gics
-ALL,Financials,wikipedia_gics
-GOOGL,Communication Services,wikipedia_gics
-GOOG,Communication Services,wikipedia_gics
-MO,Consumer Staples,wikipedia_gics
-AMZN,Consumer Discretionary,wikipedia_gics
-AMCR,Materials,wikipedia_gics
-AEE,Utilities,wikipedia_gics
-AEP,Utilities,wikipedia_gics
-AXP,Financials,wikipedia_gics
-AIG,Financials,wikipedia_gics
-AMT,Real Estate,wikipedia_gics
-AWK,Utilities,wikipedia_gics
-AMP,Financials,wikipedia_gics
-AME,Industrials,wikipedia_gics
-AMGN,Health Care,wikipedia_gics
-APH,Information Technology,wikipedia_gics
-ADI,Information Technology,wikipedia_gics
-AON,Financials,wikipedia_gics
-APA,Energy,wikipedia_gics
-APO,Financials,wikipedia_gics
-AAPL,Information Technology,wikipedia_gics
-AMAT,Information Technology,wikipedia_gics
-APP,Communication Services,wikipedia_gics
-APTV,Consumer Discretionary,wikipedia_gics
-ACGL,Financials,wikipedia_gics
-ADM,Consumer Staples,wikipedia_gics
-ARES,Financials,wikipedia_gics
-ANET,Information Technology,wikipedia_gics
-AJG,Financials,wikipedia_gics
-AIZ,Financials,wikipedia_gics
-T,Communication Services,wikipedia_gics
-ATO,Utilities,wikipedia_gics
-ADSK,Information Technology,wikipedia_gics
-ADP,Industrials,wikipedia_gics
-AZO,Consumer Discretionary,wikipedia_gics
-AVY,Materials,wikipedia_gics
-AXON,Industrials,wikipedia_gics
-BKR,Energy,wikipedia_gics
-BALL,Materials,wikipedia_gics
-BAC,Financials,wikipedia_gics
-BAX,Health Care,wikipedia_gics
-BDX,Health Care,wikipedia_gics
-BRK-B,Financials,wikipedia_gics
-BBY,Consumer Discretionary,wikipedia_gics
-TECH,Health Care,wikipedia_gics
-BIIB,Health Care,wikipedia_gics
-BLK,Financials,wikipedia_gics
-BX,Financials,wikipedia_gics
-XYZ,Financials,wikipedia_gics
-BE,Industrials,wikipedia_gics
-BNY,Financials,wikipedia_gics
-BA,Industrials,wikipedia_gics
-BKNG,Consumer Discretionary,wikipedia_gics
-BSX,Health Care,wikipedia_gics
-BMY,Health Care,wikipedia_gics
-AVGO,Information Technology,wikipedia_gics
-BR,Industrials,wikipedia_gics
-BRO,Financials,wikipedia_gics
-BF-B,Consumer Staples,wikipedia_gics
-BG,Consumer Staples,wikipedia_gics
-BXP,Real Estate,wikipedia_gics
-CHRW,Industrials,wikipedia_gics
-CDNS,Information Technology,wikipedia_gics
-CPT,Real Estate,wikipedia_gics
-COF,Financials,wikipedia_gics
-CAH,Health Care,wikipedia_gics
-CCL,Consumer Discretionary,wikipedia_gics
-CARR,Industrials,wikipedia_gics
-CVNA,Consumer Discretionary,wikipedia_gics
-CASY,Consumer Staples,wikipedia_gics
-CAT,Industrials,wikipedia_gics
-CBOE,Financials,wikipedia_gics
-CBRE,Real Estate,wikipedia_gics
-CDW,Information Technology,wikipedia_gics
-COR,Health Care,wikipedia_gics
-CNC,Health Care,wikipedia_gics
-CNP,Utilities,wikipedia_gics
-CF,Materials,wikipedia_gics
-CRL,Health Care,wikipedia_gics
-SCHW,Financials,wikipedia_gics
-CHTR,Communication Services,wikipedia_gics
-CVX,Energy,wikipedia_gics
-CMG,Consumer Discretionary,wikipedia_gics
-CB,Financials,wikipedia_gics
-CHD,Consumer Staples,wikipedia_gics
-CIEN,Information Technology,wikipedia_gics
-CI,Health Care,wikipedia_gics
-CINF,Financials,wikipedia_gics
-CTAS,Industrials,wikipedia_gics
-CSCO,Information Technology,wikipedia_gics
-C,Financials,wikipedia_gics
-CFG,Financials,wikipedia_gics
-CLX,Consumer Staples,wikipedia_gics
-CME,Financials,wikipedia_gics
-CMS,Utilities,wikipedia_gics
-KO,Consumer Staples,wikipedia_gics
-CTSH,Information Technology,wikipedia_gics
-COHR,Information Technology,wikipedia_gics
-COIN,Financials,wikipedia_gics
-CL,Consumer Staples,wikipedia_gics
-CMCSA,Communication Services,wikipedia_gics
-FIX,Industrials,wikipedia_gics
-COP,Energy,wikipedia_gics
-ED,Utilities,wikipedia_gics
-STZ,Consumer Staples,wikipedia_gics
-CEG,Utilities,wikipedia_gics
-COO,Health Care,wikipedia_gics
-CPRT,Industrials,wikipedia_gics
-GLW,Information Technology,wikipedia_gics
-CPAY,Financials,wikipedia_gics
-CSGP,Real Estate,wikipedia_gics
-COST,Consumer Staples,wikipedia_gics
-CRH,Materials,wikipedia_gics
-CRWD,Information Technology,wikipedia_gics
-CCI,Real Estate,wikipedia_gics
-CSX,Industrials,wikipedia_gics
-CMI,Industrials,wikipedia_gics
-CVS,Health Care,wikipedia_gics
-DHR,Health Care,wikipedia_gics
-DRI,Consumer Discretionary,wikipedia_gics
-DDOG,Information Technology,wikipedia_gics
-DVA,Health Care,wikipedia_gics
-DECK,Consumer Discretionary,wikipedia_gics
-DE,Industrials,wikipedia_gics
-DELL,Information Technology,wikipedia_gics
-DAL,Industrials,wikipedia_gics
-DVN,Energy,wikipedia_gics
-DXCM,Health Care,wikipedia_gics
-FANG,Energy,wikipedia_gics
-DLR,Real Estate,wikipedia_gics
-DG,Consumer Staples,wikipedia_gics
-DLTR,Consumer Staples,wikipedia_gics
-D,Utilities,wikipedia_gics
-DPZ,Consumer Discretionary,wikipedia_gics
-DASH,Consumer Discretionary,wikipedia_gics
-DOV,Industrials,wikipedia_gics
-DOW,Materials,wikipedia_gics
-DHI,Consumer Discretionary,wikipedia_gics
-DTE,Utilities,wikipedia_gics
-DUK,Utilities,wikipedia_gics
-DD,Industrials,wikipedia_gics
-ETN,Industrials,wikipedia_gics
-EBAY,Consumer Discretionary,wikipedia_gics
-ECHO,Communication Services,wikipedia_gics
-ECL,Materials,wikipedia_gics
-EIX,Utilities,wikipedia_gics
-EW,Health Care,wikipedia_gics
-ELV,Health Care,wikipedia_gics
-EME,Industrials,wikipedia_gics
-EMR,Industrials,wikipedia_gics
-ETR,Utilities,wikipedia_gics
-EOG,Energy,wikipedia_gics
-EQT,Energy,wikipedia_gics
-EFX,Industrials,wikipedia_gics
-EQIX,Real Estate,wikipedia_gics
-ERIE,Financials,wikipedia_gics
-ESS,Real Estate,wikipedia_gics
-EL,Consumer Staples,wikipedia_gics
-EG,Financials,wikipedia_gics
-EVRG,Utilities,wikipedia_gics
-P,Information Technology,wikipedia_gics
-ES,Utilities,wikipedia_gics
-EXC,Utilities,wikipedia_gics
-EXE,Energy,wikipedia_gics
-EXPE,Consumer Discretionary,wikipedia_gics
-EXPD,Industrials,wikipedia_gics
-EXR,Real Estate,wikipedia_gics
-XOM,Energy,wikipedia_gics
-FFIV,Information Technology,wikipedia_gics
-FDS,Financials,wikipedia_gics
-FICO,Information Technology,wikipedia_gics
-FAST,Industrials,wikipedia_gics
-FRT,Real Estate,wikipedia_gics
-FDX,Industrials,wikipedia_gics
-FDXF,Industrials,wikipedia_gics
-FERG,Industrials,wikipedia_gics
-FIS,Financials,wikipedia_gics
-FITB,Financials,wikipedia_gics
-FSLR,Information Technology,wikipedia_gics
-FE,Utilities,wikipedia_gics
-FISV,Financials,wikipedia_gics
-FLEX,Information Technology,wikipedia_gics
-F,Consumer Discretionary,wikipedia_gics
-FTNT,Information Technology,wikipedia_gics
-FTV,Industrials,wikipedia_gics
-FOXA,Communication Services,wikipedia_gics
-FOX,Communication Services,wikipedia_gics
-BEN,Financials,wikipedia_gics
-FCX,Materials,wikipedia_gics
-GRMN,Consumer Discretionary,wikipedia_gics
-IT,Information Technology,wikipedia_gics
-GE,Industrials,wikipedia_gics
-GEHC,Health Care,wikipedia_gics
-GEV,Industrials,wikipedia_gics
-GEN,Information Technology,wikipedia_gics
-GNRC,Industrials,wikipedia_gics
-GD,Industrials,wikipedia_gics
-GIS,Consumer Staples,wikipedia_gics
-GM,Consumer Discretionary,wikipedia_gics
-GPC,Consumer Discretionary,wikipedia_gics
-GILD,Health Care,wikipedia_gics
-GPN,Financials,wikipedia_gics
-GL,Financials,wikipedia_gics
-GDDY,Information Technology,wikipedia_gics
-GS,Financials,wikipedia_gics
-HAL,Energy,wikipedia_gics
-HIG,Financials,wikipedia_gics
-HAS,Consumer Discretionary,wikipedia_gics
-HCA,Health Care,wikipedia_gics
-DOC,Real Estate,wikipedia_gics
-HSIC,Health Care,wikipedia_gics
-HSY,Consumer Staples,wikipedia_gics
-HPE,Information Technology,wikipedia_gics
-HLT,Consumer Discretionary,wikipedia_gics
-HD,Consumer Discretionary,wikipedia_gics
-HONA,Industrials,wikipedia_gics
-HON,Industrials,wikipedia_gics
-HRL,Consumer Staples,wikipedia_gics
-HST,Real Estate,wikipedia_gics
-HWM,Industrials,wikipedia_gics
-HPQ,Information Technology,wikipedia_gics
-HUBB,Industrials,wikipedia_gics
-HUM,Health Care,wikipedia_gics
-HBAN,Financials,wikipedia_gics
-HII,Industrials,wikipedia_gics
-IBM,Information Technology,wikipedia_gics
-IEX,Industrials,wikipedia_gics
-IDXX,Health Care,wikipedia_gics
-ITW,Industrials,wikipedia_gics
-ILMN,Health Care,wikipedia_gics
-INCY,Health Care,wikipedia_gics
-IR,Industrials,wikipedia_gics
-PODD,Health Care,wikipedia_gics
-INTC,Information Technology,wikipedia_gics
-IBKR,Financials,wikipedia_gics
-ICE,Financials,wikipedia_gics
-IFF,Materials,wikipedia_gics
-IP,Materials,wikipedia_gics
-INTU,Information Technology,wikipedia_gics
-ISRG,Health Care,wikipedia_gics
-IVZ,Financials,wikipedia_gics
-INVH,Real Estate,wikipedia_gics
-IQV,Health Care,wikipedia_gics
-IRM,Real Estate,wikipedia_gics
-JBHT,Industrials,wikipedia_gics
-JBL,Information Technology,wikipedia_gics
-JKHY,Financials,wikipedia_gics
-J,Industrials,wikipedia_gics
-JNJ,Health Care,wikipedia_gics
-JCI,Industrials,wikipedia_gics
-JPM,Financials,wikipedia_gics
-KVUE,Consumer Staples,wikipedia_gics
-KDP,Consumer Staples,wikipedia_gics
-KEY,Financials,wikipedia_gics
-KEYS,Information Technology,wikipedia_gics
-KMB,Consumer Staples,wikipedia_gics
-KIM,Real Estate,wikipedia_gics
-KMI,Energy,wikipedia_gics
-KKR,Financials,wikipedia_gics
-KLAC,Information Technology,wikipedia_gics
-KHC,Consumer Staples,wikipedia_gics
-KR,Consumer Staples,wikipedia_gics
-LHX,Industrials,wikipedia_gics
-LH,Health Care,wikipedia_gics
-LRCX,Information Technology,wikipedia_gics
-LVS,Consumer Discretionary,wikipedia_gics
-LDOS,Industrials,wikipedia_gics
-LEN,Consumer Discretionary,wikipedia_gics
-LII,Industrials,wikipedia_gics
-LLY,Health Care,wikipedia_gics
-LIN,Materials,wikipedia_gics
-LYV,Communication Services,wikipedia_gics
-LMT,Industrials,wikipedia_gics
-L,Financials,wikipedia_gics
-LOW,Consumer Discretionary,wikipedia_gics
-LULU,Consumer Discretionary,wikipedia_gics
-LITE,Information Technology,wikipedia_gics
-LYB,Materials,wikipedia_gics
-MTB,Financials,wikipedia_gics
-MPC,Energy,wikipedia_gics
-MAR,Consumer Discretionary,wikipedia_gics
-MRSH,Financials,wikipedia_gics
-MLM,Materials,wikipedia_gics
-MRVL,Information Technology,wikipedia_gics
-MAS,Industrials,wikipedia_gics
-MA,Financials,wikipedia_gics
-MKC,Consumer Staples,wikipedia_gics
-MCD,Consumer Discretionary,wikipedia_gics
-MCK,Health Care,wikipedia_gics
-MDT,Health Care,wikipedia_gics
-MRK,Health Care,wikipedia_gics
-META,Communication Services,wikipedia_gics
-MET,Financials,wikipedia_gics
-MTD,Health Care,wikipedia_gics
-MGM,Consumer Discretionary,wikipedia_gics
-MCHP,Information Technology,wikipedia_gics
-MU,Information Technology,wikipedia_gics
-MSFT,Information Technology,wikipedia_gics
-MAA,Real Estate,wikipedia_gics
-MRNA,Health Care,wikipedia_gics
-MDLZ,Consumer Staples,wikipedia_gics
-MPWR,Information Technology,wikipedia_gics
-MNST,Consumer Staples,wikipedia_gics
-MCO,Financials,wikipedia_gics
-MS,Financials,wikipedia_gics
-MOS,Materials,wikipedia_gics
-MSI,Information Technology,wikipedia_gics
-MSCI,Financials,wikipedia_gics
-NDAQ,Financials,wikipedia_gics
-NTAP,Information Technology,wikipedia_gics
-NFLX,Communication Services,wikipedia_gics
-NEM,Materials,wikipedia_gics
-NWSA,Communication Services,wikipedia_gics
-NWS,Communication Services,wikipedia_gics
-NEE,Utilities,wikipedia_gics
-NKE,Consumer Discretionary,wikipedia_gics
-NI,Utilities,wikipedia_gics
-NDSN,Industrials,wikipedia_gics
-NSC,Industrials,wikipedia_gics
-NTRS,Financials,wikipedia_gics
-NOC,Industrials,wikipedia_gics
-NCLH,Consumer Discretionary,wikipedia_gics
-NRG,Utilities,wikipedia_gics
-NUE,Materials,wikipedia_gics
-NVDA,Information Technology,wikipedia_gics
-NVR,Consumer Discretionary,wikipedia_gics
-NXPI,Information Technology,wikipedia_gics
-ORLY,Consumer Discretionary,wikipedia_gics
-OXY,Energy,wikipedia_gics
-ODFL,Industrials,wikipedia_gics
-OMC,Communication Services,wikipedia_gics
-ON,Information Technology,wikipedia_gics
-OKE,Energy,wikipedia_gics
-ORCL,Information Technology,wikipedia_gics
-OTIS,Industrials,wikipedia_gics
-PCAR,Industrials,wikipedia_gics
-PKG,Materials,wikipedia_gics
-PLTR,Information Technology,wikipedia_gics
-PANW,Information Technology,wikipedia_gics
-PH,Industrials,wikipedia_gics
-PAYX,Industrials,wikipedia_gics
-PYPL,Financials,wikipedia_gics
-PNR,Industrials,wikipedia_gics
-PEP,Consumer Staples,wikipedia_gics
-PFE,Health Care,wikipedia_gics
-PCG,Utilities,wikipedia_gics
-PM,Consumer Staples,wikipedia_gics
-PSX,Energy,wikipedia_gics
-PNW,Utilities,wikipedia_gics
-PNC,Financials,wikipedia_gics
-PPG,Materials,wikipedia_gics
-PPL,Utilities,wikipedia_gics
-PFG,Financials,wikipedia_gics
-PG,Consumer Staples,wikipedia_gics
-PGR,Financials,wikipedia_gics
-PLD,Real Estate,wikipedia_gics
-PRU,Financials,wikipedia_gics
-PTC,Information Technology,wikipedia_gics
-PEG,Utilities,wikipedia_gics
-PSA,Real Estate,wikipedia_gics
-PHM,Consumer Discretionary,wikipedia_gics
-Q,Information Technology,wikipedia_gics
-QCOM,Information Technology,wikipedia_gics
-PWR,Industrials,wikipedia_gics
-DGX,Health Care,wikipedia_gics
-RL,Consumer Discretionary,wikipedia_gics
-RJF,Financials,wikipedia_gics
-RDDT,Communication Services,wikipedia_gics
-O,Real Estate,wikipedia_gics
-REG,Real Estate,wikipedia_gics
-REGN,Health Care,wikipedia_gics
-RF,Financials,wikipedia_gics
-RSG,Industrials,wikipedia_gics
-RMD,Health Care,wikipedia_gics
-RVTY,Health Care,wikipedia_gics
-HOOD,Financials,wikipedia_gics
-ROK,Industrials,wikipedia_gics
-ROL,Industrials,wikipedia_gics
-ROP,Information Technology,wikipedia_gics
-ROST,Consumer Discretionary,wikipedia_gics
-RCL,Consumer Discretionary,wikipedia_gics
-RTX,Industrials,wikipedia_gics
-SPGI,Financials,wikipedia_gics
-CRM,Information Technology,wikipedia_gics
-SNDK,Information Technology,wikipedia_gics
-SBAC,Real Estate,wikipedia_gics
-SLB,Energy,wikipedia_gics
-STX,Information Technology,wikipedia_gics
-SRE,Utilities,wikipedia_gics
-NOW,Information Technology,wikipedia_gics
-SHW,Materials,wikipedia_gics
-SPG,Real Estate,wikipedia_gics
-SKYD,Communication Services,wikipedia_gics
-SWKS,Information Technology,wikipedia_gics
-SJM,Consumer Staples,wikipedia_gics
-SW,Materials,wikipedia_gics
-SNA,Industrials,wikipedia_gics
-SOLV,Health Care,wikipedia_gics
-SO,Utilities,wikipedia_gics
-LUV,Industrials,wikipedia_gics
-SWK,Industrials,wikipedia_gics
-SBUX,Consumer Discretionary,wikipedia_gics
-STT,Financials,wikipedia_gics
-STLD,Materials,wikipedia_gics
-STE,Health Care,wikipedia_gics
-SYK,Health Care,wikipedia_gics
-SMCI,Information Technology,wikipedia_gics
-SYF,Financials,wikipedia_gics
-SNPS,Information Technology,wikipedia_gics
-SYY,Consumer Staples,wikipedia_gics
-TMUS,Communication Services,wikipedia_gics
-TROW,Financials,wikipedia_gics
-TTWO,Communication Services,wikipedia_gics
-TPR,Consumer Discretionary,wikipedia_gics
-TRGP,Energy,wikipedia_gics
-TGT,Consumer Staples,wikipedia_gics
-TEL,Information Technology,wikipedia_gics
-TDY,Information Technology,wikipedia_gics
-TER,Information Technology,wikipedia_gics
-TSLA,Consumer Discretionary,wikipedia_gics
-TXN,Information Technology,wikipedia_gics
-TPL,Energy,wikipedia_gics
-TXT,Industrials,wikipedia_gics
-TMO,Health Care,wikipedia_gics
-TJX,Consumer Discretionary,wikipedia_gics
-TKO,Communication Services,wikipedia_gics
-TSCO,Consumer Discretionary,wikipedia_gics
-TT,Industrials,wikipedia_gics
-TDG,Industrials,wikipedia_gics
-TRV,Financials,wikipedia_gics
-TRMB,Information Technology,wikipedia_gics
-TFC,Financials,wikipedia_gics
-TWLO,Information Technology,wikipedia_gics
-TYL,Information Technology,wikipedia_gics
-TSN,Consumer Staples,wikipedia_gics
-USB,Financials,wikipedia_gics
-UBER,Industrials,wikipedia_gics
-UDR,Real Estate,wikipedia_gics
-ULTA,Consumer Discretionary,wikipedia_gics
-UNP,Industrials,wikipedia_gics
-UAL,Industrials,wikipedia_gics
-UPS,Industrials,wikipedia_gics
-URI,Industrials,wikipedia_gics
-UNH,Health Care,wikipedia_gics
-UHS,Health Care,wikipedia_gics
-VLO,Energy,wikipedia_gics
-VEEV,Health Care,wikipedia_gics
-VTR,Real Estate,wikipedia_gics
-VLTO,Industrials,wikipedia_gics
-VRSN,Information Technology,wikipedia_gics
-VRSK,Industrials,wikipedia_gics
-VZ,Communication Services,wikipedia_gics
-VRTX,Health Care,wikipedia_gics
-VRT,Industrials,wikipedia_gics
-VTRS,Health Care,wikipedia_gics
-VICI,Real Estate,wikipedia_gics
-V,Financials,wikipedia_gics
-VST,Utilities,wikipedia_gics
-VMRK,Real Estate,wikipedia_gics
-VMC,Materials,wikipedia_gics
-VYLR,Consumer Staples,wikipedia_gics
-WRB,Financials,wikipedia_gics
-GWW,Industrials,wikipedia_gics
-WAB,Industrials,wikipedia_gics
-WMT,Consumer Staples,wikipedia_gics
-DIS,Communication Services,wikipedia_gics
-WM,Industrials,wikipedia_gics
-WAT,Health Care,wikipedia_gics
-WEC,Utilities,wikipedia_gics
-WFC,Financials,wikipedia_gics
-WELL,Real Estate,wikipedia_gics
-WST,Health Care,wikipedia_gics
-WDC,Information Technology,wikipedia_gics
-WY,Real Estate,wikipedia_gics
-WSM,Consumer Discretionary,wikipedia_gics
-WMB,Energy,wikipedia_gics
-WTW,Financials,wikipedia_gics
-WDAY,Information Technology,wikipedia_gics
-WYNN,Consumer Discretionary,wikipedia_gics
-XEL,Utilities,wikipedia_gics
-XYL,Industrials,wikipedia_gics
-YUM,Consumer Discretionary,wikipedia_gics
-ZBRA,Information Technology,wikipedia_gics
-ZBH,Health Care,wikipedia_gics
-ZTS,Health Care,wikipedia_gics
+ticker,sector,source,industry
+A,Health Care,wikipedia_gics,Life Sciences Tools & Services
+AAL,Industrials,yahoo,Airlines
+AAP,Consumer Discretionary,yahoo,Auto Parts
+AAPL,Information Technology,wikipedia_gics,"Technology Hardware, Storage & Peripherals"
+ABBV,Health Care,wikipedia_gics,Biotechnology
+ABI,UNKNOWN,yahoo,
+ABNB,Consumer Discretionary,wikipedia_gics,"Hotels, Resorts & Cruise Lines"
+ABT,Health Care,wikipedia_gics,Health Care Equipment
+ACGL,Financials,wikipedia_gics,Property & Casualty Insurance
+ACN,Information Technology,wikipedia_gics,IT Consulting & Other Services
+ADBE,Information Technology,wikipedia_gics,Application Software
+ADI,Information Technology,wikipedia_gics,Semiconductors
+ADM,Consumer Staples,wikipedia_gics,Agricultural Products & Services
+ADP,Industrials,wikipedia_gics,Human Resource & Employment Services
+ADSK,Information Technology,wikipedia_gics,Application Software
+ADT,Industrials,yahoo,Security & Protection Services
+AEE,Utilities,wikipedia_gics,Multi-Utilities
+AEP,Utilities,wikipedia_gics,Electric Utilities
+AES,Utilities,wikipedia_gics,Independent Power Producers & Energy Traders
+AFL,Financials,wikipedia_gics,Life & Health Insurance
+AIG,Financials,wikipedia_gics,Multi-line Insurance
+AIV,Real Estate,yahoo,REIT - Residential
+AIZ,Financials,wikipedia_gics,Multi-line Insurance
+AJG,Financials,wikipedia_gics,Insurance Brokers
+AKAM,Information Technology,wikipedia_gics,Internet Services & Infrastructure
+ALB,Materials,wikipedia_gics,Specialty Chemicals
+ALGN,Health Care,wikipedia_gics,Health Care Supplies
+ALK,Industrials,yahoo,Airlines
+ALL,Financials,wikipedia_gics,Property & Casualty Insurance
+ALLE,Industrials,wikipedia_gics,Building Products
+AMAT,Information Technology,wikipedia_gics,Semiconductor Materials & Equipment
+AMCR,Materials,wikipedia_gics,Paper & Plastic Packaging Products & Materials
+AMD,Information Technology,wikipedia_gics,Semiconductors
+AME,Industrials,wikipedia_gics,Electrical Components & Equipment
+AMG,Financials,yahoo,Asset Management
+AMGN,Health Care,wikipedia_gics,Biotechnology
+AMP,Financials,wikipedia_gics,Asset Management & Custody Banks
+AMT,Real Estate,wikipedia_gics,Telecom Tower REITs
+AMTM,Industrials,yahoo,Specialty Business Services
+AMZN,Consumer Discretionary,wikipedia_gics,Broadline Retail
+AN,Consumer Discretionary,yahoo,Auto & Truck Dealerships
+ANET,Information Technology,wikipedia_gics,Communications Equipment
+ANF,Consumer Discretionary,yahoo,Apparel Retail
+AON,Financials,wikipedia_gics,Insurance Brokers
+AOS,Industrials,wikipedia_gics,Building Products
+APA,Energy,wikipedia_gics,Oil & Gas Exploration & Production
+APC,Energy,yahoo,Oil & Gas Refining & Marketing
+APD,Materials,wikipedia_gics,Industrial Gases
+APH,Information Technology,wikipedia_gics,Electronic Components
+APO,Financials,wikipedia_gics,Asset Management & Custody Banks
+APP,Communication Services,wikipedia_gics,Advertising
+APTV,Consumer Discretionary,wikipedia_gics,Automotive Parts & Equipment
+ARE,Real Estate,wikipedia_gics,Office REITs
+ARES,Financials,wikipedia_gics,Asset Management & Custody Banks
+ASH,Materials,yahoo,Specialty Chemicals
+ATI,Industrials,yahoo,Metal Fabrication
+ATO,Utilities,wikipedia_gics,Gas Utilities
+AVB,Real Estate,yahoo,REIT - Residential
+AVGO,Information Technology,wikipedia_gics,Semiconductors
+AVY,Materials,wikipedia_gics,Paper & Plastic Packaging Products & Materials
+AWK,Utilities,wikipedia_gics,Water Utilities
+AXON,Industrials,wikipedia_gics,Aerospace & Defense
+AXP,Financials,wikipedia_gics,Consumer Finance
+AYI,Industrials,yahoo,Electrical Equipment & Parts
+AZO,Consumer Discretionary,wikipedia_gics,Automotive Retail
+BA,Industrials,wikipedia_gics,Aerospace & Defense
+BAC,Financials,wikipedia_gics,Diversified Banks
+BALL,Materials,wikipedia_gics,"Metal, Glass & Plastic Containers"
+BAX,Health Care,wikipedia_gics,Health Care Equipment
+BBBY,UNKNOWN,yahoo,
+BBT,Financials,yahoo,Banks - Regional
+BBWI,Consumer Discretionary,yahoo,Specialty Retail
+BBY,Consumer Discretionary,wikipedia_gics,Computer & Electronics Retail
+BC,Consumer Discretionary,yahoo,Recreational Vehicles
+BDX,Health Care,wikipedia_gics,Health Care Equipment
+BE,Industrials,wikipedia_gics,Electrical Components & Equipment
+BEAM,Health Care,yahoo,Biotechnology
+BEN,Financials,wikipedia_gics,Asset Management & Custody Banks
+BF-B,Consumer Staples,wikipedia_gics,Distillers & Vintners
+BG,Consumer Staples,wikipedia_gics,Agricultural Products & Services
+BHF,Financials,yahoo,Insurance - Life
+BIIB,Health Care,wikipedia_gics,Biotechnology
+BIO,Health Care,yahoo,Medical Devices
+BKNG,Consumer Discretionary,wikipedia_gics,"Hotels, Resorts & Cruise Lines"
+BKR,Energy,wikipedia_gics,Oil & Gas Equipment & Services
+BLDR,Industrials,yahoo,Building Products & Equipment
+BLK,Financials,wikipedia_gics,Asset Management & Custody Banks
+BMY,Health Care,wikipedia_gics,Pharmaceuticals
+BNY,Financials,wikipedia_gics,Asset Management & Custody Banks
+BR,Industrials,wikipedia_gics,Data Processing & Outsourced Services
+BRK-B,Financials,wikipedia_gics,Multi-Sector Holdings
+BRO,Financials,wikipedia_gics,Insurance Brokers
+BSX,Health Care,wikipedia_gics,Health Care Equipment
+BUD,Consumer Staples,yahoo,Beverages - Brewers
+BWA,Consumer Discretionary,yahoo,Auto Parts
+BX,Financials,wikipedia_gics,Asset Management & Custody Banks
+BXP,Real Estate,wikipedia_gics,Office REITs
+C,Financials,wikipedia_gics,Diversified Banks
+CAG,Consumer Staples,yahoo,Packaged Foods
+CAH,Health Care,wikipedia_gics,Health Care Distributors
+CAM,UNKNOWN,yahoo,
+CARR,Industrials,wikipedia_gics,Building Products
+CASY,Consumer Staples,wikipedia_gics,Food Retail
+CAT,Industrials,wikipedia_gics,Construction Machinery & Heavy Transportation Equipment
+CB,Financials,wikipedia_gics,Property & Casualty Insurance
+CBOE,Financials,wikipedia_gics,Financial Exchanges & Data
+CBRE,Real Estate,wikipedia_gics,Real Estate Services
+CCEP,Consumer Staples,yahoo,Beverages - Non-Alcoholic
+CCI,Real Estate,wikipedia_gics,Telecom Tower REITs
+CCL,Consumer Discretionary,wikipedia_gics,"Hotels, Resorts & Cruise Lines"
+CCU,Consumer Staples,yahoo,Beverages - Brewers
+CDNS,Information Technology,wikipedia_gics,Application Software
+CDW,Information Technology,wikipedia_gics,Technology Distributors
+CE,Materials,yahoo,Chemicals
+CEG,Utilities,wikipedia_gics,Electric Utilities
+CF,Materials,wikipedia_gics,Fertilizers & Agricultural Chemicals
+CFG,Financials,wikipedia_gics,Regional Banks
+CHD,Consumer Staples,wikipedia_gics,Household Products
+CHRW,Industrials,wikipedia_gics,Air Freight & Logistics
+CHTR,Communication Services,wikipedia_gics,Cable & Satellite
+CI,Health Care,wikipedia_gics,Health Care Services
+CIEN,Information Technology,wikipedia_gics,Communications Equipment
+CINF,Financials,wikipedia_gics,Property & Casualty Insurance
+CL,Consumer Staples,wikipedia_gics,Household Products
+CLF,Materials,yahoo,Steel
+CLX,Consumer Staples,wikipedia_gics,Household Products
+CMCSA,Communication Services,wikipedia_gics,Cable & Satellite
+CME,Financials,wikipedia_gics,Financial Exchanges & Data
+CMG,Consumer Discretionary,wikipedia_gics,Restaurants
+CMI,Industrials,wikipedia_gics,Construction Machinery & Heavy Transportation Equipment
+CMS,Utilities,wikipedia_gics,Multi-Utilities
+CNC,Health Care,wikipedia_gics,Managed Health Care
+CNP,Utilities,wikipedia_gics,Multi-Utilities
+CNX,Energy,yahoo,Oil & Gas E&P
+COF,Financials,wikipedia_gics,Consumer Finance
+COHR,Information Technology,wikipedia_gics,Electronic Components
+COIN,Financials,wikipedia_gics,Financial Exchanges & Data
+COO,Health Care,wikipedia_gics,Health Care Supplies
+COP,Energy,wikipedia_gics,Oil & Gas Exploration & Production
+COR,Health Care,wikipedia_gics,Health Care Distributors
+COST,Consumer Staples,wikipedia_gics,Consumer Staples Merchandise Retail
+COTY,Consumer Staples,yahoo,Household & Personal Products
+CPAY,Financials,wikipedia_gics,Transaction & Payment Processing Services
+CPB,Consumer Staples,yahoo,Packaged Foods
+CPRI,Consumer Discretionary,yahoo,Luxury Goods
+CPRT,Industrials,wikipedia_gics,Diversified Support Services
+CPT,Real Estate,wikipedia_gics,Multi-Family Residential REITs
+CPWR,Utilities,yahoo,Utilities - Renewable
+CRH,Materials,wikipedia_gics,Construction Materials
+CRL,Health Care,wikipedia_gics,Life Sciences Tools & Services
+CRM,Information Technology,wikipedia_gics,Application Software
+CRWD,Information Technology,wikipedia_gics,Systems Software
+CSCO,Information Technology,wikipedia_gics,Communications Equipment
+CSGP,Real Estate,wikipedia_gics,Real Estate Services
+CSRA,UNKNOWN,yahoo,
+CSX,Industrials,wikipedia_gics,Rail Transportation
+CTAS,Industrials,wikipedia_gics,Diversified Support Services
+CTSH,Information Technology,wikipedia_gics,IT Consulting & Other Services
+CTVA,Materials,yahoo,Agricultural Inputs
+CVNA,Consumer Discretionary,wikipedia_gics,Automotive Retail
+CVS,Health Care,wikipedia_gics,Health Care Services
+CVX,Energy,wikipedia_gics,Integrated Oil & Gas
+CZR,Consumer Discretionary,yahoo,Resorts & Casinos
+D,Utilities,wikipedia_gics,Multi-Utilities
+DAL,Industrials,wikipedia_gics,Passenger Airlines
+DASH,Consumer Discretionary,wikipedia_gics,Specialized Consumer Services
+DD,Industrials,wikipedia_gics,Industrial Conglomerates
+DDOG,Information Technology,wikipedia_gics,Application Software
+DDS,Consumer Discretionary,yahoo,Department Stores
+DE,Industrials,wikipedia_gics,Agricultural & Farm Machinery
+DECK,Consumer Discretionary,wikipedia_gics,Footwear
+DELL,Information Technology,wikipedia_gics,"Technology Hardware, Storage & Peripherals"
+DG,Consumer Staples,wikipedia_gics,Consumer Staples Merchandise Retail
+DGX,Health Care,wikipedia_gics,Health Care Services
+DHI,Consumer Discretionary,wikipedia_gics,Homebuilding
+DHR,Health Care,wikipedia_gics,Life Sciences Tools & Services
+DIS,Communication Services,wikipedia_gics,Movies & Entertainment
+DLR,Real Estate,wikipedia_gics,Data Center REITs
+DLTR,Consumer Staples,wikipedia_gics,Consumer Staples Merchandise Retail
+DOC,Real Estate,wikipedia_gics,Health Care REITs
+DOV,Industrials,wikipedia_gics,Industrial Machinery & Supplies & Components
+DOW,Materials,wikipedia_gics,Commodity Chemicals
+DPZ,Consumer Discretionary,wikipedia_gics,Restaurants
+DRI,Consumer Discretionary,wikipedia_gics,Restaurants
+DTE,Utilities,wikipedia_gics,Multi-Utilities
+DUK,Utilities,wikipedia_gics,Electric Utilities
+DVA,Health Care,wikipedia_gics,Health Care Services
+DVN,Energy,wikipedia_gics,Oil & Gas Exploration & Production
+DXC,Information Technology,yahoo,Information Technology Services
+DXCM,Health Care,wikipedia_gics,Health Care Equipment
+DYN,Health Care,yahoo,Biotechnology
+EBAY,Consumer Discretionary,wikipedia_gics,Broadline Retail
+ECHO,Communication Services,wikipedia_gics,Wireless Telecommunication Services
+ECL,Materials,wikipedia_gics,Specialty Chemicals
+ED,Utilities,wikipedia_gics,Multi-Utilities
+EFX,Industrials,wikipedia_gics,Research & Consulting Services
+EG,Financials,wikipedia_gics,Reinsurance
+EIX,Utilities,wikipedia_gics,Electric Utilities
+EL,Consumer Staples,wikipedia_gics,Personal Care Products
+ELV,Health Care,wikipedia_gics,Managed Health Care
+EMC,UNKNOWN,yahoo,
+EME,Industrials,wikipedia_gics,Construction & Engineering
+EMN,Materials,yahoo,Specialty Chemicals
+EMR,Industrials,wikipedia_gics,Electrical Components & Equipment
+ENPH,Information Technology,yahoo,Solar
+EOG,Energy,wikipedia_gics,Oil & Gas Exploration & Production
+EP,Energy,yahoo,Oil & Gas E&P
+EPAM,Information Technology,yahoo,Information Technology Services
+EQ,Health Care,yahoo,Biotechnology
+EQIX,Real Estate,wikipedia_gics,Data Center REITs
+EQR,Real Estate,yahoo,REIT - Residential
+EQT,Energy,wikipedia_gics,Oil & Gas Exploration & Production
+ERIE,Financials,wikipedia_gics,Insurance Brokers
+ES,Utilities,wikipedia_gics,Electric Utilities
+ESS,Real Estate,wikipedia_gics,Multi-Family Residential REITs
+ETN,Industrials,wikipedia_gics,Electrical Components & Equipment
+ETR,Utilities,wikipedia_gics,Electric Utilities
+ETSY,Consumer Discretionary,yahoo,Internet Retail
+EVRG,Utilities,wikipedia_gics,Electric Utilities
+EW,Health Care,wikipedia_gics,Health Care Equipment
+EXC,Utilities,wikipedia_gics,Electric Utilities
+EXE,Energy,wikipedia_gics,Oil & Gas Exploration & Production
+EXPD,Industrials,wikipedia_gics,Air Freight & Logistics
+EXPE,Consumer Discretionary,wikipedia_gics,"Hotels, Resorts & Cruise Lines"
+EXR,Real Estate,wikipedia_gics,Self-Storage REITs
+F,Consumer Discretionary,wikipedia_gics,Automobile Manufacturers
+FANG,Energy,wikipedia_gics,Oil & Gas Exploration & Production
+FAST,Industrials,wikipedia_gics,Trading Companies & Distributors
+FB,UNKNOWN,yahoo,
+FCPT,Real Estate,yahoo,REIT - Retail
+FCX,Materials,wikipedia_gics,Copper
+FDS,Financials,wikipedia_gics,Financial Exchanges & Data
+FDX,Industrials,wikipedia_gics,Air Freight & Logistics
+FDXF,Industrials,wikipedia_gics,Cargo Ground Transportation
+FE,Utilities,wikipedia_gics,Electric Utilities
+FERG,Industrials,wikipedia_gics,Trading Companies & Distributors
+FFIV,Information Technology,wikipedia_gics,Communications Equipment
+FHN,Financials,yahoo,Banks - Regional
+FICO,Information Technology,wikipedia_gics,Application Software
+FIS,Financials,wikipedia_gics,Transaction & Payment Processing Services
+FISV,Financials,wikipedia_gics,Transaction & Payment Processing Services
+FITB,Financials,wikipedia_gics,Regional Banks
+FIX,Industrials,wikipedia_gics,Construction & Engineering
+FLEX,Information Technology,wikipedia_gics,Electronic Manufacturing Services
+FLR,Industrials,yahoo,Engineering & Construction
+FLS,Industrials,yahoo,Specialty Industrial Machinery
+FMC,Materials,yahoo,Agricultural Inputs
+FMCC,Financials,yahoo,Mortgage Finance
+FNMA,Financials,yahoo,Mortgage Finance
+FOSL,Consumer Discretionary,yahoo,Footwear & Accessories
+FOX,Communication Services,wikipedia_gics,Broadcasting
+FOXA,Communication Services,wikipedia_gics,Broadcasting
+FRT,Real Estate,wikipedia_gics,Retail REITs
+FSLR,Information Technology,wikipedia_gics,Semiconductors
+FTI,Energy,yahoo,Oil & Gas Equipment & Services
+FTNT,Information Technology,wikipedia_gics,Systems Software
+FTV,Industrials,wikipedia_gics,Industrial Machinery & Supplies & Components
+GD,Industrials,wikipedia_gics,Aerospace & Defense
+GDDY,Information Technology,wikipedia_gics,Internet Services & Infrastructure
+GE,Industrials,wikipedia_gics,Aerospace & Defense
+GEHC,Health Care,wikipedia_gics,Health Care Equipment
+GEN,Information Technology,wikipedia_gics,Systems Software
+GENZ,UNKNOWN,yahoo,
+GEV,Industrials,wikipedia_gics,Heavy Electrical Equipment
+GHC,Industrials,yahoo,Conglomerates
+GILD,Health Care,wikipedia_gics,Biotechnology
+GIS,Consumer Staples,wikipedia_gics,Packaged Foods & Meats
+GL,Financials,wikipedia_gics,Life & Health Insurance
+GLW,Information Technology,wikipedia_gics,Electronic Components
+GM,Consumer Discretionary,wikipedia_gics,Automobile Manufacturers
+GME,Consumer Discretionary,yahoo,Specialty Retail
+GNRC,Industrials,wikipedia_gics,Heavy Electrical Equipment
+GNW,Financials,yahoo,Insurance - Life
+GOOG,Communication Services,wikipedia_gics,Interactive Media & Services
+GOOGL,Communication Services,wikipedia_gics,Interactive Media & Services
+GPC,Consumer Discretionary,wikipedia_gics,Distributors
+GPN,Financials,wikipedia_gics,Transaction & Payment Processing Services
+GRMN,Consumer Discretionary,wikipedia_gics,Consumer Electronics
+GS,Financials,wikipedia_gics,Investment Banking & Brokerage
+GT,Consumer Discretionary,yahoo,Auto Parts
+GWW,Industrials,wikipedia_gics,Industrial Machinery & Supplies & Components
+HAL,Energy,wikipedia_gics,Oil & Gas Equipment & Services
+HAS,Consumer Discretionary,wikipedia_gics,Leisure Products
+HBAN,Financials,wikipedia_gics,Regional Banks
+HCA,Health Care,wikipedia_gics,Health Care Facilities
+HD,Consumer Discretionary,wikipedia_gics,Home Improvement Retail
+HIG,Financials,wikipedia_gics,Property & Casualty Insurance
+HII,Industrials,wikipedia_gics,Aerospace & Defense
+HLT,Consumer Discretionary,wikipedia_gics,"Hotels, Resorts & Cruise Lines"
+HOG,Consumer Discretionary,yahoo,Recreational Vehicles
+HON,Industrials,wikipedia_gics,Industrial Conglomerates
+HONA,Industrials,wikipedia_gics,Aerospace & Defense
+HOOD,Financials,wikipedia_gics,Investment Banking & Brokerage
+HP,Energy,yahoo,Oil & Gas Drilling
+HPE,Information Technology,wikipedia_gics,"Technology Hardware, Storage & Peripherals"
+HPQ,Information Technology,wikipedia_gics,"Technology Hardware, Storage & Peripherals"
+HRB,Consumer Discretionary,yahoo,Personal Services
+HRL,Consumer Staples,wikipedia_gics,Packaged Foods & Meats
+HSIC,Health Care,wikipedia_gics,Health Care Distributors
+HST,Real Estate,wikipedia_gics,Hotel & Resort REITs
+HSY,Consumer Staples,wikipedia_gics,Packaged Foods & Meats
+HUBB,Industrials,wikipedia_gics,Industrial Machinery & Supplies & Components
+HUM,Health Care,wikipedia_gics,Managed Health Care
+HWM,Industrials,wikipedia_gics,Aerospace & Defense
+IBKR,Financials,wikipedia_gics,Investment Banking & Brokerage
+IBM,Information Technology,wikipedia_gics,IT Consulting & Other Services
+ICE,Financials,wikipedia_gics,Financial Exchanges & Data
+IDXX,Health Care,wikipedia_gics,Health Care Equipment
+IEX,Industrials,wikipedia_gics,Industrial Machinery & Supplies & Components
+IFF,Materials,wikipedia_gics,Specialty Chemicals
+ILMN,Health Care,wikipedia_gics,Life Sciences Tools & Services
+INCY,Health Care,wikipedia_gics,Biotechnology
+INFO,UNKNOWN,yahoo,
+INTC,Information Technology,wikipedia_gics,Semiconductors
+INTU,Information Technology,wikipedia_gics,Application Software
+INVH,Real Estate,wikipedia_gics,Single-Family Residential REITs
+IP,Materials,wikipedia_gics,Paper & Plastic Packaging Products & Materials
+IPGP,Information Technology,yahoo,Semiconductor Equipment & Materials
+IQV,Health Care,wikipedia_gics,Life Sciences Tools & Services
+IR,Industrials,wikipedia_gics,Industrial Machinery & Supplies & Components
+IRM,Real Estate,wikipedia_gics,Other Specialized REITs
+ISRG,Health Care,wikipedia_gics,Health Care Equipment
+IT,Information Technology,wikipedia_gics,IT Consulting & Other Services
+ITT,Industrials,yahoo,Specialty Industrial Machinery
+ITW,Industrials,wikipedia_gics,Industrial Machinery & Supplies & Components
+IVZ,Financials,wikipedia_gics,Asset Management & Custody Banks
+J,Industrials,wikipedia_gics,Construction & Engineering
+JAVA,UNKNOWN,yahoo,
+JBHT,Industrials,wikipedia_gics,Cargo Ground Transportation
+JBL,Information Technology,wikipedia_gics,Electronic Manufacturing Services
+JCI,Industrials,wikipedia_gics,Building Products
+JEF,Financials,yahoo,Capital Markets
+JKHY,Financials,wikipedia_gics,Transaction & Payment Processing Services
+JNJ,Health Care,wikipedia_gics,Pharmaceuticals
+JPM,Financials,wikipedia_gics,Diversified Banks
+KBH,Consumer Discretionary,yahoo,Residential Construction
+KDP,Consumer Staples,wikipedia_gics,Soft Drinks & Non-alcoholic Beverages
+KEY,Financials,wikipedia_gics,Regional Banks
+KEYS,Information Technology,wikipedia_gics,Electronic Equipment & Instruments
+KG,Financials,yahoo,Insurance - Reinsurance
+KHC,Consumer Staples,wikipedia_gics,Packaged Foods & Meats
+KIM,Real Estate,wikipedia_gics,Retail REITs
+KKR,Financials,wikipedia_gics,Asset Management & Custody Banks
+KLAC,Information Technology,wikipedia_gics,Semiconductor Materials & Equipment
+KMB,Consumer Staples,wikipedia_gics,Household Products
+KMI,Energy,wikipedia_gics,Oil & Gas Storage & Transportation
+KMX,Consumer Discretionary,yahoo,Auto & Truck Dealerships
+KO,Consumer Staples,wikipedia_gics,Soft Drinks & Non-alcoholic Beverages
+KR,Consumer Staples,wikipedia_gics,Food Retail
+KSS,Consumer Discretionary,yahoo,Department Stores
+KVUE,Consumer Staples,wikipedia_gics,Personal Care Products
+L,Financials,wikipedia_gics,Multi-line Insurance
+LB,Energy,yahoo,Oil & Gas E&P
+LDOS,Industrials,wikipedia_gics,Diversified Support Services
+LEG,Consumer Discretionary,yahoo,"Furnishings, Fixtures & Appliances"
+LEN,Consumer Discretionary,wikipedia_gics,Homebuilding
+LH,Health Care,wikipedia_gics,Health Care Services
+LHX,Industrials,wikipedia_gics,Aerospace & Defense
+LIFE,Financials,yahoo,Insurance Brokers
+LII,Industrials,wikipedia_gics,Building Products
+LIN,Materials,wikipedia_gics,Industrial Gases
+LITE,Information Technology,wikipedia_gics,Communications Equipment
+LKQ,Consumer Discretionary,yahoo,Auto Parts
+LLY,Health Care,wikipedia_gics,Pharmaceuticals
+LMT,Industrials,wikipedia_gics,Aerospace & Defense
+LNC,Financials,yahoo,Insurance - Life
+LNT,Utilities,wikipedia_gics,Electric Utilities
+LOW,Consumer Discretionary,wikipedia_gics,Home Improvement Retail
+LRCX,Information Technology,wikipedia_gics,Semiconductor Materials & Equipment
+LULU,Consumer Discretionary,wikipedia_gics,"Apparel, Accessories & Luxury Goods"
+LUMN,Communication Services,yahoo,Telecom Services
+LUV,Industrials,wikipedia_gics,Passenger Airlines
+LVS,Consumer Discretionary,wikipedia_gics,Casinos & Gaming
+LW,Consumer Staples,yahoo,Packaged Foods
+LYB,Materials,wikipedia_gics,Specialty Chemicals
+LYV,Communication Services,wikipedia_gics,Movies & Entertainment
+M,Consumer Discretionary,yahoo,Department Stores
+MA,Financials,wikipedia_gics,Transaction & Payment Processing Services
+MAA,Real Estate,wikipedia_gics,Multi-Family Residential REITs
+MAC,Real Estate,yahoo,REIT - Retail
+MAR,Consumer Discretionary,wikipedia_gics,"Hotels, Resorts & Cruise Lines"
+MAS,Industrials,wikipedia_gics,Building Products
+MAT,Consumer Discretionary,yahoo,Leisure
+MBI,Financials,yahoo,Insurance - Specialty
+MCD,Consumer Discretionary,wikipedia_gics,Restaurants
+MCHP,Information Technology,wikipedia_gics,Semiconductors
+MCK,Health Care,wikipedia_gics,Health Care Distributors
+MCO,Financials,wikipedia_gics,Financial Exchanges & Data
+MDLZ,Consumer Staples,wikipedia_gics,Packaged Foods & Meats
+MDT,Health Care,wikipedia_gics,Health Care Equipment
+MET,Financials,wikipedia_gics,Life & Health Insurance
+META,Communication Services,wikipedia_gics,Interactive Media & Services
+MGM,Consumer Discretionary,wikipedia_gics,Casinos & Gaming
+MHK,Consumer Discretionary,yahoo,"Furnishings, Fixtures & Appliances"
+MI,Consumer Discretionary,yahoo,Internet Retail
+MKC,Consumer Staples,wikipedia_gics,Packaged Foods & Meats
+MKTX,Financials,yahoo,Capital Markets
+MLM,Materials,wikipedia_gics,Construction Materials
+MMI,Real Estate,yahoo,Real Estate Services
+MMM,Industrials,wikipedia_gics,Industrial Conglomerates
+MNST,Consumer Staples,wikipedia_gics,Soft Drinks & Non-alcoholic Beverages
+MO,Consumer Staples,wikipedia_gics,Tobacco
+MOH,Health Care,yahoo,Healthcare Plans
+MOS,Materials,wikipedia_gics,Fertilizers & Agricultural Chemicals
+MPC,Energy,wikipedia_gics,Oil & Gas Refining & Marketing
+MPWR,Information Technology,wikipedia_gics,Semiconductors
+MRK,Health Care,wikipedia_gics,Pharmaceuticals
+MRNA,Health Care,wikipedia_gics,Biotechnology
+MRSH,Financials,wikipedia_gics,Insurance Brokers
+MRVL,Information Technology,wikipedia_gics,Semiconductors
+MS,Financials,wikipedia_gics,Investment Banking & Brokerage
+MSCI,Financials,wikipedia_gics,Financial Exchanges & Data
+MSFT,Information Technology,wikipedia_gics,Systems Software
+MSI,Information Technology,wikipedia_gics,Communications Equipment
+MTB,Financials,wikipedia_gics,Regional Banks
+MTCH,Communication Services,yahoo,Internet Content & Information
+MTD,Health Care,wikipedia_gics,Life Sciences Tools & Services
+MTG,Financials,yahoo,Insurance - Specialty
+MTW,Industrials,yahoo,Farm & Heavy Construction Machinery
+MU,Information Technology,wikipedia_gics,Semiconductors
+MUR,Energy,yahoo,Oil & Gas E&P
+NAVI,Financials,yahoo,Credit Services
+NBR,Energy,yahoo,Oil & Gas Drilling
+NCLH,Consumer Discretionary,wikipedia_gics,"Hotels, Resorts & Cruise Lines"
+NDAQ,Financials,wikipedia_gics,Financial Exchanges & Data
+NDSN,Industrials,wikipedia_gics,Industrial Machinery & Supplies & Components
+NE,Energy,yahoo,Oil & Gas Drilling
+NEE,Utilities,wikipedia_gics,Multi-Utilities
+NEM,Materials,wikipedia_gics,Gold
+NFLX,Communication Services,wikipedia_gics,Movies & Entertainment
+NFX,UNKNOWN,yahoo,
+NI,Utilities,wikipedia_gics,Multi-Utilities
+NKE,Consumer Discretionary,wikipedia_gics,"Apparel, Accessories & Luxury Goods"
+NKTR,Health Care,yahoo,Biotechnology
+NOC,Industrials,wikipedia_gics,Aerospace & Defense
+NOV,Energy,yahoo,Oil & Gas Equipment & Services
+NOW,Information Technology,wikipedia_gics,Systems Software
+NRG,Utilities,wikipedia_gics,Independent Power Producers & Energy Traders
+NSC,Industrials,wikipedia_gics,Rail Transportation
+NTAP,Information Technology,wikipedia_gics,"Technology Hardware, Storage & Peripherals"
+NTRS,Financials,wikipedia_gics,Asset Management & Custody Banks
+NUE,Materials,wikipedia_gics,Steel
+NVDA,Information Technology,wikipedia_gics,Semiconductors
+NVR,Consumer Discretionary,wikipedia_gics,Homebuilding
+NWL,Consumer Staples,yahoo,Household & Personal Products
+NWS,Communication Services,wikipedia_gics,Publishing
+NWSA,Communication Services,wikipedia_gics,Publishing
+NXPI,Information Technology,wikipedia_gics,Semiconductors
+NYT,Communication Services,yahoo,Publishing
+O,Real Estate,wikipedia_gics,Retail REITs
+ODFL,Industrials,wikipedia_gics,Cargo Ground Transportation
+OGN,Health Care,yahoo,Drug Manufacturers - General
+OI,Consumer Discretionary,yahoo,Packaging & Containers
+OKE,Energy,wikipedia_gics,Oil & Gas Storage & Transportation
+OMC,Communication Services,wikipedia_gics,Advertising
+ON,Information Technology,wikipedia_gics,Semiconductors
+ORCL,Information Technology,wikipedia_gics,Application Software
+ORLY,Consumer Discretionary,wikipedia_gics,Automotive Retail
+OTIS,Industrials,wikipedia_gics,Industrial Machinery & Supplies & Components
+OXY,Energy,wikipedia_gics,Oil & Gas Exploration & Production
+P,Information Technology,wikipedia_gics,"Technology Hardware, Storage & Peripherals"
+PANW,Information Technology,wikipedia_gics,Systems Software
+PARA,Information Technology,yahoo,Software - Application
+PAYC,Information Technology,yahoo,Software - Application
+PAYX,Industrials,wikipedia_gics,Human Resource & Employment Services
+PBI,Industrials,yahoo,Integrated Freight & Logistics
+PCAR,Industrials,wikipedia_gics,Construction Machinery & Heavy Transportation Equipment
+PCG,Utilities,wikipedia_gics,Multi-Utilities
+PCL,UNKNOWN,yahoo,
+PEG,Utilities,wikipedia_gics,Electric Utilities
+PENN,Consumer Discretionary,yahoo,Resorts & Casinos
+PEP,Consumer Staples,wikipedia_gics,Soft Drinks & Non-alcoholic Beverages
+PFE,Health Care,wikipedia_gics,Pharmaceuticals
+PFG,Financials,wikipedia_gics,Life & Health Insurance
+PG,Consumer Staples,wikipedia_gics,Personal Care Products
+PGR,Financials,wikipedia_gics,Property & Casualty Insurance
+PH,Industrials,wikipedia_gics,Industrial Machinery & Supplies & Components
+PHM,Consumer Discretionary,wikipedia_gics,Homebuilding
+PKG,Materials,wikipedia_gics,Paper & Plastic Packaging Products & Materials
+PLD,Real Estate,wikipedia_gics,Industrial REITs
+PLTR,Information Technology,wikipedia_gics,Application Software
+PM,Consumer Staples,wikipedia_gics,Tobacco
+PNC,Financials,wikipedia_gics,Diversified Banks
+PNR,Industrials,wikipedia_gics,Industrial Machinery & Supplies & Components
+PNW,Utilities,wikipedia_gics,Multi-Utilities
+PODD,Health Care,wikipedia_gics,Health Care Equipment
+POM,Health Care,yahoo,Pharmaceutical Retailers
+POOL,Industrials,yahoo,Industrial Distribution
+PPG,Materials,wikipedia_gics,Specialty Chemicals
+PPL,Utilities,wikipedia_gics,Electric Utilities
+PRGO,Health Care,yahoo,Drug Manufacturers - Specialty & Generic
+PRU,Financials,wikipedia_gics,Life & Health Insurance
+PSA,Real Estate,wikipedia_gics,Self-Storage REITs
+PSKY,Communication Services,yahoo,Entertainment
+PSX,Energy,wikipedia_gics,Oil & Gas Refining & Marketing
+PTC,Information Technology,wikipedia_gics,Application Software
+PVH,Consumer Discretionary,yahoo,Apparel Manufacturing
+PWR,Industrials,wikipedia_gics,Construction & Engineering
+PYPL,Financials,wikipedia_gics,Transaction & Payment Processing Services
+Q,Information Technology,wikipedia_gics,Semiconductor Materials & Equipment
+QCOM,Information Technology,wikipedia_gics,Semiconductors
+QRVO,Information Technology,yahoo,Semiconductors
+R,Industrials,yahoo,Rental & Leasing Services
+RCL,Consumer Discretionary,wikipedia_gics,"Hotels, Resorts & Cruise Lines"
+RDDT,Communication Services,wikipedia_gics,Interactive Media & Services
+REG,Real Estate,wikipedia_gics,Retail REITs
+REGN,Health Care,wikipedia_gics,Biotechnology
+RF,Financials,wikipedia_gics,Regional Banks
+RHI,Industrials,yahoo,Staffing & Employment Services
+RIG,Energy,yahoo,Oil & Gas Drilling
+RJF,Financials,wikipedia_gics,Investment Banking & Brokerage
+RL,Consumer Discretionary,wikipedia_gics,"Apparel, Accessories & Luxury Goods"
+RMD,Health Care,wikipedia_gics,Health Care Equipment
+ROK,Industrials,wikipedia_gics,Electrical Components & Equipment
+ROL,Industrials,wikipedia_gics,Environmental & Facilities Services
+ROP,Information Technology,wikipedia_gics,Electronic Equipment & Instruments
+ROST,Consumer Discretionary,wikipedia_gics,Apparel Retail
+RRC,Energy,yahoo,Oil & Gas E&P
+RSG,Industrials,wikipedia_gics,Environmental & Facilities Services
+RTX,Industrials,wikipedia_gics,Aerospace & Defense
+RVTY,Health Care,wikipedia_gics,Health Care Equipment
+S,Information Technology,yahoo,Software - Infrastructure
+SATS,Financials,yahoo,Asset Management
+SBAC,Real Estate,wikipedia_gics,Telecom Tower REITs
+SBNY,Financials,yahoo,Banks - Regional
+SBUX,Consumer Discretionary,wikipedia_gics,Restaurants
+SCHW,Financials,wikipedia_gics,Investment Banking & Brokerage
+SE,Consumer Discretionary,yahoo,Internet Retail
+SEDG,Information Technology,yahoo,Solar
+SGP,Health Care,yahoo,Biotechnology
+SHLD,UNKNOWN,yahoo,
+SHW,Materials,wikipedia_gics,Specialty Chemicals
+SIG,Consumer Discretionary,yahoo,Luxury Goods
+SII,Financials,yahoo,Asset Management
+SJM,Consumer Staples,wikipedia_gics,Packaged Foods & Meats
+SKYD,Communication Services,wikipedia_gics,Movies & Entertainment
+SLB,Energy,wikipedia_gics,Oil & Gas Equipment & Services
+SLG,Real Estate,yahoo,REIT - Office
+SLM,Financials,yahoo,Credit Services
+SMCI,Information Technology,wikipedia_gics,"Technology Hardware, Storage & Peripherals"
+SNA,Industrials,wikipedia_gics,Industrial Machinery & Supplies & Components
+SNDK,Information Technology,wikipedia_gics,"Technology Hardware, Storage & Peripherals"
+SNPS,Information Technology,wikipedia_gics,Application Software
+SO,Utilities,wikipedia_gics,Electric Utilities
+SOLS,Materials,yahoo,Specialty Chemicals
+SOLV,Health Care,wikipedia_gics,Health Care Technology
+SPG,Real Estate,wikipedia_gics,Retail REITs
+SPGI,Financials,wikipedia_gics,Financial Exchanges & Data
+SPLS,UNKNOWN,yahoo,
+SRE,Utilities,wikipedia_gics,Multi-Utilities
+SSP,Communication Services,yahoo,Broadcasting
+STE,Health Care,wikipedia_gics,Health Care Equipment
+STI,Industrials,yahoo,Electrical Equipment & Parts
+STLD,Materials,wikipedia_gics,Steel
+STT,Financials,wikipedia_gics,Asset Management & Custody Banks
+STX,Information Technology,wikipedia_gics,"Technology Hardware, Storage & Peripherals"
+STZ,Consumer Staples,wikipedia_gics,Distillers & Vintners
+SUN,Energy,yahoo,Oil & Gas Refining & Marketing
+SW,Materials,wikipedia_gics,Paper & Plastic Packaging Products & Materials
+SWK,Industrials,wikipedia_gics,Industrial Machinery & Supplies & Components
+SWKS,Information Technology,wikipedia_gics,Semiconductors
+SYF,Financials,wikipedia_gics,Consumer Finance
+SYK,Health Care,wikipedia_gics,Health Care Equipment
+SYY,Consumer Staples,wikipedia_gics,Food Distributors
+T,Communication Services,wikipedia_gics,Integrated Telecommunication Services
+TAP,Consumer Staples,yahoo,Beverages - Brewers
+TDC,Information Technology,yahoo,Software - Infrastructure
+TDG,Industrials,wikipedia_gics,Aerospace & Defense
+TDY,Information Technology,wikipedia_gics,Electronic Equipment & Instruments
+TE,Industrials,yahoo,Electrical Equipment & Parts
+TECH,Health Care,wikipedia_gics,Life Sciences Tools & Services
+TEL,Information Technology,wikipedia_gics,Electronic Manufacturing Services
+TER,Information Technology,wikipedia_gics,Semiconductor Materials & Equipment
+TEX,Industrials,yahoo,Farm & Heavy Construction Machinery
+TFC,Financials,wikipedia_gics,Diversified Banks
+TFX,Health Care,yahoo,Medical Instruments & Supplies
+TGT,Consumer Staples,wikipedia_gics,Consumer Staples Merchandise Retail
+THC,Health Care,yahoo,Medical Care Facilities
+TJX,Consumer Discretionary,wikipedia_gics,Apparel Retail
+TKO,Communication Services,wikipedia_gics,Movies & Entertainment
+TMO,Health Care,wikipedia_gics,Life Sciences Tools & Services
+TMUS,Communication Services,wikipedia_gics,Wireless Telecommunication Services
+TPL,Energy,wikipedia_gics,Oil & Gas Exploration & Production
+TPR,Consumer Discretionary,wikipedia_gics,"Apparel, Accessories & Luxury Goods"
+TRGP,Energy,wikipedia_gics,Oil & Gas Storage & Transportation
+TRIP,Consumer Discretionary,yahoo,Travel Services
+TRMB,Information Technology,wikipedia_gics,Application Software
+TROW,Financials,wikipedia_gics,Asset Management & Custody Banks
+TRV,Financials,wikipedia_gics,Property & Casualty Insurance
+TSCO,Consumer Discretionary,wikipedia_gics,Other Specialty Retail
+TSLA,Consumer Discretionary,wikipedia_gics,Automobile Manufacturers
+TSN,Consumer Staples,wikipedia_gics,Packaged Foods & Meats
+TT,Industrials,wikipedia_gics,Building Products
+TTD,Communication Services,yahoo,Advertising Agencies
+TTWO,Communication Services,wikipedia_gics,Interactive Home Entertainment
+TWLO,Information Technology,wikipedia_gics,Systems Software
+TXN,Information Technology,wikipedia_gics,Semiconductors
+TXT,Industrials,wikipedia_gics,Aerospace & Defense
+TYL,Information Technology,wikipedia_gics,Application Software
+UA,Consumer Discretionary,yahoo,Apparel Manufacturing
+UAA,Consumer Discretionary,yahoo,Apparel Manufacturing
+UAL,Industrials,wikipedia_gics,Passenger Airlines
+UBER,Industrials,wikipedia_gics,Passenger Ground Transportation
+UDR,Real Estate,wikipedia_gics,Multi-Family Residential REITs
+UHS,Health Care,wikipedia_gics,Health Care Facilities
+UIS,Information Technology,yahoo,Information Technology Services
+ULTA,Consumer Discretionary,wikipedia_gics,Other Specialty Retail
+UNH,Health Care,wikipedia_gics,Managed Health Care
+UNM,Financials,yahoo,Insurance - Life
+UNP,Industrials,wikipedia_gics,Rail Transportation
+UPS,Industrials,wikipedia_gics,Air Freight & Logistics
+URBN,Consumer Discretionary,yahoo,Apparel Retail
+URI,Industrials,wikipedia_gics,Trading Companies & Distributors
+USB,Financials,wikipedia_gics,Diversified Banks
+UST,UNKNOWN,yahoo,
+V,Financials,wikipedia_gics,Transaction & Payment Processing Services
+VEEV,Health Care,wikipedia_gics,Health Care Technology
+VFC,Consumer Discretionary,yahoo,Apparel Manufacturing
+VIAV,Information Technology,yahoo,Communication Equipment
+VICI,Real Estate,wikipedia_gics,Hotel & Resort REITs
+VLO,Energy,wikipedia_gics,Oil & Gas Refining & Marketing
+VLTO,Industrials,wikipedia_gics,Environmental & Facilities Services
+VMC,Materials,wikipedia_gics,Construction Materials
+VMRK,Real Estate,wikipedia_gics,Multi-Family Residential REITs
+VNO,Real Estate,yahoo,REIT - Office
+VNT,Information Technology,yahoo,Scientific & Technical Instruments
+VRSK,Industrials,wikipedia_gics,Research & Consulting Services
+VRSN,Information Technology,wikipedia_gics,Internet Services & Infrastructure
+VRT,Industrials,wikipedia_gics,Electrical Components & Equipment
+VRTX,Health Care,wikipedia_gics,Biotechnology
+VST,Utilities,wikipedia_gics,Electric Utilities
+VTR,Real Estate,wikipedia_gics,Health Care REITs
+VTRS,Health Care,wikipedia_gics,Pharmaceuticals
+VYLR,Consumer Staples,wikipedia_gics,Agricultural Products & Services
+VZ,Communication Services,wikipedia_gics,Integrated Telecommunication Services
+WAB,Industrials,wikipedia_gics,Construction Machinery & Heavy Transportation Equipment
+WAT,Health Care,wikipedia_gics,Life Sciences Tools & Services
+WB,Communication Services,yahoo,Internet Content & Information
+WBD,Communication Services,yahoo,Entertainment
+WDAY,Information Technology,wikipedia_gics,Application Software
+WDC,Information Technology,wikipedia_gics,"Technology Hardware, Storage & Peripherals"
+WEC,Utilities,wikipedia_gics,Electric Utilities
+WELL,Real Estate,wikipedia_gics,Health Care REITs
+WEN,Consumer Discretionary,yahoo,Restaurants
+WFC,Financials,wikipedia_gics,Diversified Banks
+WHR,Consumer Discretionary,yahoo,"Furnishings, Fixtures & Appliances"
+WM,Industrials,wikipedia_gics,Environmental & Facilities Services
+WMB,Energy,wikipedia_gics,Oil & Gas Storage & Transportation
+WMT,Consumer Staples,wikipedia_gics,Consumer Staples Merchandise Retail
+WRB,Financials,wikipedia_gics,Property & Casualty Insurance
+WSM,Consumer Discretionary,wikipedia_gics,Homefurnishing Retail
+WST,Health Care,wikipedia_gics,Health Care Supplies
+WTW,Financials,wikipedia_gics,Insurance Brokers
+WU,Financials,yahoo,Credit Services
+WY,Real Estate,wikipedia_gics,Timber REITs
+WYNN,Consumer Discretionary,wikipedia_gics,Casinos & Gaming
+XEL,Utilities,wikipedia_gics,Multi-Utilities
+XOM,Energy,wikipedia_gics,Integrated Oil & Gas
+XRAY,Health Care,yahoo,Medical Instruments & Supplies
+XRX,Industrials,yahoo,Business Equipment & Supplies
+XYL,Industrials,wikipedia_gics,Industrial Machinery & Supplies & Components
+XYZ,Financials,wikipedia_gics,Transaction & Payment Processing Services
+YUM,Consumer Discretionary,wikipedia_gics,Restaurants
+ZBH,Health Care,wikipedia_gics,Health Care Equipment
+ZBRA,Information Technology,wikipedia_gics,Electronic Equipment & Instruments
+ZION,Financials,yahoo,Banks - Regional
+ZTS,Health Care,wikipedia_gics,Pharmaceuticals

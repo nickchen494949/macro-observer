@@ -2,3 +2,8 @@ data/raw/
 __pycache__/
 data/sec_tmp/
 data/fundamentals/sec_raw/
+.env
+data/raw_tiingo/
+data/tiingo_supported_tickers.csv
+data/raw_wiki/
+data/raw_wiki_check/

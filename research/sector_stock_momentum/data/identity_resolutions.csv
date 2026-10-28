@@ -1,0 +1,9 @@
+ticker,action,date,date_to,evidence
+EP,use_wiki_before,2012-05-25,,"Yahoo EP history is Empire Petroleum (took the EP ticker 2022-03; its 2013 1:12 and 2022 1:4 reverse splits are in the series; external audit). El Paso Corp was acquired by Kinder Morgan 2012-05-25 → WIKI EP (frozen 2018) for the El Paso spell"
+CPWR,use_wiki_before,2014-12-15,,"Yahoo CPWR history is TetriDyn/Ocean Thermal (2017 splits in series; raw price $0.005-0.06 → market cap < $15m); Compuware went private 2014-12 → WIKI CPWR"
+DD,use_wiki_before,2017-09-01,,"Yahoo DD before 2017-09-01 is Dow Chemical (2014 returns identical to WIKI DOW; 2013-12 close 79.32/1.786 = 44.41 = Dow close; independent audit). E.I. du Pont → WIKI DD"
+DD,segment_break,2019-06-03,,"Corteva spin-off + 1:3 reverse split booked as one adjclose factor (+17.8% artificial day): momentum/returns must not bridge"
+CB,use_wiki_before,2016-01-15,,"ACE Ltd acquired Chubb Corp 2016-01-14 and took the CB ticker; Yahoo CB history before is ACE (monthly corr with WIKI CB 0.71). Chubb Corp → WIKI CB"
+JCI,exclude_before,2010-08-26,,"Tyco acquired Johnson Controls 2016-09 and kept the JCI ticker; Yahoo JCI before 2016-09 is Tyco (close 42.97 = 41.04/0.955). Tyco joined the S&P 500 only on 2010-08-26 (Wikipedia changes) → before that the series is a non-member; Johnson Controls Inc 2009-2016 has no clean free source (missing)"
+CCE,segment_break,2010-10-04,,"Old Coca-Cola Enterprises (to 2010-10-01, sold N.A. bottling to KO incl. $10 cash) and new CCE (from 2010-10-04) spliced without a gap; -30.8% day is the cash payment"
+PARA,exclude_spell,2022-02-17,2025-08-08,"Price series held for PARA implies a $76m market cap with Paramount Global's share count → not Paramount (re-used ticker); no clean source for Paramount 2022-2025"
