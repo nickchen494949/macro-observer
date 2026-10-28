@@ -65,6 +65,10 @@ def fetch(sym):
             out['dates'].append(time.strftime('%Y-%m-%d', time.gmtime(t)))
             out['close'].append(round(c, 4))
             out['adjclose'].append(round(a, 6))
+        # split events (needed to put as-reported SEC EPS / share counts on the same basis as prices)
+        sp = (res.get('events') or {}).get('splits') or {}
+        out['splits'] = sorted([[time.strftime('%Y-%m-%d', time.gmtime(int(v['date']))),
+                                 v.get('numerator'), v.get('denominator')] for v in sp.values()])
         return {'ok': True, 'data': out}
     except Exception as e:  # noqa
         return {'ok': False, 'error': f'parse: {e}'}
@@ -75,6 +79,12 @@ def main():
     failed_path = os.path.join(RAW, '_failed.json')
     failed = json.load(open(failed_path)) if os.path.exists(failed_path) else {}
     todo = [s for s in syms if not os.path.exists(os.path.join(RAW, f'{s}.json')) and s not in failed]
+
+    def no_splits(s):
+        p = os.path.join(RAW, f'{s}.json')
+        return os.path.exists(p) and 'splits' not in json.load(open(p))
+    # files saved before split events were recorded → refetch once (after the new symbols)
+    todo += [s for s in syms if no_splits(s)]
     print(f'{len(syms)} symbols, {len(todo)} to fetch', flush=True)
     for i, s in enumerate(todo):
         r = fetch(s)
