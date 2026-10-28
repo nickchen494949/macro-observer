@@ -34,11 +34,17 @@ def load_long(sector):
     return pd.read_parquet(os.path.join(F, 'pit_long', sector.replace(' ', '_') + '.parquet'))
 
 
-def asof(panel, date):
-    """Latest row per ticker that was public on `date` (strictly no look-ahead)."""
+def asof(panel, date, max_age_days=200):
+    """Latest row per ticker that was public on `date` (strictly no look-ahead).
+
+    max_age_days drops stale rows whose fiscal quarter ended long before `date`
+    (e.g. 2008–09 quarters that only appeared in XBRL a year later as comparatives)."""
     d = pd.Timestamp(date)
     x = panel[panel.available_date <= d]
-    return x.sort_values(['ticker', 'period_end', 'available_date']).groupby('ticker').tail(1).reset_index(drop=True)
+    x = x.sort_values(['ticker', 'period_end', 'available_date']).groupby('ticker').tail(1)
+    if max_age_days is not None:
+        x = x[(d - x.period_end).dt.days <= max_age_days]
+    return x.reset_index(drop=True)
 
 
 @lru_cache(maxsize=None)

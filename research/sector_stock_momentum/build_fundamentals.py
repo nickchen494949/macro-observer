@@ -155,6 +155,8 @@ def build_long(sub, cmap):
     df = pd.concat(parts, ignore_index=True)
     df = df.join(cik2, on='cik')
     df['ddate'] = pd.to_datetime(df.ddate, format='%Y%m%d', errors='coerce')
+    # a reported actual cannot be dated after its own filing (company tagging errors, e.g. PRGO 10-K 2013-08)
+    df = df[df.ddate <= df.filed]
     df = df.sort_values(['cik', 'tag', 'ddate', 'qtrs', 'uom', 'filed', 'accepted'])
     key = ['cik', 'tag', 'ddate', 'qtrs', 'uom']
     df['is_first_report'] = ~df.duplicated(key, keep='first')
