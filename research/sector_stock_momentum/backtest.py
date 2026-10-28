@@ -66,12 +66,23 @@ def load_prices():
 def load_membership(month_ends):
     h = pd.read_csv(os.path.join(HERE, 'data', 'sp500_hist_components.csv'), parse_dates=['date'])
     h = h.sort_values('date')
+    last_date = h.date.max()
+    # fja05680 file ends before the sample end → roll forward with Wikipedia's dated changes
+    ch = pd.read_csv(os.path.join(HERE, 'data', 'wiki_changes.csv'))
+    ch['date'] = pd.to_datetime(ch.date, errors='coerce')
+    ch = ch[ch.date > last_date].sort_values('date')
     out = {}
     for t in month_ends:
         row = h[h.date <= t]
         if row.empty:
             continue
-        out[t] = {x.replace('.', '-') for x in row.tickers.iloc[-1].split(',')}
+        mem = {x.replace('.', '-') for x in row.tickers.iloc[-1].split(',')}
+        for _, c in ch[ch.date <= t].iterrows():
+            if isinstance(c.removed_ticker, str):
+                mem.discard(c.removed_ticker.replace('.', '-'))
+            if isinstance(c.added_ticker, str):
+                mem.add(c.added_ticker.replace('.', '-'))
+        out[t] = mem
     return out
 
 
@@ -135,8 +146,20 @@ def run(cfg, P, daily, members, sectors, ret_fwd, months):
 MOM_CACHE = {}
 
 
-def make_ret_fwd(P, daily):
-    nxt = P.shift(-1) / P - 1
+def make_ret_fwd(P, daily, lag_days=0):
+    """Forward 1-month return for a position formed at month-end t.
+    lag_days=0: trade at the month-end close; lag_days=1: trade at the NEXT trading day's close
+    (signal computed at close t, executed one day later — removes same-close optimism)."""
+    if lag_days:
+        idx = daily.index
+        pos = idx.searchsorted(P.index, side='right') + (lag_days - 1)
+        pos = np.clip(pos, 0, len(idx) - 1)
+        E = daily.ffill(limit=5).iloc[pos]
+        E.index = P.index
+        base = E
+    else:
+        base = P
+    nxt = base.shift(-1) / base - 1
     cache = {}
 
     def f(t, s):
@@ -147,9 +170,47 @@ def make_ret_fwd(P, daily):
         key = (t, s)
         if key not in cache:
             d = daily[s].loc[t:t + pd.offsets.MonthEnd(1)].dropna()
-            cache[key] = float(d.iloc[-1] / P.at[t, s] - 1) if len(d) else 0.0
+            b = base.at[t, s] if np.isfinite(base.at[t, s]) else P.at[t, s]
+            cache[key] = float(d.iloc[-1] / b - 1) if len(d) else 0.0
+            DELIST_LOG.append((t, s, cache[key]))
         return cache[key]
     return f
+
+
+DELIST_LOG = []
+
+
+def deflated_sharpe(sr_best, sr_trials, n_obs, skew=0.0, kurt=3.0):
+    """Bailey & López de Prado (2014) deflated Sharpe ratio (monthly SR inputs).
+    Probability that the best-of-N Sharpe is > 0 after accounting for the number of trials."""
+    from scipy.stats import norm
+    sr_trials = np.asarray(sr_trials, float)
+    n = len(sr_trials)
+    var = np.nanvar(sr_trials, ddof=1)
+    emc = 0.5772156649
+    sr0 = np.sqrt(var) * ((1 - emc) * norm.ppf(1 - 1 / n) + emc * norm.ppf(1 - 1 / (n * np.e)))
+    z = (sr_best - sr0) * np.sqrt(n_obs - 1) / np.sqrt(1 - skew * sr_best + (kurt - 1) / 4 * sr_best ** 2)
+    return float(norm.cdf(z)), float(sr0)
+
+
+def block_bootstrap(r, rf, n=5000, block=6, seed=7):
+    """Stationary-ish block bootstrap of annualised Sharpe and CAGR (5/50/95 percentiles)."""
+    rng = np.random.default_rng(seed)
+    x = (r - rf.reindex(r.index).fillna(0)).values
+    raw = r.values
+    T = len(x)
+    srs, cagrs = [], []
+    for _ in range(n):
+        idx = []
+        while len(idx) < T:
+            s = rng.integers(0, T)
+            idx += [(s + k) % T for k in range(block)]
+        idx = np.array(idx[:T])
+        e = x[idx]
+        srs.append(e.mean() / e.std() * np.sqrt(12) if e.std() > 0 else np.nan)
+        cagrs.append(np.prod(1 + raw[idx]) ** (12 / T) - 1)
+    q = lambda a: [float(np.nanpercentile(a, p)) for p in (5, 50, 95)]
+    return {'Sharpe_p5_p50_p95': q(srs), 'CAGR_p5_p50_p95': q(cagrs), 'P(Sharpe<=0)': float(np.mean(np.array(srs) <= 0))}
 
 
 # ───────────────────────────── stats ─────────────────────────────
@@ -257,6 +318,11 @@ def main():
             sec_all = {s: 'ALL' for s in sectors}
             results[name] = run(dict(look=12, n_sec=1, n_stk=n, score='ew'), P, daily, members, sec_all,
                                 ret_fwd, months_all)
+    spec_name = 'SPEC: best stock in best sector (EW sector score)'
+    n_fallback_spec = len(DELIST_LOG)
+    # execution-timing robustness: same signal, trade at the next trading day's close
+    results['SPEC, executed next-day close'] = run(specs[spec_name], P, daily, members, sectors,
+                                                   make_ret_fwd(P, daily, lag_days=1), months_all)
 
     summary = {}
     for name, df in results.items():
@@ -288,6 +354,16 @@ def main():
                                      for lab, (a, b) in {'FULL': (hold_months[0], hold_months[-1]), **split}.items()
                                      for k in ['gross', 'net']}
     spec_rank = grid.reset_index(drop=True).query("look==12 and n_sec==1 and n_stk==1 and score=='ew'").index[0] + 1
+    dsr, sr0 = deflated_sharpe(best.IS_Sharpe / np.sqrt(12), grid.IS_Sharpe / np.sqrt(12), len(is_idx))
+
+    # ── uncertainty: block bootstrap of the spec (net) ──
+    boot = {}
+    for lab, (a, b) in {'FULL': (hold_months[0], hold_months[-1]), **split}.items():
+        boot[lab] = block_bootstrap(results[spec_name]['net'].loc[a:b], rf)
+    spec_df = results[spec_name]
+    fb = [x for x in DELIST_LOG[:n_fallback_spec]]
+    spec_keys = set(zip(spec_df.formation, spec_df.picks))
+    fb_spec = [x for x in fb if (x[0], x[1]) in spec_keys]
 
     # ── calendar-year returns ──
     yr = {}
@@ -305,7 +381,10 @@ def main():
             'n_months': len(hold_months), 'cost_per_side': COST_PER_SIDE,
             'is_selected_cfg': best_cfg, 'grid_size': len(grid), 'grid_rank_of_spec_by_IS_Sharpe': int(spec_rank),
             'grid_IS_vs_OOS_sharpe_spearman': rank_corr,
-            'grid_OOS_sharpe_median': grid.OOS_Sharpe.median(), 'grid_IS_sharpe_median': grid.IS_Sharpe.median()}
+            'grid_OOS_sharpe_median': grid.OOS_Sharpe.median(), 'grid_IS_sharpe_median': grid.IS_Sharpe.median(),
+            'IS_best_deflated_sharpe_prob': dsr, 'IS_expected_max_sharpe_under_null_ann': sr0 * np.sqrt(12),
+            'spec_bootstrap_net': boot,
+            'spec_months_with_missing_exit_price': [(str(t.date()), s, r) for t, s, r in fb_spec]}
     json.dump({'meta': meta, 'summary': summary}, open(os.path.join(RES, 'summary.json'), 'w'), indent=1, default=float)
 
     # print key table
