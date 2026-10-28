@@ -1,2 +1,4 @@
 data/raw/
 __pycache__/
+data/sec_tmp/
+data/fundamentals/sec_raw/
