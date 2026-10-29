@@ -10,7 +10,7 @@ Excluded: .env (API keys), __pycache__, data/sec_tmp, data/_union_scratch, .DS_S
 import csv, fnmatch, hashlib, os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SKIP_DIRS = {'__pycache__', '.git', 'sec_tmp', '_union_scratch'}
+SKIP_DIRS = {'__pycache__', '.git', 'sec_tmp', '_union_scratch', '_union_scratch_fund', '_smallcap_scratch'}
 SKIP_FILES = {'.env', '.DS_Store', 'MANIFEST.csv'}
 
 RULES = [   # first match wins
@@ -26,7 +26,8 @@ RULES = [   # first match wins
     ('log', ['logs/*']),
     ('raw data (vendor download)', ['data/raw/*', 'data/raw_tiingo/*', 'data/raw_wiki/*', 'data/raw_wiki_check/*',
                                     'data/raw_archive/*', 'data/raw_ndx/*', 'data/raw_volume/*', 'data/sec_submissions/*',
-                                    'data/fundamentals/sec_raw/*', 'data/nasdaq100_src/*', 'data/tiingo_supported_tickers.csv']),
+                                    'data/fundamentals/sec_raw/*', 'data/nasdaq100_src/*', 'data/tiingo_supported_tickers.csv',
+                                    'data/wiki_bulk/*', 'data/raw_smallcap/*']),
     ('hand-researched input (each row has a source)', ['data/identity_resolutions.csv', 'data/sector_overrides.csv',
                                                       'data/exit_resolutions.csv', 'data/membership_additions.csv',
                                                       'data/ndx_symbol_map.csv', 'data/ndx_cik_map.csv',
@@ -37,7 +38,7 @@ RULES = [   # first match wins
 ]
 PUBLIC_EXCLUDED = ['data/raw/*', 'data/raw_tiingo/*', 'data/raw_wiki/*', 'data/raw_wiki_check/*', 'data/raw_archive/*',
                    'data/raw_ndx/*', 'data/raw_volume/*', 'data/sec_submissions/*', 'data/fundamentals/sec_raw/*',
-                   'data/tiingo_supported_tickers.csv']
+                   'data/tiingo_supported_tickers.csv', 'data/wiki_bulk/*', 'data/raw_smallcap/*', 'data/smallcap/*.parquet']
 
 
 def role(rel):

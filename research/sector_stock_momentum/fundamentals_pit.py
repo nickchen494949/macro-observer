@@ -72,13 +72,15 @@ def asof(panel, date, max_age_days=200, ttm_field=None):
 def splits(ticker):
     """Splits recorded by the vendor whose adjusted prices we hold for `ticker` (Tiingo if its series covers the
     membership, else Yahoo; fallbacks: WIKI (adjusted only up to its 2018-03 freeze, so only WIKI's own splits apply)
-    and data/raw_ndx (Nasdaq-100 additions, Tiingo/WIKI)). Archive sources carry no split list → factor 1."""
+    and data/raw_ndx (Nasdaq-100 additions, Tiingo/WIKI), data/raw_smallcap (small/mid holdout, Yahoo)). Archive sources carry
+    no split list → factor 1."""
     tk = ticker.replace('.', '-')
     p = os.path.join(RAW, tk + '.json')
     pt = os.path.join(HERE, 'data', 'raw_tiingo', tk + '.json')
     if os.path.exists(pt) and json.load(open(pt)).get('covers_membership'):
         p = pt                        # same source as the price series used for that security
-    for alt in [os.path.join(HERE, 'data', 'raw_wiki', tk + '.json'), os.path.join(HERE, 'data', 'raw_ndx', tk + '.json')]:
+    for alt in [os.path.join(HERE, 'data', 'raw_wiki', tk + '.json'), os.path.join(HERE, 'data', 'raw_ndx', tk + '.json'),
+                os.path.join(HERE, 'data', 'raw_smallcap', tk + '.json')]:
         if not os.path.exists(p) and os.path.exists(alt):
             p = alt
     if not os.path.exists(p):
