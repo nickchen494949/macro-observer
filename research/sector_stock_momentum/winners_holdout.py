@@ -231,98 +231,100 @@ def features(A, P, U, form, src):
 
 
 def t2_scores(Xh):
-    """Track-2 S1 = P(explosive) from LightGBM trained on the S&P panel exactly as in winners_tracks.track2."""
+    """Track-2 scores from LightGBM trained on the S&P panel exactly as in winners_tracks.track2 (test years 2013-2026,
+    training formations <= (Y-1)-06-30): S1 = P(explosive6), S2 = P(explosive6) − P(bust6)."""
     import lightgbm as lgb
     from factor_screen import FACTORS, ranked
     X = pd.read_parquet(os.path.join(HERE, 'results', 'factor_screen', 'panel_screen.parquet'))
-    E = pd.read_parquet(os.path.join(HERE, 'results', 'explosive', 'panel_explosive_ear.parquet'), columns=['t', 'ticker', 'explosive6'])
+    E = pd.read_parquet(os.path.join(HERE, 'results', 'explosive', 'panel_explosive_ear.parquet'), columns=['t', 'ticker', 'fwd6', 'explosive6'])
     X = X.merge(E, on=['t', 'ticker'], how='left')
+    X['bust6'] = (X.groupby('t').fwd6.rank(pct=True) <= 0.05).astype(float).where(X.fwd6.notna())
     R = ranked(X, FACTORS, fill=False).values
     Rh = ranked(Xh, FACTORS, fill=False).values
     yh = Xh.t.dt.year.values
-    s1 = np.full(len(Xh), np.nan)
-    for Y in range(2013, 2027):                         # same test years as the frozen track 2 (winners_tracks.py)
+    pe, pb = np.full(len(Xh), np.nan), np.full(len(Xh), np.nan)
+    for Y in range(2013, 2027):
         te = yh == Y
         tr = (X.t <= pd.Timestamp(f'{Y-1}-06-30')).values & X.explosive6.notna().values
-        if not te.any() or tr.sum() < 5000:
-            continue                                    # first training year with enough labelled S&P data
-        m = lgb.LGBMClassifier(n_estimators=300, learning_rate=0.03, num_leaves=31, min_child_samples=200,
-                               subsample=0.8, subsample_freq=1, random_state=7, verbose=-1)
-        m.fit(R[tr], X.explosive6.values[tr].astype(int))
-        s1[te] = m.predict_proba(Rh[te])[:, 1]
-    return pd.Series(s1, index=Xh.index)
+        if not te.any():
+            continue
+        for lab, arr in (('explosive6', pe), ('bust6', pb)):
+            m = lgb.LGBMClassifier(n_estimators=300, learning_rate=0.03, num_leaves=31, min_child_samples=200,
+                                   subsample=0.8, subsample_freq=1, random_state=7, verbose=-1)
+            m.fit(R[tr], X[lab].values[tr].astype(int))
+            arr[te] = m.predict_proba(Rh[te])[:, 1]
+    return pd.Series(pe, index=Xh.index), pd.Series(pe - pb, index=Xh.index)
+
+
+class _Elig:
+    """adapter so winners_tracks.track3 can run on the holdout universe"""
+    def __init__(self, U, mom):
+        self.U, self.mom = U, mom
+
+    def eligible(self, t, look):
+        v = self.U.get(t, [])
+        return pd.DataFrame({'mom': self.mom.loc[t, v]}, index=pd.Index(v, name='tk')), None
 
 
 def run():
     lp = os.path.join(HERE, 'data', 'raw_smallcap', '_log.json')
     cand = pd.read_csv(os.path.join(HERE, 'data', 'smallcap_candidates.csv'))
-    done = json.load(open(lp)) if os.path.exists(lp) else {}
-    if len([s for s in cand.ysym if s in done]) < len(cand):
-        raise SystemExit(f'Yahoo download incomplete ({len(done)}/{len(cand)}) — the exam runs once, on the complete data')
+    log = json.load(open(lp)) if os.path.exists(lp) else {}
+    missing = [s for s in cand.ysym if s not in log]
+    if missing or not log.get('_retry_done'):
+        raise SystemExit(f'download not complete (missing {len(missing)}, retry pass done: {bool(log.get("_retry_done"))}) '
+                         '— the exam runs once, on the complete data (WINNERS_SPEC §5c.4)')
+    fails = [(s, log[s]) for s in cand.ysym if not str(log[s]).startswith('ok')]
+    pd.DataFrame(fails, columns=['symbol', 'status']).to_csv(os.path.join(OUT, 'download_failures.csv'), index=False)
+    import winners_tracks as wt
+    frozen = json.load(open(os.path.join(HERE, 'results', 'winners', 'candidates.json')))['candidates']
+    sup_p = os.path.join(HERE, 'results', 'winners', 'candidates_supplementary.json')
+    sup = json.load(open(sup_p))['supplementary_candidates'] if os.path.exists(sup_p) else []
+    names = ['BENCH pure momentum top-1'] + frozen + [x for x in sup if x not in frozen]
     form = pd.date_range('2009-12-31', '2026-08-31', freq='ME')
     A, P, U, mom, src = load(form)
     Xh = features(A, P, U, form, src)
-    Xh['S1'] = t2_scores(Xh)
-    import winners_tracks as wt
-    S = {'px': bt.Prices(A, P, 0), 'res': bt.load_resolutions(), 'daily': A,
+    Xh['S1'], Xh['S2'] = t2_scores(Xh)
+    r = A.pct_change(fill_method=None).where(bt.SEG_D == bt.SEG_D.shift(1))
+    S = {'px': bt.Prices(A, P, 0), 'res': bt.load_resolutions(), 'daily': A, 'form': form, 'eng': _Elig(U, mom),
+         'vol63': r.rolling(63, min_periods=50).std() * np.sqrt(252),
          'rf': bt.load_rf(pd.date_range('2009-01-31', '2026-10-31', freq='ME'))}
-    spy = A['SPY'].dropna()
-    r = spy.pct_change()
-    v3 = r.rolling(63).std()
-    med = v3.rolling(1260, min_periods=750).median()
-    crash = {}
-    for t in form:
-        d = spy.index[spy.index.searchsorted(t, side='right') - 1]
-        i = spy.index.get_loc(d)
-        crash[t] = bool(spy.iloc[i] / spy.iloc[max(0, i - 504)] - 1 < 0 and v3.loc[d] > med.loc[d])
-    res = {}
-    # deterministic: highest momentum, ties by ticker (same as bt.rank_desc)
-    W1 = {t: {bt.rank_desc(mom.loc[t, v]).index[0]: 1.0} for t, v in U.items() if v}
-    res['BENCH pure momentum top-1'] = wt.run_weights(S, W1)
-    W5 = {t: {s: 0.2 for s in bt.rank_desc(mom.loc[t, v]).index[:5]} for t, v in U.items() if len(v) >= 5}
-    res['T3 mom top-5 ew +crash'] = wt.run_weights(S, W5, {t: (0.5 if crash.get(t) else 1.0) for t in W5})
-    WS = {}
-    for t, g in Xh.dropna(subset=['S1']).groupby('t'):
-        top = g.sort_values(['S1', 'ticker'], ascending=[False, True]).ticker.head(5).tolist()
-        WS[t] = {s: 1 / len(top) for s in top}
-    res['T2 S1 top-5 hold1m'] = wt.run_weights(S, WS)
-    # hold 6 months in 6 tranches (as winners_tracks.track2)
-    months = sorted(WS)
-    rows = []
-    for i, t in enumerate(months):
-        m = t + pd.offsets.MonthEnd(1)
-        parts = []
-        for k in range(6):
-            if i - k < 0:
-                continue
-            t0 = months[i - k]
-            rr = []
-            for s_ in WS[t0]:
-                alive = all(S['px'].ret(months[i - k + j], s_, S['res'])[1] == 'ok' for j in range(k))
-                rr.append(S['px'].ret(t, s_, S['res'])[0] if alive else float(S['rf'].get(m, 0)))
-            parts.append(np.mean(rr))
-        g_ = float(np.mean(parts))
-        rows.append({'month': m, 'gross': g_, 'net': g_ - 2 * bt.COST_PER_SIDE / 6, 'turnover': 2 / 6, 'exposure': 1.0,
-                     'picks': '', 'weights': ''})
-    res['T2 S1 top-5 hold6m'] = pd.DataFrame(rows).set_index('month')
-    WE = {t: {s: 1 / len(v) for s in v} for t, v in U.items() if v}
-    res['REF equal-weight holdout universe'] = wt.run_weights(S, WE)
-    res['REF SPY'] = wt.run_weights(S, {t: {'SPY': 1.0} for t in form})
     wt.PERIODS = {'PRIMARY 2010-01..2018-02': PRIMARY, 'PRIMARY from 2013 (T2 starts 2013)': ('2013-01-31', PRIMARY[1]),
                   'SECONDARY 2018-03..2026-09 (survivorship-biased)': SECONDARY}
     rows = []
-    for name, df in res.items():
-        df.to_csv(os.path.join(OUT, 'monthly_' + ''.join(c if c.isalnum() else '_' for c in name) + '.csv'))
-        rows += wt.stats_block(S, df, name)
+    for stress_lab, stress in [('base (unknown outcome = 0 %)', None), ('stress −30 %', -0.30), ('stress −100 %', -1.0)]:
+        res = {}
+        W1 = {t: {bt.rank_desc(mom.loc[t, v]).index[0]: 1.0} for t, v in U.items() if v}
+        res['BENCH pure momentum top-1'] = wt.run_weights(S, W1, stress=stress)
+        t3 = [n for n in names if n.startswith('T3')]
+        if t3:
+            res.update(wt.track3(S, stress=stress, only=set(t3)))
+        for n in [n for n in names if n.startswith('T2')]:
+            _, sc, topn, hold = n.split()
+            N = int(topn.split('-')[1])
+            W = {}
+            for t, g in Xh.dropna(subset=[sc]).groupby('t'):
+                top = g.sort_values([sc, 'ticker'], ascending=[False, True]).ticker.head(N).tolist()
+                W[t] = {s_: 1 / len(top) for s_ in top}
+            res[n] = wt.run_weights(S, W, stress=stress) if hold == 'hold1m' else wt.tranche_ledger(S, W, 6, stress=stress)
+        if stress is None:
+            WE = {t: {s_: 1 / len(v) for s_ in v} for t, v in U.items() if v}
+            res['REF equal-weight holdout universe'] = wt.run_weights(S, WE)
+            res['REF SPY'] = wt.run_weights(S, {t: {'SPY': 1.0} for t in form})
+        for name, df in res.items():
+            if name not in names and not name.startswith('REF'):
+                continue
+            safe = ''.join(c if c.isalnum() else '_' for c in f'{name} {stress_lab}')
+            df.to_csv(os.path.join(OUT, f'monthly_{safe}.csv'))
+            for rec in wt.stats_block(S, df, name):
+                rec['scenario'] = stress_lab
+                rec['list'] = ('benchmark' if name.startswith('BENCH') else 'frozen' if name in frozen
+                               else 'supplementary (post-hoc)' if name in sup else 'reference')
+                rows.append(rec)
     T = pd.DataFrame(rows)
     T.to_csv(os.path.join(OUT, 'summary.csv'), index=False)
     v = T.copy()
     v['v'] = (v.CAGR * 100).round(1).astype(str) + '% / ' + v.Sharpe.round(2).astype(str) + ' / ' + (v.maxDD_daily * 100).round(0).astype(str) + '%'
     pd.set_option('display.width', 250)
-    print(v.pivot(index='strategy', columns='period', values='v').to_string())
-    top1 = res['BENCH pure momentum top-1']
-    print('pure momentum top-1 most held (primary):', top1.loc[PRIMARY[0]:PRIMARY[1]].picks.value_counts().head(10).to_dict())
-
-
-if __name__ == '__main__':
-    {'prep': prep, 'run': run}[sys.argv[1]]()
+    print(v.pivot_table(index=['scenario', 'list', 'strategy'], columns='period', values='v', aggfunc='first').to_string())
+    print('download failures:', len(fails))

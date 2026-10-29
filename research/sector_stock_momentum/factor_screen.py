@@ -116,8 +116,14 @@ def build_new(grid):
                       tolerance=pd.Timedelta(days=10), direction='nearest')
     A = pd.merge_asof(A.sort_values('ddate'), Q[['cik', 'ddate', 'revenue_ttm', 'av_rev']].sort_values('ddate'), on='ddate',
                       by='cik', tolerance=pd.Timedelta(days=20), direction='nearest')
-    A['gp_val'] = A.gp.where(A.gp.notna(), A.revenue_ttm - A.cost)
-    A['f_gpv'] = A.f_gp.where(A.gp.notna(), pd.concat([A.av_rev - one, A.f_cost], axis=1).max(axis=1, skipna=False))
+    # gross profit: the reported GrossProfit tag or revenue − cost of revenue — whichever was PUBLIC FIRST (a GrossProfit
+    # value first reported years later as a comparative must not replace a fallback that was already public; found by
+    # pit_fundamentals_truncation_test.py, MSFT FY2011)
+    fb = A.revenue_ttm - A.cost
+    f_fb = pd.concat([A.av_rev - one, A.f_cost], axis=1).max(axis=1, skipna=False)
+    use_fb = fb.notna() & f_fb.notna() & (A.gp.isna() | A.f_gp.isna() | (f_fb < A.f_gp))
+    A['gp_val'] = fb.where(use_fb, A.gp)
+    A['f_gpv'] = f_fb.where(use_fb, A.f_gp)
     am = lambda *c: pd.concat([A[x] for x in c], axis=1).max(axis=1, skipna=False) + one
     A['gp_a'] = A.gp_val / A.assets.where(A.assets > 0)
     A['avail_gp_a'] = am('f_gpv', 'f_assets')

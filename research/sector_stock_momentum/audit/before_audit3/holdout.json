@@ -1,0 +1,128 @@
+{
+ "chosen": [
+  "lgbm_m",
+  "top1_sma200"
+ ],
+ "holdout": {
+  "composite": {
+   "mean_IC": 0.030226056066924595,
+   "IC_t": 1.5598028549730485,
+   "top1": {
+    "months": 45,
+    "CAGR": 0.15273275525280505,
+    "Sharpe": 0.3760959042033758,
+    "vol": 0.528606347707679,
+    "maxDD_month_end": -0.42960049717117377,
+    "alpha_ann": null,
+    "alpha_t_NW": null
+   },
+   "top1_sma200": {
+    "months": 45,
+    "CAGR": 0.15273275525280505,
+    "Sharpe": 0.3760959042033758,
+    "vol": 0.528606347707679,
+    "maxDD_month_end": -0.42960049717117377,
+    "alpha_ann": null,
+    "alpha_t_NW": null
+   },
+   "top5": {
+    "months": 45,
+    "CAGR": 0.18044632261900873,
+    "Sharpe": 0.7109171693218292,
+    "vol": 0.1959823152847504,
+    "maxDD_month_end": -0.17627091851617527,
+    "alpha_ann": null,
+    "alpha_t_NW": null
+   },
+   "top20": {
+    "months": 45,
+    "CAGR": 0.21023832251729813,
+    "Sharpe": 1.0472708809863158,
+    "vol": 0.15038019781938944,
+    "maxDD_month_end": -0.1322499798994473,
+    "alpha_ann": null,
+    "alpha_t_NW": null
+   }
+  },
+  "lgbm_m": {
+   "mean_IC": -0.016451910124160505,
+   "IC_t": -0.8286040521435631,
+   "top1": {
+    "months": 45,
+    "CAGR": -0.09402023437028018,
+    "Sharpe": -0.16107629371684581,
+    "vol": 0.4070302321027572,
+    "maxDD_month_end": -0.643377036471033,
+    "alpha_ann": null,
+    "alpha_t_NW": null
+   },
+   "top1_sma200": {
+    "months": 45,
+    "CAGR": -0.1545523948069203,
+    "Sharpe": -0.48068500173146905,
+    "vol": 0.3292845327263753,
+    "maxDD_month_end": -0.6792902990203888,
+    "alpha_ann": null,
+    "alpha_t_NW": null
+   },
+   "top5": {
+    "months": 45,
+    "CAGR": -0.1838248688920292,
+    "Sharpe": -0.6889918359024277,
+    "vol": 0.293756009801604,
+    "maxDD_month_end": -0.6712987643154116,
+    "alpha_ann": null,
+    "alpha_t_NW": null
+   },
+   "top20": {
+    "months": 45,
+    "CAGR": 0.021675265830373158,
+    "Sharpe": -0.02809200015775376,
+    "vol": 0.1957528397753766,
+    "maxDD_month_end": -0.28863764544745574,
+    "alpha_ann": null,
+    "alpha_t_NW": null
+   }
+  },
+  "mom": {
+   "mean_IC": 0.021557339079169582,
+   "IC_t": 0.7527453697852636,
+   "top1": {
+    "months": 45,
+    "CAGR": 1.3705390180045267,
+    "Sharpe": 1.4755385025337033,
+    "vol": 0.7429946903176752,
+    "maxDD_month_end": -0.46571054316660765,
+    "alpha_ann": null,
+    "alpha_t_NW": null
+   },
+   "top1_sma200": {
+    "months": 45,
+    "CAGR": 1.4635715744461146,
+    "Sharpe": 1.531711279133899,
+    "vol": 0.7434139103122192,
+    "maxDD_month_end": -0.46571054316660765,
+    "alpha_ann": null,
+    "alpha_t_NW": null
+   },
+   "top5": {
+    "months": 45,
+    "CAGR": 0.44133278877079585,
+    "Sharpe": 0.9413372427387338,
+    "vol": 0.4342441021573405,
+    "maxDD_month_end": -0.2617825666661088,
+    "alpha_ann": null,
+    "alpha_t_NW": null
+   },
+   "top20": {
+    "months": 45,
+    "CAGR": 0.27665238960957095,
+    "Sharpe": 0.834838685712503,
+    "vol": 0.2896721167197235,
+    "maxDD_month_end": -0.2536725485027639,
+    "alpha_ann": null,
+    "alpha_t_NW": null
+   }
+  }
+ }
+}

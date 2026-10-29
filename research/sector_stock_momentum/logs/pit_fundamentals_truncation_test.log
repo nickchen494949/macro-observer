@@ -1,0 +1,13 @@
+cutoff 2013-06-30
+  ml_features.fundamental_panel: 33642 rows, 0 columns differ
+  explosive_factors.quarterly_factors: 33642 rows, 0 columns differ
+  factor_screen.build_new: 20599 rows, 0 columns differ
+cutoff 2017-06-30
+  ml_features.fundamental_panel: 72090 rows, 0 columns differ
+  explosive_factors.quarterly_factors: 72090 rows, 0 columns differ
+  factor_screen.build_new: 44306 rows, 0 columns differ
+cutoff 2021-12-31
+  ml_features.fundamental_panel: 115344 rows, 0 columns differ
+  explosive_factors.quarterly_factors: 115344 rows, 0 columns differ
+  factor_screen.build_new: 70928 rows, 0 columns differ
+RESULT: PASS

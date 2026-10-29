@@ -1,0 +1,62 @@
+old,new,switch_date,new_first_price,evidence,why
+,PSKY,2025-08-08,2026-07-29,,no candidate
+,SW,2024-07-08,2008-06-17,,no candidate
+FISV,FI,2023-06-07,,same_cik,new ticker has no earlier price history
+,VTRS,2020-11-17,2007-01-03,wiki_date_added,no candidate
+SYMC,NLOK,2019-11-05,,same_cik,new ticker has no earlier price history
+HCP,PEAK,2019-11-05,,same_cik,new ticker has no earlier price history
+,BKR,2019-10-18,2007-01-03,wiki_date_added,no candidate
+,WRK,2015-07-02,2024-07-05,,no candidate
+,ALLE,2013-12-02,2013-11-18,,no candidate
+,KMI,2012-05-25,2011-02-11,,no candidate
+,PSX,2012-05-01,2012-04-12,,no candidate
+,NE,2011-01-18,2021-06-09,,no candidate
+BDK,OKE,2010-03-15,2007-01-03,,no identity evidence
+,DISCA,2010-03-01,,,no candidate
+,BRK.B,2010-02-16,2007-01-03,,no candidate
+ACS,URBN,2010-02-08,2007-01-03,,no identity evidence
+JAVA,NRG,2010-01-29,2007-01-03,,no identity evidence
+,ROP,2009-12-23,2007-01-03,,no candidate
+,LDOS,2009-12-21,2007-01-03,,no candidate
+,FSLR,2009-10-16,2007-01-03,,no candidate
+,ARG,2009-09-09,2007-01-03,,no candidate
+MTW,CFN,2009-09-01,2009-08-21,,no identity evidence
+CITGQ,RHT,2009-07-27,2007-01-03,,no identity evidence
+EQ,WDC,2009-07-01,2007-01-03,,no identity evidence
+EQ,PWR,2009-07-01,2007-01-03,,no identity evidence
+EQ,TMUS,2009-06-30,2007-04-19,,no identity evidence
+DDR|ROH,DNR,2009-04-02,2007-01-03,,ambiguous
+DDR|ROH,TWC,2009-03-30,2007-03-01,,ambiguous
+DDR,ORLY,2009-03-27,2007-01-03,,no identity evidence
+WFT,DO,2009-02-26,2022-03-30,,no identity evidence
+SOV,WELL,2009-01-30,2007-01-03,,no identity evidence
+UST,IRM,2009-01-06,2007-01-03,,no identity evidence
+MER|NCC,SCG,2009-01-02,2007-01-03,,ambiguous
+MER|NCC,FLIR,2009-01-02,2007-01-03,,ambiguous
+BRL,MFE,2008-12-23,2007-01-03,,no identity evidence
+,EQT,2008-12-19,2007-01-03,,no candidate
+AW|KATE,RSG,2008-12-05,2007-01-03,,ambiguous
+AW|KATE,DNB,2008-12-02,2020-07-01,,ambiguous
+ABI,LIFE,2008-11-24,2026-01-29,,no identity evidence
+BUD,SRCL,2008-11-19,2007-01-03,,no identity evidence
+ASH|BUD|HPC,CEPH,2008-11-17,,,ambiguous
+ASH|HPC|UIS,XRAY,2008-11-14,2007-01-03,,ambiguous
+ASH|HPC|UIS,WYNN,2008-11-14,2007-01-03,,ambiguous
+ASH|HPC|UIS,PBCT,2008-11-13,2007-01-03,,ambiguous
+TEX,SJM,2008-11-06,2007-01-03,,no identity evidence
+MTG,WEC,2008-10-31,2007-01-03,,no identity evidence
+DDS,NDAQ,2008-10-22,2007-01-03,,no identity evidence
+WWY,KDP,2008-10-07,2008-05-07,,no identity evidence
+WAMUQ|WEN,FLS,2008-10-02,2007-01-03,,ambiguous
+WAMUQ|WEN,APH,2008-09-30,2007-01-03,,ambiguous
+SAF,PXD,2008-09-24,2007-01-03,,no identity evidence
+EDS,CF,2008-08-27,2007-01-03,,no identity evidence
+IAC,IVZ,2008-08-21,2007-01-03,,no identity evidence
+CCU,DVA,2008-07-31,2007-01-03,,no identity evidence
+SSP,SNI,2008-07-01,2008-06-12,,no identity evidence
+,SWN,2008-06-06,2007-01-03,,no candidate
+BSC,ISRG,2008-06-02,2007-01-03,,no identity evidence
+CBH|CCTYQ,PM,2008-03-31,2008-03-17,,ambiguous
+CBH|CCTYQ,HCP,2008-03-31,,,ambiguous
+HET,CAM,2008-01-29,2025-10-06,,no identity evidence
+SNV|TIN,TSS,2008-01-02,2007-01-03,,ambiguous

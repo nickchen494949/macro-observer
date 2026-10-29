@@ -1,0 +1,42 @@
+old,new,switch_date,new_first_price,evidence,price_symbol
+EQR,VMRK,2026-08-18,2007-01-03,same_cik,VMRK
+SATS,ECHO,2026-06-24,2008-01-02,same_cik,ECHO
+BK,BNY,2026-05-21,2007-01-03,same_cik,BNY
+MMC,MRSH,2026-01-14,2007-01-03,same_cik,MRSH
+FI,FISV,2025-11-11,2007-01-03,same_cik,FISV
+FLT,CPAY,2024-03-25,2010-12-15,same_cik,CPAY
+PEAK,DOC,2024-03-04,2007-01-03,same_cik,DOC
+ABC,COR,2023-08-30,2007-01-03,same_cik,COR
+RE,EG,2023-07-10,2007-01-03,same_cik,EG
+PKI,RVTY,2023-05-16,2007-01-03,same_cik,RVTY
+NLOK,GEN,2022-11-08,2007-01-03,same_cik,GEN
+ANTM,ELV,2022-06-28,2007-01-03,same_cik,ELV
+FB,META,2022-06-09,2012-05-18,same_cik,META
+BLL,BALL,2022-05-10,2007-01-03,same_cik,BALL
+VIAC,PARA,2022-02-17,2021-02-12,same_cik,PARA
+COG,CTRA,2021-10-04,2007-01-03,same_cik,CTRA
+LB,BBWI,2021-08-03,2007-01-03,same_cik,BBWI
+CTL,LUMN,2020-09-18,2007-01-03,same_cik,LUMN
+UTX,RTX,2020-04-03,2007-01-03,same_cik,RTX
+JEC,J,2019-12-10,2007-01-03,same_cik,J
+BBT,TFC,2019-12-09,2007-01-03,same_cik,TFC
+CBS,VIAC,2019-12-05,2007-01-03,same_cik,PARA
+TMK,GL,2019-08-08,2007-01-03,same_cik,GL
+HRS,LHX,2019-06-01,2007-01-03,same_cik,LHX
+ADS,BFH,,,sec_current_ticker_same_cik 1101215,BFH
+FII,FHI,,,sec_current_ticker_same_cik 1056288,FHI
+PSKY,SKYD,,,sec_current_ticker_same_cik 2041610,SKYD
+HCP,PEAK,,,"manual: HCP Inc renamed Healthpeak Properties, same filer CIK 765880 (2019)",DOC
+SYMC,NLOK,,,"manual: Symantec renamed NortonLifeLock, same filer CIK 849399 (2019)",GEN
+GPS,GAP,,,"manual: Gap Inc changed ticker GPS→GAP (2024), same filer CIK 39911",GAP
+FBHS,FBIN,,,"manual: Fortune Brands Home & Security renamed Fortune Brands Innovations, same filer CIK 1519751 (2022)",FBIN
+KORS,CPRI,,,"manual: Michael Kors Holdings renamed Capri Holdings, same filer CIK 1530721 (2018)",CPRI
+DISCA,WBD,,,"manual: Discovery Inc (Series A) became Warner Bros. Discovery common, same filer CIK 1437107 (2022)",WBD
+ARNC,HWM,,,"manual: Arconic Inc (formerly Alcoa Inc) renamed Howmet Aerospace, same filer CIK 4281 (2020)",HWM
+WLTW,WTW,,,"manual: Willis Towers Watson ticker WLTW→WTW (2022), same filer CIK 1140536",WTW
+SIVB,SIVBQ,,,manual: SVB Financial Group: after the March-2023 failure the same shares traded OTC as SIVBQ,SIVBQ
+FRC,FRCB,,,manual: First Republic Bank: after the May-2023 failure the same shares traded OTC as FRCB,FRCB
+WYND,TNL,,,"manual: Wyndham Worldwide → Wyndham Destinations (2018) → Travel + Leisure Co (2021), same filer CIK 1361658",TNL
+CDAY,DAY,,,"manual: Ceridian HCM renamed Dayforce, ticker CDAY→DAY 2024-02-01, same filer CIK 1725057",DAY
+HFC,DINO,,,manual: HollyFrontier became HF Sinclair (DINO) in 2022; Tiingo carries the HollyFrontier history under DINO,DINO
+DWDP,DD,,,"manual: DowDuPont renamed DuPont de Nemours, ticker DWDP→DD 2019-06-03, same filer CIK 1666700 (only the 2017-09-01..2019-06-02 segment of the DD series is DowDuPont; segment breaks separate it)",DD

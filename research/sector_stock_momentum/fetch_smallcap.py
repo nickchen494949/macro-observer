@@ -63,7 +63,7 @@ def main():
     c = pd.read_csv(os.path.join(HERE, 'data', 'smallcap_candidates.csv'))
     logp = os.path.join(OUT, '_log.json')
     log = json.load(open(logp)) if os.path.exists(logp) else {}
-    todo = [s for s in c.ysym if s not in log]
+    todo = [s for s in c.ysym if s not in log]          # first pass
     print(f'{len(todo)} symbols left', flush=True)
     for i, s in enumerate(todo):
         if not in_window():
@@ -84,6 +84,29 @@ def main():
             json.dump(log, open(logp, 'w'))
         time.sleep(random.uniform(5, 10))
     json.dump(log, open(logp, 'w'))
+    # one retry pass over every symbol whose first attempt did not return data (external audit 2026-10-29: a logged
+    # failure must not count as "downloaded"); the exam requires this pass to be complete
+    if not log.get('_retry_done'):
+        retry = [s for s in c.ysym if not str(log.get(s, '')).startswith('ok')]
+        print(f'retry pass: {len(retry)} symbols', flush=True)
+        for s in retry:
+            if not in_window():
+                print('outside the window — pausing retry pass', flush=True)
+                json.dump(log, open(logp, 'w'))
+                sys.exit(3)
+            d, err = fetch(s)
+            if err == 'HTTP 429':
+                json.dump(log, open(logp, 'w'))
+                sys.exit(2)
+            if d and d['dates']:
+                json.dump(d, open(os.path.join(OUT, f'{s}.json'), 'w'))
+                log[s] = f"ok {d['dates'][0]}..{d['dates'][-1]} (retry)"
+            else:
+                log[s] = f"failed twice: {err or 'empty'}"
+            json.dump(log, open(logp, 'w'))
+            time.sleep(random.uniform(5, 10))
+        log['_retry_done'] = True
+        json.dump(log, open(logp, 'w'))
     print('done', flush=True)
 
 

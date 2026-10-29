@@ -49,9 +49,9 @@ def quarterly_factors(form):
     p = p.sort_values(['cik', 'period_end'])
     p['gm'] = p.gp / p.revenue.where(p.revenue > 0)
     p['rd_int'] = p.rd / p.revenue.where(p.revenue > 0)
-    prior = p[['cik', 'period_end', 'eps_diluted_approx_adj', 'revenue', 'gm']].copy()
+    prior = p[['cik', 'period_end', 'eps_diluted_approx_adj', 'revenue', 'gm', 'filed_eps_diluted', 'filed_revenue', 'filed_gp']].copy()
     prior['period_end'] += pd.Timedelta(days=365)
-    prior.columns = ['cik', 'period_end', 'eps_py', 'rev_py', 'gm_py']
+    prior.columns = ['cik', 'period_end', 'eps_py', 'rev_py', 'gm_py', 'f_eps_py', 'f_rev_py', 'f_gp_py']
     p = pd.merge_asof(p.sort_values('period_end'), prior.sort_values('period_end'), on='period_end', by='cik',
                       tolerance=pd.Timedelta(days=20), direction='nearest').sort_values(['cik', 'period_end'])
     den = (p.eps_diluted_approx_adj.abs() + p.eps_py.abs()) / 2
@@ -61,14 +61,23 @@ def quarterly_factors(form):
     g = p.groupby('cik')
     p['eps_accel'] = p.eps_gs_q - g.eps_gs_q.shift(1)
     p['rev_accel'] = p.rev_g_q - g.rev_g_q.shift(1)
-    # availability: each derived value is public when all its inputs are (current and previous quarter)
-    p['av_eps'] = pd.concat([p.filed_eps_diluted, g.filed_eps_diluted.shift(1)], axis=1).max(axis=1) + pd.Timedelta(days=1)
-    p['av_rev'] = pd.concat([p.filed_revenue, g.filed_revenue.shift(1)], axis=1).max(axis=1) + pd.Timedelta(days=1)
-    p['av_gm'] = pd.concat([p.filed_gp, p.filed_revenue], axis=1).max(axis=1) + pd.Timedelta(days=1)
-    p['av_rd'] = pd.concat([p.filed_rd, p.filed_revenue], axis=1).max(axis=1) + pd.Timedelta(days=1)
+    # availability: each derived value is public only when ALL its inputs are — this quarter, the previous quarter
+    # (accelerations) AND the year-ago quarters they are compared with (external audit 2026-10-29: year-ago inputs were
+    # not gated). Missing input date → value not available (skipna=False).
+    one = pd.Timedelta(days=1)
+    mx = lambda *c: pd.concat(list(c), axis=1).max(axis=1, skipna=False)
+    p['f_eps_q'] = mx(p.filed_eps_diluted, p.f_eps_py)
+    p['f_rev_q'] = mx(p.filed_revenue, p.f_rev_py)
+    g = p.groupby('cik')
+    p['av_eps'] = mx(p.f_eps_q, g.f_eps_q.shift(1)) + one
+    p['av_revq'] = p.f_rev_q + one
+    p['av_rev'] = mx(p.f_rev_q, g.f_rev_q.shift(1)) + one
+    p['av_gm'] = mx(p.filed_gp, p.filed_revenue, p.f_gp_py, p.f_rev_py) + one
+    p['av_rd'] = mx(p.filed_rd, p.filed_revenue) + one
     grid = pd.DataFrame([(c, t) for c in p.cik.unique() for t in form], columns=['cik', 't']).sort_values('t')
     out = grid.copy()
-    for av, cols in {'av_eps': ['eps_accel'], 'av_rev': ['rev_g_q', 'rev_accel'], 'av_gm': ['gm_chg'], 'av_rd': ['rd_int']}.items():
+    for av, cols in {'av_eps': ['eps_accel'], 'av_revq': ['rev_g_q'], 'av_rev': ['rev_accel'], 'av_gm': ['gm_chg'],
+                     'av_rd': ['rd_int']}.items():
         # availability ties → latest fiscal period wins (stable sort), see ml_features.fundamental_panel
         x = p.dropna(subset=[av])[['cik', av, 'period_end'] + cols].sort_values([av, 'period_end'], kind='mergesort')
         m = pd.merge_asof(grid, x, left_on='t', right_on=av, by='cik', direction='backward')

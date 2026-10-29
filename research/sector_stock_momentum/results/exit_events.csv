@@ -1,0 +1,8 @@
+strategy,formation,month,ticker,status,return_used
+SPEC,2015-08-31,2015-09-30,HSP,resolved_manual,0.000333444
+SPEC,2016-06-30,2016-07-31,TE,resolved_manual,-0.003256151
+IS-selected config,2011-03-31,2011-04-30,MEE,unresolved,0.0
+IS-selected config,2016-02-29,2016-03-31,GMCR,delisted_in_month,-0.0029366978464215876
+IS-selected config,2018-09-30,2018-10-31,ANDV,resolved_manual,-0.141749186
+IS-selected config,2018-12-31,2019-01-31,SCG,resolved_manual,-0.016522394
+IS-selected config,2019-08-31,2019-09-30,TSS,delisted_in_month,-0.006127695938285216

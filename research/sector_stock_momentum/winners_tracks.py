@@ -41,7 +41,7 @@ def last_session(daily, t):
 
 
 # ───────────── generic portfolio engine (weights per month, exposure, costs, daily NAV) ─────────────
-def run_weights(S, W, exposure=None, cap_cost=0.0, label=''):
+def run_weights(S, W, exposure=None, cap_cost=0.0, label='', stress=None):
     """W: {formation t: {ticker: weight}} (weights sum to 1); exposure: {t: e} (0 … 1.5); cash earns T-bill,
     borrowing (e > 1) pays T-bill + 1 %/yr. Returns monthly frame (net, gross, turnover, exposure, picks)."""
     px, res, rf = S['px'], S['res'], S['rf']
@@ -52,6 +52,8 @@ def run_weights(S, W, exposure=None, cap_cost=0.0, label=''):
         m = t + pd.offsets.MonthEnd(1)
         rfm = float(rf.get(m, 0))
         rets = {s: px.ret(t, s, res) for s in w}
+        if stress is not None:                              # unknown outcome (no quote after purchase) → stress return
+            rets = {s: ((stress, st) if st in ('unresolved', 'source_gap') else (r_, st)) for s, (r_, st) in rets.items()}
         r_stk = sum(w[s] * rets[s][0] for s in w) if w else 0.0
         target = {s: w[s] * e for s in w}
         turn = sum(abs(target.get(s, 0) - w_prev.get(s, 0)) for s in set(target) | set(w_prev))
@@ -77,10 +79,13 @@ def daily_nav(S, df):
         if names:
             w = np.array([float(x) for x in row.weights.split('|')])
             seg = daily[names].loc[t0:m].ffill()
-            rel = pd.Series((seg / seg.iloc[0]).fillna(1.0).values @ w, index=seg.index).loc[days]
+            # weights may sum to < 1 (cash inside tranches); the cash part has no intra-month price path
+            rel = pd.Series(1 + ((seg / seg.iloc[0]).fillna(1.0).values - 1) @ w, index=seg.index).loc[days]
             rel = 1 + row.exposure * (rel - 1)
+        elif row.exposure == 0 or abs(row.gross - float(S['rf'].get(m, 0))) < 1e-9 or str(row.get('cash_month', '')) == 'True':
+            rel = pd.Series(1.0, index=days)                     # genuinely in cash
         else:
-            rel = pd.Series(1.0, index=days)
+            raise ValueError(f'daily_nav: no holdings recorded for {m} — refusing to invent a smooth path')
         k = (1 + row.net) / rel.iloc[-1]
         path = level * rel * (k ** (np.arange(1, len(rel) + 1) / len(rel)))
         out.append(path)
@@ -108,8 +113,62 @@ def stats_block(S, df, name):
     return rows
 
 
+def tranche_ledger(S, W, hold=6, stress=None):
+    """Overlapping-tranche portfolio with a REAL holdings ledger (external audit 2026-10-29: the old version re-averaged
+    tranche returns every month, i.e. silently rebalanced, and its daily NAV had no holdings).
+    Month i < hold: 1/(hold−i) of the not-yet-invested cash funds a new tranche; afterwards the tranche that has been held
+    `hold` months is sold and its proceeds fund the new tranche (equal value in its top-N stocks). Positions drift with
+    their own returns; a stock that stops trading (terminal event) becomes cash inside its tranche (T-bill); idle cash
+    earns the T-bill. Costs: 10 bp × value actually sold + bought. Records start-of-month holdings for the daily NAV."""
+    px, res, rf = S['px'], S['res'], S['rf']
+    months = sorted(W)
+    idle, tranches, rows = 1.0, [], []
+    for i, t in enumerate(months):
+        m = t + pd.offsets.MonthEnd(1)
+        rfm = float(rf.get(m, 0))
+        nav0 = idle + sum(sum(tr['pos'].values()) + tr['cash'] for tr in tranches)
+        traded = 0.0
+        if i < hold:
+            fund = idle / (hold - i)
+            idle -= fund
+        else:
+            old = tranches.pop(0)
+            traded += sum(old['pos'].values())
+            fund = sum(old['pos'].values()) + old['cash']
+        names = list(W[t])
+        traded += fund
+        fund -= traded * bt.COST_PER_SIDE
+        tranches.append({'pos': {s: fund / len(names) for s in names}, 'cash': 0.0})
+        nav_start = idle + sum(sum(tr['pos'].values()) + tr['cash'] for tr in tranches)
+        agg = {}
+        for tr in tranches:
+            for s, v in tr['pos'].items():
+                agg[s] = agg.get(s, 0.0) + v
+        weights = {s: v / nav_start for s, v in agg.items()}
+        for tr in tranches:                                 # one month of returns
+            newpos = {}
+            for s, v in tr['pos'].items():
+                r_, st = px.ret(t, s, res)
+                if stress is not None and st in ('unresolved', 'source_gap'):
+                    r_ = stress
+                if st == 'ok':
+                    newpos[s] = v * (1 + r_)
+                else:
+                    tr['cash'] += v * (1 + r_)              # exited during the month → cash
+            tr['pos'] = newpos
+            tr['cash'] *= 1 + rfm
+        idle *= 1 + rfm
+        nav1 = idle + sum(sum(tr['pos'].values()) + tr['cash'] for tr in tranches)
+        net = nav1 / nav0 - 1
+        gross = nav1 / nav_start * (nav_start / nav0) - 1 + traded * bt.COST_PER_SIDE / nav0
+        rows.append({'month': m, 'net': net, 'gross': gross, 'turnover': traded / nav0, 'exposure': 1.0,
+                     'picks': '|'.join(weights), 'weights': '|'.join(f'{w:.6f}' for w in weights.values())})
+    return pd.DataFrame(rows).set_index('month')
+
+
 # ───────────── track 3 ─────────────
-def track3(S):
+def track3(S, stress=None, only=None):
+    """only: optional set of strategy names to build (holdout exam); stress: return for unknown-outcome exits."""
     daily, form, eng = S['daily'], S['form'], S['eng']
     spy = daily['SPY'].dropna()
     sma = spy.rolling(200).mean()
@@ -139,7 +198,7 @@ def track3(S):
                 else:
                     W[t] = {s: 1 / len(top) for s in top}
             base = f'T3 mom top-{N} {wt}'
-            out[base] = run_weights(S, W)
+            out[base] = run_weights(S, W, stress=stress)
             # daily returns of the base portfolio (for the vol target, known at t)
             nav = daily_nav(S, out[base])
             dr = nav.pct_change()
@@ -158,7 +217,8 @@ def track3(S):
                     if a and below.get(t):
                         x = 0.0
                     e[t] = x
-                out[base + ' ' + k] = run_weights(S, W, e)
+                if only is None or base + ' ' + k in only:
+                    out[base + ' ' + k] = run_weights(S, W, e, stress=stress)
             print('  track 3:', base, 'done', flush=True)
     return out
 
@@ -198,36 +258,7 @@ def track2(S):
                 top = g.sort_values([sc, 'ticker'], ascending=[False, True]).ticker.head(N).tolist()
                 W[t] = {s: 1 / len(top) for s in top}
             out[f'T2 {sc} top-{N} hold1m'] = run_weights(S, W)
-            # 6-month tranches: each month 1/6 of capital buys the current top-N and holds it 6 months
-            months = sorted(W)
-            rows = []
-            for i, t in enumerate(months):
-                m = t + pd.offsets.MonthEnd(1)
-                parts, names = [], []
-                for k in range(6):
-                    if i - k < 0:
-                        continue
-                    t0 = months[i - k]
-                    rr = []
-                    for s in W[t0]:
-                        g_ = 1.0
-                        alive = True
-                        for j in range(k):                      # was the position already closed?
-                            r_, st = px.ret(months[i - k + j], s, res)
-                            if st != 'ok':
-                                alive = False
-                                break
-                        if alive:
-                            r_, st = px.ret(t, s, res)
-                            rr.append(r_)
-                        else:
-                            rr.append(float(rf.get(m, 0)))
-                    parts.append(np.mean(rr))
-                    names += list(W[t0])
-                gross = float(np.mean(parts))
-                rows.append({'month': m, 'gross': gross, 'net': gross - 2 * bt.COST_PER_SIDE / 6, 'turnover': 2 / 6,
-                             'exposure': 1.0, 'picks': '', 'weights': ''})
-            out[f'T2 {sc} top-{N} hold6m'] = pd.DataFrame(rows).set_index('month')
+            out[f'T2 {sc} top-{N} hold6m'] = tranche_ledger(S, W, 6)
     return out
 
 
@@ -268,8 +299,25 @@ def main():
             fam[f] = fam.get(f, 0) + 1
         if len(cand) == 3:
             break
+    # the FROZEN candidates (git f2a1e11) are not overwritten by a re-run; a re-run writes candidates_rerun.json
+    frozen = os.path.join(OUT, 'candidates.json')
     json.dump({'candidates': cand, 'benchmark': 'BENCH pure momentum top-1', 'rule': 'WINNERS_SPEC §4'},
-              open(os.path.join(OUT, 'candidates.json'), 'w'), indent=1, ensure_ascii=False)
+              open(os.path.join(OUT, 'candidates_rerun.json' if os.path.exists(frozen) else 'candidates.json'), 'w'),
+              indent=1, ensure_ascii=False)
+    # supplementary list (WINNERS_SPEC §5c): same rule on the COMMON window 2013-2019 (labelled post-hoc)
+    d2 = T[(T.period == '2013-2019') & ~T.strategy.str.startswith('BENCH') & (T.maxDD_month_end > -0.50)]
+    d2 = d2.sort_values('CAGR', ascending=False)
+    sup, fam = [], {}
+    for r in d2.itertuples():
+        f = r.strategy.split()[0]
+        if fam.get(f, 0) < 2:
+            sup.append(r.strategy)
+            fam[f] = fam.get(f, 0) + 1
+        if len(sup) == 3:
+            break
+    json.dump({'supplementary_candidates': sup, 'rule': 'WINNERS_SPEC §5c (common window 2013-2019; post-hoc)'},
+              open(os.path.join(OUT, 'candidates_supplementary.json'), 'w'), indent=1, ensure_ascii=False)
+    print('SUPPLEMENTARY CANDIDATES (§5c, post-hoc):', sup)
     pd.set_option('display.width', 250)
     v = T.copy()
     v['v'] = (v.CAGR * 100).round(1).astype(str) + '% / ' + v.Sharpe.round(2).astype(str) + ' / ' + \

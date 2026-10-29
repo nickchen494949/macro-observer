@@ -30,18 +30,24 @@ os.makedirs(RES, exist_ok=True)
 def growth_panel(form, P):
     p = pd.read_parquet(os.path.join(HERE, 'data', 'fundamentals', 'eps_quarterly_pit.parquet'),
                         columns=['cik', 'period_end', 'eps_diluted_approx_ttm_adj', 'eps_diluted_approx_ttm_available_date',
-                                 'net_income_ttm', 'revenue_ttm'])
+                                 'net_income_ttm', 'revenue_ttm', 'net_income_ttm_available_date', 'revenue_ttm_available_date'])
     p = p.dropna(subset=['eps_diluted_approx_ttm_adj', 'eps_diluted_approx_ttm_available_date'])
     p = p.rename(columns={'eps_diluted_approx_ttm_adj': 'ttm', 'eps_diluted_approx_ttm_available_date': 'avail'})
     p['margin'] = p.net_income_ttm / p.revenue_ttm.where(p.revenue_ttm > 0)
+    # margin is public only when net income AND revenue TTM are (external audit 2026-10-29: AMD 2017)
+    p['av_margin'] = pd.concat([p.net_income_ttm_available_date, p.revenue_ttm_available_date], axis=1).max(axis=1, skipna=False)
     p['cik'] = p.cik.astype('int64')
     p = p.sort_values(['cik', 'period_end'])
-    prior = p[['cik', 'period_end', 'ttm', 'margin']].copy()
+    prior = p[['cik', 'period_end', 'ttm', 'margin', 'avail', 'av_margin']].copy()
     prior['period_end'] = prior.period_end + pd.Timedelta(days=365)
-    prior = prior.rename(columns={'ttm': 'ttm_prior', 'margin': 'margin_prior'}).sort_values('period_end')
+    prior = prior.rename(columns={'ttm': 'ttm_prior', 'margin': 'margin_prior', 'avail': 'avail_py',
+                                  'av_margin': 'av_margin_py'}).sort_values('period_end')
     p = pd.merge_asof(p.sort_values('period_end'), prior, on='period_end', by='cik', tolerance=pd.Timedelta(days=20),
                       direction='nearest')
     p = p.dropna(subset=['ttm_prior'])
+    # every value in this panel is used only once ALL inputs incl. the year-ago EPS / margin are public
+    p['avail'] = pd.concat([p.avail, p.avail_py], axis=1).max(axis=1, skipna=False)
+    p['margin_prior'] = p.margin_prior.where(p.av_margin_py <= p.avail)        # growth_margin5 needs it public too
     p['growth'] = np.where(p.ttm_prior > 0, p.ttm / p.ttm_prior - 1, np.nan)
     p['dEPS'] = p.ttm - p.ttm_prior
     # protections against a tiny base: (1) base-period net margin >= 5 %, (2) symmetric growth (bounded −200…+200 %)

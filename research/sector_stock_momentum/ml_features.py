@@ -74,15 +74,26 @@ def price_features(daily, P, form):
 
 
 def fundamental_panel(form):
+    """Point-in-time fundamental features. EVERY feature has its own availability date = the latest first-public date
+    of ALL its inputs (incl. the year-ago values it is compared with), and its own staleness (its fiscal quarter must
+    have ended <= 200 days before t). (External audit 2026-10-29: margin used net-income / revenue TTM gated by the EPS
+    date — AMD 2017-06-30 used a margin first public on 2018-02-28.)"""
     p = pd.read_parquet(os.path.join(HERE, 'data', 'fundamentals', 'eps_quarterly_pit.parquet'))
     p = p[p.cik.notna()].copy()
     p['cik'] = p.cik.astype('int64')
     p = p.sort_values(['cik', 'period_end'])
+    one = pd.Timedelta(days=1)
+    p['av_eps'] = p.eps_diluted_approx_ttm_available_date
+    p['av_ni'] = p.net_income_ttm_available_date
+    p['av_rev'] = p.revenue_ttm_available_date
+    p['av_q'] = p.available_date
     p['margin'] = p.net_income_ttm / p.revenue_ttm.where(p.revenue_ttm > 0)
-    # year-ago values (same fiscal quarter)
-    prior = p[['cik', 'period_end', 'eps_diluted_approx_ttm_adj', 'margin', 'revenue_ttm', 'eps_diluted_approx_adj']].copy()
+    # year-ago values (same fiscal quarter) WITH their availability dates
+    pc = ['eps_diluted_approx_ttm_adj', 'margin', 'revenue_ttm', 'eps_diluted_approx_adj', 'av_eps', 'av_ni', 'av_rev', 'av_q']
+    prior = p[['cik', 'period_end'] + pc].copy()
     prior['period_end'] = prior.period_end + pd.Timedelta(days=365)
-    prior.columns = ['cik', 'period_end', 'ttm_prior', 'margin_prior', 'rev_prior', 'q_prior']
+    prior.columns = ['cik', 'period_end', 'ttm_prior', 'margin_prior', 'rev_prior', 'q_prior', 'av_eps_py', 'av_ni_py',
+                     'av_rev_py', 'av_q_py']
     p = pd.merge_asof(p.sort_values('period_end'), prior.sort_values('period_end'), on='period_end', by='cik',
                       tolerance=pd.Timedelta(days=20), direction='nearest').sort_values(['cik', 'period_end'])
     t_, t0 = p.eps_diluted_approx_ttm_adj, p.ttm_prior
@@ -97,40 +108,69 @@ def fundamental_panel(form):
     p['dq'] = p.eps_diluted_approx_adj - p.q_prior
     p['dq_std'] = p.groupby('cik').dq.transform(lambda s: s.shift(1).rolling(8, min_periods=4).std())
     p['sue'] = p.dq / p.dq_std.where(p.dq_std > 0)
-    # availability: TTM-based features need all 4 quarters public; quarterly ones need this quarter's EPS
-    p['avail_ttm'] = p.eps_diluted_approx_ttm_available_date
-    p['avail_rev'] = p.revenue_ttm_available_date if 'revenue_ttm_available_date' in p else p.avail_ttm
-    p['avail_q'] = p.available_date
-    # shares: (1) gated by THEIR OWN first-public date (filed_diluted_shares), not the EPS row's date (external audit
-    # 2026-10-28: e.g. WDC 2020-09 quarter, shares first filed 2021-11-04); (2) put on the SAME split basis as the
-    # adjusted prices: × every split after the shares' filing date (NVDA 2020-12: 630m × 40 → size proxy 329 bn, not 8 bn)
+    mx = lambda *c: pd.concat([p[x] for x in c], axis=1).max(axis=1, skipna=False)
+    p['av_dq'] = mx('av_q', 'av_q_py')
+    # the SUE denominator uses the previous 8 quarterly differences: public once the latest of them is public
+    p['_dqns'] = p.av_dq.astype('int64').where(p.av_dq.notna()).astype(float)
+    p['_dqns'] = p._dqns.where(p.dq.notna())
+    p['av_dqstd'] = pd.to_datetime(p.groupby('cik')._dqns.transform(lambda s: s.shift(1).rolling(8, min_periods=4).max()))
     from fundamentals_pit import split_factor_after
-    p['avail_sh'] = p.filed_diluted_shares + pd.Timedelta(days=1)
+    p['av_sh'] = p.filed_diluted_shares + one
     fac = [split_factor_after(t, f) if isinstance(t, str) and pd.notna(f) else np.nan
            for t, f in zip(p.ticker, p.filed_diluted_shares)]
+    # shares: own filing date; same split basis as adjusted prices (external audit 2026-10-28: NVDA, WDC)
     p['diluted_shares_adj'] = p.diluted_shares * np.array(fac, dtype=float)
-    p['sh_period_end'] = p.period_end
+    avail = {
+        'eps_diluted_approx_ttm_adj': mx('av_eps'),
+        'eps_g': mx('av_eps', 'av_eps_py'), 'eps_g_sym': mx('av_eps', 'av_eps_py'), 'deps': mx('av_eps', 'av_eps_py'),
+        'eps_g_m5': mx('av_eps', 'av_eps_py', 'av_ni_py', 'av_rev_py'),
+        'margin': mx('av_ni', 'av_rev'), 'margin_chg': mx('av_ni', 'av_rev', 'av_ni_py', 'av_rev_py'),
+        'rev_g': mx('av_rev', 'av_rev_py'),
+        'days_since_filing': mx('av_q'),
+        'diluted_shares_adj': mx('av_sh'),
+    }
     grid = pd.DataFrame([(c, t) for c in p.cik.unique() for t in form], columns=['cik', 't']).sort_values('t')
     out = grid.copy()
-    blocks = {'avail_ttm': ['eps_diluted_approx_ttm_adj', 'eps_g', 'eps_g_m5', 'eps_g_sym', 'deps', 'margin', 'margin_chg'],
-              'avail_rev': ['rev_g'], 'avail_q': ['sue', 'period_end'], 'avail_sh': ['diluted_shares_adj', 'sh_period_end']}
-    for av, cols in blocks.items():
-        # ties in the availability date (several fiscal quarters first public on the same day, e.g. a 10-K/A or a
-        # catch-up filing): the LATEST fiscal period must win → stable sort by (availability, period_end)
-        x = p.dropna(subset=[av]).sort_values([av, 'period_end'], kind='mergesort')[['cik', av] + cols]
-        x = x.loc[:, ~x.columns.duplicated()]
-        m = pd.merge_asof(grid, x, left_on='t', right_on=av, by='cik', direction='backward')
-        if 'period_end' in cols:
-            m['days_since_filing'] = (m.t - m[av]).dt.days
-            m['q_age'] = (m.t - m.period_end).dt.days
-        m = m.drop(columns=[av])
-        out = out.merge(m, on=['cik', 't'], how='left')
-    # stale fundamentals (fiscal quarter ended > 200 days before t) are not used
-    stale = out.q_age > 200
-    for c in [c for c in out.columns if c not in ('cik', 't', 'q_age', 'period_end', 'diluted_shares_adj', 'sh_period_end')]:
-        out.loc[stale, c] = np.nan
-    out.loc[(out.t - out.sh_period_end).dt.days > 200, 'diluted_shares_adj'] = np.nan     # shares: own staleness
-    return out.drop(columns=['period_end', 'sh_period_end'])
+    for f, av in avail.items():
+        x = pd.DataFrame({'cik': p.cik.values, '_av': av.values, 'period_end': p.period_end.values,
+                          f: (p[f].values if f != 'days_since_filing' else av.values)}).dropna(subset=['_av'])
+        if f != 'days_since_filing':
+            x = x.dropna(subset=[f])
+        # ties in availability (several quarters first public the same day): the LATEST fiscal period wins
+        x = x.sort_values(['_av', 'period_end'], kind='mergesort')
+        m = pd.merge_asof(grid, x, left_on='t', right_on='_av', by='cik', direction='backward')
+        v = m[f] if f != 'days_since_filing' else (m.t - m['_av']).dt.days
+        v = v.where((m.t - m.period_end).dt.days <= 200)              # each feature's own staleness
+        out[f] = v.values
+    out['sue'] = sue_asof(p, grid).values
+    return out
+
+
+def sue_asof(p, grid):
+    """SUE computed AS OF each formation date from the quarters known then: latest known quarterly EPS change vs the
+    same quarter a year earlier (dq, public when both quarters are), divided by the std of the previous <= 8 KNOWN dq
+    values (at least 4). Truncation-invariant by construction (a quarter filed late cannot enter an earlier window)."""
+    res = {}
+    t_arr = np.array(sorted(grid.t.unique()), dtype='datetime64[ns]')
+    for c, g in p[['cik', 'period_end', 'dq', 'av_dq']].dropna().groupby('cik'):
+        g = g.sort_values('period_end')
+        pe, dq, av = g.period_end.values, g.dq.values, g.av_dq.values
+        for t in t_arr:
+            k = av <= t
+            if k.sum() < 5:
+                continue
+            pk, dk = pe[k], dq[k]
+            i = len(pk) - 1                                   # latest known fiscal quarter
+            if (t - pk[i]).astype('timedelta64[D]').astype(int) > 200:
+                continue
+            prev = dk[max(0, i - 8):i]
+            if len(prev) < 4:
+                continue
+            sd = np.std(prev, ddof=1)
+            if sd > 0:
+                res[(c, t)] = dk[i] / sd
+    idx = list(zip(grid.cik.values, grid.t.values.astype('datetime64[ns]')))
+    return pd.Series([res.get(k, np.nan) for k in idx], index=grid.index)
 
 
 def build():
