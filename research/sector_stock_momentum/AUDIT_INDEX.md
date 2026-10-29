@@ -20,6 +20,7 @@
 | 其他组合 | `sma200_overlay.py`、`composite3.py`、`mom30_roe.py`、`tech_only.py` | `results/ml/panel.parquet` | `results/ml/*` |
 | 爆发股因子 | `explosive_factors.py` → `explosive_v2.py` → `improve_v3.py`；`earnings_factor.py`；`risk_report.py` | ML 面板 + 基本面 | `results/explosive/*` |
 | 因子体检 | `factor_screen.py build` → `factor_screen.py screen`（规则 `FACTOR_SCREEN_SPEC.md`） | ML 面板 + 爆发股面板 + SEC pit_long | `results/factor_screen/` |
+| 因子组合体检 | `factor_combo.py`（规则 `FACTOR_COMBO_SPEC.md`） | `results/factor_screen/panel_screen.parquet` | `results/factor_combo/` |
 | 纳斯达克 100 扩池 | `build_ndx_membership.py`、`fetch_ndx_prices.py`、`fetch_ndx_meta.py`、`ndx_fundamentals.py`、`ndx_universe.py`、`ndx_expand.py` | `data/nasdaq100_src/`（来源见 SOURCE.txt） | `data/ndx_*.csv`、`data/raw_ndx/`、`data/fundamentals_ndx/`、`results/ndx/` |
 | 文件清单 | `build_manifest.py` | 整个文件夹 | `MANIFEST.csv` |
 
@@ -42,6 +43,7 @@
 | `FROZEN_SPEC.md` | 主策略规则（提交 `fbc4c51`，在最终结果之前） |
 | `ML_SPEC.md` | 机器学习规则（提交 `0235fc3`，在训练之前）；开发期选择在 `eb9380a` 冻结后才跑考试期 |
 | `FACTOR_SCREEN_SPEC.md` | 因子体检规则（提交 `3916ef0`，在跑体检之前） |
+| `FACTOR_COMBO_SPEC.md` | 因子组合体检规则（提交 `78c1211`，在跑之前） |
 | `audit/WORKFLOW_AUDIT.md` | 自查记录 |
 | `audit/INTERNAL_AUDIT_2026-10-28.md` | 第一轮审计（内部 + 外部）的发现与修复 |
 | `audit/EXTERNAL_AUDIT_2_2026-10-29.md` | 第二轮外部审计（针对 `7f24e9b` 六因子策略）的发现、修复与前后对比 |
@@ -61,7 +63,9 @@
 | `7f24e9b` | 组合 / ROE / 科技股 / 爆发股因子研究（第二轮外部审计的对象） |
 | `5353283` | 第二轮审计修复、财报日期因子、纳斯达克 100 扩池、审计索引与清单 |
 | `3916ef0` | 因子体检规则与代码冻结（运行之前） |
-| 本次提交 | 因子体检结果 |
+| `8066f18` | 因子体检结果 |
+| `78c1211` | 因子组合体检规则与代码冻结（运行之前） |
+| 本次提交 | 因子组合体检结果（含一处保存年度明细的 bug 修复：年份标签重复，判定结果不受影响，修复前后数值相同） |
 
 ## 5. README 各节 → 结果文件
 
@@ -73,6 +77,7 @@
 | 10 SMA200 + 机器学习 | `results/ml/selection.json`、`holdout.json`、`sma200_overlay_summary.csv` |
 | 11 组合与爆发股因子 | `results/ml/composite3_summary.csv`、`mom30roe_summary.csv`、`tech_only_summary.csv`、`results/explosive/lift_*.csv`、`v2_selected_factors.json`、`v2_portfolios.csv`、`v3_summary.csv`、`risk_report.csv`、`risk_calendar_years.csv`、`ear_lift.csv`、`ear_portfolios.csv` |
 | 12 纳斯达克 100 扩池 | `results/ndx/summary.csv`、`coverage_ndx_only.csv`、`gap_ndx.csv` |
+| 14 因子组合体检 | `results/factor_combo/combo_table.csv`、`yearly_ic.csv`、`pair_search_top.csv`、`monthly_*.csv` |
 | 13 因子体检 | `results/factor_screen/screen_table.csv`、`yearly_ic.csv`、`perm_importance_by_year.csv`、`lgbm_base_ic_by_year.csv` |
 
 ## 6. 已知限制（审计时请留意）
