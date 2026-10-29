@@ -17,3 +17,4 @@ data/wiki_bulk/
 data/smallcap/*.parquet
 data/raw_smallcap/
 data/_smallcap_scratch/
+data/raw_open/
