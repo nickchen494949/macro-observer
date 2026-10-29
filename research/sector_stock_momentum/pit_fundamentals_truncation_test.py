@@ -9,7 +9,7 @@ For each cutoff C: every fundamental value that was NOT public on C is removed f
   - pit_long (gross profit, R&D, balance-sheet, cash-flow items): rows filed after C are dropped
 then the production feature builders run on the truncated inputs. Every feature at every formation month t <= C must
 equal the value built from the full data. Builders tested: ml_features.fundamental_panel,
-explosive_factors.quarterly_factors, factor_screen.build_new.
+explosive_factors.quarterly_factors, factor_screen.build_new, ml2_features.history_features (ML2 group C).
 Output: PASS / FAIL with the first differing rows; exit code 1 on FAIL.
 """
 import glob, os, shutil, sys
@@ -58,8 +58,11 @@ def truncated_root(C):
 
 
 def compare(a, b, keys, label):
-    a = a.set_index(keys).sort_index()
-    b = b.set_index(keys).reindex(a.index)
+    # symmetric: compare on the UNION of rows (a row present in only one of the two is a difference)
+    a = a.set_index(keys)
+    b = b.set_index(keys)
+    idx = a.index.union(b.index)
+    a, b = a.reindex(idx).sort_index(), b.reindex(idx).sort_index()
     bad = []
     for c in a.columns:
         if c not in b.columns:
@@ -93,6 +96,8 @@ def main():
         full_Q = ef.quarterly_factors(form)
         g = X[X.t.isin(form)].dropna(subset=['cik'])
         full_N = fs.build_new(g)
+        import ml2_features as m2
+        full_H = m2.history_features(form)
         root = truncated_root(C)
         keep = (mlf.HERE, ef.HERE, fs.HERE)
         try:
@@ -100,12 +105,14 @@ def main():
             tr_F = mlf.fundamental_panel(form)
             tr_Q = ef.quarterly_factors(form)
             tr_N = fs.build_new(g)
+            tr_H = m2.history_features(form, root=root)
         finally:
             mlf.HERE, ef.HERE, fs.HERE = keep
             shutil.rmtree(root, ignore_errors=True)
         ok &= compare(tr_F, full_F, ['t', 'cik'], 'ml_features.fundamental_panel')
         ok &= compare(tr_Q, full_Q, ['t', 'cik'], 'explosive_factors.quarterly_factors')
         ok &= compare(tr_N, full_N, ['t', 'cik'], 'factor_screen.build_new')
+        ok &= compare(tr_H, full_H, ['t', 'cik'], 'ml2_features.history_features')
     print('RESULT:', 'PASS' if ok else 'FAIL', flush=True)
     sys.exit(0 if ok else 1)
 

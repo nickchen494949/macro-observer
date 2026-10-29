@@ -67,6 +67,25 @@ def load(form):
     A['SPY'] = spy
     DV = DV.reindex(index=A.index)
     CL = CL.reindex(index=A.index)
+    # WINNERS_SPEC §5e: evidence-based corrections only (data/smallcap/price_corrections.csv); flags without evidence
+    # are kept. STRICT=1 (diagnostic run) additionally removes F1 bad-print candidates and F3 stale runs.
+    C = pd.read_csv(os.path.join(D, 'price_corrections.csv'), parse_dates=['start', 'end'])
+    for r in C.itertuples():
+        if r.ticker not in A.columns:
+            continue
+        if r.action == 'set_missing_days':
+            A.loc[(A.index >= r.start) & (A.index <= r.end) & (A[r.ticker] <= 0), r.ticker] = np.nan
+        elif r.action == 'rescale_before':
+            A.loc[A.index < r.end, r.ticker] = A.loc[A.index < r.end, r.ticker] * r.factor
+    if os.environ.get('STRICT') == '1':
+        qf = pd.read_csv(os.path.join(D, 'quality_flags.csv'), parse_dates=['date', 'end'])
+        for r in qf[qf.flag == 'F3_stale_run'].itertuples():
+            if r.ticker in A.columns:
+                A.loc[(A.index > r.date) & (A.index <= r.end), r.ticker] = np.nan
+        for r in qf[qf.flag == 'F1_spike_reversal'].itertuples():
+            if r.ticker in A.columns:
+                A.loc[(A.index >= r.date) & (A.index < r.end), r.ticker] = np.nan
+    A = A.where(A > 0)                                          # any remaining non-positive value is not a price
     seg = segments(A)
     for s in A.columns:                                         # S&P store names keep their audited segment ids
         if src.get(s) == 'sp_store' and s in seg_sp.columns:
@@ -266,7 +285,9 @@ class _Elig:
         return pd.DataFrame({'mom': self.mom.loc[t, v]}, index=pd.Index(v, name='tk')), None
 
 
-def run():
+def run(strict=False):
+    os.environ['STRICT'] = '1' if strict else '0'
+    tag = '_STRICT' if strict else ''
     lp = os.path.join(HERE, 'data', 'raw_smallcap', '_log.json')
     cand = pd.read_csv(os.path.join(HERE, 'data', 'smallcap_candidates.csv'))
     log = json.load(open(lp)) if os.path.exists(lp) else {}
@@ -275,6 +296,10 @@ def run():
         raise SystemExit(f'download not complete (missing {len(missing)}, retry pass done: {bool(log.get("_retry_done"))}) '
                          '— the exam runs once, on the complete data (WINNERS_SPEC §5c.4)')
     fails = [(s, log[s]) for s in cand.ysym if not str(log[s]).startswith('ok')]
+    import smallcap_universe, smallcap_data_audit
+    if not strict:
+        smallcap_universe.build()                      # price store from the COMPLETE download
+        smallcap_data_audit.main()                     # WINNERS_SPEC §5e flags + evidence-based corrections
     pd.DataFrame(fails, columns=['symbol', 'status']).to_csv(os.path.join(OUT, 'download_failures.csv'), index=False)
     import winners_tracks as wt
     frozen = json.load(open(os.path.join(HERE, 'results', 'winners', 'candidates.json')))['candidates']
@@ -315,16 +340,35 @@ def run():
             if name not in names and not name.startswith('REF'):
                 continue
             safe = ''.join(c if c.isalnum() else '_' for c in f'{name} {stress_lab}')
-            df.to_csv(os.path.join(OUT, f'monthly_{safe}.csv'))
+            df.to_csv(os.path.join(OUT, f'monthly_{safe}{tag}.csv'))
             for rec in wt.stats_block(S, df, name):
                 rec['scenario'] = stress_lab
                 rec['list'] = ('benchmark' if name.startswith('BENCH') else 'frozen' if name in frozen
                                else 'supplementary (post-hoc)' if name in sup else 'reference')
                 rows.append(rec)
     T = pd.DataFrame(rows)
-    T.to_csv(os.path.join(OUT, 'summary.csv'), index=False)
+    T.to_csv(os.path.join(OUT, f'summary{tag}.csv'), index=False)
+    # pick-level data check: did a flagged price (F1/F2/F3) fall inside a held stock's 12-month window or holding month?
+    qf = pd.read_csv(os.path.join(D, 'quality_flags.csv'), parse_dates=['date'])
+    qf = qf[qf.flag != 'F0_nonpositive_price']
+    chk = []
+    for name, df in res.items():
+        if 'picks' not in df or name.startswith('REF'):
+            continue
+        for m, row in df.iterrows():
+            for s_ in str(row.picks).split('|') if isinstance(row.picks, str) and row.picks else []:
+                t0 = m - pd.offsets.MonthEnd(13)
+                hit = qf[(qf.ticker == s_) & (qf.date > t0) & (qf.date <= m)]
+                if len(hit):
+                    chk.append({'strategy': name, 'month': m.date(), 'ticker': s_, 'flags': '|'.join(hit.flag + ' ' + hit.date.dt.strftime('%Y-%m-%d'))})
+    pd.DataFrame(chk).to_csv(os.path.join(OUT, f'picks_with_flagged_prices{tag}.csv'), index=False)
+    print('held positions with a flagged price in their window:', len(chk))
     v = T.copy()
     v['v'] = (v.CAGR * 100).round(1).astype(str) + '% / ' + v.Sharpe.round(2).astype(str) + ' / ' + (v.maxDD_daily * 100).round(0).astype(str) + '%'
     pd.set_option('display.width', 250)
     print(v.pivot_table(index=['scenario', 'list', 'strategy'], columns='period', values='v', aggfunc='first').to_string())
     print('download failures:', len(fails))
+
+
+if __name__ == '__main__':
+    {'prep': prep, 'run': run, 'run_strict': lambda: run(strict=True)}[sys.argv[1]]()

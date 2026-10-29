@@ -1,0 +1,100 @@
+small/mid fundamentals: CIKs requested 3790 | with SEC data 3778
+feature coverage in the holdout universe: {'mom_12_1': 1.0, 'mom_6_1': 1.0, 'mom_3_1': 1.0, 'rev_1m': 1.0, 'mom_12_1_secrel': 0.0, 'sector_mom': 0.0, 'mom_accel': 1.0, 'smooth': 1.0, 'dist_sma200': 0.994, 'dist_sma50': 0.994, 'dist_52wh': 0.988, 'vol_3m': 1.0, 'vol_12m': 0.988, 'beta_12m': 0.988, 'maxret_1m': 1.0, 'ear': 0.0, 'ear_sum4': 0.0, 'eps_g': 0.0, 'eps_g_m5': 0.0, 'eps_g_sym': 0.0, 'deps_p': 0.0, 'sue': 0.0, 'eps_accel': 0.0, 'rev_g': 0.0, 'rev_g_q': 0.0, 'rev_accel': 0.0, 'margin': 0.0, 'margin_chg': 0.0, 'gm_chg': 0.0, 'rd_int': 0.0, 'ep': 0.0, 'log_mcap': 0.0, 'sp': 0.0, 'bm': 0.0, 'div_yield': 0.0, 'inv_turn': 0.0, 'inv_turn_chg': 0.0, 'inv_minus_sales_g': 0.0, 'asset_turn': 0.0, 'gp_a': 0.0, 'roe': 0.0, 'accruals': 0.0, 'leverage': 0.0, 'net_issuance': 0.0, 'buyback_yield': 0.0, 'cfo_yield': 0.0, 'asset_g': 0.0}
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+  track 3: T3 mom top-5 ew done
+  track 3: T3 mom top-5 ivol done
+  track 3: T3 mom top-10 ew done
+  track 3: T3 mom top-10 ivol done
+  track 3: T3 mom top-20 ew done
+  track 3: T3 mom top-20 ivol done
+  track 3: T3 mom top-5 ew done
+  track 3: T3 mom top-5 ivol done
+  track 3: T3 mom top-10 ew done
+  track 3: T3 mom top-10 ivol done
+  track 3: T3 mom top-20 ew done
+  track 3: T3 mom top-20 ivol done
+  track 3: T3 mom top-5 ew done
+  track 3: T3 mom top-5 ivol done
+  track 3: T3 mom top-10 ew done
+  track 3: T3 mom top-10 ivol done
+  track 3: T3 mom top-20 ew done
+  track 3: T3 mom top-20 ivol done
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/pandas/core/arraylike.py:399: RuntimeWarning: divide by zero encountered in log1p
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+held positions with a flagged price in their window: 1330
+period                                                                                   PRIMARY 2010-01..2018-02 PRIMARY from 2013 (T2 starts 2013) SECONDARY 2018-03..2026-09 (survivorship-biased)
+scenario                     list                     strategy                                                                                                                                       
+base (unknown outcome = 0 %) benchmark                BENCH pure momentum top-1          -40.5% / -0.47 / -100.0%            -33.6% / -0.23 / -99.0%                             1.0% / 0.44 / -99.0%
+                             frozen                   T2 S1 top-5 hold1m                  -10.5% / -0.07 / -80.0%            -10.5% / -0.07 / -80.0%                          -20.3% / -0.14 / -98.0%
+                                                      T2 S1 top-5 hold6m                    -1.5% / 0.08 / -62.0%              -1.5% / 0.08 / -62.0%                          -14.5% / -0.18 / -90.0%
+                                                      T3 mom top-5 ew +crash               -9.1% / -0.03 / -87.0%            -12.0% / -0.13 / -83.0%                            10.7% / 0.41 / -65.0%
+                             reference                REF SPY                               13.8% / 1.12 / -19.0%               15.5% / 1.5 / -13.0%                            14.5% / 0.75 / -34.0%
+                                                      REF equal-weight holdout universe     12.3% / 0.79 / -29.0%              12.3% / 0.93 / -28.0%                             9.9% / 0.41 / -43.0%
+                             supplementary (post-hoc) T3 mom top-5 ew                      -9.1% / -0.02 / -87.0%            -12.0% / -0.13 / -83.0%                            10.7% / 0.41 / -65.0%
+stress −100 %                benchmark                BENCH pure momentum top-1          -40.5% / -0.47 / -100.0%            -33.6% / -0.23 / -99.0%                         -100.0% / 0.32 / -100.0%
+                             frozen                   T2 S1 top-5 hold1m                  -14.3% / -0.17 / -80.0%            -14.3% / -0.17 / -80.0%                          -20.3% / -0.14 / -98.0%
+                                                      T2 S1 top-5 hold6m                    -2.6% / 0.04 / -63.0%              -2.6% / 0.04 / -63.0%                          -16.6% / -0.21 / -90.0%
+                                                      T3 mom top-5 ew +crash               -16.1% / -0.2 / -92.0%            -22.6% / -0.41 / -89.0%                             0.9% / 0.28 / -65.0%
+                             supplementary (post-hoc) T3 mom top-5 ew                      -16.1% / -0.2 / -92.0%            -22.6% / -0.41 / -89.0%                             0.9% / 0.28 / -65.0%
+stress −30 %                 benchmark                BENCH pure momentum top-1          -40.5% / -0.47 / -100.0%            -33.6% / -0.23 / -99.0%                            -3.1% / 0.41 / -99.0%
+                             frozen                   T2 S1 top-5 hold1m                   -11.6% / -0.1 / -80.0%             -11.6% / -0.1 / -80.0%                          -20.3% / -0.14 / -98.0%
+                                                      T2 S1 top-5 hold6m                    -1.8% / 0.07 / -63.0%              -1.8% / 0.07 / -63.0%                          -15.1% / -0.19 / -90.0%
+                                                      T3 mom top-5 ew +crash              -11.1% / -0.08 / -89.0%            -15.1% / -0.22 / -85.0%                             8.4% / 0.37 / -65.0%
+                             supplementary (post-hoc) T3 mom top-5 ew                     -11.1% / -0.08 / -89.0%            -15.1% / -0.22 / -85.0%                             8.4% / 0.37 / -65.0%
+download failures: 0
+EXIT 0

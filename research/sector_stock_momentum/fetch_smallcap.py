@@ -22,9 +22,19 @@ os.makedirs(OUT, exist_ok=True)
 PERIOD1 = 1167609600          # 2007-01-01
 
 
-def in_window():
+def safe_hours():
     hm = int(datetime.now().strftime('%H%M'))
     return 715 <= hm <= 1545
+
+
+def in_window():
+    # user instruction 2026-10-29 17:36: keep downloading outside the safe window (SMALLCAP_NO_WINDOW=1); outside the
+    # safe hours the spacing is widened (see pause()) because the dashboard's live-quote requests run at the same time
+    return safe_hours() or os.environ.get('SMALLCAP_NO_WINDOW') == '1'
+
+
+def pause():
+    time.sleep(random.uniform(5, 10) if safe_hours() else random.uniform(10, 16))
 
 
 def fetch(sym):
@@ -82,7 +92,7 @@ def main():
         if i % 25 == 0:
             print(f'[{i+1}/{len(todo)}] {s} {log[s]}', flush=True)
             json.dump(log, open(logp, 'w'))
-        time.sleep(random.uniform(5, 10))
+        pause()
     json.dump(log, open(logp, 'w'))
     # one retry pass over every symbol whose first attempt did not return data (external audit 2026-10-29: a logged
     # failure must not count as "downloaded"); the exam requires this pass to be complete
@@ -104,7 +114,7 @@ def main():
             else:
                 log[s] = f"failed twice: {err or 'empty'}"
             json.dump(log, open(logp, 'w'))
-            time.sleep(random.uniform(5, 10))
+            pause()
         log['_retry_done'] = True
         json.dump(log, open(logp, 'w'))
     print('done', flush=True)

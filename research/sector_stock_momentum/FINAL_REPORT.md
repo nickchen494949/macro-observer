@@ -12,6 +12,8 @@
 > - 最大回撤约 −73%（日度）。
 >
 > 这本账已经由外部审计员用原始价格独立复算核对。但收益高度依赖抓到少数大赢家，最近几年的历史也被反复看过，不能外推到未来。
+>
+> **唯一一次在没用过的数据（中小盘，2010–2018）上只跑一次的考试里，同样的动量规则年化 −40.5%，所有冻结候选都大幅亏损**（第 9 节）。
 
 ---
 
@@ -38,7 +40,7 @@
 | 机器学习 [`ML_SPEC.md`](https://github.com/nickchen494949/momentum-sector-x-stock/blob/aec07b0/ML_SPEC.md) | [0235fc3](https://github.com/nickchen494949/momentum-sector-x-stock/commit/0235fc3)；开发期选择 [eb9380a](https://github.com/nickchen494949/momentum-sector-x-stock/commit/eb9380a) | [f114c1b](https://github.com/nickchen494949/momentum-sector-x-stock/commit/f114c1b)（之后修复 bug 又重跑了两次，已说明） |
 | 因子体检 [`FACTOR_SCREEN_SPEC.md`](https://github.com/nickchen494949/momentum-sector-x-stock/blob/aec07b0/FACTOR_SCREEN_SPEC.md) | [3916ef0](https://github.com/nickchen494949/momentum-sector-x-stock/commit/3916ef0) | [8066f18](https://github.com/nickchen494949/momentum-sector-x-stock/commit/8066f18)，修复后重跑 [aec07b0](https://github.com/nickchen494949/momentum-sector-x-stock/commit/aec07b0) |
 | 因子组合体检 [`FACTOR_COMBO_SPEC.md`](https://github.com/nickchen494949/momentum-sector-x-stock/blob/aec07b0/FACTOR_COMBO_SPEC.md) | [78c1211](https://github.com/nickchen494949/momentum-sector-x-stock/commit/78c1211) | [60f4efe](https://github.com/nickchen494949/momentum-sector-x-stock/commit/60f4efe)，修复后重跑 [aec07b0](https://github.com/nickchen494949/momentum-sector-x-stock/commit/aec07b0) |
-| 找牛股 [`WINNERS_SPEC.md`](https://github.com/nickchen494949/momentum-sector-x-stock/blob/aec07b0/WINNERS_SPEC.md) | [f993bd7](https://github.com/nickchen494949/momentum-sector-x-stock/commit/f993bd7)、[285b8b4](https://github.com/nickchen494949/momentum-sector-x-stock/commit/285b8b4)、[ae612d5](https://github.com/nickchen494949/momentum-sector-x-stock/commit/ae612d5)、第 5c 节 [aec07b0](https://github.com/nickchen494949/momentum-sector-x-stock/commit/aec07b0) | 候选冻结 [f2a1e11](https://github.com/nickchen494949/momentum-sector-x-stock/commit/f2a1e11)；修复后开发结果 [aec07b0](https://github.com/nickchen494949/momentum-sector-x-stock/commit/aec07b0)；中小盘考试待运行 |
+| 找牛股 [`WINNERS_SPEC.md`](https://github.com/nickchen494949/momentum-sector-x-stock/blob/aec07b0/WINNERS_SPEC.md) | [f993bd7](https://github.com/nickchen494949/momentum-sector-x-stock/commit/f993bd7)、[285b8b4](https://github.com/nickchen494949/momentum-sector-x-stock/commit/285b8b4)、[ae612d5](https://github.com/nickchen494949/momentum-sector-x-stock/commit/ae612d5)、第 5c 节 [aec07b0](https://github.com/nickchen494949/momentum-sector-x-stock/commit/aec07b0) | 候选冻结 [f2a1e11](https://github.com/nickchen494949/momentum-sector-x-stock/commit/f2a1e11)；修复后开发结果 [aec07b0](https://github.com/nickchen494949/momentum-sector-x-stock/commit/aec07b0)；中小盘考试结果见第 9 节 |
 
 **复现**：`./run_final.sh`（主回测与全部测试，失败即停，约 6 分钟）；`./run_postaudit3.sh`（全链条，失败即停，约 15 分钟）。重新下载数据需要在 `.env` 里放 Tiingo 和 Nasdaq Data Link 的免费密钥（不在仓库中）。
 
@@ -160,16 +162,20 @@
 
 ---
 
-## 9. 进行中：中小盘考试
+## 9. 中小盘考试：唯一一次在没用过的数据上、只跑一次的检验
 
-- **考场**：标普 500 以外、成交够活跃的美股，本研究里从没用过。主考区间 2010-01 至 2018-02（WIKI 时代，含退市股票）；2018 年以后只作参考，因为退市股票缺数据，结果会偏高。
-- **考什么**：
-  - 冻结候选（[f2a1e11](https://github.com/nickchen494949/momentum-sector-x-stock/commit/f2a1e11)，名单不变）：暴涨模型前 5 名持有 1 个月、动量前 5 名 + 崩盘过滤、暴涨模型前 5 名持有 6 个月；纯动量第 1 名作为基准。
-  - "事后补充"名单：按统一区间 2013–2019 排出（[`results/winners/candidates_supplementary.json`](https://github.com/nickchen494949/momentum-sector-x-stock/blob/aec07b0/results/winners/candidates_supplementary.json)），也一起考，但不能当作事先登记的证据。
-- **规则**：每个候选报告基础 / −30% / −100% 三种情景；所有失败代码完成一轮重试后才开考，仍失败的列为缺口；中小盘里一律不用基本面（"有没有财报数据"本身就泄露了公司后来是否活下来）。规则见 [`WINNERS_SPEC.md`](https://github.com/nickchen494949/momentum-sector-x-stock/blob/aec07b0/WINNERS_SPEC.md) 第 5–5c 节。
-- **状态**：Yahoo 数据下载中，预计 2026-10-30 完成后只运行一次，结果补入本报告。
+- **考场**：标普 500 以外、成交够活跃的美股（价格 ≥ 5 美元、成交额中位数 ≥ 500 万美元）。价格来自 WIKI 整库（含退市股票）+ Yahoo 3,830 只（全部下载成功）。
+- **数据清洗**：只按证据修正（64 处，记在 `data/smallcap/price_corrections.csv`），其余可疑价格保留，并另跑"诊断版"作对照。
 
----
+| 策略（扣成本年化 / Sharpe / 日度最大回撤） | 主考 2010-01 … 2018-02 | 诊断版 | 压力 −100% |
+|---|---|---|---|
+| 纯动量第 1 名 | **−40.5% / −0.47 / −100%** | −40.5% | −40.5% |
+| 动量前 5 名 + 崩盘过滤 | **−9.0% / −0.03 / −87%** | −9.1% | −16.1% |
+| 暴涨模型前 5 名，持有 1 个月（2013 年起） | **−10.8% / −0.08 / −79%** | −10.5% | −14.5% |
+| 暴涨模型前 5 名，持有 6 个月（2013 年起） | **−0.6% / 0.11 / −62%** | −1.5% | −1.7% |
+| 中小盘等权 / SPY | 12.3% / 13.8% | — | — |
+
+**结论**：所有冻结候选在没碰过的股票上全部大幅亏损，去掉可疑价格后结论不变。这是整个研究中最干净的一次检验，它不支持"动量选股是可推广的规律"。数据：[`results/winners_holdout/summary.csv`](https://github.com/nickchen494949/momentum-sector-x-stock/blob/main/results/winners_holdout/summary.csv)、[`summary_STRICT.csv`](https://github.com/nickchen494949/momentum-sector-x-stock/blob/main/results/winners_holdout/summary_STRICT.csv)。
 
 ## 10. 总结论
 
@@ -180,7 +186,8 @@
    - 加上 2026 年 1–9 月以后是 36.6%；
    - 最大回撤约 −73%。
 3. **"年化 50% 以上并持续"没有可靠证据。** 要接近这个数字，只能集中押 1 只股票，并承受七成左右的回撤。
-4. **审计范围**：外部审计通过的是主策略和纯动量的收益账本。这不等于对每个供应商报价的真实性、全部股票的选股排名或整条研究链做了认证。
+4. **中小盘考试**：所有冻结候选在没用过的股票上大幅亏损（纯动量第 1 名年化 −40.5%），这是最干净的一次检验。
+5. **审计范围**：外部审计通过的是主策略和纯动量的收益账本。这不等于对每个供应商报价的真实性、全部股票的选股排名或整条研究链做了认证。
 
 **如果要用**（建议，不是承诺）：大部分资金放指数；动量只占小部分，用前 5–20 只、带崩盘过滤的版本；规则从今天起冻结，用以后的真实数据检验。
 
