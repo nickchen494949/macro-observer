@@ -1,0 +1,29 @@
+{
+ "pool": 50,
+ "test_years": [
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024,
+  2025,
+  2026
+ ],
+ "trials": {
+  "model_configs": 6,
+  "topk_lines": 12,
+  "param_grid": {
+   "ridge": 3,
+   "lgbm": 2
+  },
+  "benchmarks": 5
+ },
+ "open_execution_share": 0.8967322522069285,
+ "best_model_line_by_test_CAGR": "C-lgbm Top1",
+ "deflated_sharpe_prob_best_of_12": 0.9866131360431979
+}

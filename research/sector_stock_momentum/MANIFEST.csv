@@ -1,13 +1,13 @@
 path,bytes,sha256,role,in_public_repo
-.gitignore,357,13708448318c9d0eb78061fe79cd6c22b6dbca632e4361f5a05b05a68dce0028,other,True
+.gitignore,372,1f09eac693a394eaf0c6c459490bd1a814962af697678d7206c44f801447fe84,other,True
 AUDIT_INDEX.md,8040,fca89505b78c85072d0a78126f9ad5537b3900a7418942f9c63f90eec04488cf,audit doc,True
 FACTOR_COMBO_SPEC.md,3777,3e436dab52b7db87286a968923250c54a6a3a265282375d5b7664ae325fed0b9,other,True
 FACTOR_SCREEN_SPEC.md,4964,4fc63c0cf9dbbedb36e761fd0b0da6ebbc1b25027dfa71e592d4099c1426f1f3,other,True
-FINAL_REPORT.md,18772,3e15b0b286fda80929916c446e95a81c096f2197142a1a2fee2d1a0e2cfe2aea,other,True
+FINAL_REPORT.md,20267,e5be7a942bbdb26cdde0d022af98907dd29d565e6d75e1e61de19f8bdc61984b,other,True
 FROZEN_SPEC.md,2872,e1424665ebe53e5860083735940f4bcc2ffde204c7c0f87736992aa235d7d18d,spec (frozen before results),True
 ML2_SPEC.md,6993,afc740cacfa67f8820b7fcdc1e2fa833cd7e74129e879d84e1191aea0e89be0c,other,True
 ML_SPEC.md,3268,0460176fe7def869d7db96173f297b0daa99b4eab9467fb42a89082d83881d7e,spec (frozen before results),True
-README.md,36850,09c6ac6a3de0f60265f7f1321ff34c3423d8cfe300322ce75f9e98babc9a5c38,report,True
+README.md,41154,d5799bf0f29d73b8eb51c917ef4ad4cd9f8653fb1ebe8190654a50cb033051d6,report,True
 WINNERS_SPEC.md,11245,cb60b18cb974b5888f4af24363db8534ed18147e6a409165880c12c768e18954,other,True
 backtest.py,55756,994f0883e50e8cf95e991b39fa2ba5b0c78734dedbee6efe9d02f4c388a3785a,code: strategy / study,True
 build_fundamentals.py,26070,7fa70f55cbe80d1f908d29309f56515df9d28921162691c3280237ce5148a0c1,code: build (derived data),True
@@ -1308,7 +1308,494 @@ data/raw_open/EA.json,187,0e37af54943957e6b209fcf11133f93dd51f1635c32b0f997657d5
 data/raw_open/EBAY.json,452835,6589a773f66b44157b9d0dded0191751788b1bbc21950711e8a5c2c020ee2706,input data (downloaded table),True
 data/raw_open/ECHO.json,429699,f292458dddc00d416aed5c7111c3031e9c2f23fe9252b31c031bcd09881e2c13,input data (downloaded table),True
 data/raw_open/ECL.json,449095,0a21117798c55439a131cdb6be97e8fcf32798ad7fc2ea57d06f2571f5afd5bd,input data (downloaded table),True
-data/raw_open/_log.json,2329,2b02eee5e95cb65a230d48bd35003c14d3ac43251fbe73ff88d6be2bd8e52518,input data (downloaded table),True
+data/raw_open/ED.json,444723,3bfab7a11a7c773ccec21fb846c53339a6788ae6e1085b92a44e6624f508a3b5,input data (downloaded table),True
+data/raw_open/EFX.json,450155,c32a9bda5dbf8e4ed1386055d697396da6700562f596ed7a08f0f19c306a7455,input data (downloaded table),True
+data/raw_open/EG.json,447174,b0a9f792c3b430f62b43c8e02865af04162998d904fe5204b695cb30adb7d0c7,input data (downloaded table),True
+data/raw_open/EIX.json,446757,eb9deaa848a04ce1fb38dcdd74b6f5613aa83d60c4af12e058acc64ec3469103,input data (downloaded table),True
+data/raw_open/EL.json,446195,5cad2f600754ae286d4d00fd35801e4838f8888930266284260a44b448ad3a8d,input data (downloaded table),True
+data/raw_open/ELV.json,444476,2bbe869e0d783b0837548927ffc932c095a42743b19461ed0afe83c2b04dad5a,input data (downloaded table),True
+data/raw_open/EMC.json,79333,fcc60d6e49e6a01c62abd05378cea925eb718a26fc6e4ccef20e940d86d6bb32,input data (downloaded table),True
+data/raw_open/EME.json,447416,8d563f34d1f8423152ea109394865ad079c87b82541786f87b9ffa8288f94558,input data (downloaded table),True
+data/raw_open/EMN.json,444849,7dac148c322d6c83784a832b0865af8642f448b6fdcc16a7abbd5c79830c6bc5,input data (downloaded table),True
+data/raw_open/EMR.json,446644,7cfa3aa667577a72b5445161382111ec34c63ccc6579a2633c498453149e5344,input data (downloaded table),True
+data/raw_open/ENPH.json,322329,f7028fadf8ef78c50970e999e2ed90752522cbdc3d8b0a2db2df10a16c852094,input data (downloaded table),True
+data/raw_open/EOG.json,446010,1119abb2ddb970ad83f06f44cafa64734f48c498c14764d831ad483f5131a475,input data (downloaded table),True
+data/raw_open/EP.json,447563,f8ffbcf06794987c5ee829ff27478c58002815f21895e0ce729e01bd81425c1a,input data (downloaded table),True
+data/raw_open/EPAM.json,320589,1f3fe01d8699e821981e8e67bc1494c0042591872de2cb228982587ff9a9d8f1,input data (downloaded table),True
+data/raw_open/EQ.json,178115,5ec00aadca95344ad48adb786634697a8ac7bff9d7236fe65bc3f897cb4f481f,input data (downloaded table),True
+data/raw_open/EQIX.json,440545,0d93a308fdf0c89d7866175ed462b061f204171a299729891970bac16ac7c919,input data (downloaded table),True
+data/raw_open/EQR.json,186,c7c599ca0048e1342e48e05604087e629462f09b132985aa75db5bb058d01344,input data (downloaded table),True
+data/raw_open/EQT.json,454472,3e452c3660c71ac7267f3ae5c9127b8c74ee60f649daffded87a736f2bcb561c,input data (downloaded table),True
+data/raw_open/ERIE.json,446807,b04c852a322fb36fb9add37ca643e1d45c1f64d5c7389395bd0524830abb133e,input data (downloaded table),True
+data/raw_open/ES.json,448047,ae91877eeae65fa5c017fca0565a9b029eddbdbb95b860b57a940091d89dcbc4,input data (downloaded table),True
+data/raw_open/ESS.json,447962,f8481631fe7b274d3cbc57d6e9ff28fcb37bb1236f66a44f7060066c68e5017b,input data (downloaded table),True
+data/raw_open/ETN.json,446167,502eed9aa5220eb50caaa98d72ed996c77e4842faca7b02710e81225427a1e87,input data (downloaded table),True
+data/raw_open/ETR.json,449296,531e3553a957f88d7fd1825dabcd9d31e398260ad904d2ed7ac19e751246d7a2,input data (downloaded table),True
+data/raw_open/ETSY.json,254923,c1f503a0177bb04618d1ce0daed0be6b1508bce19046ff59c7ac62ce931947ad,input data (downloaded table),True
+data/raw_open/EVRG.json,449688,c49f0c5a00150d3055acbfa2998d7fdefae192177443712387b22e744ce984a3,input data (downloaded table),True
+data/raw_open/EW.json,444125,ab8179ac953b0f80525f4bc602ca5436ab21b33e3010469515a25c2a8686c636,input data (downloaded table),True
+data/raw_open/EXC.json,456776,c4ae662a560e42bae2448f2b094ef8533e901fcde727208795e7d29e1bb5a28b,input data (downloaded table),True
+data/raw_open/EXE.json,126747,08ef433e3a0393e40a2c37d5ae1467167eedd6c829ac0c0023e2c9681f41ee3a,input data (downloaded table),True
+data/raw_open/EXPD.json,448048,541ae178b7e6b8e89b99fc46ffc4ed82d8e4828caa742f367dd63f5795560b69,input data (downloaded table),True
+data/raw_open/EXPE.json,449076,061aaf17450446ed3794f351e1d78c989c17f19a387fff5bbf08a7f7485aeb00,input data (downloaded table),True
+data/raw_open/EXR.json,448390,433569ed7eec5a8fc830d13d45fbae2e991426a783e91e44fccac6ac6e9968c7,input data (downloaded table),True
+data/raw_open/F.json,449515,e29f63560aed9f416d300783577bebc878a34a5a9e0a7ed82cdbbdcdd4341483,input data (downloaded table),True
+data/raw_open/FANG.json,316433,8cab92160027fc21239719c50f266805ba446cd6b5266bbad565ed5116282634,input data (downloaded table),True
+data/raw_open/FAST.json,449540,a71199645136a7cb5f00fa2f535f92a61ca2e015df9e97ec70f1fda8676f9967,input data (downloaded table),True
+data/raw_open/FB.json,30657,bb433522ad94e5af219639e6e1a438d4d2f748ec49469cbcac51b42a29b97770,input data (downloaded table),True
+data/raw_open/FBIN.json,343385,6deb55d60df73f5c4fae5d2159ef7af30d4f23933f9ce3cdc928ae814c76c206,input data (downloaded table),True
+data/raw_open/FCPT.json,252176,632886f76f25b11c5ab90c75505d2bfc92a689867602821c902a5fb545c5a95b,input data (downloaded table),True
+data/raw_open/FCX.json,450152,abf19333709c95c7b728ed1787b36e07a27283594150446bba70078fab54ac43,input data (downloaded table),True
+data/raw_open/FDS.json,446111,8a04be855152f7b5c9f1f029de63f07d1981181afc3427880fdab18119f7b61d,input data (downloaded table),True
+data/raw_open/FDX.json,455322,673d628a8a644535199d5e133f2a15fa935d3b41ed5b1051b4fa51c89e65a4ce,input data (downloaded table),True
+data/raw_open/FDXF.json,9313,3115fe612f18c4aefad0cbc10a09ba446af296e451f09a3c7c8d49cc280b3feb,input data (downloaded table),True
+data/raw_open/FE.json,449802,6b8afe2e1471379217a7b58ac3b336b3b40df91a2a0417288fef98375a899b66,input data (downloaded table),True
+data/raw_open/FERG.json,381589,0d32475a26053b3e94b3e16ef131dd3b84125914803828f2c1ba4158de8a92eb,input data (downloaded table),True
+data/raw_open/FFIV.json,441411,ec36cc96d81daa40cfb28cee17d1e9ca1b184aedd4a87bfa6c0d4d55e3e3a7ca,input data (downloaded table),True
+data/raw_open/FHI.json,452622,1a01d2cd79327bf3ef5fdd978a325aa49bf00fc70accc44095a049f5285e2e66,input data (downloaded table),True
+data/raw_open/FHN.json,452441,c67f7714d8cc55abaa6937a652c47ebe0195f0dcbf8fe8130dcd54b5cfb72d09,input data (downloaded table),True
+data/raw_open/FICO.json,439764,c65772072ecc062e0cd33c6f35ad3d4beb62a0da5d27e8e163ee4770f4cdf30b,input data (downloaded table),True
+data/raw_open/FIS.json,446917,c5eb76e5eaee6e6fcb5d469e851ef83c34fd3f381c91d716eb35a8c4a29e2195,input data (downloaded table),True
+data/raw_open/FISV.json,443895,6ade1a81c7b21c63fafa469111bb6fdee1a14bed17d93e633d1dddaa620bb022,input data (downloaded table),True
+data/raw_open/FITB.json,452120,29987417e3ec47aff8af64354a0a704219278abe2f53bd7e6bb94801cebdf281,input data (downloaded table),True
+data/raw_open/FIX.json,446033,8c2c698504f58f6992a548cf04bcff8ab42b3ba5bb27086647738cce24dbe22f,input data (downloaded table),True
+data/raw_open/FLEX.json,451727,295be4e4f991bf0b4f3a5149922275184b0baf7e4ce56ed42dcf043a82a9ab24,input data (downloaded table),True
+data/raw_open/FLR.json,443436,beb1be497dcc8f421cc36b00b644b4b041b2aa0a341b629007dced4f0ebab8d7,input data (downloaded table),True
+data/raw_open/FLS.json,449910,5a92b2736badfaf675e24cd13b47489f26c96a48c7f7fa317a23736996f12da0,input data (downloaded table),True
+data/raw_open/FMC.json,452175,82715147c7b96aed4b32ef96c25e22f62ac601a4eed2ac336a3f1015c7c1e2ae,input data (downloaded table),True
+data/raw_open/FMCC.json,451298,a7b5db43028a9d743c567924a41d78523a3a6be3ee8c5d77960c0cc5c59a6629,input data (downloaded table),True
+data/raw_open/FNMA.json,448877,94de1b895942b490df4c45eb0aa7fe4a1f199d2203b079542ee9b685f2bbacff,input data (downloaded table),True
+data/raw_open/FOSL.json,442547,3e55453c5321483bbf84d54a5123d07375067c3788be7c943b051bc09a20fe35,input data (downloaded table),True
+data/raw_open/FOX.json,173619,336b3c60253c1399a13907c099d983a7c420cc69d781a8bee7082d3cf1bb5e00,input data (downloaded table),True
+data/raw_open/FOXA.json,173031,078e02ec9569854a39a6ec5955502082f167a5c28c4465830fa340ca0776575e,input data (downloaded table),True
+data/raw_open/FRT.json,446300,ff8c1a5a2596da62041615a7077aacd7b65e23fc773c47acead1a872805f74d9,input data (downloaded table),True
+data/raw_open/FSLR.json,435309,4286d8999a9faef59932b9aae8b25f865fe4c75b414af815b88110b9ca9233a6,input data (downloaded table),True
+data/raw_open/FTI.json,451607,ce56c6e24efd9b6496e6398add8495b264354024a2496186d313b8eabbeb1e8c,input data (downloaded table),True
+data/raw_open/FTNT.json,381665,426ebf44257d5de82a9d2566a713fcd6c4e551ed889ea117d02cf5774a7ffb31,input data (downloaded table),True
+data/raw_open/FTV.json,235348,7524940986cd737ea02a667934c44892fc083d3e7f010070a0f56ba32dcd94ff,input data (downloaded table),True
+data/raw_open/GAP.json,453702,937615cff440a6567940452484f7a90ecc60e51de861d315ff132804ed026737,input data (downloaded table),True
+data/raw_open/GD.json,447182,eac979866c5ff3acd11535c4b11fb2fe584426cd5216bd707009fa14a8eae710,input data (downloaded table),True
+data/raw_open/GDDY.json,254451,0ca56baa7afa5108b980c5bead7b8d11009326703ee146a99b9ce9a0322ad066,input data (downloaded table),True
+data/raw_open/GE.json,452443,2f18d00810d32ac16be36861374d599d4bcb6c2afd80601139b119ea12632602,input data (downloaded table),True
+data/raw_open/GEHC.json,84559,8cf40c8010e3840172be919544701f08f679285e9258d1049eb85f71777a75ba,input data (downloaded table),True
+data/raw_open/GEN.json,451724,61e1ef8913b46dc9e3657ee7a54890d1c1eaeaca4ada4e8a9275d220634d4c0f,input data (downloaded table),True
+data/raw_open/GENZ.json,423939,6e5021ebd4d065cf30484b2971b8c8c8f56783fd61d412ef288a3df31912296b,input data (downloaded table),True
+data/raw_open/GEV.json,56037,bc303a452268dc8e15f8b8739f14a659d459ec47dedc226b577eeaa350d15c19,input data (downloaded table),True
+data/raw_open/GHC.json,440839,d4c8b2614da7038bd675b35c6d22201a29b417519280536b3d72edf6c70cb591,input data (downloaded table),True
+data/raw_open/GILD.json,446585,ee0c37e0223e8cb1810bdb0a74a286b32fc08e80b571e344f4e134da45d54ca9,input data (downloaded table),True
+data/raw_open/GIS.json,448465,845e4e58efedd4874d1d99bb21656af4455be74dcaf3faca216d33fc91bc5e2a,input data (downloaded table),True
+data/raw_open/GL.json,451190,57da5d8b51270691d88b0b7a5087a86d480c08ecf66e1074b427d3ba0ec53b75,input data (downloaded table),True
+data/raw_open/GLW.json,451696,5945986c4d06dd54c8a2b9cc6a858edbe5071d65721448ecf9a46d35dd02bf43,input data (downloaded table),True
+data/raw_open/GM.json,360012,33b62c72da34d4412024714c8cd693b750dafd2c11429a80a34601c321a7071e,input data (downloaded table),True
+data/raw_open/GME.json,442018,0607d494f5764e6bad36eb570bc1580e2097b6af5d6b9a9855e1fd433abae624,input data (downloaded table),True
+data/raw_open/GNRC.json,371435,5677f1413f41aef8beeaf6a7e8d3610634a850c131e8ced3e83c92ecf140d557,input data (downloaded table),True
+data/raw_open/GNW.json,440977,a93f25f83bbe9a09ec5e39faf0e70217cb198f24c8832e3c8ebf70094571224c,input data (downloaded table),True
+data/raw_open/GOOG.json,455684,6b4cb1d8819f0da1805e2c2f2632be16708d29cff8fe97269a4342b64b4752ff,input data (downloaded table),True
+data/raw_open/GOOGL.json,454782,b14f0f9812c46e251256f6d809e14ed1beea8785ea0a1ffd41c7cb8c07cacf85,input data (downloaded table),True
+data/raw_open/GPC.json,447369,8fd3ea217c6adadd7bb49f78d629ae5a587d5069aae25ff80ca1e17b35640c0d,input data (downloaded table),True
+data/raw_open/GPN.json,449602,b9fd0153c8de3180f701fdc045100cc3aeb8a6cf531ae6c51528edc3275a7ea3,input data (downloaded table),True
+data/raw_open/GRMN.json,448170,46661f366e29283f324b7f649d189c3f8e32182972e38134ae4b0bcb32fea386,input data (downloaded table),True
+data/raw_open/GS.json,444216,faf1fb0446394925c63d9ce5af8036c707a34d5e5fe545a9b48eb9778723c20a,input data (downloaded table),True
+data/raw_open/GT.json,450530,4255faa954a5cc14566c18fd790b97f3ea0918faa32037861bc40ac85d388567,input data (downloaded table),True
+data/raw_open/GWW.json,445478,71aa274abb804ef2f5d070822e9fa7855dc5f5c15e28172ca844af9f0b6b9639,input data (downloaded table),True
+data/raw_open/HAL.json,450309,4675a26b1c28ec64336583cdab64c47f0e858471ed3e1eb881f06317a732e40e,input data (downloaded table),True
+data/raw_open/HAS.json,445286,a7a67677638d01cb04cf7d91488eede1aceabf95276d1fab551c82e3e44d29e2,input data (downloaded table),True
+data/raw_open/HBAN.json,450320,6165525b3f41c50e1c0a8229fe6ff73839fc2345a7c102ad33b50ea6eafb2e79,input data (downloaded table),True
+data/raw_open/HCA.json,350472,8d30bce2b968639a7683fbe55a19572d6508f101aa150b7eae180a4602c3ac82,input data (downloaded table),True
+data/raw_open/HD.json,447628,c953c782830ae75eab3a65467cb7b58d8f8e074d7c689abd16c8addab2d1f86b,input data (downloaded table),True
+data/raw_open/HIG.json,448576,57b35a42d76eb72aedeb72662aa50e3a9f3ec0039a28b3d13d2875d09db33203,input data (downloaded table),True
+data/raw_open/HII.json,353553,d1865d35e6e53a3bc97a0c48b96fd6128dee2b433bac848d0798045ba337cdc4,input data (downloaded table),True
+data/raw_open/HLT.json,290944,fc3589a7a95f67152650b76d9cf962c855b334d26304b60c3b57edcde2ec61a3,input data (downloaded table),True
+data/raw_open/HOG.json,448195,0cdef61934d7f7016d23239a44c0ee6d52ea70c603d6569a151c760f5b69a13d,input data (downloaded table),True
+data/raw_open/HON.json,455986,a19241a222cdd455f58cb9453baceaf63de0a87064d5f5691f8900b751a00e7f,input data (downloaded table),True
+data/raw_open/HONA.json,8425,b367cd260ace27087dc267285b473fcc50a103225ada74e64cc61ebcde5c5ac4,input data (downloaded table),True
+data/raw_open/HOOD.json,116755,702c93a2b54f5688f427af373c7f22b6e0d802cca573de95b810cc37f70b94e3,input data (downloaded table),True
+data/raw_open/HP.json,448751,c70766e2fc3d6c6c9aadc4308cd8ba0e976602da19c250f8a59bdd2127b8ef54,input data (downloaded table),True
+data/raw_open/HPE.json,252965,ceb709ed9217df8219ab9bca107bbff819631c1f011f3226e401178c4b9baa42,input data (downloaded table),True
+data/raw_open/HPQ.json,455942,c4f98b0191bed0174a543dea6df3b8c2a67bc34973ffa53288e8edb9a1e2db54,input data (downloaded table),True
+data/raw_open/HRB.json,451534,189fa2facd517cdd074eee3ff9ef91556df7165f02f58ad3deedd3cb3d676718,input data (downloaded table),True
+data/raw_open/HRL.json,449884,2c4a94df5aceed091c253d22a963758182c36f889a4cde5677bf338c758c7c13,input data (downloaded table),True
+data/raw_open/HSIC.json,445901,f4c2fa23cfde69dccd30cbc209582e51c135d0fd6c4bd06e6f7acd16e1928a0c,input data (downloaded table),True
+data/raw_open/HST.json,455398,ee8824b59360cde09a925626e0aaa10933293a6693d9ee1ee4f2b918990c7358,input data (downloaded table),True
+data/raw_open/HSY.json,446792,adfc718e0bb41ecf3e1c11863534a41da51497f1d6455c8e392e21bf94943980,input data (downloaded table),True
+data/raw_open/HUBB.json,447633,b175d13ebaac10ca0c199f8d2aa77c75da3c076992b78f39a247345ed11d846a,input data (downloaded table),True
+data/raw_open/HUM.json,443588,cbb98481fa41bc1e90792e039644af4935825cb0e8688af075c0555e29a2377f,input data (downloaded table),True
+data/raw_open/HWM.json,227848,f0213ab58f5d134771e0e3153be0812e6bf130f283ec9d9f594b0f279ea6fcd0,input data (downloaded table),True
+data/raw_open/IBKR.json,439534,7cd1469bfd8bd43c16ff108b4cb3a599694ac83d65af1f0c15c044cdc69e388b,input data (downloaded table),True
+data/raw_open/IBM.json,454011,026e205e2a0c64313d73ec6ce153e76c87db06cbec00bb58a85788caed745d3e,input data (downloaded table),True
+data/raw_open/ICE.json,451973,bcd0ee0044fa7d034d3706613d6073e5f6368d292e11302e63f5dd8d0cdd6c76,input data (downloaded table),True
+data/raw_open/IDXX.json,437333,4c85a0cf42e5898ab481a399e78b42463b4abb961dcc93dad80bf04af36d4477,input data (downloaded table),True
+data/raw_open/IEX.json,450451,5fb1213a951cdc490ad239f6862da3ec05f267c9c456de7ccb7258d7fcaffa7a,input data (downloaded table),True
+data/raw_open/IFF.json,447505,f2e4fa0d3bf85df658cfaa461de1b1520c356c669c9f17feb544c5416da662e6,input data (downloaded table),True
+data/raw_open/ILMN.json,452117,972d999f7e646dff73337e770483ae26904a8e10e95f2d845d2b3b891206f4f4,input data (downloaded table),True
+data/raw_open/INCY.json,436943,59eecb22ac9b842fa62b082504075aaa997c3b4ac56357559c4099e9488d2cf0,input data (downloaded table),True
+data/raw_open/INFO.json,47149,9bfc44abd4be54ae8a15091c0edf1ae6e59aa2aec510fef1ebee3d44e8f7652a,input data (downloaded table),True
+data/raw_open/INTC.json,451121,d248865d6001684617b7e52effecf6cb18e58e3f19363686853330dc7557bbe3,input data (downloaded table),True
+data/raw_open/INTU.json,445836,605abc37a0382f357424e7319441585fe5518661009bc5b37fb093a4258d4cb9,input data (downloaded table),True
+data/raw_open/INVH.json,222477,4d6019a5cd26d6bbf7997985324f38f51b57344afef33423ccc55e797acafc85,input data (downloaded table),True
+data/raw_open/IP.json,453973,ea9b3c27606d70532f0de247ffe6c9377fbfd223874785568d83781269ae8578,input data (downloaded table),True
+data/raw_open/IPGP.json,437827,91cd7fb5e8f271df4de550dfdbd626c3f11faf37f206b35dab3b1fab7c01a931,input data (downloaded table),True
+data/raw_open/IQV.json,298880,03590e16dd34b76bf8eec990496a073cf30ec978e4322e2d236bfb31782a4a48,input data (downloaded table),True
+data/raw_open/IR.json,212152,b527257e98ddc79cba194f3553b50523ede05dfb055bffc54a40b96ef66da6dc,input data (downloaded table),True
+data/raw_open/IRM.json,452129,f6e8f43a6ce55af5c1a6649e3cf3ff76b4be456627dbace52a80e9080c4bffeb,input data (downloaded table),True
+data/raw_open/ISRG.json,444943,efc7b45b3b40242a4beb5ea2c184a9983e2288a428cb4bcb33797678b4f7e25e,input data (downloaded table),True
+data/raw_open/IT.json,441423,3fde03e99ed64342ef137518c5c24d6e3ea0cc78386b29a5a279d3f1f0c4db17,input data (downloaded table),True
+data/raw_open/ITT.json,451663,fc99567d8f7142ad149e68f8a6efbf5bb28a360ecc7e2e8f30980e07a7612efc,input data (downloaded table),True
+data/raw_open/ITW.json,449367,c0d80ec4b1fa9d4174d230e34760da39af455c1f6bb5d15628f4c9e7ac03e7c7,input data (downloaded table),True
+data/raw_open/IVZ.json,453967,bd79a9162fdf5780150dfac398c9846c1e7f986cf30affd534262ae545cb837b,input data (downloaded table),True
+data/raw_open/J.json,454535,182b3e0d10edf1ff840b1e31fe81cc0fb70de5353a2aa72b7e69b6e7caa1b75f,input data (downloaded table),True
+data/raw_open/JAVA.json,113807,19b2c25b38987b7125b086f42d26e778f66b76a36efe9e3e235b0cb7502e72a4,input data (downloaded table),True
+data/raw_open/JBHT.json,448382,fa58ebaf942c2fcd1c9e9d131a78c96b9d68edd1063ca66da3b1cac22074fa12,input data (downloaded table),True
+data/raw_open/JBL.json,451372,a3844664e4b29343c6c1a82f1158c514ed43f8c32c2833d013b0a46383c29094,input data (downloaded table),True
+data/raw_open/JCI.json,452724,296f88eb7b1c5d8c89aeaab521b4fbddd9c76ecac0571c2a7c11689329b3f3e3,input data (downloaded table),True
+data/raw_open/JEF.json,458291,311923a90125063237dec4facb486f2d14c48363c264e579b23dd384367584a1,input data (downloaded table),True
+data/raw_open/JKHY.json,451520,1250997e2c50f3a23b2f858008acf970d0b2463f63cbbc95ef7ced9d565428e0,input data (downloaded table),True
+data/raw_open/JNJ.json,447508,36136c855859b88e12552066ea18c02ba57703abcffea7088e35dfc6e99b9319,input data (downloaded table),True
+data/raw_open/JPM.json,448142,4a0f5f054aaded9fe493e1bf56a5dd8ea3be57766504447dfc30f8e4ffab56ea,input data (downloaded table),True
+data/raw_open/KBH.json,451110,733e3513259e5993aa23bbc890f9243a372f1c09281200c3132af1bddc9136c7,input data (downloaded table),True
+data/raw_open/KDP.json,419499,5e6fdc08fe616bdba591dd39888fccf94c654d9c36fe98807b97f8f29cabe130,input data (downloaded table),True
+data/raw_open/KEY.json,451265,1c3d582106eb9393722e030601f51d748b2fb207e7bf506d8211a341e208c46d,input data (downloaded table),True
+data/raw_open/KEYS.json,265339,b2c75e6de6e4d31e0e5ee766f47b17c4119a401372312c024123ecbe2001a7bd,input data (downloaded table),True
+data/raw_open/KG.json,379432,e61cf58b58dcb30872d27e02cd5a5b809caa2358fbdeba27522b17c70e7763b2,input data (downloaded table),True
+data/raw_open/KHC.json,256553,ed9de21c02ba848cfa1bfd55c755ff76a3ba85f21359701b7b601d8490a9fedc,input data (downloaded table),True
+data/raw_open/KIM.json,454106,44abb5dc4f8bf5ec8ba5273c30a06c65077f50a5cff9dbd79bb64dbc8f0050d3,input data (downloaded table),True
+data/raw_open/KKR.json,368077,8866092d3dde3f796653a0388b88a30ef3709057b7a015d2a8073e3e865bd748,input data (downloaded table),True
+data/raw_open/KLAC.json,452344,4a00850ab7a2b72eaf34f7a1e42942bfac33381d4f915b0b22db78295f116101,input data (downloaded table),True
+data/raw_open/KMB.json,452026,32126c1d32b8a97c229c363db52e9c01bc39f81cdd1c018bdc154fdf0ac8a356,input data (downloaded table),True
+data/raw_open/KMI.json,359412,76fe641f1e286365c1bc95f4874f1bcabde9d26e0df710acd10e6d22f3d571bd,input data (downloaded table),True
+data/raw_open/KMX.json,438362,6a6e80a2df282682014fb3e241c8adfc0c6d4baee9ccebc35a29154690894e59,input data (downloaded table),True
+data/raw_open/KO.json,449126,e0a4ac0a99aba478834c2d83c815e59b0027d97948114574e4cd3c3e3b58f13e,input data (downloaded table),True
+data/raw_open/KR.json,448817,30b9bd43bd7591fb57e90d9c8093cf2eac4a9dde8dfbd062082d8bd2f3a30f0b,input data (downloaded table),True
+data/raw_open/KSS.json,449788,8322752a3243f83b93d16f4a47f326843c66155c80f28b5c56c26a7e451c2c07,input data (downloaded table),True
+data/raw_open/KVUE.json,79458,c888b3553ca06519ba1007f861f66a6bad6a49785144f26f6332bf97b949846e,input data (downloaded table),True
+data/raw_open/L.json,447929,5ffc145634a64794c0d9c0d2e90ea09083d221668ed37f90885e440321497cd1,input data (downloaded table),True
+data/raw_open/LB.json,51122,429652b6d8be053ffede3824d1c8f4e1ecc3b30cda86c40d106f92d493e6ba36,input data (downloaded table),True
+data/raw_open/LDOS.json,450453,9db7c6ddfb2d164b32f5302df887a8098b544f29025a4f2ca97da309c9234e79,input data (downloaded table),True
+data/raw_open/LEG.json,186,7639296590930171b8a1855a4e6288190a3d8ee8696de8edc3e8da74916a5f72,input data (downloaded table),True
+data/raw_open/LEN.json,454373,92b116f3bf11a20755a84a463b9157dc48fb9862c21777bc038e6bde0bd9d03d,input data (downloaded table),True
+data/raw_open/LH.json,452851,2f1fd9426afb0f60291fa730ef0d9bff76f8dff6fe667d197bc167828e69dd9b,input data (downloaded table),True
+data/raw_open/LHX.json,448752,a527d2a9ea3457227f95db70c46699a76c11723f6f1901e821ee7534db8efefa,input data (downloaded table),True
+data/raw_open/LIFE.json,16721,51fa0db255c0e3c8c0468b9962e0be163c45a0617b323a4ffdbdd4482ea20268,input data (downloaded table),True
+data/raw_open/LII.json,447529,55525f8d227518e0d25d0da299b22e837a629de85d59438842f29de4577dc7ef,input data (downloaded table),True
+data/raw_open/LIN.json,446653,230d3870952854186a9e1429a821e2b1221adc5b203fb19fcc68f58ba8c7562f,input data (downloaded table),True
+data/raw_open/LITE.json,240419,621c95bd1c7596844bfd7b50907c31c3894b64f8f3e9744c45528b843f945710,input data (downloaded table),True
+data/raw_open/LKQ.json,449700,f51653517eb0f4bd230bf91935f980c90459950b79acf36bf72f4ed612f27ad6,input data (downloaded table),True
+data/raw_open/LLY.json,444072,5e043314cbea94ff567b2fbd6b434d0e374f8e6ba0bf6f41e720c7af6075ffd7,input data (downloaded table),True
+data/raw_open/LMT.json,440649,8760aab371d478f617864da52d162d3535649725fdcb94bac0683c80c3dc4c83,input data (downloaded table),True
+data/raw_open/LNC.json,448617,41fd2c531a7bdbc277f92bc718be0c58c40f847228a9f63eb03826056251a2e9,input data (downloaded table),True
+data/raw_open/LNT.json,450314,3bb125cc3fe5f916869c9de4759da2c4a4a960fc19d752696706d19d1eb1cfd4,input data (downloaded table),True
+data/raw_open/LOW.json,449054,0d806f63ed5431ea043e0a0b0c5f0157f378d24d4ae261ca7d0db0a279854f99,input data (downloaded table),True
+data/raw_open/LRCX.json,451087,6b390857d03f6cf923fd9a3894a2caf4cc93da5a947abd97635b6de651ca75d7,input data (downloaded table),True
+data/raw_open/LULU.json,421027,55ffa36eef93f35067a20669ac6a6b178677c856565313315c11348ae6685734,input data (downloaded table),True
+data/raw_open/LUMN.json,450770,d8aed74f7825050fa73e612322cdf9207a08b3178e6f54d4d2f18ce8bd1b92b7,input data (downloaded table),True
+data/raw_open/LUV.json,448093,e1b9eb4dfa3bd819992df9003085f780cdb5f03cc6e85fab95fd383a74258dd4,input data (downloaded table),True
+data/raw_open/LVS.json,444615,148e499862586345240ddb6316c474bb44ae733801a0bad44fa33f59600d66e6,input data (downloaded table),True
+data/raw_open/LW.json,222384,d58ff972d2d3a727b95c067ab2a922f64290004a2f127907c6a268b6ee93fdfb,input data (downloaded table),True
+data/raw_open/LYB.json,368280,df45fcee6407aa23286bc59536c3165b862dfa67ba7059572de5df9a6872db14,input data (downloaded table),True
+data/raw_open/LYV.json,439486,4035095e5d62ffda85bb187220ca01b30b4bca889bed65ab2c22a4fb0f74b996,input data (downloaded table),True
+data/raw_open/M.json,452955,cf096bc3141d6abc18ec69c47356a97eb4e565b532f00aa7bc01ecc6919ff7c0,input data (downloaded table),True
+data/raw_open/MA.json,445133,c774e8ceca9103b1a99e73b8a086797bacb49c1bfcbd097b3ca229ac880fdd1e,input data (downloaded table),True
+data/raw_open/MAA.json,448254,bc9fdc6ddcab0d8e9c6df029584f368aa2e23300e545649dcb01db57b3200c24,input data (downloaded table),True
+data/raw_open/MAC.json,450254,f274fc8c0937ff9f5741d7efd898e0001820220c3881f2b4b6ef914959459f4f,input data (downloaded table),True
+data/raw_open/MAR.json,450324,8785f9a0e625a101f7589d2d919fbf0896187ca33420fd338e9491b343010874,input data (downloaded table),True
+data/raw_open/MAS.json,451629,02db61d2025bd8bc102993dc334c190631976925f873632865d3c52577ca3f75,input data (downloaded table),True
+data/raw_open/MAT.json,450664,89622b3375f416432b2aaddf748491421fff7d40733400627eca3eb98e01b9c1,input data (downloaded table),True
+data/raw_open/MBI.json,443849,fd8d3cdd7f5b01527eb24d6e98ca2929bac1222f4830dd769b1d3c4c604d1378,input data (downloaded table),True
+data/raw_open/MCD.json,445041,e7b44c23869da4e14b584cae1bd822d0c01eb13a8bac271b77bd34a77e864098,input data (downloaded table),True
+data/raw_open/MCHP.json,447791,8e2f2c98cd6ad7706dc9ff9ca99f13fd14ff709c932c1ee14c96834cec2a71aa,input data (downloaded table),True
+data/raw_open/MCK.json,445169,8f096d23a3830fd857ac55033d00d0bb16f5d0f6fa9384826b965dd334c6e705,input data (downloaded table),True
+data/raw_open/MCO.json,446490,a63a568ef77a003ad70e21b89b61ee8e5c98ef25c776f28036fb6c91a9a90ce1,input data (downloaded table),True
+data/raw_open/MDLZ.json,449140,338be022bec2cafba56d4541ff728509843f2c5e74e5295945f30f13303158a1,input data (downloaded table),True
+data/raw_open/MDT.json,443167,d5b868d562f422024302793443e9984e2428c7758e1d88fc7fe82e0c5e3eb863,input data (downloaded table),True
+data/raw_open/MET.json,450435,5ae9413da7235d3823e211f0d7db9ac0f6c9f839b1156f0c60313a74568a63eb,input data (downloaded table),True
+data/raw_open/META.json,324495,03404110a570ea66389107533efbc928aee6a600189772ce1472cdaaa091f3a3,input data (downloaded table),True
+data/raw_open/MGM.json,447767,30de8077ea426320181d904925f53fbbc058314c821a24c9ae5321390a9bb824,input data (downloaded table),True
+data/raw_open/MHK.json,441308,49c16a59eb877e44d7d10d4cb72ec50fd26beeb308035420a7d441f635016e5b,input data (downloaded table),True
+data/raw_open/MI.json,166455,1704e4ad41c049428e43a68b0de17eb1cc0e0b5ff705594c98cf6f2e95abc519,input data (downloaded table),True
+data/raw_open/MKC.json,447393,42bc15d91e637938c187c7f1d7de17ecc98727bf6543fb52c2cf53d3e45ededb,input data (downloaded table),True
+data/raw_open/MKTX.json,448604,f0a62b39721317361bd124d6b0428dbb9811c9dc36b057e009fcc089c67cda2b,input data (downloaded table),True
+data/raw_open/MLM.json,443984,0d67e85b7300decbec54db75f6044da887bbdf7ffef9dce9e791b2b181629a9d,input data (downloaded table),True
+data/raw_open/MMI.json,295504,c9518e8570a674cbb5a5b094ce0a916128ff689f02fdbb3fde77c60571436640,input data (downloaded table),True
+data/raw_open/MMM.json,453421,d46254ebde60871a39ab3caa9c1137516f9e42b6bf595987692dfa73ccde5dc9,input data (downloaded table),True
+data/raw_open/MNST.json,450751,e275b17e10088535875ddc81c201b4284333f9f6beca1f6f6d2eb7b96c3d0e7d,input data (downloaded table),True
+data/raw_open/MO.json,447271,f3dca16004358db9681a0042c4290879e03afd637e10b9c55701cf5346155fcc,input data (downloaded table),True
+data/raw_open/MOH.json,442222,1b044ecb85b89119375680dc7c70ae1ada507cba58a738c04409b277ee3a38d5,input data (downloaded table),True
+data/raw_open/MOS.json,448871,80fdc102d06c605044f6f65aab82a2f9cce51de28904782e1ef5b50ca10e01c9,input data (downloaded table),True
+data/raw_open/MPC.json,347042,5a72758dad8557f10a16663a87f59a8c54c6cef167b7af1f42a6bff0d6255a3f,input data (downloaded table),True
+data/raw_open/MPWR.json,447848,4277252a1750df5e8ec4765443b7331188c711979ecc36578aaa0ea065c60ae2,input data (downloaded table),True
+data/raw_open/MRK.json,452194,acf52a05d719debbb1f2a55989b570e57a3cf0c846a5364aea0e0379c09817a7,input data (downloaded table),True
+data/raw_open/MRNA.json,173577,256be36d88867225a5135cd82b7ae9bed4827e78189fb43d2a7b0288692f5822,input data (downloaded table),True
+data/raw_open/MRSH.json,450411,21954132337b9cf31fc365a77cd9687eb437d749b94d7e83213283d08bf8f0a3,input data (downloaded table),True
+data/raw_open/MRVL.json,450227,375f9a02665d0f806f47d29e9d4e0424955f3b68e97774cf66d5e4c9390fd325,input data (downloaded table),True
+data/raw_open/MS.json,449415,59a1dc8bc2b0df74672d9045468fac4dfcf9de00b0a6e65a1fc081ac133a20fb,input data (downloaded table),True
+data/raw_open/MSCI.json,424827,dd4bcb5b2654b2048c3ce20320aa451e54322718ff49414024345f2bae94c17c,input data (downloaded table),True
+data/raw_open/MSFT.json,450098,2e3367bde6a2ded02c85204332ade9bfa38be2c5d2dbbdf562bb0e606a2309ec,input data (downloaded table),True
+data/raw_open/MSI.json,448386,a0c93ef73cff134ea87d6a89398d9e605f781418255e50922ebce655c46c1a9a,input data (downloaded table),True
+data/raw_open/MTB.json,448633,3516aed7c477478e6604ecc455cff388a7dcf3e274fdc6d92ea4158e3029c0f3,input data (downloaded table),True
+data/raw_open/MTCH.json,451784,e116e380ec173d7f123bf3ad5e9655681e9b61920675e29277c46a555c7602da,input data (downloaded table),True
+data/raw_open/MTD.json,433434,5dbe397b033ffbdf3b9594eac6a8841deb13422812f2f15398c99c444b5f9a53,input data (downloaded table),True
+data/raw_open/MTG.json,449963,11fe41af4eb429c392f7866003486cd4dc4d01709a29b272247400f519e7504e,input data (downloaded table),True
+data/raw_open/MTW.json,451121,7f436aec1d72a5e1107a85087eaff5fa4d74993d3e27fbc50ef62a0a8733a478,input data (downloaded table),True
+data/raw_open/MU.json,445893,8fa543b773ac9bfd13f9afa0d133086e36efa9ff89a178ffa62e1eb21d343df4,input data (downloaded table),True
+data/raw_open/MUR.json,452555,cef67d7981a7a6e4ff1058ef80771c4b4bea51bde367f358a1977f0168b16d40,input data (downloaded table),True
+data/raw_open/NAVI.json,285354,1ffc4bac5e7a62ab81cb287d14020200c77d3f564505304eaca9cd1519ac5f72,input data (downloaded table),True
+data/raw_open/NBR.json,365253,684c07716e37410d349f9bd76f76deb39cc47cde340e596596e0e2634db75942,input data (downloaded table),True
+data/raw_open/NCLH.json,307783,62bbd9f152ad0b7866beabb692923bbcfa5547754a3783fde124c56caa837257,input data (downloaded table),True
+data/raw_open/NDAQ.json,450940,f7953c9ab18215b789ed5fed7c4299d82b0fc665dd069611005c47b12c66302b,input data (downloaded table),True
+data/raw_open/NDSN.json,450080,cff2b7ce9aefb7899cc42ed03883a1a5499294324beb2dcb0b81c46f7fe811a3,input data (downloaded table),True
+data/raw_open/NE.json,121885,42639fafdd35c04b13f79ff0f9b1ed6f6088b98376c4e9a22b53665ad42ad101,input data (downloaded table),True
+data/raw_open/NEE.json,446370,3890217449af5c6f3e13253286037d4a446d95b3bfef5b7bff6ce8b95fc892c2,input data (downloaded table),True
+data/raw_open/NEM.json,449326,b8a02784c60ec223298030d1a91ead1b4282c6d345599d8329ed9c80b8eb620a,input data (downloaded table),True
+data/raw_open/NFLX.json,454077,a5bbe3900bfd35a6d502070e344cd4e622dc45d84912acd22233479fe86c678e,input data (downloaded table),True
+data/raw_open/NFX.json,7522,e39759a0e8f665b259f70d563388e9d76dbad0fb35529467321308296e8da349,input data (downloaded table),True
+data/raw_open/NI.json,453638,ffafd82acf3a566ec1be9f9bea1c14b4610f68f3a930c6b44f60237a4e9ae602,input data (downloaded table),True
+data/raw_open/NKE.json,447337,f887960025977377220d39e6134e06e4237013ba72a82f177d9c030470472157,input data (downloaded table),True
+data/raw_open/NKTR.json,402009,d94c0f331ab1a7f76d3949f5bdf99a591f63dd318f1d5d5e7889f4b0b7d2ab1d,input data (downloaded table),True
+data/raw_open/NOC.json,444851,96d751244b52b30064c20a2369e1e1c1a9d3a2f0a261a43a9659393fa535b604,input data (downloaded table),True
+data/raw_open/NOV.json,452789,edbf5fd41812ab6256f347a1bbbe3deac35e3c9722371a9319fc802ab027db14,input data (downloaded table),True
+data/raw_open/NOW.json,323012,a6d082cbd6473a8745cb171e7770988fdf97bf677c48a7cb4b1c71563034b005,input data (downloaded table),True
+data/raw_open/NRG.json,451051,aa7428224fece2aa9e642e1ebd0fce002f90ed5501fc115ca568bd62c8edcaff,input data (downloaded table),True
+data/raw_open/NSC.json,446793,a2c516da634ea5b08a9b1273c55eba3981862443ab2f2329d0c2d009f81d0ca4,input data (downloaded table),True
+data/raw_open/NTAP.json,448888,4c080cd12a469364e59ca5b80634b889ca24603fae1a74d09f3c8332ab847c4d,input data (downloaded table),True
+data/raw_open/NTRS.json,444962,8e4605cf7dae7b460eb40b990163aa52f222951f09e062c6058ef04195b304f7,input data (downloaded table),True
+data/raw_open/NUE.json,447612,247554138a5ccf3289fe626f55f886ad00cff6635aea6e1303298c4f8fcffe09,input data (downloaded table),True
+data/raw_open/NVDA.json,463206,f55994393fd386f7e41175f8a1c951872a65e7016ce2c980207cbe3c97d1d920,input data (downloaded table),True
+data/raw_open/NVR.json,373498,ac4629482738869c9b7de7c2939510e1582e63bd475eef869f15eab90464c6a9,input data (downloaded table),True
+data/raw_open/NWL.json,451712,c7331bd177f9597d8a85411524ae349956626fe18f623265825a89c700b90491,input data (downloaded table),True
+data/raw_open/NWS.json,305523,3ae69a3ae60168df3a377a6b5f223fa1f64ffa96233cc6d49da5336d032395cb,input data (downloaded table),True
+data/raw_open/NWSA.json,307798,194e4ee3b5734900bebbf8a25722c4ad5f1d8f2a64a83377fea5933382e273f2,input data (downloaded table),True
+data/raw_open/NXPI.json,365307,2406e735aba517ab66b197b05af208168da7aac47ebe02833cc9544eb7ad0d21,input data (downloaded table),True
+data/raw_open/NYT.json,446959,9cbd92e2e5ce44ea845c008d069c86abb2a1be1d49329fd39a40ac2fb85ccc97,input data (downloaded table),True
+data/raw_open/O.json,451726,751f6e1667cc6abf9193420b603443b00fd5aaa2a5cb7d649672b1d8db09906c,input data (downloaded table),True
+data/raw_open/ODFL.json,453070,3aca3eba7e0659002da2c8ad757ccefca16eb511022b56010b0174023ca428f0,input data (downloaded table),True
+data/raw_open/OGN.json,123966,837dc33442edf6aafde39d7af42f879fe412a99fd33b161b954a05e030ea24f6,input data (downloaded table),True
+data/raw_open/OI.json,450655,818b1f63e9d9ee842235ee95dda9d22184e162f89095790df8af88498bd24548,input data (downloaded table),True
+data/raw_open/OKE.json,448473,deafad5fd18871888bfcaba8955116b48e4b59a39c0fd120d2b50bb649c6046e,input data (downloaded table),True
+data/raw_open/OMC.json,443934,3893c22430aafbc78114ceed0fd5d5bd4c51e94383351896537dee68f35f2453,input data (downloaded table),True
+data/raw_open/ON.json,437283,e2f70100513476ddf098f6ad18f0e8328f8022990dc2f4a67e85cdf21f36413b,input data (downloaded table),True
+data/raw_open/ORCL.json,449998,34a043cba52b123d736525401afec1774185a80d3cb762d12960729630ca26af,input data (downloaded table),True
+data/raw_open/ORLY.json,453583,a948f8aa76615e7e2042c52627fe03dbaa8f44682a9ea445f24f040626e44fca,input data (downloaded table),True
+data/raw_open/OTIS.json,146066,210d2357e47d59fc21cf048ce2454673eef87857c4f37aed804541befe673e5f,input data (downloaded table),True
+data/raw_open/OXY.json,447096,58c3d4f9c75cdc5543b031dcbd50a642b5b66664c3d0fff8b9921c0c0873d3f8,input data (downloaded table),True
+data/raw_open/PANW.json,319001,19f97d3c315e249dea917a23074b48a5f846896e7252ad0801aa1c1553c0ab94,input data (downloaded table),True
+data/raw_open/PARA.json,105117,d8194169033bd9e5c2174d1a9ffe3170f70f3d796ddb745aa812955c1c4d722a,input data (downloaded table),True
+data/raw_open/PAYC.json,281853,d23ebd849adbfdfe4db501384b8ef2bc88dc75cc43f9500e258e64f5101004ba,input data (downloaded table),True
+data/raw_open/PAYX.json,449849,792d7724eec7257c64a34388967193ac9af338c304234662f9049085411f3ad5,input data (downloaded table),True
+data/raw_open/PBI.json,449134,f836e1798411261221965934adc9533687cc74b041b62d0b20b69f0a3246cddd,input data (downloaded table),True
+data/raw_open/PCAR.json,453616,80073f488e8cd7a3585a3745283091bfac4d85a0751b4c1e01ff6efb8243760b,input data (downloaded table),True
+data/raw_open/PCG.json,450290,494a423fcb5ec2cf92c37b2b4a329bef4eafc33f42bf8df102eb333696266788,input data (downloaded table),True
+data/raw_open/PCL.json,28394,e5a5d31519f5d9287d712ac0d806e22d79b07988eaa44317c664413fe846a9aa,input data (downloaded table),True
+data/raw_open/PEG.json,449017,2f4f543d600b7c7ff14d7eecf574f433e1d6bec5c14d0ce8bdbae38203ececaf,input data (downloaded table),True
+data/raw_open/PENN.json,448869,3d253cc0dd535c01d751b01ea0cfb325ce7b7d9c4d514d8b7208f1c0b1fc980d,input data (downloaded table),True
+data/raw_open/PEP.json,448198,8390bf1f39153fa1bade8efde399f32cd3cd49aa01c090902c58042c23e346ac,input data (downloaded table),True
+data/raw_open/PFE.json,456391,7fe4497f4cc6d9ba2e03b6b3dd33882c49fc4977537b0068467404785f4548f5,input data (downloaded table),True
+data/raw_open/PFG.json,448208,995b6396d2689554f0f4311282a883cd8065db180a77d5340d3b0db25ee4d8ab,input data (downloaded table),True
+data/raw_open/PG.json,447594,5be1ee3734c0080ba116fb58920819be6144031e5aa9446b782f38f387acde52,input data (downloaded table),True
+data/raw_open/PGR.json,450804,d8ac25015fa56c3343c59b2c0d49aff98adf30f7e58c7d34552f42030458f805,input data (downloaded table),True
+data/raw_open/PH.json,445877,3e86a18c73ac1e876223d86e757032a083854626bbf374202979890dd02b5218,input data (downloaded table),True
+data/raw_open/PHM.json,451330,4496f35bb8f1e6f4b3bf90dbbd37ebb3bc1cb6d6bd491a5fd90ed12f68370d7a,input data (downloaded table),True
+data/raw_open/PKG.json,450632,8824737c0557ff6c15b6909c5fc2614b2a3e726926b8af121dd8b82e06da99ed,input data (downloaded table),True
+data/raw_open/PLD.json,450500,ffa2f9834f4af644710f7fde87205a3373b595a9291ac1f3c546bd615eb016ed,input data (downloaded table),True
+data/raw_open/PLTR.json,135723,388e040298aa2eef42466fbcb5cea93c8146e93e39da5166d47b8f26ca673dd2,input data (downloaded table),True
+data/raw_open/PM.json,416503,ee89d696e0dd656811e91c1fc56e984c3653078e43838e0e7879494ff7b6a156,input data (downloaded table),True
+data/raw_open/PNC.json,447678,92a6da24904b0451647a19447e4778f67922fd151ddb71354d41b0028d048a57,input data (downloaded table),True
+data/raw_open/PNR.json,453223,6d6630fb29e2dd13ca78225a54fed20db99b70000d946e20f23115f469890e04,input data (downloaded table),True
+data/raw_open/PNW.json,445728,50ede7a7482ad9bc52cc5b87bd069805f0ec2253324713739a578d5b22772729,input data (downloaded table),True
+data/raw_open/PODD.json,431503,b288e6d906fe70893dbfe2713a258c6aec7c5bce997c2e2789a84fbb9cf5687f,input data (downloaded table),True
+data/raw_open/POM.json,24064,f85cfe92f94f96cb3312604fd837c90cd509357a5b06e5c319f845114a3b4f0b,input data (downloaded table),True
+data/raw_open/POOL.json,448420,b67540f2afd865e2b722aa6e0d4b0606b40357ec31dfaec880fbb5624f848452,input data (downloaded table),True
+data/raw_open/PPG.json,449286,2ee5f2ed2d8f4ce7f69fef6c5caf497620c048aa547f8c4a6f8213ae89a08997,input data (downloaded table),True
+data/raw_open/PPL.json,455815,fa0c4230d5ed388905cf8849400184d02a08be21a16234417e9760dd13603f1f,input data (downloaded table),True
+data/raw_open/PRGO.json,448454,57e2d73fd1103440e8975941f3b7bd6c23bb9dbea195454c6c29c9e23a587a28,input data (downloaded table),True
+data/raw_open/PRU.json,444747,d9124138cc9b99db4f924b0a662128f7e1ccd937e23a3ed000ecdc021a30e210,input data (downloaded table),True
+data/raw_open/PSA.json,447675,8c7057b446e1531dc67155fd3b5d5271d7de6c4a5e0eaa307e66b4c6d6d4ddf2,input data (downloaded table),True
+data/raw_open/PSKY.json,1439,7e14787eaa59d6857acca34a1b36f20964391614f45a42e71e2b61e443660b2e,input data (downloaded table),True
+data/raw_open/PSX.json,324869,964e08c9aa9586938203b8f7edbb233885679fccf496dbffe322f18f717fb80d,input data (downloaded table),True
+data/raw_open/PTC.json,442764,f9499bff03ac8f0e5688d7f5298fed81155cf5f7f7451150b5e8234d1ff94bdb,input data (downloaded table),True
+data/raw_open/PVH.json,446130,cf1fd3ce53c9a8f40df4578ee9ca5014da59f58e3875b5e9a052ad99195ac73b,input data (downloaded table),True
+data/raw_open/PWR.json,449528,6d60c5737291d2f79ce7e15ba118a8ca1006215cff6e0d7e946edc4070265868,input data (downloaded table),True
+data/raw_open/PYPL.json,253485,2e3a0079478c56fdfd7338e7e5188aa012a48e9a719e74c288891cba4d39d306,input data (downloaded table),True
+data/raw_open/Q.json,22519,4844f71dfeaed187723a3bede82c3b2f402938213a8fd92253a17a72b4564f75,input data (downloaded table),True
+data/raw_open/QCOM.json,448071,84bf7547154a4c98bfa847582e92e383e7103b479300589ec2c4b9500f1fa692,input data (downloaded table),True
+data/raw_open/QRVO.json,191,b59a6bb0b6eb8c3983e3d1d373b57bb06bdbee40d87af62ae974f1ce1db1ff3b,input data (downloaded table),True
+data/raw_open/R.json,445825,ed9f4c6f25ded29881d13933484eb57a662d62033ebdebbef7adbb96a32864c0,input data (downloaded table),True
+data/raw_open/RCL.json,445186,2eec32ea0a8996d32d77ee608b59236dc9d29c8629020a267e50c7ae411d2b97,input data (downloaded table),True
+data/raw_open/RDDT.json,56231,19852a01b23f45e310a42cf4049c453deedc24ed5fed60ed5d1b79c8cb15679f,input data (downloaded table),True
+data/raw_open/REG.json,446766,8faeb8a5a6c84f77f53ed723c860c87b9af8a0d1b64f8bfd31d7369178dd8099,input data (downloaded table),True
+data/raw_open/REGN.json,441088,7fd26b92d89cb21e5bf3e992ff3cfb3e27b160a3869a6159ef0a942290c8a64a,input data (downloaded table),True
+data/raw_open/RF.json,450703,9335aacfc7bed14f2a39150e2c5b92e13c0d486eca303159317de5d9f357c3d6,input data (downloaded table),True
+data/raw_open/RHI.json,449129,d7e0800bb24d1264576e54093cd901b2b59b4937d0de9809438c36749d5e56dd,input data (downloaded table),True
+data/raw_open/RIG.json,443828,6e860efed6d61e6f7df4281730299110c296262f20fa27a506690d5c9430e92e,input data (downloaded table),True
+data/raw_open/RJF.json,454089,5c7e42ea46390ff8b7a16b070539ea76a683d97b94ff551ae427ba5570c6fbfd,input data (downloaded table),True
+data/raw_open/RL.json,447399,25f712cdf17cbeb0261e70dd96ff5fa3dfb4c1775768d0ebc8fbef0cb70916c6,input data (downloaded table),True
+data/raw_open/RMD.json,448672,8ce3c9cb4fbba274f8ce6ad0ea484856677e157da86b01573b7103ac890effa2,input data (downloaded table),True
+data/raw_open/ROK.json,447101,d392b88a2c5a65e5ed75c490d900654c286322bfe51c0647d785e4cacea0b1c6,input data (downloaded table),True
+data/raw_open/ROL.json,453650,5fb9398c9118236b759955b7cbbbd8b1ecb407b53aff98e4df2bfaf2f3d26429,input data (downloaded table),True
+data/raw_open/ROP.json,445488,cb6792fee53c52e2804f63d8c675478e2c6b01a2cb16a8c293d8706a006a496e,input data (downloaded table),True
+data/raw_open/ROST.json,449013,7db46ca4da1bf85dbcb3d50b1f76fcbe3159b0a4070a104f6369e61fd8bf5686,input data (downloaded table),True
+data/raw_open/RRC.json,447220,fe91e7e1895318fdbd349892410dcbb8c3ca6108d61a1c22027fa5227f783b5e,input data (downloaded table),True
+data/raw_open/RSG.json,450069,1fb92f00c569d4c5aa966b41066003dd5d7ff74ec7d1f57cd4d7e3916d0dad79,input data (downloaded table),True
+data/raw_open/RSP.json,449345,2925207a3a04450be84b9d09b4692d2fd30dd083e35e698e56698e6b72d18d7c,input data (downloaded table),True
+data/raw_open/RTX.json,448421,ae57325ac67b4e924537de3df35d7ca1ff14f8f28ca684ef0937d79da9497a55,input data (downloaded table),True
+data/raw_open/RVTY.json,449583,fd013c260d39490f4cfa590f68beba5df1008cb31f00053d71d81a0ad0347630,input data (downloaded table),True
+data/raw_open/S.json,118230,8a62809f01e9897b36b9bfe1f4bf472abfa64d33aa6aff7f7987d10186ec6490,input data (downloaded table),True
+data/raw_open/SATS.json,729,b6b34e607ecfcd174b9942e3422a2e6dbf04b5a0bcca2ac821c0f3487261eb78,input data (downloaded table),True
+data/raw_open/SBAC.json,449856,ef204c1292f52ef61f7887627626efdcd68955cf1cfd7240183833b6ed9e0dc0,input data (downloaded table),True
+data/raw_open/SBNY.json,47937,3ed496f6bdab0e536606a3279b0b1746ee33f8049f77a4a320dedcce9e51e8f0,input data (downloaded table),True
+data/raw_open/SBUX.json,445840,bb8edd607c1d2a13096dfc0b11954a518e965a0dd3ee863c4d6d8257e35312dd,input data (downloaded table),True
+data/raw_open/SCHW.json,448576,7ec13e577dd79f2f20ed7a1f959da9ca2dc5d17fae2eda75111d0195d2767b61,input data (downloaded table),True
+data/raw_open/SE.json,192963,94d95b0303aaaaec669ab59fae83338ffacdf1450d938e4d3778b30b6c01531f,input data (downloaded table),True
+data/raw_open/SEDG.json,251237,0ea4b20e0ea516d03351af5ea358f77eb9e777c40601ce35fddced2f735ea796,input data (downloaded table),True
+data/raw_open/SGP.json,16440,4565443a0deb5a674347d28b971de8eb487f84c9d8f6cd3ff85d34f0026abd2e,input data (downloaded table),True
+data/raw_open/SHLD.json,70023,e3d67174faf45cc0dedafcc0b21335e7b1ff968d54477e1404fca038a81edb8a,input data (downloaded table),True
+data/raw_open/SHW.json,451109,fc038d6683d9f641baaa9a78fdb5cb95edd2e8966b1a304b97ee84138171c09e,input data (downloaded table),True
+data/raw_open/SIG.json,445580,7439375d152e4da95daad1a60932bfaa27a051e6b9eab5e2e8d88918dda7dabf,input data (downloaded table),True
+data/raw_open/SII.json,365850,776e982aa4377af352bffa5ac00fb7665b59b5a7cd14be17864e495c91fc5fb7,input data (downloaded table),True
+data/raw_open/SJM.json,448740,2507438e0e9021ce90ef23b7e1e5842708bb1c5222d415df6d28029194b69dbe,input data (downloaded table),True
+data/raw_open/SKYD.json,449867,bbdcc68cd2bb3fc8c74507e1c399121fb642c36b8dc23f6cafafcfd9c5d5758a,input data (downloaded table),True
+data/raw_open/SLB.json,444603,fbbb39ef35fe0e573b58b7409e43efd8c5111fe0df9398e1000df6ec8dd1429b,input data (downloaded table),True
+data/raw_open/SLG.json,451314,ab95a277abd3b8fff147ce67bdd4df4ed8a5b6e4b0946631bd479fd7118b1c81,input data (downloaded table),True
+data/raw_open/SLM.json,450896,6bd0a3acba3511de8fe09e6ae715314ea975da4154b524c429a0105973a89587,input data (downloaded table),True
+data/raw_open/SMCI.json,447421,f8ac202b98479510771e72c15686eab99f7950e9e22325d1e3e005f963387d3a,input data (downloaded table),True
+data/raw_open/SNA.json,449117,77b5d9e33733b9961329d3df8d5af73624a823079cd683c68ac24e5504faac3a,input data (downloaded table),True
+data/raw_open/SNDK.json,36757,a95248679df24b17cde5779318ed0bea7469670de49c7ecc8712f6b0e1a9b148,input data (downloaded table),True
+data/raw_open/SNPS.json,438443,586bb216532158e7e58528cdfac136621809d14e91c26dd1ed5d86e471ce7676,input data (downloaded table),True
+data/raw_open/SO.json,446794,7874fff50320e6d4b930673451ba37eb4529d7dbd13ed96993635af1ac9f9409,input data (downloaded table),True
+data/raw_open/SOLS.json,22905,0b9158c0084890b9a0a33f9a41a5bbbc1c48260019ef3de780926ebda9ef7639,input data (downloaded table),True
+data/raw_open/SOLV.json,55697,d35074fc18cf3140fe345192804516191e7bed26eba3439f41e3eee78dc239bd,input data (downloaded table),True
+data/raw_open/SPG.json,451160,61f4d92b1ad50e52e0f4fbdb965dc83f38821d327e055bf920d36fbc13b5c6e4,input data (downloaded table),True
+data/raw_open/SPGI.json,453152,187806451b062f41c97ddd845a299578467042be1a0aa540e9335c1cae816373,input data (downloaded table),True
+data/raw_open/SPLS.json,17929,02d9ca1005703dc786e82172f3fa542b2e9f6b158cab2d874aa7e7ca0a0a64d0,input data (downloaded table),True
+data/raw_open/SPY.json,450152,54051ce8c450137bb03815b84a1392a278dc682fccf3894fc1884a7a8bfa1491,input data (downloaded table),True
+data/raw_open/SRE.json,447011,f331c4b9aa5d795fa74d9df28e43450476c084f946d0baede909600ff37d1bad,input data (downloaded table),True
+data/raw_open/SSP.json,455684,008584726085c9c8d5b3f979e09b26ef7dd53fae886a109e3dfdba76a1342cb0,input data (downloaded table),True
+data/raw_open/STE.json,450200,e0b41ca5745c877492eedf00228b2766af793a813604b8f1d3f62f7f15451868,input data (downloaded table),True
+data/raw_open/STI.json,71848,1c7c069fd3b0e1cce4896a083c3f66b11ac2c0a618746a0b959adb0da488e9e8,input data (downloaded table),True
+data/raw_open/STLD.json,452653,d5ac158a3609f53e6efcdba43a3330b8e2d0790c547c0ee13ba7c11c09295f97,input data (downloaded table),True
+data/raw_open/STT.json,444252,fc17e9af9f535e02f3947fb65b387e6400697ee0bb909be5e8e41140af1c4ae8,input data (downloaded table),True
+data/raw_open/STX.json,446050,224d0a2b0e1faa81edbcd6f94ba2668afbebcfbf4c01f85b7178ff55b9135b13,input data (downloaded table),True
+data/raw_open/STZ.json,450126,e3feb1a915d08dc99fadc7902d64d69272f134ac5f998fe94e5bab0391d36d6e,input data (downloaded table),True
+data/raw_open/SUN.json,316544,1975913e9c59361f2c61003dbf37c8dd6ff3fea8b327fb6809184b508d537de2,input data (downloaded table),True
+data/raw_open/SW.json,410781,e3ced38d66f6cb21587ff0a92d313940ad2769f35d0b1de847908a8fc1ce5857,input data (downloaded table),True
+data/raw_open/SWK.json,445980,c131163905a9ff0102f8976fc124c95a6de5703dda355cdda70eef8bbaf3962e,input data (downloaded table),True
+data/raw_open/SWKS.json,445675,6ddf4b8feb9ac7eda84a2319bd8c8f4cbb70d64a833c35c52dea1184c2e16f8a,input data (downloaded table),True
+data/raw_open/SYF.json,277421,94e0633dca8a8f80c60013c2bf10ec494cbaf9b204d2676c3a592e3c495f97df,input data (downloaded table),True
+data/raw_open/SYK.json,445359,8a50de4da7569dac54c163775ccae62f1403a36a5547636bbd7caa2a8215c2d0,input data (downloaded table),True
+data/raw_open/SYY.json,446375,82946c69637b36ac40603e85129cfa276d07a6a2f2d4c0e9a3867c7859359114,input data (downloaded table),True
+data/raw_open/T.json,458647,a59c8736262913433a57bb50bfb764d8f66e261f68de0797e0b2d1044540f842,input data (downloaded table),True
+data/raw_open/TAP.json,445350,392456702a577256c18c3bc959fdb22c5dbfc96d4408548ae00f491be0a52b54,input data (downloaded table),True
+data/raw_open/TDC.json,426640,cc738f91828f96ed8f6613bb4c39966731294aa27934a8903b3945197d167596,input data (downloaded table),True
+data/raw_open/TDG.json,442629,e9942affff59bb4a2006cb30902e549129a61d71564781591763d762f90bc48b,input data (downloaded table),True
+data/raw_open/TDY.json,437408,26e71e892786c7790de3e2c9001a0ad1596a474ee0467b91a27086b66f37bca8,input data (downloaded table),True
+data/raw_open/TE.json,149869,b90147dae4b3b1aecedf7cf1e67dd452c6688551e8ce8338a0aac824b57a3f80,input data (downloaded table),True
+data/raw_open/TECH.json,450391,1ab8b709f5a8c349c5fd2e0e55f4b7225b7cf7d045e3cd893ed06f32ccacc72d,input data (downloaded table),True
+data/raw_open/TEL.json,437856,87847d840a57b6962e3fc3a7727c67c39a33b9a7d9c5e0d5f6d8864de32f518c,input data (downloaded table),True
+data/raw_open/TER.json,450238,ad44313f38326020d9efd56a729a44e05326497d97208adfed95b99e5581dffa,input data (downloaded table),True
+data/raw_open/TEX.json,449556,89dfc5c38fcaa516a15ec967a0e00e4e471a829440bc97983fb8b573837fcc09,input data (downloaded table),True
+data/raw_open/TFC.json,449856,8dba53cc3c148087432361ad8b95998abc2de6d8e9d89cf530de16c0d8f1a551,input data (downloaded table),True
+data/raw_open/TFX.json,448150,115a9e5e30cfeaa7e4988a72c1bf8fb8b148e7a71fd97c65d153cb5f2bc1bd2e,input data (downloaded table),True
+data/raw_open/TGT.json,446619,6cb8efb74d933bde2c4a93832490cf6c8bd5609a1c63aff6be81d6d6d4a512a6,input data (downloaded table),True
+data/raw_open/THC.json,443362,faae31aa6df9748bfb3bbe35c082c3489945ea7ac25bcb2d2e8f8c8b674a489b,input data (downloaded table),True
+data/raw_open/TJX.json,447714,97b05dcad6773cff78b968c8c82d65a2771fe0b69ab38a6a3f949b3c316e2e8c,input data (downloaded table),True
+data/raw_open/TKO.json,446559,921a6f1557271ced5345fdc69a3f0823e2bbca557488f2f3feb830a6e3e5c46d,input data (downloaded table),True
+data/raw_open/TMO.json,443821,b54cb317e025a0d0fb960443e6d6f9e18c3a2b8c63a556f1387c668fedce322f,input data (downloaded table),True
+data/raw_open/TMUS.json,443312,9e1e3e069b8c4c381837481bb85737bc3e0e22101e87bab3b46f575d7c6f26d5,input data (downloaded table),True
+data/raw_open/TPL.json,451145,808a323cc3faf2aee15b269c14d3cc11b94af72a7e843fefb74efc9defc27591,input data (downloaded table),True
+data/raw_open/TPR.json,449015,23bede9e78b6556c35fd39db3479810cb52497a3d6b5308bb9e5c9ca00c40b8f,input data (downloaded table),True
+data/raw_open/TRGP.json,358653,18e2964262bd20f8332767fd420fd386fbd22cc07bebf81e74cc16b68028fe95,input data (downloaded table),True
+data/raw_open/TRIP.json,335197,9bde56d53b82c56989e9c2e6196c098f2e5292b76e9e5ac2e13f26390f370b9f,input data (downloaded table),True
+data/raw_open/TRMB.json,441767,baff75737f818851f7c161b0b87dea234e5861ea940e186db495ee8e75dcaab0,input data (downloaded table),True
+data/raw_open/TROW.json,447225,1f931b060d648fe48faf59d4959ef8a765872d2214194f0e1595350f4474078d,input data (downloaded table),True
+data/raw_open/TRV.json,449478,030d578c20a520c325ec9a19056a0391e217df3545732267b3c12113be97d5a5,input data (downloaded table),True
+data/raw_open/TSCO.json,456048,f43632154755d41a4ca26e609f3edab13e57fc115ad0b846d8e964cfbfbfbf2e,input data (downloaded table),True
+data/raw_open/TSLA.json,372499,542d5296660784545cf5dae23d91cc5b5280729a4c8d2d4ac824700cfacde9be,input data (downloaded table),True
+data/raw_open/TSN.json,447326,e94c5216ebd03a05ecc1ec355deec055d5224046a43c1fd745acbb69a73ef155,input data (downloaded table),True
+data/raw_open/TT.json,452624,809db034bd175338c114556c40a0681d86612d5bf5161240ae05a3c154fb502d,input data (downloaded table),True
+data/raw_open/TTD.json,224134,1c5ca467de914a4d454a17fc0f7f0f698922638e13241769ab528417ac6c9d3a,input data (downloaded table),True
+data/raw_open/TTWO.json,443989,816c7ccf5b13f8681fb290e8569e14e18700badded4ecb137e7b1a304c332987,input data (downloaded table),True
+data/raw_open/TXN.json,450316,2ea02db32036afaa05cae7fd0925d5e4fecfe706f5ce14bed547fe0bbc1ae4b7,input data (downloaded table),True
+data/raw_open/TXT.json,445080,2092ee4b221cbe4cfb05b1acbf98b89319606844fc31656a06629e43cb821943,input data (downloaded table),True
+data/raw_open/TYL.json,439430,d88c10a1d2312cb53b659c969413af206d506d6f79b3df9b1fb3c2a655994951,input data (downloaded table),True
+data/raw_open/UA.json,235985,ec548d341787575e3ae8bdde54344f3de2ce44420a437656965ff7e614028d76,input data (downloaded table),True
+data/raw_open/UAA.json,439080,c28ad21632951d5a71d3ab85f526b578cfff78dd3f44dd6b8b60c6bf6a0a060e,input data (downloaded table),True
+data/raw_open/UAL.json,438348,6cd0a4f62d85fe9be3762132131d6b96c0681ea124c3475bc4ab73a2eacfb336,input data (downloaded table),True
+data/raw_open/UBER.json,161827,5fc5acc42a5390d6b8f61fc12494a710844d68cf5c623502e242f9d0025bf4ce,input data (downloaded table),True
+data/raw_open/UDR.json,452058,fdf8f2905cf44f885dc82f8a69e73fd11768b34521d49dea1c473ac580a07585,input data (downloaded table),True
+data/raw_open/UHS.json,452365,7e3275c5feb60c377349a524071cab15d3e782e6de3d8ccd82b519b778d70ccf,input data (downloaded table),True
+data/raw_open/UIS.json,433886,8657ba18b398e06d72ff2a1b0731994797e286f4ea0a1d9612c96ca4b1f536c5,input data (downloaded table),True
+data/raw_open/ULTA.json,418598,62b1df53f4439c63350b991d399781de9c51744f1f88806cc9450ad4c6f1c29b,input data (downloaded table),True
+data/raw_open/UNH.json,444585,17e83a508d2cc7ac4b351efce6fff5e915e4b124735cfab20b2f5c6a6c1428b3,input data (downloaded table),True
+data/raw_open/UNM.json,451347,a69c32bb2799a6a76467e4b32192b85ea06fcde160067832a4efdb977f8f04c4,input data (downloaded table),True
+data/raw_open/UNP.json,448680,aeb72fc0923e560c1eaa47771904763aa4198b15cd5f0ccb48ad90b9c5339b33,input data (downloaded table),True
+data/raw_open/UPS.json,446186,6eead646142b425bc78744c0b5e954c3ae960bb091bb414a7b1fc7c53b1ac71b,input data (downloaded table),True
+data/raw_open/URBN.json,444653,6fc63fdeec69bf97ec8c0d1dda7ed2efe80f01ef68774190ee244121eac97a5f,input data (downloaded table),True
+data/raw_open/URI.json,444608,af706f1f76ec07e5483e2010305b4137c4fe74c8fb105a12ef993f1ce2c64d8f,input data (downloaded table),True
+data/raw_open/USB.json,450642,5b6b7f9be9081d26a9ee0375357fb5c15241f1c59c1269ed13ddadda865417e4,input data (downloaded table),True
+data/raw_open/UST.json,378084,f6c05866968d39321dd4a5041934c5616422475e0c1df2ce12f0746d9f0aa48c,input data (downloaded table),True
+data/raw_open/V.json,419481,f9f3d30be326a43555f83606c1272908bb68f77e2a7b5a86e82e5fb939647513,input data (downloaded table),True
+data/raw_open/VAL.json,119146,e0ee0767c7e4eec8734b7e0bd94f628bd89e09042ebbaf3259dd0a31bbe0f8fe,input data (downloaded table),True
+data/raw_open/VEEV.json,286009,f73ac3bbeccebb473da340c693526b9a045efc4fa5af55dd5f6eabd1fba178ec,input data (downloaded table),True
+data/raw_open/VFC.json,452768,907d1e769c1c7ad7a2f1d895544093770a5a41cb5d636e3cbf80a3aa26960b00,input data (downloaded table),True
+data/raw_open/VIAV.json,446471,0acb59a0baac47491aacb0c8676020a7df338c43e0727791bf45e19043edecf4,input data (downloaded table),True
+data/raw_open/VICI.json,202029,04bf22749b698f161ca5ac894f2e5d8a89165ea6a5fb981c9fc414abf1b01431,input data (downloaded table),True
+data/raw_open/VLO.json,450213,a6fb0827dcccc7b33b302dc5438864971c99fa4924d47e012cab108ffad3defd,input data (downloaded table),True
+data/raw_open/VLTO.json,68729,a13dd07547ae287b9529e19f65c6b8d09c16854c9a6ddb07e4db8c9e446d1248,input data (downloaded table),True
+data/raw_open/VMC.json,447238,6cb73e9074bb4613589e770a0a1cd46be63f69baef6864000a5e18c685863648,input data (downloaded table),True
+data/raw_open/VMRK.json,446482,cf8d415e9ecc49a4382851b8bfccac6127b8d0f4cd7a206936efa9b6cf4a5ffa,input data (downloaded table),True
+data/raw_open/VNO.json,450111,b9b9895892151719c84fdec2ff756a6f050ccb2b7fa5c123db6c9c6848abbdad,input data (downloaded table),True
+data/raw_open/VNT.json,138205,64e6f4adaf1a39d136dcb2ab0700db9ed52d3bfbc0770d0e81d7e1c5ea192560,input data (downloaded table),True
+data/raw_open/VRSK.json,385106,ec98564261944cf2168bd494b361b6622b72409a5003e5d92cd9c5ea23d70e1d,input data (downloaded table),True
+data/raw_open/VRSN.json,450199,b47eaa45d28850d807fc50f872eab5500f46fe5335892d0dac133f5ed2083bba,input data (downloaded table),True
+data/raw_open/VRT.json,185504,ec1c8da34847ec454cfb343fac357e5ca19f4edaaddbc65800d2d88e629a5fc9,input data (downloaded table),True
+data/raw_open/VRTX.json,437597,130f1210599cf88192cb9b1bcd44bf462616fd0898c9cf2703f1d82dbde99c5e,input data (downloaded table),True
+data/raw_open/VST.json,228113,3dbfcf2b161a1351dd17293e2ba50a46ac1a200d21ecfb0dcccca633e38d034d,input data (downloaded table),True
+data/raw_open/VTR.json,448880,c1927671f39460421179211fe842c5150035622ab8da961d496a34c5bb101cb5,input data (downloaded table),True
+data/raw_open/VTRS.json,451586,69a8ab2a075bcd0cae531b73cbcb1cc9b4a565827b265d2f824d4315258e5e96,input data (downloaded table),True
+data/raw_open/VZ.json,451479,f1dee71aec3f67e043d0083e4f45fe63cc1c48fee30098d1d9090da8e84229fb,input data (downloaded table),True
+data/raw_open/WAB.json,445462,7b6520e0ae4fbd747994af3a127f8dbdc5ed01a79afeb6830685fe7fd4c707f7,input data (downloaded table),True
+data/raw_open/WAT.json,440122,009b87d0d587f68f8ca23d2f94d24169560449ebc961ced9f50054e4c58eea82,input data (downloaded table),True
+data/raw_open/WB.json,281839,fb62dac8a63315531c519002696355affd10113afa92f2c5673c356cb80cca65,input data (downloaded table),True
+data/raw_open/WBD.json,160,d37990709c68afd7187e0c865723b5f7c986646271de0f57a729690441c88410,input data (downloaded table),True
+data/raw_open/WDAY.json,307411,82d6920c2a8647db31ab60a62e36d4afbfb1678ca25ec217defb77d19e15f70f,input data (downloaded table),True
+data/raw_open/WDC.json,454590,d5c3dc02ed263e3ef95e6bdf02abee12b587c8533e3016c661cc8ee6d4db9e10,input data (downloaded table),True
+data/raw_open/WEC.json,448318,6273a8b31da16bc23b41737974e7e39b2ec6bb0266ec8d3c98f6ce6a68c9d9fe,input data (downloaded table),True
+data/raw_open/WELL.json,445735,5240715cf330b3ee582eac1ef75c90a0fffcc98f78bc95dceb11fb909640aa33,input data (downloaded table),True
+data/raw_open/WEN.json,450604,261561b617ea147855ea50db4fa1de1362561f7a3bf0e9020363a839bf6475d7,input data (downloaded table),True
+data/raw_open/WFC.json,448668,31d6d83739e402c9e2aacd66b2ee3ebf892fe3bdf719dc29bed403064210494f,input data (downloaded table),True
+data/raw_open/WHR.json,446483,41f49a41d10349454ab2bdb391fe95a8b166c647cde665fcd0b075ca38c7d955,input data (downloaded table),True
+data/raw_open/WM.json,448681,118409e7adf86b91b6fdac73e8bbdce6448d4d3aa841b7108d6f1f32353ccd32,input data (downloaded table),True
+data/raw_open/WMB.json,453926,537f574d70362058149c9c4362fcdbf52bf51ba36af233176c25f4883071cf28,input data (downloaded table),True
+data/raw_open/WMT.json,455623,dda558df3a2c5db3d3745790b97c3de40690b796e404d23e0200490907c9957c,input data (downloaded table),True
+data/raw_open/WRB.json,453820,92d044f7f8c9575e54a879aa69749924005043792a9a758fa2c972542facffd0,input data (downloaded table),True
+data/raw_open/WSM.json,449467,182c8775bc1f4d339c73a042638de4e8c7c12105952bbd1ff45c11afea4a0991,input data (downloaded table),True
+data/raw_open/WST.json,448610,0dc3ac42349ce65def5bb5ea4d87e03616037b624dec2b4719746a8c1bd83342,input data (downloaded table),True
+data/raw_open/WTW.json,450737,903a5deebb6ef18a2f7e2d3db36e6db6190ae47ed191c10580ca9d7bac3df69e,input data (downloaded table),True
+data/raw_open/WU.json,450318,fe453fe5b64de8bd4b31af6c4ab49dc40142a5e56dcd2ed7e682ec41164a7b09,input data (downloaded table),True
+data/raw_open/WY.json,451847,9f24b0c8e6b7393f1e11a476cc42ca522748d709e56759f42e4d2260610bb1ed,input data (downloaded table),True
+data/raw_open/WYNN.json,444538,cce8c64fdbc3f9d2df3314760928faf064a78532006ddeea5cdc890d3198fbb1,input data (downloaded table),True
+data/raw_open/XEL.json,449276,ab85040f128a402eb619f03cc12fceecc09fdd98d360a98cf48414085625dc1a,input data (downloaded table),True
+data/raw_open/XLB.json,453815,42f0b24a3f5772c8390ab75d78452123fecedeea5379938be5e08bf698783375,input data (downloaded table),True
+data/raw_open/XLC.json,189025,306c63624024c07a9dbce29c508a5f42c776f5e8d3d16269e580f7f219710820,input data (downloaded table),True
+data/raw_open/XLE.json,451706,15416ef00f676358f6a32f59bcfdd456aeb07902b910ef5c5d38bb3c73b4dffa,input data (downloaded table),True
+data/raw_open/XLF.json,455318,4bca9ac6d76592629ae7c20a76b19f6c65565b99ff984b50c0a363dc1b531e9b,input data (downloaded table),True
+data/raw_open/XLI.json,449199,e7616bc4ecbb9f94b24496002b501eaec8bbc55551af34215fa04fecaa3b0a8a,input data (downloaded table),True
+data/raw_open/XLK.json,451636,def4738b00a3c441d122a43ccf9d4f062983fc0976fff5081f671b07199b6fc6,input data (downloaded table),True
+data/raw_open/XLP.json,448342,f1d677b82ef311a9e0bbbf52bf7c043ce5ad6a3d13d02aceda87d8a26b65f2ae,input data (downloaded table),True
+data/raw_open/XLRE.json,251676,ddabaa1c186361e518d9088811b249a42f31fe6106cfa8163c93ccf232f12bb9,input data (downloaded table),True
+data/raw_open/XLU.json,453246,470a99330f15c49ef5231012abb43bc61dc6069d5f348bbd6ff4596a70e7be4d,input data (downloaded table),True
+data/raw_open/XLV.json,450742,54a33bfa805335912a3d75d0d63db11d7d0c082b81a0d57402642e78c796de71,input data (downloaded table),True
+data/raw_open/XLY.json,450787,9fda70be7e96ba8995fe11dc382b6c9c475f114ae6c1f10ac5a9d344ea1257fa,input data (downloaded table),True
+data/raw_open/XOM.json,445261,b6b1eb12e3f04109c95919d5a096e97d7f5ddcf55cdd7a48c83a971bf9750d82,input data (downloaded table),True
+data/raw_open/XRAY.json,448954,adf3df08453a02bec41b4785b17e4f68c4640d5872b4982eede859bc2bd8b053,input data (downloaded table),True
+data/raw_open/XRX.json,456469,72891a4a9b76f7f8da3f2cea171263cb5e8a8fd59762ac0aa1d63e4799963ba7,input data (downloaded table),True
+data/raw_open/XYL.json,339823,cf2b4938142d06eb01801ba428b01b1a4956c07ecdc381a1aa57704c324bb6a1,input data (downloaded table),True
+data/raw_open/XYZ.json,238272,0cc150af444c9b39e4cadbc2ff13112cabbbfa73f5de84d7c1cba1cd0d8bdc99,input data (downloaded table),True
+data/raw_open/YUM.json,452682,ac2fd47ef64c476e090731bc10a6e99793bd2562f55cf4ab731726c13986869a,input data (downloaded table),True
+data/raw_open/ZBH.json,453639,e61c541da2c0dffbf78b4448a19b7a7d41cc907ce17927c2362c8acdf338f0fe,input data (downloaded table),True
+data/raw_open/ZBRA.json,438687,2a0f0b43d1cfca522f048f603ed1eb7f192824523516c8bb505245123798dddc,input data (downloaded table),True
+data/raw_open/ZION.json,450855,d5f4db278063f1b3c4d69511955c9d20de2caeb1d70bf07acc37057bcb8dc698,input data (downloaded table),True
+data/raw_open/ZTS.json,311046,05d567b5b6fca336a948cf2544387d67cbb9622153ce4a2092010e585cf9df34,input data (downloaded table),True
+data/raw_open/_log.json,8990,e636313133e71449142d4bb4e2a5c6ae7f4269c5f7421d48daece817b4db20e9,input data (downloaded table),True
 data/raw_smallcap/AA.json,209565,977f77e40226c3cb0cbc0649a0ae1fbf997616469c1bf06d7e77cc2db2700334,raw data (vendor download),False
 data/raw_smallcap/AAC.json,1546,3974e766a0fcea51d5a60bb66d66a57a0987eccdd490566dff59534934e58be0,raw data (vendor download),False
 data/raw_smallcap/AACI.json,4844,da9fee51a1eb06791a8e779d994c652712f7ae98531808952dd7205330056478,raw data (vendor download),False
@@ -8714,7 +9201,7 @@ logs/factor_combo.log,144599,6de73d9f71587b2f3656e06a51a4731a8c86052829c6196407a
 logs/factor_screen.log,170828,8e7eb7cee99a93d2009d4e36c42f8fde403f2ed47c55ea6f8294fbcf10d5a370,log,True
 logs/fetch_earnings_dates.log,755,97bafc7810a0a858c59b12fd01acdb8bb12308d0765251c635e581afe6414dfb,log,True
 logs/fetch_ndx_prices.log,3451,5969299e1f260c53512d58b018ae262004e6d14ede0ffacc366365eac2d8efea,log,True
-logs/fetch_opens.log,142,e762b5c3c6516d7035c2d88d27784bfcc233dddb9994750996d0eddb040d3896,log,True
+logs/fetch_opens.log,504,0227497964c3e785436c658d3b9b35f048024a59de1173932561d902ecad7f41,log,True
 logs/fetch_prices_part1.log,7073,b39766c66f73a0791bf4544f59fce755bf58f48f1533c469666bf2e6a0030a7e,log,True
 logs/fetch_prices_part2.log,32327,40d5c0197554fb7a346c311b2e0ac7661213bc38ef3f5480b38fe9e2ad52d050,log,True
 logs/fetch_prices_part3.log,64,0d4971c37e9daf74bfb8002fa6d6b488b62aba081fe7f3c93e9e7ddfd420c326,log,True
@@ -8730,6 +9217,7 @@ logs/fetch_wiki.log,13345,76ed58f1220a6deb56a3e40937d9c5da08ffd3e35790077e690b9a
 logs/fetch_wiki_crosscheck.log,388,5fdbe4f0d6ff69dcdf1ab085e47e7deb6b20167a9a3e716d212f4367d375bf4f,log,True
 logs/fetch_wiki_open.log,19,0654d04e2a4092cbfbe28f0aad97fd90cdb3c6f79077aafaa08ceb5b99e3910d,log,True
 logs/gap_ledger.log,1336,70f5ab04fcd40b433457cba2ecb9ca602481e8c46b65a6286a51d1b48d41c6ac,log,True
+logs/ml2_run.log,70906,6868f817aa0a59f2d8f2c102af03fd9c1bff5e4c98621ca417fb155751978dc3,log,True
 logs/ml_dev.log,3816,d3395e791a6532e9ea399e631a23de00bebff1b4d121987724f9cb6678b6f08e,log,True
 logs/ml_features.log,3311,40b28faf258f9f096dd418505bec983836bff1d91474cc039bd0337652cdabf1,log,True
 logs/ndx_expand.log,3412,0953c652e4591b349019878aabded76e2359608e2a2f6d23d58ff6bed122b1bb,log,True
@@ -8897,7 +9385,30 @@ results/ml/tech_tech__momentum_top_1.csv,7226,5ebffb02e7f1ec2f576f37564672c703b4
 results/ml/tech_tech__momentum_top_1___SMA200.csv,7232,aef832211d0db004546965c0559743ae19cd90ece1be9a343d1a719e626d2293,result,True
 results/ml/tech_tech__momentum_top_5__equal_weight_.csv,7761,bb0cd2bf8cf21a76a1621b45131b82e7d58a3a1887277971482d4df274c4f4b9,result,True
 results/ml/tech_tech__three_factor_score_top_1.csv,7105,6995a72a26f2d098bb8d1fcb50b70e70607e4353a37b1170a9bccda7b73b26f1,result,True
-results/ml2/panel_ml2.parquet,33835307,71fc2f96863162e257ef9f33846ad757965c2e4b9bb3e44d552fedb048c0e587,result,True
+results/ml2/chosen_params.json,12166,3e4fac7592c91a8296a71d00761c3c3789e532e6e5d14f5f04ace7e2850cdadd,result,True
+results/ml2/ic_test.csv,414,28a49f00a55756d68145b307cf05dfe42316e5e1282f1f6fa79a52c6da09a061,result,True
+results/ml2/layered_comparisons.csv,1663,b6c9162ea97f873a3303d7a5b91331c5303f2cd8311173d02638aabb6115b6c6,result,True
+results/ml2/meta.json,408,15460526142b18801f7ef5cad9d5b8e840c028b11cc4807b8a115b28c8f1f510,result,True
+results/ml2/monthly_A_lgbm_Top1.csv,10215,d1508a13d1325876fe4be60cce1a119b3b6494693999386216817742877ca724,result,True
+results/ml2/monthly_A_lgbm_Top3.csv,15463,d6764a9d358e50a88aeffbc4a1bb3f2bccc521b791650b61e0aaaacaff2511c2,result,True
+results/ml2/monthly_A_ridge_Top1.csv,10191,8a3f6dec577ce648d384986883f5c886140975775d3d1e36a64b647c0fa06190,result,True
+results/ml2/monthly_A_ridge_Top3.csv,15475,d9d6f69c28771a1f14d606682cff0e775aca7d30742b45005a33e011cc130f30,result,True
+results/ml2/monthly_BENCH_SPY.csv,10228,48356f9f0ca8d14cf2d35ddc7aee4a35cda4d53408e61c368b4e0ed997bac5c5,result,True
+results/ml2/monthly_BENCH_full_universe_C_lgbm_Top1.csv,10165,5d17e68e1822e5875d25eaad33001e73b23689e74b4b7ea6508f019c849c5cc1,result,True
+results/ml2/monthly_BENCH_full_universe_C_lgbm_Top3.csv,15541,9b6796411919df2da44e1d23f91be56a08dc3340a9672186446146e48a645bc4,result,True
+results/ml2/monthly_BENCH_momentum_Top1.csv,10175,50ee4311787bec61df04d3f768d530a37fa87b3e537ecf16ed776446f64184b2,result,True
+results/ml2/monthly_BENCH_momentum_Top3.csv,15782,975bcd5cb1a425f4a6c6651e199648c6b6d07e0317f51c0beb9948f4ac4f6293,result,True
+results/ml2/monthly_B_lgbm_Top1.csv,10225,0d4282a9b9129cb1736b2430ddf70c392c40a2cf28ccb241d0c2eb44ae7821ec,result,True
+results/ml2/monthly_B_lgbm_Top3.csv,15543,8bb6755ea8d444f7b2c31f67ba3759e2959681c3f2e3ce587a8d05aaa9423b85,result,True
+results/ml2/monthly_B_ridge_Top1.csv,10216,fa773b6cf6b3833f5656fb64a48804b04c1f684699f6ef05545b1253a17847a4,result,True
+results/ml2/monthly_B_ridge_Top3.csv,15502,5fae56430660fcc3fb490429a83b51586b56f02c99ca9d89d814f8f856a94ddb,result,True
+results/ml2/monthly_C_lgbm_Top1.csv,10182,660176e13969cde4b80a3f99bc3fb3057a39c4af3bcf80674d5cbecb4551dd76,result,True
+results/ml2/monthly_C_lgbm_Top3.csv,15527,c28c4f540dde0220e9fd8542d191c6b63495754a95576e01991d40cfc2eaa04e,result,True
+results/ml2/monthly_C_ridge_Top1.csv,10249,3ea66b59c3d9f90baa3885239d62207f3a2d13eacef530c92f7ec7d6bea19949,result,True
+results/ml2/monthly_C_ridge_Top3.csv,15657,a4175f599025febc0986b784179cb30db20b8804a8ff67f6e23064eb226e6586,result,True
+results/ml2/panel_ml2.parquet,33835747,add586bc50ea6087a15d7f6d40d7c1e7bac0c6dde07b34f4336d583d2273c8cc,result,True
+results/ml2/predictions_test.parquet,950581,9abe0b12f1efd5b6eb195b7a19bb609ebf4e6f7761fa524a3223f846315d8fce,result,True
+results/ml2/summary.csv,24026,029e684b053a1e6c7647c0b01676e2373cb06945bb3ddf79a9c916b6c7c4ac6d,result,True
 results/ndx/coverage_ndx_only.csv,5342,64e1ba0b24265680125ead050733da3a8719d5a6f6deb4fcccf43bf8240dcfb0,result,True
 results/ndx/gap_ndx.csv,1088,93252590290ea0edf7429cd5f3c8d1063297a4fce9f1f5fbb1ee46d9b9344114,result,True
 results/ndx/membership_spells_excluded.csv,346,31e570663c526ab5383383d7ddce6da30fb13e15c6fce734f7605bf8b6b60e11,result,True
