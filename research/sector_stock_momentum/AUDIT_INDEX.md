@@ -1,5 +1,7 @@
 # 审计索引（AUDIT_INDEX）
 
+**总报告：`FINAL_REPORT.md`**（全部测试、数据、结论与固定提交的链接）。
+
 这份文件告诉审计者：每个结论出自哪段代码、用了哪些输入、产出哪些文件，以及哪些测试和审计记录可以对照。
 所有文件的大小和 sha256 列在 `MANIFEST.csv` 里（由 `build_manifest.py` 生成）。原始供应商数据不进公开仓库，但哈希值列在清单中。私有仓库保存全部文件，只有两项例外：`data/sec_submissions/`（424 MB 的 SEC 缓存，可用 `fetch_earnings_dates.py` 重新下载，派生结果 `data/earnings_dates.csv` 已入库）和 `data/raw_volume/`（成交量还在下载中）。
 
