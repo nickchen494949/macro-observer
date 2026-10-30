@@ -1,0 +1,32 @@
+PARTIAL — Codex writer work complete, independent parent review required.
+
+Frozen inputs -> source/timing checks -> 23 counterexamples -> actual cached reruns -> 105 independent repricing checks -> parent review -> common-period comparison.
+
+Scope: 34 original Python files (32 entries + 2 libraries); 85 legacy inventory records resolved. Final strategy/diagnostic index: 156 records.
+Runtime: 20 entry successes, 11 safe blocked entries, 1 explicitly interrupted/rejected RF diagnostic, 2 libraries tested with limits. No process remains running.
+Raw inputs: 113 source files match immutable parent byte-for-byte. All final successful execution records match current code and input hashes.
+
+Corrected runs:
+- Sector rank 16 inherited combinations: 6 monthly all-regime portfolios; remaining conditional/overlapping label studies do not receive portfolio CAGR.
+- Six current RF/Ridge models: native ledgers preserved; separate identical 40-month window and benchmarks saved.
+- All remaining implementable sector studies actually rerun on revised-history flag.
+- Pure SEP: 20 original parameter combinations rerun from 2015-09-18 with valid PDF medians, next-trading-day close and trade/cash accounting. Prior 2012-start SEP results are stale and not admissible.
+- Four hawkish-path studies actually rerun; original 100,000 permutation settings retained. Conditional statistics are not portfolios.
+
+RF audit: completed baseline lags 1/2/3, 10 LOSO, exclude-2022, 330 feature-group permutations. First five original acceptance checks failed. At most 2/7 checks could pass against minimum 6/7; rejection is mathematically fixed. Parent explicitly stopped the 500-seed placebo. Actual exit 1 / KeyboardInterrupt; exact completed seed count unknown, no placebo p-values claimed.
+
+Blocked/unresolved:
+- Nine QQQ EPS entries: direct Nasdaq-100 aggregate EPS identity/vintages missing; --revised-history also blocked.
+- Six inherited RF classifier/regressor results: exact superseded implementation unavailable; not falsely mapped onto current six models.
+- Sector PE and macro source histories: point-in-time not certified. Gross portfolio statistics do not certify investment merit.
+- Full TQQQ library: bankruptcy/cost/date input counterexamples pass, but no real full-input caller path was supplied. Only its SEP parser has a real path.
+- Legacy v1-v5 EPS accounting issues remain behind source gate; no blocked historical modelling was run.
+
+Review artifacts:
+audit_v2/rotation_macro_disposition.json
+audit_v2/rotation_macro_strategy_index.json
+audit_v2/rotation_macro_checks.json
+audit_v2/rotation_macro_ledger_checks.json
+audit_v2/rotation_macro_rf_early_stop.json
+audit_v2/rotation_macro_changed_files.json
+research/sector_rotation/results_v2/model_common_period_summary.csv

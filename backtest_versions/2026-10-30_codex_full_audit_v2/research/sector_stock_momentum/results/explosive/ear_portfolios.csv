@@ -1,0 +1,10 @@
+strategy,period,CAGR,Sharpe,maxDD_month_end,evidence_role,v
+"tech top-5 inv-vol, composite (baseline)",2015-01..2022-12,0.21150114049096547,0.9355847929223493,-0.33812089628428577,development_fit,21.2% / 0.94 / -34%
+"tech top-5 inv-vol, composite (baseline)",2023-01..2026-09,0.6371941379849264,1.283186060103195,-0.17043521273452356,retrospective_temporal_holdout,63.7% / 1.28 / -17%
+"tech top-5 inv-vol, composite (baseline)",2015-01..2026-09,0.3337086303028438,1.0416757880969303,-0.3465896288206728,development_fit,33.4% / 1.04 / -35%
+"tech top-5 inv-vol, composite + ear",2015-01..2022-12,0.1883517719264325,0.8637765445139556,-0.35099514170530144,development_fit,18.8% / 0.86 / -35%
+"tech top-5 inv-vol, composite + ear",2023-01..2026-09,0.46090549472307685,1.0334924308254956,-0.20370838587909368,retrospective_temporal_holdout,46.1% / 1.03 / -20%
+"tech top-5 inv-vol, composite + ear",2015-01..2026-09,0.2693031872255971,0.9013511351798057,-0.3838949254723204,development_fit,26.9% / 0.90 / -38%
+"tech top-5 inv-vol, composite + ear_sum4",2015-01..2022-12,0.1510440731865208,0.70546762360074,-0.3582193437087059,development_fit,15.1% / 0.71 / -36%
+"tech top-5 inv-vol, composite + ear_sum4",2023-01..2026-09,0.5478767548214076,1.1807626845927754,-0.2180845018348292,retrospective_temporal_holdout,54.8% / 1.18 / -22%
+"tech top-5 inv-vol, composite + ear_sum4",2015-01..2026-09,0.2651694149851096,0.880170665260241,-0.36058613417846064,development_fit,26.5% / 0.88 / -36%

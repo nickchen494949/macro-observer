@@ -1,0 +1,73 @@
+strategy,period,CAGR,Sharpe,maxDD,months,validation,cost_basis,v
+tech top-1 [fixed],2015-01..2022-12,-0.032229369654117934,0.10718709127765622,-0.6819297044733224,96,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",-3.2% / 0.11 / -68%
+tech top-1 [fixed],2023-01..2026-09,0.6522546513400895,1.0111297850358032,-0.46571054316660765,45,retrospective,"actual drifted turnover, 10bp/side",65.2% / 1.01 / -47%
+tech top-1 [fixed],2015-01..2026-09,0.14792149061421367,0.47489988847435544,-0.7401440365092495,141,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",14.8% / 0.47 / -74%
+tech top-1 [fixed],2022 only,-0.5659878540985777,-2.326088710257347,-0.5659878540985777,12,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",-56.6%
+tech top-5 EW [fixed],2015-01..2022-12,0.19337715980916093,0.8478921909267093,-0.37018634721569077,96,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",19.3% / 0.85 / -37%
+tech top-5 EW [fixed],2023-01..2026-09,0.6777347118266448,1.313381960231512,-0.19083223762466128,45,retrospective,"actual drifted turnover, 10bp/side",67.8% / 1.31 / -19%
+tech top-5 EW [fixed],2015-01..2026-09,0.33043723917643697,1.008036298020612,-0.3712790934014055,141,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",33.0% / 1.01 / -37%
+tech top-5 EW [fixed],2022 only,-0.35910704240753755,-2.0680500981649237,-0.35910704240753755,12,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",-35.9%
+tech top-5 inv-vol [fixed],2015-01..2022-12,0.21150114049096547,0.9355847929223493,-0.33812089628428577,96,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",21.2% / 0.94 / -34%
+tech top-5 inv-vol [fixed],2023-01..2026-09,0.6371941379849264,1.283186060103195,-0.17043521273452356,45,retrospective,"actual drifted turnover, 10bp/side",63.7% / 1.28 / -17%
+tech top-5 inv-vol [fixed],2015-01..2026-09,0.3337086303028438,1.0416757880969303,-0.3465896288206728,141,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",33.4% / 1.04 / -35%
+tech top-5 inv-vol [fixed],2022 only,-0.3359267214680247,-2.0072750649505693,-0.3359267214680247,12,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",-33.6%
+tech top-1 [annual-reselect],2015-01..2022-12,0.11128618807067436,0.45043453809554046,-0.6290017502105802,96,retrospective,"actual drifted turnover, 10bp/side",11.1% / 0.45 / -63%
+tech top-1 [annual-reselect],2023-01..2026-09,0.41015603571237436,0.7640904991790333,-0.46571054316660765,45,retrospective,"actual drifted turnover, 10bp/side",41.0% / 0.76 / -47%
+tech top-1 [annual-reselect],2015-01..2026-09,0.19905494031988935,0.5690385076889929,-0.7614510032377837,141,retrospective,"actual drifted turnover, 10bp/side",19.9% / 0.57 / -76%
+tech top-1 [annual-reselect],2022 only,-0.56511896091359,-2.3265612606383064,-0.56511896091359,12,retrospective,"actual drifted turnover, 10bp/side",-56.5%
+tech top-5 EW [annual-reselect],2015-01..2022-12,0.13156098370701286,0.6403137341894418,-0.3591175143678813,96,retrospective,"actual drifted turnover, 10bp/side",13.2% / 0.64 / -36%
+tech top-5 EW [annual-reselect],2023-01..2026-09,0.55903957539265,1.2058666153329556,-0.2694998141525725,45,retrospective,"actual drifted turnover, 10bp/side",55.9% / 1.21 / -27%
+tech top-5 EW [annual-reselect],2015-01..2026-09,0.2534206639440131,0.8555630420761363,-0.3602294653212621,141,retrospective,"actual drifted turnover, 10bp/side",25.3% / 0.86 / -36%
+tech top-5 EW [annual-reselect],2022 only,-0.3591175143678813,-2.0680474483254194,-0.3591175143678813,12,retrospective,"actual drifted turnover, 10bp/side",-35.9%
+tech top-5 inv-vol [annual-reselect],2015-01..2022-12,0.14701701360666442,0.7191897312357988,-0.33594339066906154,96,retrospective,"actual drifted turnover, 10bp/side",14.7% / 0.72 / -34%
+tech top-5 inv-vol [annual-reselect],2023-01..2026-09,0.5233158018440245,1.1669169566201334,-0.25048914237259,45,retrospective,"actual drifted turnover, 10bp/side",52.3% / 1.17 / -25%
+tech top-5 inv-vol [annual-reselect],2015-01..2026-09,0.2557275414890554,0.8804546601176704,-0.34443998435493683,141,retrospective,"actual drifted turnover, 10bp/side",25.6% / 0.88 / -34%
+tech top-5 inv-vol [annual-reselect],2022 only,-0.33594339066906165,-2.0072631722579732,-0.33594339066906165,12,retrospective,"actual drifted turnover, 10bp/side",-33.6%
+tech top-1 [fixed] + XLK regime,2015-01..2022-12,-0.02556691705993941,0.10819602708170516,-0.5971469199574722,96,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",-2.6% / 0.11 / -60%
+tech top-1 [fixed] + XLK regime,2023-01..2026-09,0.4492053500743538,0.88121925061689,-0.46571054316660765,45,retrospective,"actual drifted turnover, 10bp/side",44.9% / 0.88 / -47%
+tech top-1 [fixed] + XLK regime,2015-01..2026-09,0.10602831761664455,0.40473478422836967,-0.6658347116800587,141,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",10.6% / 0.40 / -67%
+tech top-1 [fixed] + XLK regime,2022 only,-0.4169593232470259,-1.7270484066910452,-0.42652135482293174,12,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",-41.7%
+tech top-5 EW [fixed] + XLK regime,2015-01..2022-12,0.16290291425834247,0.7992072124523298,-0.26516760065887357,96,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",16.3% / 0.80 / -27%
+tech top-5 EW [fixed] + XLK regime,2023-01..2026-09,0.4826125954137708,1.1597525974419323,-0.1904380436000912,45,retrospective,"actual drifted turnover, 10bp/side",48.3% / 1.16 / -19%
+tech top-5 EW [fixed] + XLK regime,2015-01..2026-09,0.25663351255009004,0.923202935588654,-0.2862534256223078,141,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",25.7% / 0.92 / -29%
+tech top-5 EW [fixed] + XLK regime,2022 only,-0.23977293051835014,-1.6505912927255804,-0.25224086891970776,12,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",-24.0%
+tech top-5 inv-vol [fixed] + XLK regime,2015-01..2022-12,0.18184291348683868,0.9082584366846883,-0.24452059419682493,96,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",18.2% / 0.91 / -24%
+tech top-5 inv-vol [fixed] + XLK regime,2023-01..2026-09,0.44144019843439497,1.1111702770565386,-0.16031648305974988,45,retrospective,"actual drifted turnover, 10bp/side",44.1% / 1.11 / -16%
+tech top-5 inv-vol [fixed] + XLK regime,2015-01..2026-09,0.25916360416639095,0.9624947794460391,-0.2723941969570641,141,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",25.9% / 0.96 / -27%
+tech top-5 inv-vol [fixed] + XLK regime,2022 only,-0.229377704898305,-1.6606319057578072,-0.24201612793234928,12,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",-22.9%
+tech top-1 [annual-reselect] + XLK regime,2015-01..2022-12,0.10951067914446111,0.4549582342616412,-0.5097842867728769,96,retrospective,"actual drifted turnover, 10bp/side",11.0% / 0.45 / -51%
+tech top-1 [annual-reselect] + XLK regime,2023-01..2026-09,0.3500071522823127,0.697392493117917,-0.46571054316660765,45,retrospective,"actual drifted turnover, 10bp/side",35.0% / 0.70 / -47%
+tech top-1 [annual-reselect] + XLK regime,2015-01..2026-09,0.18120272072423993,0.5405777733575385,-0.6799645902535447,141,retrospective,"actual drifted turnover, 10bp/side",18.1% / 0.54 / -68%
+tech top-1 [annual-reselect] + XLK regime,2022 only,-0.41579207464491774,-1.7274636156016094,-0.4253732494271819,12,retrospective,"actual drifted turnover, 10bp/side",-41.6%
+tech top-5 EW [annual-reselect] + XLK regime,2015-01..2022-12,0.1094619463126627,0.5909806629191545,-0.26536102783985993,96,retrospective,"actual drifted turnover, 10bp/side",10.9% / 0.59 / -27%
+tech top-5 EW [annual-reselect] + XLK regime,2023-01..2026-09,0.39102556581166303,1.0016021967153663,-0.2694998141525725,45,retrospective,"actual drifted turnover, 10bp/side",39.1% / 1.00 / -27%
+tech top-5 EW [annual-reselect] + XLK regime,2015-01..2026-09,0.19250465070003053,0.7447687803681693,-0.2737094906146166,141,retrospective,"actual drifted turnover, 10bp/side",19.3% / 0.74 / -27%
+tech top-5 EW [annual-reselect] + XLK regime,2022 only,-0.23978535235514786,-1.6505754147939051,-0.2522530870348777,12,retrospective,"actual drifted turnover, 10bp/side",-24.0%
+tech top-5 inv-vol [annual-reselect] + XLK regime,2015-01..2022-12,0.12468507507009008,0.679871374355988,-0.2709788899630975,96,retrospective,"actual drifted turnover, 10bp/side",12.5% / 0.68 / -27%
+tech top-5 inv-vol [annual-reselect] + XLK regime,2023-01..2026-09,0.3741367783473093,0.9856839765391265,-0.25048914237259,45,retrospective,"actual drifted turnover, 10bp/side",37.4% / 0.99 / -25%
+tech top-5 inv-vol [annual-reselect] + XLK regime,2015-01..2026-09,0.19893759990466853,0.7848564816103836,-0.2709788899630975,141,retrospective,"actual drifted turnover, 10bp/side",19.9% / 0.78 / -27%
+tech top-5 inv-vol [annual-reselect] + XLK regime,2022 only,-0.22939704863396781,-1.6605921278324733,-0.24203515442529033,12,retrospective,"actual drifted turnover, 10bp/side",-22.9%
+pure momentum top-1 (all S&P),2015-01..2022-12,0.13324546978425267,0.4932729860505693,-0.6937177652235045,96,retrospective,"actual drifted turnover, 10bp/side",13.3% / 0.49 / -69%
+pure momentum top-1 (all S&P),2023-01..2026-09,1.3706763231281132,1.475941262437143,-0.46571054316660765,45,retrospective,"actual drifted turnover, 10bp/side",137.1% / 1.48 / -47%
+pure momentum top-1 (all S&P),2015-01..2026-09,0.4342558540833521,0.8776498259624547,-0.6937177652235045,141,retrospective,"actual drifted turnover, 10bp/side",43.4% / 0.88 / -69%
+pure momentum top-1 (all S&P),2022 only,-0.09813296874980582,0.1298064234965415,-0.33462602181597667,12,retrospective,"actual drifted turnover, 10bp/side",-9.8%
+pure momentum top-1 (all) + SPY regime,2015-01..2022-12,0.0411722904030809,0.2888042559101937,-0.7078833334617769,96,retrospective,"actual drifted turnover, 10bp/side",4.1% / 0.29 / -71%
+pure momentum top-1 (all) + SPY regime,2023-01..2026-09,0.7481503002136569,1.1218646374087533,-0.46571054316660765,45,retrospective,"actual drifted turnover, 10bp/side",74.8% / 1.12 / -47%
+pure momentum top-1 (all) + SPY regime,2015-01..2026-09,0.22842610756427284,0.6254840652779472,-0.7078833334617769,141,retrospective,"actual drifted turnover, 10bp/side",22.8% / 0.63 / -71%
+pure momentum top-1 (all) + SPY regime,2022 only,-0.29426324332542975,-0.6904710006276414,-0.33462602181597667,12,retrospective,"actual drifted turnover, 10bp/side",-29.4%
+XLK,2015-01..2022-12,0.16340007196298156,0.8298643918689591,-0.3121108811857949,96,retrospective,gross benchmark,16.3% / 0.83 / -31%
+XLK,2023-01..2026-09,0.3666802050340958,1.3308648060214368,-0.11358651893935956,45,retrospective,gross benchmark,36.7% / 1.33 / -11%
+XLK,2015-01..2026-09,0.22475625597969429,1.0019449323712362,-0.3121108811857949,141,retrospective,gross benchmark,22.5% / 1.00 / -31%
+XLK,2022 only,-0.2772628761155248,-1.0545399045635562,-0.312110881185795,12,retrospective,gross benchmark,-27.7%
+XLK + own regime,2015-01..2022-12,0.1322432651846659,0.8234926958690018,-0.21308452955000168,96,retrospective,"actual drifted turnover, 10bp/side",13.2% / 0.82 / -21%
+XLK + own regime,2023-01..2026-09,0.2669601783621829,1.1255153945927825,-0.11356215836034378,45,retrospective,"actual drifted turnover, 10bp/side",26.7% / 1.13 / -11%
+XLK + own regime,2015-01..2026-09,0.17360411720713986,0.9304928741095317,-0.21308452955000168,141,retrospective,"actual drifted turnover, 10bp/side",17.4% / 0.93 / -21%
+XLK + own regime,2022 only,-0.19996370868022284,-1.800797358058331,-0.21308452955000168,12,retrospective,"actual drifted turnover, 10bp/side",-20.0%
+SPY,2015-01..2022-12,0.10065513547135119,0.6235471098940234,-0.2392718489616915,96,retrospective,gross benchmark,10.1% / 0.62 / -24%
+SPY,2023-01..2026-09,0.21734226094046272,1.2823819307012816,-0.0832582485915756,45,retrospective,gross benchmark,21.7% / 1.28 / -8%
+SPY,2015-01..2026-09,0.13662624462193484,0.7969944123338518,-0.2392718489616915,141,retrospective,gross benchmark,13.7% / 0.80 / -24%
+SPY,2022 only,-0.1817537324730858,-0.8390629112334946,-0.2392718489616913,12,retrospective,gross benchmark,-18.2%
+SPY + own regime,2015-01..2022-12,0.057069211569807266,0.45121890622469635,-0.20179791357818222,96,retrospective,"actual drifted turnover, 10bp/side",5.7% / 0.45 / -20%
+SPY + own regime,2023-01..2026-09,0.12665085176196889,0.779701149645833,-0.08325824859157571,45,retrospective,"actual drifted turnover, 10bp/side",12.7% / 0.78 / -8%
+SPY + own regime,2015-01..2026-09,0.07879607427774782,0.5463943409874262,-0.22061745850918868,141,retrospective,"actual drifted turnover, 10bp/side",7.9% / 0.55 / -22%
+SPY + own regime,2022 only,-0.20179791357818222,-2.1676564747284783,-0.20179791357818222,12,retrospective,"actual drifted turnover, 10bp/side",-20.2%

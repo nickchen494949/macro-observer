@@ -1,0 +1,141 @@
+{
+  "status": "PARTIAL: implementation and cached reruns completed; independent final approval and source certification are separate",
+  "writer": "legacy_ml_writer",
+  "scope": [
+    "ml_features.py",
+    "ml_pipeline.py",
+    "explosive_factors.py",
+    "explosive_v2.py",
+    "improve_v3.py",
+    "risk_report.py"
+  ],
+  "new_shared_dependency": "research/sector_stock_momentum/legacy_portfolio.py",
+  "modified_shared_files": [],
+  "findings": [
+    {
+      "id": "L01",
+      "verified": true,
+      "issue": "Legacy single-stock fees were deducted from period-end returns and baskets always paid 20bp even without full turnover",
+      "correction": "Use existing portfolio_accounting solver before investing; drift actual holdings; make cash and zero-wealth states explicit",
+      "test": "legacy_ml_gate.json; legacy_ml_verification.json"
+    },
+    {
+      "id": "L02",
+      "verified": true,
+      "issue": "Regime filter repeatedly charged a sell fee in consecutive cash months and did not recompute re-entry costs",
+      "correction": "Reconstruct filtered targets from asset-level ledger and replay actual costs/holdings",
+      "test": "regime_cash_no_repeat_fee"
+    },
+    {
+      "id": "L03",
+      "verified": true,
+      "issue": "SMA200/SMA50/short volatility/max daily return/smooth windows could cross identity or source segments",
+      "correction": "Require each full lookback window to stay in one price segment",
+      "test": "price_segment_windows"
+    },
+    {
+      "id": "L04",
+      "verified": true,
+      "issue": "A late old-quarter publication could overwrite a newer known fiscal period; latest undefined values could revive old valid growth",
+      "correction": "Keep only monotone fiscal updates by CIK and retain publicly available NaN states",
+      "test": "late_old_filing_does_not_replace_new_quarter; latest_undefined_factor_invalidates_old_value"
+    },
+    {
+      "id": "L05",
+      "verified": true,
+      "issue": "Unknown source-gap/terminal outcomes were treated as known ML training labels",
+      "correction": "Preserve all formation rows and baseline return assumptions, but mask their forward training ranks; retain unresolved counts in portfolio ledgers",
+      "actual": "24 unknown labels among 99,949 panel rows; 834 stocks, 201 formations"
+    },
+    {
+      "id": "L06",
+      "verified": true,
+      "issue": "ML deflated Sharpe shortcut omitted return skew/kurtosis adjustment",
+      "correction": "Use existing backtest.deflated_sharpe on matching monthly excess returns; label only 12 primary frozen trials, not the entire research history",
+      "limitation": "No evidence of strategy selection skill is established by this statistic"
+    },
+    {
+      "id": "L07",
+      "verified": true,
+      "issue": "Only selected ML candidates had holdout artifacts and top5/top20 had no auditable holdings",
+      "correction": "Run all six already declared models and four existing portfolio rules on retrospective holdout; save all 48 dev/holdout asset ledgers without changing development-only choice"
+    },
+    {
+      "id": "L08",
+      "verified": true,
+      "issue": "Twelve-month diagnostic outcomes used formations whose labels extended after the development cutoff",
+      "correction": "Limit each diagnostic target to formations whose full horizon ends by its stated development/test cutoff"
+    },
+    {
+      "id": "L09",
+      "verified": true,
+      "issue": "Fixed explosive factors selected through 2022 were retrospectively applied to 2012/2015 returns; negative-factor ranks had inconsistent offsets with missing-factor averages",
+      "correction": "Label development-fitted histories explicitly, set valid comparison start to 2023 for fixed factors, and put signed percentile ranks on a common 0..1 scale; annual reselection stays separately identified"
+    },
+    {
+      "id": "L10",
+      "verified": true,
+      "issue": "Risk report spread unexplained monthly endpoint differences smoothly across daily prices, creating an invented daily NAV",
+      "correction": "Require observed gross endpoints and initial fees to reconcile; terminal/source events and unobserved daily cash paths mark daily metrics unavailable instead of rescaling",
+      "actual": "4 of 18 v3 daily paths reconcile; 14 unavailable. Monthly metrics remain available"
+    },
+    {
+      "id": "L11",
+      "verified": true,
+      "issue": "Old explosive panel cache silently bypassed new feature/label code",
+      "correction": "Rebuild derived panel from corrected inputs, with per-command source/output fingerprints and real process exit status"
+    },
+    {
+      "id": "L12",
+      "verified": true,
+      "issue": "Malformed calendars or negative/NaN portfolio weights could silently omit months or targets",
+      "correction": "Reject duplicate/missing month-end schedules and invalid weights; caller supplies explicit cash months",
+      "test": "duplicate_and_skipped_calendar_rejected; negative_and_nan_target_rejected"
+    },
+    {
+      "id": "L13",
+      "verified": true,
+      "issue": "Forward fill silently treated missing intra-month held quotes as observed prices",
+      "correction": "Reject any nonfinite/nonpositive held quote; no fill; no observed path claim for incomplete marks",
+      "test": "missing_nonpositive_daily_held_quote_not_filled",
+      "actual": "Only risk_report rerun; all 83 monthly ledger hashes unchanged. Four existing observed paths had no missing marks, so existing daily values/statuses also unchanged."
+    }
+  ],
+  "actual_execution": {
+    "entrypoints_completed_exit_zero": [
+      "ml_features",
+      "explosive_factors",
+      "explosive_v2",
+      "earnings_factor (root-owned dependency)",
+      "ml_pipeline dev",
+      "ml_pipeline holdout",
+      "improve_v3",
+      "risk_report"
+    ],
+    "run_manifest": "audit_v2/legacy_ml_runs.json",
+    "counterexamples": "audit_v2/legacy_ml_gate.json",
+    "counterexample_count": 15,
+    "verified_monthly_ledgers": 83,
+    "output_verification": "audit_v2/legacy_ml_verification.json",
+    "strategy_index": "audit_v2/legacy_ml_strategy_index.json",
+    "strategy_records": 59,
+    "failed_attempts": [
+      "bundled Python lacked parquet engine; reran with existing system Python",
+      "first risk report CSV parsed a single weight as float; fixed scalar parsing and completed final rerun"
+    ],
+    "superseded_manifest": "audit_v2/legacy_ml_runs_superseded.json",
+    "concurrent_source_notes": "Run manifest hashes all sibling Python files, so unrelated writer changes are recorded. Legacy helper gained strict input validation during dev; 83 resulting ledgers pass final calendar/finite-weight/cost-balance checks. No input panel was changed after the final features/explosive/EAR stages.",
+    "risk_quote_followup": "audit_v2/legacy_ml_risk_quote_rerun.json"
+  },
+  "limitations": [
+    "Cached data was reused; no network downloads or raw archive changes were made by this writer.",
+    "PIT membership, historical industries, SEC raw identities, source coverage and terminal prices are not fully certified.",
+    "Same-formation-close execution is idealised. Monthly close risk is not intraday risk.",
+    "Terminal payouts/last-trade exits retain the shared engine's baseline assumptions; no new unverified payout or terminal fee is invented.",
+    "Fixed explosive factor sets selected on development history are eligible for temporal comparison only from 2023.",
+    "ML development and holdout ledgers start independently from cash. They were not concatenated as a fake continuous portfolio.",
+    "All evaluated history was already seen in this project; these reruns are retrospective, not fresh untouched holdouts."
+  ],
+  "independent_root_patch_review": "audit_v2/root_patch_review.json",
+  "workflow": "frozen cached inputs -> corrected features and labels -> actual model/portfolio reruns -> 83 checked ledgers -> 59 strategy records -> independent review and source limitations"
+}

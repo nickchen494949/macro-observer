@@ -1,0 +1,141 @@
+{
+  "status": "WRITER_TESTS_PASSED_PENDING_INDEPENDENT_REVIEW",
+  "tests": [
+    {
+      "test": "filtered_empty_month_is_cash",
+      "passed": true,
+      "detail": [
+        "A",
+        "CASH",
+        "B"
+      ]
+    },
+    {
+      "test": "cash_sale_fee_precedes_cash_return",
+      "passed": true,
+      "detail": 0.008990000000000054
+    },
+    {
+      "test": "loss_capped_at_total_capital",
+      "passed": true,
+      "detail": [
+        -1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "test": "zero_wealth_cannot_restart",
+      "passed": true,
+      "detail": [
+        -1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "test": "same_basket_no_recurring_flat_charge",
+      "passed": true,
+      "detail": [
+        0.9990009990009991,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "test": "strict_label_cutoff_and_training_start",
+      "passed": true,
+      "detail": [
+        false,
+        true,
+        false,
+        false
+      ]
+    },
+    {
+      "test": "retro_december_cannot_flip_dev_year",
+      "passed": true,
+      "detail": 0.1
+    },
+    {
+      "test": "constant_factor_not_false_significant",
+      "passed": true,
+      "detail": {
+        "constant": 1.0,
+        "real": 1.0
+      }
+    },
+    {
+      "test": "eps_protected_uses_its_own_public_date",
+      "passed": true,
+      "detail": [
+        null,
+        1.0
+      ]
+    },
+    {
+      "test": "eps_other_variants_not_delayed_by_margin",
+      "passed": true,
+      "detail": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "test": "late_old_fiscal_report_cannot_overwrite_newer",
+      "passed": true,
+      "detail": 2.0
+    },
+    {
+      "test": "latest_undefined_ratio_invalidates_old_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "test": "ambiguous_ndx_cik_identity_is_rejected",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "test": "combo_all_missing_months_are_cash",
+      "passed": true,
+      "detail": [
+        0.010000000000000009,
+        0.010000000000000009,
+        0.010000000000000009
+      ]
+    },
+    {
+      "test": "eval_retro_boundary_must_preserve_positions",
+      "passed": true,
+      "detail": {
+        "continuous_boundary_turnover": 0.0,
+        "incorrect_reset_turnover": 0.9990009990009991
+      }
+    },
+    {
+      "test": "combo_unknown_future_remains_formation_candidate",
+      "passed": true,
+      "detail": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "test": "combo_unpriceable_winner_is_rejected_not_substituted",
+      "passed": true,
+      "detail": "2020-01-31 00:00:00 A: missing/invalid holding return; do not delete the selected stock"
+    },
+    {
+      "test": "counterexample_inherited_missing_month_and_overloss",
+      "passed": true,
+      "detail": {
+        "old_months": 2,
+        "old_returns": [
+          -1.001,
+          4.998
+        ]
+      }
+    }
+  ]
+}

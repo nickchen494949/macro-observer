@@ -1,0 +1,25 @@
+strategy,period,CAGR,Sharpe,maxDD,validation,cost_basis,v
+v2 top-1 (tech),dev 2012-01..2022-12,0.04205511784670324,0.2858454133979006,-0.6819297044733222,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",4.2% / 0.29 / -68%
+v2 top-1 (tech),holdout 2023-01..2026-09,0.6522546513400895,1.0111297850358032,-0.46571054316660765,retrospective test,"actual drifted turnover, 10bp/side",65.2% / 1.01 / -47%
+v2 top-1 (tech),full 2012-01..2026-09,0.1716165854768903,0.528559540426221,-0.7401440365092494,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",17.2% / 0.53 / -74%
+v2 top-1 (all S&P),dev 2012-01..2022-12,0.15194579363266159,0.5721345363957235,-0.6346628582198629,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",15.2% / 0.57 / -63%
+v2 top-1 (all S&P),holdout 2023-01..2026-09,0.3654163542755928,0.7054860055458636,-0.5449261732242257,retrospective test,"actual drifted turnover, 10bp/side",36.5% / 0.71 / -54%
+v2 top-1 (all S&P),full 2012-01..2026-09,0.20282697578479558,0.5864134087872164,-0.6346628582198629,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",20.3% / 0.59 / -63%
+v2 top-5 (tech),dev 2012-01..2022-12,0.1794396150995936,0.8287760588275344,-0.37018634721569066,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",17.9% / 0.83 / -37%
+v2 top-5 (tech),holdout 2023-01..2026-09,0.6777347118266448,1.313381960231512,-0.19083223762466128,retrospective test,"actual drifted turnover, 10bp/side",67.8% / 1.31 / -19%
+v2 top-5 (tech),full 2012-01..2026-09,0.28998931279113216,0.9622313388090896,-0.3712790934014054,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",29.0% / 0.96 / -37%
+v2 top-10 (tech),dev 2012-01..2022-12,0.18049422819662664,0.9272565236921109,-0.314370458924915,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",18.0% / 0.93 / -31%
+v2 top-10 (tech),holdout 2023-01..2026-09,0.5932771411469975,1.3777659716537636,-0.21902159170572166,retrospective test,"actual drifted turnover, 10bp/side",59.3% / 1.38 / -22%
+v2 top-10 (tech),full 2012-01..2026-09,0.27400913964763496,1.0462957519877758,-0.314370458924915,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",27.4% / 1.05 / -31%
+v2 top-5 (all S&P),dev 2012-01..2022-12,0.19965143068565516,0.9210693635780396,-0.3298958813935673,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",20.0% / 0.92 / -33%
+v2 top-5 (all S&P),holdout 2023-01..2026-09,0.23009032681611985,0.6157363850024384,-0.23756153925857848,retrospective test,"actual drifted turnover, 10bp/side",23.0% / 0.62 / -24%
+v2 top-5 (all S&P),full 2012-01..2026-09,0.207317978555839,0.7902341532132161,-0.3298958813935673,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",20.7% / 0.79 / -33%
+v2 top-10 (all S&P),dev 2012-01..2022-12,0.15090864293615414,0.8206244427712016,-0.2963348393289834,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",15.1% / 0.82 / -30%
+v2 top-10 (all S&P),holdout 2023-01..2026-09,0.14626694095794712,0.44605682725892404,-0.23195003522602275,retrospective test,"actual drifted turnover, 10bp/side",14.6% / 0.45 / -23%
+v2 top-10 (all S&P),full 2012-01..2026-09,0.14972677034186144,0.672740716425603,-0.2963348393289834,in-sample factor selection; not investable historical selection,"actual drifted turnover, 10bp/side",15.0% / 0.67 / -30%
+XLK,dev 2012-01..2022-12,0.17247772579391074,0.963715758414133,-0.3121108811857951,in-sample factor selection; not investable historical selection,gross benchmark,17.2% / 0.96 / -31%
+XLK,holdout 2023-01..2026-09,0.3666802050340958,1.3308648060214368,-0.11358651893935956,retrospective test,gross benchmark,36.7% / 1.33 / -11%
+XLK,full 2012-01..2026-09,0.2190660042699737,1.0681007662912987,-0.3121108811857951,in-sample factor selection; not investable historical selection,gross benchmark,21.9% / 1.07 / -31%
+SPY,dev 2012-01..2022-12,0.1276870672416801,0.8601038330966491,-0.2392718489616913,in-sample factor selection; not investable historical selection,gross benchmark,12.8% / 0.86 / -24%
+SPY,holdout 2023-01..2026-09,0.21734226094046272,1.2823819307012816,-0.0832582485915756,retrospective test,gross benchmark,21.7% / 1.28 / -8%
+SPY,full 2012-01..2026-09,0.14983468401283528,0.9564427064848805,-0.2392718489616913,in-sample factor selection; not investable historical selection,gross benchmark,15.0% / 0.96 / -24%

@@ -1,0 +1,74 @@
+[
+  {
+    "entry": "research/strategy_comparison/post2012_regime_test.py",
+    "args": [
+      "--revised-history"
+    ],
+    "exit_code": 1,
+    "message": "BLOCK_SOURCE_IDENTITY: no verified direct Nasdaq-100 aggregate EPS series with historical availability/vintages is supplied. Some legacy entries read SP500_EPS.json; the LSEG export does not establish index identity. --revised-history cannot waive this gate. No EPS model was run.\n"
+  },
+  {
+    "entry": "research/strategy_comparison/strategy_comparison_v2.py",
+    "args": [
+      "--revised-history"
+    ],
+    "exit_code": 1,
+    "message": "BLOCK_SOURCE_IDENTITY: no verified direct Nasdaq-100 aggregate EPS series with historical availability/vintages is supplied. Some legacy entries read SP500_EPS.json; the LSEG export does not establish index identity. --revised-history cannot waive this gate. No EPS model was run.\n"
+  },
+  {
+    "entry": "research/strategy_comparison/v6_final_backtest.py",
+    "args": [
+      "--revised-history"
+    ],
+    "exit_code": 1,
+    "message": "BLOCK_SOURCE_IDENTITY: no verified direct Nasdaq-100 aggregate EPS series with historical availability/vintages is supplied. Some legacy entries read SP500_EPS.json; the LSEG export does not establish index identity. --revised-history cannot waive this gate. No EPS model was run.\n"
+  },
+  {
+    "entry": "research/strategy_comparison/falsification_test.py",
+    "args": [
+      "--revised-history"
+    ],
+    "exit_code": 1,
+    "message": "BLOCK_SOURCE_IDENTITY: no verified direct Nasdaq-100 aggregate EPS series with historical availability/vintages is supplied. Some legacy entries read SP500_EPS.json; the LSEG export does not establish index identity. --revised-history cannot waive this gate. No EPS model was run.\n"
+  },
+  {
+    "entry": "research/strategy_comparison/strategy_comparison_v3.py",
+    "args": [
+      "--revised-history"
+    ],
+    "exit_code": 1,
+    "message": "BLOCK_SOURCE_IDENTITY: no verified direct Nasdaq-100 aggregate EPS series with historical availability/vintages is supplied. Some legacy entries read SP500_EPS.json; the LSEG export does not establish index identity. --revised-history cannot waive this gate. No EPS model was run.\n"
+  },
+  {
+    "entry": "research/strategy_comparison/falsification_test_v6.py",
+    "args": [
+      "--revised-history"
+    ],
+    "exit_code": 1,
+    "message": "BLOCK_SOURCE_IDENTITY: no verified direct Nasdaq-100 aggregate EPS series with historical availability/vintages is supplied. Some legacy entries read SP500_EPS.json; the LSEG export does not establish index identity. --revised-history cannot waive this gate. No EPS model was run.\n"
+  },
+  {
+    "entry": "research/strategy_comparison/strategy_comparison_v4.py",
+    "args": [
+      "--revised-history"
+    ],
+    "exit_code": 1,
+    "message": "BLOCK_SOURCE_IDENTITY: no verified direct Nasdaq-100 aggregate EPS series with historical availability/vintages is supplied. Some legacy entries read SP500_EPS.json; the LSEG export does not establish index identity. --revised-history cannot waive this gate. No EPS model was run.\n"
+  },
+  {
+    "entry": "research/strategy_comparison/strategy_comparison_v1.py",
+    "args": [
+      "--revised-history"
+    ],
+    "exit_code": 1,
+    "message": "BLOCK_SOURCE_IDENTITY: no verified direct Nasdaq-100 aggregate EPS series with historical availability/vintages is supplied. Some legacy entries read SP500_EPS.json; the LSEG export does not establish index identity. --revised-history cannot waive this gate. No EPS model was run.\n"
+  },
+  {
+    "entry": "research/strategy_comparison/strategy_comparison_v5.py",
+    "args": [
+      "--revised-history"
+    ],
+    "exit_code": 1,
+    "message": "BLOCK_SOURCE_IDENTITY: no verified direct Nasdaq-100 aggregate EPS series with historical availability/vintages is supplied. Some legacy entries read SP500_EPS.json; the LSEG export does not establish index identity. --revised-history cannot waive this gate. No EPS model was run.\n"
+  }
+]

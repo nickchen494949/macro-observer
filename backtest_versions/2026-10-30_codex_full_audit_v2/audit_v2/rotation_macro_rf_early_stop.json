@@ -1,0 +1,66 @@
+{
+  "status": "REJECTED_EARLY_STOP_AFTER_FAILED_GATES",
+  "actual_execution_record": "audit_v2/rotation_macro_runs/sector_rotation/rf_audit/execution_revised.json",
+  "actual_process_exit_code": 1,
+  "termination": "KeyboardInterrupt after explicit parent stop instruction",
+  "completed_stages": [
+    "baseline original execution lags 1/2/3",
+    "10 original leave-one-sector-out configurations",
+    "exclude 2022",
+    "11 feature groups times 30 permutations = 330 original permutations"
+  ],
+  "completed_acceptance_checks": [
+    {
+      "name": "Top1 > aligned SPY",
+      "passed": false,
+      "reported_value_rounded": "-9.5 percentage points"
+    },
+    {
+      "name": "Top1 > EW sectors",
+      "passed": false,
+      "reported_value_rounded": "-3.9 percentage points"
+    },
+    {
+      "name": "Rank IC > 0",
+      "passed": false,
+      "reported_value_rounded": "-0.006"
+    },
+    {
+      "name": "LOSO mean excess > 0",
+      "passed": false,
+      "reported_value_rounded": "-10.9 percentage points"
+    },
+    {
+      "name": "Excl-2022 excess > 0",
+      "passed": false,
+      "reported_value_rounded": "-8.0 percentage points"
+    }
+  ],
+  "incomplete_stages": [
+    {
+      "name": "500-seed placebo",
+      "status": "INTERRUPTED",
+      "completed_seed_count": null,
+      "reason": "No checkpoint or progress line establishes exact completed count. Do not infer count."
+    }
+  ],
+  "unexecuted_stages": [
+    "final original verdict printout"
+  ],
+  "placebo_p_spread": null,
+  "placebo_p_top1_minus_ew": null,
+  "deterministic_rejection": {
+    "failed_completed_checks": 5,
+    "total_checks": 7,
+    "max_possible_passes": 2,
+    "minimum_promising_passes": 6,
+    "candidate_passes": 7,
+    "conclusion": "Even both unfinished checks passing cannot change original red verdict. This is logical rejection using original rule, not a completed 500-seed result."
+  },
+  "log": "audit_v2/rotation_macro_rf_audit.log",
+  "log_sha256": "55cefa360ea6ad089f8ec6557a3a877e1d87d7ab11ed0c4011e2bc9e0456ba46",
+  "source": "research/sector_rotation/rf_audit.py",
+  "source_sha256": "dc8edd1d7be16a197dfa6132fc12b7d9f83665f79d6c1bd504eb5982f3d7842d",
+  "source_status": "revised history only; historical PE vintages unverified",
+  "parent_review": "required"
+}

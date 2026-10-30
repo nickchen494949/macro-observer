@@ -1,0 +1,188 @@
+[
+  {
+    "entry": "research/sector_rotation/direct_eps_test.py",
+    "exit_code": 1,
+    "seconds": 0.04403519630432129,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_direct_eps_test.log"
+  },
+  {
+    "entry": "research/sector_rotation/dynamic_beta_test.py",
+    "exit_code": 1,
+    "seconds": 0.04074501991271973,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_dynamic_beta_test.log"
+  },
+  {
+    "entry": "research/sector_rotation/fast_stability.py",
+    "exit_code": 1,
+    "seconds": 0.03948402404785156,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_fast_stability.log"
+  },
+  {
+    "entry": "research/sector_rotation/feature_stability_test.py",
+    "exit_code": 1,
+    "seconds": 0.0430910587310791,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_feature_stability_test.log"
+  },
+  {
+    "entry": "research/sector_rotation/fetch_sector_data.py",
+    "exit_code": 1,
+    "seconds": 0.03766822814941406,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_fetch_sector_data.log"
+  },
+  {
+    "entry": "research/sector_rotation/macro_event_study.py",
+    "exit_code": 1,
+    "seconds": 0.04201674461364746,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_macro_event_study.log"
+  },
+  {
+    "entry": "research/sector_rotation/macro_shock_test.py",
+    "exit_code": 1,
+    "seconds": 0.04154396057128906,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_macro_shock_test.log"
+  },
+  {
+    "entry": "research/sector_rotation/real_yield_confirmation.py",
+    "exit_code": 1,
+    "seconds": 0.0394442081451416,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_real_yield_confirmation.log"
+  },
+  {
+    "entry": "research/sector_rotation/rf_audit.py",
+    "exit_code": 1,
+    "seconds": 0.038927316665649414,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_rf_audit.log"
+  },
+  {
+    "entry": "research/sector_rotation/rf_backtest.py",
+    "exit_code": 1,
+    "seconds": 0.04009294509887695,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_rf_backtest.log"
+  },
+  {
+    "entry": "research/sector_rotation/run_backtest.py",
+    "exit_code": 1,
+    "seconds": 0.041594743728637695,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_run_backtest.log"
+  },
+  {
+    "entry": "research/sector_rotation/single_feature_ic.py",
+    "exit_code": 1,
+    "seconds": 0.038275957107543945,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_single_feature_ic.log"
+  },
+  {
+    "entry": "research/sector_rotation/waterfall_autopsy.py",
+    "exit_code": 1,
+    "seconds": 0.04446005821228027,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_waterfall_autopsy.log"
+  },
+  {
+    "entry": "research/sector_rotation/waterfall_autopsy_step1.py",
+    "exit_code": 1,
+    "seconds": 0.039746999740600586,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_waterfall_autopsy_step1.log"
+  },
+  {
+    "entry": "research/sector_rotation/waterfall_autopsy_step1_rf.py",
+    "exit_code": 1,
+    "seconds": 0.041517019271850586,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_waterfall_autopsy_step1_rf.log"
+  },
+  {
+    "entry": "research/sector_rotation/waterfall_autopsy_step2_rf.py",
+    "exit_code": 1,
+    "seconds": 0.041178226470947266,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_waterfall_autopsy_step2_rf.log"
+  },
+  {
+    "entry": "research/sector_rotation/waterfall_autopsy_step3_5_cagr.py",
+    "exit_code": 1,
+    "seconds": 0.040155887603759766,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_waterfall_autopsy_step3_5_cagr.log"
+  },
+  {
+    "entry": "research/sector_rotation/waterfall_autopsy_step3_rf.py",
+    "exit_code": 1,
+    "seconds": 0.04457807540893555,
+    "log": "audit_v2/rotation_macro_gates_sector_rotation_waterfall_autopsy_step3_rf.log"
+  },
+  {
+    "entry": "research/strategy_comparison/falsification_test.py",
+    "exit_code": 1,
+    "seconds": 0.044857025146484375,
+    "log": "audit_v2/rotation_macro_gates_strategy_comparison_falsification_test.log"
+  },
+  {
+    "entry": "research/strategy_comparison/falsification_test_v6.py",
+    "exit_code": 1,
+    "seconds": 0.04403567314147949,
+    "log": "audit_v2/rotation_macro_gates_strategy_comparison_falsification_test_v6.log"
+  },
+  {
+    "entry": "research/strategy_comparison/post2012_regime_test.py",
+    "exit_code": 1,
+    "seconds": 0.04357719421386719,
+    "log": "audit_v2/rotation_macro_gates_strategy_comparison_post2012_regime_test.log"
+  },
+  {
+    "entry": "research/strategy_comparison/strategy_comparison_v1.py",
+    "exit_code": 1,
+    "seconds": 0.04444527626037598,
+    "log": "audit_v2/rotation_macro_gates_strategy_comparison_strategy_comparison_v1.log"
+  },
+  {
+    "entry": "research/strategy_comparison/strategy_comparison_v2.py",
+    "exit_code": 1,
+    "seconds": 0.044448137283325195,
+    "log": "audit_v2/rotation_macro_gates_strategy_comparison_strategy_comparison_v2.log"
+  },
+  {
+    "entry": "research/strategy_comparison/strategy_comparison_v3.py",
+    "exit_code": 1,
+    "seconds": 0.045629262924194336,
+    "log": "audit_v2/rotation_macro_gates_strategy_comparison_strategy_comparison_v3.log"
+  },
+  {
+    "entry": "research/strategy_comparison/strategy_comparison_v4.py",
+    "exit_code": 1,
+    "seconds": 0.054714202880859375,
+    "log": "audit_v2/rotation_macro_gates_strategy_comparison_strategy_comparison_v4.log"
+  },
+  {
+    "entry": "research/strategy_comparison/strategy_comparison_v5.py",
+    "exit_code": 1,
+    "seconds": 0.05134916305541992,
+    "log": "audit_v2/rotation_macro_gates_strategy_comparison_strategy_comparison_v5.log"
+  },
+  {
+    "entry": "research/strategy_comparison/v6_final_backtest.py",
+    "exit_code": 1,
+    "seconds": 0.04949808120727539,
+    "log": "audit_v2/rotation_macro_gates_strategy_comparison_v6_final_backtest.log"
+  },
+  {
+    "entry": "research/hawkish_path/episode_robustness.py",
+    "exit_code": 1,
+    "seconds": 0.04770398139953613,
+    "log": "audit_v2/rotation_macro_gates_hawkish_path_episode_robustness.log"
+  },
+  {
+    "entry": "research/hawkish_path/final_validation.py",
+    "exit_code": 1,
+    "seconds": 0.058673858642578125,
+    "log": "audit_v2/rotation_macro_gates_hawkish_path_final_validation.log"
+  },
+  {
+    "entry": "research/hawkish_path/hawkish_path_backtest_v2.py",
+    "exit_code": 1,
+    "seconds": 0.05954694747924805,
+    "log": "audit_v2/rotation_macro_gates_hawkish_path_hawkish_path_backtest_v2.log"
+  },
+  {
+    "entry": "research/hawkish_path/pubdate_matched_perm.py",
+    "exit_code": 1,
+    "seconds": 0.058389902114868164,
+    "log": "audit_v2/rotation_macro_gates_hawkish_path_pubdate_matched_perm.log"
+  }
+]

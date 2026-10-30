@@ -1,0 +1,2003 @@
+{
+  "status": "PARTIAL_SOURCE_CERTIFICATION_AND_MISSING_DIAGNOSTICS; FINAL_REPLAY_STATUS_RECORDED_PER_ENTRY",
+  "reviewer": "legacy_ml_writer (independent of root-owned code changes)",
+  "generated_utc": "2026-10-30T07:25:15.102214+00:00",
+  "scope": "All top-level Python files in R2 research/sector_stock_momentum; delegated files recorded as coverage pointers; root-owned files reviewed read-only.",
+  "source_edits_by_this_review": [],
+  "network_or_data_acquisition": false,
+  "coverage_counts": {
+    "all_top_level_python": 56,
+    "delegated": 15,
+    "root_scope": 41,
+    "roles": {
+      "core_backtest": 1,
+      "derived_fundamental_builder": 2,
+      "coverage_reporting_helper": 1,
+      "provenance_helper": 1,
+      "membership_builder": 1,
+      "delegated_scope": 15,
+      "derived_price_builder": 1,
+      "test_entry": 6,
+      "factor_strategy_entry": 1,
+      "external_data_acquisition": 14,
+      "point_in_time_accessor": 1,
+      "historical_classification_helper": 1,
+      "identity_diagnostic": 2,
+      "strategy_feature_builder": 1,
+      "strategy_entry": 3,
+      "membership_price_union_helper": 1,
+      "shared_portfolio_math": 1,
+      "price_quality_diagnostic": 1,
+      "universe_builder": 1,
+      "identity_helper": 1
+    }
+  },
+  "contract_and_specs": {
+    "audit_v2/CONTRACT.txt": "77fd13b28dffe85592802180014b3f5d2755f21e5b811b877aa28f17e49546f6",
+    "research/sector_stock_momentum/FROZEN_SPEC.md": "e1424665ebe53e5860083735940f4bcc2ffde204c7c0f87736992aa235d7d18d",
+    "research/sector_stock_momentum/ML2_SPEC.md": "afc740cacfa67f8820b7fcdc1e2fa833cd7e74129e879d84e1191aea0e89be0c",
+    "research/sector_stock_momentum/WINNERS_SPEC.md": "cb60b18cb974b5888f4af24363db8534ed18147e6a409165880c12c768e18954"
+  },
+  "independent_executed_checks": {
+    "reviewer": "legacy_ml_writer, independent of root-owned implementations",
+    "checks": [
+      {
+        "name": "cash_and_partial_exposure_balance",
+        "status": "PASS"
+      },
+      {
+        "name": "terminal_proceeds_no_full_month_interest",
+        "status": "PASS"
+      },
+      {
+        "name": "ear_three_event_age_and_identity",
+        "status": "PASS"
+      },
+      {
+        "name": "cfo_ttm_value_and_latest_component_date",
+        "status": "PASS"
+      },
+      {
+        "name": "cfo_missing_component_invalidation",
+        "status": "PASS"
+      }
+    ],
+    "source_sha256": {
+      "winners_tracks.py": "c0fde0a224f8ed6f82c1b0891718ab9690556a9b26cbcf567d130fe9c4c9fdf5",
+      "winners_holdout.py": "6c2a95adb9b52d9cbe68fc465ca9fd0df2259bccb91e4807588d2a19dabbadd0",
+      "earnings_factor.py": "955be837d3c8f88dbe48ebfaacb17a4b2ee665648855952e8050465ed7334566",
+      "ml2_run.py": "848fdd5e7f83c13270947e17989f303366c5edd3e9b32e450bb1d3089a5074b1",
+      "ml2_features.py": "53b141d45c9aca4c0911ba2af95fd74929d9b4416a6613e4454d473032325792"
+    }
+  },
+  "independent_open_counterexamples": {
+    "reviewer": "legacy_ml_writer, independent of root-owned patches",
+    "checks": [
+      {
+        "name": "manual_terminal_return_execution_entry_basis",
+        "status": "PASS",
+        "detail": {
+          "next_close": [
+            2.220446049250313e-16,
+            "resolved_manual"
+          ],
+          "next_open": [
+            2.220446049250313e-16,
+            "resolved_manual"
+          ]
+        }
+      },
+      {
+        "name": "unknown_labels_excluded_from_fit_but_not_test_pool",
+        "status": "PASS",
+        "detail": {
+          "fit_calls": 2,
+          "unknown_training_rows": 0,
+          "unknown_test_candidate_retained": true
+        }
+      },
+      {
+        "name": "open_price_status_availability_matrix",
+        "status": "PASS",
+        "detail": {
+          "cases": 20,
+          "unknown_status_preserved": true,
+          "rows": [
+            {
+              "status": "ok",
+              "entry_open": false,
+              "exit_open": false,
+              "expected": 0.10000000000000009,
+              "got": 0.10000000000000009,
+              "returned_status": "ok"
+            },
+            {
+              "status": "ok",
+              "entry_open": false,
+              "exit_open": true,
+              "expected": 0.10000000000000009,
+              "got": 0.10000000000000009,
+              "returned_status": "ok"
+            },
+            {
+              "status": "ok",
+              "entry_open": true,
+              "exit_open": false,
+              "expected": 0.10000000000000009,
+              "got": 0.10000000000000009,
+              "returned_status": "ok"
+            },
+            {
+              "status": "ok",
+              "entry_open": true,
+              "exit_open": true,
+              "expected": 0.6000000000000001,
+              "got": 0.6000000000000001,
+              "returned_status": "ok"
+            },
+            {
+              "status": "resolved_manual",
+              "entry_open": false,
+              "exit_open": false,
+              "expected": 0.10000000000000009,
+              "got": 0.10000000000000009,
+              "returned_status": "resolved_manual"
+            },
+            {
+              "status": "resolved_manual",
+              "entry_open": false,
+              "exit_open": true,
+              "expected": 0.10000000000000009,
+              "got": 0.10000000000000009,
+              "returned_status": "resolved_manual"
+            },
+            {
+              "status": "resolved_manual",
+              "entry_open": true,
+              "exit_open": false,
+              "expected": 0.34444444444444455,
+              "got": 0.34444444444444455,
+              "returned_status": "resolved_manual"
+            },
+            {
+              "status": "resolved_manual",
+              "entry_open": true,
+              "exit_open": true,
+              "expected": 0.34444444444444455,
+              "got": 0.34444444444444455,
+              "returned_status": "resolved_manual"
+            },
+            {
+              "status": "delisted_in_month",
+              "entry_open": false,
+              "exit_open": false,
+              "expected": 0.10000000000000009,
+              "got": 0.10000000000000009,
+              "returned_status": "delisted_in_month"
+            },
+            {
+              "status": "delisted_in_month",
+              "entry_open": false,
+              "exit_open": true,
+              "expected": 0.10000000000000009,
+              "got": 0.10000000000000009,
+              "returned_status": "delisted_in_month"
+            },
+            {
+              "status": "delisted_in_month",
+              "entry_open": true,
+              "exit_open": false,
+              "expected": 0.34444444444444455,
+              "got": 0.34444444444444455,
+              "returned_status": "delisted_in_month"
+            },
+            {
+              "status": "delisted_in_month",
+              "entry_open": true,
+              "exit_open": true,
+              "expected": 0.34444444444444455,
+              "got": 0.34444444444444455,
+              "returned_status": "delisted_in_month"
+            },
+            {
+              "status": "source_gap",
+              "entry_open": false,
+              "exit_open": false,
+              "expected": 0.10000000000000009,
+              "got": 0.10000000000000009,
+              "returned_status": "source_gap"
+            },
+            {
+              "status": "source_gap",
+              "entry_open": false,
+              "exit_open": true,
+              "expected": 0.10000000000000009,
+              "got": 0.10000000000000009,
+              "returned_status": "source_gap"
+            },
+            {
+              "status": "source_gap",
+              "entry_open": true,
+              "exit_open": false,
+              "expected": 0.10000000000000009,
+              "got": 0.10000000000000009,
+              "returned_status": "source_gap"
+            },
+            {
+              "status": "source_gap",
+              "entry_open": true,
+              "exit_open": true,
+              "expected": 0.10000000000000009,
+              "got": 0.10000000000000009,
+              "returned_status": "source_gap"
+            },
+            {
+              "status": "unresolved",
+              "entry_open": false,
+              "exit_open": false,
+              "expected": 0.0,
+              "got": 0.0,
+              "returned_status": "unresolved"
+            },
+            {
+              "status": "unresolved",
+              "entry_open": false,
+              "exit_open": true,
+              "expected": 0.0,
+              "got": 0.0,
+              "returned_status": "unresolved"
+            },
+            {
+              "status": "unresolved",
+              "entry_open": true,
+              "exit_open": false,
+              "expected": 0.0,
+              "got": 0.0,
+              "returned_status": "unresolved"
+            },
+            {
+              "status": "unresolved",
+              "entry_open": true,
+              "exit_open": true,
+              "expected": 0.0,
+              "got": 0.0,
+              "returned_status": "unresolved"
+            }
+          ]
+        }
+      },
+      {
+        "name": "missing_exact_day_entry_not_forward_filled",
+        "status": "PASS",
+        "detail": [
+          {
+            "manual_resolution": false,
+            "execution": "Prices",
+            "result": [
+              0.0,
+              "unresolved"
+            ]
+          },
+          {
+            "manual_resolution": false,
+            "execution": "OpenPrices",
+            "result": [
+              0.0,
+              "unresolved"
+            ]
+          },
+          {
+            "manual_resolution": true,
+            "execution": "Prices",
+            "result": [
+              0.0,
+              "unresolved"
+            ]
+          },
+          {
+            "manual_resolution": true,
+            "execution": "OpenPrices",
+            "result": [
+              0.0,
+              "unresolved"
+            ]
+          }
+        ]
+      }
+    ],
+    "source_sha256": {
+      "backtest.py": "fe251d714fe9d3c9ec6db2d70f595d5657305ce8d6e0658ddba4519d8d12bba1",
+      "ml2_run.py": "848fdd5e7f83c13270947e17989f303366c5edd3e9b32e450bb1d3089a5074b1"
+    }
+  },
+  "independent_final_ml2_statistics": {
+    "status": "PASS",
+    "best_model_line": "C-lgbm Top1",
+    "recomputed_excess_DSR": 0.9713326197351493,
+    "reported_excess_DSR": 0.9713326197351493,
+    "unknown_test_prediction_rows_retained": 36,
+    "monthly_model_ledgers": 12,
+    "months_each": [
+      141
+    ],
+    "source_sha256": {
+      "backtest.py": "fe251d714fe9d3c9ec6db2d70f595d5657305ce8d6e0658ddba4519d8d12bba1",
+      "ml2_run.py": "848fdd5e7f83c13270947e17989f303366c5edd3e9b32e450bb1d3089a5074b1"
+    },
+    "meta_sha256": "177071c6dc2298772fe216e07be482e1b8394b90d16d0cf957105bb2160b9a99",
+    "limitation": "DSR implementation reused after prior core audit; this independent check verifies final run uses excess returns and current ledgers."
+  },
+  "root_observed_test_records": {
+    "ledger": {
+      "status": "PASS",
+      "checks": [
+        "self_financing_entry",
+        "exit_to_cash",
+        "empty_month_interest",
+        "cash_no_churn",
+        "missing_month_rejected",
+        "known_carry_daily_path",
+        "residual_not_smoothed",
+        "exit_cash_no_early_interest",
+        "bankruptcy_absorbing"
+      ]
+    },
+    "features": {
+      "status": "PASS",
+      "checks": [
+        "EAR three-event actual age",
+        "EAR identity boundary",
+        "EAR valid rolling sum",
+        "CFO TTM arithmetic",
+        "CFO latest component availability",
+        "late component truncation invariance",
+        "unknown current TTM invalidates old FY",
+        "latest undefined quarter preserved",
+        "bad-print reversal boundary",
+        "stale active volume required"
+      ]
+    },
+    "cfo_cached_truncation": {
+      "checks": [
+        {
+          "cutoff": "2013-06-30",
+          "pass": true,
+          "rows": 24830
+        },
+        {
+          "cutoff": "2017-06-30",
+          "pass": true,
+          "rows": 56909
+        },
+        {
+          "cutoff": "2021-12-31",
+          "pass": true,
+          "rows": 91986
+        }
+      ],
+      "source_sha256": "53b141d45c9aca4c0911ba2af95fd74929d9b4416a6613e4454d473032325792"
+    },
+    "daily_missing_quotes": {
+      "status": "PASS",
+      "checks": [
+        "main missing midmonth close rejected",
+        "winners missing midmonth close rejected"
+      ]
+    }
+  },
+  "execution_registry_note": "Exit 0 records prove that command completed at its stored hash. They do not close newly discovered bugs or prove latest pending rerun complete. Failed initial additional suite remains recorded; root_additional_retry.log separately shows five checks OK.",
+  "findings": [
+    {
+      "id": "RSC-01",
+      "severity": "P1",
+      "status": "FIX_VERIFIED_FINAL_REPLAY_TRACKED_SEPARATELY",
+      "classification": "VERIFIED_BY_COUNTEREXAMPLE",
+      "files": [
+        "research/sector_stock_momentum/ml2_run.py"
+      ],
+      "problem": "Source-gap/unresolved placeholder returns enter cross-sectional training ranks and refits as observed labels.",
+      "evidence": "Original synthetic annual fold admitted 2 unresolved rows. After repair zero unknown labels reach training/refit and unknown test candidate is retained.",
+      "required_action": "Exclude only unknown training labels; keep validation and test candidates feature-defined; filter unknown labels from IC; retrain final ML2."
+    },
+    {
+      "id": "RSC-02",
+      "severity": "P1",
+      "status": "FIX_VERIFIED_FINAL_REPLAY_TRACKED_SEPARATELY",
+      "classification": "VERIFIED_BY_COUNTEREXAMPLE_AND_CODE",
+      "files": [
+        "research/sector_stock_momentum/backtest.py",
+        "research/sector_stock_momentum/ml2_run.py"
+      ],
+      "problem": "Manual terminal return was anchored to formation close and returned unchanged for next-session execution. Lag-one entry also used forward-filled stale prices.",
+      "evidence": "Formation close 100, actual next-session entry 110, payout 110: old return +10%, repaired actual next-close and next-open both return 0%.",
+      "required_action": "Use actual execution-day quote, rebase known terminal wealth to actual entry; no real entry stays unresolved; rerun affected execution variants."
+    },
+    {
+      "id": "RSC-03",
+      "severity": "P2",
+      "status": "FIX_VERIFIED_FINAL_REPLAY_TRACKED_SEPARATELY",
+      "classification": "VERIFIED_CODE_PATH",
+      "files": [
+        "research/sector_stock_momentum/ml2_run.py"
+      ],
+      "problem": "DSR trial Sharpes and winner input use nominal net returns; shared deflated_sharpe expects excess returns.",
+      "required_action": "Subtract date-matched rf for all trial Sharpes and winner DSR. Recompute statistics after final returns."
+    },
+    {
+      "id": "RSC-04",
+      "severity": "P2",
+      "status": "UNIMPLEMENTED_DIAGNOSTIC_AT_REVIEW",
+      "classification": "VERIFIED_SPEC_IMPLEMENTATION_GAP",
+      "files": [
+        "research/sector_stock_momentum/ml2_run.py",
+        "research/sector_stock_momentum/ML2_SPEC.md"
+      ],
+      "problem": "SPEC section 7 requests removing largest-contribution stock and best year as sensitivity diagnostics; no such computation is present in current run output path.",
+      "required_action": "Either compute these diagnostics without candidate/parameter expansion or explicitly disclose their absence. Existing CAGR is not invalidated by absent diagnostics."
+    },
+    {
+      "id": "RSC-05",
+      "severity": "P2",
+      "status": "SOURCE_EXECUTION_LIMITATION",
+      "classification": "VERIFIED_CACHED_RESOLUTION_SEMANTICS",
+      "files": [
+        "research/sector_stock_momentum/data/exit_resolutions.csv",
+        "research/sector_stock_momentum/ml2_run.py"
+      ],
+      "problem": "ANDV and SCG manual stock-merger terminal values use successor month-end close approximations, not a fully observed successor next-session open path. Cash-payout rebasing alone does not prove exact open-to-open liquidation.",
+      "required_action": "Preserve explicit terminal approximation label or obtain verified successor execution evidence; do not silently call all terminal returns exact open-to-open."
+    },
+    {
+      "id": "RSC-06",
+      "severity": "P2",
+      "status": "SOURCE_CERTIFICATION_GAP",
+      "classification": "VERIFIED_SCOPE_LIMITATION",
+      "files": [
+        "research/sector_stock_momentum/smallcap_universe.py",
+        "research/sector_stock_momentum/historical_sectors.py",
+        "research/sector_stock_momentum/ticker_aliases.py"
+      ],
+      "problem": "Available liquid non-S&P pool is incomplete, especially dead firms after 2018; sectors and security identities use partial reconstruction/heuristics.",
+      "required_action": "Report coverage and survivor/identity limitations. Missing-terminal stress on present names cannot measure omitted-firm survivorship bias."
+    },
+    {
+      "id": "RSC-07",
+      "severity": "P1",
+      "status": "FIX_VERIFIED_FINAL_REPLAY_TRACKED_SEPARATELY",
+      "classification": "VERIFIED_BY_COUNTEREXAMPLE",
+      "files": [
+        "research/sector_stock_momentum/ml2_run.py"
+      ],
+      "problem": "Generic delisted-in-month fallback still used next-close entry even with an observed entry open.",
+      "evidence": "Actual next-open 90, next-close 110, last trade 121: old +10% versus correct modeled terminal return +34.4444%. Repaired 5-status x 4-open-availability matrix passed independently.",
+      "required_action": "Rebase known last-trade terminal wealth to actual entry open. Keep unresolved/source-gap status unknown. Final training must follow this fix."
+    }
+  ],
+  "files": [
+    {
+      "file": "research/sector_stock_momentum/backtest.py",
+      "sha256": "fe251d714fe9d3c9ec6db2d70f595d5657305ce8d6e0658ddba4519d8d12bba1",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "read_spells",
+        "check_integrity",
+        "untrusted_spells",
+        "load_prices",
+        "apply_symbol_changes",
+        "load_membership",
+        "load_rf",
+        "load_resolutions",
+        "Prices",
+        "momentum",
+        "rank_desc",
+        "etf_group",
+        "Engine",
+        "newey_west_ols",
+        "stats",
+        "stationary_bootstrap_idx",
+        "paired_bootstrap",
+        "deflated_sharpe",
+        "daily_nav",
+        "contribution",
+        "provenance",
+        "build_sector_table",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [
+        {
+          "name": "ledger",
+          "exit": 0,
+          "log": "audit_v2/root_ledger.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "audit_v2/root_ledger_gate.py"
+          ],
+          "seconds": 0.67
+        },
+        {
+          "name": "stock_regression",
+          "exit": 0,
+          "log": "audit_v2/root_stock_regression.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "research/sector_stock_momentum/test_codex_regressions.py"
+          ],
+          "seconds": 0.67
+        },
+        {
+          "name": "main",
+          "exit": 0,
+          "log": "audit_v2/root_main.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "research/sector_stock_momentum/backtest.py"
+          ],
+          "seconds": 622.41
+        },
+        {
+          "name": "main_final",
+          "exit": 0,
+          "log": "audit_v2/root_main_final.log",
+          "command": null,
+          "seconds": 443.42299829237163
+        }
+      ],
+      "finding_ids": [
+        "RSC-02"
+      ],
+      "owner": "root",
+      "role": "core_backtest",
+      "disposition": "Cached main/grid run and ledger/regression tests completed; next-session/manual fix independently verified, final re-execution tracked separately.",
+      "limitations": [
+        "Historical sector/identity/input coverage remains conditional.",
+        "Same-close signals and execution are the original convention, not an independently executable next-open result.",
+        "Four cached manual resolutions remain source-dependent; two stock-merger values are successor close approximations."
+      ],
+      "review_level": "CODE_AND_BOUNDED_EXECUTION_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/build_fundamentals.py",
+      "sha256": "7fa70f55cbe80d1f908d29309f56515df9d28921162691c3280237ce5148a0c1",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "sic_to_sector",
+        "norm",
+        "load_raw",
+        "build_cik_map",
+        "build_long",
+        "eps_panel",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [
+        {
+          "name": "fundamentals",
+          "exit": 0,
+          "log": "audit_v2/root_fundamentals.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "research/sector_stock_momentum/test_fundamentals_pit.py"
+          ],
+          "seconds": 1.85
+        },
+        {
+          "name": "fundamental_truncation",
+          "exit": 0,
+          "log": "audit_v2/root_fundamental_truncation.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "pit_fundamentals_truncation_test.py"
+          ],
+          "seconds": 552.82
+        }
+      ],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "derived_fundamental_builder",
+      "disposition": "Functions covered by PIT tests; archive-to-entire-panel build not rerun in this read-only review.",
+      "limitations": [
+        "First-report and field-specific availability are explicit; FY minus nine-month EPS and summed EPS TTM are approximations, since EPS is not additive.",
+        "CIK mappings include current SEC lists, names and manual exceptions; not all historical identities independently source-certified."
+      ],
+      "review_level": "STATIC_REVIEW_AND_AVAILABLE_DEPENDENCY_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/build_gap_ledger.py",
+      "sha256": "35de594bb7867be107ad27a92fb71ff98d310b0cb8831137606514a503697643",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "jload",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "coverage_reporting_helper",
+      "disposition": "Read-only review; report logic is not a complete source-gap certificate.",
+      "limitations": [
+        "First vendor quote/startDate is used to infer recent listing; it is not independently verified IPO evidence.",
+        "Summary real_gap excludes some insufficient-history cases; percentages are conditional categories, not total unknown-data rate."
+      ],
+      "review_level": "STATIC_REVIEW_AND_AVAILABLE_DEPENDENCY_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/build_manifest.py",
+      "sha256": "283dbef6a9dab78afcd93aea80a150fb4dd459fa30fe04a6ce65bb8e3d34d3a5",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "role",
+        "sha256",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "provenance_helper",
+      "disposition": "Read-only review; hashes establish bytes and paths only.",
+      "limitations": [
+        "A hash cannot certify prices, company identity, availability dates or investment accuracy.",
+        "Role/path metadata is descriptive and may lag newly added cache types."
+      ],
+      "review_level": "STATIC_REVIEW_AND_AVAILABLE_DEPENDENCY_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/build_ndx_membership.py",
+      "sha256": "360248247cdf6171cc53b058107d9fac9304da94aa54a423c7448f0d718dfeb2",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "load_year",
+        "tickers_as_of",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "membership_builder",
+      "disposition": "Static semantics reviewed; not rerun to rewrite frozen membership inputs.",
+      "limitations": [
+        "Applies effective-date union/difference operations from cached annual YAML.",
+        "Embedded sample assertions are not complete verification of all historical additions/removals."
+      ],
+      "review_level": "STATIC_REVIEW_AND_AVAILABLE_DEPENDENCY_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/composite3.py",
+      "sha256": "ecd1af0c86473ff86170859369ec3a16c33775a70f59239ce6523d70b4eb216e",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "factors_writer",
+      "role": "delegated_scope",
+      "disposition": "See assigned branch evidence; this root-scope review does not self-certify delegated code.",
+      "report": "audit_v2/factors_report.json",
+      "review_level": "COVERAGE_POINTER_ONLY"
+    },
+    {
+      "file": "research/sector_stock_momentum/convert_wiki_bulk.py",
+      "sha256": "55c9cc8042eac1796ab22259497db06629d7853f472955d555aa745bcb866dae",
+      "ast_parse": "PASS",
+      "functions_or_classes": [],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "derived_price_builder",
+      "disposition": "Static read-only review; top-level transformation not imported or run.",
+      "limitations": [
+        "Writes derived WIKI parquet at module top level; not a strategy or an independent source-authentication test.",
+        "WIKI history freezes on 2018-03-27."
+      ],
+      "review_level": "STATIC_REVIEW_AND_AVAILABLE_DEPENDENCY_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/determinism_test.py",
+      "sha256": "c4225e8400bf7b4824e90eca97815affc6a1954cc0e5503356f27e1d2a95e784",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "main"
+      ],
+      "source_certification": "NOT_APPLICABLE",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "test_entry",
+      "disposition": "Source reviewed; no current-run seed-repeat execution record identified in root registries.",
+      "review_level": "TEST_SOURCE_AND_EXECUTION_RECORD"
+    },
+    {
+      "file": "research/sector_stock_momentum/earnings_factor.py",
+      "sha256": "955be837d3c8f88dbe48ebfaacb17a4b2ee665648855952e8050465ed7334566",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "ear_events",
+        "attach",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "factor_strategy_entry",
+      "disposition": "Root patch independently tested; actual legacy chain rebuilt EAR panel and three monthly ledgers.",
+      "limitations": [
+        "Rolling events isolate ticker, issuer and price segment; three-event minimum now checks actual oldest included event <=400 days.",
+        "Announcement dates/prices remain cached-source evidence; fixed EAR baskets have retrospectively selected development-period factors."
+      ],
+      "review_level": "CODE_AND_BOUNDED_EXECUTION_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/eps_momentum.py",
+      "sha256": "70c495cbbda8a387e44286b553d8f61866e28ac95c67f74cd882ab3dfedb0b39",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "growth_panel",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "factors_writer",
+      "role": "delegated_scope",
+      "disposition": "See assigned branch evidence; this root-scope review does not self-certify delegated code.",
+      "report": "audit_v2/factors_report.json",
+      "review_level": "COVERAGE_POINTER_ONLY"
+    },
+    {
+      "file": "research/sector_stock_momentum/explosive_factors.py",
+      "sha256": "3d0b4350b885ddde2a2d056a26ed9db555845faeaf006e3f54ee83b84c68351c",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "quarterly_factors",
+        "price_extras",
+        "terminal_aware_fwd",
+        "nw_t",
+        "lift_table",
+        "main",
+        "analyse"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "legacy_ml_writer",
+      "role": "delegated_scope",
+      "disposition": "See assigned branch evidence; this root-scope review does not self-certify delegated code.",
+      "report": "audit_v2/legacy_ml_disposition.json",
+      "review_level": "COVERAGE_POINTER_ONLY"
+    },
+    {
+      "file": "research/sector_stock_momentum/explosive_v2.py",
+      "sha256": "ae88d33105b8974d0ed1605616de4f658f23ee4ce3554f17fc7e70c96a8e6db7",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "legacy_ml_writer",
+      "role": "delegated_scope",
+      "disposition": "See assigned branch evidence; this root-scope review does not self-certify delegated code.",
+      "report": "audit_v2/legacy_ml_disposition.json",
+      "review_level": "COVERAGE_POINTER_ONLY"
+    },
+    {
+      "file": "research/sector_stock_momentum/factor_combo.py",
+      "sha256": "27f938fd6af9bc12fee2b7efc5113b55dd2319ac5c879765ffb48338a84165c9",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "composite",
+        "top_portfolio",
+        "ic_of_score",
+        "walk_forward",
+        "pair_search",
+        "pair_score",
+        "year_same_sign",
+        "ann",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "factors_writer",
+      "role": "delegated_scope",
+      "disposition": "See assigned branch evidence; this root-scope review does not self-certify delegated code.",
+      "report": "audit_v2/factors_report.json",
+      "review_level": "COVERAGE_POINTER_ONLY"
+    },
+    {
+      "file": "research/sector_stock_momentum/factor_screen.py",
+      "sha256": "beafc99b212d7565f2d0b9881b3f51de00fabf8f74f4b56c7b95c6cc6ebe789a",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "first_reports",
+        "yoy",
+        "asof",
+        "build_new",
+        "build",
+        "nw_se",
+        "monthly_ic",
+        "romano_wolf",
+        "known_training_mask",
+        "development_sign_share",
+        "ranked",
+        "stability",
+        "perm_importance",
+        "screen"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "factors_writer",
+      "role": "delegated_scope",
+      "disposition": "See assigned branch evidence; this root-scope review does not self-certify delegated code.",
+      "report": "audit_v2/factors_report.json",
+      "review_level": "COVERAGE_POINTER_ONLY"
+    },
+    {
+      "file": "research/sector_stock_momentum/fetch_archives.py",
+      "sha256": "ad212c6ccf51ae627bea3c7cafcd108fc9d2d35e9488625fcfb3d198230fe9d2",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "get",
+        "parse_qstk",
+        "parse_ott",
+        "parse_bnsf",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "external_data_acquisition",
+      "review_level": "STATIC_AUXILIARY_REVIEW_ONLY",
+      "disposition": "Auxiliary acquisition tool, not a strategy. No downloads or raw-cache rewrites were run in this audit branch.",
+      "limitations": [
+        "API/website/parser compatibility and complete historical coverage not live-verified.",
+        "Cached bytes can be hashed; vendor accuracy, full corporate actions and historical identifier continuity remain unverified."
+      ]
+    },
+    {
+      "file": "research/sector_stock_momentum/fetch_earnings_dates.py",
+      "sha256": "159660da9905a84786f6b0dbe8b2e1f0fdf2928a458748c1c3fcbd7556c54369",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "get",
+        "rows_from",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "external_data_acquisition",
+      "review_level": "STATIC_AUXILIARY_REVIEW_ONLY",
+      "disposition": "Auxiliary acquisition tool, not a strategy. No downloads or raw-cache rewrites were run in this audit branch.",
+      "limitations": [
+        "API/website/parser compatibility and complete historical coverage not live-verified.",
+        "Cached bytes can be hashed; vendor accuracy, full corporate actions and historical identifier continuity remain unverified."
+      ]
+    },
+    {
+      "file": "research/sector_stock_momentum/fetch_ndx_meta.py",
+      "sha256": "8325802bdecb67211503db01ddccbb897db011c01334f81bd2a9358f13047c8c",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "wiki",
+        "sec"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "external_data_acquisition",
+      "review_level": "STATIC_AUXILIARY_REVIEW_ONLY",
+      "disposition": "Auxiliary acquisition tool, not a strategy. No downloads or raw-cache rewrites were run in this audit branch.",
+      "limitations": [
+        "API/website/parser compatibility and complete historical coverage not live-verified.",
+        "Cached bytes can be hashed; vendor accuracy, full corporate actions and historical identifier continuity remain unverified."
+      ]
+    },
+    {
+      "file": "research/sector_stock_momentum/fetch_ndx_prices.py",
+      "sha256": "e2d29122fb3f9aff9f56fb0b50d02de08c940f57cbceda7d4d0b56f832cea86e",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "plan",
+        "covers",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "external_data_acquisition",
+      "review_level": "STATIC_AUXILIARY_REVIEW_ONLY",
+      "disposition": "Auxiliary acquisition tool, not a strategy. No downloads or raw-cache rewrites were run in this audit branch.",
+      "limitations": [
+        "API/website/parser compatibility and complete historical coverage not live-verified.",
+        "Cached bytes can be hashed; vendor accuracy, full corporate actions and historical identifier continuity remain unverified."
+      ]
+    },
+    {
+      "file": "research/sector_stock_momentum/fetch_opens.py",
+      "sha256": "fa4a21428573d205a0040fc55f421b460b15e1650e4de6fdf87745ab8f28d04c",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "pause",
+        "fetch",
+        "yahoo",
+        "wiki_open"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "external_data_acquisition",
+      "review_level": "STATIC_AUXILIARY_REVIEW_ONLY",
+      "disposition": "Auxiliary acquisition tool, not a strategy. No downloads or raw-cache rewrites were run in this audit branch.",
+      "limitations": [
+        "API/website/parser compatibility and complete historical coverage not live-verified.",
+        "Cached bytes can be hashed; vendor accuracy, full corporate actions and historical identifier continuity remain unverified."
+      ]
+    },
+    {
+      "file": "research/sector_stock_momentum/fetch_prices.py",
+      "sha256": "1d9903d8bc37bf1969b77bb75a05ac45433bf4c397614d9f3cde946541142133",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "yahoo_symbol",
+        "universe",
+        "fetch",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "external_data_acquisition",
+      "review_level": "STATIC_AUXILIARY_REVIEW_ONLY",
+      "disposition": "Auxiliary acquisition tool, not a strategy. No downloads or raw-cache rewrites were run in this audit branch.",
+      "limitations": [
+        "API/website/parser compatibility and complete historical coverage not live-verified.",
+        "Cached bytes can be hashed; vendor accuracy, full corporate actions and historical identifier continuity remain unverified."
+      ]
+    },
+    {
+      "file": "research/sector_stock_momentum/fetch_sec_fundamentals.py",
+      "sha256": "64c5f5c15428d4d3e64b29fdc6d1ca8a5c0e9f59db805488b960e138f37a5f78",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "_default_ua",
+        "quarters",
+        "download",
+        "process",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "external_data_acquisition",
+      "review_level": "STATIC_AUXILIARY_REVIEW_ONLY",
+      "disposition": "Auxiliary acquisition tool, not a strategy. No downloads or raw-cache rewrites were run in this audit branch.",
+      "limitations": [
+        "API/website/parser compatibility and complete historical coverage not live-verified.",
+        "Cached bytes can be hashed; vendor accuracy, full corporate actions and historical identifier continuity remain unverified."
+      ]
+    },
+    {
+      "file": "research/sector_stock_momentum/fetch_sectors.py",
+      "sha256": "3104e7b5cfc25a888510fd7a42baa8e6b2d0a0974df4c07a1673de8493a2ba96",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "external_data_acquisition",
+      "review_level": "STATIC_AUXILIARY_REVIEW_ONLY",
+      "disposition": "Auxiliary acquisition tool, not a strategy. No downloads or raw-cache rewrites were run in this audit branch.",
+      "limitations": [
+        "API/website/parser compatibility and complete historical coverage not live-verified.",
+        "Cached bytes can be hashed; vendor accuracy, full corporate actions and historical identifier continuity remain unverified."
+      ]
+    },
+    {
+      "file": "research/sector_stock_momentum/fetch_smallcap.py",
+      "sha256": "33483e0b155bbe3ac759eabf393f49a1c3f163019e232efa9bacd081b82261e2",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "safe_hours",
+        "in_window",
+        "pause",
+        "fetch",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "external_data_acquisition",
+      "review_level": "STATIC_AUXILIARY_REVIEW_ONLY",
+      "disposition": "Auxiliary acquisition tool, not a strategy. No downloads or raw-cache rewrites were run in this audit branch.",
+      "limitations": [
+        "API/website/parser compatibility and complete historical coverage not live-verified.",
+        "Cached bytes can be hashed; vendor accuracy, full corporate actions and historical identifier continuity remain unverified."
+      ]
+    },
+    {
+      "file": "research/sector_stock_momentum/fetch_tiingo.py",
+      "sha256": "bf8aae8c5b8b9717e9c8dbb021ed4246a016865737c454ae52035ac6c2567085",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "key",
+        "plan",
+        "fetch",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "external_data_acquisition",
+      "review_level": "STATIC_AUXILIARY_REVIEW_ONLY",
+      "disposition": "Auxiliary acquisition tool, not a strategy. No downloads or raw-cache rewrites were run in this audit branch.",
+      "limitations": [
+        "API/website/parser compatibility and complete historical coverage not live-verified.",
+        "Cached bytes can be hashed; vendor accuracy, full corporate actions and historical identifier continuity remain unverified."
+      ]
+    },
+    {
+      "file": "research/sector_stock_momentum/fetch_volume.py",
+      "sha256": "de26e09ddd2a4f17131a464d04b6372aa4677f97ef5dab98644890fc9ec35862",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "fetch",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "external_data_acquisition",
+      "review_level": "STATIC_AUXILIARY_REVIEW_ONLY",
+      "disposition": "Auxiliary acquisition tool, not a strategy. No downloads or raw-cache rewrites were run in this audit branch.",
+      "limitations": [
+        "API/website/parser compatibility and complete historical coverage not live-verified.",
+        "Cached bytes can be hashed; vendor accuracy, full corporate actions and historical identifier continuity remain unverified."
+      ]
+    },
+    {
+      "file": "research/sector_stock_momentum/fetch_wiki.py",
+      "sha256": "b6db9781c81d5b4b279cd8432813b6139f23c66b928176db2b211c922c6273ee",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "key",
+        "fetch",
+        "candidates",
+        "save",
+        "validate",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "external_data_acquisition",
+      "review_level": "STATIC_AUXILIARY_REVIEW_ONLY",
+      "disposition": "Auxiliary acquisition tool, not a strategy. No downloads or raw-cache rewrites were run in this audit branch.",
+      "limitations": [
+        "API/website/parser compatibility and complete historical coverage not live-verified.",
+        "Cached bytes can be hashed; vendor accuracy, full corporate actions and historical identifier continuity remain unverified."
+      ]
+    },
+    {
+      "file": "research/sector_stock_momentum/fetch_wiki_crosscheck.py",
+      "sha256": "306bb641645b1e777bb2a578df0d4d7ecfa1ce1b69e4a5e7c1915463d2049519",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "external_data_acquisition",
+      "review_level": "STATIC_AUXILIARY_REVIEW_ONLY",
+      "disposition": "Auxiliary acquisition tool, not a strategy. No downloads or raw-cache rewrites were run in this audit branch.",
+      "limitations": [
+        "API/website/parser compatibility and complete historical coverage not live-verified.",
+        "Cached bytes can be hashed; vendor accuracy, full corporate actions and historical identifier continuity remain unverified."
+      ]
+    },
+    {
+      "file": "research/sector_stock_momentum/fundamentals_pit.py",
+      "sha256": "df058d3021c9079823390a82891f7db05988d2c98c44db9a3c8ebfc387c18b27",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "load_eps",
+        "load_long",
+        "asof",
+        "splits",
+        "split_factor_after",
+        "eps_on_price_basis",
+        "_validity",
+        "cik_valid"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [
+        {
+          "name": "fundamentals",
+          "exit": 0,
+          "log": "audit_v2/root_fundamentals.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "research/sector_stock_momentum/test_fundamentals_pit.py"
+          ],
+          "seconds": 1.85
+        },
+        {
+          "name": "fundamental_truncation",
+          "exit": 0,
+          "log": "audit_v2/root_fundamental_truncation.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "pit_fundamentals_truncation_test.py"
+          ],
+          "seconds": 552.82
+        }
+      ],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "point_in_time_accessor",
+      "disposition": "Core accessor exercised in source-date, split-basis and full/truncated feature comparisons.",
+      "limitations": [
+        "Uses cached SEC derivations, field availability and maximum-age gates; a passed truncation test proves time consistency on these caches, not raw filing accuracy.",
+        "Split records/CIK intervals are incomplete source evidence; common split basis is not an official index-level EPS series."
+      ],
+      "review_level": "STATIC_REVIEW_AND_AVAILABLE_DEPENDENCY_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/historical_sectors.py",
+      "sha256": "acb519f68a2287697c2fb9a9163e6d121c5a7bc9911af908031cdd1ef5ccc66e",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "sector_asof",
+        "build_panel"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [
+        {
+          "name": "main",
+          "exit": 0,
+          "log": "audit_v2/root_main.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "research/sector_stock_momentum/backtest.py"
+          ],
+          "seconds": 622.41
+        },
+        {
+          "name": "stock_pool",
+          "exit": 0,
+          "log": "audit_v2/root_stock_pool.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "audit/audit_stock_pool.py"
+          ],
+          "seconds": 36.76
+        },
+        {
+          "name": "ndx_pool",
+          "exit": 0,
+          "log": "audit_v2/root_ndx_pool.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "audit/audit_ndx_pool.py"
+          ],
+          "seconds": 18.67
+        }
+      ],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "historical_classification_helper",
+      "disposition": "Read-only review; used by real cached strategy runs.",
+      "limitations": [
+        "Reconstructs major 2016/2018/2023 GICS changes only. Other company-level sector changes are not fully reconstructed.",
+        "Some 2018 media classifications are fallback assumptions; cannot claim complete historical GICS certification."
+      ],
+      "review_level": "STATIC_REVIEW_AND_AVAILABLE_DEPENDENCY_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/identity_check.py",
+      "sha256": "59e44a414eb61e74f1b5c4e6fddbb61b68924e38ed15aed36e28c45737ceb56e",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "load_json_close",
+        "unadjusted",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "identity_diagnostic",
+      "disposition": "Read-only diagnostic review; not a performance strategy.",
+      "limitations": [
+        "Cross-vendor correlation and SEC share-based market capitalization are diagnostic evidence, not definitive security continuity.",
+        "Insufficient overlaps or filings remain unverified; absence of a flag is not a positive identity certificate."
+      ],
+      "review_level": "STATIC_REVIEW_AND_AVAILABLE_DEPENDENCY_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/identity_screen_earnings.py",
+      "sha256": "932288a0b0df46e9ea0310a569225b717ada83e63fee67983be69ecc0d196ac0",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "identity_diagnostic",
+      "disposition": "Read-only diagnostic review; not independently rerun.",
+      "limitations": [
+        "Earnings-window activity and volume ratios are heuristics for manual review, not legal issuer/security identifiers.",
+        "Fewer than eight events and data endpoint alignment limit evidence; no stock is certified solely by this screen."
+      ],
+      "review_level": "STATIC_REVIEW_AND_AVAILABLE_DEPENDENCY_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/improve_v3.py",
+      "sha256": "7aac5f3e29eda1dfcdc422360756bea7b82122a558b849f2094b4fd518dce58f",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "fixed_factors",
+        "score_with",
+        "annual_scores",
+        "basket",
+        "regime",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "legacy_ml_writer",
+      "role": "delegated_scope",
+      "disposition": "See assigned branch evidence; this root-scope review does not self-certify delegated code.",
+      "report": "audit_v2/legacy_ml_disposition.json",
+      "review_level": "COVERAGE_POINTER_ONLY"
+    },
+    {
+      "file": "research/sector_stock_momentum/legacy_portfolio.py",
+      "sha256": "c58404ea4c9b12da4053783cdaaf305d472dd266f0c7a67f4b8997e5d2730e65",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "_calendar",
+        "run_portfolio",
+        "score_basket",
+        "apply_regime"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "legacy_ml_writer",
+      "role": "delegated_scope",
+      "disposition": "See assigned branch evidence; this root-scope review does not self-certify delegated code.",
+      "report": "audit_v2/legacy_ml_disposition.json",
+      "review_level": "COVERAGE_POINTER_ONLY"
+    },
+    {
+      "file": "research/sector_stock_momentum/ml2_features.py",
+      "sha256": "53b141d45c9aca4c0911ba2af95fd74929d9b4416a6613e4454d473032325792",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "_first",
+        "cashflow_ttm",
+        "quarterly_table",
+        "_series_asof",
+        "history_features"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [
+        {
+          "name": "fundamental_truncation",
+          "exit": 0,
+          "log": "audit_v2/root_fundamental_truncation.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "pit_fundamentals_truncation_test.py"
+          ],
+          "seconds": 552.82
+        }
+      ],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "strategy_feature_builder",
+      "disposition": "Independent TTM counterexamples and actual cached-data truncation checks passed at reviewed hash.",
+      "limitations": [
+        "TTM CFO = preceding FY + current YTD - prior-year same-quarter YTD; current missing state invalidates prior valid value, and late component availability emits a later state.",
+        "Latest independent checks are in root_patch_review.json; root_cfo_truncation.json covers three cached cutoffs."
+      ],
+      "review_level": "STATIC_REVIEW_AND_AVAILABLE_DEPENDENCY_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/ml2_run.py",
+      "sha256": "848fdd5e7f83c13270947e17989f303366c5edd3e9b32e450bb1d3089a5074b1",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "_parse_source",
+        "build_opens",
+        "OpenPrices",
+        "build_panel",
+        "model_fit_predict",
+        "topk_weights",
+        "net_cagr",
+        "label_available_at",
+        "known_training_label",
+        "walk_forward",
+        "check",
+        "run"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [
+        {
+          "name": "ml2",
+          "exit": 0,
+          "log": "audit_v2/root_ml2.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "ml2_run.py",
+            "run"
+          ],
+          "seconds": 386.79
+        },
+        {
+          "name": "ml2_final",
+          "exit": 0,
+          "log": "audit_v2/root_ml2_final.log",
+          "command": null,
+          "seconds": 463.6312506245449
+        },
+        {
+          "name": "ml2_complete",
+          "exit": 0,
+          "log": "audit_v2/root_ml2_complete.log",
+          "command": null,
+          "seconds": 267.43
+        }
+      ],
+      "finding_ids": [
+        "RSC-01",
+        "RSC-02",
+        "RSC-03",
+        "RSC-04",
+        "RSC-05",
+        "RSC-07"
+      ],
+      "owner": "root",
+      "role": "strategy_entry",
+      "disposition": "Initial three fixes independently verified; final cached replay must use latest fixed hash. Generic delisted-entry matrix is additionally checked.",
+      "limitations": [
+        "Unknown labels are excluded from fitting, while unknown future test/validation outcomes do not screen candidates.",
+        "All 12 model lines plus 5 benchmarks are retrospective comparisons; history has been repeatedly inspected.",
+        "True open marks are unavailable for some sources; fallback/terminal conventions and daily-risk unavailability must be visible."
+      ],
+      "review_level": "CODE_AND_BOUNDED_EXECUTION_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/ml_features.py",
+      "sha256": "27b5224b96bf1b247699dd7b30eea9e9fd3f9069731d4ea3c7807d3747e53cea",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "latest_fiscal_updates",
+        "price_features",
+        "fundamental_panel",
+        "sue_asof",
+        "build"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "legacy_ml_writer",
+      "role": "delegated_scope",
+      "disposition": "See assigned branch evidence; this root-scope review does not self-certify delegated code.",
+      "report": "audit_v2/legacy_ml_disposition.json",
+      "review_level": "COVERAGE_POINTER_ONLY"
+    },
+    {
+      "file": "research/sector_stock_momentum/ml_pipeline.py",
+      "sha256": "014936399d98c043345f310eac6988739f1aa579420fa037448126efe4f7ed9e",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "load_panel",
+        "fit_predict",
+        "walk_forward",
+        "portfolio",
+        "topn",
+        "ic_series",
+        "summarize",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "legacy_ml_writer",
+      "role": "delegated_scope",
+      "disposition": "See assigned branch evidence; this root-scope review does not self-certify delegated code.",
+      "report": "audit_v2/legacy_ml_disposition.json",
+      "review_level": "COVERAGE_POINTER_ONLY"
+    },
+    {
+      "file": "research/sector_stock_momentum/mom30_roe.py",
+      "sha256": "a3e431f237d004e0b46ebcc8d1eb6ce5eefe5c3b889881a92ef8a6e8ec0c0078",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "roe_panel",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "factors_writer",
+      "role": "delegated_scope",
+      "disposition": "See assigned branch evidence; this root-scope review does not self-certify delegated code.",
+      "report": "audit_v2/factors_report.json",
+      "review_level": "COVERAGE_POINTER_ONLY"
+    },
+    {
+      "file": "research/sector_stock_momentum/ndx_expand.py",
+      "sha256": "703ec34f642925e1321696a861d7f1e1e4930e1379e2909206d23a124e922c08",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "fmt",
+        "fundamentals_root",
+        "t2c_map",
+        "cik_at",
+        "build_panel",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "factors_writer",
+      "role": "delegated_scope",
+      "disposition": "See assigned branch evidence; this root-scope review does not self-certify delegated code.",
+      "report": "audit_v2/factors_report.json",
+      "review_level": "COVERAGE_POINTER_ONLY"
+    },
+    {
+      "file": "research/sector_stock_momentum/ndx_fundamentals.py",
+      "sha256": "5ef7d1935ef2d5c1248bd9caf316c4667ff73ac7af8628913b0cda253c7b3742",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "ndx_splits",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "derived_fundamental_builder",
+      "disposition": "Static review; not rerun to rewrite frozen source-derived inputs.",
+      "limitations": [
+        "Uses build_fundamentals approximations and manually mapped CIKs.",
+        "Foreign 20-F/40-F issuers absent from 10-K/10-Q extracts retain missing factors; no complete NDX financial coverage certification."
+      ],
+      "review_level": "STATIC_REVIEW_AND_AVAILABLE_DEPENDENCY_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/ndx_universe.py",
+      "sha256": "7baafcf5801499a4cdbd6c547304313fc16950bc80b00be267efc82d6284612e",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "symbol_map",
+        "ndx_spells",
+        "ndx_members",
+        "_scratch",
+        "load_union",
+        "sector_table",
+        "setup"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [
+        {
+          "name": "ndx_pool",
+          "exit": 0,
+          "log": "audit_v2/root_ndx_pool.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "audit/audit_ndx_pool.py"
+          ],
+          "seconds": 18.67
+        }
+      ],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "membership_price_union_helper",
+      "disposition": "Cached union path exercised by pool audit and factor-agent NDX branch.",
+      "limitations": [
+        "Historical membership comes from frozen third-party YAML plus symbol-map choices, not independently certified complete Nasdaq notices.",
+        "Excluded/unmapped symbols and missing price histories limit the usable union; S&P raw file wins source collisions."
+      ],
+      "review_level": "STATIC_REVIEW_AND_AVAILABLE_DEPENDENCY_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/pit_fundamentals_truncation_test.py",
+      "sha256": "8a76ad3add849b415f2b7f48063b24f1034fa80d4c1d4a5bb1ec6255909012d2",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "truncated_root",
+        "compare",
+        "main"
+      ],
+      "source_certification": "NOT_APPLICABLE",
+      "run_evidence": [
+        {
+          "name": "fundamental_truncation",
+          "exit": 0,
+          "log": "audit_v2/root_fundamental_truncation.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "pit_fundamentals_truncation_test.py"
+          ],
+          "seconds": 552.82
+        }
+      ],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "test_entry",
+      "disposition": "Actual cached feature builds matched across three cutoffs, including ML2 history features.",
+      "review_level": "TEST_SOURCE_AND_EXECUTION_RECORD"
+    },
+    {
+      "file": "research/sector_stock_momentum/pit_truncation_test.py",
+      "sha256": "7e052b421c1217e032f9911c9a29b220754ebcfd858f24441956cd869dce0a2e",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "picks",
+        "main"
+      ],
+      "source_certification": "NOT_APPLICABLE",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "test_entry",
+      "disposition": "Source reviewed; no current-run execution record identified in root registries. Do not inherit historical PASS as a fresh test.",
+      "review_level": "TEST_SOURCE_AND_EXECUTION_RECORD"
+    },
+    {
+      "file": "research/sector_stock_momentum/portfolio_accounting.py",
+      "sha256": "78a91d9885ffe8f96153d18531e45953d1fd85c7882033bd51063dc7434746d7",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "capital_after_costs"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [
+        {
+          "name": "ledger",
+          "exit": 0,
+          "log": "audit_v2/root_ledger.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "audit_v2/root_ledger_gate.py"
+          ],
+          "seconds": 0.67
+        },
+        {
+          "name": "stock_regression",
+          "exit": 0,
+          "log": "audit_v2/root_stock_regression.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "research/sector_stock_momentum/test_codex_regressions.py"
+          ],
+          "seconds": 0.67
+        },
+        {
+          "name": "ledger_original",
+          "exit": 0,
+          "log": "audit_v2/root_ledger_original.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "research/sector_stock_momentum/test_portfolio_ledger.py"
+          ],
+          "seconds": 0.64
+        }
+      ],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "shared_portfolio_math",
+      "disposition": "Self-financing fee solver, drift, cash and bankruptcy independently exercised through shared consumers.",
+      "limitations": [
+        "Accounting tests certify modeled cash/fees for supplied returns, not execution quality or source data."
+      ],
+      "review_level": "CODE_AND_BOUNDED_EXECUTION_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/resolve_successors.py",
+      "sha256": "4631b45caaa07896e302f6aa9f0990820f429fcffa12f84034a88d6affb91b0f",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "external_data_acquisition",
+      "review_level": "STATIC_AUXILIARY_REVIEW_ONLY",
+      "disposition": "Auxiliary acquisition tool, not a strategy. No downloads or raw-cache rewrites were run in this audit branch.",
+      "limitations": [
+        "API/website/parser compatibility and complete historical coverage not live-verified.",
+        "Cached bytes can be hashed; vendor accuracy, full corporate actions and historical identifier continuity remain unverified."
+      ]
+    },
+    {
+      "file": "research/sector_stock_momentum/risk_report.py",
+      "sha256": "44e72a87f8c29cc5febe09270ab15f57e020059b74f9999fe22a91bb9660ea11",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "nav_daily",
+        "mdd",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "legacy_ml_writer",
+      "role": "delegated_scope",
+      "disposition": "See assigned branch evidence; this root-scope review does not self-certify delegated code.",
+      "report": "audit_v2/legacy_ml_disposition.json",
+      "review_level": "COVERAGE_POINTER_ONLY"
+    },
+    {
+      "file": "research/sector_stock_momentum/sma200_overlay.py",
+      "sha256": "abbd82b294227eefa65f747986fbfa9cfca7fe34ffc9e611c06892b260aeb244",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "run",
+        "best",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "factors_writer",
+      "role": "delegated_scope",
+      "disposition": "See assigned branch evidence; this root-scope review does not self-certify delegated code.",
+      "report": "audit_v2/factors_report.json",
+      "review_level": "COVERAGE_POINTER_ONLY"
+    },
+    {
+      "file": "research/sector_stock_momentum/smallcap_data_audit.py",
+      "sha256": "8b06f4574dc9ced41a5dd51f6d2cfce2356a99e212ce44e280fc473125cd8c6c",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "flags_for",
+        "corrections",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "price_quality_diagnostic",
+      "disposition": "Root F0/F2 handling read-only reviewed; focused bad-print-boundary checks recorded in root_feature_gate.json.",
+      "limitations": [
+        "Only nonpositive adjusted prices are automatically omitted. Large jumps with nearby split records remain unresolved unless magnitude/source evidence is sufficient.",
+        "F1/F3 strict removals use future reversal/run lengths; STRICT is an ex-post sensitivity diagnostic, not a tradable historical result.",
+        "Cross-vendor overlap quality does not certify non-overlapping securities."
+      ],
+      "review_level": "STATIC_REVIEW_AND_AVAILABLE_DEPENDENCY_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/smallcap_universe.py",
+      "sha256": "531ff2a77ae8bec4e1104b09df71b3e13b2f6c5f042dbf7499c544036d52cf8c",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "_series",
+        "raw_close_from_yahoo",
+        "build",
+        "universe",
+        "coverage"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "universe_builder",
+      "disposition": "Read-only review against WINNERS_SPEC 5a/5b; consumed by root holdout runner.",
+      "limitations": [
+        "Defines available liquid non-S&P stocks by price >= $5 and median 63-day dollar volume >= $5m; not all U.S. stocks or historical market-cap-defined small caps.",
+        "WIKI provides dead names before 2018; post-2018 current listings omit many dead firms. Terminal stress on existing selected names cannot restore absent firms.",
+        "Correlation >= .9 on overlapping vendor returns is an identity heuristic; newly introduced/reused symbols remain a source risk."
+      ],
+      "review_level": "STATIC_REVIEW_AND_AVAILABLE_DEPENDENCY_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/tech_only.py",
+      "sha256": "1ec8768e23ba981337b1204b4c61d2db8b043c9f9e8b7ea5b1e77f06a3ff02a4",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [],
+      "finding_ids": [],
+      "owner": "factors_writer",
+      "role": "delegated_scope",
+      "disposition": "See assigned branch evidence; this root-scope review does not self-certify delegated code.",
+      "report": "audit_v2/factors_report.json",
+      "review_level": "COVERAGE_POINTER_ONLY"
+    },
+    {
+      "file": "research/sector_stock_momentum/test_codex_regressions.py",
+      "sha256": "811ad976b85e83945a1defdd311abb627863b88e2fd4552a60a51a9f5862fc0d",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "PortfolioRegression",
+        "TimingRegression"
+      ],
+      "source_certification": "NOT_APPLICABLE",
+      "run_evidence": [
+        {
+          "name": "stock_regression",
+          "exit": 0,
+          "log": "audit_v2/root_stock_regression.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "research/sector_stock_momentum/test_codex_regressions.py"
+          ],
+          "seconds": 0.67
+        }
+      ],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "test_entry",
+      "disposition": "Six recorded regression checks passed; bounded counterexamples do not certify every strategy.",
+      "review_level": "TEST_SOURCE_AND_EXECUTION_RECORD"
+    },
+    {
+      "file": "research/sector_stock_momentum/test_fundamentals_pit.py",
+      "sha256": "e0257fcf4b8ff1d1e2fde859918eb90b0872cc7db423afba563e6354f4223e82",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "test_field_gating",
+        "test_split_basis"
+      ],
+      "source_certification": "NOT_APPLICABLE",
+      "run_evidence": [
+        {
+          "name": "fundamentals",
+          "exit": 0,
+          "log": "audit_v2/root_fundamentals.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "research/sector_stock_momentum/test_fundamentals_pit.py"
+          ],
+          "seconds": 1.85
+        }
+      ],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "test_entry",
+      "disposition": "Specific AMD availability and NVDA split-basis checks passed.",
+      "review_level": "TEST_SOURCE_AND_EXECUTION_RECORD"
+    },
+    {
+      "file": "research/sector_stock_momentum/test_portfolio_ledger.py",
+      "sha256": "0d2d1f2b63f5348374136a8f36c3a89f686b465c72657b092f6ebdf7aa2aa82e",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "PX",
+        "main"
+      ],
+      "source_certification": "NOT_APPLICABLE",
+      "run_evidence": [
+        {
+          "name": "ledger_original",
+          "exit": 0,
+          "log": "audit_v2/root_ledger_original.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "research/sector_stock_momentum/test_portfolio_ledger.py"
+          ],
+          "seconds": 0.64
+        }
+      ],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "test_entry",
+      "disposition": "Three recorded daily/tranche/stress checks passed.",
+      "review_level": "TEST_SOURCE_AND_EXECUTION_RECORD"
+    },
+    {
+      "file": "research/sector_stock_momentum/ticker_aliases.py",
+      "sha256": "289d756597dbe9241b73dd258b3896825c5d0444913a38e488fa950a71abba14",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "build_aliases"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [
+        {
+          "name": "main",
+          "exit": 0,
+          "log": "audit_v2/root_main.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "research/sector_stock_momentum/backtest.py"
+          ],
+          "seconds": 622.41
+        },
+        {
+          "name": "stock_pool",
+          "exit": 0,
+          "log": "audit_v2/root_stock_pool.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "audit/audit_stock_pool.py"
+          ],
+          "seconds": 36.76
+        }
+      ],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "identity_helper",
+      "disposition": "Read-only review; exercised by cached price loading.",
+      "limitations": [
+        "Same SEC CIK, membership adjacency and name evidence can support alias candidates but do not prove security/share-class continuity for every merger or spin-off.",
+        "Heuristics and manual exceptions remain conditional source evidence."
+      ],
+      "review_level": "STATIC_REVIEW_AND_AVAILABLE_DEPENDENCY_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/winners_holdout.py",
+      "sha256": "6c2a95adb9b52d9cbe68fc465ca9fd0df2259bccb91e4807588d2a19dabbadd0",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "segments",
+        "monthly",
+        "load",
+        "prep",
+        "cik_map",
+        "build_fundamentals",
+        "features",
+        "t2_scores",
+        "_Elig",
+        "run"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [
+        {
+          "name": "holdout",
+          "exit": 0,
+          "log": "audit_v2/root_holdout.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "winners_holdout.py",
+            "run"
+          ],
+          "seconds": 368.12
+        },
+        {
+          "name": "holdout_strict",
+          "exit": 0,
+          "log": "audit_v2/root_holdout_strict.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "winners_holdout.py",
+            "run_strict"
+          ],
+          "seconds": 286.94
+        },
+        {
+          "name": "daily_refresh",
+          "exit": 0,
+          "log": "audit_v2/root_daily_refresh.log",
+          "command": null,
+          "seconds": 68.93
+        }
+      ],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "strategy_entry",
+      "disposition": "Source reviewed against frozen 5a-5e; actual run state is recorded from root_dependent_runs.json, not inferred from task creation.",
+      "limitations": [
+        "Source universe has substantial post-2018 survivorship bias.",
+        "Strict F1/F3 removal is an ex-post diagnostic; observed historical replay is not a fresh untouched examination.",
+        "Price-only holdout deliberately suppresses survivor-linked fundamental availability per SPEC 5b."
+      ],
+      "review_level": "CODE_AND_BOUNDED_EXECUTION_EVIDENCE"
+    },
+    {
+      "file": "research/sector_stock_momentum/winners_tracks.py",
+      "sha256": "c0fde0a224f8ed6f82c1b0891718ab9690556a9b26cbcf567d130fe9c4c9fdf5",
+      "ast_parse": "PASS",
+      "functions_or_classes": [
+        "setup",
+        "last_session",
+        "run_weights",
+        "daily_nav",
+        "stats_block",
+        "tranche_ledger",
+        "track3",
+        "track2",
+        "main"
+      ],
+      "source_certification": "UNVERIFIED",
+      "run_evidence": [
+        {
+          "name": "ledger",
+          "exit": 0,
+          "log": "audit_v2/root_ledger.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "audit_v2/root_ledger_gate.py"
+          ],
+          "seconds": 0.67
+        },
+        {
+          "name": "ledger_original",
+          "exit": 0,
+          "log": "audit_v2/root_ledger_original.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "research/sector_stock_momentum/test_portfolio_ledger.py"
+          ],
+          "seconds": 0.64
+        },
+        {
+          "name": "winners",
+          "exit": 0,
+          "log": "audit_v2/root_winners.log",
+          "command": [
+            "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+            "winners_tracks.py"
+          ],
+          "seconds": 92.8
+        },
+        {
+          "name": "winners_final",
+          "exit": 0,
+          "log": "audit_v2/root_winners_final.log",
+          "command": null,
+          "seconds": 95.5
+        }
+      ],
+      "finding_ids": [],
+      "owner": "root",
+      "role": "strategy_entry",
+      "disposition": "Cached run completed; independent cash, terminal-interest and EAR tests passed. Daily-dependent variants can be explicitly blocked.",
+      "limitations": [
+        "A monthly return does not prove its daily path. Volatility-target variants require a reconciled path and are unavailable where it fails.",
+        "Daily cash/borrowing carry is modeled; close marks reconcile only where the path check succeeds; missing held quotes are not filled.",
+        "Fixed historical candidates and post-hoc supplemental candidates must remain separately labeled."
+      ],
+      "review_level": "CODE_AND_BOUNDED_EXECUTION_EVIDENCE"
+    }
+  ],
+  "not_claimed": [
+    "All raw data accurate or licensed for any future use",
+    "All downloader APIs currently work",
+    "All historical members/sectors/identities independently certified",
+    "All frozen diagnostics implemented",
+    "All daily risk paths reconstructible",
+    "Current historical replays are fresh prospective tests"
+  ],
+  "excluded_from_this_bounded_inventory": "Shell scheduling wrappers and other research directories are handled by root-wide coverage; no dashboard/R1/original files touched.",
+  "workflow": "frozen source/cache -> per-file code review + independent counterexamples -> actual run records -> pending root fixes and source gaps -> final matched-period comparison"
+}

@@ -1,0 +1,13 @@
+{
+  "status": "SEALED_AUDIT_COMPLETE_WITH_EXPLICIT_BLOCKS",
+  "manifest_sha256": "1131770af284abb0bf831695a7f1b26689b9b83328ed2ebfc41ac677f3246e71",
+  "files": 11267,
+  "bytes": 3552495215,
+  "workbook": "/Users/happygolucky/projects/宏观观察器/outputs/backtest_full_audit_v2_20261030/全部回测审核与同期比较_Codex_v2.xlsx",
+  "workbook_sha256": "03959db63b00a4b6307c879b5c3d8f6b139c5bbffec7cc917dca1510eb27a459",
+  "original_source_files_unchanged": 147,
+  "parent_snapshot_unchanged": 10584,
+  "frozen_model_data_inputs_unchanged": 9352,
+  "all_strategies_pass": false,
+  "historical_source_certified": false
+}

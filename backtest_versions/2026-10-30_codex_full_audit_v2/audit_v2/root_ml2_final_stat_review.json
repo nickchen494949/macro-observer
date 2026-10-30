@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "best_model_line": "C-lgbm Top1",
+  "recomputed_excess_DSR": 0.9713326197351493,
+  "reported_excess_DSR": 0.9713326197351493,
+  "unknown_test_prediction_rows_retained": 36,
+  "monthly_model_ledgers": 12,
+  "months_each": [
+    141
+  ],
+  "source_sha256": {
+    "backtest.py": "fe251d714fe9d3c9ec6db2d70f595d5657305ce8d6e0658ddba4519d8d12bba1",
+    "ml2_run.py": "848fdd5e7f83c13270947e17989f303366c5edd3e9b32e450bb1d3089a5074b1"
+  },
+  "meta_sha256": "177071c6dc2298772fe216e07be482e1b8394b90d16d0cf957105bb2160b9a99",
+  "limitation": "DSR implementation reused after prior core audit; this independent check verifies final run uses excess returns and current ledgers."
+}

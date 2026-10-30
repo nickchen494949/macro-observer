@@ -1,0 +1,3072 @@
+[
+  {
+    "family": "行业轮动固定模型",
+    "name": "固定Ridge模型选行业",
+    "summary_path": "research/sector_rotation/results_v2/ridge_aligned_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/Ridge_Top1_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "benchmark must use this exact ledger window"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "strategy",
+    "legacy_source": "audit/rotation_ridge_replay.json",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "df33fe4415a478558397122974b2587b1f9f7dc866d59563b7f5a09772c55a94",
+    "ledger_path_sha256": "b806e6accc674e3fa43f60241ff0ea34fa9767d34b1064113a3401212d975b50"
+  },
+  {
+    "family": "行业轮动固定模型",
+    "name": "同窗口标普500 ETF（SPY）",
+    "summary_path": "research/sector_rotation/results_v2/ridge_aligned_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/SPY_Ridge_Top1_aligned_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "benchmark must use this exact ledger window"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "SPY",
+    "legacy_source": "audit/rotation_ridge_replay.json",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "df33fe4415a478558397122974b2587b1f9f7dc866d59563b7f5a09772c55a94",
+    "ledger_path_sha256": "0d8ec85d734ea307268d372efa88037f27b538e5e5f5f21a4f9c74215ed9506c"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "valuation / 1M / all",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_valuation_all_h1.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "valuation / 1M / all",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "8e96210c82fb34baea46d4a55b6aa789cf836f4688a11cc6e0dc329940ceb1ce"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "eps_revision / 1M / all",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_eps_revision_all_h1.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "eps_revision / 1M / all",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "45043a2d0a0d21935acc61eef0b93b4a6e383f288fc1f9d0868b7c13d12febb4"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "momentum / 1M / all",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_momentum_all_h1.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "momentum / 1M / all",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "3b71e2c6284f30d0abbe65a00302d390f321fc100ba2eadb3b9d9d3709d085b7"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "val+eps / 1M / all",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_val+eps_all_h1.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "val+eps / 1M / all",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "9beb21a5b8ff48ded701ba5e8d368d98ad5d6eab8fe6e8e407b893550514fa36"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "val+eps+mom / 1M / all",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_val+eps+mom_all_h1.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "val+eps+mom / 1M / all",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "9d873240b25676963ddf34caa578d437b5c13ccd16f12da0f709a9ebeeeace0b"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "all_equal / 1M / all",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_all_equal_all_h1.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "all_equal / 1M / all",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "8d95ea6a06fd69daac08f08861e92be72375e47d4c31462707467a02844566c7"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "valuation / 1M / rising",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_valuation_rising_h1.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "diagnostic_conditional_or_overlapping",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "valuation / 1M / rising",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "91bc48f7a0e97a8f8309d291733700ebfc8eaaf6a6c896cb0e4e792f5dc2d450"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "valuation / 1M / falling",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_valuation_falling_h1.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "diagnostic_conditional_or_overlapping",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "valuation / 1M / falling",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "e9d3f73a566492f6c52d0f19aeb63209a2089280b5d9e76a32ab2620310f1c75"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "val+eps / 1M / rising",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_val+eps_rising_h1.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "diagnostic_conditional_or_overlapping",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "val+eps / 1M / rising",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "d81b61db6aa97ff4522b8275a4d97c0181fc9893f6c5da1ca416acb3169ed192"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "val+eps / 1M / falling",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_val+eps_falling_h1.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "diagnostic_conditional_or_overlapping",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "val+eps / 1M / falling",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "e6aac0c0ff0317996a9286a0e5ee6167ad08111dfed098da4cf75619ee6b79e1"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "eps_revision / 1M / rising",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_eps_revision_rising_h1.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "diagnostic_conditional_or_overlapping",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "eps_revision / 1M / rising",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "18a65a5318ca8fb2fcf8d7fe9444c0364f549cb8f1b00a28aab7795ccd8c5c36"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "eps_revision / 1M / falling",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_eps_revision_falling_h1.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "diagnostic_conditional_or_overlapping",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "eps_revision / 1M / falling",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "89b4dc521896140b1d085a50fd906c13c3257fc8430bbd70e40c6e14170c4572"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "valuation / 3M / all",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_valuation_all_h3.csv",
+    "frequency": "monthly 3-month forward labels",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "diagnostic_conditional_or_overlapping",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "valuation / 3M / all",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "436dd85d062e4ffd73941fd394fd403cd4c2ea6aa41b02dbc0cfc06005b05a37"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "eps_revision / 3M / all",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_eps_revision_all_h3.csv",
+    "frequency": "monthly 3-month forward labels",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "diagnostic_conditional_or_overlapping",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "eps_revision / 3M / all",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "835c4f211173db9d5d5658007aa47c25ccabfa3cb27feb159ba2f9c907afe070"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "val+eps / 3M / all",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_val+eps_all_h3.csv",
+    "frequency": "monthly 3-month forward labels",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "diagnostic_conditional_or_overlapping",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "val+eps / 3M / all",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "b98eef7b03c8f2eee0eaec2c7d78a0d6e105b5daf229ccb1ac7fe7105dece3a1"
+  },
+  {
+    "family": "行业轮动信号组合",
+    "name": "val+eps+mom / 3M / all",
+    "summary_path": "research/sector_rotation/backtest_results.csv",
+    "ledger_path": "research/sector_rotation/detail_val+eps+mom_all_h3.csv",
+    "frequency": "monthly 3-month forward labels",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "diagnostic_conditional_or_overlapping",
+    "limitations": [
+      "historical PE vintages unverified",
+      "ETF price / sector-index PE is an earnings proxy",
+      "conditional/overlapping samples have no portfolio CAGR"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "val+eps+mom / 3M / all",
+    "legacy_source": "research/sector_rotation/backtest_results.csv",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "1cc014de76dd488613d4597bf664bd5f28d4180aea13aab6ccff0540553a9782",
+    "ledger_path_sha256": "f13c09cddee82cfd67be3a5127c751f657ce69ec9c0107455fda88bc38a2e8f6"
+  },
+  {
+    "family": "行业轮动随机森林",
+    "name": "RF Regressor top3",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "legacy monthly",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "superseded_unreproducible_spec",
+    "limitations": [
+      "Saved legacy six configurations include RF Classifier; current source has only RF Regressor/Ridge. Exact old implementation/spec unavailable. New runs are indexed separately."
+    ],
+    "status": "BLOCK_SPEC_MISSING",
+    "source_certified": false,
+    "legacy_name": "RF Regressor top3",
+    "legacy_source": "research/sector_rotation/rf_backtest_results.csv",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "行业轮动随机森林",
+    "name": "RF Regressor top1",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "legacy monthly",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "superseded_unreproducible_spec",
+    "limitations": [
+      "Saved legacy six configurations include RF Classifier; current source has only RF Regressor/Ridge. Exact old implementation/spec unavailable. New runs are indexed separately."
+    ],
+    "status": "BLOCK_SPEC_MISSING",
+    "source_certified": false,
+    "legacy_name": "RF Regressor top1",
+    "legacy_source": "research/sector_rotation/rf_backtest_results.csv",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "行业轮动随机森林",
+    "name": "RF Classifier top3",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "legacy monthly",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "superseded_unreproducible_spec",
+    "limitations": [
+      "Saved legacy six configurations include RF Classifier; current source has only RF Regressor/Ridge. Exact old implementation/spec unavailable. New runs are indexed separately."
+    ],
+    "status": "BLOCK_SPEC_MISSING",
+    "source_certified": false,
+    "legacy_name": "RF Classifier top3",
+    "legacy_source": "research/sector_rotation/rf_backtest_results.csv",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "行业轮动随机森林",
+    "name": "RF Classifier top1",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "legacy monthly",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "superseded_unreproducible_spec",
+    "limitations": [
+      "Saved legacy six configurations include RF Classifier; current source has only RF Regressor/Ridge. Exact old implementation/spec unavailable. New runs are indexed separately."
+    ],
+    "status": "BLOCK_SPEC_MISSING",
+    "source_certified": false,
+    "legacy_name": "RF Classifier top1",
+    "legacy_source": "research/sector_rotation/rf_backtest_results.csv",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "行业轮动随机森林",
+    "name": "RF Regressor top3 (full)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "legacy monthly",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "superseded_unreproducible_spec",
+    "limitations": [
+      "Saved legacy six configurations include RF Classifier; current source has only RF Regressor/Ridge. Exact old implementation/spec unavailable. New runs are indexed separately."
+    ],
+    "status": "BLOCK_SPEC_MISSING",
+    "source_certified": false,
+    "legacy_name": "RF Regressor top3 (full)",
+    "legacy_source": "research/sector_rotation/rf_backtest_results.csv",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "行业轮动随机森林",
+    "name": "RF Regressor top1 (full)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "legacy monthly",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "superseded_unreproducible_spec",
+    "limitations": [
+      "Saved legacy six configurations include RF Classifier; current source has only RF Regressor/Ridge. Exact old implementation/spec unavailable. New runs are indexed separately."
+    ],
+    "status": "BLOCK_SPEC_MISSING",
+    "source_certified": false,
+    "legacy_name": "RF Regressor top1 (full)",
+    "legacy_source": "research/sector_rotation/rf_backtest_results.csv",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / falsification_test",
+    "name": "Buy&Hold",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Buy&Hold",
+    "legacy_source": "research/strategy_comparison/falsification_test.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / falsification_test",
+    "name": "Hp→EPS(simple)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Hp→EPS(simple)",
+    "legacy_source": "research/strategy_comparison/falsification_test.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / falsification_test",
+    "name": "Hp→EPS(new event)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Hp→EPS(new event)",
+    "legacy_source": "research/strategy_comparison/falsification_test.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / falsification_test",
+    "name": "Hp→(NewEPS|H)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Hp→(NewEPS|H)",
+    "legacy_source": "research/strategy_comparison/falsification_test.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / falsification_test",
+    "name": "Hp→(SimpleEPS|H)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Hp→(SimpleEPS|H)",
+    "legacy_source": "research/strategy_comparison/falsification_test.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / falsification_test",
+    "name": "Hp→H",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Hp→H",
+    "legacy_source": "research/strategy_comparison/falsification_test.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / falsification_test_v6",
+    "name": "反证/稳健性检验组（非独立组合）",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "反证/稳健性检验组（非独立组合）",
+    "legacy_source": "research/strategy_comparison/falsification_test_v6.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / post2012_regime_test",
+    "name": "Buy&Hold",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Buy&Hold",
+    "legacy_source": "research/strategy_comparison/post2012_regime_test.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / post2012_regime_test",
+    "name": "V6 (Cond)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "V6 (Cond)",
+    "legacy_source": "research/strategy_comparison/post2012_regime_test.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / post2012_regime_test",
+    "name": "V5 (Pure EPS)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "V5 (Pure EPS)",
+    "legacy_source": "research/strategy_comparison/post2012_regime_test.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / post2012_regime_test",
+    "name": "Pure SEP",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Pure SEP",
+    "legacy_source": "research/strategy_comparison/post2012_regime_test.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / sep_falsification_test",
+    "name": "反证/稳健性检验组（非独立组合）",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": null,
+    "frequency": "event driven",
+    "execution": "next trading day close",
+    "cost": "10 bp per trade",
+    "evidence_role": "parameter_diagnostic",
+    "limitations": [
+      "20 inherited parameter combinations; not 20 independently designed strategies",
+      "official median source starts 2015-09-17; 2012 start rejected",
+      "see individual new rows"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "legacy_name": "反证/稳健性检验组（非独立组合）",
+    "legacy_source": "research/strategy_comparison/sep_falsification_test.py",
+    "legacy_inventory_record": true,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b"
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v1",
+    "name": "Buy & Hold",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Buy & Hold",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v1.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v1",
+    "name": "H→H",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H→H",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v1.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v1",
+    "name": "H→EPS",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H→EPS",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v1.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v1",
+    "name": "EPS→EPS",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "EPS→EPS",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v1.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v1",
+    "name": "EPS→H",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "EPS→H",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v1.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v2",
+    "name": "Buy&Hold",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Buy&Hold",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v2",
+    "name": "H→H",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H→H",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v2",
+    "name": "H→EPS(-5%)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H→EPS(-5%)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v2",
+    "name": "H→EPS(-3%)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H→EPS(-3%)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v2",
+    "name": "H→EPS(0%)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H→EPS(0%)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v2",
+    "name": "H→(E∨H)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H→(E∨H)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v2",
+    "name": "EPS→EPS",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "EPS→EPS",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v2",
+    "name": "EPS→H",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "EPS→H",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v2",
+    "name": "EPS→(E∨H)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "EPS→(E∨H)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v3",
+    "name": "Buy&Hold",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Buy&Hold",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v3",
+    "name": "H->H",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H->H",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v3",
+    "name": "H->EPS(-3%)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H->EPS(-3%)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v3",
+    "name": "H->SEP",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H->SEP",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v3",
+    "name": "H->(E|H)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H->(E|H)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v3",
+    "name": "H->(S|H)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H->(S|H)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v3",
+    "name": "SEP->SEP",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "SEP->SEP",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v3",
+    "name": "SEP->EPS(-3%)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "SEP->EPS(-3%)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v3",
+    "name": "SEP->H",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "SEP->H",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v3",
+    "name": "EPS->H",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "EPS->H",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v3",
+    "name": "EPS->SEP",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "EPS->SEP",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v4",
+    "name": "Buy&Hold",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Buy&Hold",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v4",
+    "name": "H->H",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H->H",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v4",
+    "name": "H->EPS(-3%)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H->EPS(-3%)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v4",
+    "name": "H->SEP",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H->SEP",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v4",
+    "name": "H->(E|H)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H->(E|H)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v4",
+    "name": "H->(S|H)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H->(S|H)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v4",
+    "name": "SEP->SEP",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "SEP->SEP",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v4",
+    "name": "SEP->H",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "SEP->H",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v4",
+    "name": "SEP->EPS(-3%)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "SEP->EPS(-3%)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v4",
+    "name": "SEP->(E|H)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "SEP->(E|H)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v5",
+    "name": "Buy&Hold",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Buy&Hold",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v5",
+    "name": "Hp->H",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Hp->H",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v5",
+    "name": "Hp->EPS(-3%)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Hp->EPS(-3%)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v5",
+    "name": "Hp->SEP(raw)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Hp->SEP(raw)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v5",
+    "name": "Hp->SEP(canon)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Hp->SEP(canon)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v5",
+    "name": "Hp->(E|H)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Hp->(E|H)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v5",
+    "name": "Hp->(S|H)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Hp->(S|H)",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v5",
+    "name": "H->EPS(-3%) v4",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H->EPS(-3%) v4",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v5",
+    "name": "H->SEP(raw) v4",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "H->SEP(raw) v4",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / strategy_comparison_v5",
+    "name": "SEP->SEP",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "SEP->SEP",
+    "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / v6_final_backtest",
+    "name": "Buy&Hold",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Buy&Hold",
+    "legacy_source": "research/strategy_comparison/v6_final_backtest.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / v6_final_backtest",
+    "name": "V6 (Cond)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "V6 (Cond)",
+    "legacy_source": "research/strategy_comparison/v6_final_backtest.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / v6_final_backtest",
+    "name": "V5 (Pure EPS)",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "V5 (Pure EPS)",
+    "legacy_source": "research/strategy_comparison/v6_final_backtest.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "QQQ择时 / v6_final_backtest",
+    "name": "Pure SEP",
+    "summary_path": null,
+    "ledger_path": null,
+    "frequency": "event driven / daily marks",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "blocked_entry",
+    "limitations": [
+      "Entry requires verified direct Nasdaq-100 aggregate EPS identity/vintages; absent. SP500_EPS is wrong index for the claimed source. --revised-history cannot bypass. No new EPS modelling."
+    ],
+    "status": "BLOCK_SOURCE_IDENTITY",
+    "source_certified": false,
+    "legacy_name": "Pure SEP",
+    "legacy_source": "research/strategy_comparison/v6_final_backtest.py",
+    "legacy_inventory_record": true
+  },
+  {
+    "family": "行业轮动现行模型 v8",
+    "name": "SPY (aligned no-XLE reference)",
+    "summary_path": "research/sector_rotation/results_v2/model_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/SPY_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "models launch at different dates; compare on common entry/exit dates",
+      "old Classifier results are not reproduced by these regressors"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2022-11-30 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2022-12-02 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 44
+    },
+    "summary_path_sha256": "948a5a53b6d23bf3943256afd8c609b1819d18eb7121c70c649caac613674472",
+    "ledger_path_sha256": "3824562531dd7ac1b020dc60a74034c572f28da7940f0e0b953a8ad263c2e3ae"
+  },
+  {
+    "family": "行业轮动现行模型 v8",
+    "name": "QQQ (aligned no-XLE reference)",
+    "summary_path": "research/sector_rotation/results_v2/model_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/QQQ_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "models launch at different dates; compare on common entry/exit dates",
+      "old Classifier results are not reproduced by these regressors"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2022-11-30 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2022-12-02 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 44
+    },
+    "summary_path_sha256": "948a5a53b6d23bf3943256afd8c609b1819d18eb7121c70c649caac613674472",
+    "ledger_path_sha256": "9017ec850b7c45077142b04ed0645d85ecfad8f7ee3abb5f8a8f5d70bb8585c5"
+  },
+  {
+    "family": "行业轮动现行模型 v8",
+    "name": "RF Top3",
+    "summary_path": "research/sector_rotation/results_v2/model_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/RF_Top3_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "models launch at different dates; compare on common entry/exit dates",
+      "old Classifier results are not reproduced by these regressors"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2023-03-31 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2023-04-04 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 40
+    },
+    "summary_path_sha256": "948a5a53b6d23bf3943256afd8c609b1819d18eb7121c70c649caac613674472",
+    "ledger_path_sha256": "077c0139fe32de58039ed3b85228337e8c195622f059c308221a116af97e3cbf"
+  },
+  {
+    "family": "行业轮动现行模型 v8",
+    "name": "RF Top1",
+    "summary_path": "research/sector_rotation/results_v2/model_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/RF_Top1_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "models launch at different dates; compare on common entry/exit dates",
+      "old Classifier results are not reproduced by these regressors"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2023-03-31 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2023-04-04 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 40
+    },
+    "summary_path_sha256": "948a5a53b6d23bf3943256afd8c609b1819d18eb7121c70c649caac613674472",
+    "ledger_path_sha256": "ba514b59e2df2d928984c4cc93f4c71a783b39a40135deee291751e5c2ac189c"
+  },
+  {
+    "family": "行业轮动现行模型 v8",
+    "name": "RF Top3 (no XLE)",
+    "summary_path": "research/sector_rotation/results_v2/model_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/RF_Top3_(no_XLE)_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "models launch at different dates; compare on common entry/exit dates",
+      "old Classifier results are not reproduced by these regressors"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2022-11-30 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2022-12-02 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 44
+    },
+    "summary_path_sha256": "948a5a53b6d23bf3943256afd8c609b1819d18eb7121c70c649caac613674472",
+    "ledger_path_sha256": "41ebaa1b96c600b5a71aefdf06eccef54720875911d253ea1b5bb8ef89e149e1"
+  },
+  {
+    "family": "行业轮动现行模型 v8",
+    "name": "RF Top1 (no XLE)",
+    "summary_path": "research/sector_rotation/results_v2/model_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/RF_Top1_(no_XLE)_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "models launch at different dates; compare on common entry/exit dates",
+      "old Classifier results are not reproduced by these regressors"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2022-11-30 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2022-12-02 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 44
+    },
+    "summary_path_sha256": "948a5a53b6d23bf3943256afd8c609b1819d18eb7121c70c649caac613674472",
+    "ledger_path_sha256": "ebdafcd65e5700d172c2519ff62f6d37f74c3eb2eda051bcbd8728a79dc4e9c7"
+  },
+  {
+    "family": "行业轮动现行模型 v8",
+    "name": "Ridge Top1",
+    "summary_path": "research/sector_rotation/results_v2/model_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/Ridge_Top1_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "models launch at different dates; compare on common entry/exit dates",
+      "old Classifier results are not reproduced by these regressors"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2023-03-31 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2023-04-04 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 40
+    },
+    "summary_path_sha256": "948a5a53b6d23bf3943256afd8c609b1819d18eb7121c70c649caac613674472",
+    "ledger_path_sha256": "b806e6accc674e3fa43f60241ff0ea34fa9767d34b1064113a3401212d975b50"
+  },
+  {
+    "family": "行业轮动现行模型 v8",
+    "name": "Ridge Top1 (no XLE)",
+    "summary_path": "research/sector_rotation/results_v2/model_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/Ridge_Top1_(no_XLE)_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history",
+    "limitations": [
+      "historical PE vintages unverified",
+      "models launch at different dates; compare on common entry/exit dates",
+      "old Classifier results are not reproduced by these regressors"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2022-11-30 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2022-12-02 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 44
+    },
+    "summary_path_sha256": "948a5a53b6d23bf3943256afd8c609b1819d18eb7121c70c649caac613674472",
+    "ledger_path_sha256": "228f46a5e8b078403ab84e67df6b9113572c513565286b5c2f85f7eed6b0f3f0"
+  },
+  {
+    "family": "行业轮动现行模型共同期间",
+    "name": "SPY (aligned no-XLE reference)",
+    "summary_path": "research/sector_rotation/results_v2/model_common_period_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/common_monthly/SPY_(aligned_no-XLE_reference)_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close; exact shared holding windows",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history_common_period",
+    "limitations": [
+      "historical PE vintages unverified",
+      "slice of already rerun native ledger, not new fitting or tuning",
+      "monthly drawdown hides within-month risk"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2023-03-31 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2023-04-04 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 40
+    },
+    "summary_path_sha256": "30445468a08e762f634f494082e110a09e6c1bfc0b53d83e34527b6bacb7bc6d",
+    "ledger_path_sha256": "0d8ec85d734ea307268d372efa88037f27b538e5e5f5f21a4f9c74215ed9506c"
+  },
+  {
+    "family": "行业轮动现行模型共同期间",
+    "name": "QQQ (aligned no-XLE reference)",
+    "summary_path": "research/sector_rotation/results_v2/model_common_period_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/common_monthly/QQQ_(aligned_no-XLE_reference)_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close; exact shared holding windows",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history_common_period",
+    "limitations": [
+      "historical PE vintages unverified",
+      "slice of already rerun native ledger, not new fitting or tuning",
+      "monthly drawdown hides within-month risk"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2023-03-31 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2023-04-04 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 40
+    },
+    "summary_path_sha256": "30445468a08e762f634f494082e110a09e6c1bfc0b53d83e34527b6bacb7bc6d",
+    "ledger_path_sha256": "8503ddaa7fd04973ea35a7686406e5f6b84bef3dc35d72287af00161f993b859"
+  },
+  {
+    "family": "行业轮动现行模型共同期间",
+    "name": "RF Top3",
+    "summary_path": "research/sector_rotation/results_v2/model_common_period_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/common_monthly/RF_Top3_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close; exact shared holding windows",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history_common_period",
+    "limitations": [
+      "historical PE vintages unverified",
+      "slice of already rerun native ledger, not new fitting or tuning",
+      "monthly drawdown hides within-month risk"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2023-03-31 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2023-04-04 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 40
+    },
+    "summary_path_sha256": "30445468a08e762f634f494082e110a09e6c1bfc0b53d83e34527b6bacb7bc6d",
+    "ledger_path_sha256": "077c0139fe32de58039ed3b85228337e8c195622f059c308221a116af97e3cbf"
+  },
+  {
+    "family": "行业轮动现行模型共同期间",
+    "name": "RF Top1",
+    "summary_path": "research/sector_rotation/results_v2/model_common_period_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/common_monthly/RF_Top1_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close; exact shared holding windows",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history_common_period",
+    "limitations": [
+      "historical PE vintages unverified",
+      "slice of already rerun native ledger, not new fitting or tuning",
+      "monthly drawdown hides within-month risk"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2023-03-31 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2023-04-04 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 40
+    },
+    "summary_path_sha256": "30445468a08e762f634f494082e110a09e6c1bfc0b53d83e34527b6bacb7bc6d",
+    "ledger_path_sha256": "ba514b59e2df2d928984c4cc93f4c71a783b39a40135deee291751e5c2ac189c"
+  },
+  {
+    "family": "行业轮动现行模型共同期间",
+    "name": "RF Top3 (no XLE)",
+    "summary_path": "research/sector_rotation/results_v2/model_common_period_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/common_monthly/RF_Top3_(no_XLE)_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close; exact shared holding windows",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history_common_period",
+    "limitations": [
+      "historical PE vintages unverified",
+      "slice of already rerun native ledger, not new fitting or tuning",
+      "monthly drawdown hides within-month risk"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2023-03-31 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2023-04-04 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 40
+    },
+    "summary_path_sha256": "30445468a08e762f634f494082e110a09e6c1bfc0b53d83e34527b6bacb7bc6d",
+    "ledger_path_sha256": "9b7ae1d3e30432a9ae4939bda8e51ceb6450096e9211a83e41bcc3b36334066c"
+  },
+  {
+    "family": "行业轮动现行模型共同期间",
+    "name": "RF Top1 (no XLE)",
+    "summary_path": "research/sector_rotation/results_v2/model_common_period_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/common_monthly/RF_Top1_(no_XLE)_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close; exact shared holding windows",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history_common_period",
+    "limitations": [
+      "historical PE vintages unverified",
+      "slice of already rerun native ledger, not new fitting or tuning",
+      "monthly drawdown hides within-month risk"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2023-03-31 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2023-04-04 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 40
+    },
+    "summary_path_sha256": "30445468a08e762f634f494082e110a09e6c1bfc0b53d83e34527b6bacb7bc6d",
+    "ledger_path_sha256": "1ec5d626a6c90786e88f26cbde64811c58dcde5059091a7b00aa7e136843996a"
+  },
+  {
+    "family": "行业轮动现行模型共同期间",
+    "name": "Ridge Top1",
+    "summary_path": "research/sector_rotation/results_v2/model_common_period_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/common_monthly/Ridge_Top1_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close; exact shared holding windows",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history_common_period",
+    "limitations": [
+      "historical PE vintages unverified",
+      "slice of already rerun native ledger, not new fitting or tuning",
+      "monthly drawdown hides within-month risk"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2023-03-31 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2023-04-04 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 40
+    },
+    "summary_path_sha256": "30445468a08e762f634f494082e110a09e6c1bfc0b53d83e34527b6bacb7bc6d",
+    "ledger_path_sha256": "b806e6accc674e3fa43f60241ff0ea34fa9767d34b1064113a3401212d975b50"
+  },
+  {
+    "family": "行业轮动现行模型共同期间",
+    "name": "Ridge Top1 (no XLE)",
+    "summary_path": "research/sector_rotation/results_v2/model_common_period_summary.csv",
+    "ledger_path": "research/sector_rotation/results_v2/common_monthly/Ridge_Top1_(no_XLE)_monthly.csv",
+    "frequency": "monthly",
+    "execution": "T+2 close to next T+2 close; exact shared holding windows",
+    "cost": "gross; no transaction costs",
+    "evidence_role": "portfolio_revised_history_common_period",
+    "limitations": [
+      "historical PE vintages unverified",
+      "slice of already rerun native ledger, not new fitting or tuning",
+      "monthly drawdown hides within-month risk"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "actual_window": {
+      "first_signal": "2023-03-31 00:00:00",
+      "last_signal": "2026-06-30 00:00:00",
+      "first_entry": "2023-04-04 00:00:00",
+      "last_exit": "2026-08-04 00:00:00",
+      "months": 40
+    },
+    "summary_path_sha256": "30445468a08e762f634f494082e110a09e6c1bfc0b53d83e34527b6bacb7bc6d",
+    "ledger_path_sha256": "cbbb58950c1b0a81be34aeeea441cfb3d80be90883e3172d6db69fd4046587db"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>1.5, rate change>-0.25",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce1.5_rate-0.25_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "2b40de058e1a1948aca63c845a5fee92605d45482d2f05a7d67d2b03b5b46ae6"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>1.5, rate change>0.0",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce1.5_rate0.0_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "67b2e5241309723f59807bdcc64554fd245bbd6286ce19657ffb4cb884d74e16"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>1.5, rate change>0.25",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce1.5_rate0.25_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "f1899ea8b9ce87a8ecdce3f42709f2e90c447ce6ddbac65005b4a3c1dc4e8ba8"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>1.5, rate change>0.5",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce1.5_rate0.5_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "5a3934ded94c03aae0da51a723f6598a718c85b0f1e3df14535a252215c1b764"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>1.8, rate change>-0.25",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce1.8_rate-0.25_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "a2214beb0d2e94f08f6044b533beb5ad4437f0254cd12adc535944b5bc651b3b"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>1.8, rate change>0.0",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce1.8_rate0.0_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "67b2e5241309723f59807bdcc64554fd245bbd6286ce19657ffb4cb884d74e16"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>1.8, rate change>0.25",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce1.8_rate0.25_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "f1899ea8b9ce87a8ecdce3f42709f2e90c447ce6ddbac65005b4a3c1dc4e8ba8"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>1.8, rate change>0.5",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce1.8_rate0.5_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "5a3934ded94c03aae0da51a723f6598a718c85b0f1e3df14535a252215c1b764"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>2.0, rate change>-0.25",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce2.0_rate-0.25_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "6e2b302b093c8531846179cd550b525ab77425d569704dda730cd4d6a3b0fd7d"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>2.0, rate change>0.0",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce2.0_rate0.0_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "a6e6c71afdb159462afb62fa96a7db49054bc0b476a8eb0df6c70c00eeab0832"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>2.0, rate change>0.25",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce2.0_rate0.25_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "c759ba7825d43637f39514c764b9034affc6b06c66fdea3bf224e4c15d0de1c5"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>2.0, rate change>0.5",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce2.0_rate0.5_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "5a3934ded94c03aae0da51a723f6598a718c85b0f1e3df14535a252215c1b764"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>2.2, rate change>-0.25",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce2.2_rate-0.25_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "855e73cd96bf929b90d245963d94f5aab9bf2de7ab1c11162d156d19a060a518"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>2.2, rate change>0.0",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce2.2_rate0.0_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "a6e6c71afdb159462afb62fa96a7db49054bc0b476a8eb0df6c70c00eeab0832"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>2.2, rate change>0.25",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce2.2_rate0.25_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "c759ba7825d43637f39514c764b9034affc6b06c66fdea3bf224e4c15d0de1c5"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>2.2, rate change>0.5",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce2.2_rate0.5_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "5a3934ded94c03aae0da51a723f6598a718c85b0f1e3df14535a252215c1b764"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>2.5, rate change>-0.25",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce2.5_rate-0.25_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "064e44463bb45aa312d81bad86283733efe835680fc939ce9dca79b350db777b"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>2.5, rate change>0.0",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce2.5_rate0.0_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "2f2a3d14dc08d7310e9883d1befa22d7cefe166be4b688ce0c97b52ead951557"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>2.5, rate change>0.25",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce2.5_rate0.25_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "2f2a3d14dc08d7310e9883d1befa22d7cefe166be4b688ce0c97b52ead951557"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "SEP PCE>2.5, rate change>0.5",
+    "summary_path": "research/strategy_comparison/results_v2/sep_summary.csv",
+    "ledger_path": "research/strategy_comparison/results_v2/sep_pce2.5_rate0.5_daily.csv",
+    "frequency": "event driven",
+    "execution": "next trading day close after SEP meeting",
+    "cost": "10 bp one way, initial purchase charged; prior-day DFF calendar-day cash yield assumption",
+    "evidence_role": "portfolio_parameter_diagnostic",
+    "limitations": [
+      "2015-09-18 onward only; earlier PDFs contain ranges, not medians",
+      "initial state IN at start; no pre-source simulated signals",
+      "cash rate is an assumption, not realized fund yield",
+      "same historical data already examined; not new holdout"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "55ce395cb32b0101f95886b3801db3cff53c603a307bd7286741efb028dba61b",
+    "ledger_path_sha256": "5a3934ded94c03aae0da51a723f6598a718c85b0f1e3df14535a252215c1b764"
+  },
+  {
+    "family": "纯SEP既有参数检验",
+    "name": "QQQ buy and hold matched",
+    "summary_path": null,
+    "ledger_path": "research/strategy_comparison/results_v2/QQQ_buy_hold_daily.csv",
+    "frequency": "buy and hold",
+    "execution": "first sample close",
+    "cost": "10 bp initial purchase",
+    "evidence_role": "benchmark",
+    "limitations": [
+      "price-cache dividend adjustment provenance not independently certified"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "ledger_path_sha256": "a5db01b8e09aac6429f0299eb859c5732f1ef273a3266ad86a5f589042a9b46e"
+  },
+  {
+    "family": "行业轮动诊断研究",
+    "name": "direct_eps_test",
+    "summary_path": "audit_v2/rotation_macro_revised_sector_rotation_direct_eps_test.log",
+    "ledger_path": null,
+    "frequency": "research / monthly observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "current-vintage inputs, gross descriptive statistics",
+      "conditional samples and placebo results are not independent live validation",
+      "see execution log and entry-specific findings"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/sector_rotation/direct_eps_test.py",
+    "summary_path_sha256": "5d9e959c3e46cdbbfbba755514f416b4fe5c7a181e777c46795ab73d3c71e574"
+  },
+  {
+    "family": "行业轮动诊断研究",
+    "name": "dynamic_beta_test",
+    "summary_path": "audit_v2/rotation_macro_runs/sector_rotation/dynamic_beta_test/res_df.csv",
+    "ledger_path": null,
+    "frequency": "research / monthly observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "current-vintage inputs, gross descriptive statistics",
+      "conditional samples and placebo results are not independent live validation",
+      "see execution log and entry-specific findings"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/sector_rotation/dynamic_beta_test.py",
+    "summary_path_sha256": "e9384d679ad252a5c1f8cb7fc685f40038797e299c3244eaf72a464f92707040"
+  },
+  {
+    "family": "行业轮动诊断研究",
+    "name": "fast_stability",
+    "summary_path": "audit_v2/rotation_macro_runs/sector_rotation/fast_stability/res_df.csv",
+    "ledger_path": null,
+    "frequency": "research / monthly observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "current-vintage inputs, gross descriptive statistics",
+      "conditional samples and placebo results are not independent live validation",
+      "see execution log and entry-specific findings"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/sector_rotation/fast_stability.py",
+    "summary_path_sha256": "61d1deab6e14028b5150eb04dfea4075e45458a0c98e270d59866d4ac910ae93"
+  },
+  {
+    "family": "行业轮动诊断研究",
+    "name": "feature_stability_test",
+    "summary_path": "audit_v2/rotation_macro_runs/sector_rotation/feature_stability_test/res_df.csv",
+    "ledger_path": null,
+    "frequency": "research / monthly observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "current-vintage inputs, gross descriptive statistics",
+      "conditional samples and placebo results are not independent live validation",
+      "see execution log and entry-specific findings"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/sector_rotation/feature_stability_test.py",
+    "summary_path_sha256": "61d1deab6e14028b5150eb04dfea4075e45458a0c98e270d59866d4ac910ae93"
+  },
+  {
+    "family": "行业轮动诊断研究",
+    "name": "macro_event_study",
+    "summary_path": "audit_v2/rotation_macro_runs/sector_rotation/macro_event_study/drop_df.csv",
+    "ledger_path": null,
+    "frequency": "research / monthly observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "current-vintage inputs, gross descriptive statistics",
+      "conditional samples and placebo results are not independent live validation",
+      "see execution log and entry-specific findings"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/sector_rotation/macro_event_study.py",
+    "summary_path_sha256": "010a9040495db944e2512030a87315b0df6893b2fcdb5ab1d7252453d58e6a3d"
+  },
+  {
+    "family": "行业轮动诊断研究",
+    "name": "macro_shock_test",
+    "summary_path": "audit_v2/rotation_macro_runs/sector_rotation/macro_shock_test/res_df.csv",
+    "ledger_path": null,
+    "frequency": "research / monthly observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "current-vintage inputs, gross descriptive statistics",
+      "conditional samples and placebo results are not independent live validation",
+      "see execution log and entry-specific findings"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/sector_rotation/macro_shock_test.py",
+    "summary_path_sha256": "1ffa5df5652e8387cb66daba24b28bc7362dfabbeda6bfe1edc386c4d0f0bb4d"
+  },
+  {
+    "family": "行业轮动诊断研究",
+    "name": "real_yield_confirmation",
+    "summary_path": "audit_v2/rotation_macro_runs/sector_rotation/real_yield_confirmation/res_df.csv",
+    "ledger_path": null,
+    "frequency": "research / monthly observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "current-vintage inputs, gross descriptive statistics",
+      "conditional samples and placebo results are not independent live validation",
+      "see execution log and entry-specific findings"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/sector_rotation/real_yield_confirmation.py",
+    "summary_path_sha256": "4c7a9f2eb1e50e82f5d8ba882339e90386c4d1d5172626c2cac44e9988a7b8a7"
+  },
+  {
+    "family": "行业轮动诊断研究",
+    "name": "rf_audit",
+    "summary_path": "audit_v2/rotation_macro_rf_early_stop.json",
+    "ledger_path": null,
+    "frequency": "research / monthly observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "current-vintage inputs, gross descriptive statistics",
+      "conditional samples and placebo results are not independent live validation",
+      "see execution log and entry-specific findings",
+      "500-seed placebo interrupted; p-values unavailable; five failed gates force original rejection"
+    ],
+    "status": "REJECTED_EARLY_STOP_AFTER_FAILED_GATES",
+    "source_certified": false,
+    "entry": "research/sector_rotation/rf_audit.py",
+    "summary_path_sha256": "89a4e44ca401043cce27f51a311db544de384c02e4224754a11a292fdb276283"
+  },
+  {
+    "family": "行业轮动诊断研究",
+    "name": "single_feature_ic",
+    "summary_path": "audit_v2/rotation_macro_runs/sector_rotation/single_feature_ic/res_df.csv",
+    "ledger_path": null,
+    "frequency": "research / monthly observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "current-vintage inputs, gross descriptive statistics",
+      "conditional samples and placebo results are not independent live validation",
+      "see execution log and entry-specific findings"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/sector_rotation/single_feature_ic.py",
+    "summary_path_sha256": "e599759fdb6c52195b9664fa6cfcea4dc06b8a1df4c74c63be0ac3f6ebec948f"
+  },
+  {
+    "family": "行业轮动诊断研究",
+    "name": "waterfall_autopsy_step1",
+    "summary_path": "audit_v2/rotation_macro_runs/sector_rotation/waterfall_autopsy_step1/res_df.csv",
+    "ledger_path": null,
+    "frequency": "research / monthly observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "current-vintage inputs, gross descriptive statistics",
+      "conditional samples and placebo results are not independent live validation",
+      "see execution log and entry-specific findings"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/sector_rotation/waterfall_autopsy_step1.py",
+    "summary_path_sha256": "09926aff53efdeb00ac256074f19688520c645a8f8e56784fb65da23a9999409"
+  },
+  {
+    "family": "行业轮动诊断研究",
+    "name": "waterfall_autopsy_step1_rf",
+    "summary_path": "audit_v2/rotation_macro_runs/sector_rotation/waterfall_autopsy_step1_rf/res_df.csv",
+    "ledger_path": null,
+    "frequency": "research / monthly observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "current-vintage inputs, gross descriptive statistics",
+      "conditional samples and placebo results are not independent live validation",
+      "see execution log and entry-specific findings"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/sector_rotation/waterfall_autopsy_step1_rf.py",
+    "summary_path_sha256": "81cbd4a848f2638cc0e0c4fef663809883c261f7a4847074a83fd151735a18e3"
+  },
+  {
+    "family": "行业轮动诊断研究",
+    "name": "waterfall_autopsy_step2_rf",
+    "summary_path": "audit_v2/rotation_macro_revised_sector_rotation_waterfall_autopsy_step2_rf.log",
+    "ledger_path": null,
+    "frequency": "research / monthly observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "current-vintage inputs, gross descriptive statistics",
+      "conditional samples and placebo results are not independent live validation",
+      "see execution log and entry-specific findings"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/sector_rotation/waterfall_autopsy_step2_rf.py",
+    "summary_path_sha256": "02d566fabf67e7a73245982078745e35ff6df90d104e44957d54f837e6fd8748"
+  },
+  {
+    "family": "行业轮动诊断研究",
+    "name": "waterfall_autopsy_step3_5_cagr",
+    "summary_path": "audit_v2/rotation_macro_runs/sector_rotation/waterfall_autopsy_step3_5_cagr/res_df.csv",
+    "ledger_path": null,
+    "frequency": "research / monthly observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "current-vintage inputs, gross descriptive statistics",
+      "conditional samples and placebo results are not independent live validation",
+      "see execution log and entry-specific findings"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/sector_rotation/waterfall_autopsy_step3_5_cagr.py",
+    "summary_path_sha256": "63ed15b317cffedd47eb9a8801d855bf7fe42e3a7f9758c9988024af4cb4c0db"
+  },
+  {
+    "family": "行业轮动诊断研究",
+    "name": "waterfall_autopsy_step3_rf",
+    "summary_path": "audit_v2/rotation_macro_runs/sector_rotation/waterfall_autopsy_step3_rf/res_df.csv",
+    "ledger_path": null,
+    "frequency": "research / monthly observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "current-vintage inputs, gross descriptive statistics",
+      "conditional samples and placebo results are not independent live validation",
+      "see execution log and entry-specific findings"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/sector_rotation/waterfall_autopsy_step3_rf.py",
+    "summary_path_sha256": "c8b29a32afa9c588cbbfd3e9fdf6cf66c222a5917b890f7399c5e686d4d53e6a"
+  },
+  {
+    "family": "鹰派路径信号研究",
+    "name": "episode_robustness",
+    "summary_path": "audit_v2/rotation_macro_runs/hawkish_path/episode_robustness/ep_df.csv",
+    "ledger_path": null,
+    "frequency": "daily event observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "Kim-Wright current vintage, not historical releases",
+      "Tuesday release map is assumed, not source-proven",
+      "forward windows can overlap; calendar/random-date null is exploratory",
+      "no strategy wealth/CAGR"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/hawkish_path/episode_robustness.py",
+    "summary_path_sha256": "5c019397d40cfc7cdb7b82d3115b49ecc5d24ca8562b99276b05f6a892aafc6e"
+  },
+  {
+    "family": "鹰派路径信号研究",
+    "name": "final_validation",
+    "summary_path": "audit_v2/rotation_macro_revised_hawkish_path_final_validation.log",
+    "ledger_path": null,
+    "frequency": "daily event observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "Kim-Wright current vintage, not historical releases",
+      "Tuesday release map is assumed, not source-proven",
+      "forward windows can overlap; calendar/random-date null is exploratory",
+      "no strategy wealth/CAGR"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/hawkish_path/final_validation.py",
+    "summary_path_sha256": "90f29a06714075009c64d910fb56ec3c6a6ecab21747c93f3eff08f07b26a3cf"
+  },
+  {
+    "family": "鹰派路径信号研究",
+    "name": "hawkish_path_backtest_v2",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily event observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "Kim-Wright current vintage, not historical releases",
+      "Tuesday release map is assumed, not source-proven",
+      "forward windows can overlap; calendar/random-date null is exploratory",
+      "no strategy wealth/CAGR"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/hawkish_path/hawkish_path_backtest_v2.py",
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径信号研究",
+    "name": "pubdate_matched_perm",
+    "summary_path": "audit_v2/rotation_macro_revised_hawkish_path_pubdate_matched_perm.log",
+    "ledger_path": null,
+    "frequency": "daily event observations",
+    "execution": "",
+    "cost": "",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "Kim-Wright current vintage, not historical releases",
+      "Tuesday release map is assumed, not source-proven",
+      "forward windows can overlap; calendar/random-date null is exploratory",
+      "no strategy wealth/CAGR"
+    ],
+    "status": "SUCCESS",
+    "source_certified": false,
+    "entry": "research/hawkish_path/pubdate_matched_perm.py",
+    "summary_path_sha256": "bb7e0a874020c5d04a6964d818c3d2cf3175d77ee9811854267492c8478c8fc8"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "SPY / Hawkish_v2 (HP>0 & ΔExp1Y_4w>0)",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "SPY / StrongHawkish_v2 (HP>0.5 & ΔExp1Y_4w>0.25)",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "SPY / StrongHawkish_v2_strict (HP>0.5 & ΔExp1Y_4w>0.25 & ΔDFF≥0)",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "SPY / StrongHawkish_v1_OLD (HP>0.5 & ΔHP_4w>0.25)",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "SPY / Dovish (HP<0)",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "SPY / Dovish Shift (HP<0 & ΔExp1Y_4w<-0.25)",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "SPY / Neutral (|HP|<0.25)",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "SPY / All",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "QQQ / Hawkish_v2 (HP>0 & ΔExp1Y_4w>0)",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "QQQ / StrongHawkish_v2 (HP>0.5 & ΔExp1Y_4w>0.25)",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "QQQ / StrongHawkish_v2_strict (HP>0.5 & ΔExp1Y_4w>0.25 & ΔDFF≥0)",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "QQQ / StrongHawkish_v1_OLD (HP>0.5 & ΔHP_4w>0.25)",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "QQQ / Dovish (HP<0)",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "QQQ / Dovish Shift (HP<0 & ΔExp1Y_4w<-0.25)",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "QQQ / Neutral (|HP|<0.25)",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  },
+  {
+    "family": "鹰派路径条件统计",
+    "name": "QQQ / All",
+    "summary_path": "research/hawkish_path/hawkish_path_v2_results.csv",
+    "ledger_path": null,
+    "frequency": "daily signal observations; overlapping forward horizons",
+    "execution": "no portfolio trades",
+    "cost": "gross forward price changes",
+    "evidence_role": "diagnostic_not_portfolio",
+    "limitations": [
+      "not a tradable strategy or CAGR",
+      "current-vintage KW source; historical release timestamps unknown",
+      "overlapping windows and repeated exploratory analysis"
+    ],
+    "status": "RERUN_AWAITING_PARENT_REVIEW",
+    "source_certified": false,
+    "summary_path_sha256": "f5f891744afcfc59214043562a09d9a59ab0b5696b26df4c9c84704393cdd4b6"
+  }
+]

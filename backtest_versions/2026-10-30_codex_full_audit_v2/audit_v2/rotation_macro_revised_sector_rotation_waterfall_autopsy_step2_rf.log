@@ -1,0 +1,32 @@
+REVISED_HISTORY_ONLY; GROSS_UNLESS_MARKED; source vintages not certified; event/conditional statistics are not portfolio returns.
+================================================================================
+💀 WATERFALL AUTOPSY STEP 2: PRICE ADJUSTMENT BUG
+================================================================================
+Loading data...
+Building Realistic features...
+Building Buggy (Dividend-Contaminated) features...
+
+Running Walk-Forward for Realistic Model...
+Running Walk-Forward for Buggy Model...
+
+================================================================================
+💀 AUTOPSY RESULTS: THE COST OF PRICE DATA CORRUPTION
+================================================================================
+[  FULL  ] N=44 Months
+Metric       | Buggy Price (Old) | Realistic Price | Alpha Illusion (Gap)
+---------------------------------------------------------------------------
+Rank IC      |            -0.011 |          -0.006 |              -0.004
+Top-3 Excess |            -0.34% |          -0.02% |              -0.32%
+
+[   H1   ] N= 2 Months
+Metric       | Buggy Price (Old) | Realistic Price | Alpha Illusion (Gap)
+---------------------------------------------------------------------------
+Rank IC      |            -0.267 |          -0.218 |              -0.048
+Top-3 Excess |            -5.31% |          -3.18% |              -2.14%
+
+[   H2   ] N=42 Months
+Metric       | Buggy Price (Old) | Realistic Price | Alpha Illusion (Gap)
+---------------------------------------------------------------------------
+Rank IC      |             0.001 |           0.004 |              -0.002
+Top-3 Excess |            -0.10% |           0.13% |              -0.23%
+

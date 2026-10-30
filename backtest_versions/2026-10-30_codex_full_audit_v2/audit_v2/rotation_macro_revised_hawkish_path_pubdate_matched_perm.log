@@ -1,0 +1,116 @@
+REVISED_HISTORY_NOT_POINT_IN_TIME: inherited research; no claim of unseen validation or source certification.
+Loading data...
+Data loaded.
+
+==========================================================================================
+FIX 1: PUBLICATION-DATE EXECUTION
+==========================================================================================
+Kim-Wright observation → published next Tuesday → trade at Tuesday close
+This adds 4-8 calendar days of lag vs same-day execution.
+
+  QQQ:
+    Execution                   N  Avg Lag   3M Mean  3M %Neg   6M Mean  6M %Neg
+    ────────────────────────────────────────────────────────────────────
+    Same-day (t+0)             13       0d   -0.93%     62%   -4.43%     69%
+    Publication Tuesday        13    6.0d   +0.84%     54%   -2.80%     62%
+
+    Detailed publication-date episodes:
+      #       Signal      Pub Tue        Trade  Lag   Price       3M       6M
+    ───────────────────────────────────────────────────────────────────────────
+      1   2001-11-26   2001-12-04   2001-12-04   8d $    41   -7.7%  -29.3%
+      2   2002-03-08   2002-03-12   2002-03-12   4d $    38  -27.7%  -37.8%
+      3   2003-11-07   2003-11-11   2003-11-11   4d $    35   +6.2%   -0.1%
+      4   2004-04-13   2004-04-20   2004-04-20   7d $    36   -3.6%   +0.6%
+      5   2004-11-16   2004-11-23   2004-11-23   7d $    39   -4.1%   -3.0%
+      6   2005-08-02   2005-08-09   2005-08-09   7d $    39   +1.7%   +4.2%
+      7   2005-10-12   2005-10-18   2005-10-18   6d $    38  +12.2%  +12.1%
+      8   2008-06-12   2008-06-17   2008-06-17   5d $    49  -12.6%  -39.9%
+      9   2009-02-25   2009-03-03   2009-03-03   6d $    27  +36.9%  +50.4%
+     10   2009-06-18   2009-06-23   2009-06-23   5d $    35  +21.9%  +28.5%
+     11   2009-12-29   2010-01-05   2010-01-05   7d $    46   +4.8%   -5.3%
+     12   2015-11-12   2015-11-17   2015-11-17   5d $   111   -8.8%   -5.5%
+     13   2022-01-18   2022-01-25   2022-01-25   7d $   345   -8.1%  -11.1%
+
+  SPY:
+    Execution                   N  Avg Lag   3M Mean  3M %Neg   6M Mean  6M %Neg
+    ────────────────────────────────────────────────────────────────────
+    Same-day (t+0)             17       0d   +1.13%     53%   -0.45%     47%
+    Publication Tuesday        17    6.0d   +2.71%     41%   +1.11%     53%
+
+
+==========================================================================================
+FIX 2: MATCHED-EPISODE PERMUTATION (100k iterations)
+==========================================================================================
+Two null models, both using ≥60 CALENDAR day gaps (not trading days):
+  (a) Random dates with ≥60 calendar-day spacing
+  (b) Fixed-gap translation (not a circular bootstrap) (preserve real inter-episode gaps)
+
+  QQQ — 13 episodes
+    Real: 3M=-0.93%, 3M%neg=62%, 6M=-4.43%, 6M%neg=69%
+
+    (a) Calendar-day spacing permutation (100,000 valid iterations):
+        3M mean: random avg=+3.16%, p=0.0988
+        3M %neg: random avg=32%, p=0.0205
+        6M mean: random avg=+6.45%, p=0.0097
+
+    (b) Fixed-gap translation (not a circular bootstrap) (100,000 valid iterations):
+        3M mean: random avg=+2.27%, p=0.1820
+        3M %neg: random avg=36%, p=0.0615
+        6M mean: random avg=+4.67%, p=0.0516
+
+    Comparison (previous run used ≥42 trading-day spacing):
+    ┌──────────────────────┬────────────┬────────────┬────────────┐
+    │ Metric               │ Old (42td) │ CalDay(a)  │ Block(b)   │
+    ├──────────────────────┼────────────┼────────────┼────────────┤
+    │ 3M mean p-value      │     0.1057 │     0.0988 │     0.1820 │
+    │ 3M %neg p-value      │     0.0202 │     0.0205 │     0.0615 │
+    │ 6M mean p-value      │     0.0081 │     0.0097 │     0.0516 │
+    └──────────────────────┴────────────┴────────────┴────────────┘
+
+  SPY — 17 episodes
+    Real: 3M=+1.13%, 3M%neg=53%, 6M=-0.45%, 6M%neg=47%
+
+    (a) Calendar-day spacing permutation (100,000 valid iterations):
+        3M mean: random avg=+2.43%, p=0.2193
+        3M %neg: random avg=30%, p=0.0359
+        6M mean: random avg=+4.96%, p=0.0159
+
+    (b) Fixed-gap translation (not a circular bootstrap) (100,000 valid iterations):
+        3M mean: random avg=+2.42%, p=0.2604
+        3M %neg: random avg=30%, p=0.0605
+        6M mean: random avg=+4.99%, p=0.0728
+
+    Comparison (previous run used ≥42 trading-day spacing):
+    ┌──────────────────────┬────────────┬────────────┬────────────┐
+    │ Metric               │ Old (42td) │ CalDay(a)  │ Block(b)   │
+    ├──────────────────────┼────────────┼────────────┼────────────┤
+    │ 3M mean p-value      │     0.2377 │     0.2193 │     0.2604 │
+    │ 3M %neg p-value      │     0.0377 │     0.0359 │     0.0605 │
+    │ 6M mean p-value      │     0.0157 │     0.0159 │     0.0728 │
+    └──────────────────────┴────────────┴────────────┴────────────┘
+
+
+==========================================================================================
+COMBINED: Publication-date execution + calendar-day permutation
+==========================================================================================
+The hardest test: does the signal survive when you can only trade
+AFTER an ASSUMED Tuesday release schedule? Actual historical releases remain unverified.
+
+  QQQ — 13 pub-date episodes
+    3M: mean=+0.84%, %neg=54%, p=0.2269
+    6M: mean=-2.80%, %neg=62%, p=0.0220
+
+  SPY — 17 pub-date episodes
+    3M: mean=+2.71%, %neg=41%, p=0.5601
+    6M: mean=+1.11%, %neg=53%, p=0.0631
+
+
+==========================================================================================
+SUMMARY
+==========================================================================================
+
+Fix 1 (Publication-date): Does the 4-8 day real-world lag kill the signal?
+Fix 2 (Matched permutation): Does using proper calendar-day spacing change p-values?
+
+These are retrospective random-date diagnostics, not certification of real-time predictability.
+

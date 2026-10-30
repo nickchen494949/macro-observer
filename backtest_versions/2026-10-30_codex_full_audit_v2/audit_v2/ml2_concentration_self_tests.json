@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Initial buy is self financing",
+    "Contribution uses initial wealth times post-fee capital",
+    "Rebalance charges drifted holdings",
+    "Removed ticker is never replaced or renormalized",
+    "Removed weight earns same cash carry",
+    "Removal recomputes costs rather than retaining old fee",
+    "Terminal holdings become cash before next rebalance",
+    "Bankruptcy absorbs wealth without resurrection",
+    "Initial capital included in drawdown",
+    "Best year removal retains original surviving returns"
+  ]
+}

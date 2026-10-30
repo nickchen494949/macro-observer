@@ -1,0 +1,68 @@
+{
+  "status": "AUDIT_COVERAGE_COMPLETE_WITH_EXPLICIT_BLOCKS",
+  "auditor": "Codex audited and modified",
+  "review_date": "2026-10-30",
+  "original_catalog": 340,
+  "catalog_status_counts": {
+    "已重跑并核算；历史数据未完全认证": 201,
+    "已审核：旧结果退役": 4,
+    "已审核：阻塞／不能采用": 90,
+    "已重跑：股票池／价格缺口，不能认证": 34,
+    "已审核：信号／条件统计，不是组合收益": 11
+  },
+  "counts": {
+    "old_catalog": 340,
+    "supplementary": 120,
+    "all_records": 460,
+    "same45": 227,
+    "long141": 164,
+    "grid": 96,
+    "signals": 91,
+    "unique_ledgers": 372,
+    "ledger_checks": 645,
+    "status": {
+      "已重跑并核算；历史数据未完全认证": 219,
+      "已审核：旧结果退役": 4,
+      "已审核：阻塞／不能采用": 90,
+      "已重跑：股票池／价格缺口，不能认证": 34,
+      "已审核：信号／条件统计，不是组合收益": 92,
+      "已重跑：既有参数的历史重放": 21
+    }
+  },
+  "acceptance": {
+    "all_catalog_records_dispositioned": true,
+    "unchanged_original_and_parent_required": true,
+    "current_usable_ledgers_recomputed": 372,
+    "monthly_ledger_checks": 645,
+    "all_comparisons_share_reported_dates": true,
+    "execution_and_cost_differences_disclosed": true,
+    "all_monthly_rebalance": false,
+    "all_strategies_pass": false,
+    "historical_source_certification": false,
+    "prospective_trading_skill_established": false
+  },
+  "late_review_closures": {
+    "RSC-04": "Implemented and independently rerun audit_v2/ml2_concentration_diagnostic.py: 17 frozen lines, 2397 original month reconciliations; same cash yield; no reselection.",
+    "price_truncation_test": "6 cutoffs x 4 configurations, zero pick differences; root_selection_checks.json",
+    "determinism_test": "3 hash seeds x 4 configurations, identical picks; root_selection_checks.json",
+    "legacy_test_fixture": "Existing timing regression fixture now supplies required outcome status; all original 6 assertions pass. Earlier failed log retained.",
+    "daily_risk": "Observed holding-day quote required; no forward-filled or endpoint-rescaled daily NAV. Missing path blocks dependent variants."
+  },
+  "root_macro_coverage": {
+    "backtest.js / backtest_v2.js": "Reviewed wrappers delegate to canonical v3; v3 cached replay and regression suite executed.",
+    "backtest_v3.js": "Current-vintage replay allowed only with explicit flag; normal source gate blocks missing historical vintages.",
+    "backtest/validate_modules.js / validate_composite.js": "Obsolete incompatible schema blocked with exit2; helper rank-tie/missing-return defects fixed. Supported Phase3/4/5/6 researchers were actually run.",
+    "backtest/build_historical_snapshots.js": "Static reviewed fixed-lag approximation; source release vintages unavailable, not certified PIT, not silently promoted to real-time evidence.",
+    "macro_engine.js / dashboard": "Original untouched; v2 only consumes copied/frozen backtest inputs."
+  },
+  "source_limitations": [
+    "S&P / NDX history and sector/issuer continuity not fully independently certified.",
+    "4 manual exit records: two stock-merger terminal values retain explicit close-price approximation.",
+    "Non-SP stock pool is not complete historical total market; post-2018 survivorship bias remains.",
+    "QQQ aggregate EPS index identity/vintages missing; nine entrypoints safely blocked.",
+    "Monthly same-close and open fallback assumptions remain; daily source gaps cannot be reconstructed.",
+    "Historical samples have been repeatedly viewed; successful reruns do not create blind out-of-sample evidence."
+  ],
+  "new_external_check": "Alpaca SIP spot check: MU/SNDK/SPY 2026 March-May raw month-end closes, 9/9 exact match. Only new audit evidence, not a changed model input.",
+  "git_scope": "Only task code, reports and bounded evidence artifacts; cached multi-gigabyte source snapshots remain local, original/dashboard automatic edits excluded."
+}

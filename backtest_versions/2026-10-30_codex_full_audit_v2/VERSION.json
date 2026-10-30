@@ -1,0 +1,19 @@
+{
+  "label": "Codex audited and modified — full audit v2",
+  "created_local": "2026-10-30 Asia/Kuala_Lumpur",
+  "parent_label": "Codex audited and modified (v1)",
+  "parent_label_basis": "User requested historical attribution; not an independently verified Claude audit certification",
+  "source_root": "/Users/happygolucky/projects/宏观观察器",
+  "source_commit": "78a2d0d95c7a235c4d0ced739097d7780a66ca70",
+  "scope": "all backtest strategies; dashboard excluded",
+  "status": "AUDIT_COVERAGE_COMPLETE_WITH_EXPLICIT_BLOCKS",
+  "certification": "Implementation/replay review complete; historical data and prospective skill not fully certified",
+  "report": "audit_v2/FINAL_REPORT.txt",
+  "stock_pool_report": "audit_v2/FINAL_REPORT.txt",
+  "changed_files": "audit_v2/changed_files_v2.json",
+  "final_manifest": "audit_v2/final_manifest_v2.json",
+  "original_source_files_verified_unchanged": 147,
+  "parent": "2026-10-30_codex_audited_modified",
+  "original_label": "Claude audited (user-assigned attribution)",
+  "completed_utc": "2026-10-30T07:41:40.965030+00:00"
+}

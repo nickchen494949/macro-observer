@@ -1,0 +1,22 @@
+[
+  {
+    "strategy": "SPY",
+    "checked_marks": 3884,
+    "missing_mark_months": []
+  },
+  {
+    "strategy": "XLK",
+    "checked_marks": 3884,
+    "missing_mark_months": []
+  },
+  {
+    "strategy": "pure_momentum_top_1__all_S_P_",
+    "checked_marks": 3884,
+    "missing_mark_months": []
+  },
+  {
+    "strategy": "tech_top_1__fixed_",
+    "checked_marks": 3884,
+    "missing_mark_months": []
+  }
+]

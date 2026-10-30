@@ -1,0 +1,22 @@
+{
+  "legacy_inventory_path": "/Users/happygolucky/projects/宏观观察器/outputs/backtest_strategy_table_20261030/work/data.json",
+  "legacy_inventory_sha256": "6f52c709bf75b74952ac1439420bfe552102ecdb5ae178e0fcceed328f1ab0d6",
+  "counts_by_family": {
+    "root_main": 13,
+    "root_ml2": 17,
+    "root_old_fixedstress": 1,
+    "root_winners": 57,
+    "root_holdout": 17,
+    "root_holdout_strict": 17
+  },
+  "counts_by_status": {
+    "COMPLETED_CACHE_REPLAY": 97,
+    "SUPERSEDED_NO_CURRENT_LEDGER": 1,
+    "BLOCKED_DAILY_PATH": 24
+  },
+  "current_usable_ledgers": 97,
+  "all_122_legacy_rows_mapped_exactly": true,
+  "stale_blocked_files_excluded": true,
+  "pending_rows": 0,
+  "note": "Repeatable inventory binds actual completed run records and current summary keys. No strategy/source data edited or downloaded."
+}

@@ -1,0 +1,49 @@
+REVISED_HISTORY_ONLY; GROSS_UNLESS_MARKED; source vintages not certified; event/conditional statistics are not portfolio returns.
+================================================================================
+📊 MODEL A: MAGNITUDE ONLY (STRICT 10/10 - OWN UNIVERSE)
+================================================================================
+Start: 2018-10 | Eligible Months: 70
+
+1. Rank IC: +0.009
+2. Top3 vs EW: +nan% vs +nan% (Excess: +nan%)
+3. Tercile Monotonicity (3/4/3):
+   High: +nan%
+   Mid:  +nan%
+   Low:  +nan%
+   Is Monotonic? ❌
+
+Secondary: Top1 vs EW: +nan% vs +nan% (Excess: +nan%)
+
+
+================================================================================
+📊 MODEL B: ACCELERATION ONLY (STRICT 10/10 - OWN UNIVERSE)
+================================================================================
+Start: 2018-10 | Eligible Months: 70
+
+1. Rank IC: +0.004
+2. Top3 vs EW: +nan% vs +nan% (Excess: +nan%)
+3. Tercile Monotonicity (3/4/3):
+   High: +nan%
+   Mid:  +nan%
+   Low:  +nan%
+   Is Monotonic? ❌
+
+Secondary: Top1 vs EW: +nan% vs +nan% (Excess: +nan%)
+
+
+================================================================================
+📊 MODEL C: 50/50 COMPOSITE (STRICT 10/10 - OWN UNIVERSE)
+================================================================================
+Start: 2018-10 | Eligible Months: 70
+
+1. Rank IC: +0.008
+2. Top3 vs EW: +nan% vs +nan% (Excess: +nan%)
+3. Tercile Monotonicity (3/4/3):
+   High: +nan%
+   Mid:  +nan%
+   Low:  +nan%
+   Is Monotonic? ❌
+
+Secondary: Top1 vs EW: +nan% vs +nan% (Excess: +nan%)
+
+

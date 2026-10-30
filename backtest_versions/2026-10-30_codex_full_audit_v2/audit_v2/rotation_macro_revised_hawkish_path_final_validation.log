@@ -1,0 +1,95 @@
+REVISED_HISTORY_NOT_POINT_IN_TIME: inherited research; no claim of unseen validation or source certification.
+Loading data...
+Data loaded.
+
+================================================================================
+TEST 1: BLOCK PERMUTATION (N=100,000 iterations)
+================================================================================
+Null hypothesis: picking 13 random dates with ≥60-day spacing
+would produce equally bad QQQ returns.
+
+  QQQ — Real signal: 13 episodes
+    3M mean=-0.86%, %neg=62%
+    6M mean=-4.77%, %neg=69%
+
+    Permutation results (100,000 valid iterations):
+    ┌─────────────────┬──────────────┬────────────────┬─────────────┐
+    │ Metric          │ Real Signal  │ Random Mean    │ p-value     │
+    ├─────────────────┼──────────────┼────────────────┼─────────────┤
+    │ 3M mean return  │     -0.86%  │       +3.06%  │    0.1057   │
+    │ 3M % negative   │        62%  │          32%  │    0.0202   │
+    │ 6M mean return  │     -4.77%  │       +6.39%  │    0.0081   │
+    └─────────────────┴──────────────┴────────────────┴─────────────┘
+    Random 3M mean distribution: p5=-2.13%, p25=+0.97%, p50=+3.09%, p75=+5.16%, p95=+8.19%
+  SPY — Real signal: 17 episodes
+    3M mean=+1.20%, %neg=53%
+    6M mean=-0.51%, %neg=47%
+
+    Permutation results (100,000 valid iterations):
+    ┌─────────────────┬──────────────┬────────────────┬─────────────┐
+    │ Metric          │ Real Signal  │ Random Mean    │ p-value     │
+    ├─────────────────┼──────────────┼────────────────┼─────────────┤
+    │ 3M mean return  │     +1.20%  │       +2.39%  │    0.2377   │
+    │ 3M % negative   │        53%  │          30%  │    0.0377   │
+    │ 6M mean return  │     -0.51%  │       +4.94%  │    0.0157   │
+    └─────────────────┴──────────────┴────────────────┴─────────────┘
+    Random 3M mean distribution: p5=-0.49%, p25=+1.27%, p50=+2.43%, p75=+3.55%, p95=+5.14%
+
+
+================================================================================
+TEST 2: EXECUTION LAG (t+0 vs t+1 vs t+2)
+================================================================================
+Kim-Wright updates weekly; DFF publishes T+1 morning.
+Testing whether 1-2 day execution lag destroys the signal.
+
+  QQQ:
+    Lag       N   3M Mean  3M %Neg   6M Mean  6M %Neg
+    ──────────────────────────────────────────────────
+    t+0      13   -0.86%     62%   -4.77%     69%
+    t+1      13   -0.83%     62%   -4.34%     69%
+    t+2      13   -0.32%     54%   -3.44%     69%
+  SPY:
+    Lag       N   3M Mean  3M %Neg   6M Mean  6M %Neg
+    ──────────────────────────────────────────────────
+    t+0      17   +1.20%     53%   -0.51%     47%
+    t+1      17   +1.49%     53%   -0.15%     47%
+    t+2      17   +1.74%     47%   +0.57%     53%
+
+
+================================================================================
+TEST 3: COOLDOWN SENSITIVITY (20 / 40 / 60 / 90 / 120 days)
+================================================================================
+Does the result depend on the specific choice of 60-day gap?
+
+  QQQ:
+    Cooldown    N   3M Mean   3M Med  3M %Neg   6M Mean  6M %Neg
+    ────────────────────────────────────────────────────────────
+       20d     18   -0.54%  -2.34%     56%   -3.21%     67%
+       40d     15   -0.88%  -3.09%     60%   -4.07%     67%
+       60d     13   -0.86%  -3.09%     62%   -4.77%     69%
+       90d     11   +0.10%  -3.09%     64%   -2.93%     73%
+      120d     10   -1.73%  -3.51%     70%   -5.64%     80%
+  SPY:
+    Cooldown    N   3M Mean   3M Med  3M %Neg   6M Mean  6M %Neg
+    ────────────────────────────────────────────────────────────
+       20d     23   +1.26%  -0.07%     52%   +0.15%     39%
+       40d     20   +1.24%  +0.61%     50%   -0.21%     45%
+       60d     17   +1.20%  -0.07%     53%   -0.51%     47%
+       90d     13   +2.20%  +1.55%     46%   -0.18%     46%
+      120d     12   +1.04%  +0.03%     50%   -1.83%     50%
+
+
+================================================================================
+FINAL SUMMARY
+================================================================================
+
+Signal: HP > 0.5% AND ΔExpectedRate_1Y_4w > 0.25%
+Data: Kim-Wright (current vintage, 1990-2026) + FRED DFF
+Primary result: 13 QQQ episodes (60-day gap)
+
+Caveats acknowledged:
+  1. Kim-Wright = current vintage, not real-time vintage
+  2. DFF < 0.5% split is exploratory, not primary
+  3. N=13 episodes; 95% CI for hit rate is wide
+  4. 3M/6M windows may partially overlap between episodes
+

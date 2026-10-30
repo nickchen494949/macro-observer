@@ -1,0 +1,78 @@
+{
+  "status": "BOUNDED_SPOT_CHECK_PASS",
+  "checks": [
+    {
+      "ticker": "MU",
+      "month": "2026-03-31",
+      "cached_raw_close": 337.84,
+      "independent_sip_close": 337.84,
+      "absolute_difference": 0.0,
+      "pass_cent_tolerance": true
+    },
+    {
+      "ticker": "MU",
+      "month": "2026-04-30",
+      "cached_raw_close": 517.16,
+      "independent_sip_close": 517.16,
+      "absolute_difference": 0.0,
+      "pass_cent_tolerance": true
+    },
+    {
+      "ticker": "MU",
+      "month": "2026-05-31",
+      "cached_raw_close": 971.0,
+      "independent_sip_close": 971,
+      "absolute_difference": 0.0,
+      "pass_cent_tolerance": true
+    },
+    {
+      "ticker": "SNDK",
+      "month": "2026-03-31",
+      "cached_raw_close": 635.34,
+      "independent_sip_close": 635.34,
+      "absolute_difference": 0.0,
+      "pass_cent_tolerance": true
+    },
+    {
+      "ticker": "SNDK",
+      "month": "2026-04-30",
+      "cached_raw_close": 1096.51,
+      "independent_sip_close": 1096.51,
+      "absolute_difference": 0.0,
+      "pass_cent_tolerance": true
+    },
+    {
+      "ticker": "SNDK",
+      "month": "2026-05-31",
+      "cached_raw_close": 1694.98,
+      "independent_sip_close": 1694.98,
+      "absolute_difference": 0.0,
+      "pass_cent_tolerance": true
+    },
+    {
+      "ticker": "SPY",
+      "month": "2026-03-31",
+      "cached_raw_close": 650.34,
+      "independent_sip_close": 650.34,
+      "absolute_difference": 0.0,
+      "pass_cent_tolerance": true
+    },
+    {
+      "ticker": "SPY",
+      "month": "2026-04-30",
+      "cached_raw_close": 718.66,
+      "independent_sip_close": 718.66,
+      "absolute_difference": 0.0,
+      "pass_cent_tolerance": true
+    },
+    {
+      "ticker": "SPY",
+      "month": "2026-05-31",
+      "cached_raw_close": 756.48,
+      "independent_sip_close": 756.48,
+      "absolute_difference": 0.0,
+      "pass_cent_tolerance": true
+    }
+  ],
+  "limitation": "9 month-end raw closes only; adjusted histories, all securities, membership and corporate actions not certified"
+}

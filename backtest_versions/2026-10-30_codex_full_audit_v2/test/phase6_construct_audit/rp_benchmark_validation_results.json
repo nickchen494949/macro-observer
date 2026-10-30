@@ -1,0 +1,25 @@
+{
+  "benchmark": "RPAR",
+  "model": "RP_Mechanical_Pressure",
+  "period": {
+    "start": "2019-12-16",
+    "end": "2026-08-07",
+    "years": 6.6420260095824775
+  },
+  "observations": 1658,
+  "dailyPearsonCorrelation": 0.7669,
+  "directionAgreementPct": 80,
+  "trackingErrorAnnualized": 8.17,
+  "modelVolVsRparVol20Corr": 0.5718,
+  "modelVolVsRparVol60Corr": 0.8179,
+  "leverageVolInverseCorr": -0.2083,
+  "bigDelevEvents": 428,
+  "bigDelevRparMatchPct": 52.1,
+  "rparAnnReturn": 4.09,
+  "modelAnnReturn": 2.31,
+  "rparRealizedVol": 12.72,
+  "modelRealizedVol": 10.06,
+  "verdict": "C. WEAK_PROXY",
+  "verdictReason": "Some alignment but significant gaps from 2-asset limitation.",
+  "timestamp": "2026-10-30T06:42:13.154Z"
+}

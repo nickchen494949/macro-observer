@@ -1,0 +1,307 @@
+[
+  {
+    "path": "README.txt",
+    "before": "861229a3a47755d628af51c2d438e70c979dff6ef06c971a2d6edccbfd8ffa5f",
+    "after": "7dc6194e5e1c20b1caa1c5674314107d9b061d1ca4258403778cc5d1e3bb9081"
+  },
+  {
+    "path": "VERSION.json",
+    "before": "6f00bd36052e040af425d6828c20a612e8e226e19d1486d43f9d0b6683c0e665",
+    "after": "1abf8ac7bc2f489f96b778692bb6e148b3e07049d2395724c3da820e205aabe3"
+  },
+  {
+    "path": "audit/test_additional_regressions.py",
+    "before": "52455362394264e5a30e1b8258d731a3efdb1ddc7da5c90c5171ea6e552fb03f",
+    "after": "515dd338bf6b4e3bdcf4b90fee58bf6bd7427cfd353a91fa3762052d6cde0eae"
+  },
+  {
+    "path": "backtest/validate_composite.js",
+    "before": "b3accb2cad35b1ed5b75fbdfaa52db3e2b664110de0525e9ff1a716b545dfaa6",
+    "after": "72cc9691017e4c38c5ff3a3dd303b6c9fdf2db2cb7d739a1abb509f13daea40f"
+  },
+  {
+    "path": "backtest/validate_modules.js",
+    "before": "f85b2771e399527270d636309a2ab9adbef9c3d6e130153513051c6564ce8901",
+    "after": "ead2a625bb3ea8fd5b9da43dddbe534cf2798b4d9e0188310184d0aa6eff1f0e"
+  },
+  {
+    "path": "research/hawkish_path/episode_robustness.py",
+    "before": "69379513e097fef610084e429fedbd4b81063fdd33fd13a556bdf7764f7c4f4d",
+    "after": "406581dae4a6d28b44cb1ad00a4c73e94ed75bf13a408fe64557a9d00ebc74d5"
+  },
+  {
+    "path": "research/hawkish_path/final_validation.py",
+    "before": "d7bb094206a4805e22d77e6a920ed42c207c5ed0657617873cbc48804f9dc8e4",
+    "after": "652351b0a5737aef7e55bf8f0a38f3c14e3c49e1a4f6fad704592758bd65de00"
+  },
+  {
+    "path": "research/hawkish_path/hawkish_path_backtest_v2.py",
+    "before": "3a566f3450d54b62381b23ef299b7810cbe97ba13fd93c7f9cab68a851b6e098",
+    "after": "56e3cd1a5c13738442eddff99b65b9d16a96a955d3b66405c983629befd8b459"
+  },
+  {
+    "path": "research/hawkish_path/pubdate_matched_perm.py",
+    "before": "a2280cde0b07e143035cd3e92eacc61802cff111248e240c203f0287b8b20a33",
+    "after": "e342896e0e7d1aba2f7dbf55c681fdecd76236fdd3200c9563b02501d15ceb27"
+  },
+  {
+    "path": "research/sector_rotation/direct_eps_test.py",
+    "before": "8487b79189d3685dd63aaed98b2b6246fb40cbf16c8c71fefd8cf9a00a766265",
+    "after": "2a495ac9717fef78b4f651b54d9e3bda85ab9c42bdfcfcba92240491fff3fc0f"
+  },
+  {
+    "path": "research/sector_rotation/dynamic_beta_test.py",
+    "before": "2e9f8fc4f570171870196aca8a27677568de397eea8166f22a13631ac6f0716f",
+    "after": "2783c0f8e67eae9b5b18453c83b69dc7b3af0290d8cecadf2f6b3dcd9766ba88"
+  },
+  {
+    "path": "research/sector_rotation/engine.py",
+    "before": "92f8ba9a7624e96133cb8ffe31fde7bcb4581d92f6f0c76da6fecb81a58c254b",
+    "after": "f4bb3fdb57f2d003c1f50a076aed7a6e363e596fb84a03fd2e127c53473a51f6"
+  },
+  {
+    "path": "research/sector_rotation/fast_stability.py",
+    "before": "2fc0feb7e584462752235c83af88959d3cb42142c33e413fd2d2dc207451209c",
+    "after": "92bd07199d515a5f76e6926e459ccdb83de5134b32860827caec42617fdfde39"
+  },
+  {
+    "path": "research/sector_rotation/feature_stability_test.py",
+    "before": "4b6d4b27249a04a4272a2454ffce7558cf45304eb4e48b600e2a0e194777c5fb",
+    "after": "b804fb2aed8569aa805de1f0d07a44fef18adbae45ec9a98227982a1c3360f2e"
+  },
+  {
+    "path": "research/sector_rotation/fetch_sector_data.py",
+    "before": "c5eda50d692eed4f6672aeff9d23dfd4ae6a6ceeee5a54b4139a2c7c8a9be5e0",
+    "after": "116a40f725c11a86a3bb07c7612cccd7852c91af6ef517e8c9b1920e802f45dc"
+  },
+  {
+    "path": "research/sector_rotation/macro_event_study.py",
+    "before": "73c6436967c52bc4a23aeb2187a2994fc144494d98a1779f212c7eb3fc0b4de3",
+    "after": "ad9f10fd7285728727eb50181a4df962d7ca50d96230c0ef5b6b66941d8ead54"
+  },
+  {
+    "path": "research/sector_rotation/macro_shock_test.py",
+    "before": "2aa41820acff9ad6cc5f17a07bbed9d421f6d0127ca5f2fbb58c3032ef577e5b",
+    "after": "e4fc7c961b9c37a289ae739958d7d63f0a8bd9f89bc79888269d7f1940b59bab"
+  },
+  {
+    "path": "research/sector_rotation/real_yield_confirmation.py",
+    "before": "f48541bf05935d798e47a18c11c8ed36892e2477b298394829430d76be4496c7",
+    "after": "f12feaea221311c430c3a4bc3476efef0a84b8e28f45a8bb8b118c8e55c73495"
+  },
+  {
+    "path": "research/sector_rotation/rf_audit.py",
+    "before": "2edb895e650a59c376803dde9fd04f171e04026866328d4c4f5ceb8739258d89",
+    "after": "dc8edd1d7be16a197dfa6132fc12b7d9f83665f79d6c1bd504eb5982f3d7842d"
+  },
+  {
+    "path": "research/sector_rotation/rf_backtest.py",
+    "before": "c7445b0f2941b8a53bd588e5acaf3196932f4208eb668f34b61ee86fb26fb1c2",
+    "after": "c2a1c0446b7980c70a29e6d5da5273d4e68db1d3d68cebea0741371ab466c1aa"
+  },
+  {
+    "path": "research/sector_rotation/run_backtest.py",
+    "before": "c0123690933fadc14578d62276b1d9be6aeae2dcbbdfc2898c4f0bbfd9f123a7",
+    "after": "86a771f3f173896f1868a8e4ff154fc4d2501009ac5072ec2991ffd85261958e"
+  },
+  {
+    "path": "research/sector_rotation/single_feature_ic.py",
+    "before": "0214439c214918cf26c44661896966b758eb6cbcae837c73fe2f09267a261915",
+    "after": "a1fc10747a98a7bb7ccf45b08544a92c5f357cdc1d61ab3564126b1b51dcc724"
+  },
+  {
+    "path": "research/sector_rotation/waterfall_autopsy.py",
+    "before": "1ee05fed1d9de08ddb100cbca1da8d531ecaaf363bc868dda0946f43a68247f6",
+    "after": "7c49c6f6c835b0a1e32ab94a1905bd2c395ac1454ff9feb4bbbaf7a95af6d728"
+  },
+  {
+    "path": "research/sector_rotation/waterfall_autopsy_step1.py",
+    "before": "86dd9285531522221d045e366a39b859898e6e6e0f23e2890ef0d549f7c0bf43",
+    "after": "fb127854912c8b8ef2b429522116fff49b855504bedd5492ee214ced9d585354"
+  },
+  {
+    "path": "research/sector_rotation/waterfall_autopsy_step1_rf.py",
+    "before": "788418c6135173666d9f8dfdc31ca15b211917718ccfd14c28d24083f7942b68",
+    "after": "b885e31456f61d53dcd64a100c8a5ce8a47a9324a4688f4b0e0c315ca6a36148"
+  },
+  {
+    "path": "research/sector_rotation/waterfall_autopsy_step2_rf.py",
+    "before": "84926d9adb299046586339e22137f1034f90483562d1a7039a274401f157c89b",
+    "after": "bcd0bc1435816e5ee73bf2ccd50609233e28d7c310fba2044aba7e5bf58ac4c8"
+  },
+  {
+    "path": "research/sector_rotation/waterfall_autopsy_step3_5_cagr.py",
+    "before": "7d412a90928ea646c491ceec7df68d0c0c9dc1b2344ec4fe62a02f6f35c4cb16",
+    "after": "b0defa78d27601e6cc8e5f156cdb8ebd16c287ee3fe856c3ade272abc0cd09d3"
+  },
+  {
+    "path": "research/sector_rotation/waterfall_autopsy_step3_rf.py",
+    "before": "ef46a6a8f8a8138e1ef674bd101655596c0b236dd515dd5d13af1a15ef6a0616",
+    "after": "4553bd9f11e9ba8824de5a18c87e9879cf3c711b98c4fe9aa059e7900fda9558"
+  },
+  {
+    "path": "research/sector_stock_momentum/backtest.py",
+    "before": "cf6672af8d6ec9017f7cffff60d31af2b42c49c6b6bb82429928f77f7380b05c",
+    "after": "fe251d714fe9d3c9ec6db2d70f595d5657305ce8d6e0658ddba4519d8d12bba1"
+  },
+  {
+    "path": "research/sector_stock_momentum/composite3.py",
+    "before": "228f7fdc51cc14f117bfa15db9ad7c7b5b14cda15eef796640cc85d58a4baa7c",
+    "after": "ecd1af0c86473ff86170859369ec3a16c33775a70f59239ce6523d70b4eb216e"
+  },
+  {
+    "path": "research/sector_stock_momentum/earnings_factor.py",
+    "before": "9b737322c1ed13e437eed861a105bcc51e7b04bac29846d4ce163f12f5182cdf",
+    "after": "955be837d3c8f88dbe48ebfaacb17a4b2ee665648855952e8050465ed7334566"
+  },
+  {
+    "path": "research/sector_stock_momentum/eps_momentum.py",
+    "before": "7b82d1e569761a5ab026a5abd32cbf2ebe1bfc32e4d13e3b779ed83a376893dc",
+    "after": "70c495cbbda8a387e44286b553d8f61866e28ac95c67f74cd882ab3dfedb0b39"
+  },
+  {
+    "path": "research/sector_stock_momentum/explosive_factors.py",
+    "before": "80e82ac1e5c2835bf0377ba23672eb47618177ac044bd725973057ef27eb8ea8",
+    "after": "3d0b4350b885ddde2a2d056a26ed9db555845faeaf006e3f54ee83b84c68351c"
+  },
+  {
+    "path": "research/sector_stock_momentum/explosive_v2.py",
+    "before": "914294932306d4203954ab261a1cf48a83d9b1f903a20bbefaed6dbd383d20cf",
+    "after": "ae88d33105b8974d0ed1605616de4f658f23ee4ce3554f17fc7e70c96a8e6db7"
+  },
+  {
+    "path": "research/sector_stock_momentum/factor_combo.py",
+    "before": "3d8c026e4048ae27c1a1b5ea54138fc833aa37a2865f18235475b6c716dc3cdc",
+    "after": "27f938fd6af9bc12fee2b7efc5113b55dd2319ac5c879765ffb48338a84165c9"
+  },
+  {
+    "path": "research/sector_stock_momentum/factor_screen.py",
+    "before": "05038fe2b9041259db4b84381549b43a37124a9cc9abd642f452159b16fb7c46",
+    "after": "beafc99b212d7565f2d0b9881b3f51de00fabf8f74f4b56c7b95c6cc6ebe789a"
+  },
+  {
+    "path": "research/sector_stock_momentum/improve_v3.py",
+    "before": "af4a0dd4c167550a11c9d2187f02af5e42b90434d02a13aee904320af7464cb7",
+    "after": "7aac5f3e29eda1dfcdc422360756bea7b82122a558b849f2094b4fd518dce58f"
+  },
+  {
+    "path": "research/sector_stock_momentum/ml2_features.py",
+    "before": "7a9ad84334648943ea1746a6871f20836ede4f23db31db803eae583df8257182",
+    "after": "53b141d45c9aca4c0911ba2af95fd74929d9b4416a6613e4454d473032325792"
+  },
+  {
+    "path": "research/sector_stock_momentum/ml2_run.py",
+    "before": "33e856390fe27f4ecca83289b5d9d5bf18f8f86a31c4eab3fbed762b7c3845ff",
+    "after": "848fdd5e7f83c13270947e17989f303366c5edd3e9b32e450bb1d3089a5074b1"
+  },
+  {
+    "path": "research/sector_stock_momentum/ml_features.py",
+    "before": "17235106d5e7b4a187900658449d3b2dc2ebbcd873fdf00ecd79d2387910053a",
+    "after": "27b5224b96bf1b247699dd7b30eea9e9fd3f9069731d4ea3c7807d3747e53cea"
+  },
+  {
+    "path": "research/sector_stock_momentum/ml_pipeline.py",
+    "before": "178ec1e38f33cff20e180a66a283ea20a53e2a84cc9163b25ccfce5fcefdbae9",
+    "after": "014936399d98c043345f310eac6988739f1aa579420fa037448126efe4f7ed9e"
+  },
+  {
+    "path": "research/sector_stock_momentum/mom30_roe.py",
+    "before": "fd43003f217f73af28599e13e31d4a8f8c817dff8957ec65a3748577d9fce4b3",
+    "after": "a3e431f237d004e0b46ebcc8d1eb6ce5eefe5c3b889881a92ef8a6e8ec0c0078"
+  },
+  {
+    "path": "research/sector_stock_momentum/ndx_expand.py",
+    "before": "ed0da0682a81053fba123bc82361d2bb4dc30233c242e17472f80f559bc2c31c",
+    "after": "703ec34f642925e1321696a861d7f1e1e4930e1379e2909206d23a124e922c08"
+  },
+  {
+    "path": "research/sector_stock_momentum/risk_report.py",
+    "before": "fc43f95f4016c655d7d718a815ec0a13c159514943760c8cd0713cb4d882972a",
+    "after": "44e72a87f8c29cc5febe09270ab15f57e020059b74f9999fe22a91bb9660ea11"
+  },
+  {
+    "path": "research/sector_stock_momentum/sma200_overlay.py",
+    "before": "ada44dcd83feb7da706ae87eb3e7f7923fe497306f54151a8538e9e655a8f901",
+    "after": "abbd82b294227eefa65f747986fbfa9cfca7fe34ffc9e611c06892b260aeb244"
+  },
+  {
+    "path": "research/sector_stock_momentum/smallcap_data_audit.py",
+    "before": "3b4f969da4b124bbf64d698fd9155ff93c43b732f19b6c587b3f460f22218167",
+    "after": "8b06f4574dc9ced41a5dd51f6d2cfce2356a99e212ce44e280fc473125cd8c6c"
+  },
+  {
+    "path": "research/sector_stock_momentum/tech_only.py",
+    "before": "653edb0d98343b296a4b3836339740767be7aeac2b43ed58abf8e12dd260cb18",
+    "after": "1ec8768e23ba981337b1204b4c61d2db8b043c9f9e8b7ea5b1e77f06a3ff02a4"
+  },
+  {
+    "path": "research/sector_stock_momentum/test_codex_regressions.py",
+    "before": "811ad976b85e83945a1defdd311abb627863b88e2fd4552a60a51a9f5862fc0d",
+    "after": "984b9cfe319810796cb4816d97d1c49c1a37e9d376eea796676d1f2548d65cb4"
+  },
+  {
+    "path": "research/sector_stock_momentum/winners_holdout.py",
+    "before": "db0cf174b3a2c007761ddcd853117b2074b5dbdf4e65e44f3f02818ed62408e1",
+    "after": "6c2a95adb9b52d9cbe68fc465ca9fd0df2259bccb91e4807588d2a19dabbadd0"
+  },
+  {
+    "path": "research/sector_stock_momentum/winners_tracks.py",
+    "before": "1b8e4be0724c8c3ac575dc9f1b4fe9c2b920f6128db1bb5ebb762025d99def1e",
+    "after": "c0fde0a224f8ed6f82c1b0891718ab9690556a9b26cbcf567d130fe9c4c9fdf5"
+  },
+  {
+    "path": "research/strategy_comparison/falsification_test.py",
+    "before": "a87cbe64de7bc3894ce6eaab7b3f1b87a499a622d69fe693aa2ca02ecb98fa52",
+    "after": "0c7dbdb78e545e0c6e0b475df23a68839c64232f2acf863f31625da203013247"
+  },
+  {
+    "path": "research/strategy_comparison/falsification_test_v6.py",
+    "before": "048a26195be37044ca7a47223b67c576a6e621809b71096f138d83d1f22e4a1e",
+    "after": "6a4f7e43da8fb1684af502c8f926d71694bfef1d32f47404dc3a053e87d0185e"
+  },
+  {
+    "path": "research/strategy_comparison/post2012_regime_test.py",
+    "before": "272ca1acbcbd2adf0938c05ad727ad979a7521218b7c90bd0469930bba952ffa",
+    "after": "a96d75c6447c7a743dc11f60780d3e818b78ccac46d8801e4e6a5fd062c29538"
+  },
+  {
+    "path": "research/strategy_comparison/sep_falsification_test.py",
+    "before": "fe56e794991ca3faa704eb653a04874dbba1f8b8a6bcae8a06e0bb048c940793",
+    "after": "ba281ef462874588db2890e797fb324f1be0fd7b934cd18d525b59b2e90b3dfd"
+  },
+  {
+    "path": "research/strategy_comparison/strategy_comparison_v1.py",
+    "before": "3d26146cfb080eefe552bf357b7d629187332c5532ab601f044b395dff26f183",
+    "after": "5e6080befc5d22de1413047cbf78b9eacd92d87a94b1d720d3c79e337d8dc8bb"
+  },
+  {
+    "path": "research/strategy_comparison/strategy_comparison_v2.py",
+    "before": "1b5a3d19251d8e875ee08a2e35d31db5f8424f424cc8e53287aa8abc5a095bc4",
+    "after": "da3a69f38396b14747bdb30edd071512adfd1157366813f551cdfb014b335f2f"
+  },
+  {
+    "path": "research/strategy_comparison/strategy_comparison_v3.py",
+    "before": "57de447855592937259cfb825ec3fdc420511267f70fd99d4f40d92763d60974",
+    "after": "bed235a45ff96937e80d94902c9078b592c0c3e79bfd86049cb8f628a0c55613"
+  },
+  {
+    "path": "research/strategy_comparison/strategy_comparison_v4.py",
+    "before": "2fe5cc82dc10b5d5881f910f7207c483eb7aa342bfd35c75ea37dedbf756db85",
+    "after": "e5866411ca22f5e230bf3f9f412ec359df378d45715c2df2a707b3dadf0b87f5"
+  },
+  {
+    "path": "research/strategy_comparison/strategy_comparison_v5.py",
+    "before": "307c852f81d61402aa2b6b59a7305301100b4f27184ba21a7e78ef97d819c2e6",
+    "after": "bd91d39457ba01bd670174eddff7442e10821744f6d4683002fb251c70dd435e"
+  },
+  {
+    "path": "research/strategy_comparison/strategy_engine.py",
+    "before": "14415af09d107203f82b83fc16d926434a778f6d62b13edc5d1f62669a0f6920",
+    "after": "f15a532632bc578a2783030ed4636911cb0dabe5c5cb00bd23f60bbcd0f4ca35"
+  },
+  {
+    "path": "research/strategy_comparison/v6_final_backtest.py",
+    "before": "d3e229d8c3aa3152d37158a7b4df77f7f5ebedafbd5fb02fb4d8dcfbf0947086",
+    "after": "ddda71c817e253971de1d8141168a7bc1ddd6b75cf285eceb79ba2342f7db1bd"
+  }
+]

@@ -1,0 +1,250 @@
+{
+  "status": "RECONCILED_DIAGNOSTICS_AWAITING_PARENT_REVIEW",
+  "strategies": 17,
+  "verified_months": 2397,
+  "original_ledger_checks": [
+    {
+      "strategy": "A-ridge Top1",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.8879238130678e-17,
+        "gross": 9.71445146547012e-17,
+        "turnover": 0.0,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "A-ridge Top3",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.90960785651751e-17,
+        "gross": 9.71445146547012e-17,
+        "turnover": 4.440892098500626e-16,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "B-ridge Top1",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.71445146547012e-17,
+        "gross": 9.367506770274758e-17,
+        "turnover": 0.0,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "B-ridge Top3",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.71445146547012e-17,
+        "gross": 9.71445146547012e-17,
+        "turnover": 6.661338147750939e-16,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "C-ridge Top1",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.71445146547012e-17,
+        "gross": 9.71445146547012e-17,
+        "turnover": 0.0,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "C-ridge Top3",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.71445146547012e-17,
+        "gross": 9.71445146547012e-17,
+        "turnover": 4.440892098500626e-16,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "A-lgbm Top1",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.8879238130678e-17,
+        "gross": 9.8879238130678e-17,
+        "turnover": 0.0,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "A-lgbm Top3",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.71445146547012e-17,
+        "gross": 9.71445146547012e-17,
+        "turnover": 6.661338147750939e-16,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "B-lgbm Top1",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.540979117872439e-17,
+        "gross": 9.71445146547012e-17,
+        "turnover": 0.0,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "B-lgbm Top3",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.82287168271867e-17,
+        "gross": 9.8879238130678e-17,
+        "turnover": 4.440892098500626e-16,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "C-lgbm Top1",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.8879238130678e-17,
+        "gross": 9.8879238130678e-17,
+        "turnover": 0.0,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "C-lgbm Top3",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.71445146547012e-17,
+        "gross": 9.71445146547012e-17,
+        "turnover": 6.661338147750939e-16,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "BENCH momentum Top1",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.71445146547012e-17,
+        "gross": 9.71445146547012e-17,
+        "turnover": 0.0,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "BENCH momentum Top3",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.71445146547012e-17,
+        "gross": 9.952975943416931e-17,
+        "turnover": 4.440892098500626e-16,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "BENCH full-universe C-lgbm Top1",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.71445146547012e-17,
+        "gross": 9.71445146547012e-17,
+        "turnover": 0.0,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "BENCH full-universe C-lgbm Top3",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.71445146547012e-17,
+        "gross": 9.71445146547012e-17,
+        "turnover": 4.440892098500626e-16,
+        "capital_after_costs": 1.1102230246251565e-16,
+        "exposure": 0.0
+      }
+    },
+    {
+      "strategy": "BENCH SPY",
+      "months": 141,
+      "max_abs_errors": {
+        "net": 9.367506770274758e-17,
+        "gross": 0.0,
+        "turnover": 0.0,
+        "capital_after_costs": 0.0,
+        "exposure": 0.0
+      }
+    }
+  ],
+  "inputs_sha256": {
+    "research/sector_stock_momentum/results/ml2/panel_ml2.parquet": "e9bb966b1ce090780b618b04ca2e617240349eb9139e6e41b1ef94752750c532",
+    "research/sector_stock_momentum/data/fred_DGS3MO.json": "c4cf7ebda6e222accbb306d52c66a504bcc9666ccdbf3780adc599778eed88ea",
+    "audit_v2/root_closeout_runs.json": "dddc07cdb957482b9246cefd1f3a1d2c0a66fbea62e6fd11eb3b111f228824fc",
+    "research/sector_stock_momentum/results/ml2/monthly_A_ridge_Top1.csv": "4888649a7448a46c4e2920888710a9561677bdd81b5476f085c3160563763bf2",
+    "research/sector_stock_momentum/results/ml2/monthly_A_ridge_Top3.csv": "335cb5ba0d8fcc741f8b454fc4afb57ec41d2de1c86375273fc86cc767b46bf9",
+    "research/sector_stock_momentum/results/ml2/monthly_B_ridge_Top1.csv": "a4d9ad074dce6ded5d644009cfa5d4efcf0d733fa005fc39a95a027a11fe1d69",
+    "research/sector_stock_momentum/results/ml2/monthly_B_ridge_Top3.csv": "d89bd8e22f53bbcd58eeda7bbc341d55582cd191feaf99ca4e6ad061a8f2f991",
+    "research/sector_stock_momentum/results/ml2/monthly_C_ridge_Top1.csv": "d5141a1f6365967b4c893342d609eb81f69c74eb97dcc2f15156d2a578756d41",
+    "research/sector_stock_momentum/results/ml2/monthly_C_ridge_Top3.csv": "692a5e8530035ec3d1fe640b2f2991176d387115185d004dc544962deb65ff8d",
+    "research/sector_stock_momentum/results/ml2/monthly_A_lgbm_Top1.csv": "656fa7a918b05e09dc0850b248d62f90d91f4643bff552484a7b85c62b15c417",
+    "research/sector_stock_momentum/results/ml2/monthly_A_lgbm_Top3.csv": "1fd08295f770ef1cc9fce554084d9e5bd1f6c5439087a9954f646797ceb48045",
+    "research/sector_stock_momentum/results/ml2/monthly_B_lgbm_Top1.csv": "abe9c577973eeaf18a1011237091125398127a54e42e75839ca5484b06d27b9c",
+    "research/sector_stock_momentum/results/ml2/monthly_B_lgbm_Top3.csv": "a87c03867675a6fecdcab31f46e09b7615d84cf291f380d7ac2560dcaed106f3",
+    "research/sector_stock_momentum/results/ml2/monthly_C_lgbm_Top1.csv": "8c50aa1bf013e6fa8443f42dfd638b54e7d27af15a7171220a86bb95feafb458",
+    "research/sector_stock_momentum/results/ml2/monthly_C_lgbm_Top3.csv": "8ec695655c4f09337846c92832712ebbd320f5ee0ad90c720e4a71e9b2c13ccc",
+    "research/sector_stock_momentum/results/ml2/monthly_BENCH_momentum_Top1.csv": "4a4153fac81f56fb73a649a2a1f86fec2eb4d95555c5d9fcb0c41005c4b0378f",
+    "research/sector_stock_momentum/results/ml2/monthly_BENCH_momentum_Top3.csv": "bac5970860dff8c9a99f2ef94cbf0076d015d580a71bca6f8cfe92aee557e8b2",
+    "research/sector_stock_momentum/results/ml2/monthly_BENCH_full_universe_C_lgbm_Top1.csv": "b403bf31715432c7c3e894d684e10b657966bb8fd4985184af7e0136ff8a377a",
+    "research/sector_stock_momentum/results/ml2/monthly_BENCH_full_universe_C_lgbm_Top3.csv": "170b6731968150cc25f14b348a023d2a5d89fef2093796324751ebca8dc879d5",
+    "research/sector_stock_momentum/results/ml2/monthly_BENCH_SPY.csv": "244687fba03e84a048ccb19ad48edb7dc09ac89deddbd1093efb7d82be96098e"
+  },
+  "script_sha256": "cdb86322d686339137ba7521e84a26291fdebdaf6258b58aede30ab529c554b3",
+  "outputs_sha256": {
+    "ml2_concentration_summary.csv": "23de8deee9031c45e20f97a47cad0557dbb9b8b384818b577d9a0a3f4ff4abce",
+    "ml2_concentration_stock_contributions.csv": "676367bbf726679455f3dc854a550679f8c048432fdd0a54f4b1cabafb6bcf8f",
+    "ml2_concentration_month_contributions.csv": "f077271175dfa80e6912247a3710e08fe932151674bd700c144e9ffbe3a3e7d4",
+    "ml2_concentration_sensitivity_monthly.csv": "2ae7dfd42e1ba72314841c157b5af60f31340da1868f3d4d17d9e07a2b1221ea"
+  },
+  "self_tests": {
+    "status": "PASS",
+    "checks": [
+      "Initial buy is self financing",
+      "Contribution uses initial wealth times post-fee capital",
+      "Rebalance charges drifted holdings",
+      "Removed ticker is never replaced or renormalized",
+      "Removed weight earns same cash carry",
+      "Removal recomputes costs rather than retaining old fee",
+      "Terminal holdings become cash before next rebalance",
+      "Bankruptcy absorbs wealth without resurrection",
+      "Initial capital included in drawdown",
+      "Best year removal retains original surviving returns"
+    ]
+  },
+  "definitions": {
+    "stock_contribution": "Sum over months of wealth before month * capital_after_costs * original target weight * actual holding return; costs shown separately, not allocated to stocks.",
+    "month_contribution": "Dollar wealth change relative to initial capital 1: pre-month wealth times net monthly return. Highest percentage-return month also reported.",
+    "contribution_identity": "Sum stock contributions + cash carry contributions + negative fee contributions = final wealth - initial wealth.",
+    "share": "Contribution divided by total net profit; can be negative or exceed 100% because losses/costs offset gains.",
+    "remove_stock": "The retrospectively largest-contribution ticker gets zero weight in every frozen original target. All other original weights are unchanged; residual cash uses original formation-known DGS3MO monthly rates; fees and drift recomputed. No replacements or model fitting.",
+    "remove_year": "Choose highest original calendar-year compound return, retaining partial final year as-is. Remove its months from the original return sample; no boundary fee/capital reconstruction. Report retained-month geometric rate, never a continuous portfolio CAGR.",
+    "SPY": "SPY holding return is the original benchmark gross ledger return; original costs independently reconstructed. This is accounting reconciliation, not independent raw-price verification.",
+    "ret_oo": "All non-SPY holding outcomes and terminal statuses are frozen panel_ml2 labels; inherits their source and execution limitations.",
+    "drawdown": "Monthly wealth marks only; no daily path claimed.",
+    "interpretation": "Descriptive sensitivity selected after seeing history, not a newly investable or independently tested strategy."
+  }
+}
