@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "checks": [
+    "all missing features stay missing",
+    "one observed feature never repairs missing peers",
+    "invalid ledger rejected [0.1, nan, 0.2, 0.3]",
+    "invalid ledger rejected [0.1, -1.1, 0.2, 0.3]",
+    "initial capital participates in drawdown",
+    "network refresh prohibited",
+    "bankruptcy does not resurrect",
+    "initial leverage purchase costs charged",
+    "total loss drawdown reaches 100%",
+    "mismatched signal dates rejected",
+    "2012 published ranges never become medians",
+    "rotated 2016 PDF median columns match source",
+    "2018 PDF federal funds columns match source",
+    "modern compressed PDF text parses",
+    "conditional calendar gaps return undefined CAGR",
+    "macro holiday never removes an equity session",
+    "no signals invented beyond source coverage",
+    "overlapping 3m labels are not compounded",
+    "conditional months not compressed into CAGR",
+    "end month is inclusive",
+    "execution uses later prices not signal close",
+    "formation picks fixed before future pricing",
+    "selected future missing price never causes replacement"
+  ]
+}

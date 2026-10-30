@@ -1,0 +1,64 @@
+strategy,period,v
+A SPEC (S&P only),IS,12.1% / 0.53 / -37%
+A SPEC (S&P only),OOS,71.3% / 1.10 / -51%
+A SPEC (S&P only),FULL,27.4% / 0.74 / -51%
+A SPEC (S&P ∪ NDX),IS,6.1% / 0.33 / -44%
+A SPEC (S&P ∪ NDX),OOS,87.9% / 1.25 / -47%
+A SPEC (S&P ∪ NDX),FULL,26.0% / 0.69 / -47%
+B pure momentum top-1 (S&P only),IS,18.2% / 0.61 / -69%
+B pure momentum top-1 (S&P only),OOS,91.4% / 1.23 / -47%
+B pure momentum top-1 (S&P only),FULL,36.6% / 0.83 / -69%
+B pure momentum top-1 (S&P ∪ NDX),IS,7.6% / 0.38 / -72%
+B pure momentum top-1 (S&P ∪ NDX),OOS,76.7% / 1.12 / -47%
+B pure momentum top-1 (S&P ∪ NDX),FULL,24.9% / 0.64 / -72%
+SPY,IS,15.4% / 1.02 / -19%
+SPY,OOS,13.4% / 0.67 / -24%
+SPY,FULL,14.8% / 0.91 / -24%
+C tech top-5 inv-vol (S&P only),2012-01..2022-12,18.9% / 0.94 / -29%
+C tech top-5 inv-vol (S&P only),2023-01..2026-09,56.8% / 1.22 / -22%
+C tech top-5 inv-vol (S&P only),2012-01..2026-09,27.5% / 0.99 / -29%
+C tech top-5 inv-vol (S&P only),2015-01..2026-09,29.3% / 0.97 / -29%
+C tech top-5 EW (S&P only),2012-01..2022-12,19.8% / 0.92 / -32%
+C tech top-5 EW (S&P only),2023-01..2026-09,58.5% / 1.24 / -23%
+C tech top-5 EW (S&P only),2012-01..2026-09,28.6% / 1.00 / -32%
+C tech top-5 EW (S&P only),2015-01..2026-09,29.8% / 0.96 / -32%
+C tech top-1 (S&P only),2012-01..2022-12,25.5% / 0.76 / -65%
+C tech top-1 (S&P only),2023-01..2026-09,87.7% / 1.27 / -29%
+C tech top-1 (S&P only),2012-01..2026-09,39.0% / 0.91 / -68%
+C tech top-1 (S&P only),2015-01..2026-09,36.2% / 0.83 / -68%
+C all top-5 inv-vol (S&P only),2012-01..2022-12,5.0% / 0.31 / -46%
+C all top-5 inv-vol (S&P only),2023-01..2026-09,31.2% / 0.86 / -22%
+C all top-5 inv-vol (S&P only),2012-01..2026-09,11.1% / 0.49 / -46%
+C all top-5 inv-vol (S&P only),2015-01..2026-09,9.0% / 0.38 / -46%
+C tech top-5 inv-vol (S&P ∪ NDX),2012-01..2022-12,19.1% / 0.94 / -30%
+C tech top-5 inv-vol (S&P ∪ NDX),2023-01..2026-09,62.3% / 1.29 / -23%
+C tech top-5 inv-vol (S&P ∪ NDX),2012-01..2026-09,28.9% / 1.01 / -30%
+C tech top-5 inv-vol (S&P ∪ NDX),2015-01..2026-09,30.7% / 0.99 / -30%
+C tech top-5 EW (S&P ∪ NDX),2012-01..2022-12,19.7% / 0.92 / -34%
+C tech top-5 EW (S&P ∪ NDX),2023-01..2026-09,65.0% / 1.31 / -24%
+C tech top-5 EW (S&P ∪ NDX),2012-01..2026-09,29.8% / 1.01 / -34%
+C tech top-5 EW (S&P ∪ NDX),2015-01..2026-09,31.7% / 0.99 / -34%
+C tech top-1 (S&P ∪ NDX),2012-01..2022-12,26.2% / 0.77 / -65%
+C tech top-1 (S&P ∪ NDX),2023-01..2026-09,98.3% / 1.34 / -29%
+C tech top-1 (S&P ∪ NDX),2012-01..2026-09,41.6% / 0.94 / -68%
+C tech top-1 (S&P ∪ NDX),2015-01..2026-09,38.9% / 0.87 / -68%
+C all top-5 inv-vol (S&P ∪ NDX),2012-01..2022-12,6.6% / 0.39 / -39%
+C all top-5 inv-vol (S&P ∪ NDX),2023-01..2026-09,33.1% / 0.91 / -24%
+C all top-5 inv-vol (S&P ∪ NDX),2012-01..2026-09,12.8% / 0.56 / -39%
+C all top-5 inv-vol (S&P ∪ NDX),2015-01..2026-09,10.0% / 0.42 / -39%
+C tech top-5 inv-vol (S&P only) + XLK regime,2012-01..2022-12,15.4% / 0.85 / -19%
+C tech top-5 inv-vol (S&P only) + XLK regime,2023-01..2026-09,39.0% / 1.06 / -22%
+C tech top-5 inv-vol (S&P only) + XLK regime,2012-01..2026-09,21.0% / 0.89 / -24%
+C tech top-5 inv-vol (S&P only) + XLK regime,2015-01..2026-09,21.9% / 0.86 / -24%
+C tech top-5 inv-vol (S&P ∪ NDX) + XLK regime,2012-01..2022-12,15.8% / 0.86 / -22%
+C tech top-5 inv-vol (S&P ∪ NDX) + XLK regime,2023-01..2026-09,42.8% / 1.12 / -21%
+C tech top-5 inv-vol (S&P ∪ NDX) + XLK regime,2012-01..2026-09,22.1% / 0.92 / -25%
+C tech top-5 inv-vol (S&P ∪ NDX) + XLK regime,2015-01..2026-09,22.9% / 0.88 / -25%
+XLK,2012-01..2022-12,17.2% / 0.96 / -31%
+XLK,2023-01..2026-09,36.7% / 1.33 / -11%
+XLK,2012-01..2026-09,21.9% / 1.07 / -31%
+XLK,2015-01..2026-09,22.5% / 1.00 / -31%
+SPY,2012-01..2022-12,12.8% / 0.86 / -24%
+SPY,2023-01..2026-09,21.7% / 1.28 / -8%
+SPY,2012-01..2026-09,15.0% / 0.96 / -24%
+SPY,2015-01..2026-09,13.7% / 0.80 / -24%

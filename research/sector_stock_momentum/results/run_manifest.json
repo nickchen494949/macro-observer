@@ -1,0 +1,139 @@
+{
+ "spec": {
+  "look": 12,
+  "n_sec": 1,
+  "n_stk": 1,
+  "score": "ew"
+ },
+ "grid": {
+  "look": [
+   3,
+   6,
+   9,
+   12
+  ],
+  "n_sec": [
+   1,
+   2,
+   3
+  ],
+  "n_stk": [
+   1,
+   3,
+   5,
+   10
+  ],
+  "score": [
+   "ew",
+   "etf"
+  ]
+ },
+ "cost_per_side": 0.001,
+ "is_frac": 0.7,
+ "holding_months": [
+  "2009-01-31",
+  "2026-09-30",
+  213
+ ],
+ "IS": [
+  "2009-01-31",
+  "2021-05-31",
+  149
+ ],
+ "IS_selection_window": [
+  "2009-01-31",
+  "2021-04-30",
+  148
+ ],
+ "OOS": [
+  "2021-06-30",
+  "2026-09-30",
+  64
+ ],
+ "first_formation": "2008-12-31",
+ "momentum_needs_prices_from": "2007-12-31",
+ "membership_changes_applied_after_file_end": [
+  [
+   "2026-09-21",
+   "BE",
+   "TAP"
+  ],
+  [
+   "2026-09-21",
+   "P",
+   "TTD"
+  ],
+  [
+   "2026-09-21",
+   "ILMN",
+   "BLDR"
+  ],
+  [
+   "2026-10-01",
+   "VYLR",
+   "nan"
+  ],
+  [
+   "2026-10-06",
+   "TWLO",
+   "WBD"
+  ],
+  [
+   "2026-10-06",
+   "nan",
+   "CTVA"
+  ]
+ ],
+ "stress_unresolved_exit": [
+  -0.3,
+  -1.0
+ ],
+ "provenance": {
+  "run_at": "2026-10-29T14:37:20",
+  "git_head": "4cd496ffb479146f95b863ec291573b7bd7007e7",
+  "git_dirty_files": [
+   "M research/sector_stock_momentum/WINNERS_SPEC.md",
+   " M research/sector_stock_momentum/data/rf_monthly.csv",
+   " M research/sector_stock_momentum/eps_momentum.py",
+   " M research/sector_stock_momentum/explosive_factors.py",
+   " M research/sector_stock_momentum/factor_screen.py",
+   " M research/sector_stock_momentum/fetch_smallcap.py",
+   " M research/sector_stock_momentum/logs/backtest_run.log",
+   " M research/sector_stock_momentum/ml_features.py",
+   " M research/sector_stock_momentum/run_final.sh",
+   " M research/sector_stock_momentum/winners_holdout.py",
+   " M research/sector_stock_momentum/winners_tracks.py",
+   "?? research/sector_stock_momentum/audit/before_audit3/",
+   "?? research/sector_stock_momentum/logs/pit_fundamentals_truncation_test.log",
+   "?? research/sector_stock_momentum/logs/postaudit3_chain.log",
+   "?? research/sector_stock_momentum/logs/test_fundamentals_pit.log",
+   "?? research/sector_stock_momentum/pit_fundamentals_truncation_test.py",
+   "?? research/sector_stock_momentum/run_postaudit3.sh",
+   "?? research/sector_stock_momentum/test_portfolio_ledger.py"
+  ],
+  "raw_price_snapshot_sha256": "512af794bc310343",
+  "n_raw_files": 683,
+  "n_tiingo_files": 167,
+  "n_symbols_priced_from_tiingo": 143,
+  "n_symbols_using_wiki": 58,
+  "file_sha256_16": {
+   "data/sp500_hist_components.csv": "36326709d46d6cd2",
+   "data/wiki_changes.csv": "ead71c635151cacc",
+   "data/sectors.csv": "e2095b63c08d3ef2",
+   "data/wiki_current_constituents.csv": "08f2e2a6e3e908e6",
+   "backtest.py": "994f0883e50e8cf9",
+   "historical_sectors.py": "acb519f68a228769"
+  },
+  "python": "3.11.6",
+  "pandas": "2.2.3",
+  "numpy": "2.2.6",
+  "scipy": "1.14.1",
+  "sources": {
+   "membership": "github.com/fja05680/sp500 (Historical Components & Changes, Updated)",
+   "membership_after_file_end": "en.wikipedia.org/wiki/Historical_components_of_the_S&P_500",
+   "sectors": "Wikipedia current GICS + Yahoo sector/industry, rebuilt by historical_sectors.py",
+   "prices": "Yahoo Finance chart API v8 (adjclose), fetched by fetch_prices.py; Tiingo EOD adjClose for delisted names Yahoo dropped (fetch_tiingo.py); Nasdaq Data Link WIKI/PRICES adj_close (frozen 2018-03-27) as last resort, validated vs Yahoo (data/raw_wiki/_validation.json)",
+   "rf": "FRED DGS3MO"
+  }
+ }
+}

@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "checks": [
+    "EAR three-event actual age",
+    "EAR identity boundary",
+    "EAR valid rolling sum",
+    "CFO TTM arithmetic",
+    "CFO latest component availability",
+    "late component truncation invariance",
+    "unknown current TTM invalidates old FY",
+    "latest undefined quarter preserved",
+    "bad-print reversal boundary",
+    "stale active volume required"
+  ]
+}

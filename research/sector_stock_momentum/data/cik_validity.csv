@@ -1,0 +1,6 @@
+ticker,cik,valid_from,valid_to,evidence
+CB,896159,2016-01-15,,"CB prices before 2016-01-15 are the old Chubb Corp (identity_resolutions: use_wiki_before 2016-01-15); CIK 896159 is ACE Ltd, renamed Chubb Ltd after buying Chubb Corp on 2016-01-14 → ACE fundamentals must not be paired with old-Chubb prices"
+AGN,1578845,2013-10-01,,"AGN prices = Watson/Actavis/Allergan plc lineage; CIK 1578845 (Actavis plc → Allergan plc) first files 2013-10-31; before that no mapped CIK (Watson/Actavis Inc 884629 not mapped)"
+DD,1666700,2017-09-01,,"DD prices before 2017-09-01 are the old E.I. du Pont (identity_resolutions: use_wiki_before 2017-09-01); CIK 1666700 is DowDuPont / DuPont de Nemours (from 2017-08-31 merger)"
+DOW,1751788,2019-04-02,,"CIK 1751788 is Dow Inc (spun off 2019-04-01); DOW prices before 2017-08-31 are the old Dow Chemical (WIKI) → no pairing before the Dow Inc listing"
+LSI,703360,,2014-05-07,"LSI Corp (CIK 703360) has no clean price source: Yahoo/Tiingo/WIKI 'LSI' history is Sovran/Life Storage (close 49.1 in 2012-03 vs LSI Corp ~8); prices excluded via identity_resolutions; kept here for completeness"

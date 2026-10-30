@@ -1,0 +1,10 @@
+strategy,period,v
+"tech top-5 inv-vol, composite (baseline)",2015-01..2022-12,18.1% / 0.84 / -29%
+"tech top-5 inv-vol, composite (baseline)",2023-01..2026-09,56.8% / 1.22 / -22%
+"tech top-5 inv-vol, composite (baseline)",2015-01..2026-09,29.3% / 0.97 / -29%
+"tech top-5 inv-vol, composite + ear",2015-01..2022-12,16.9% / 0.81 / -34%
+"tech top-5 inv-vol, composite + ear",2023-01..2026-09,51.4% / 1.12 / -21%
+"tech top-5 inv-vol, composite + ear",2015-01..2026-09,27.0% / 0.90 / -40%
+"tech top-5 inv-vol, composite + ear_sum4",2015-01..2022-12,13.6% / 0.62 / -40%
+"tech top-5 inv-vol, composite + ear_sum4",2023-01..2026-09,54.6% / 1.25 / -21%
+"tech top-5 inv-vol, composite + ear_sum4",2015-01..2026-09,25.3% / 0.86 / -40%

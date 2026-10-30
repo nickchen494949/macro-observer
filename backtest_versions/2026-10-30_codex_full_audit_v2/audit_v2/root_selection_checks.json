@@ -1,0 +1,24 @@
+[
+  {
+    "name": "determinism",
+    "exit": 0,
+    "seconds": 48.58378029149026,
+    "log": "audit_v2/root_determinism.log",
+    "sources": {
+      "backtest.py": "fe251d714fe9d3c9ec6db2d70f595d5657305ce8d6e0658ddba4519d8d12bba1",
+      "pit_truncation_test.py": "7e052b421c1217e032f9911c9a29b220754ebcfd858f24441956cd869dce0a2e",
+      "determinism_test.py": "c4225e8400bf7b4824e90eca97815affc6a1954cc0e5503356f27e1d2a95e784"
+    }
+  },
+  {
+    "name": "price_truncation",
+    "exit": 0,
+    "seconds": 83.10616462491453,
+    "log": "audit_v2/root_price_truncation.log",
+    "sources": {
+      "backtest.py": "fe251d714fe9d3c9ec6db2d70f595d5657305ce8d6e0658ddba4519d8d12bba1",
+      "pit_truncation_test.py": "7e052b421c1217e032f9911c9a29b220754ebcfd858f24441956cd869dce0a2e",
+      "determinism_test.py": "c4225e8400bf7b4824e90eca97815affc6a1954cc0e5503356f27e1d2a95e784"
+    }
+  }
+]

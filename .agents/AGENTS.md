@@ -27,4 +27,10 @@
 
 ## GitHub Workflow
 - **Repository**: `https://github.com/nickchen494949/macro-observer`
-- When the user asks to "update" or "push to github", run `git add .`, `git commit -m "[Brief summary]"`, and `git push origin main` (or the active branch). If permissions are required, prompt the user or run it with sandbox bypass if requested.
+- **COMMIT & PUSH ONLY WHEN THE WHOLE TASK IS DONE**: Do NOT commit or push after every file change. Work locally until the entire task/project is finished and verified, then make ONE commit (`git commit -m "[Brief summary]"`) and `git push` to the active branch.
+- Only include files belonging to the task. Do not commit unrelated pending changes (e.g. `csv/fred/*.csv` auto-written by the dashboard server) unless the user asks.
+
+## Missing Data Rule
+- When data is missing or not available where expected, do NOT just leave it empty. First look for alternative sources (other free APIs, official filings, renamed/successor tickers, related identifiers) and fill the gap.
+- Every filled value must be verified (identity, date range, units) and its source recorded, so it is auditable.
+- Never invent or interpolate values to make data look complete. If no reliable alternative exists, mark the gap explicitly, list it, and quantify how it could affect the result.

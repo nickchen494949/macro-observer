@@ -1,0 +1,2743 @@
+{
+  "counts": {
+    "old_catalog": 340,
+    "supplementary": 120,
+    "all_records": 460,
+    "same45": 227,
+    "long141": 164,
+    "grid": 96,
+    "signals": 91,
+    "unique_ledgers": 372,
+    "ledger_checks": 645,
+    "status": {
+      "已重跑并核算；历史数据未完全认证": 219,
+      "已审核：旧结果退役": 4,
+      "已审核：阻塞／不能采用": 90,
+      "已重跑：股票池／价格缺口，不能认证": 34,
+      "已审核：信号／条件统计，不是组合收益": 92,
+      "已重跑：既有参数的历史重放": 21
+    }
+  },
+  "mapping": [
+    {
+      "id": "O001",
+      "family": "行业与个股动量",
+      "display_name": "主策略：最强行业内买最强1只",
+      "original_name": "SPEC",
+      "legacy_source": "research/sector_stock_momentum/results/summary.json",
+      "record_index": 0
+    },
+    {
+      "id": "O002",
+      "family": "行业与个股动量",
+      "display_name": "改用行业ETF排名，再买最强1只",
+      "original_name": "SPEC | ETF sector score",
+      "legacy_source": "research/sector_stock_momentum/results/summary.json",
+      "record_index": 1
+    },
+    {
+      "id": "O003",
+      "family": "行业与个股动量",
+      "display_name": "主策略：延至下一交易日收盘买入",
+      "original_name": "SPEC | next-day-close execution",
+      "legacy_source": "research/sector_stock_momentum/results/summary.json",
+      "record_index": 2
+    },
+    {
+      "id": "O004",
+      "family": "行业与个股动量",
+      "display_name": "主策略：不明退出按亏30%处理",
+      "original_name": "SPEC | unresolved exits = -30%",
+      "legacy_source": "research/sector_stock_momentum/results/summary.json",
+      "record_index": 3
+    },
+    {
+      "id": "O005",
+      "family": "行业与个股动量",
+      "display_name": "主策略：不明退出按全损处理",
+      "original_name": "SPEC | unresolved exits = -100%",
+      "legacy_source": "research/sector_stock_momentum/results/summary.json",
+      "record_index": 4
+    },
+    {
+      "id": "O006",
+      "family": "行业与个股动量",
+      "display_name": "不分行业，买动量最强1只",
+      "original_name": "NO SECTOR FILTER: top-1 stock",
+      "legacy_source": "research/sector_stock_momentum/results/summary.json",
+      "record_index": 5
+    },
+    {
+      "id": "O007",
+      "family": "行业与个股动量",
+      "display_name": "最强行业内全部股票等权买入",
+      "original_name": "Ref: EW all stocks of best sector",
+      "legacy_source": "research/sector_stock_momentum/results/summary.json",
+      "record_index": 6
+    },
+    {
+      "id": "O008",
+      "family": "行业与个股动量",
+      "display_name": "不分行业，买动量最强10只",
+      "original_name": "Ref: top-10, no sector filter",
+      "legacy_source": "research/sector_stock_momentum/results/summary.json",
+      "record_index": 7
+    },
+    {
+      "id": "O009",
+      "family": "行业与个股动量",
+      "display_name": "直接买最强行业ETF",
+      "original_name": "Ref: best sector ETF",
+      "legacy_source": "research/sector_stock_momentum/results/summary.json",
+      "record_index": 8
+    },
+    {
+      "id": "O010",
+      "family": "行业与个股动量",
+      "display_name": "标普500 ETF（SPY）",
+      "original_name": "Bench: SPY",
+      "legacy_source": "research/sector_stock_momentum/results/summary.json",
+      "record_index": 9
+    },
+    {
+      "id": "O011",
+      "family": "行业与个股动量",
+      "display_name": "等权标普500 ETF（RSP）",
+      "original_name": "Bench: RSP",
+      "legacy_source": "research/sector_stock_momentum/results/summary.json",
+      "record_index": 10
+    },
+    {
+      "id": "O012",
+      "family": "行业与个股动量",
+      "display_name": "开发期选出参数：6个月动量，买3只",
+      "original_name": "IS-selected config",
+      "legacy_source": "research/sector_stock_momentum/results/summary.json",
+      "record_index": 11
+    },
+    {
+      "id": "O013",
+      "family": "行业与个股动量",
+      "display_name": "同样6个月动量买3只，取消行业筛选",
+      "original_name": "IS-selected, NO sector filter (same 3 stocks)",
+      "legacy_source": "research/sector_stock_momentum/results/summary.json",
+      "record_index": 12
+    },
+    {
+      "id": "O014",
+      "family": "机器学习第二版 ML2",
+      "display_name": "A线性模型，买1只",
+      "original_name": "A-ridge Top1",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 13
+    },
+    {
+      "id": "O015",
+      "family": "机器学习第二版 ML2",
+      "display_name": "A线性模型，买3只",
+      "original_name": "A-ridge Top3",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 14
+    },
+    {
+      "id": "O016",
+      "family": "机器学习第二版 ML2",
+      "display_name": "B线性模型，买1只",
+      "original_name": "B-ridge Top1",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 15
+    },
+    {
+      "id": "O017",
+      "family": "机器学习第二版 ML2",
+      "display_name": "B线性模型，买3只",
+      "original_name": "B-ridge Top3",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 16
+    },
+    {
+      "id": "O018",
+      "family": "机器学习第二版 ML2",
+      "display_name": "C线性模型，买1只",
+      "original_name": "C-ridge Top1",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 17
+    },
+    {
+      "id": "O019",
+      "family": "机器学习第二版 ML2",
+      "display_name": "C线性模型，买3只",
+      "original_name": "C-ridge Top3",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 18
+    },
+    {
+      "id": "O020",
+      "family": "机器学习第二版 ML2",
+      "display_name": "A树模型，买1只",
+      "original_name": "A-lgbm Top1",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 19
+    },
+    {
+      "id": "O021",
+      "family": "机器学习第二版 ML2",
+      "display_name": "A树模型，买3只",
+      "original_name": "A-lgbm Top3",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 20
+    },
+    {
+      "id": "O022",
+      "family": "机器学习第二版 ML2",
+      "display_name": "B树模型，买1只",
+      "original_name": "B-lgbm Top1",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 21
+    },
+    {
+      "id": "O023",
+      "family": "机器学习第二版 ML2",
+      "display_name": "B树模型，买3只",
+      "original_name": "B-lgbm Top3",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 22
+    },
+    {
+      "id": "O024",
+      "family": "机器学习第二版 ML2",
+      "display_name": "C树模型，买1只",
+      "original_name": "C-lgbm Top1",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 23
+    },
+    {
+      "id": "O025",
+      "family": "机器学习第二版 ML2",
+      "display_name": "C树模型，买3只",
+      "original_name": "C-lgbm Top3",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 24
+    },
+    {
+      "id": "O026",
+      "family": "机器学习第二版 ML2",
+      "display_name": "纯动量，买1只",
+      "original_name": "BENCH momentum Top1",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 25
+    },
+    {
+      "id": "O027",
+      "family": "机器学习第二版 ML2",
+      "display_name": "纯动量，买3只",
+      "original_name": "BENCH momentum Top3",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 26
+    },
+    {
+      "id": "O028",
+      "family": "机器学习第二版 ML2",
+      "display_name": "全部合格标普股，C树模型买1只",
+      "original_name": "BENCH full-universe C-lgbm Top1",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 27
+    },
+    {
+      "id": "O029",
+      "family": "机器学习第二版 ML2",
+      "display_name": "全部合格标普股，C树模型买3只",
+      "original_name": "BENCH full-universe C-lgbm Top3",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 28
+    },
+    {
+      "id": "O030",
+      "family": "机器学习第二版 ML2",
+      "display_name": "标普500 ETF（SPY）",
+      "original_name": "BENCH SPY",
+      "legacy_source": "research/sector_stock_momentum/results/ml2/summary.csv",
+      "record_index": 29
+    },
+    {
+      "id": "O031",
+      "family": "行业轮动固定模型",
+      "display_name": "固定Ridge模型选行业",
+      "original_name": "strategy",
+      "legacy_source": "audit/rotation_ridge_replay.json",
+      "record_index": 302
+    },
+    {
+      "id": "O032",
+      "family": "行业轮动固定模型",
+      "display_name": "同窗口标普500 ETF（SPY）",
+      "original_name": "SPY",
+      "legacy_source": "audit/rotation_ridge_replay.json",
+      "record_index": 303
+    },
+    {
+      "id": "O033",
+      "family": "非标普股票压力测试",
+      "display_name": "固定旧选股：不明退出按全损",
+      "original_name": "BENCH pure momentum top-1 / stress -100%",
+      "legacy_source": "audit/holdout_fixed_choices_stress100.csv",
+      "record_index": 30
+    },
+    {
+      "id": "O034",
+      "family": "EPS与动量",
+      "display_name": "A: top-10 EPS growth → best momentum (>0) else cash",
+      "original_name": "A: top-10 EPS growth → best momentum (>0) else cash",
+      "legacy_source": "research/sector_stock_momentum/results/eps_momentum/summary.csv",
+      "record_index": 181
+    },
+    {
+      "id": "O035",
+      "family": "EPS与动量",
+      "display_name": "B: top-10 ΔEPS/price → best momentum (>0) else cash",
+      "original_name": "B: top-10 ΔEPS/price → best momentum (>0) else cash",
+      "legacy_source": "research/sector_stock_momentum/results/eps_momentum/summary.csv",
+      "record_index": 182
+    },
+    {
+      "id": "O036",
+      "family": "EPS与动量",
+      "display_name": "F: top-10 EPS growth, base margin >= 5% → best momentum (>0) else cash",
+      "original_name": "F: top-10 EPS growth, base margin >= 5% → best momentum (>0) else cash",
+      "legacy_source": "research/sector_stock_momentum/results/eps_momentum/summary.csv",
+      "record_index": 183
+    },
+    {
+      "id": "O037",
+      "family": "EPS与动量",
+      "display_name": "G: top-10 symmetric EPS growth → best momentum (>0) else cash",
+      "original_name": "G: top-10 symmetric EPS growth → best momentum (>0) else cash",
+      "legacy_source": "research/sector_stock_momentum/results/eps_momentum/summary.csv",
+      "record_index": 184
+    },
+    {
+      "id": "O038",
+      "family": "EPS与动量",
+      "display_name": "C: top-10 EPS growth, equal weight (no momentum)",
+      "original_name": "C: top-10 EPS growth, equal weight (no momentum)",
+      "legacy_source": "research/sector_stock_momentum/results/eps_momentum/summary.csv",
+      "record_index": 185
+    },
+    {
+      "id": "O039",
+      "family": "EPS与动量",
+      "display_name": "D: top-10 ΔEPS/price, equal weight",
+      "original_name": "D: top-10 ΔEPS/price, equal weight",
+      "legacy_source": "research/sector_stock_momentum/results/eps_momentum/summary.csv",
+      "record_index": 186
+    },
+    {
+      "id": "O040",
+      "family": "EPS与动量",
+      "display_name": "E: pure momentum top-1 (reference)",
+      "original_name": "E: pure momentum top-1 (reference)",
+      "legacy_source": "research/sector_stock_momentum/results/eps_momentum/summary.csv",
+      "record_index": 187
+    },
+    {
+      "id": "O041",
+      "family": "EPS与动量",
+      "display_name": "SPY",
+      "original_name": "SPY",
+      "legacy_source": "research/sector_stock_momentum/results/eps_momentum/summary.csv",
+      "record_index": 188
+    },
+    {
+      "id": "O042",
+      "family": "爆发股 V1",
+      "display_name": "composite top-1 (all S&P)",
+      "original_name": "composite top-1 (all S&P)",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/composite_portfolios.csv",
+      "record_index": 146
+    },
+    {
+      "id": "O043",
+      "family": "爆发股 V1",
+      "display_name": "composite top-1 (tech)",
+      "original_name": "composite top-1 (tech)",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/composite_portfolios.csv",
+      "record_index": 147
+    },
+    {
+      "id": "O044",
+      "family": "爆发股 V1",
+      "display_name": "composite top-5 (all S&P)",
+      "original_name": "composite top-5 (all S&P)",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/composite_portfolios.csv",
+      "record_index": 148
+    },
+    {
+      "id": "O045",
+      "family": "爆发股 V1",
+      "display_name": "composite top-5 (tech)",
+      "original_name": "composite top-5 (tech)",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/composite_portfolios.csv",
+      "record_index": 149
+    },
+    {
+      "id": "O046",
+      "family": "爆发股 V1",
+      "display_name": "SPY",
+      "original_name": "SPY",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/composite_portfolios.csv",
+      "record_index": 150
+    },
+    {
+      "id": "O047",
+      "family": "爆发股 V1",
+      "display_name": "XLK",
+      "original_name": "XLK",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/composite_portfolios.csv",
+      "record_index": 151
+    },
+    {
+      "id": "O048",
+      "family": "爆发股 V2",
+      "display_name": "v2 top-1 (tech)",
+      "original_name": "v2 top-1 (tech)",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v2_portfolios.csv",
+      "record_index": 152
+    },
+    {
+      "id": "O049",
+      "family": "爆发股 V2",
+      "display_name": "v2 top-1 (all S&P)",
+      "original_name": "v2 top-1 (all S&P)",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v2_portfolios.csv",
+      "record_index": 153
+    },
+    {
+      "id": "O050",
+      "family": "爆发股 V2",
+      "display_name": "v2 top-5 (tech)",
+      "original_name": "v2 top-5 (tech)",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v2_portfolios.csv",
+      "record_index": 154
+    },
+    {
+      "id": "O051",
+      "family": "爆发股 V2",
+      "display_name": "v2 top-10 (tech)",
+      "original_name": "v2 top-10 (tech)",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v2_portfolios.csv",
+      "record_index": 155
+    },
+    {
+      "id": "O052",
+      "family": "爆发股 V2",
+      "display_name": "v2 top-5 (all S&P)",
+      "original_name": "v2 top-5 (all S&P)",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v2_portfolios.csv",
+      "record_index": 156
+    },
+    {
+      "id": "O053",
+      "family": "爆发股 V2",
+      "display_name": "v2 top-10 (all S&P)",
+      "original_name": "v2 top-10 (all S&P)",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v2_portfolios.csv",
+      "record_index": 157
+    },
+    {
+      "id": "O054",
+      "family": "爆发股 V2",
+      "display_name": "XLK",
+      "original_name": "XLK",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v2_portfolios.csv",
+      "record_index": 158
+    },
+    {
+      "id": "O055",
+      "family": "爆发股 V2",
+      "display_name": "SPY",
+      "original_name": "SPY",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v2_portfolios.csv",
+      "record_index": 159
+    },
+    {
+      "id": "O056",
+      "family": "爆发股 V3",
+      "display_name": "tech top-1 [fixed]",
+      "original_name": "tech top-1 [fixed]",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 160
+    },
+    {
+      "id": "O057",
+      "family": "爆发股 V3",
+      "display_name": "tech top-5 EW [fixed]",
+      "original_name": "tech top-5 EW [fixed]",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 161
+    },
+    {
+      "id": "O058",
+      "family": "爆发股 V3",
+      "display_name": "tech top-5 inv-vol [fixed]",
+      "original_name": "tech top-5 inv-vol [fixed]",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 162
+    },
+    {
+      "id": "O059",
+      "family": "爆发股 V3",
+      "display_name": "tech top-1 [annual-reselect]",
+      "original_name": "tech top-1 [annual-reselect]",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 163
+    },
+    {
+      "id": "O060",
+      "family": "爆发股 V3",
+      "display_name": "tech top-5 EW [annual-reselect]",
+      "original_name": "tech top-5 EW [annual-reselect]",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 164
+    },
+    {
+      "id": "O061",
+      "family": "爆发股 V3",
+      "display_name": "tech top-5 inv-vol [annual-reselect]",
+      "original_name": "tech top-5 inv-vol [annual-reselect]",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 165
+    },
+    {
+      "id": "O062",
+      "family": "爆发股 V3",
+      "display_name": "tech top-1 [fixed] + XLK regime",
+      "original_name": "tech top-1 [fixed] + XLK regime",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 166
+    },
+    {
+      "id": "O063",
+      "family": "爆发股 V3",
+      "display_name": "tech top-5 EW [fixed] + XLK regime",
+      "original_name": "tech top-5 EW [fixed] + XLK regime",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 167
+    },
+    {
+      "id": "O064",
+      "family": "爆发股 V3",
+      "display_name": "tech top-5 inv-vol [fixed] + XLK regime",
+      "original_name": "tech top-5 inv-vol [fixed] + XLK regime",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 168
+    },
+    {
+      "id": "O065",
+      "family": "爆发股 V3",
+      "display_name": "tech top-1 [annual-reselect] + XLK regime",
+      "original_name": "tech top-1 [annual-reselect] + XLK regime",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 169
+    },
+    {
+      "id": "O066",
+      "family": "爆发股 V3",
+      "display_name": "tech top-5 EW [annual-reselect] + XLK regime",
+      "original_name": "tech top-5 EW [annual-reselect] + XLK regime",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 170
+    },
+    {
+      "id": "O067",
+      "family": "爆发股 V3",
+      "display_name": "tech top-5 inv-vol [annual-reselect] + XLK regime",
+      "original_name": "tech top-5 inv-vol [annual-reselect] + XLK regime",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 171
+    },
+    {
+      "id": "O068",
+      "family": "爆发股 V3",
+      "display_name": "pure momentum top-1 (all S&P)",
+      "original_name": "pure momentum top-1 (all S&P)",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 172
+    },
+    {
+      "id": "O069",
+      "family": "爆发股 V3",
+      "display_name": "pure momentum top-1 (all) + SPY regime",
+      "original_name": "pure momentum top-1 (all) + SPY regime",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 173
+    },
+    {
+      "id": "O070",
+      "family": "爆发股 V3",
+      "display_name": "XLK",
+      "original_name": "XLK",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 174
+    },
+    {
+      "id": "O071",
+      "family": "爆发股 V3",
+      "display_name": "XLK + own regime",
+      "original_name": "XLK + own regime",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 175
+    },
+    {
+      "id": "O072",
+      "family": "爆发股 V3",
+      "display_name": "SPY",
+      "original_name": "SPY",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 176
+    },
+    {
+      "id": "O073",
+      "family": "爆发股 V3",
+      "display_name": "SPY + own regime",
+      "original_name": "SPY + own regime",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/v3_summary.csv",
+      "record_index": 177
+    },
+    {
+      "id": "O074",
+      "family": "财报反应 EAR",
+      "display_name": "tech top-5 inv-vol, composite (baseline)",
+      "original_name": "tech top-5 inv-vol, composite (baseline)",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/ear_portfolios.csv",
+      "record_index": 178
+    },
+    {
+      "id": "O075",
+      "family": "财报反应 EAR",
+      "display_name": "tech top-5 inv-vol, composite + ear",
+      "original_name": "tech top-5 inv-vol, composite + ear",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/ear_portfolios.csv",
+      "record_index": 179
+    },
+    {
+      "id": "O076",
+      "family": "财报反应 EAR",
+      "display_name": "tech top-5 inv-vol, composite + ear_sum4",
+      "original_name": "tech top-5 inv-vol, composite + ear_sum4",
+      "legacy_source": "research/sector_stock_momentum/results/explosive/ear_portfolios.csv",
+      "record_index": 180
+    },
+    {
+      "id": "O077",
+      "family": "三因子组合",
+      "display_name": "composite top-1",
+      "original_name": "composite top-1",
+      "legacy_source": "research/sector_stock_momentum/results/ml/composite3_summary.csv",
+      "record_index": 196
+    },
+    {
+      "id": "O078",
+      "family": "三因子组合",
+      "display_name": "composite top-1 + SMA200",
+      "original_name": "composite top-1 + SMA200",
+      "legacy_source": "research/sector_stock_momentum/results/ml/composite3_summary.csv",
+      "record_index": 197
+    },
+    {
+      "id": "O079",
+      "family": "三因子组合",
+      "display_name": "composite top-5 (equal weight)",
+      "original_name": "composite top-5 (equal weight)",
+      "legacy_source": "research/sector_stock_momentum/results/ml/composite3_summary.csv",
+      "record_index": 198
+    },
+    {
+      "id": "O080",
+      "family": "三因子组合",
+      "display_name": "composite top-20 (equal weight)",
+      "original_name": "composite top-20 (equal weight)",
+      "legacy_source": "research/sector_stock_momentum/results/ml/composite3_summary.csv",
+      "record_index": 199
+    },
+    {
+      "id": "O081",
+      "family": "三因子组合",
+      "display_name": "pure momentum top-1",
+      "original_name": "pure momentum top-1",
+      "legacy_source": "research/sector_stock_momentum/results/ml/composite3_summary.csv",
+      "record_index": 200
+    },
+    {
+      "id": "O082",
+      "family": "三因子组合",
+      "display_name": "pure momentum top-1 + SMA200",
+      "original_name": "pure momentum top-1 + SMA200",
+      "legacy_source": "research/sector_stock_momentum/results/ml/composite3_summary.csv",
+      "record_index": 201
+    },
+    {
+      "id": "O083",
+      "family": "三因子组合",
+      "display_name": "SPY",
+      "original_name": "SPY",
+      "legacy_source": "research/sector_stock_momentum/results/ml/composite3_summary.csv",
+      "record_index": 202
+    },
+    {
+      "id": "O084",
+      "family": "动量+ROE",
+      "display_name": "mom top-30 → ROE>20% → best EPS growth",
+      "original_name": "mom top-30 → ROE>20% → best EPS growth",
+      "legacy_source": "research/sector_stock_momentum/results/ml/mom30roe_summary.csv",
+      "record_index": 203
+    },
+    {
+      "id": "O085",
+      "family": "动量+ROE",
+      "display_name": "mom top-30 → ROE>20% → best ΔEPS/price",
+      "original_name": "mom top-30 → ROE>20% → best ΔEPS/price",
+      "legacy_source": "research/sector_stock_momentum/results/ml/mom30roe_summary.csv",
+      "record_index": 204
+    },
+    {
+      "id": "O086",
+      "family": "动量+ROE",
+      "display_name": "pure momentum top-1",
+      "original_name": "pure momentum top-1",
+      "legacy_source": "research/sector_stock_momentum/results/ml/mom30roe_summary.csv",
+      "record_index": 205
+    },
+    {
+      "id": "O087",
+      "family": "动量+ROE",
+      "display_name": "pure momentum top-1 + SMA200",
+      "original_name": "pure momentum top-1 + SMA200",
+      "legacy_source": "research/sector_stock_momentum/results/ml/mom30roe_summary.csv",
+      "record_index": 206
+    },
+    {
+      "id": "O088",
+      "family": "动量+ROE",
+      "display_name": "SPY",
+      "original_name": "SPY",
+      "legacy_source": "research/sector_stock_momentum/results/ml/mom30roe_summary.csv",
+      "record_index": 207
+    },
+    {
+      "id": "O089",
+      "family": "200日均线风控",
+      "display_name": "pure momentum top-1",
+      "original_name": "pure momentum top-1",
+      "legacy_source": "research/sector_stock_momentum/results/ml/sma200_overlay_summary.csv",
+      "record_index": 189
+    },
+    {
+      "id": "O090",
+      "family": "200日均线风控",
+      "display_name": "pure momentum top-1 + SMA200",
+      "original_name": "pure momentum top-1 + SMA200",
+      "legacy_source": "research/sector_stock_momentum/results/ml/sma200_overlay_summary.csv",
+      "record_index": 190
+    },
+    {
+      "id": "O091",
+      "family": "200日均线风控",
+      "display_name": "sector spec",
+      "original_name": "sector spec",
+      "legacy_source": "research/sector_stock_momentum/results/ml/sma200_overlay_summary.csv",
+      "record_index": 191
+    },
+    {
+      "id": "O092",
+      "family": "200日均线风控",
+      "display_name": "sector spec + SMA200",
+      "original_name": "sector spec + SMA200",
+      "legacy_source": "research/sector_stock_momentum/results/ml/sma200_overlay_summary.csv",
+      "record_index": 192
+    },
+    {
+      "id": "O093",
+      "family": "200日均线风控",
+      "display_name": "EPS protected (F)",
+      "original_name": "EPS protected (F)",
+      "legacy_source": "research/sector_stock_momentum/results/ml/sma200_overlay_summary.csv",
+      "record_index": 193
+    },
+    {
+      "id": "O094",
+      "family": "200日均线风控",
+      "display_name": "EPS protected (F) + SMA200",
+      "original_name": "EPS protected (F) + SMA200",
+      "legacy_source": "research/sector_stock_momentum/results/ml/sma200_overlay_summary.csv",
+      "record_index": 194
+    },
+    {
+      "id": "O095",
+      "family": "200日均线风控",
+      "display_name": "SPY",
+      "original_name": "SPY",
+      "legacy_source": "research/sector_stock_momentum/results/ml/sma200_overlay_summary.csv",
+      "record_index": 195
+    },
+    {
+      "id": "O096",
+      "family": "科技股策略",
+      "display_name": "tech: momentum top-1",
+      "original_name": "tech: momentum top-1",
+      "legacy_source": "research/sector_stock_momentum/results/ml/tech_only_summary.csv",
+      "record_index": 208
+    },
+    {
+      "id": "O097",
+      "family": "科技股策略",
+      "display_name": "tech: momentum top-1 + SMA200",
+      "original_name": "tech: momentum top-1 + SMA200",
+      "legacy_source": "research/sector_stock_momentum/results/ml/tech_only_summary.csv",
+      "record_index": 209
+    },
+    {
+      "id": "O098",
+      "family": "科技股策略",
+      "display_name": "tech: three-factor score top-1",
+      "original_name": "tech: three-factor score top-1",
+      "legacy_source": "research/sector_stock_momentum/results/ml/tech_only_summary.csv",
+      "record_index": 210
+    },
+    {
+      "id": "O099",
+      "family": "科技股策略",
+      "display_name": "tech: momentum top-5 (equal weight)",
+      "original_name": "tech: momentum top-5 (equal weight)",
+      "legacy_source": "research/sector_stock_momentum/results/ml/tech_only_summary.csv",
+      "record_index": 211
+    },
+    {
+      "id": "O100",
+      "family": "科技股策略",
+      "display_name": "all S&P: momentum top-1",
+      "original_name": "all S&P: momentum top-1",
+      "legacy_source": "research/sector_stock_momentum/results/ml/tech_only_summary.csv",
+      "record_index": 212
+    },
+    {
+      "id": "O101",
+      "family": "科技股策略",
+      "display_name": "XLK",
+      "original_name": "XLK",
+      "legacy_source": "research/sector_stock_momentum/results/ml/tech_only_summary.csv",
+      "record_index": 213
+    },
+    {
+      "id": "O102",
+      "family": "科技股策略",
+      "display_name": "SPY",
+      "original_name": "SPY",
+      "legacy_source": "research/sector_stock_momentum/results/ml/tech_only_summary.csv",
+      "record_index": 214
+    },
+    {
+      "id": "O103",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "A SPEC (S&P only)",
+      "original_name": "A SPEC (S&P only)",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 239
+    },
+    {
+      "id": "O104",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "A SPEC (S&P ∪ NDX)",
+      "original_name": "A SPEC (S&P ∪ NDX)",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 240
+    },
+    {
+      "id": "O105",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "B pure momentum top-1 (S&P only)",
+      "original_name": "B pure momentum top-1 (S&P only)",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 241
+    },
+    {
+      "id": "O106",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "B pure momentum top-1 (S&P ∪ NDX)",
+      "original_name": "B pure momentum top-1 (S&P ∪ NDX)",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 242
+    },
+    {
+      "id": "O107",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "SPY",
+      "original_name": "SPY",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 243
+    },
+    {
+      "id": "O108",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "C tech top-5 inv-vol (S&P only)",
+      "original_name": "C tech top-5 inv-vol (S&P only)",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 244
+    },
+    {
+      "id": "O109",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "C tech top-5 EW (S&P only)",
+      "original_name": "C tech top-5 EW (S&P only)",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 245
+    },
+    {
+      "id": "O110",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "C tech top-1 (S&P only)",
+      "original_name": "C tech top-1 (S&P only)",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 246
+    },
+    {
+      "id": "O111",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "C all top-5 inv-vol (S&P only)",
+      "original_name": "C all top-5 inv-vol (S&P only)",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 247
+    },
+    {
+      "id": "O112",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "C tech top-5 inv-vol (S&P ∪ NDX)",
+      "original_name": "C tech top-5 inv-vol (S&P ∪ NDX)",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 248
+    },
+    {
+      "id": "O113",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "C tech top-5 EW (S&P ∪ NDX)",
+      "original_name": "C tech top-5 EW (S&P ∪ NDX)",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 249
+    },
+    {
+      "id": "O114",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "C tech top-1 (S&P ∪ NDX)",
+      "original_name": "C tech top-1 (S&P ∪ NDX)",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 250
+    },
+    {
+      "id": "O115",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "C all top-5 inv-vol (S&P ∪ NDX)",
+      "original_name": "C all top-5 inv-vol (S&P ∪ NDX)",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 251
+    },
+    {
+      "id": "O116",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "C tech top-5 inv-vol (S&P only) + XLK regime",
+      "original_name": "C tech top-5 inv-vol (S&P only) + XLK regime",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 252
+    },
+    {
+      "id": "O117",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "C tech top-5 inv-vol (S&P ∪ NDX) + XLK regime",
+      "original_name": "C tech top-5 inv-vol (S&P ∪ NDX) + XLK regime",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 253
+    },
+    {
+      "id": "O118",
+      "family": "标普与纳指股票池扩展",
+      "display_name": "XLK",
+      "original_name": "XLK",
+      "legacy_source": "research/sector_stock_momentum/results/ndx/summary.csv",
+      "record_index": 254
+    },
+    {
+      "id": "O119",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-5 ew",
+      "original_name": "T3 mom top-5 ew",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 31
+    },
+    {
+      "id": "O120",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-5 ew +market",
+      "original_name": "T3 mom top-5 ew +market",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 32
+    },
+    {
+      "id": "O121",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-5 ew +crash",
+      "original_name": "T3 mom top-5 ew +crash",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 33
+    },
+    {
+      "id": "O122",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-5 ew +voltarget",
+      "original_name": "T3 mom top-5 ew +voltarget",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 34
+    },
+    {
+      "id": "O123",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-5 ew +all",
+      "original_name": "T3 mom top-5 ew +all",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 35
+    },
+    {
+      "id": "O124",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-5 ew +voltarget lev1.5",
+      "original_name": "T3 mom top-5 ew +voltarget lev1.5",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 36
+    },
+    {
+      "id": "O125",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-5 ew +all lev1.5",
+      "original_name": "T3 mom top-5 ew +all lev1.5",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 37
+    },
+    {
+      "id": "O126",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-5 ivol",
+      "original_name": "T3 mom top-5 ivol",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 38
+    },
+    {
+      "id": "O127",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-5 ivol +market",
+      "original_name": "T3 mom top-5 ivol +market",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 39
+    },
+    {
+      "id": "O128",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-5 ivol +crash",
+      "original_name": "T3 mom top-5 ivol +crash",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 40
+    },
+    {
+      "id": "O129",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-5 ivol +voltarget",
+      "original_name": "T3 mom top-5 ivol +voltarget",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 41
+    },
+    {
+      "id": "O130",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-5 ivol +all",
+      "original_name": "T3 mom top-5 ivol +all",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 42
+    },
+    {
+      "id": "O131",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-5 ivol +voltarget lev1.5",
+      "original_name": "T3 mom top-5 ivol +voltarget lev1.5",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 43
+    },
+    {
+      "id": "O132",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-5 ivol +all lev1.5",
+      "original_name": "T3 mom top-5 ivol +all lev1.5",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 44
+    },
+    {
+      "id": "O133",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-10 ew",
+      "original_name": "T3 mom top-10 ew",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 45
+    },
+    {
+      "id": "O134",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-10 ew +market",
+      "original_name": "T3 mom top-10 ew +market",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 46
+    },
+    {
+      "id": "O135",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-10 ew +crash",
+      "original_name": "T3 mom top-10 ew +crash",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 47
+    },
+    {
+      "id": "O136",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-10 ew +voltarget",
+      "original_name": "T3 mom top-10 ew +voltarget",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 48
+    },
+    {
+      "id": "O137",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-10 ew +all",
+      "original_name": "T3 mom top-10 ew +all",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 49
+    },
+    {
+      "id": "O138",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-10 ew +voltarget lev1.5",
+      "original_name": "T3 mom top-10 ew +voltarget lev1.5",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 50
+    },
+    {
+      "id": "O139",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-10 ew +all lev1.5",
+      "original_name": "T3 mom top-10 ew +all lev1.5",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 51
+    },
+    {
+      "id": "O140",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-10 ivol",
+      "original_name": "T3 mom top-10 ivol",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 52
+    },
+    {
+      "id": "O141",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-10 ivol +market",
+      "original_name": "T3 mom top-10 ivol +market",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 53
+    },
+    {
+      "id": "O142",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-10 ivol +crash",
+      "original_name": "T3 mom top-10 ivol +crash",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 54
+    },
+    {
+      "id": "O143",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-10 ivol +voltarget",
+      "original_name": "T3 mom top-10 ivol +voltarget",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 55
+    },
+    {
+      "id": "O144",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-10 ivol +all",
+      "original_name": "T3 mom top-10 ivol +all",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 56
+    },
+    {
+      "id": "O145",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-10 ivol +voltarget lev1.5",
+      "original_name": "T3 mom top-10 ivol +voltarget lev1.5",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 57
+    },
+    {
+      "id": "O146",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-10 ivol +all lev1.5",
+      "original_name": "T3 mom top-10 ivol +all lev1.5",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 58
+    },
+    {
+      "id": "O147",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-20 ew",
+      "original_name": "T3 mom top-20 ew",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 59
+    },
+    {
+      "id": "O148",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-20 ew +market",
+      "original_name": "T3 mom top-20 ew +market",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 60
+    },
+    {
+      "id": "O149",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-20 ew +crash",
+      "original_name": "T3 mom top-20 ew +crash",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 61
+    },
+    {
+      "id": "O150",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-20 ew +voltarget",
+      "original_name": "T3 mom top-20 ew +voltarget",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 62
+    },
+    {
+      "id": "O151",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-20 ew +all",
+      "original_name": "T3 mom top-20 ew +all",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 63
+    },
+    {
+      "id": "O152",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-20 ew +voltarget lev1.5",
+      "original_name": "T3 mom top-20 ew +voltarget lev1.5",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 64
+    },
+    {
+      "id": "O153",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-20 ew +all lev1.5",
+      "original_name": "T3 mom top-20 ew +all lev1.5",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 65
+    },
+    {
+      "id": "O154",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-20 ivol",
+      "original_name": "T3 mom top-20 ivol",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 66
+    },
+    {
+      "id": "O155",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-20 ivol +market",
+      "original_name": "T3 mom top-20 ivol +market",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 67
+    },
+    {
+      "id": "O156",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-20 ivol +crash",
+      "original_name": "T3 mom top-20 ivol +crash",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 68
+    },
+    {
+      "id": "O157",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-20 ivol +voltarget",
+      "original_name": "T3 mom top-20 ivol +voltarget",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 69
+    },
+    {
+      "id": "O158",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-20 ivol +all",
+      "original_name": "T3 mom top-20 ivol +all",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 70
+    },
+    {
+      "id": "O159",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-20 ivol +voltarget lev1.5",
+      "original_name": "T3 mom top-20 ivol +voltarget lev1.5",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 71
+    },
+    {
+      "id": "O160",
+      "family": "赢家股策略",
+      "display_name": "T3 mom top-20 ivol +all lev1.5",
+      "original_name": "T3 mom top-20 ivol +all lev1.5",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 72
+    },
+    {
+      "id": "O161",
+      "family": "赢家股策略",
+      "display_name": "T2 S1 top-1 hold1m",
+      "original_name": "T2 S1 top-1 hold1m",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 73
+    },
+    {
+      "id": "O162",
+      "family": "赢家股策略",
+      "display_name": "T2 S1 top-1 hold6m",
+      "original_name": "T2 S1 top-1 hold6m",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 74
+    },
+    {
+      "id": "O163",
+      "family": "赢家股策略",
+      "display_name": "T2 S1 top-5 hold1m",
+      "original_name": "T2 S1 top-5 hold1m",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 75
+    },
+    {
+      "id": "O164",
+      "family": "赢家股策略",
+      "display_name": "T2 S1 top-5 hold6m",
+      "original_name": "T2 S1 top-5 hold6m",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 76
+    },
+    {
+      "id": "O165",
+      "family": "赢家股策略",
+      "display_name": "T2 S1 top-10 hold1m",
+      "original_name": "T2 S1 top-10 hold1m",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 77
+    },
+    {
+      "id": "O166",
+      "family": "赢家股策略",
+      "display_name": "T2 S1 top-10 hold6m",
+      "original_name": "T2 S1 top-10 hold6m",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 78
+    },
+    {
+      "id": "O167",
+      "family": "赢家股策略",
+      "display_name": "T2 S2 top-1 hold1m",
+      "original_name": "T2 S2 top-1 hold1m",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 79
+    },
+    {
+      "id": "O168",
+      "family": "赢家股策略",
+      "display_name": "T2 S2 top-1 hold6m",
+      "original_name": "T2 S2 top-1 hold6m",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 80
+    },
+    {
+      "id": "O169",
+      "family": "赢家股策略",
+      "display_name": "T2 S2 top-5 hold1m",
+      "original_name": "T2 S2 top-5 hold1m",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 81
+    },
+    {
+      "id": "O170",
+      "family": "赢家股策略",
+      "display_name": "T2 S2 top-5 hold6m",
+      "original_name": "T2 S2 top-5 hold6m",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 82
+    },
+    {
+      "id": "O171",
+      "family": "赢家股策略",
+      "display_name": "T2 S2 top-10 hold1m",
+      "original_name": "T2 S2 top-10 hold1m",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 83
+    },
+    {
+      "id": "O172",
+      "family": "赢家股策略",
+      "display_name": "T2 S2 top-10 hold6m",
+      "original_name": "T2 S2 top-10 hold6m",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 84
+    },
+    {
+      "id": "O173",
+      "family": "赢家股策略",
+      "display_name": "BENCH equal-weight S&P members",
+      "original_name": "BENCH equal-weight S&P members",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 85
+    },
+    {
+      "id": "O174",
+      "family": "赢家股策略",
+      "display_name": "BENCH SPY",
+      "original_name": "BENCH SPY",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 86
+    },
+    {
+      "id": "O175",
+      "family": "赢家股策略",
+      "display_name": "BENCH pure momentum top-1",
+      "original_name": "BENCH pure momentum top-1",
+      "legacy_source": "research/sector_stock_momentum/results/winners/summary.csv",
+      "record_index": 87
+    },
+    {
+      "id": "O176",
+      "family": "非标普留出测试",
+      "display_name": "BENCH pure momentum top-1 / base (unknown outcome = 0 %)",
+      "original_name": "BENCH pure momentum top-1 / base (unknown outcome = 0 %)",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 88
+    },
+    {
+      "id": "O177",
+      "family": "非标普留出测试",
+      "display_name": "T3 mom top-5 ew / base (unknown outcome = 0 %)",
+      "original_name": "T3 mom top-5 ew / base (unknown outcome = 0 %)",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 89
+    },
+    {
+      "id": "O178",
+      "family": "非标普留出测试",
+      "display_name": "T3 mom top-5 ew +crash / base (unknown outcome = 0 %)",
+      "original_name": "T3 mom top-5 ew +crash / base (unknown outcome = 0 %)",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 90
+    },
+    {
+      "id": "O179",
+      "family": "非标普留出测试",
+      "display_name": "T2 S1 top-5 hold1m / base (unknown outcome = 0 %)",
+      "original_name": "T2 S1 top-5 hold1m / base (unknown outcome = 0 %)",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 91
+    },
+    {
+      "id": "O180",
+      "family": "非标普留出测试",
+      "display_name": "T2 S1 top-5 hold6m / base (unknown outcome = 0 %)",
+      "original_name": "T2 S1 top-5 hold6m / base (unknown outcome = 0 %)",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 92
+    },
+    {
+      "id": "O181",
+      "family": "非标普留出测试",
+      "display_name": "REF equal-weight holdout universe / base (unknown outcome = 0 %)",
+      "original_name": "REF equal-weight holdout universe / base (unknown outcome = 0 %)",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 93
+    },
+    {
+      "id": "O182",
+      "family": "非标普留出测试",
+      "display_name": "REF SPY / base (unknown outcome = 0 %)",
+      "original_name": "REF SPY / base (unknown outcome = 0 %)",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 94
+    },
+    {
+      "id": "O183",
+      "family": "非标普留出测试",
+      "display_name": "BENCH pure momentum top-1 / stress −30 %",
+      "original_name": "BENCH pure momentum top-1 / stress −30 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 95
+    },
+    {
+      "id": "O184",
+      "family": "非标普留出测试",
+      "display_name": "T3 mom top-5 ew / stress −30 %",
+      "original_name": "T3 mom top-5 ew / stress −30 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 96
+    },
+    {
+      "id": "O185",
+      "family": "非标普留出测试",
+      "display_name": "T3 mom top-5 ew +crash / stress −30 %",
+      "original_name": "T3 mom top-5 ew +crash / stress −30 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 97
+    },
+    {
+      "id": "O186",
+      "family": "非标普留出测试",
+      "display_name": "T2 S1 top-5 hold1m / stress −30 %",
+      "original_name": "T2 S1 top-5 hold1m / stress −30 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 98
+    },
+    {
+      "id": "O187",
+      "family": "非标普留出测试",
+      "display_name": "T2 S1 top-5 hold6m / stress −30 %",
+      "original_name": "T2 S1 top-5 hold6m / stress −30 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 99
+    },
+    {
+      "id": "O188",
+      "family": "非标普留出测试",
+      "display_name": "BENCH pure momentum top-1 / stress −100 %",
+      "original_name": "BENCH pure momentum top-1 / stress −100 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 100
+    },
+    {
+      "id": "O189",
+      "family": "非标普留出测试",
+      "display_name": "T3 mom top-5 ew / stress −100 %",
+      "original_name": "T3 mom top-5 ew / stress −100 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 101
+    },
+    {
+      "id": "O190",
+      "family": "非标普留出测试",
+      "display_name": "T3 mom top-5 ew +crash / stress −100 %",
+      "original_name": "T3 mom top-5 ew +crash / stress −100 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 102
+    },
+    {
+      "id": "O191",
+      "family": "非标普留出测试",
+      "display_name": "T2 S1 top-5 hold1m / stress −100 %",
+      "original_name": "T2 S1 top-5 hold1m / stress −100 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 103
+    },
+    {
+      "id": "O192",
+      "family": "非标普留出测试",
+      "display_name": "T2 S1 top-5 hold6m / stress −100 %",
+      "original_name": "T2 S1 top-5 hold6m / stress −100 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary.csv",
+      "record_index": 104
+    },
+    {
+      "id": "O193",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "BENCH pure momentum top-1 / base (unknown outcome = 0 %)",
+      "original_name": "BENCH pure momentum top-1 / base (unknown outcome = 0 %)",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 105
+    },
+    {
+      "id": "O194",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "T3 mom top-5 ew / base (unknown outcome = 0 %)",
+      "original_name": "T3 mom top-5 ew / base (unknown outcome = 0 %)",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 106
+    },
+    {
+      "id": "O195",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "T3 mom top-5 ew +crash / base (unknown outcome = 0 %)",
+      "original_name": "T3 mom top-5 ew +crash / base (unknown outcome = 0 %)",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 107
+    },
+    {
+      "id": "O196",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "T2 S1 top-5 hold1m / base (unknown outcome = 0 %)",
+      "original_name": "T2 S1 top-5 hold1m / base (unknown outcome = 0 %)",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 108
+    },
+    {
+      "id": "O197",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "T2 S1 top-5 hold6m / base (unknown outcome = 0 %)",
+      "original_name": "T2 S1 top-5 hold6m / base (unknown outcome = 0 %)",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 109
+    },
+    {
+      "id": "O198",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "REF equal-weight holdout universe / base (unknown outcome = 0 %)",
+      "original_name": "REF equal-weight holdout universe / base (unknown outcome = 0 %)",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 110
+    },
+    {
+      "id": "O199",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "REF SPY / base (unknown outcome = 0 %)",
+      "original_name": "REF SPY / base (unknown outcome = 0 %)",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 111
+    },
+    {
+      "id": "O200",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "BENCH pure momentum top-1 / stress −30 %",
+      "original_name": "BENCH pure momentum top-1 / stress −30 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 112
+    },
+    {
+      "id": "O201",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "T3 mom top-5 ew / stress −30 %",
+      "original_name": "T3 mom top-5 ew / stress −30 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 113
+    },
+    {
+      "id": "O202",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "T3 mom top-5 ew +crash / stress −30 %",
+      "original_name": "T3 mom top-5 ew +crash / stress −30 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 114
+    },
+    {
+      "id": "O203",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "T2 S1 top-5 hold1m / stress −30 %",
+      "original_name": "T2 S1 top-5 hold1m / stress −30 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 115
+    },
+    {
+      "id": "O204",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "T2 S1 top-5 hold6m / stress −30 %",
+      "original_name": "T2 S1 top-5 hold6m / stress −30 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 116
+    },
+    {
+      "id": "O205",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "BENCH pure momentum top-1 / stress −100 %",
+      "original_name": "BENCH pure momentum top-1 / stress −100 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 117
+    },
+    {
+      "id": "O206",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "T3 mom top-5 ew / stress −100 %",
+      "original_name": "T3 mom top-5 ew / stress −100 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 118
+    },
+    {
+      "id": "O207",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "T3 mom top-5 ew +crash / stress −100 %",
+      "original_name": "T3 mom top-5 ew +crash / stress −100 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 119
+    },
+    {
+      "id": "O208",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "T2 S1 top-5 hold1m / stress −100 %",
+      "original_name": "T2 S1 top-5 hold1m / stress −100 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 120
+    },
+    {
+      "id": "O209",
+      "family": "非标普留出测试 STRICT",
+      "display_name": "T2 S1 top-5 hold6m / stress −100 %",
+      "original_name": "T2 S1 top-5 hold6m / stress −100 %",
+      "legacy_source": "research/sector_stock_momentum/results/winners_holdout/summary_STRICT.csv",
+      "record_index": 121
+    },
+    {
+      "id": "O210",
+      "family": "机器学习第一版",
+      "display_name": "mom / top1",
+      "original_name": "mom / top1",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 122
+    },
+    {
+      "id": "O211",
+      "family": "机器学习第一版",
+      "display_name": "mom / top1_sma200",
+      "original_name": "mom / top1_sma200",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 123
+    },
+    {
+      "id": "O212",
+      "family": "机器学习第一版",
+      "display_name": "mom / top5",
+      "original_name": "mom / top5",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 124
+    },
+    {
+      "id": "O213",
+      "family": "机器学习第一版",
+      "display_name": "mom / top20",
+      "original_name": "mom / top20",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 125
+    },
+    {
+      "id": "O214",
+      "family": "机器学习第一版",
+      "display_name": "composite / top1",
+      "original_name": "composite / top1",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 126
+    },
+    {
+      "id": "O215",
+      "family": "机器学习第一版",
+      "display_name": "composite / top1_sma200",
+      "original_name": "composite / top1_sma200",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 127
+    },
+    {
+      "id": "O216",
+      "family": "机器学习第一版",
+      "display_name": "composite / top5",
+      "original_name": "composite / top5",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 128
+    },
+    {
+      "id": "O217",
+      "family": "机器学习第一版",
+      "display_name": "composite / top20",
+      "original_name": "composite / top20",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 129
+    },
+    {
+      "id": "O218",
+      "family": "机器学习第一版",
+      "display_name": "ridge / top1",
+      "original_name": "ridge / top1",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 130
+    },
+    {
+      "id": "O219",
+      "family": "机器学习第一版",
+      "display_name": "ridge / top1_sma200",
+      "original_name": "ridge / top1_sma200",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 131
+    },
+    {
+      "id": "O220",
+      "family": "机器学习第一版",
+      "display_name": "ridge / top5",
+      "original_name": "ridge / top5",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 132
+    },
+    {
+      "id": "O221",
+      "family": "机器学习第一版",
+      "display_name": "ridge / top20",
+      "original_name": "ridge / top20",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 133
+    },
+    {
+      "id": "O222",
+      "family": "机器学习第一版",
+      "display_name": "lgbm_s / top1",
+      "original_name": "lgbm_s / top1",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 134
+    },
+    {
+      "id": "O223",
+      "family": "机器学习第一版",
+      "display_name": "lgbm_s / top1_sma200",
+      "original_name": "lgbm_s / top1_sma200",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 135
+    },
+    {
+      "id": "O224",
+      "family": "机器学习第一版",
+      "display_name": "lgbm_s / top5",
+      "original_name": "lgbm_s / top5",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 136
+    },
+    {
+      "id": "O225",
+      "family": "机器学习第一版",
+      "display_name": "lgbm_s / top20",
+      "original_name": "lgbm_s / top20",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 137
+    },
+    {
+      "id": "O226",
+      "family": "机器学习第一版",
+      "display_name": "lgbm_m / top1",
+      "original_name": "lgbm_m / top1",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 138
+    },
+    {
+      "id": "O227",
+      "family": "机器学习第一版",
+      "display_name": "lgbm_m / top1_sma200",
+      "original_name": "lgbm_m / top1_sma200",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 139
+    },
+    {
+      "id": "O228",
+      "family": "机器学习第一版",
+      "display_name": "lgbm_m / top5",
+      "original_name": "lgbm_m / top5",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 140
+    },
+    {
+      "id": "O229",
+      "family": "机器学习第一版",
+      "display_name": "lgbm_m / top20",
+      "original_name": "lgbm_m / top20",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 141
+    },
+    {
+      "id": "O230",
+      "family": "机器学习第一版",
+      "display_name": "lgbm_rank / top1",
+      "original_name": "lgbm_rank / top1",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 142
+    },
+    {
+      "id": "O231",
+      "family": "机器学习第一版",
+      "display_name": "lgbm_rank / top1_sma200",
+      "original_name": "lgbm_rank / top1_sma200",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 143
+    },
+    {
+      "id": "O232",
+      "family": "机器学习第一版",
+      "display_name": "lgbm_rank / top5",
+      "original_name": "lgbm_rank / top5",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 144
+    },
+    {
+      "id": "O233",
+      "family": "机器学习第一版",
+      "display_name": "lgbm_rank / top20",
+      "original_name": "lgbm_rank / top20",
+      "legacy_source": "research/sector_stock_momentum/results/ml/selection.json",
+      "record_index": 145
+    },
+    {
+      "id": "O234",
+      "family": "因子组合",
+      "display_name": "A1 价值+动量",
+      "original_name": "A1 价值+动量",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 215
+    },
+    {
+      "id": "O235",
+      "family": "因子组合",
+      "display_name": "A2 质量+价值",
+      "original_name": "A2 质量+价值",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 216
+    },
+    {
+      "id": "O236",
+      "family": "因子组合",
+      "display_name": "A3 动量+低波动",
+      "original_name": "A3 动量+低波动",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 217
+    },
+    {
+      "id": "O237",
+      "family": "因子组合",
+      "display_name": "A4 动量+盈利惊喜",
+      "original_name": "A4 动量+盈利惊喜",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 218
+    },
+    {
+      "id": "O238",
+      "family": "因子组合",
+      "display_name": "A5 GARP",
+      "original_name": "A5 GARP",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 219
+    },
+    {
+      "id": "O239",
+      "family": "因子组合",
+      "display_name": "A6 动量+营收毛利加速",
+      "original_name": "A6 动量+营收毛利加速",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 220
+    },
+    {
+      "id": "O240",
+      "family": "因子组合",
+      "display_name": "A7 质量+动量+价值",
+      "original_name": "A7 质量+动量+价值",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 221
+    },
+    {
+      "id": "O241",
+      "family": "因子组合",
+      "display_name": "A8 动量+短期反转",
+      "original_name": "A8 动量+短期反转",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 222
+    },
+    {
+      "id": "O242",
+      "family": "因子组合",
+      "display_name": "B ridge",
+      "original_name": "B ridge",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 223
+    },
+    {
+      "id": "O243",
+      "family": "因子组合",
+      "display_name": "B lasso",
+      "original_name": "B lasso",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 224
+    },
+    {
+      "id": "O244",
+      "family": "因子组合",
+      "display_name": "B lgbm",
+      "original_name": "B lgbm",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 225
+    },
+    {
+      "id": "O245",
+      "family": "因子组合",
+      "display_name": "C eps_g(−) | rev_g_q 前30%",
+      "original_name": "C eps_g(−) | rev_g_q 前30%",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 226
+    },
+    {
+      "id": "O246",
+      "family": "因子组合",
+      "display_name": "C eps_g_sym(−) | rev_g_q 前30%",
+      "original_name": "C eps_g_sym(−) | rev_g_q 前30%",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 227
+    },
+    {
+      "id": "O247",
+      "family": "因子组合",
+      "display_name": "C eps_g(−) | rev_g 前30%",
+      "original_name": "C eps_g(−) | rev_g 前30%",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 228
+    },
+    {
+      "id": "O248",
+      "family": "因子组合",
+      "display_name": "C deps_p(−) | rev_g_q 前30%",
+      "original_name": "C deps_p(−) | rev_g_q 前30%",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 229
+    },
+    {
+      "id": "O249",
+      "family": "因子组合",
+      "display_name": "C rev_accel(+) | vol_3m 前30%",
+      "original_name": "C rev_accel(+) | vol_3m 前30%",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 230
+    },
+    {
+      "id": "O250",
+      "family": "因子组合",
+      "display_name": "C rev_accel(+) | beta_12m 前30%",
+      "original_name": "C rev_accel(+) | beta_12m 前30%",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 231
+    },
+    {
+      "id": "O251",
+      "family": "因子组合",
+      "display_name": "C rev_accel(+) | asset_g 前30%",
+      "original_name": "C rev_accel(+) | asset_g 前30%",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 235
+    },
+    {
+      "id": "O252",
+      "family": "因子组合",
+      "display_name": "C margin(−) | dist_sma200 前30%",
+      "original_name": "C margin(−) | dist_sma200 前30%",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 232
+    },
+    {
+      "id": "O253",
+      "family": "因子组合",
+      "display_name": "C rev_accel(+) | log_mcap 前30%",
+      "original_name": "C rev_accel(+) | log_mcap 前30%",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 234
+    },
+    {
+      "id": "O254",
+      "family": "因子组合",
+      "display_name": "C mom_12_1_secrel(+) | asset_turn 前30%",
+      "original_name": "C mom_12_1_secrel(+) | asset_turn 前30%",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/combo_table.csv",
+      "record_index": 238
+    },
+    {
+      "id": "O255",
+      "family": "因子组合（额外保存账本）",
+      "display_name": "C_asset_turn______dist_sma200_前30_",
+      "original_name": "C_asset_turn______dist_sma200_前30_",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/monthly_C_asset_turn______dist_sma200_前30_.csv",
+      "record_index": 233
+    },
+    {
+      "id": "O256",
+      "family": "因子组合（额外保存账本）",
+      "display_name": "C_ep______vol_12m_前30_",
+      "original_name": "C_ep______vol_12m_前30_",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/monthly_C_ep______vol_12m_前30_.csv",
+      "record_index": 458
+    },
+    {
+      "id": "O257",
+      "family": "因子组合（额外保存账本）",
+      "display_name": "C_sue______log_mcap_前30_",
+      "original_name": "C_sue______log_mcap_前30_",
+      "legacy_source": "research/sector_stock_momentum/results/factor_combo/monthly_C_sue______log_mcap_前30_.csv",
+      "record_index": 459
+    },
+    {
+      "id": "O258",
+      "family": "行业轮动信号组合",
+      "display_name": "valuation / 1M / all",
+      "original_name": "valuation / 1M / all",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 304
+    },
+    {
+      "id": "O259",
+      "family": "行业轮动信号组合",
+      "display_name": "eps_revision / 1M / all",
+      "original_name": "eps_revision / 1M / all",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 305
+    },
+    {
+      "id": "O260",
+      "family": "行业轮动信号组合",
+      "display_name": "momentum / 1M / all",
+      "original_name": "momentum / 1M / all",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 306
+    },
+    {
+      "id": "O261",
+      "family": "行业轮动信号组合",
+      "display_name": "val+eps / 1M / all",
+      "original_name": "val+eps / 1M / all",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 307
+    },
+    {
+      "id": "O262",
+      "family": "行业轮动信号组合",
+      "display_name": "val+eps+mom / 1M / all",
+      "original_name": "val+eps+mom / 1M / all",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 308
+    },
+    {
+      "id": "O263",
+      "family": "行业轮动信号组合",
+      "display_name": "all_equal / 1M / all",
+      "original_name": "all_equal / 1M / all",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 309
+    },
+    {
+      "id": "O264",
+      "family": "行业轮动信号组合",
+      "display_name": "valuation / 1M / rising",
+      "original_name": "valuation / 1M / rising",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 310
+    },
+    {
+      "id": "O265",
+      "family": "行业轮动信号组合",
+      "display_name": "valuation / 1M / falling",
+      "original_name": "valuation / 1M / falling",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 311
+    },
+    {
+      "id": "O266",
+      "family": "行业轮动信号组合",
+      "display_name": "val+eps / 1M / rising",
+      "original_name": "val+eps / 1M / rising",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 312
+    },
+    {
+      "id": "O267",
+      "family": "行业轮动信号组合",
+      "display_name": "val+eps / 1M / falling",
+      "original_name": "val+eps / 1M / falling",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 313
+    },
+    {
+      "id": "O268",
+      "family": "行业轮动信号组合",
+      "display_name": "eps_revision / 1M / rising",
+      "original_name": "eps_revision / 1M / rising",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 314
+    },
+    {
+      "id": "O269",
+      "family": "行业轮动信号组合",
+      "display_name": "eps_revision / 1M / falling",
+      "original_name": "eps_revision / 1M / falling",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 315
+    },
+    {
+      "id": "O270",
+      "family": "行业轮动信号组合",
+      "display_name": "valuation / 3M / all",
+      "original_name": "valuation / 3M / all",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 316
+    },
+    {
+      "id": "O271",
+      "family": "行业轮动信号组合",
+      "display_name": "eps_revision / 3M / all",
+      "original_name": "eps_revision / 3M / all",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 317
+    },
+    {
+      "id": "O272",
+      "family": "行业轮动信号组合",
+      "display_name": "val+eps / 3M / all",
+      "original_name": "val+eps / 3M / all",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 318
+    },
+    {
+      "id": "O273",
+      "family": "行业轮动信号组合",
+      "display_name": "val+eps+mom / 3M / all",
+      "original_name": "val+eps+mom / 3M / all",
+      "legacy_source": "research/sector_rotation/backtest_results.csv",
+      "record_index": 319
+    },
+    {
+      "id": "O274",
+      "family": "行业轮动随机森林",
+      "display_name": "RF Regressor top3",
+      "original_name": "RF Regressor top3",
+      "legacy_source": "research/sector_rotation/rf_backtest_results.csv",
+      "record_index": 320
+    },
+    {
+      "id": "O275",
+      "family": "行业轮动随机森林",
+      "display_name": "RF Regressor top1",
+      "original_name": "RF Regressor top1",
+      "legacy_source": "research/sector_rotation/rf_backtest_results.csv",
+      "record_index": 321
+    },
+    {
+      "id": "O276",
+      "family": "行业轮动随机森林",
+      "display_name": "RF Classifier top3",
+      "original_name": "RF Classifier top3",
+      "legacy_source": "research/sector_rotation/rf_backtest_results.csv",
+      "record_index": 322
+    },
+    {
+      "id": "O277",
+      "family": "行业轮动随机森林",
+      "display_name": "RF Classifier top1",
+      "original_name": "RF Classifier top1",
+      "legacy_source": "research/sector_rotation/rf_backtest_results.csv",
+      "record_index": 323
+    },
+    {
+      "id": "O278",
+      "family": "行业轮动随机森林",
+      "display_name": "RF Regressor top3 (full)",
+      "original_name": "RF Regressor top3 (full)",
+      "legacy_source": "research/sector_rotation/rf_backtest_results.csv",
+      "record_index": 324
+    },
+    {
+      "id": "O279",
+      "family": "行业轮动随机森林",
+      "display_name": "RF Regressor top1 (full)",
+      "original_name": "RF Regressor top1 (full)",
+      "legacy_source": "research/sector_rotation/rf_backtest_results.csv",
+      "record_index": 325
+    },
+    {
+      "id": "O280",
+      "family": "QQQ择时 / falsification_test",
+      "display_name": "Buy&Hold",
+      "original_name": "Buy&Hold",
+      "legacy_source": "research/strategy_comparison/falsification_test.py",
+      "record_index": 326
+    },
+    {
+      "id": "O281",
+      "family": "QQQ择时 / falsification_test",
+      "display_name": "Hp→EPS(simple)",
+      "original_name": "Hp→EPS(simple)",
+      "legacy_source": "research/strategy_comparison/falsification_test.py",
+      "record_index": 327
+    },
+    {
+      "id": "O282",
+      "family": "QQQ择时 / falsification_test",
+      "display_name": "Hp→EPS(new event)",
+      "original_name": "Hp→EPS(new event)",
+      "legacy_source": "research/strategy_comparison/falsification_test.py",
+      "record_index": 328
+    },
+    {
+      "id": "O283",
+      "family": "QQQ择时 / falsification_test",
+      "display_name": "Hp→(NewEPS|H)",
+      "original_name": "Hp→(NewEPS|H)",
+      "legacy_source": "research/strategy_comparison/falsification_test.py",
+      "record_index": 329
+    },
+    {
+      "id": "O284",
+      "family": "QQQ择时 / falsification_test",
+      "display_name": "Hp→(SimpleEPS|H)",
+      "original_name": "Hp→(SimpleEPS|H)",
+      "legacy_source": "research/strategy_comparison/falsification_test.py",
+      "record_index": 330
+    },
+    {
+      "id": "O285",
+      "family": "QQQ择时 / falsification_test",
+      "display_name": "Hp→H",
+      "original_name": "Hp→H",
+      "legacy_source": "research/strategy_comparison/falsification_test.py",
+      "record_index": 331
+    },
+    {
+      "id": "O286",
+      "family": "QQQ择时 / falsification_test_v6",
+      "display_name": "反证/稳健性检验组（非独立组合）",
+      "original_name": "反证/稳健性检验组（非独立组合）",
+      "legacy_source": "research/strategy_comparison/falsification_test_v6.py",
+      "record_index": 332
+    },
+    {
+      "id": "O287",
+      "family": "QQQ择时 / post2012_regime_test",
+      "display_name": "Buy&Hold",
+      "original_name": "Buy&Hold",
+      "legacy_source": "research/strategy_comparison/post2012_regime_test.py",
+      "record_index": 333
+    },
+    {
+      "id": "O288",
+      "family": "QQQ择时 / post2012_regime_test",
+      "display_name": "V6 (Cond)",
+      "original_name": "V6 (Cond)",
+      "legacy_source": "research/strategy_comparison/post2012_regime_test.py",
+      "record_index": 334
+    },
+    {
+      "id": "O289",
+      "family": "QQQ择时 / post2012_regime_test",
+      "display_name": "V5 (Pure EPS)",
+      "original_name": "V5 (Pure EPS)",
+      "legacy_source": "research/strategy_comparison/post2012_regime_test.py",
+      "record_index": 335
+    },
+    {
+      "id": "O290",
+      "family": "QQQ择时 / post2012_regime_test",
+      "display_name": "Pure SEP",
+      "original_name": "Pure SEP",
+      "legacy_source": "research/strategy_comparison/post2012_regime_test.py",
+      "record_index": 336
+    },
+    {
+      "id": "O291",
+      "family": "QQQ择时 / sep_falsification_test",
+      "display_name": "反证/稳健性检验组（非独立组合）",
+      "original_name": "反证/稳健性检验组（非独立组合）",
+      "legacy_source": "research/strategy_comparison/sep_falsification_test.py",
+      "record_index": 337
+    },
+    {
+      "id": "O292",
+      "family": "QQQ择时 / strategy_comparison_v1",
+      "display_name": "Buy & Hold",
+      "original_name": "Buy & Hold",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v1.py",
+      "record_index": 338
+    },
+    {
+      "id": "O293",
+      "family": "QQQ择时 / strategy_comparison_v1",
+      "display_name": "H→H",
+      "original_name": "H→H",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v1.py",
+      "record_index": 339
+    },
+    {
+      "id": "O294",
+      "family": "QQQ择时 / strategy_comparison_v1",
+      "display_name": "H→EPS",
+      "original_name": "H→EPS",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v1.py",
+      "record_index": 340
+    },
+    {
+      "id": "O295",
+      "family": "QQQ择时 / strategy_comparison_v1",
+      "display_name": "EPS→EPS",
+      "original_name": "EPS→EPS",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v1.py",
+      "record_index": 341
+    },
+    {
+      "id": "O296",
+      "family": "QQQ择时 / strategy_comparison_v1",
+      "display_name": "EPS→H",
+      "original_name": "EPS→H",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v1.py",
+      "record_index": 342
+    },
+    {
+      "id": "O297",
+      "family": "QQQ择时 / strategy_comparison_v2",
+      "display_name": "Buy&Hold",
+      "original_name": "Buy&Hold",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+      "record_index": 343
+    },
+    {
+      "id": "O298",
+      "family": "QQQ择时 / strategy_comparison_v2",
+      "display_name": "H→H",
+      "original_name": "H→H",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+      "record_index": 344
+    },
+    {
+      "id": "O299",
+      "family": "QQQ择时 / strategy_comparison_v2",
+      "display_name": "H→EPS(-5%)",
+      "original_name": "H→EPS(-5%)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+      "record_index": 345
+    },
+    {
+      "id": "O300",
+      "family": "QQQ择时 / strategy_comparison_v2",
+      "display_name": "H→EPS(-3%)",
+      "original_name": "H→EPS(-3%)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+      "record_index": 346
+    },
+    {
+      "id": "O301",
+      "family": "QQQ择时 / strategy_comparison_v2",
+      "display_name": "H→EPS(0%)",
+      "original_name": "H→EPS(0%)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+      "record_index": 347
+    },
+    {
+      "id": "O302",
+      "family": "QQQ择时 / strategy_comparison_v2",
+      "display_name": "H→(E∨H)",
+      "original_name": "H→(E∨H)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+      "record_index": 348
+    },
+    {
+      "id": "O303",
+      "family": "QQQ择时 / strategy_comparison_v2",
+      "display_name": "EPS→EPS",
+      "original_name": "EPS→EPS",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+      "record_index": 349
+    },
+    {
+      "id": "O304",
+      "family": "QQQ择时 / strategy_comparison_v2",
+      "display_name": "EPS→H",
+      "original_name": "EPS→H",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+      "record_index": 350
+    },
+    {
+      "id": "O305",
+      "family": "QQQ择时 / strategy_comparison_v2",
+      "display_name": "EPS→(E∨H)",
+      "original_name": "EPS→(E∨H)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v2.py",
+      "record_index": 351
+    },
+    {
+      "id": "O306",
+      "family": "QQQ择时 / strategy_comparison_v3",
+      "display_name": "Buy&Hold",
+      "original_name": "Buy&Hold",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+      "record_index": 352
+    },
+    {
+      "id": "O307",
+      "family": "QQQ择时 / strategy_comparison_v3",
+      "display_name": "H->H",
+      "original_name": "H->H",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+      "record_index": 353
+    },
+    {
+      "id": "O308",
+      "family": "QQQ择时 / strategy_comparison_v3",
+      "display_name": "H->EPS(-3%)",
+      "original_name": "H->EPS(-3%)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+      "record_index": 354
+    },
+    {
+      "id": "O309",
+      "family": "QQQ择时 / strategy_comparison_v3",
+      "display_name": "H->SEP",
+      "original_name": "H->SEP",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+      "record_index": 355
+    },
+    {
+      "id": "O310",
+      "family": "QQQ择时 / strategy_comparison_v3",
+      "display_name": "H->(E|H)",
+      "original_name": "H->(E|H)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+      "record_index": 356
+    },
+    {
+      "id": "O311",
+      "family": "QQQ择时 / strategy_comparison_v3",
+      "display_name": "H->(S|H)",
+      "original_name": "H->(S|H)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+      "record_index": 357
+    },
+    {
+      "id": "O312",
+      "family": "QQQ择时 / strategy_comparison_v3",
+      "display_name": "SEP->SEP",
+      "original_name": "SEP->SEP",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+      "record_index": 358
+    },
+    {
+      "id": "O313",
+      "family": "QQQ择时 / strategy_comparison_v3",
+      "display_name": "SEP->EPS(-3%)",
+      "original_name": "SEP->EPS(-3%)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+      "record_index": 359
+    },
+    {
+      "id": "O314",
+      "family": "QQQ择时 / strategy_comparison_v3",
+      "display_name": "SEP->H",
+      "original_name": "SEP->H",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+      "record_index": 360
+    },
+    {
+      "id": "O315",
+      "family": "QQQ择时 / strategy_comparison_v3",
+      "display_name": "EPS->H",
+      "original_name": "EPS->H",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+      "record_index": 361
+    },
+    {
+      "id": "O316",
+      "family": "QQQ择时 / strategy_comparison_v3",
+      "display_name": "EPS->SEP",
+      "original_name": "EPS->SEP",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v3.py",
+      "record_index": 362
+    },
+    {
+      "id": "O317",
+      "family": "QQQ择时 / strategy_comparison_v4",
+      "display_name": "Buy&Hold",
+      "original_name": "Buy&Hold",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+      "record_index": 363
+    },
+    {
+      "id": "O318",
+      "family": "QQQ择时 / strategy_comparison_v4",
+      "display_name": "H->H",
+      "original_name": "H->H",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+      "record_index": 364
+    },
+    {
+      "id": "O319",
+      "family": "QQQ择时 / strategy_comparison_v4",
+      "display_name": "H->EPS(-3%)",
+      "original_name": "H->EPS(-3%)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+      "record_index": 365
+    },
+    {
+      "id": "O320",
+      "family": "QQQ择时 / strategy_comparison_v4",
+      "display_name": "H->SEP",
+      "original_name": "H->SEP",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+      "record_index": 366
+    },
+    {
+      "id": "O321",
+      "family": "QQQ择时 / strategy_comparison_v4",
+      "display_name": "H->(E|H)",
+      "original_name": "H->(E|H)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+      "record_index": 367
+    },
+    {
+      "id": "O322",
+      "family": "QQQ择时 / strategy_comparison_v4",
+      "display_name": "H->(S|H)",
+      "original_name": "H->(S|H)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+      "record_index": 368
+    },
+    {
+      "id": "O323",
+      "family": "QQQ择时 / strategy_comparison_v4",
+      "display_name": "SEP->SEP",
+      "original_name": "SEP->SEP",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+      "record_index": 369
+    },
+    {
+      "id": "O324",
+      "family": "QQQ择时 / strategy_comparison_v4",
+      "display_name": "SEP->H",
+      "original_name": "SEP->H",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+      "record_index": 370
+    },
+    {
+      "id": "O325",
+      "family": "QQQ择时 / strategy_comparison_v4",
+      "display_name": "SEP->EPS(-3%)",
+      "original_name": "SEP->EPS(-3%)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+      "record_index": 371
+    },
+    {
+      "id": "O326",
+      "family": "QQQ择时 / strategy_comparison_v4",
+      "display_name": "SEP->(E|H)",
+      "original_name": "SEP->(E|H)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v4.py",
+      "record_index": 372
+    },
+    {
+      "id": "O327",
+      "family": "QQQ择时 / strategy_comparison_v5",
+      "display_name": "Buy&Hold",
+      "original_name": "Buy&Hold",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+      "record_index": 373
+    },
+    {
+      "id": "O328",
+      "family": "QQQ择时 / strategy_comparison_v5",
+      "display_name": "Hp->H",
+      "original_name": "Hp->H",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+      "record_index": 374
+    },
+    {
+      "id": "O329",
+      "family": "QQQ择时 / strategy_comparison_v5",
+      "display_name": "Hp->EPS(-3%)",
+      "original_name": "Hp->EPS(-3%)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+      "record_index": 375
+    },
+    {
+      "id": "O330",
+      "family": "QQQ择时 / strategy_comparison_v5",
+      "display_name": "Hp->SEP(raw)",
+      "original_name": "Hp->SEP(raw)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+      "record_index": 376
+    },
+    {
+      "id": "O331",
+      "family": "QQQ择时 / strategy_comparison_v5",
+      "display_name": "Hp->SEP(canon)",
+      "original_name": "Hp->SEP(canon)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+      "record_index": 377
+    },
+    {
+      "id": "O332",
+      "family": "QQQ择时 / strategy_comparison_v5",
+      "display_name": "Hp->(E|H)",
+      "original_name": "Hp->(E|H)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+      "record_index": 378
+    },
+    {
+      "id": "O333",
+      "family": "QQQ择时 / strategy_comparison_v5",
+      "display_name": "Hp->(S|H)",
+      "original_name": "Hp->(S|H)",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+      "record_index": 379
+    },
+    {
+      "id": "O334",
+      "family": "QQQ择时 / strategy_comparison_v5",
+      "display_name": "H->EPS(-3%) v4",
+      "original_name": "H->EPS(-3%) v4",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+      "record_index": 380
+    },
+    {
+      "id": "O335",
+      "family": "QQQ择时 / strategy_comparison_v5",
+      "display_name": "H->SEP(raw) v4",
+      "original_name": "H->SEP(raw) v4",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+      "record_index": 381
+    },
+    {
+      "id": "O336",
+      "family": "QQQ择时 / strategy_comparison_v5",
+      "display_name": "SEP->SEP",
+      "original_name": "SEP->SEP",
+      "legacy_source": "research/strategy_comparison/strategy_comparison_v5.py",
+      "record_index": 382
+    },
+    {
+      "id": "O337",
+      "family": "QQQ择时 / v6_final_backtest",
+      "display_name": "Buy&Hold",
+      "original_name": "Buy&Hold",
+      "legacy_source": "research/strategy_comparison/v6_final_backtest.py",
+      "record_index": 383
+    },
+    {
+      "id": "O338",
+      "family": "QQQ择时 / v6_final_backtest",
+      "display_name": "V6 (Cond)",
+      "original_name": "V6 (Cond)",
+      "legacy_source": "research/strategy_comparison/v6_final_backtest.py",
+      "record_index": 384
+    },
+    {
+      "id": "O339",
+      "family": "QQQ择时 / v6_final_backtest",
+      "display_name": "V5 (Pure EPS)",
+      "original_name": "V5 (Pure EPS)",
+      "legacy_source": "research/strategy_comparison/v6_final_backtest.py",
+      "record_index": 385
+    },
+    {
+      "id": "O340",
+      "family": "QQQ择时 / v6_final_backtest",
+      "display_name": "Pure SEP",
+      "original_name": "Pure SEP",
+      "legacy_source": "research/strategy_comparison/v6_final_backtest.py",
+      "record_index": 386
+    }
+  ]
+}

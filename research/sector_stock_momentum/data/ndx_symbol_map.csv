@@ -1,0 +1,31 @@
+ndx_ticker,action,target,source,evidence
+PCLN,map_existing,BKNG,,Priceline Group renamed Booking Holdings 2018-02-27; same SEC filer CIK 1075531; BKNG already priced in the S&P store
+ERTS,map_existing,EA,,Electronic Arts changed Nasdaq symbol ERTS→EA 2011; same SEC filer CIK 712515; EA already priced in the S&P store
+HANS,map_existing,MNST,,Hansen Natural renamed Monster Beverage 2012-01 (HANS→MNST); same SEC filer CIK 865752; MNST already priced
+KFT,map_existing,MDLZ,,Kraft Foods Inc renamed Mondelez International 2012-10-01 (KFT→MDLZ); same SEC filer CIK 1103982; MDLZ already priced
+WFMI,map_existing,WFM,,Whole Foods Market changed symbol WFMI→WFM 2011; same SEC filer CIK 865436; WFM already priced (Tiingo)
+JOYG,map_existing,JOY,,Joy Global moved Nasdaq JOYG→NYSE JOY 2011; same SEC filer CIK 801898; JOY already priced (Tiingo)
+CTRP,fetch_tiingo,TCOM,tiingo,Ctrip.com renamed Trip.com Group 2019-11 (CTRP→TCOM); Tiingo TCOM history starts 2003-12-09 (covers CTRP spells)
+TCOM,fetch_tiingo,TCOM,tiingo,same ticker
+RIMM,fetch_tiingo,BB,tiingo,Research In Motion renamed BlackBerry 2013 (RIMM→BBRY→BB); Tiingo BB history starts 1999-02-04
+LINTA,fetch_tiingo,QVCA,tiingo,Liberty Interactive Series A (LINTA) reclassified as QVC Group tracking stock QVCA 2014-10; Tiingo QVCA history starts 2006-05-10 (= LINTA listing)
+QVCA,fetch_tiingo,QVCA,tiingo,same ticker (ends 2018-03-09 when renamed QRTEA)
+VIP,fetch_tiingo,VEON,tiingo,VimpelCom Ltd renamed VEON 2017 (VIP→VEON); today's Tiingo VIP is an unrelated 2021 listing; Tiingo VEON history starts 1996
+MICC,fetch_wiki,MICC,wiki,Millicom; today's MICC/TIGO Tiingo series start 2011 / 2025 (re-listing / unrelated) → try WIKI
+NIHD,fetch_wiki,NIHD,wiki,old NII Holdings equity cancelled in 2015 bankruptcy; Tiingo NIHD starts 2015-07 (new equity) → try WIKI
+PPDI,fetch_wiki,PPDI,wiki,Pharmaceutical Product Development (acquired 2011); not on Tiingo → try WIKI
+FMCN,fetch_wiki,FMCN,wiki,Focus Media ADR (taken private 2013); not on Tiingo → try WIKI
+LMCK,fetch_wiki,LMCK,wiki,Liberty Media Series C (2014-2016); not on Tiingo → try WIKI
+GOLD,fetch_wiki,GOLD,wiki,Randgold Resources ADR (2011-2013 member); Tiingo free returns only the current GOLD (Barrick 2025) → try WIKI
+QRTEA,gap,,,Qurate Retail 2018-04..2018-12: Tiingo QRTEA is an unrelated 2026 listing; WIKI frozen 2018-03-27; Yahoo QVCGA could carry it (Yahoo only in safe hours) → open gap
+AMLN,skip_presample,,,last NDX month-end 2008-11-30 < first formation 2008-12-31
+BEAS,skip_presample,,,last NDX month-end 2008-03-31 < first formation 2008-12-31
+LAMR,skip_presample,,,last NDX month-end 2008-11-30 < first formation 2008-12-31
+LEAP,skip_presample,,,last NDX month-end 2008-11-30 < first formation 2008-12-31
+UAUA,skip_presample,,,last NDX month-end 2008-06-30 < first formation 2008-12-31
+BATRA,skip_ineligible,,,listed 2016-04-18; NDX member only 2016-04..05 → never has the 12-month price history required by every strategy
+BATRK,skip_ineligible,,,listed 2016-04-18; NDX member only 2016-04..05 → never 12 months of history while a member
+LILA,skip_ineligible,,,listed 2015-07-02; member only 2015-07..11 → never 12 months of history while a member
+LILAK,skip_ineligible,,,listed 2015-07-02; member only 2015-07..11 → never 12 months of history while a member
+STRZA,skip_ineligible,,,Starz spun off 2013-01-11; member only 2013-01..02 → never 12 months of history while a member
+SPCX,skip_ineligible,,,listed 2026-06-12; member 2026-07..09 → never 12 months of history while a member

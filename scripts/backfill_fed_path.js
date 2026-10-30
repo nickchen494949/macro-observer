@@ -2,12 +2,12 @@ const fs = require('fs');
 const path = require('path');
 const { execFile } = require('child_process');
 
-const FETCH_YAHOO_PY = path.join(__dirname, '../fetch_yahoo.py');
+const FETCH_YAHOO_JS = path.join(__dirname, '../fetch_yahoo.js');
 const VALUATION_DIR = path.join(__dirname, '../data/valuation');
 
 function fetchYahoo(symbol, range = '1y') {
   return new Promise((resolve, reject) => {
-    execFile('python3', [FETCH_YAHOO_PY, symbol, range], { timeout: 30000 }, (err, stdout, stderr) => {
+    execFile('node', [FETCH_YAHOO_JS, symbol, range], { timeout: 30000 }, (err, stdout, stderr) => {
       if (err) return reject(new Error(err.message || stderr));
       try {
         const result = JSON.parse(stdout.trim());

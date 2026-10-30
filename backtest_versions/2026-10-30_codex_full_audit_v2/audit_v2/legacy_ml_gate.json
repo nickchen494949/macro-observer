@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "checks": [
+    "fees_before_return",
+    "unchanged_top1_no_trade",
+    "missing_month_cash",
+    "cash_exit_fee",
+    "bankruptcy_absorbing",
+    "regime_cash_no_repeat_fee",
+    "basket_drift_turnover",
+    "price_segment_windows",
+    "late_old_filing_does_not_replace_new_quarter",
+    "latest_undefined_factor_invalidates_old_value",
+    "daily_mismatch_not_smoothed",
+    "future_labels_do_not_change_earlier_ridge_fit",
+    "duplicate_and_skipped_calendar_rejected",
+    "negative_and_nan_target_rejected",
+    "missing_nonpositive_daily_held_quote_not_filled"
+  ]
+}

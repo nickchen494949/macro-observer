@@ -1,0 +1,2928 @@
+{
+  "checks": [
+    {
+      "family": "eps_momentum",
+      "name": "A: top-10 EPS growth → best momentum (>0) else cash",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 213
+    },
+    {
+      "family": "eps_momentum",
+      "name": "A: top-10 EPS growth → best momentum (>0) else cash",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "A: top-10 EPS growth → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "IS 2009-01..2021-05",
+      "passed": true,
+      "max_abs_error": 6.661338147750939e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "A: top-10 EPS growth → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "IS 2012-01..2021-05 (EPS data usable)",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "A: top-10 EPS growth → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "OOS 2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "A: top-10 EPS growth → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 6.661338147750939e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "A: top-10 EPS growth → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 6.661338147750939e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "B: top-10 ΔEPS/price → best momentum (>0) else cash",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 213
+    },
+    {
+      "family": "eps_momentum",
+      "name": "B: top-10 ΔEPS/price → best momentum (>0) else cash",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "B: top-10 ΔEPS/price → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "IS 2009-01..2021-05",
+      "passed": true,
+      "max_abs_error": 3.0531133177191805e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "B: top-10 ΔEPS/price → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "IS 2012-01..2021-05 (EPS data usable)",
+      "passed": true,
+      "max_abs_error": 1.1102230246251565e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "B: top-10 ΔEPS/price → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "OOS 2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "B: top-10 ΔEPS/price → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.498001805406602e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "B: top-10 ΔEPS/price → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "F: top-10 EPS growth, base margin >= 5% → best momentum (>0) else cash",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 213
+    },
+    {
+      "family": "eps_momentum",
+      "name": "F: top-10 EPS growth, base margin >= 5% → best momentum (>0) else cash",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "F: top-10 EPS growth, base margin >= 5% → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "IS 2009-01..2021-05",
+      "passed": true,
+      "max_abs_error": 2.636779683484747e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "F: top-10 EPS growth, base margin >= 5% → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "IS 2012-01..2021-05 (EPS data usable)",
+      "passed": true,
+      "max_abs_error": 3.885780586188048e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "F: top-10 EPS growth, base margin >= 5% → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "OOS 2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-17
+    },
+    {
+      "family": "eps_momentum",
+      "name": "F: top-10 EPS growth, base margin >= 5% → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "F: top-10 EPS growth, base margin >= 5% → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 2.498001805406602e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "G: top-10 symmetric EPS growth → best momentum (>0) else cash",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 213
+    },
+    {
+      "family": "eps_momentum",
+      "name": "G: top-10 symmetric EPS growth → best momentum (>0) else cash",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "G: top-10 symmetric EPS growth → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "IS 2009-01..2021-05",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "G: top-10 symmetric EPS growth → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "IS 2012-01..2021-05 (EPS data usable)",
+      "passed": true,
+      "max_abs_error": 2.914335439641036e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "G: top-10 symmetric EPS growth → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "OOS 2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 4.996003610813204e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "G: top-10 symmetric EPS growth → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "G: top-10 symmetric EPS growth → best momentum (>0) else cash",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 4.718447854656915e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "C: top-10 EPS growth, equal weight (no momentum)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 213
+    },
+    {
+      "family": "eps_momentum",
+      "name": "C: top-10 EPS growth, equal weight (no momentum)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.371503159461554e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "C: top-10 EPS growth, equal weight (no momentum)",
+      "check": "summary independently recomputed",
+      "period": "IS 2009-01..2021-05",
+      "passed": true,
+      "max_abs_error": 7.216449660063518e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "C: top-10 EPS growth, equal weight (no momentum)",
+      "check": "summary independently recomputed",
+      "period": "IS 2012-01..2021-05 (EPS data usable)",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "C: top-10 EPS growth, equal weight (no momentum)",
+      "check": "summary independently recomputed",
+      "period": "OOS 2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 6.106226635438361e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "C: top-10 EPS growth, equal weight (no momentum)",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "C: top-10 EPS growth, equal weight (no momentum)",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "D: top-10 ΔEPS/price, equal weight",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 213
+    },
+    {
+      "family": "eps_momentum",
+      "name": "D: top-10 ΔEPS/price, equal weight",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "D: top-10 ΔEPS/price, equal weight",
+      "check": "summary independently recomputed",
+      "period": "IS 2009-01..2021-05",
+      "passed": true,
+      "max_abs_error": 2.914335439641036e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "D: top-10 ΔEPS/price, equal weight",
+      "check": "summary independently recomputed",
+      "period": "IS 2012-01..2021-05 (EPS data usable)",
+      "passed": true,
+      "max_abs_error": 3.0531133177191805e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "D: top-10 ΔEPS/price, equal weight",
+      "check": "summary independently recomputed",
+      "period": "OOS 2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "D: top-10 ΔEPS/price, equal weight",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "D: top-10 ΔEPS/price, equal weight",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "E: pure momentum top-1 (reference)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 213
+    },
+    {
+      "family": "eps_momentum",
+      "name": "E: pure momentum top-1 (reference)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "E: pure momentum top-1 (reference)",
+      "check": "summary independently recomputed",
+      "period": "IS 2009-01..2021-05",
+      "passed": true,
+      "max_abs_error": 3.0531133177191805e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "E: pure momentum top-1 (reference)",
+      "check": "summary independently recomputed",
+      "period": "IS 2012-01..2021-05 (EPS data usable)",
+      "passed": true,
+      "max_abs_error": 1.1102230246251565e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "E: pure momentum top-1 (reference)",
+      "check": "summary independently recomputed",
+      "period": "OOS 2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "E: pure momentum top-1 (reference)",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "E: pure momentum top-1 (reference)",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "SPY",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 213
+    },
+    {
+      "family": "eps_momentum",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "IS 2009-01..2021-05",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "IS 2012-01..2021-05 (EPS data usable)",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "OOS 2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 3.0531133177191805e-16
+    },
+    {
+      "family": "eps_momentum",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "FULL 2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "pure momentum top-1",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "pure momentum top-1",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "pure momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "IS 2010-01..2021-05",
+      "passed": true,
+      "max_abs_error": 3.0531133177191805e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "pure momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "OOS 2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "pure momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "ML holdout 2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "pure momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "FULL 2010-01..2026-09",
+      "passed": true,
+      "max_abs_error": 4.996003610813204e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "pure momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "FULL to 2025-12",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "IS 2010-01..2021-05",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "OOS 2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 8.881784197001252e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "ML holdout 2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "FULL 2010-01..2026-09",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "FULL to 2025-12",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "sector spec",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "sector spec",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.1510571102112408e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "sector spec",
+      "check": "summary independently recomputed",
+      "period": "IS 2010-01..2021-05",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "sector spec",
+      "check": "summary independently recomputed",
+      "period": "OOS 2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "sector spec",
+      "check": "summary independently recomputed",
+      "period": "ML holdout 2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "sector spec",
+      "check": "summary independently recomputed",
+      "period": "FULL 2010-01..2026-09",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "sector spec",
+      "check": "summary independently recomputed",
+      "period": "FULL to 2025-12",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "sector spec + SMA200",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "sector spec + SMA200",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.1510571102112408e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "sector spec + SMA200",
+      "check": "summary independently recomputed",
+      "period": "IS 2010-01..2021-05",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "sector spec + SMA200",
+      "check": "summary independently recomputed",
+      "period": "OOS 2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "sector spec + SMA200",
+      "check": "summary independently recomputed",
+      "period": "ML holdout 2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "sector spec + SMA200",
+      "check": "summary independently recomputed",
+      "period": "FULL 2010-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "sector spec + SMA200",
+      "check": "summary independently recomputed",
+      "period": "FULL to 2025-12",
+      "passed": true,
+      "max_abs_error": 2.498001805406602e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "EPS protected (F)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "EPS protected (F)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "EPS protected (F)",
+      "check": "summary independently recomputed",
+      "period": "IS 2010-01..2021-05",
+      "passed": true,
+      "max_abs_error": 5.273559366969494e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "EPS protected (F)",
+      "check": "summary independently recomputed",
+      "period": "OOS 2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-17
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "EPS protected (F)",
+      "check": "summary independently recomputed",
+      "period": "ML holdout 2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "EPS protected (F)",
+      "check": "summary independently recomputed",
+      "period": "FULL 2010-01..2026-09",
+      "passed": true,
+      "max_abs_error": 6.661338147750939e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "EPS protected (F)",
+      "check": "summary independently recomputed",
+      "period": "FULL to 2025-12",
+      "passed": true,
+      "max_abs_error": 6.661338147750939e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "EPS protected (F) + SMA200",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "EPS protected (F) + SMA200",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "EPS protected (F) + SMA200",
+      "check": "summary independently recomputed",
+      "period": "IS 2010-01..2021-05",
+      "passed": true,
+      "max_abs_error": 2.3592239273284576e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "EPS protected (F) + SMA200",
+      "check": "summary independently recomputed",
+      "period": "OOS 2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 4.996003610813204e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "EPS protected (F) + SMA200",
+      "check": "summary independently recomputed",
+      "period": "ML holdout 2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "EPS protected (F) + SMA200",
+      "check": "summary independently recomputed",
+      "period": "FULL 2010-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.498001805406602e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "EPS protected (F) + SMA200",
+      "check": "summary independently recomputed",
+      "period": "FULL to 2025-12",
+      "passed": true,
+      "max_abs_error": 1.1102230246251565e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "SPY",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "IS 2010-01..2021-05",
+      "passed": true,
+      "max_abs_error": 2.498001805406602e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "OOS 2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "ML holdout 2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 1.1102230246251565e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "FULL 2010-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "sma200_overlay",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "FULL to 2025-12",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-1",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-1",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-1",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2021-05",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-1",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 1.1102230246251565e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-1",
+      "check": "summary independently recomputed",
+      "period": "2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-1",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-17
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-1",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.498001805406602e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-1 + SMA200",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-1 + SMA200",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2021-05",
+      "passed": true,
+      "max_abs_error": 2.498001805406602e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 4.718447854656915e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 4.996003610813204e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-5 (equal weight)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-5 (equal weight)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.3368086899420177e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-5 (equal weight)",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2021-05",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-5 (equal weight)",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-5 (equal weight)",
+      "check": "summary independently recomputed",
+      "period": "2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-5 (equal weight)",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-5 (equal weight)",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-20 (equal weight)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-20 (equal weight)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.3021142204224816e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-20 (equal weight)",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2021-05",
+      "passed": true,
+      "max_abs_error": 5.134781488891349e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-20 (equal weight)",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-20 (equal weight)",
+      "check": "summary independently recomputed",
+      "period": "2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-20 (equal weight)",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "composite3",
+      "name": "composite top-20 (equal weight)",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "composite3",
+      "name": "pure momentum top-1",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "composite3",
+      "name": "pure momentum top-1",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "composite3",
+      "name": "pure momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2021-05",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "composite3",
+      "name": "pure momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 1.1102230246251565e-16
+    },
+    {
+      "family": "composite3",
+      "name": "pure momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-17
+    },
+    {
+      "family": "composite3",
+      "name": "pure momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "composite3",
+      "name": "pure momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "composite3",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "composite3",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "composite3",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2021-05",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "composite3",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-17
+    },
+    {
+      "family": "composite3",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "composite3",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "composite3",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "composite3",
+      "name": "SPY",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "composite3",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2021-05",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "composite3",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "composite3",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 1.1102230246251565e-16
+    },
+    {
+      "family": "composite3",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "composite3",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 3.0531133177191805e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "mom top-30 → ROE>20% → best EPS growth",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "mom30_roe",
+      "name": "mom top-30 → ROE>20% → best EPS growth",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "mom top-30 → ROE>20% → best EPS growth",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2021-05",
+      "passed": true,
+      "max_abs_error": 5.065392549852277e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "mom top-30 → ROE>20% → best EPS growth",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "mom30_roe",
+      "name": "mom top-30 → ROE>20% → best EPS growth",
+      "check": "summary independently recomputed",
+      "period": "2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-17
+    },
+    {
+      "family": "mom30_roe",
+      "name": "mom top-30 → ROE>20% → best EPS growth",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 6.661338147750939e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "mom top-30 → ROE>20% → best EPS growth",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 6.661338147750939e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "mom top-30 → ROE>20% → best ΔEPS/price",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "mom30_roe",
+      "name": "mom top-30 → ROE>20% → best ΔEPS/price",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "mom top-30 → ROE>20% → best ΔEPS/price",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2021-05",
+      "passed": true,
+      "max_abs_error": 1.6306400674181987e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "mom top-30 → ROE>20% → best ΔEPS/price",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 4.996003610813204e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "mom top-30 → ROE>20% → best ΔEPS/price",
+      "check": "summary independently recomputed",
+      "period": "2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "mom top-30 → ROE>20% → best ΔEPS/price",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 5.134781488891349e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "mom top-30 → ROE>20% → best ΔEPS/price",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.914335439641036e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "pure momentum top-1",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "mom30_roe",
+      "name": "pure momentum top-1",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "pure momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2021-05",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "mom30_roe",
+      "name": "pure momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 1.1102230246251565e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "pure momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-17
+    },
+    {
+      "family": "mom30_roe",
+      "name": "pure momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "mom30_roe",
+      "name": "pure momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "mom30_roe",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "mom30_roe",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2021-05",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "mom30_roe",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-17
+    },
+    {
+      "family": "mom30_roe",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "mom30_roe",
+      "name": "pure momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "mom30_roe",
+      "name": "SPY",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "mom30_roe",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2021-05",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "2023-01..2026-09",
+      "passed": true,
+      "max_abs_error": 1.1102230246251565e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2025-12",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "mom30_roe",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "2012-01..2026-09",
+      "passed": true,
+      "max_abs_error": 3.0531133177191805e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-1",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-1",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2021-05",
+      "passed": true,
+      "max_abs_error": 4.996003610813204e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2025-12",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2026-09",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-1 + SMA200",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-1 + SMA200",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2021-05",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2025-12",
+      "passed": true,
+      "max_abs_error": 4.996003610813204e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-1 + SMA200",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: three-factor score top-1",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: three-factor score top-1",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: three-factor score top-1",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2021-05",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: three-factor score top-1",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 8.881784197001252e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: three-factor score top-1",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2025-12",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: three-factor score top-1",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2026-09",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-5 (equal weight)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-5 (equal weight)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.180683577104105e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-5 (equal weight)",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2021-05",
+      "passed": true,
+      "max_abs_error": 3.0531133177191805e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-5 (equal weight)",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-5 (equal weight)",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2025-12",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "tech: momentum top-5 (equal weight)",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2026-09",
+      "passed": true,
+      "max_abs_error": 5.273559366969494e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "all S&P: momentum top-1",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "tech_only",
+      "name": "all S&P: momentum top-1",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "all S&P: momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2021-05",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "tech_only",
+      "name": "all S&P: momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 1.1102230246251565e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "all S&P: momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2025-12",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "tech_only",
+      "name": "all S&P: momentum top-1",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2026-09",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "family": "tech_only",
+      "name": "XLK",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "tech_only",
+      "name": "XLK",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2021-05",
+      "passed": true,
+      "max_abs_error": 2.498001805406602e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "XLK",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "XLK",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2025-12",
+      "passed": true,
+      "max_abs_error": 2.498001805406602e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "XLK",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.498001805406602e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "SPY",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 201
+    },
+    {
+      "family": "tech_only",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2021-05",
+      "passed": true,
+      "max_abs_error": 2.498001805406602e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "2021-06..2026-09",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2025-12",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "tech_only",
+      "name": "SPY",
+      "check": "summary independently recomputed",
+      "period": "2010-01..2026-09",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "A1 价值+动量",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 200
+    },
+    {
+      "family": "factor_combo",
+      "name": "A1 价值+动量",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.0939474033052647e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "A1 价值+动量",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "A2 质量+价值",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 200
+    },
+    {
+      "family": "factor_combo",
+      "name": "A2 质量+价值",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.371503159461554e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "A2 质量+价值",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 1.3877787807814457e-17
+    },
+    {
+      "family": "factor_combo",
+      "name": "A3 动量+低波动",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 200
+    },
+    {
+      "family": "factor_combo",
+      "name": "A3 动量+低波动",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.393187202911264e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "A3 动量+低波动",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.498001805406602e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "A4 动量+盈利惊喜",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 200
+    },
+    {
+      "family": "factor_combo",
+      "name": "A4 动量+盈利惊喜",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 3.131175874138137e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "A4 动量+盈利惊喜",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "A5 GARP",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 200
+    },
+    {
+      "family": "factor_combo",
+      "name": "A5 GARP",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.0245584642661925e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "A5 GARP",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.914335439641036e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "A6 动量+营收毛利加速",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 200
+    },
+    {
+      "family": "factor_combo",
+      "name": "A6 动量+营收毛利加速",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.371503159461554e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "A6 动量+营收毛利加速",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 3.0531133177191805e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "A7 质量+动量+价值",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 200
+    },
+    {
+      "family": "factor_combo",
+      "name": "A7 质量+动量+价值",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.40619762898109e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "A7 质量+动量+价值",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "A8 动量+短期反转",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 200
+    },
+    {
+      "family": "factor_combo",
+      "name": "A8 动量+短期反转",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.0939474033052647e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "A8 动量+短期反转",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 3.0531133177191805e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "B ridge",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 164
+    },
+    {
+      "family": "factor_combo",
+      "name": "B ridge",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 3.608224830031759e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "B ridge",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.3592239273284576e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "B lasso",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 164
+    },
+    {
+      "family": "factor_combo",
+      "name": "B lasso",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 3.885780586188048e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "B lasso",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 6.938893903907228e-17
+    },
+    {
+      "family": "factor_combo",
+      "name": "B lgbm",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 164
+    },
+    {
+      "family": "factor_combo",
+      "name": "B lgbm",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.371503159461554e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "B lgbm",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C eps_g(−) | rev_g_q 前30%",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 128
+    },
+    {
+      "family": "factor_combo",
+      "name": "C eps_g(−) | rev_g_q 前30%",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 3.157196726277789e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C eps_g(−) | rev_g_q 前30%",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C eps_g_sym(−) | rev_g_q 前30%",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 128
+    },
+    {
+      "family": "factor_combo",
+      "name": "C eps_g_sym(−) | rev_g_q 前30%",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.3021142204224816e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C eps_g_sym(−) | rev_g_q 前30%",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.718447854656915e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C eps_g(−) | rev_g 前30%",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 128
+    },
+    {
+      "family": "factor_combo",
+      "name": "C eps_g(−) | rev_g 前30%",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.371503159461554e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C eps_g(−) | rev_g 前30%",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.996003610813204e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C deps_p(−) | rev_g_q 前30%",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 128
+    },
+    {
+      "family": "factor_combo",
+      "name": "C deps_p(−) | rev_g_q 前30%",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.0245584642661925e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C deps_p(−) | rev_g_q 前30%",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C rev_accel(+) | vol_3m 前30%",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 128
+    },
+    {
+      "family": "factor_combo",
+      "name": "C rev_accel(+) | vol_3m 前30%",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 3.608224830031759e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C rev_accel(+) | vol_3m 前30%",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 8.326672684688674e-17
+    },
+    {
+      "family": "factor_combo",
+      "name": "C rev_accel(+) | beta_12m 前30%",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 128
+    },
+    {
+      "family": "factor_combo",
+      "name": "C rev_accel(+) | beta_12m 前30%",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 3.7470027081099033e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C rev_accel(+) | beta_12m 前30%",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.718447854656915e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C margin(−) | dist_sma200 前30%",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 128
+    },
+    {
+      "family": "factor_combo",
+      "name": "C margin(−) | dist_sma200 前30%",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 3.920475055707584e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C margin(−) | dist_sma200 前30%",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.498001805406602e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C asset_turn(+) | dist_sma200 前30%",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 128
+    },
+    {
+      "family": "factor_combo",
+      "name": "C asset_turn(+) | dist_sma200 前30%",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 3.122502256758253e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C asset_turn(+) | dist_sma200 前30%",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.498001805406602e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C rev_accel(+) | log_mcap 前30%",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 128
+    },
+    {
+      "family": "factor_combo",
+      "name": "C rev_accel(+) | log_mcap 前30%",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.2327252813834093e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C rev_accel(+) | log_mcap 前30%",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-17
+    },
+    {
+      "family": "factor_combo",
+      "name": "C rev_accel(+) | asset_g 前30%",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 128
+    },
+    {
+      "family": "factor_combo",
+      "name": "C rev_accel(+) | asset_g 前30%",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 3.885780586188048e-16
+    },
+    {
+      "family": "factor_combo",
+      "name": "C rev_accel(+) | asset_g 前30%",
+      "check": "eval annual return independently recomputed",
+      "passed": true,
+      "max_abs_error": 8.326672684688674e-17
+    },
+    {
+      "family": "factor_combo",
+      "name": "BENCH SPY",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 200
+    },
+    {
+      "family": "factor_combo",
+      "name": "BENCH SPY",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 9.71445146547012e-17
+    },
+    {
+      "family": "factor_combo",
+      "name": "BENCH EW_universe",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 200
+    },
+    {
+      "family": "factor_combo",
+      "name": "BENCH EW_universe",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.163336342344337e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "A SPEC (S&P only)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 213
+    },
+    {
+      "family": "ndx_expand",
+      "name": "A SPEC (S&P only)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "A SPEC (S&P only)",
+      "period": "IS",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 6.661338147750939e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "A SPEC (S&P only)",
+      "period": "OOS",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "A SPEC (S&P only)",
+      "period": "FULL",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.996003610813204e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "A SPEC (S&P ∪ NDX)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 213
+    },
+    {
+      "family": "ndx_expand",
+      "name": "A SPEC (S&P ∪ NDX)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "A SPEC (S&P ∪ NDX)",
+      "period": "IS",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.2898349882893854e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "A SPEC (S&P ∪ NDX)",
+      "period": "OOS",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "A SPEC (S&P ∪ NDX)",
+      "period": "FULL",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "B pure momentum top-1 (S&P only)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 213
+    },
+    {
+      "family": "ndx_expand",
+      "name": "B pure momentum top-1 (S&P only)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "B pure momentum top-1 (S&P only)",
+      "period": "IS",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 3.0531133177191805e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "B pure momentum top-1 (S&P only)",
+      "period": "OOS",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "B pure momentum top-1 (S&P only)",
+      "period": "FULL",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "B pure momentum top-1 (S&P ∪ NDX)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 213
+    },
+    {
+      "family": "ndx_expand",
+      "name": "B pure momentum top-1 (S&P ∪ NDX)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "B pure momentum top-1 (S&P ∪ NDX)",
+      "period": "IS",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "B pure momentum top-1 (S&P ∪ NDX)",
+      "period": "OOS",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 6.661338147750939e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "B pure momentum top-1 (S&P ∪ NDX)",
+      "period": "FULL",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "SPY",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 213
+    },
+    {
+      "family": "ndx_expand",
+      "name": "SPY",
+      "period": "IS",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "SPY",
+      "period": "OOS",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "SPY",
+      "period": "FULL",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "SPY",
+      "period": "2012-01..2022-12",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "SPY",
+      "period": "2023-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 1.1102230246251565e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "SPY",
+      "period": "2012-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 3.0531133177191805e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "SPY",
+      "period": "2015-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P only)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 177
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P only)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.371503159461554e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P only)",
+      "period": "2012-01..2022-12",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.718447854656915e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P only)",
+      "period": "2023-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-17
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P only)",
+      "period": "2012-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P only)",
+      "period": "2015-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 EW (S&P only)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 177
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 EW (S&P only)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.3021142204224816e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 EW (S&P only)",
+      "period": "2012-01..2022-12",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 EW (S&P only)",
+      "period": "2023-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 EW (S&P only)",
+      "period": "2012-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 EW (S&P only)",
+      "period": "2015-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.996003610813204e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-1 (S&P only)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 177
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-1 (S&P only)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-1 (S&P only)",
+      "period": "2012-01..2022-12",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-1 (S&P only)",
+      "period": "2023-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-1 (S&P only)",
+      "period": "2012-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 5.551115123125783e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-1 (S&P only)",
+      "period": "2015-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C all top-5 inv-vol (S&P only)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 177
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C all top-5 inv-vol (S&P only)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 3.920475055707584e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C all top-5 inv-vol (S&P only)",
+      "period": "2012-01..2022-12",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C all top-5 inv-vol (S&P only)",
+      "period": "2023-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C all top-5 inv-vol (S&P only)",
+      "period": "2012-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.718447854656915e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C all top-5 inv-vol (S&P only)",
+      "period": "2015-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.718447854656915e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P ∪ NDX)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 177
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P ∪ NDX)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.371503159461554e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P ∪ NDX)",
+      "period": "2012-01..2022-12",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P ∪ NDX)",
+      "period": "2023-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P ∪ NDX)",
+      "period": "2012-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P ∪ NDX)",
+      "period": "2015-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 6.106226635438361e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 EW (S&P ∪ NDX)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 177
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 EW (S&P ∪ NDX)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 3.161533534967731e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 EW (S&P ∪ NDX)",
+      "period": "2012-01..2022-12",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 EW (S&P ∪ NDX)",
+      "period": "2023-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 EW (S&P ∪ NDX)",
+      "period": "2012-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 EW (S&P ∪ NDX)",
+      "period": "2015-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-1 (S&P ∪ NDX)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 177
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-1 (S&P ∪ NDX)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-1 (S&P ∪ NDX)",
+      "period": "2012-01..2022-12",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-1 (S&P ∪ NDX)",
+      "period": "2023-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-1 (S&P ∪ NDX)",
+      "period": "2012-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-1 (S&P ∪ NDX)",
+      "period": "2015-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.440892098500626e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C all top-5 inv-vol (S&P ∪ NDX)",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 177
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C all top-5 inv-vol (S&P ∪ NDX)",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 3.920475055707584e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C all top-5 inv-vol (S&P ∪ NDX)",
+      "period": "2012-01..2022-12",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C all top-5 inv-vol (S&P ∪ NDX)",
+      "period": "2023-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C all top-5 inv-vol (S&P ∪ NDX)",
+      "period": "2012-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C all top-5 inv-vol (S&P ∪ NDX)",
+      "period": "2015-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.996003610813204e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P only) + XLK regime",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 177
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P only) + XLK regime",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.371503159461554e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P only) + XLK regime",
+      "period": "2012-01..2022-12",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 4.718447854656915e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P only) + XLK regime",
+      "period": "2023-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P only) + XLK regime",
+      "period": "2012-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 6.106226635438361e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P only) + XLK regime",
+      "period": "2015-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P ∪ NDX) + XLK regime",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 177
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P ∪ NDX) + XLK regime",
+      "check": "net reconciles to fee-adjusted gross capital",
+      "passed": true,
+      "max_abs_error": 4.371503159461554e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P ∪ NDX) + XLK regime",
+      "period": "2012-01..2022-12",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 1.1102230246251565e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P ∪ NDX) + XLK regime",
+      "period": "2023-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.7755575615628914e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P ∪ NDX) + XLK regime",
+      "period": "2012-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "C tech top-5 inv-vol (S&P ∪ NDX) + XLK regime",
+      "period": "2015-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.498001805406602e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "XLK",
+      "check": "finite continuous unique monthly ledger",
+      "passed": true,
+      "months": 177
+    },
+    {
+      "family": "ndx_expand",
+      "name": "XLK",
+      "period": "2012-01..2022-12",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "XLK",
+      "period": "2023-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 2.220446049250313e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "XLK",
+      "period": "2012-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    },
+    {
+      "family": "ndx_expand",
+      "name": "XLK",
+      "period": "2015-01..2026-09",
+      "check": "summary independently recomputed",
+      "passed": true,
+      "max_abs_error": 3.3306690738754696e-16
+    }
+  ],
+  "passed": true,
+  "strategy_records": 121,
+  "portfolio_records": 73
+}

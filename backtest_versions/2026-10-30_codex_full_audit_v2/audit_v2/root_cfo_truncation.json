@@ -1,0 +1,20 @@
+{
+  "checks": [
+    {
+      "cutoff": "2013-06-30",
+      "pass": true,
+      "rows": 24830
+    },
+    {
+      "cutoff": "2017-06-30",
+      "pass": true,
+      "rows": 56909
+    },
+    {
+      "cutoff": "2021-12-31",
+      "pass": true,
+      "rows": 91986
+    }
+  ],
+  "source_sha256": "53b141d45c9aca4c0911ba2af95fd74929d9b4416a6613e4454d473032325792"
+}

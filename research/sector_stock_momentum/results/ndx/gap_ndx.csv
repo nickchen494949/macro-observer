@@ -1,0 +1,8 @@
+ticker,ndx_member_months_from_2008-12,first,last,sources_tried,reason
+FMCN,1,2008-12-31,2008-12-31,"Tiingo (not listed), WIKI (empty)",Focus Media ADR; no free source
+LMCA,37,2012-12-31,2016-05-31,"Tiingo LMCA (starts 2013-01-10)",Liberty Media added to NDX before its 2013-01-11 listing → series fails the identity rule (must exist at spell start); ineligible for 12-1 momentum until 2014-01 anyway
+LMCK,23,2014-07-31,2016-05-31,"Tiingo (not listed), WIKI (empty)",Liberty Media series C; no free source
+MICC,29,2008-12-31,2011-04-30,"Tiingo MICC/TIGO (2025 / 2011 listings), WIKI (empty)",Millicom pre-2011 US listing; no free source
+NIHD,36,2008-12-31,2011-11-30,"Tiingo/WIKI NIHD (post-2015 new equity only)",old NII Holdings equity cancelled in 2015 bankruptcy; no free source
+PPDI,12,2008-12-31,2009-11-30,"Tiingo (not listed), WIKI (empty)",Pharmaceutical Product Development; no free source
+QRTEA,8,2018-04-30,2018-11-30,"Tiingo QRTEA (unrelated 2026 listing), WIKI (frozen 2018-03-27)",Qurate Retail; Yahoo QVCGA might carry it (Yahoo only in the safe morning window) — open

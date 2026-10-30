@@ -1,0 +1,232 @@
+{
+  "status": "IMPLEMENTATION_AND_REPLAY_CROSS_CHECKS_PASS_WITH_SOURCE_LIMITS",
+  "reviewer": "independent factors_writer",
+  "read_only": true,
+  "scope": [
+    "research/sector_rotation/engine.py",
+    "research/sector_rotation/run_backtest.py",
+    "research/sector_rotation/rf_backtest.py",
+    "research/strategy_comparison/strategy_engine.py",
+    "research/strategy_comparison/sep_falsification_test.py",
+    "research/strategy_comparison/source_gate.py"
+  ],
+  "source_hashes": {
+    "research/sector_rotation/engine.py": "f4bb3fdb57f2d003c1f50a076aed7a6e363e596fb84a03fd2e127c53473a51f6",
+    "research/sector_rotation/run_backtest.py": "86a771f3f173896f1868a8e4ff154fc4d2501009ac5072ec2991ffd85261958e",
+    "research/sector_rotation/rf_backtest.py": "c2a1c0446b7980c70a29e6d5da5273d4e68db1d3d68cebea0741371ab466c1aa",
+    "research/strategy_comparison/strategy_engine.py": "f15a532632bc578a2783030ed4636911cb0dabe5c5cb00bd23f60bbcd0f4ca35",
+    "research/strategy_comparison/sep_falsification_test.py": "ba281ef462874588db2890e797fb324f1be0fd7b934cd18d525b59b2e90b3dfd",
+    "research/strategy_comparison/source_gate.py": "64ec4edaead8aa9fba202aae3cdb357635680cb17a58f0d71834567efe5d36d3"
+  },
+  "provided_test_suite": {
+    "status": "PASS",
+    "checks": 23,
+    "execution": "AST executed exact writer tests after suppressing only audit write_text; no source/result output overwritten",
+    "sha256": "424b191dea795d07de4227ed01d444195434ca3d40442555c0689a683e0b3025"
+  },
+  "verified": [
+    {
+      "check": "All saved simple-rotation Top3/Bottom3 returns independently repriced and their own T+2 entry/exit dates checked",
+      "rows": 538,
+      "max_abs_error": 9.947554932554503e-17
+    },
+    {
+      "check": "Future-availability counterexample impact scan on cached 2023-01..2026-06 candidate grid",
+      "missing_execution_pairs": 22,
+      "examples": [
+        {
+          "date": "2026-05-31",
+          "holding": 3,
+          "ticker": "XLK"
+        },
+        {
+          "date": "2026-05-31",
+          "holding": 3,
+          "ticker": "XLC"
+        },
+        {
+          "date": "2026-05-31",
+          "holding": 3,
+          "ticker": "XLY"
+        },
+        {
+          "date": "2026-05-31",
+          "holding": 3,
+          "ticker": "XLF"
+        },
+        {
+          "date": "2026-05-31",
+          "holding": 3,
+          "ticker": "XLI"
+        }
+      ],
+      "interpretation": "Trailing holding windows without complete cached future prices must remain outside completed portfolio metrics; internal selected-data gaps require failure."
+    },
+    {
+      "check": "RF/Ridge and aligned benchmark saved ledgers repriced; costs explicitly gross",
+      "ledgers": 9,
+      "max_abs_error": 9.71445146547012e-17
+    },
+    {
+      "check": "Direct index-EPS source gate cannot be waived by --revised-history",
+      "message": "BLOCK_SOURCE_IDENTITY: no verified direct Nasdaq-100 aggregate EPS series with historical availability/vintages is supplied. Some legacy entries read SP500_EPS.json; the LSEG export does not establish index identity. --revised-history cannot waive this gate. No EPS model was run."
+    },
+    {
+      "check": "Persisted SEP parser evidence starts official medians 2015-09-17; pre-median rows carry no inferred yearly median",
+      "total_pdfs": 76,
+      "median_tables": 44,
+      "first_median": "2015-09-17"
+    },
+    {
+      "check": "All 20 SEP curves recomputed from frozen prices, prior-calendar-day rate assumption, state transitions and 10bp each trade; CAGR/DD matched",
+      "start": "2015-09-18",
+      "max_wealth_error": 1.7763568394002505e-15,
+      "max_metric_error": 8.326672684688674e-17,
+      "execution": "first trading day after SEP announcement, at close; cash earns calendar-day accrual"
+    }
+  ],
+  "limits": [
+    "No independent source-vintage or direct index aggregate EPS certification. Source gates remain in force.",
+    "The SEP ledger check confirms saved transitions and accounting; the provided parser regression tests cover 2012/2016/2018/2019 formats, not visual certification of every PDF page.",
+    "QQQ static input metadata do not establish adjusted-close/dividend semantics; do not describe as certified total return without source proof.",
+    "Calendar-day DFF publication lag is a modeling assumption, not a verified release-time history."
+  ],
+  "initial_source_hashes": {
+    "research/sector_rotation/engine.py": "f4bb3fdb57f2d003c1f50a076aed7a6e363e596fb84a03fd2e127c53473a51f6",
+    "research/sector_rotation/run_backtest.py": "a51281c0df0356f3099438aadacb91f7df69a3d5c5dc51f2d5d73711352261b9",
+    "research/sector_rotation/rf_backtest.py": "154579da15a0bcce15784082ebfa5abcf16e93e1d69392dd14728e48215b5aa6",
+    "research/strategy_comparison/strategy_engine.py": "f15a532632bc578a2783030ed4636911cb0dabe5c5cb00bd23f60bbcd0f4ca35",
+    "research/strategy_comparison/sep_falsification_test.py": "ba281ef462874588db2890e797fb324f1be0fd7b934cd18d525b59b2e90b3dfd",
+    "research/strategy_comparison/source_gate.py": "64ec4edaead8aa9fba202aae3cdb357635680cb17a58f0d71834567efe5d36d3"
+  },
+  "final_verification": {
+    "provided_ledger_checks_reexecuted": 105,
+    "ledger_script_sha256": "2f1a48fda69e09aaba815b17e426de8b1d54a9e63306a681d1aac146139ac9ca",
+    "independent_t_plus_2_date_checks": 538,
+    "selected_missing_future_error": "Selected holdings cannot be priced: 2020-01-31 G; no replacement allowed",
+    "unselected_middle_missing_preserves_picks_and_disables_ew_ic": true,
+    "whole_trailing_incomplete_window_excluded": true,
+    "common_period_models": 8,
+    "common_period_months": 40,
+    "first_signal": "2023-03-31 00:00:00",
+    "last_signal": "2026-06-30 00:00:00",
+    "first_entry": "2023-04-04 00:00:00",
+    "last_exit": "2026-08-04 00:00:00",
+    "common_summary_sha256": "30445468a08e762f634f494082e110a09e6c1bfc0b53d83e34527b6bacb7bc6d",
+    "formation_to_holding_label": "Rotation date is formation month; compare using date + 1 month (first holding label 2023-04), actual first entry 2023-04-04.",
+    "final_output_hashes": {
+      "research/sector_rotation/results_v2/QQQ_monthly.csv": "9017ec850b7c45077142b04ed0645d85ecfad8f7ee3abb5f8a8f5d70bb8585c5",
+      "research/sector_rotation/results_v2/RF_Top1_(no_XLE)_monthly.csv": "ebdafcd65e5700d172c2519ff62f6d37f74c3eb2eda051bcbd8728a79dc4e9c7",
+      "research/sector_rotation/results_v2/RF_Top1_monthly.csv": "ba514b59e2df2d928984c4cc93f4c71a783b39a40135deee291751e5c2ac189c",
+      "research/sector_rotation/results_v2/RF_Top3_(no_XLE)_monthly.csv": "41ebaa1b96c600b5a71aefdf06eccef54720875911d253ea1b5bb8ef89e149e1",
+      "research/sector_rotation/results_v2/RF_Top3_monthly.csv": "077c0139fe32de58039ed3b85228337e8c195622f059c308221a116af97e3cbf",
+      "research/sector_rotation/results_v2/Ridge_Top1_(no_XLE)_monthly.csv": "228f46a5e8b078403ab84e67df6b9113572c513565286b5c2f85f7eed6b0f3f0",
+      "research/sector_rotation/results_v2/Ridge_Top1_monthly.csv": "b806e6accc674e3fa43f60241ff0ea34fa9767d34b1064113a3401212d975b50",
+      "research/sector_rotation/results_v2/SPY_Ridge_Top1_aligned_monthly.csv": "0d8ec85d734ea307268d372efa88037f27b538e5e5f5f21a4f9c74215ed9506c",
+      "research/sector_rotation/results_v2/SPY_monthly.csv": "3824562531dd7ac1b020dc60a74034c572f28da7940f0e0b953a8ad263c2e3ae",
+      "research/sector_rotation/results_v2/common_monthly/QQQ_(aligned_no-XLE_reference)_monthly.csv": "8503ddaa7fd04973ea35a7686406e5f6b84bef3dc35d72287af00161f993b859",
+      "research/sector_rotation/results_v2/common_monthly/RF_Top1_(no_XLE)_monthly.csv": "1ec5d626a6c90786e88f26cbde64811c58dcde5059091a7b00aa7e136843996a",
+      "research/sector_rotation/results_v2/common_monthly/RF_Top1_monthly.csv": "ba514b59e2df2d928984c4cc93f4c71a783b39a40135deee291751e5c2ac189c",
+      "research/sector_rotation/results_v2/common_monthly/RF_Top3_(no_XLE)_monthly.csv": "9b7ae1d3e30432a9ae4939bda8e51ceb6450096e9211a83e41bcc3b36334066c",
+      "research/sector_rotation/results_v2/common_monthly/RF_Top3_monthly.csv": "077c0139fe32de58039ed3b85228337e8c195622f059c308221a116af97e3cbf",
+      "research/sector_rotation/results_v2/common_monthly/Ridge_Top1_(no_XLE)_monthly.csv": "cbbb58950c1b0a81be34aeeea441cfb3d80be90883e3172d6db69fd4046587db",
+      "research/sector_rotation/results_v2/common_monthly/Ridge_Top1_monthly.csv": "b806e6accc674e3fa43f60241ff0ea34fa9767d34b1064113a3401212d975b50",
+      "research/sector_rotation/results_v2/common_monthly/SPY_(aligned_no-XLE_reference)_monthly.csv": "0d8ec85d734ea307268d372efa88037f27b538e5e5f5f21a4f9c74215ed9506c",
+      "research/sector_rotation/results_v2/model_common_period_summary.csv": "30445468a08e762f634f494082e110a09e6c1bfc0b53d83e34527b6bacb7bc6d",
+      "research/sector_rotation/results_v2/model_summary.csv": "948a5a53b6d23bf3943256afd8c609b1819d18eb7121c70c649caac613674472",
+      "research/sector_rotation/results_v2/ridge_aligned_summary.csv": "df33fe4415a478558397122974b2587b1f9f7dc866d59563b7f5a09772c55a94"
+    }
+  },
+  "resolved_findings": [
+    {
+      "id": "RCR01",
+      "priority": "P2",
+      "status": "RESOLVED_AND_INDEPENDENTLY_RETESTED",
+      "file": "research/sector_rotation/run_backtest.py",
+      "lines": [
+        309,
+        320
+      ],
+      "issue": "Future executable-price availability is filtered before ranking. The same known formation scores select a different Top3 when only a future exit quote disappears.",
+      "counterexample": {
+        "same_formation_scores": true,
+        "complete_future_top3": "G,F,E",
+        "missing_future_quote_top3": "F,E,D",
+        "missing_future_result": 0.019607843137254832
+      },
+      "required_fix": "Rank formation-known eligible rows first; require complete selected execution prices or stop/mark unsupported. Do not silently substitute another ETF.",
+      "resolution": "Formation ranking precedes pricing; selected gaps fail without replacement; entire incomplete tail windows excluded."
+    },
+    {
+      "id": "RCR02",
+      "priority": "P2",
+      "status": "RESOLVED_AND_INDEPENDENTLY_RETESTED",
+      "file": "research/sector_rotation/rf_backtest.py",
+      "lines": [
+        69,
+        94
+      ],
+      "issue": "The aligned SPY/QQQ baseline uses the no-XLE reference calendar (44 months), while full-universe models begin later (40 months). The model_summary is not a same-period ranking.",
+      "evidence": [
+        {
+          "file": "QQQ_monthly.csv",
+          "n": 44,
+          "first_signal": "2022-11-30",
+          "last_signal": "2026-06-30"
+        },
+        {
+          "file": "RF_Top1_(no_XLE)_monthly.csv",
+          "n": 44,
+          "first_signal": "2022-11-30",
+          "last_signal": "2026-06-30"
+        },
+        {
+          "file": "RF_Top1_monthly.csv",
+          "n": 40,
+          "first_signal": "2023-03-31",
+          "last_signal": "2026-06-30"
+        },
+        {
+          "file": "RF_Top3_(no_XLE)_monthly.csv",
+          "n": 44,
+          "first_signal": "2022-11-30",
+          "last_signal": "2026-06-30"
+        },
+        {
+          "file": "RF_Top3_monthly.csv",
+          "n": 40,
+          "first_signal": "2023-03-31",
+          "last_signal": "2026-06-30"
+        },
+        {
+          "file": "Ridge_Top1_(no_XLE)_monthly.csv",
+          "n": 44,
+          "first_signal": "2022-11-30",
+          "last_signal": "2026-06-30"
+        },
+        {
+          "file": "Ridge_Top1_monthly.csv",
+          "n": 40,
+          "first_signal": "2023-03-31",
+          "last_signal": "2026-06-30"
+        },
+        {
+          "file": "SPY_Ridge_Top1_aligned_monthly.csv",
+          "n": 40,
+          "first_signal": "2023-03-31",
+          "last_signal": "2026-06-30"
+        },
+        {
+          "file": "SPY_monthly.csv",
+          "n": 44,
+          "first_signal": "2022-11-30",
+          "last_signal": "2026-06-30"
+        }
+      ],
+      "required_fix": "Add explicit first/last dates and provide shared-period comparison or a benchmark aligned separately to each strategy. Root common-period comparison must not use the raw summary ranking.",
+      "resolution": "Native periods now explicit; separate 8-series common table has identical 40 executed holding windows, independently recomputed."
+    }
+  ],
+  "remaining_findings": [],
+  "approval_scope": "Cross-review confirms bounded implementation/replay; source certification and global approval remain root responsibilities."
+}

@@ -1,0 +1,32 @@
+{
+  "reviewer": "legacy_ml_writer, independent of root-owned implementations",
+  "checks": [
+    {
+      "name": "cash_and_partial_exposure_balance",
+      "status": "PASS"
+    },
+    {
+      "name": "terminal_proceeds_no_full_month_interest",
+      "status": "PASS"
+    },
+    {
+      "name": "ear_three_event_age_and_identity",
+      "status": "PASS"
+    },
+    {
+      "name": "cfo_ttm_value_and_latest_component_date",
+      "status": "PASS"
+    },
+    {
+      "name": "cfo_missing_component_invalidation",
+      "status": "PASS"
+    }
+  ],
+  "source_sha256": {
+    "winners_tracks.py": "c0fde0a224f8ed6f82c1b0891718ab9690556a9b26cbcf567d130fe9c4c9fdf5",
+    "winners_holdout.py": "6c2a95adb9b52d9cbe68fc465ca9fd0df2259bccb91e4807588d2a19dabbadd0",
+    "earnings_factor.py": "955be837d3c8f88dbe48ebfaacb17a4b2ee665648855952e8050465ed7334566",
+    "ml2_run.py": "848fdd5e7f83c13270947e17989f303366c5edd3e9b32e450bb1d3089a5074b1",
+    "ml2_features.py": "53b141d45c9aca4c0911ba2af95fd74929d9b4416a6613e4454d473032325792"
+  }
+}

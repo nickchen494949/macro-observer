@@ -1,0 +1,240 @@
+{
+  "reviewer": "legacy_ml_writer, independent of root-owned patches",
+  "checks": [
+    {
+      "name": "manual_terminal_return_execution_entry_basis",
+      "status": "PASS",
+      "detail": {
+        "next_close": [
+          2.220446049250313e-16,
+          "resolved_manual"
+        ],
+        "next_open": [
+          2.220446049250313e-16,
+          "resolved_manual"
+        ]
+      }
+    },
+    {
+      "name": "unknown_labels_excluded_from_fit_but_not_test_pool",
+      "status": "PASS",
+      "detail": {
+        "fit_calls": 2,
+        "unknown_training_rows": 0,
+        "unknown_test_candidate_retained": true
+      }
+    },
+    {
+      "name": "open_price_status_availability_matrix",
+      "status": "PASS",
+      "detail": {
+        "cases": 20,
+        "unknown_status_preserved": true,
+        "rows": [
+          {
+            "status": "ok",
+            "entry_open": false,
+            "exit_open": false,
+            "expected": 0.10000000000000009,
+            "got": 0.10000000000000009,
+            "returned_status": "ok"
+          },
+          {
+            "status": "ok",
+            "entry_open": false,
+            "exit_open": true,
+            "expected": 0.10000000000000009,
+            "got": 0.10000000000000009,
+            "returned_status": "ok"
+          },
+          {
+            "status": "ok",
+            "entry_open": true,
+            "exit_open": false,
+            "expected": 0.10000000000000009,
+            "got": 0.10000000000000009,
+            "returned_status": "ok"
+          },
+          {
+            "status": "ok",
+            "entry_open": true,
+            "exit_open": true,
+            "expected": 0.6000000000000001,
+            "got": 0.6000000000000001,
+            "returned_status": "ok"
+          },
+          {
+            "status": "resolved_manual",
+            "entry_open": false,
+            "exit_open": false,
+            "expected": 0.10000000000000009,
+            "got": 0.10000000000000009,
+            "returned_status": "resolved_manual"
+          },
+          {
+            "status": "resolved_manual",
+            "entry_open": false,
+            "exit_open": true,
+            "expected": 0.10000000000000009,
+            "got": 0.10000000000000009,
+            "returned_status": "resolved_manual"
+          },
+          {
+            "status": "resolved_manual",
+            "entry_open": true,
+            "exit_open": false,
+            "expected": 0.34444444444444455,
+            "got": 0.34444444444444455,
+            "returned_status": "resolved_manual"
+          },
+          {
+            "status": "resolved_manual",
+            "entry_open": true,
+            "exit_open": true,
+            "expected": 0.34444444444444455,
+            "got": 0.34444444444444455,
+            "returned_status": "resolved_manual"
+          },
+          {
+            "status": "delisted_in_month",
+            "entry_open": false,
+            "exit_open": false,
+            "expected": 0.10000000000000009,
+            "got": 0.10000000000000009,
+            "returned_status": "delisted_in_month"
+          },
+          {
+            "status": "delisted_in_month",
+            "entry_open": false,
+            "exit_open": true,
+            "expected": 0.10000000000000009,
+            "got": 0.10000000000000009,
+            "returned_status": "delisted_in_month"
+          },
+          {
+            "status": "delisted_in_month",
+            "entry_open": true,
+            "exit_open": false,
+            "expected": 0.34444444444444455,
+            "got": 0.34444444444444455,
+            "returned_status": "delisted_in_month"
+          },
+          {
+            "status": "delisted_in_month",
+            "entry_open": true,
+            "exit_open": true,
+            "expected": 0.34444444444444455,
+            "got": 0.34444444444444455,
+            "returned_status": "delisted_in_month"
+          },
+          {
+            "status": "source_gap",
+            "entry_open": false,
+            "exit_open": false,
+            "expected": 0.10000000000000009,
+            "got": 0.10000000000000009,
+            "returned_status": "source_gap"
+          },
+          {
+            "status": "source_gap",
+            "entry_open": false,
+            "exit_open": true,
+            "expected": 0.10000000000000009,
+            "got": 0.10000000000000009,
+            "returned_status": "source_gap"
+          },
+          {
+            "status": "source_gap",
+            "entry_open": true,
+            "exit_open": false,
+            "expected": 0.10000000000000009,
+            "got": 0.10000000000000009,
+            "returned_status": "source_gap"
+          },
+          {
+            "status": "source_gap",
+            "entry_open": true,
+            "exit_open": true,
+            "expected": 0.10000000000000009,
+            "got": 0.10000000000000009,
+            "returned_status": "source_gap"
+          },
+          {
+            "status": "unresolved",
+            "entry_open": false,
+            "exit_open": false,
+            "expected": 0.0,
+            "got": 0.0,
+            "returned_status": "unresolved"
+          },
+          {
+            "status": "unresolved",
+            "entry_open": false,
+            "exit_open": true,
+            "expected": 0.0,
+            "got": 0.0,
+            "returned_status": "unresolved"
+          },
+          {
+            "status": "unresolved",
+            "entry_open": true,
+            "exit_open": false,
+            "expected": 0.0,
+            "got": 0.0,
+            "returned_status": "unresolved"
+          },
+          {
+            "status": "unresolved",
+            "entry_open": true,
+            "exit_open": true,
+            "expected": 0.0,
+            "got": 0.0,
+            "returned_status": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "name": "missing_exact_day_entry_not_forward_filled",
+      "status": "PASS",
+      "detail": [
+        {
+          "manual_resolution": false,
+          "execution": "Prices",
+          "result": [
+            0.0,
+            "unresolved"
+          ]
+        },
+        {
+          "manual_resolution": false,
+          "execution": "OpenPrices",
+          "result": [
+            0.0,
+            "unresolved"
+          ]
+        },
+        {
+          "manual_resolution": true,
+          "execution": "Prices",
+          "result": [
+            0.0,
+            "unresolved"
+          ]
+        },
+        {
+          "manual_resolution": true,
+          "execution": "OpenPrices",
+          "result": [
+            0.0,
+            "unresolved"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_sha256": {
+    "backtest.py": "fe251d714fe9d3c9ec6db2d70f595d5657305ce8d6e0658ddba4519d8d12bba1",
+    "ml2_run.py": "848fdd5e7f83c13270947e17989f303366c5edd3e9b32e450bb1d3089a5074b1"
+  }
+}

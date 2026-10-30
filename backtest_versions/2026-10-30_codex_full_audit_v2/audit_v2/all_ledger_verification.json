@@ -1,0 +1,3231 @@
+{
+  "checks": [
+    {
+      "path": "research/sector_stock_momentum/results/monthly_SPEC.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_SPEC.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_SPEC___ETF_sector_score.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_SPEC___ETF_sector_score.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_SPEC___next_day_close_execution.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_SPEC___next_day_close_execution.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_SPEC___unresolved_exits____30_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_SPEC___unresolved_exits____30_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_SPEC___unresolved_exits____100_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_SPEC___unresolved_exits____100_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_NO_SECTOR_FILTER__top_1_stock.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_NO_SECTOR_FILTER__top_1_stock.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_Ref__EW_all_stocks_of_best_sector.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.215378046623641e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_Ref__EW_all_stocks_of_best_sector.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_Ref__top_10__no_sector_filter.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.163336342344337e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_Ref__top_10__no_sector_filter.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_Ref__best_sector_ETF.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_Ref__best_sector_ETF.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "audit_v2/root_benchmark_SPY.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "audit_v2/root_benchmark_RSP.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_IS_selected_config.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_IS_selected_config.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_IS_selected__NO_sector_filter__same_3_stocks_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/monthly_IS_selected__NO_sector_filter__same_3_stocks_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_A_ridge_Top1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_A_ridge_Top1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_A_ridge_Top3.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.388850394221322e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_A_ridge_Top3.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_B_ridge_Top1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_B_ridge_Top1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_B_ridge_Top3.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.0939474033052647e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_B_ridge_Top3.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_C_ridge_Top1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_C_ridge_Top1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_C_ridge_Top3.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_C_ridge_Top3.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_A_lgbm_Top1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_A_lgbm_Top1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_A_lgbm_Top3.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_A_lgbm_Top3.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_B_lgbm_Top1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_B_lgbm_Top1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_B_lgbm_Top3.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_B_lgbm_Top3.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_C_lgbm_Top1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_C_lgbm_Top1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_C_lgbm_Top3.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_C_lgbm_Top3.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_BENCH_momentum_Top1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_BENCH_momentum_Top1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_BENCH_momentum_Top3.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_BENCH_momentum_Top3.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_BENCH_full_universe_C_lgbm_Top1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_BENCH_full_universe_C_lgbm_Top1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_BENCH_full_universe_C_lgbm_Top3.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3021142204224816e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_BENCH_full_universe_C_lgbm_Top3.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_BENCH_SPY.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 9.367506770274758e-17
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml2/monthly_BENCH_SPY.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 141
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_5_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_5_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_5_ew__market.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_5_ew__market.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_5_ew__crash.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_5_ew__crash.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_5_ivol.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.7816971776294395e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_5_ivol.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_5_ivol__market.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.7816971776294395e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_5_ivol__market.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_5_ivol__crash.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.7816971776294395e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_5_ivol__crash.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_10_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.163336342344337e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_10_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_10_ew__market.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.8163916471489756e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_10_ew__market.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_10_ew__crash.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.163336342344337e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_10_ew__crash.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_10_ivol.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.95516952522712e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_10_ivol.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_10_ivol__market.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.95516952522712e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_10_ivol__market.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_10_ivol__crash.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.95516952522712e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_10_ivol__crash.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_20_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_20_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_20_ew__market.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_20_ew__market.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_20_ew__crash.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_20_ew__crash.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_20_ivol.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_20_ivol.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_20_ivol__market.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_20_ivol__market.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_20_ivol__crash.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T3_mom_top_20_ivol__crash.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S1_top_1_hold1m.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S1_top_1_hold1m.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S1_top_1_hold6m.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.3306690738754696e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S1_top_1_hold6m.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S1_top_5_hold1m.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.0245584642661925e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S1_top_5_hold1m.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S1_top_5_hold6m.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.191891195797325e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S1_top_5_hold6m.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S1_top_10_hold1m.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.215378046623641e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S1_top_10_hold1m.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S1_top_10_hold6m.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.0245584642661925e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S1_top_10_hold6m.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S2_top_1_hold1m.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S2_top_1_hold1m.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S2_top_1_hold6m.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.191891195797325e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S2_top_1_hold6m.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S2_top_5_hold1m.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.0245584642661925e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S2_top_5_hold1m.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S2_top_5_hold6m.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.0531133177191805e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S2_top_5_hold6m.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S2_top_10_hold1m.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S2_top_10_hold1m.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S2_top_10_hold6m.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.2959746043559335e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_T2_S2_top_10_hold6m.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_BENCH_equal_weight_S_P_members.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.163336342344337e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_BENCH_equal_weight_S_P_members.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_BENCH_SPY.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 9.71445146547012e-17
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_BENCH_SPY.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_BENCH_pure_momentum_top_1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners/monthly_BENCH_pure_momentum_top_1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_BENCH_pure_momentum_top_1_base__unknown_outcome___0___.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_BENCH_pure_momentum_top_1_base__unknown_outcome___0___.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew_base__unknown_outcome___0___.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.238146292245837e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew_base__unknown_outcome___0___.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew__crash_base__unknown_outcome___0___.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.238146292245837e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew__crash_base__unknown_outcome___0___.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold1m_base__unknown_outcome___0___.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold1m_base__unknown_outcome___0___.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold6m_base__unknown_outcome___0___.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 5.186823193170653e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold6m_base__unknown_outcome___0___.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.2674197509029455e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_REF_SPY_base__unknown_outcome___0___.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 9.71445146547012e-17
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_REF_SPY_base__unknown_outcome___0___.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_BENCH_pure_momentum_top_1_stress__30__.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_BENCH_pure_momentum_top_1_stress__30__.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew_stress__30__.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.238146292245837e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew_stress__30__.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew__crash_stress__30__.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.238146292245837e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew__crash_stress__30__.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold1m_stress__30__.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold1m_stress__30__.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold6m_stress__30__.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.3306690738754696e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold6m_stress__30__.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_BENCH_pure_momentum_top_1_stress__100__.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_BENCH_pure_momentum_top_1_stress__100__.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew_stress__100__.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.238146292245837e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew_stress__100__.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew__crash_stress__100__.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.238146292245837e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew__crash_stress__100__.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold1m_stress__100__.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold1m_stress__100__.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold6m_stress__100__.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.122502256758253e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold6m_stress__100__.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_BENCH_pure_momentum_top_1_base__unknown_outcome___0____STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_BENCH_pure_momentum_top_1_base__unknown_outcome___0____STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew_base__unknown_outcome___0____STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.238146292245837e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew_base__unknown_outcome___0____STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew__crash_base__unknown_outcome___0____STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.238146292245837e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew__crash_base__unknown_outcome___0____STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold1m_base__unknown_outcome___0____STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold1m_base__unknown_outcome___0____STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold6m_base__unknown_outcome___0____STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.191891195797325e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold6m_base__unknown_outcome___0____STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0____STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.2674197509029455e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0____STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_REF_SPY_base__unknown_outcome___0____STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 9.71445146547012e-17
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_REF_SPY_base__unknown_outcome___0____STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_BENCH_pure_momentum_top_1_stress__30___STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_BENCH_pure_momentum_top_1_stress__30___STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew_stress__30___STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.238146292245837e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew_stress__30___STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew__crash_stress__30___STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.238146292245837e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew__crash_stress__30___STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold1m_stress__30___STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold1m_stress__30___STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold6m_stress__30___STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold6m_stress__30___STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_BENCH_pure_momentum_top_1_stress__100___STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_BENCH_pure_momentum_top_1_stress__100___STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew_stress__100___STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.238146292245837e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew_stress__100___STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew__crash_stress__100___STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.238146292245837e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T3_mom_top_5_ew__crash_stress__100___STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold1m_stress__100___STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold1m_stress__100___STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold6m_stress__100___STRICT.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.183217578417441e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/winners_holdout/monthly_T2_S1_top_5_hold6m_stress__100___STRICT.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_mom_top1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 1.8041124150158794e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_mom_top1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_mom_top1_sma200.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 1.6653345369377348e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_mom_top1_sma200.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_mom_top5.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.163336342344337e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_mom_top5.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_mom_top20.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.6237692574149207e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_mom_top20.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_composite_top1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.1510571102112408e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_composite_top1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_composite_top1_sma200.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.1510571102112408e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_composite_top1_sma200.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_composite_top5.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.5388358909926865e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_composite_top5.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_composite_top20.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.122502256758253e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_composite_top20.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_ridge_top1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_ridge_top1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_ridge_top1_sma200.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_ridge_top1_sma200.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_ridge_top5.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.141652298894627e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_ridge_top5.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_ridge_top20.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.0054084221298183e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_ridge_top20.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_s_top1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_s_top1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_s_top1_sma200.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_s_top1_sma200.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_s_top5.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3021142204224816e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_s_top5.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_s_top20.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.191891195797325e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_s_top20.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_m_top1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_m_top1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_m_top1_sma200.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_m_top1_sma200.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_m_top5.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_m_top5.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_m_top20.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.914335439641036e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_m_top20.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_rank_top1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_rank_top1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_rank_top1_sma200.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_rank_top1_sma200.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_rank_top5.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.0245584642661925e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_rank_top5.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_rank_top20.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.914335439641036e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/holdout_lgbm_rank_top20.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 45
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v1_composite_top_1__all_S_P_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v1_composite_top_1__all_S_P_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v1_composite_top_1__tech_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v1_composite_top_1__tech_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v1_composite_top_5__all_S_P_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.423544863740858e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v1_composite_top_5__all_S_P_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v1_composite_top_5__tech_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v1_composite_top_5__tech_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v1_SPY.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v1_XLK.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v2_v2_top_1__tech_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v2_v2_top_1__tech_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v2_v2_top_1__all_S_P_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v2_v2_top_1__all_S_P_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v2_v2_top_5__tech_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3021142204224816e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v2_v2_top_5__tech_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v2_v2_top_10__tech_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v2_v2_top_10__tech_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v2_v2_top_5__all_S_P_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3021142204224816e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v2_v2_top_5__all_S_P_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v2_v2_top_10__all_S_P_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v2_v2_top_10__all_S_P_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v2_XLK.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v2_SPY.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_1__fixed_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_1__fixed_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_EW__fixed_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3021142204224816e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_EW__fixed_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_inv_vol__fixed_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_inv_vol__fixed_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_1__annual_reselect_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_1__annual_reselect_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_EW__annual_reselect_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.8163916471489756e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_EW__annual_reselect_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_inv_vol__annual_reselect_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.8163916471489756e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_inv_vol__annual_reselect_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_1__fixed____XLK_regime.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_1__fixed____XLK_regime.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_EW__fixed____XLK_regime.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3021142204224816e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_EW__fixed____XLK_regime.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_inv_vol__fixed____XLK_regime.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_inv_vol__fixed____XLK_regime.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_1__annual_reselect____XLK_regime.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_1__annual_reselect____XLK_regime.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_EW__annual_reselect____XLK_regime.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.7470027081099033e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_EW__annual_reselect____XLK_regime.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_inv_vol__annual_reselect____XLK_regime.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.0531133177191805e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_tech_top_5_inv_vol__annual_reselect____XLK_regime.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_pure_momentum_top_1__all_S_P_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_pure_momentum_top_1__all_S_P_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_pure_momentum_top_1__all____SPY_regime.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_pure_momentum_top_1__all____SPY_regime.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_XLK.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_XLK___own_regime.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.0838365755171395e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_XLK___own_regime.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_SPY.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_SPY___own_regime.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.0383000842727483e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/v3_SPY___own_regime.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/ear_monthly_composite__baseline_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/ear_monthly_composite__baseline_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/ear_monthly_composite___ear.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/ear_monthly_composite___ear.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/ear_monthly_composite___ear_sum4.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.40619762898109e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/explosive/ear_monthly_composite___ear_sum4.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/eps_momentum/monthly_A__top_10_EPS_growth___best_momentum___0__else_cas.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/eps_momentum/monthly_A__top_10_EPS_growth___best_momentum___0__else_cas.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/eps_momentum/monthly_B__top_10_\u0394EPS_price___best_momentum___0__else_cas.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/eps_momentum/monthly_B__top_10_\u0394EPS_price___best_momentum___0__else_cas.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/eps_momentum/monthly_F__top_10_EPS_growth__base_margin____5____best_mom.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/eps_momentum/monthly_F__top_10_EPS_growth__base_margin____5____best_mom.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/eps_momentum/monthly_G__top_10_symmetric_EPS_growth___best_momentum___0.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/eps_momentum/monthly_G__top_10_symmetric_EPS_growth___best_momentum___0.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/eps_momentum/monthly_C__top_10_EPS_growth__equal_weight__no_momentum_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/eps_momentum/monthly_C__top_10_EPS_growth__equal_weight__no_momentum_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/eps_momentum/monthly_D__top_10_\u0394EPS_price__equal_weight.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/eps_momentum/monthly_D__top_10_\u0394EPS_price__equal_weight.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/eps_momentum/monthly_E__pure_momentum_top_1__reference_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/eps_momentum/monthly_E__pure_momentum_top_1__reference_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/eps_momentum/monthly_SPY.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/sma200_pure_momentum_top_1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/sma200_pure_momentum_top_1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/sma200_pure_momentum_top_1___SMA200.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/sma200_pure_momentum_top_1___SMA200.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/sma200_sector_spec.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.1510571102112408e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/sma200_sector_spec.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/sma200_sector_spec___SMA200.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.1510571102112408e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/sma200_sector_spec___SMA200.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/sma200_EPS_protected__F_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/sma200_EPS_protected__F_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/sma200_EPS_protected__F____SMA200.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/sma200_EPS_protected__F____SMA200.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/sma200_SPY.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/composite3_composite_top_1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/composite3_composite_top_1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/composite3_composite_top_1___SMA200.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/composite3_composite_top_1___SMA200.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/composite3_composite_top_5__equal_weight_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3368086899420177e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/composite3_composite_top_5__equal_weight_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/composite3_composite_top_20__equal_weight_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3021142204224816e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/composite3_composite_top_20__equal_weight_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/mom30roe_mom_top_30___ROE_20____best_EPS_growth.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/mom30roe_mom_top_30___ROE_20____best_EPS_growth.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/mom30roe_mom_top_30___ROE_20____best_\u0394EPS_price.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/mom30roe_mom_top_30___ROE_20____best_\u0394EPS_price.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/tech_tech__momentum_top_1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/tech_tech__momentum_top_1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/tech_tech__momentum_top_1___SMA200.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/tech_tech__momentum_top_1___SMA200.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/tech_tech__three_factor_score_top_1.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/tech_tech__three_factor_score_top_1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/tech_tech__momentum_top_5__equal_weight_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.180683577104105e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/tech_tech__momentum_top_5__equal_weight_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/tech_BENCH_XLK.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ml/tech_BENCH_SPY.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 201
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A1_\u4ef7\u503c_\u52a8\u91cf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.0939474033052647e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A1_\u4ef7\u503c_\u52a8\u91cf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 200
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A2_\u8d28\u91cf_\u4ef7\u503c.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A2_\u8d28\u91cf_\u4ef7\u503c.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 200
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A3_\u52a8\u91cf_\u4f4e\u6ce2\u52a8.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.393187202911264e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A3_\u52a8\u91cf_\u4f4e\u6ce2\u52a8.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 200
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A4_\u52a8\u91cf_\u76c8\u5229\u60ca\u559c.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.131175874138137e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A4_\u52a8\u91cf_\u76c8\u5229\u60ca\u559c.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 200
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A5_GARP.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.0245584642661925e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A5_GARP.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 200
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A6_\u52a8\u91cf_\u8425\u6536\u6bdb\u5229\u52a0\u901f.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A6_\u52a8\u91cf_\u8425\u6536\u6bdb\u5229\u52a0\u901f.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 200
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A7_\u8d28\u91cf_\u52a8\u91cf_\u4ef7\u503c.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.40619762898109e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A7_\u8d28\u91cf_\u52a8\u91cf_\u4ef7\u503c.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 200
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A8_\u52a8\u91cf_\u77ed\u671f\u53cd\u8f6c.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.0939474033052647e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_A8_\u52a8\u91cf_\u77ed\u671f\u53cd\u8f6c.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 200
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_B_ridge.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.608224830031759e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_B_ridge.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_B_lasso.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.885780586188048e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_B_lasso.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_B_lgbm.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_B_lgbm.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 164
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_eps_g______rev_g_q_\u524d30_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.157196726277789e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_eps_g______rev_g_q_\u524d30_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 128
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_eps_g_sym______rev_g_q_\u524d30_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3021142204224816e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_eps_g_sym______rev_g_q_\u524d30_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 128
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_eps_g______rev_g_\u524d30_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_eps_g______rev_g_\u524d30_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 128
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_deps_p______rev_g_q_\u524d30_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.0245584642661925e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_deps_p______rev_g_q_\u524d30_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 128
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______vol_3m_\u524d30_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.608224830031759e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______vol_3m_\u524d30_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 128
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______beta_12m_\u524d30_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.7470027081099033e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______beta_12m_\u524d30_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 128
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_margin______dist_sma200_\u524d30_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.920475055707584e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_margin______dist_sma200_\u524d30_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 128
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_asset_turn______dist_sma200_\u524d30_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.122502256758253e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_asset_turn______dist_sma200_\u524d30_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 128
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______log_mcap_\u524d30_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.2327252813834093e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______log_mcap_\u524d30_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 128
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______asset_g_\u524d30_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.885780586188048e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______asset_g_\u524d30_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 128
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_BENCH_SPY.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 9.71445146547012e-17
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_BENCH_SPY.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 200
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_BENCH_EW_universe.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.163336342344337e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/factor_combo/monthly_BENCH_EW_universe.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 200
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_A_SPEC__S_P_only_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_A_SPEC__S_P_only_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_A_SPEC__S_P___NDX_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_A_SPEC__S_P___NDX_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_B_pure_momentum_top_1__S_P_only_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_B_pure_momentum_top_1__S_P_only_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_B_pure_momentum_top_1__S_P___NDX_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_B_pure_momentum_top_1__S_P___NDX_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_SPY_full.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P_only_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P_only_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 177
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_EW__S_P_only_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3021142204224816e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_EW__S_P_only_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 177
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_1__S_P_only_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_1__S_P_only_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 177
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_all_top_5_inv_vol__S_P_only_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.920475055707584e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_all_top_5_inv_vol__S_P_only_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 177
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P___NDX_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P___NDX_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 177
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_EW__S_P___NDX_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.161533534967731e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_EW__S_P___NDX_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 177
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_1__S_P___NDX_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_1__S_P___NDX_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 177
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_all_top_5_inv_vol__S_P___NDX_.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.920475055707584e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_all_top_5_inv_vol__S_P___NDX_.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 177
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P_only____XLK_regime.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P_only____XLK_regime.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 177
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P___NDX____XLK_regime.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P___NDX____XLK_regime.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 177
+    },
+    {
+      "path": "research/sector_stock_momentum/results/ndx/monthly_XLK.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 177
+    },
+    {
+      "path": "research/sector_rotation/results_v2/Ridge_Top1_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 40
+    },
+    {
+      "path": "research/sector_rotation/results_v2/SPY_Ridge_Top1_aligned_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 40
+    },
+    {
+      "path": "research/sector_rotation/detail_valuation_all_h1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 42
+    },
+    {
+      "path": "research/sector_rotation/detail_eps_revision_all_h1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 42
+    },
+    {
+      "path": "research/sector_rotation/detail_momentum_all_h1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 42
+    },
+    {
+      "path": "research/sector_rotation/detail_val+eps_all_h1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 42
+    },
+    {
+      "path": "research/sector_rotation/detail_val+eps+mom_all_h1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 42
+    },
+    {
+      "path": "research/sector_rotation/detail_all_equal_all_h1.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 42
+    },
+    {
+      "path": "research/sector_rotation/results_v2/SPY_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 44
+    },
+    {
+      "path": "research/sector_rotation/results_v2/QQQ_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 44
+    },
+    {
+      "path": "research/sector_rotation/results_v2/RF_Top3_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 40
+    },
+    {
+      "path": "research/sector_rotation/results_v2/RF_Top1_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 40
+    },
+    {
+      "path": "research/sector_rotation/results_v2/RF_Top3_(no_XLE)_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 44
+    },
+    {
+      "path": "research/sector_rotation/results_v2/RF_Top1_(no_XLE)_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 44
+    },
+    {
+      "path": "research/sector_rotation/results_v2/Ridge_Top1_(no_XLE)_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 44
+    },
+    {
+      "path": "research/sector_rotation/results_v2/common_monthly/SPY_(aligned_no-XLE_reference)_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 40
+    },
+    {
+      "path": "research/sector_rotation/results_v2/common_monthly/QQQ_(aligned_no-XLE_reference)_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 40
+    },
+    {
+      "path": "research/sector_rotation/results_v2/common_monthly/RF_Top3_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 40
+    },
+    {
+      "path": "research/sector_rotation/results_v2/common_monthly/RF_Top1_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 40
+    },
+    {
+      "path": "research/sector_rotation/results_v2/common_monthly/RF_Top3_(no_XLE)_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 40
+    },
+    {
+      "path": "research/sector_rotation/results_v2/common_monthly/RF_Top1_(no_XLE)_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 40
+    },
+    {
+      "path": "research/sector_rotation/results_v2/common_monthly/Ridge_Top1_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 40
+    },
+    {
+      "path": "research/sector_rotation/results_v2/common_monthly/Ridge_Top1_(no_XLE)_monthly.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 40
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock3_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock3_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock1_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.2327252813834093e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock1_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock5_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.128641872824801e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock5_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock5_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.2327252813834093e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock5_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock3_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock3_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock3_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3194614551822497e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock3_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock3_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock3_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock10_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.198030811863873e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock10_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock1_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.2327252813834093e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock1_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock10_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.0245584642661925e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock10_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock1_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3368086899420177e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock1_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock5_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.397524011601206e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock5_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock3_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock3_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock10_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock10_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock10_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.95516952522712e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock10_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock1_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock1_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock3_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.0939474033052647e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock3_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock3_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.2327252813834093e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock3_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock3_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3021142204224816e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock3_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock5_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock5_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock3_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.163336342344337e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock3_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock5_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock5_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock10_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock10_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock5_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.2327252813834093e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock5_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock10_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.0245584642661925e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock10_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock5_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock5_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock3_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock3_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock5_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.163336342344337e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock5_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock1_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock1_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock10_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock10_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock10_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.2869353900076845e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock10_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock10_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock10_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock10_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.198030811863873e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock10_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock10_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3368086899420177e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock10_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock5_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.198030811863873e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock5_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock3_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock3_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock10_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock10_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock5_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.0939474033052647e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock5_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock5_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock5_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock10_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock10_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock10_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock10_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock3_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.8207284558389176e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock3_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock1_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock1_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock3_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock3_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock5_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3021142204224816e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock5_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock1_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock1_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock10_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock10_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock5_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.5388358909926865e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector3_stock5_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock3_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock3_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock10_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.5735303605122226e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock10_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock10_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock10_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock10_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.40619762898109e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock10_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock3_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.2999458160775106e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock3_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock1_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.40619762898109e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock1_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock3_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.469446951953614e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock3_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock5_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock5_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock5_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock5_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock5_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.163336342344337e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock5_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock1_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock1_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock10_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock10_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock10_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.40619762898109e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector2_stock10_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock5_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock5_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock10_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock10_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock1_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock1_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock1_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock1_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock3_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.2847669856627135e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock3_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock5_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 3.95516952522712e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock5_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock3_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3021142204224816e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock3_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock1_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock1_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock5_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3021142204224816e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock5_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock1_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock1_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock10_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock10_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock5_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock5_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock3_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock3_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock1_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look6_sector1_stock1_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock5_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.371503159461554e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock5_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock1_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock1_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock1_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector2_stock1_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock5_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.163336342344337e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector1_stock5_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock1_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.40619762898109e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock1_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock3_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.40619762898109e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock3_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock1_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock1_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock5_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock5_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock10_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.215378046623641e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock10_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock3_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector3_stock3_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock3_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector2_stock3_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock1_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock1_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock1_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.2500725161431774e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector2_stock1_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock1_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock1_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock3_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock3_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock1_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look3_sector3_stock1_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock10_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.440892098500626e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock10_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock1_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.423544863740858e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector3_stock1_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock3_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.358492733391728e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock3_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock1_etf.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 2.220446049250313e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look12_sector1_stock1_etf.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock5_ew.csv",
+      "check": "self financing net = invested capital x gross growth - 1",
+      "max_error": 4.3368086899420177e-16
+    },
+    {
+      "path": "research/sector_stock_momentum/results/grid_monthly/look9_sector1_stock5_ew.csv",
+      "check": "finite returns, >= -100%, continuous unique holding months",
+      "months": 213
+    }
+  ],
+  "status": "PASS",
+  "unique_ledgers": 372
+}

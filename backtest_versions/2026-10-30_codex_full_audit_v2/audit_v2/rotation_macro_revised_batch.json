@@ -1,0 +1,104 @@
+[
+  {
+    "entry": "research/sector_rotation/direct_eps_test.py",
+    "exit_code": 0,
+    "seconds": 5.017257928848267,
+    "log": "audit_v2/rotation_macro_revised_sector_rotation_direct_eps_test.log"
+  },
+  {
+    "entry": "research/sector_rotation/dynamic_beta_test.py",
+    "exit_code": 0,
+    "seconds": 3.2975540161132812,
+    "log": "audit_v2/rotation_macro_revised_sector_rotation_dynamic_beta_test.log"
+  },
+  {
+    "entry": "research/sector_rotation/fast_stability.py",
+    "exit_code": 0,
+    "seconds": 131.88957166671753,
+    "log": "audit_v2/rotation_macro_revised_sector_rotation_fast_stability.log"
+  },
+  {
+    "entry": "research/sector_rotation/feature_stability_test.py",
+    "exit_code": 0,
+    "seconds": 268.92745995521545,
+    "log": "audit_v2/rotation_macro_revised_sector_rotation_feature_stability_test.log"
+  },
+  {
+    "entry": "research/sector_rotation/macro_event_study.py",
+    "exit_code": 0,
+    "seconds": 3.420544147491455,
+    "log": "audit_v2/rotation_macro_revised_sector_rotation_macro_event_study.log"
+  },
+  {
+    "entry": "research/sector_rotation/macro_shock_test.py",
+    "exit_code": 0,
+    "seconds": 6.4424967765808105,
+    "log": "audit_v2/rotation_macro_revised_sector_rotation_macro_shock_test.log"
+  },
+  {
+    "entry": "research/sector_rotation/real_yield_confirmation.py",
+    "exit_code": 0,
+    "seconds": 6.125914812088013,
+    "log": "audit_v2/rotation_macro_revised_sector_rotation_real_yield_confirmation.log"
+  },
+  {
+    "entry": "research/sector_rotation/single_feature_ic.py",
+    "exit_code": 0,
+    "seconds": 8.73274302482605,
+    "log": "audit_v2/rotation_macro_revised_sector_rotation_single_feature_ic.log"
+  },
+  {
+    "entry": "research/sector_rotation/waterfall_autopsy_step1.py",
+    "exit_code": 0,
+    "seconds": 2.7269041538238525,
+    "log": "audit_v2/rotation_macro_revised_sector_rotation_waterfall_autopsy_step1.log"
+  },
+  {
+    "entry": "research/sector_rotation/waterfall_autopsy_step1_rf.py",
+    "exit_code": 0,
+    "seconds": 19.098847150802612,
+    "log": "audit_v2/rotation_macro_revised_sector_rotation_waterfall_autopsy_step1_rf.log"
+  },
+  {
+    "entry": "research/sector_rotation/waterfall_autopsy_step2_rf.py",
+    "exit_code": 0,
+    "seconds": 36.124645948410034,
+    "log": "audit_v2/rotation_macro_revised_sector_rotation_waterfall_autopsy_step2_rf.log"
+  },
+  {
+    "entry": "research/sector_rotation/waterfall_autopsy_step3_5_cagr.py",
+    "exit_code": 0,
+    "seconds": 45.94763398170471,
+    "log": "audit_v2/rotation_macro_revised_sector_rotation_waterfall_autopsy_step3_5_cagr.log"
+  },
+  {
+    "entry": "research/sector_rotation/waterfall_autopsy_step3_rf.py",
+    "exit_code": 0,
+    "seconds": 46.80365586280823,
+    "log": "audit_v2/rotation_macro_revised_sector_rotation_waterfall_autopsy_step3_rf.log"
+  },
+  {
+    "entry": "research/hawkish_path/episode_robustness.py",
+    "exit_code": 0,
+    "seconds": 2.316227912902832,
+    "log": "audit_v2/rotation_macro_revised_hawkish_path_episode_robustness.log"
+  },
+  {
+    "entry": "research/hawkish_path/final_validation.py",
+    "exit_code": 0,
+    "seconds": 137.72584891319275,
+    "log": "audit_v2/rotation_macro_revised_hawkish_path_final_validation.log"
+  },
+  {
+    "entry": "research/hawkish_path/hawkish_path_backtest_v2.py",
+    "exit_code": 0,
+    "seconds": 11.831964254379272,
+    "log": "audit_v2/rotation_macro_revised_hawkish_path_hawkish_path_backtest_v2.log"
+  },
+  {
+    "entry": "research/hawkish_path/pubdate_matched_perm.py",
+    "exit_code": 0,
+    "seconds": 584.0412638187408,
+    "log": "audit_v2/rotation_macro_revised_hawkish_path_pubdate_matched_perm.log"
+  }
+]

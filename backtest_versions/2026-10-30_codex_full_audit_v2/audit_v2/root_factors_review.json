@@ -1,0 +1,31 @@
+{
+  "status": "PASS_WITH_SOURCE_LIMITS",
+  "reviewer": "root",
+  "checks": [
+    "independently reran all 18 minimal counterexamples",
+    "read training/validation time masks and future-return eligibility removal",
+    "read protected EPS own-publication-date and latest fiscal NaN handling",
+    "read shared cost and cash/zero-capital portfolio accounting",
+    "independent recomputation of current ledger returns/calendars and fee reconciliation in all_ledger_verification",
+    "NDX expansion reproduction and 226-month membership internal/source bounded check reviewed",
+    "candidate filter correction has bitwise-equal real inputs and unchanged output hashes"
+  ],
+  "source_hashes": {
+    "eps_momentum.py": "70c495cbbda8a387e44286b553d8f61866e28ac95c67f74cd882ab3dfedb0b39",
+    "composite3.py": "ecd1af0c86473ff86170859369ec3a16c33775a70f59239ce6523d70b4eb216e",
+    "mom30_roe.py": "a3e431f237d004e0b46ebcc8d1eb6ce5eefe5c3b889881a92ef8a6e8ec0c0078",
+    "sma200_overlay.py": "abbd82b294227eefa65f747986fbfa9cfca7fe34ffc9e611c06892b260aeb244",
+    "tech_only.py": "1ec8768e23ba981337b1204b4c61d2db8b043c9f9e8b7ea5b1e77f06a3ff02a4",
+    "factor_screen.py": "beafc99b212d7565f2d0b9881b3f51de00fabf8f74f4b56c7b95c6cc6ebe789a",
+    "factor_combo.py": "27f938fd6af9bc12fee2b7efc5113b55dd2319ac5c879765ffb48338a84165c9",
+    "ndx_expand.py": "703ec34f642925e1321696a861d7f1e1e4930e1379e2909206d23a124e922c08",
+    "legacy_portfolio.py": "c58404ea4c9b12da4053783cdaaf305d472dd266f0c7a67f4b8997e5d2730e65"
+  },
+  "counterexamples": 18,
+  "writer_output_checks_reviewed": 385,
+  "limitations": [
+    "Historical source accuracy not fully certified",
+    "Same-close execution idealized",
+    "Repeated historical selection is not untouched validation"
+  ]
+}

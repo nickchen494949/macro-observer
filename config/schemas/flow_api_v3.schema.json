@@ -135,7 +135,8 @@
                 "high": { "type": "number" }
               },
               "required": ["low", "high"]
-            }
+            },
+            "dollarEstimateValidation": { "type": "string" }
           },
           "if": {
             "properties": { "status": { "const": "ok" } }
@@ -227,7 +228,8 @@
             "bondAllocationChange5d": { "type": ["number", "null"] },
             "modelLeverageChange5d": { "type": ["number", "null"] },
             "allocationDirection": { "type": ["string", "null"] },
-            "deleveragingPressure": { "type": ["string", "null"] },
+            "dualVolatilityRegime": { "type": ["string", "null"] },
+            "disclaimer": { "type": "string" },
             "commonAsOfDate": { "type": ["string", "null"] }
           },
           "if": {
@@ -239,7 +241,7 @@
               "bondAllocationChange5d",
               "modelLeverageChange5d",
               "allocationDirection",
-              "deleveragingPressure",
+              "dualVolatilityRegime",
               "commonAsOfDate"
             ]
           }
@@ -279,6 +281,104 @@
               "missingInputs": { "type": "array", "minItems": 1 }
             },
             "required": ["missingInputs"]
+          }
+        },
+        "vcMechanicalPressure": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "type": "string", "enum": ["ok", "insufficient_data"] },
+            "targetExposure": { "type": ["number", "null"] },
+            "deltaExposure": { "type": ["number", "null"] },
+            "pressureDirection": { "type": "string", "enum": ["buying", "selling", "neutral"] },
+            "pressureMagnitudePct": { "type": ["number", "null"] },
+            "extremeDeleveraging": { "type": "boolean" },
+            "selectedVol": { "type": ["number", "null"] },
+            "vol20": { "type": ["number", "null"] },
+            "vol40": { "type": ["number", "null"] },
+            "observationDate": { "type": ["string", "null"] },
+            "methodology": { "type": "string" },
+            "disclaimer": { "type": "string" }
+          }
+        },
+        "vcForwardPressure": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "type": "string", "enum": ["ok", "insufficient_data"] },
+            "currentTargetExposure": { "type": ["number", "null"] },
+            "currentSelectedVol": { "type": ["number", "null"] },
+            "currentBindingWindow": { "type": ["string", "null"] },
+            "horizons": {
+              "type": "array",
+              "items": { "type": "object" }
+            },
+            "dominantForwardSignal": { "type": "string" },
+            "bindingWindowTransition": { "type": ["object", "null"] },
+            "methodology": { "type": "string" },
+            "disclaimer": { "type": "string" }
+          }
+        },
+        "rpMechanicalPressure": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "type": "string", "enum": ["ok", "insufficient_data", "series_too_stale"] },
+            "equityWeight": { "type": ["number", "null"] },
+            "bondWeight": { "type": ["number", "null"] },
+            "portfolioVol": { "type": ["number", "null"] },
+            "stockBondCorrelation": { "type": ["number", "null"] },
+            "targetLeverage": { "type": ["number", "null"] },
+            "leverageChange1d": { "type": ["number", "null"] },
+            "leverageChange5d": { "type": ["number", "null"] },
+            "equityGrossExposure": { "type": ["number", "null"] },
+            "bondGrossExposure": { "type": ["number", "null"] },
+            "equityExposureChange1d": { "type": ["number", "null"] },
+            "equityExposureChange5d": { "type": ["number", "null"] },
+            "bondExposureChange1d": { "type": ["number", "null"] },
+            "bondExposureChange5d": { "type": ["number", "null"] },
+            "pressureDirection1d": { "type": ["string", "null"], "enum": ["leveraging", "deleveraging", "neutral", null] },
+            "pressureDirection5d": { "type": ["string", "null"], "enum": ["leveraging", "deleveraging", "neutral", null] },
+            "leverageReduction1d": { "type": ["boolean", "null"] },
+            "leverageReduction5d": { "type": ["boolean", "null"] },
+            "broadDeleveraging1d": { "type": ["boolean", "null"] },
+            "broadDeleveraging5d": { "type": ["boolean", "null"] },
+            "observationDate": { "type": ["string", "null"] },
+            "modelDataAsOf": { "type": ["string", "null"] },
+            "dashboardAsOf": { "type": ["string", "null"] },
+            "dataFreshness": {
+              "type": ["object", "null"],
+              "properties": {
+                "spxLastDate": { "type": ["string", "null"] },
+                "dgs10LastDate": { "type": ["string", "null"] },
+                "alignedObservations": { "type": ["integer", "null"] },
+                "lagTradingDays": { "type": ["integer", "null"] },
+                "isStale": { "type": ["boolean", "null"] },
+                "staleThreshold": { "type": ["integer", "null"] }
+              }
+            },
+            "assumptions": { "type": "object" },
+            "disclaimer": { "type": "string" }
+          }
+        },
+        "rpForwardPressure": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "type": "string", "enum": ["ok", "insufficient_data", "error"] },
+            "currentTargetLeverage": { "type": ["number", "null"] },
+            "currentPortfolioVol": { "type": ["number", "null"] },
+            "currentCorrelation": { "type": ["number", "null"] },
+            "currentEqExposure": { "type": ["number", "null"] },
+            "currentBondExposure": { "type": ["number", "null"] },
+            "modelDate": { "type": ["string", "null"] },
+            "spxLastDate": { "type": ["string", "null"] },
+            "dgs10LastDate": { "type": ["string", "null"] },
+            "horizons": { "type": "array" },
+            "dominantForwardSignal": { "type": "string" },
+            "methodology": { "type": "string" },
+            "disclaimer": { "type": "string" },
+            "error": { "type": "string" }
           }
         }
       }

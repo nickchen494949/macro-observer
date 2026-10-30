@@ -1,0 +1,20 @@
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/ml_pipeline.py:117: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  return S.groupby('t').apply(lambda g: g.score.rank().corr(g.fwd_ret.rank()))
+mom {"mean_IC": -0.0011, "IC_t": -0.0533, "months": 108} | top1 Sharpe 0.57 sma200 0.73 | top20 Sharpe 0.38
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/ml_pipeline.py:117: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  return S.groupby('t').apply(lambda g: g.score.rank().corr(g.fwd_ret.rank()))
+composite {"mean_IC": -0.0042, "IC_t": -0.2951, "months": 108} | top1 Sharpe -0.01 sma200 -0.01 | top20 Sharpe 0.41
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/ml_pipeline.py:117: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  return S.groupby('t').apply(lambda g: g.score.rank().corr(g.fwd_ret.rank()))
+ridge {"mean_IC": 0.0045, "IC_t": 0.3614, "months": 108} | top1 Sharpe 0.09 sma200 0.2 | top20 Sharpe 0.25
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/ml_pipeline.py:117: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  return S.groupby('t').apply(lambda g: g.score.rank().corr(g.fwd_ret.rank()))
+lgbm_s {"mean_IC": 0.0166, "IC_t": 1.0738, "months": 108} | top1 Sharpe 0.22 sma200 0.83 | top20 Sharpe 0.32
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/ml_pipeline.py:117: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  return S.groupby('t').apply(lambda g: g.score.rank().corr(g.fwd_ret.rank()))
+lgbm_m {"mean_IC": 0.0146, "IC_t": 0.9685, "months": 108} | top1 Sharpe 0.49 sma200 0.35 | top20 Sharpe 0.32
+/Users/happygolucky/projects/宏观观察器/research/sector_stock_momentum/ml_pipeline.py:117: DeprecationWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  return S.groupby('t').apply(lambda g: g.score.rank().corr(g.fwd_ret.rank()))
+lgbm_rank {"mean_IC": -0.0159, "IC_t": -0.9231, "months": 108} | top1 Sharpe 0.5 sma200 0.23 | top20 Sharpe 0.23
+
+CHOSEN: lgbm_s top1_sma200 | deflated Sharpe prob (12 trials): 0.866

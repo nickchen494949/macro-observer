@@ -1,0 +1,778 @@
+{
+  "status": "WRITER_COMPLETE_PENDING_INDEPENDENT_REVIEW",
+  "written_utc": "2026-10-30T07:12:40.578337+00:00",
+  "source_data_certification": "PARTIAL / not certified",
+  "scope": [
+    "eps_momentum.py",
+    "composite3.py",
+    "mom30_roe.py",
+    "sma200_overlay.py",
+    "tech_only.py",
+    "factor_screen.py",
+    "factor_combo.py",
+    "ndx_expand.py"
+  ],
+  "modified_files": [
+    {
+      "path": "research/sector_stock_momentum/eps_momentum.py",
+      "sha256": "70c495cbbda8a387e44286b553d8f61866e28ac95c67f74cd882ab3dfedb0b39"
+    },
+    {
+      "path": "research/sector_stock_momentum/composite3.py",
+      "sha256": "ecd1af0c86473ff86170859369ec3a16c33775a70f59239ce6523d70b4eb216e"
+    },
+    {
+      "path": "research/sector_stock_momentum/mom30_roe.py",
+      "sha256": "a3e431f237d004e0b46ebcc8d1eb6ce5eefe5c3b889881a92ef8a6e8ec0c0078"
+    },
+    {
+      "path": "research/sector_stock_momentum/sma200_overlay.py",
+      "sha256": "abbd82b294227eefa65f747986fbfa9cfca7fe34ffc9e611c06892b260aeb244"
+    },
+    {
+      "path": "research/sector_stock_momentum/tech_only.py",
+      "sha256": "1ec8768e23ba981337b1204b4c61d2db8b043c9f9e8b7ea5b1e77f06a3ff02a4"
+    },
+    {
+      "path": "research/sector_stock_momentum/factor_screen.py",
+      "sha256": "beafc99b212d7565f2d0b9881b3f51de00fabf8f74f4b56c7b95c6cc6ebe789a"
+    },
+    {
+      "path": "research/sector_stock_momentum/factor_combo.py",
+      "sha256": "27f938fd6af9bc12fee2b7efc5113b55dd2319ac5c879765ffb48338a84165c9"
+    },
+    {
+      "path": "research/sector_stock_momentum/ndx_expand.py",
+      "sha256": "703ec34f642925e1321696a861d7f1e1e4930e1379e2909206d23a124e922c08"
+    }
+  ],
+  "tests": [
+    "audit_v2/factors_gate.json",
+    "audit_v2/factors_ndx_source_check.json",
+    "audit_v2/factors_result_verification.json",
+    "audit_v2/factors_candidate_equivalence.json"
+  ],
+  "findings": [
+    {
+      "id": "FCT01",
+      "files": [
+        "sma200_overlay.py",
+        "composite3.py",
+        "tech_only.py",
+        "eps_momentum.py",
+        "factor_combo.py"
+      ],
+      "defect": "End-of-period subtraction can make an unlevered total loss worse than -100%; constant 20bp basket fee ignores actual turnover.",
+      "correction": "Shared self-financing, drift-aware ledger; exact total-loss cap and no trading after insolvency.",
+      "evidence": "factors_gate.json: inherited loss -1.001, corrected -1, then zero returns"
+    },
+    {
+      "id": "FCT02",
+      "files": [
+        "sma200_overlay.py",
+        "composite3.py",
+        "tech_only.py",
+        "factor_combo.py"
+      ],
+      "defect": "Filtering away every candidate omitted months and compressed CAGR time.",
+      "correction": "Keep the complete formation calendar and cash months; validate consecutive monthly dates.",
+      "evidence": "factors_gate.json: filtered_empty_month_is_cash"
+    },
+    {
+      "id": "FCT03",
+      "files": [
+        "eps_momentum.py"
+      ],
+      "defect": "Protected EPS growth remained missing when prior margin became public after EPS.",
+      "correction": "Protected factor has its own combined publication date; ordinary EPS is not delayed.",
+      "evidence": "factors_gate.json: eps_protected_uses_its_own_public_date"
+    },
+    {
+      "id": "FCT04",
+      "files": [
+        "eps_momentum.py",
+        "mom30_roe.py",
+        "factor_screen.py"
+      ],
+      "defect": "Late reports for old quarters could overwrite newer known periods; undefined latest ratios could revive older valid ones.",
+      "correction": "Latest fiscal updates only; retain explicitly undefined new ratios as missing.",
+      "evidence": "factors_gate.json: late_old_fiscal_report_cannot_overwrite_newer and latest_undefined_ratio_invalidates_old_ratio"
+    },
+    {
+      "id": "FCT05",
+      "files": [
+        "factor_screen.py",
+        "factor_combo.py"
+      ],
+      "defect": "Rolling training admitted labels completing at first test formation; combo also admitted pre-2010 training.",
+      "correction": "Require label end strictly before first test formation and start 2010-01; purge interaction search December 2015 label.",
+      "evidence": "factors_gate.json: strict_label_cutoff_and_training_start"
+    },
+    {
+      "id": "FCT06",
+      "files": [
+        "factor_screen.py"
+      ],
+      "defect": "Retrospective December 2019 entered the development-year direction consistency test.",
+      "correction": "Calculate verdict only from development IC and label dev/retro yearly columns separately.",
+      "evidence": "factors_gate.json: retro_december_cannot_flip_dev_year"
+    },
+    {
+      "id": "FCT07",
+      "files": [
+        "factor_screen.py",
+        "factor_combo.py"
+      ],
+      "defect": "Unknown source/terminal outcomes were usable zero-return learning labels.",
+      "correction": "Exclude unknown labels from inference/training; preserve tradable formation rows and explicitly assumed portfolio outcomes.",
+      "evidence": "label_resolved in corrected base panel and source masks in monthly_ic/walk_forward/pair_search"
+    },
+    {
+      "id": "FCT08",
+      "files": [
+        "factor_combo.py"
+      ],
+      "defect": "EW comparison was gross; specified SPY benchmark absent; concatenating eval/retro ledgers reset holdings at boundary.",
+      "correction": "Actual-turnover cost for EW and SPY; continuous ledger through evaluation/retrospective boundary then slice statistics.",
+      "evidence": "factors_gate.json: eval_retro_boundary_must_preserve_positions"
+    },
+    {
+      "id": "FCT09",
+      "files": [
+        "ndx_expand.py"
+      ],
+      "defect": "S&P reproduction check merely printed mismatch, imported cached factor selection, saved rounded metrics and overwrote long SPY ledger.",
+      "correction": "Mandatory mismatch failure; dynamic final frozen selection; exact numeric metrics; retain full-window SPY; reject conflicting CIK windows.",
+      "evidence": "factors_ndx_13.log: all 213 picks identical, max net difference 9.71e-17"
+    },
+    {
+      "id": "FCT10",
+      "files": [
+        "factor_screen.py"
+      ],
+      "defect": "Degenerate constant-factor standard errors could yield invalid bootstrap handling.",
+      "correction": "Mark zero/invalid SE untestable with adjusted p=1; use finite Monte Carlo plus-one correction.",
+      "evidence": "factors_gate.json: constant_factor_not_false_significant"
+    },
+    {
+      "id": "FCT11",
+      "files": [
+        "factor_combo.py"
+      ],
+      "defect": "Main candidate source still excluded NaN future returns before formation ranking (found by root independent review).",
+      "correction": "Remove future-return eligibility condition; retain statistical label filtering. Selected unpriceable winners now fail in the ledger instead of substituting another candidate.",
+      "evidence": "factors_candidate_equivalence.json: real panel has zero NaN returns; exact old/new candidate frames match all 99455 rows. Two new gate counterexamples pass; saved result hashes retained without unnecessary retraining."
+    }
+  ],
+  "runs_latest": {
+    "eps": {
+      "task": "eps",
+      "script": "eps_momentum.py",
+      "command": [
+        "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+        "/Users/happygolucky/projects/宏观观察器/backtest_versions/2026-10-30_codex_full_audit_v2/audit_v2/factors_runner.py",
+        "--child",
+        "eps"
+      ],
+      "started_utc": "2026-10-30T06:43:41.029233+00:00",
+      "elapsed_seconds": 131.97474366705865,
+      "exit_code": 0,
+      "log": "audit_v2/factors_eps_08.log",
+      "input_hashes": {
+        "research/sector_stock_momentum/backtest.py": "76b8e21765c9fa984a1e0eb426ed0527f3eff2756347350cd1b666486295b7d7",
+        "research/sector_stock_momentum/portfolio_accounting.py": "78a91d9885ffe8f96153d18531e45953d1fd85c7882033bd51063dc7434746d7",
+        "research/sector_stock_momentum/legacy_portfolio.py": "c58404ea4c9b12da4053783cdaaf305d472dd266f0c7a67f4b8997e5d2730e65",
+        "research/sector_stock_momentum/eps_momentum.py": "70c495cbbda8a387e44286b553d8f61866e28ac95c67f74cd882ab3dfedb0b39",
+        "research/sector_stock_momentum/ml_features.py": "27b5224b96bf1b247699dd7b30eea9e9fd3f9069731d4ea3c7807d3747e53cea",
+        "research/sector_stock_momentum/fundamentals_pit.py": "df058d3021c9079823390a82891f7db05988d2c98c44db9a3c8ebfc387c18b27",
+        "research/sector_stock_momentum/explosive_factors.py": "3d0b4350b885ddde2a2d056a26ed9db555845faeaf006e3f54ee83b84c68351c",
+        "research/sector_stock_momentum/sma200_overlay.py": "abbd82b294227eefa65f747986fbfa9cfca7fe34ffc9e611c06892b260aeb244",
+        "research/sector_stock_momentum/factor_screen.py": "beafc99b212d7565f2d0b9881b3f51de00fabf8f74f4b56c7b95c6cc6ebe789a",
+        "research/sector_stock_momentum/improve_v3.py": "7aac5f3e29eda1dfcdc422360756bea7b82122a558b849f2094b4fd518dce58f",
+        "research/sector_stock_momentum/ndx_universe.py": "7baafcf5801499a4cdbd6c547304313fc16950bc80b00be267efc82d6284612e",
+        "research/sector_stock_momentum/results/explosive/v2_selected_factors.json": "0647b217b184b3d5f574464eeb66896cee399ad523fb78533713994fec5f443a",
+        "research/sector_stock_momentum/results/ml/panel.parquet": "6cd72b3d2db68ac89b0d3e132b8919c965952ee3ad36e95bf93314faf13f1d9c",
+        "research/sector_stock_momentum/results/explosive/panel_explosive_ear.parquet": "55776083735488ee77900d1fde720ca793f14d320684374ff7f7339b4cc14272",
+        "research/sector_stock_momentum/results/factor_screen/panel_screen.parquet": "b4ff5944b9c6e5ac1524f375b88d9971e605bd4e3f46fac0a9d80bd7e17d0b34"
+      },
+      "outputs_after_run": {
+        "research/sector_stock_momentum/results/eps_momentum/CODEX_RESULT_STATUS.json": "242061519a770c7a17dc4b23d9926662169d2e2e7548526beebddaa25bc7e857",
+        "research/sector_stock_momentum/results/eps_momentum/eps_coverage.csv": "4d001966a9965a3129b13c7073c5bf18c763d8479b228d7e2e200ca4cfa9be39",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_A__top_10_EPS_growth___best_momentum___0__else_cas.csv": "2b046574656796cf90229094a96f4685555450376b317e6c103c586a98e50000",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_B__top_10_ΔEPS_price___best_momentum___0__else_cas.csv": "81886262772d76c28aea26912480a74e1828a8c9d0a0137bb4ee7dff5a90db3b",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_C__top_10_EPS_growth__equal_weight__no_momentum_.csv": "cf854f45ef0448ca3efc31be3dd07846259bc694cdaa4d00faff5d1d60b90e14",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_D__top_10_ΔEPS_price__equal_weight.csv": "dd96667ccbf7b7c74f80f3ab47c12d47248cb9f7b627b1c697d4694d74a6f21c",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_E__pure_momentum_top_1__reference_.csv": "c0177e061d2c66545ba898f0d0bb082a0599da817f9c27d0c9f94a6f0d13160c",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_F__top_10_EPS_growth__base_margin____5____best_mom.csv": "ce1bdabe74d6d9766df620a62f276e3fe7c1b9a9b42cbce6ab7c704053d6ed3f",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_G__top_10_symmetric_EPS_growth___best_momentum___0.csv": "f36aeb8b872d4f8e2e1df550490b262defc8fd822187de9e482553e4124d8c24",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_SPY.csv": "d7f32c7488f6258d0735381544584d7ed32aea53e6c34cc0f0c28c5815079a7a",
+        "research/sector_stock_momentum/results/eps_momentum/summary.csv": "cff07a7d6315d1e128aecc12f5d83f6119e1f124adccc2f7717d339ce9bb1459"
+      },
+      "outputs_written_this_run": {
+        "research/sector_stock_momentum/results/eps_momentum/eps_coverage.csv": "4d001966a9965a3129b13c7073c5bf18c763d8479b228d7e2e200ca4cfa9be39",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_A__top_10_EPS_growth___best_momentum___0__else_cas.csv": "2b046574656796cf90229094a96f4685555450376b317e6c103c586a98e50000",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_B__top_10_ΔEPS_price___best_momentum___0__else_cas.csv": "81886262772d76c28aea26912480a74e1828a8c9d0a0137bb4ee7dff5a90db3b",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_C__top_10_EPS_growth__equal_weight__no_momentum_.csv": "cf854f45ef0448ca3efc31be3dd07846259bc694cdaa4d00faff5d1d60b90e14",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_D__top_10_ΔEPS_price__equal_weight.csv": "dd96667ccbf7b7c74f80f3ab47c12d47248cb9f7b627b1c697d4694d74a6f21c",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_E__pure_momentum_top_1__reference_.csv": "c0177e061d2c66545ba898f0d0bb082a0599da817f9c27d0c9f94a6f0d13160c",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_F__top_10_EPS_growth__base_margin____5____best_mom.csv": "ce1bdabe74d6d9766df620a62f276e3fe7c1b9a9b42cbce6ab7c704053d6ed3f",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_G__top_10_symmetric_EPS_growth___best_momentum___0.csv": "f36aeb8b872d4f8e2e1df550490b262defc8fd822187de9e482553e4124d8c24",
+        "research/sector_stock_momentum/results/eps_momentum/monthly_SPY.csv": "d7f32c7488f6258d0735381544584d7ed32aea53e6c34cc0f0c28c5815079a7a",
+        "research/sector_stock_momentum/results/eps_momentum/summary.csv": "cff07a7d6315d1e128aecc12f5d83f6119e1f124adccc2f7717d339ce9bb1459"
+      },
+      "stale_outputs_not_revalidated": [
+        "research/sector_stock_momentum/results/eps_momentum/CODEX_RESULT_STATUS.json"
+      ],
+      "frozen_input_manifest": "audit_v2/baseline.json",
+      "outputs_status": "REAL_RUN_COMPLETED_PENDING_REVIEW"
+    },
+    "sma": {
+      "task": "sma",
+      "script": "sma200_overlay.py",
+      "command": [
+        "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+        "/Users/happygolucky/projects/宏观观察器/backtest_versions/2026-10-30_codex_full_audit_v2/audit_v2/factors_runner.py",
+        "--child",
+        "sma"
+      ],
+      "started_utc": "2026-10-30T06:45:53.097492+00:00",
+      "elapsed_seconds": 22.18716408405453,
+      "exit_code": 0,
+      "log": "audit_v2/factors_sma_09.log",
+      "input_hashes": {
+        "research/sector_stock_momentum/backtest.py": "76b8e21765c9fa984a1e0eb426ed0527f3eff2756347350cd1b666486295b7d7",
+        "research/sector_stock_momentum/portfolio_accounting.py": "78a91d9885ffe8f96153d18531e45953d1fd85c7882033bd51063dc7434746d7",
+        "research/sector_stock_momentum/legacy_portfolio.py": "c58404ea4c9b12da4053783cdaaf305d472dd266f0c7a67f4b8997e5d2730e65",
+        "research/sector_stock_momentum/sma200_overlay.py": "abbd82b294227eefa65f747986fbfa9cfca7fe34ffc9e611c06892b260aeb244",
+        "research/sector_stock_momentum/ml_features.py": "27b5224b96bf1b247699dd7b30eea9e9fd3f9069731d4ea3c7807d3747e53cea",
+        "research/sector_stock_momentum/fundamentals_pit.py": "df058d3021c9079823390a82891f7db05988d2c98c44db9a3c8ebfc387c18b27",
+        "research/sector_stock_momentum/explosive_factors.py": "3d0b4350b885ddde2a2d056a26ed9db555845faeaf006e3f54ee83b84c68351c",
+        "research/sector_stock_momentum/factor_screen.py": "beafc99b212d7565f2d0b9881b3f51de00fabf8f74f4b56c7b95c6cc6ebe789a",
+        "research/sector_stock_momentum/improve_v3.py": "7aac5f3e29eda1dfcdc422360756bea7b82122a558b849f2094b4fd518dce58f",
+        "research/sector_stock_momentum/ndx_universe.py": "7baafcf5801499a4cdbd6c547304313fc16950bc80b00be267efc82d6284612e",
+        "research/sector_stock_momentum/results/explosive/v2_selected_factors.json": "0647b217b184b3d5f574464eeb66896cee399ad523fb78533713994fec5f443a",
+        "research/sector_stock_momentum/results/ml/panel.parquet": "6cd72b3d2db68ac89b0d3e132b8919c965952ee3ad36e95bf93314faf13f1d9c",
+        "research/sector_stock_momentum/results/explosive/panel_explosive_ear.parquet": "55776083735488ee77900d1fde720ca793f14d320684374ff7f7339b4cc14272",
+        "research/sector_stock_momentum/results/factor_screen/panel_screen.parquet": "57de4528811602893aecf3ff85b39e7caaec3849c8f0202d6a89cf7a36305d4b"
+      },
+      "outputs_after_run": {
+        "research/sector_stock_momentum/results/ml/sma200_EPS_protected__F_.csv": "3cb04e1ff09a5025f3e241ee40602cdc878861572e041404aeebbd919f9eeb0c",
+        "research/sector_stock_momentum/results/ml/sma200_EPS_protected__F____SMA200.csv": "d5a911bd0aab4f555b96d09fc47e0f3ba16d28ef6632904e9e0c42883040c8df",
+        "research/sector_stock_momentum/results/ml/sma200_SPY.csv": "a10df7815a5f1aa097cb0a3054d1a7a8dea16253ece1b3be87de3d506255de85",
+        "research/sector_stock_momentum/results/ml/sma200_overlay_summary.csv": "24767fc387a4fe54be8107103704b2bd7ac0d5736454afe37f16daae5dca6906",
+        "research/sector_stock_momentum/results/ml/sma200_pure_momentum_top_1.csv": "9471194e8c243ac08ba17cbac0a536744bdac961396197de0b944ad739331a0c",
+        "research/sector_stock_momentum/results/ml/sma200_pure_momentum_top_1___SMA200.csv": "6015837b67383956a90cc95d62ea537ee161dc8015f3f58eac9d838eaa7b332f",
+        "research/sector_stock_momentum/results/ml/sma200_sector_spec.csv": "b0d22e6d111d63ef281ce829173188731e1996d96395472902eee615c692b13a",
+        "research/sector_stock_momentum/results/ml/sma200_sector_spec___SMA200.csv": "1d363c4457ccaf908607e1dc96e16d19557bb76d311e84f24f194f41e1c67520"
+      },
+      "outputs_written_this_run": {
+        "research/sector_stock_momentum/results/ml/sma200_EPS_protected__F_.csv": "3cb04e1ff09a5025f3e241ee40602cdc878861572e041404aeebbd919f9eeb0c",
+        "research/sector_stock_momentum/results/ml/sma200_EPS_protected__F____SMA200.csv": "d5a911bd0aab4f555b96d09fc47e0f3ba16d28ef6632904e9e0c42883040c8df",
+        "research/sector_stock_momentum/results/ml/sma200_SPY.csv": "a10df7815a5f1aa097cb0a3054d1a7a8dea16253ece1b3be87de3d506255de85",
+        "research/sector_stock_momentum/results/ml/sma200_overlay_summary.csv": "24767fc387a4fe54be8107103704b2bd7ac0d5736454afe37f16daae5dca6906",
+        "research/sector_stock_momentum/results/ml/sma200_pure_momentum_top_1.csv": "9471194e8c243ac08ba17cbac0a536744bdac961396197de0b944ad739331a0c",
+        "research/sector_stock_momentum/results/ml/sma200_pure_momentum_top_1___SMA200.csv": "6015837b67383956a90cc95d62ea537ee161dc8015f3f58eac9d838eaa7b332f",
+        "research/sector_stock_momentum/results/ml/sma200_sector_spec.csv": "b0d22e6d111d63ef281ce829173188731e1996d96395472902eee615c692b13a",
+        "research/sector_stock_momentum/results/ml/sma200_sector_spec___SMA200.csv": "1d363c4457ccaf908607e1dc96e16d19557bb76d311e84f24f194f41e1c67520"
+      },
+      "stale_outputs_not_revalidated": [],
+      "frozen_input_manifest": "audit_v2/baseline.json",
+      "outputs_status": "REAL_RUN_COMPLETED_PENDING_REVIEW"
+    },
+    "composite": {
+      "task": "composite",
+      "script": "composite3.py",
+      "command": [
+        "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+        "/Users/happygolucky/projects/宏观观察器/backtest_versions/2026-10-30_codex_full_audit_v2/audit_v2/factors_runner.py",
+        "--child",
+        "composite"
+      ],
+      "started_utc": "2026-10-30T06:46:15.387068+00:00",
+      "elapsed_seconds": 20.835388584062457,
+      "exit_code": 0,
+      "log": "audit_v2/factors_composite_10.log",
+      "input_hashes": {
+        "research/sector_stock_momentum/backtest.py": "76b8e21765c9fa984a1e0eb426ed0527f3eff2756347350cd1b666486295b7d7",
+        "research/sector_stock_momentum/portfolio_accounting.py": "78a91d9885ffe8f96153d18531e45953d1fd85c7882033bd51063dc7434746d7",
+        "research/sector_stock_momentum/legacy_portfolio.py": "c58404ea4c9b12da4053783cdaaf305d472dd266f0c7a67f4b8997e5d2730e65",
+        "research/sector_stock_momentum/composite3.py": "ecd1af0c86473ff86170859369ec3a16c33775a70f59239ce6523d70b4eb216e",
+        "research/sector_stock_momentum/ml_features.py": "27b5224b96bf1b247699dd7b30eea9e9fd3f9069731d4ea3c7807d3747e53cea",
+        "research/sector_stock_momentum/fundamentals_pit.py": "df058d3021c9079823390a82891f7db05988d2c98c44db9a3c8ebfc387c18b27",
+        "research/sector_stock_momentum/explosive_factors.py": "3d0b4350b885ddde2a2d056a26ed9db555845faeaf006e3f54ee83b84c68351c",
+        "research/sector_stock_momentum/sma200_overlay.py": "abbd82b294227eefa65f747986fbfa9cfca7fe34ffc9e611c06892b260aeb244",
+        "research/sector_stock_momentum/factor_screen.py": "beafc99b212d7565f2d0b9881b3f51de00fabf8f74f4b56c7b95c6cc6ebe789a",
+        "research/sector_stock_momentum/improve_v3.py": "7aac5f3e29eda1dfcdc422360756bea7b82122a558b849f2094b4fd518dce58f",
+        "research/sector_stock_momentum/ndx_universe.py": "7baafcf5801499a4cdbd6c547304313fc16950bc80b00be267efc82d6284612e",
+        "research/sector_stock_momentum/results/explosive/v2_selected_factors.json": "0647b217b184b3d5f574464eeb66896cee399ad523fb78533713994fec5f443a",
+        "research/sector_stock_momentum/results/ml/panel.parquet": "6cd72b3d2db68ac89b0d3e132b8919c965952ee3ad36e95bf93314faf13f1d9c",
+        "research/sector_stock_momentum/results/explosive/panel_explosive_ear.parquet": "55776083735488ee77900d1fde720ca793f14d320684374ff7f7339b4cc14272",
+        "research/sector_stock_momentum/results/factor_screen/panel_screen.parquet": "57de4528811602893aecf3ff85b39e7caaec3849c8f0202d6a89cf7a36305d4b"
+      },
+      "outputs_after_run": {
+        "research/sector_stock_momentum/results/ml/composite3_composite_top_1.csv": "92ede751e52b8510f70cd4fe9de7a71eef67cd87fe48663b3502ae992f9700e2",
+        "research/sector_stock_momentum/results/ml/composite3_composite_top_1___SMA200.csv": "8afa02f891836d6bb8406cf7b99e3aed26751ba09ca10e292091becfd4e60be5",
+        "research/sector_stock_momentum/results/ml/composite3_composite_top_20__equal_weight_.csv": "9c4129612b19536b80567d1cecad1ac9eb7bcf183018c8c090e2168606fa2cf4",
+        "research/sector_stock_momentum/results/ml/composite3_composite_top_5__equal_weight_.csv": "9ac07949ac4514e3df55a0d281f4c783a3a466d3005f30cae7e11b3b4a8d2b0a",
+        "research/sector_stock_momentum/results/ml/composite3_summary.csv": "b8e3ff15b1d42e4b30a2300e3b667d754ebab8f0a96d3a1f7b5a6843f9b7f3af"
+      },
+      "outputs_written_this_run": {
+        "research/sector_stock_momentum/results/ml/composite3_composite_top_1.csv": "92ede751e52b8510f70cd4fe9de7a71eef67cd87fe48663b3502ae992f9700e2",
+        "research/sector_stock_momentum/results/ml/composite3_composite_top_1___SMA200.csv": "8afa02f891836d6bb8406cf7b99e3aed26751ba09ca10e292091becfd4e60be5",
+        "research/sector_stock_momentum/results/ml/composite3_composite_top_20__equal_weight_.csv": "9c4129612b19536b80567d1cecad1ac9eb7bcf183018c8c090e2168606fa2cf4",
+        "research/sector_stock_momentum/results/ml/composite3_composite_top_5__equal_weight_.csv": "9ac07949ac4514e3df55a0d281f4c783a3a466d3005f30cae7e11b3b4a8d2b0a",
+        "research/sector_stock_momentum/results/ml/composite3_summary.csv": "b8e3ff15b1d42e4b30a2300e3b667d754ebab8f0a96d3a1f7b5a6843f9b7f3af"
+      },
+      "stale_outputs_not_revalidated": [],
+      "frozen_input_manifest": "audit_v2/baseline.json",
+      "outputs_status": "REAL_RUN_COMPLETED_PENDING_REVIEW"
+    },
+    "roe": {
+      "task": "roe",
+      "script": "mom30_roe.py",
+      "command": [
+        "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+        "/Users/happygolucky/projects/宏观观察器/backtest_versions/2026-10-30_codex_full_audit_v2/audit_v2/factors_runner.py",
+        "--child",
+        "roe"
+      ],
+      "started_utc": "2026-10-30T06:46:36.307489+00:00",
+      "elapsed_seconds": 18.855648167431355,
+      "exit_code": 0,
+      "log": "audit_v2/factors_roe_11.log",
+      "input_hashes": {
+        "research/sector_stock_momentum/backtest.py": "76b8e21765c9fa984a1e0eb426ed0527f3eff2756347350cd1b666486295b7d7",
+        "research/sector_stock_momentum/portfolio_accounting.py": "78a91d9885ffe8f96153d18531e45953d1fd85c7882033bd51063dc7434746d7",
+        "research/sector_stock_momentum/legacy_portfolio.py": "c58404ea4c9b12da4053783cdaaf305d472dd266f0c7a67f4b8997e5d2730e65",
+        "research/sector_stock_momentum/mom30_roe.py": "a3e431f237d004e0b46ebcc8d1eb6ce5eefe5c3b889881a92ef8a6e8ec0c0078",
+        "research/sector_stock_momentum/ml_features.py": "27b5224b96bf1b247699dd7b30eea9e9fd3f9069731d4ea3c7807d3747e53cea",
+        "research/sector_stock_momentum/fundamentals_pit.py": "df058d3021c9079823390a82891f7db05988d2c98c44db9a3c8ebfc387c18b27",
+        "research/sector_stock_momentum/explosive_factors.py": "3d0b4350b885ddde2a2d056a26ed9db555845faeaf006e3f54ee83b84c68351c",
+        "research/sector_stock_momentum/sma200_overlay.py": "abbd82b294227eefa65f747986fbfa9cfca7fe34ffc9e611c06892b260aeb244",
+        "research/sector_stock_momentum/factor_screen.py": "beafc99b212d7565f2d0b9881b3f51de00fabf8f74f4b56c7b95c6cc6ebe789a",
+        "research/sector_stock_momentum/improve_v3.py": "7aac5f3e29eda1dfcdc422360756bea7b82122a558b849f2094b4fd518dce58f",
+        "research/sector_stock_momentum/ndx_universe.py": "7baafcf5801499a4cdbd6c547304313fc16950bc80b00be267efc82d6284612e",
+        "research/sector_stock_momentum/results/explosive/v2_selected_factors.json": "0647b217b184b3d5f574464eeb66896cee399ad523fb78533713994fec5f443a",
+        "research/sector_stock_momentum/results/ml/panel.parquet": "6cd72b3d2db68ac89b0d3e132b8919c965952ee3ad36e95bf93314faf13f1d9c",
+        "research/sector_stock_momentum/results/explosive/panel_explosive_ear.parquet": "55776083735488ee77900d1fde720ca793f14d320684374ff7f7339b4cc14272",
+        "research/sector_stock_momentum/results/factor_screen/panel_screen.parquet": "57de4528811602893aecf3ff85b39e7caaec3849c8f0202d6a89cf7a36305d4b"
+      },
+      "outputs_after_run": {
+        "research/sector_stock_momentum/results/ml/mom30roe_mom_top_30___ROE_20____best_EPS_growth.csv": "569829e7cc7dee1d0a137965b507871ca4c5df12d6f9bb5991d77c564360d234",
+        "research/sector_stock_momentum/results/ml/mom30roe_mom_top_30___ROE_20____best_ΔEPS_price.csv": "ac82a7b142cb55657957ad8c10fbd0ccb9ea4a74f748238843688fbfe266607c",
+        "research/sector_stock_momentum/results/ml/mom30roe_summary.csv": "20eb9afe2fea90d2db9cae1a5005df5562d43ea3d395ad6c9691ae80feda98b7"
+      },
+      "outputs_written_this_run": {
+        "research/sector_stock_momentum/results/ml/mom30roe_mom_top_30___ROE_20____best_EPS_growth.csv": "569829e7cc7dee1d0a137965b507871ca4c5df12d6f9bb5991d77c564360d234",
+        "research/sector_stock_momentum/results/ml/mom30roe_mom_top_30___ROE_20____best_ΔEPS_price.csv": "ac82a7b142cb55657957ad8c10fbd0ccb9ea4a74f748238843688fbfe266607c",
+        "research/sector_stock_momentum/results/ml/mom30roe_summary.csv": "20eb9afe2fea90d2db9cae1a5005df5562d43ea3d395ad6c9691ae80feda98b7"
+      },
+      "stale_outputs_not_revalidated": [],
+      "frozen_input_manifest": "audit_v2/baseline.json",
+      "outputs_status": "REAL_RUN_COMPLETED_PENDING_REVIEW"
+    },
+    "tech": {
+      "task": "tech",
+      "script": "tech_only.py",
+      "command": [
+        "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+        "/Users/happygolucky/projects/宏观观察器/backtest_versions/2026-10-30_codex_full_audit_v2/audit_v2/factors_runner.py",
+        "--child",
+        "tech"
+      ],
+      "started_utc": "2026-10-30T06:46:55.274959+00:00",
+      "elapsed_seconds": 19.01377991680056,
+      "exit_code": 0,
+      "log": "audit_v2/factors_tech_12.log",
+      "input_hashes": {
+        "research/sector_stock_momentum/backtest.py": "76b8e21765c9fa984a1e0eb426ed0527f3eff2756347350cd1b666486295b7d7",
+        "research/sector_stock_momentum/portfolio_accounting.py": "78a91d9885ffe8f96153d18531e45953d1fd85c7882033bd51063dc7434746d7",
+        "research/sector_stock_momentum/legacy_portfolio.py": "c58404ea4c9b12da4053783cdaaf305d472dd266f0c7a67f4b8997e5d2730e65",
+        "research/sector_stock_momentum/tech_only.py": "1ec8768e23ba981337b1204b4c61d2db8b043c9f9e8b7ea5b1e77f06a3ff02a4",
+        "research/sector_stock_momentum/ml_features.py": "27b5224b96bf1b247699dd7b30eea9e9fd3f9069731d4ea3c7807d3747e53cea",
+        "research/sector_stock_momentum/fundamentals_pit.py": "df058d3021c9079823390a82891f7db05988d2c98c44db9a3c8ebfc387c18b27",
+        "research/sector_stock_momentum/explosive_factors.py": "3d0b4350b885ddde2a2d056a26ed9db555845faeaf006e3f54ee83b84c68351c",
+        "research/sector_stock_momentum/sma200_overlay.py": "abbd82b294227eefa65f747986fbfa9cfca7fe34ffc9e611c06892b260aeb244",
+        "research/sector_stock_momentum/factor_screen.py": "beafc99b212d7565f2d0b9881b3f51de00fabf8f74f4b56c7b95c6cc6ebe789a",
+        "research/sector_stock_momentum/improve_v3.py": "7aac5f3e29eda1dfcdc422360756bea7b82122a558b849f2094b4fd518dce58f",
+        "research/sector_stock_momentum/ndx_universe.py": "7baafcf5801499a4cdbd6c547304313fc16950bc80b00be267efc82d6284612e",
+        "research/sector_stock_momentum/results/explosive/v2_selected_factors.json": "0647b217b184b3d5f574464eeb66896cee399ad523fb78533713994fec5f443a",
+        "research/sector_stock_momentum/results/ml/panel.parquet": "6cd72b3d2db68ac89b0d3e132b8919c965952ee3ad36e95bf93314faf13f1d9c",
+        "research/sector_stock_momentum/results/explosive/panel_explosive_ear.parquet": "55776083735488ee77900d1fde720ca793f14d320684374ff7f7339b4cc14272",
+        "research/sector_stock_momentum/results/factor_screen/panel_screen.parquet": "57de4528811602893aecf3ff85b39e7caaec3849c8f0202d6a89cf7a36305d4b"
+      },
+      "outputs_after_run": {
+        "research/sector_stock_momentum/results/ml/tech_BENCH_SPY.csv": "a10df7815a5f1aa097cb0a3054d1a7a8dea16253ece1b3be87de3d506255de85",
+        "research/sector_stock_momentum/results/ml/tech_BENCH_XLK.csv": "28d54bdd31b7f605f78a9968836bda4b322e95316a33b6e9e9cfe0267771ab5c",
+        "research/sector_stock_momentum/results/ml/tech_only_summary.csv": "ab64f4031cd2a99ef8e0e95a1434c5d3c28dd0b2c392da06608b976b2304885b",
+        "research/sector_stock_momentum/results/ml/tech_tech__momentum_top_1.csv": "6abcc231655f49be939fc07fd4d753ad130aedbfd0fb4cc9c77cfcccf4668d1c",
+        "research/sector_stock_momentum/results/ml/tech_tech__momentum_top_1___SMA200.csv": "3056a8efc6a2b5c7486125017331b6d4d4a18885d3e2a72a262e0fcb3de5c8da",
+        "research/sector_stock_momentum/results/ml/tech_tech__momentum_top_5__equal_weight_.csv": "7e3f9e7a614f65ed1c5aadc2bae9d73e41c21554c9e70da6afe5737cfa754c63",
+        "research/sector_stock_momentum/results/ml/tech_tech__three_factor_score_top_1.csv": "08329958319ac7f97d45de04946d47bc2558c708707057d08242d7c5b03003f8"
+      },
+      "outputs_written_this_run": {
+        "research/sector_stock_momentum/results/ml/tech_BENCH_SPY.csv": "a10df7815a5f1aa097cb0a3054d1a7a8dea16253ece1b3be87de3d506255de85",
+        "research/sector_stock_momentum/results/ml/tech_BENCH_XLK.csv": "28d54bdd31b7f605f78a9968836bda4b322e95316a33b6e9e9cfe0267771ab5c",
+        "research/sector_stock_momentum/results/ml/tech_only_summary.csv": "ab64f4031cd2a99ef8e0e95a1434c5d3c28dd0b2c392da06608b976b2304885b",
+        "research/sector_stock_momentum/results/ml/tech_tech__momentum_top_1.csv": "6abcc231655f49be939fc07fd4d753ad130aedbfd0fb4cc9c77cfcccf4668d1c",
+        "research/sector_stock_momentum/results/ml/tech_tech__momentum_top_1___SMA200.csv": "3056a8efc6a2b5c7486125017331b6d4d4a18885d3e2a72a262e0fcb3de5c8da",
+        "research/sector_stock_momentum/results/ml/tech_tech__momentum_top_5__equal_weight_.csv": "7e3f9e7a614f65ed1c5aadc2bae9d73e41c21554c9e70da6afe5737cfa754c63",
+        "research/sector_stock_momentum/results/ml/tech_tech__three_factor_score_top_1.csv": "08329958319ac7f97d45de04946d47bc2558c708707057d08242d7c5b03003f8"
+      },
+      "stale_outputs_not_revalidated": [],
+      "frozen_input_manifest": "audit_v2/baseline.json",
+      "outputs_status": "REAL_RUN_COMPLETED_PENDING_REVIEW"
+    },
+    "ndx": {
+      "task": "ndx",
+      "script": "ndx_expand.py",
+      "command": [
+        "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+        "/Users/happygolucky/projects/宏观观察器/backtest_versions/2026-10-30_codex_full_audit_v2/audit_v2/factors_runner.py",
+        "--child",
+        "ndx"
+      ],
+      "started_utc": "2026-10-30T06:47:14.370089+00:00",
+      "elapsed_seconds": 143.02704737521708,
+      "exit_code": 0,
+      "log": "audit_v2/factors_ndx_13.log",
+      "input_hashes": {
+        "research/sector_stock_momentum/backtest.py": "76b8e21765c9fa984a1e0eb426ed0527f3eff2756347350cd1b666486295b7d7",
+        "research/sector_stock_momentum/portfolio_accounting.py": "78a91d9885ffe8f96153d18531e45953d1fd85c7882033bd51063dc7434746d7",
+        "research/sector_stock_momentum/legacy_portfolio.py": "c58404ea4c9b12da4053783cdaaf305d472dd266f0c7a67f4b8997e5d2730e65",
+        "research/sector_stock_momentum/ndx_expand.py": "703ec34f642925e1321696a861d7f1e1e4930e1379e2909206d23a124e922c08",
+        "research/sector_stock_momentum/ml_features.py": "27b5224b96bf1b247699dd7b30eea9e9fd3f9069731d4ea3c7807d3747e53cea",
+        "research/sector_stock_momentum/fundamentals_pit.py": "df058d3021c9079823390a82891f7db05988d2c98c44db9a3c8ebfc387c18b27",
+        "research/sector_stock_momentum/explosive_factors.py": "3d0b4350b885ddde2a2d056a26ed9db555845faeaf006e3f54ee83b84c68351c",
+        "research/sector_stock_momentum/sma200_overlay.py": "abbd82b294227eefa65f747986fbfa9cfca7fe34ffc9e611c06892b260aeb244",
+        "research/sector_stock_momentum/factor_screen.py": "beafc99b212d7565f2d0b9881b3f51de00fabf8f74f4b56c7b95c6cc6ebe789a",
+        "research/sector_stock_momentum/improve_v3.py": "7aac5f3e29eda1dfcdc422360756bea7b82122a558b849f2094b4fd518dce58f",
+        "research/sector_stock_momentum/ndx_universe.py": "7baafcf5801499a4cdbd6c547304313fc16950bc80b00be267efc82d6284612e",
+        "research/sector_stock_momentum/results/explosive/v2_selected_factors.json": "0647b217b184b3d5f574464eeb66896cee399ad523fb78533713994fec5f443a",
+        "research/sector_stock_momentum/results/ml/panel.parquet": "6cd72b3d2db68ac89b0d3e132b8919c965952ee3ad36e95bf93314faf13f1d9c",
+        "research/sector_stock_momentum/results/explosive/panel_explosive_ear.parquet": "55776083735488ee77900d1fde720ca793f14d320684374ff7f7339b4cc14272",
+        "research/sector_stock_momentum/results/factor_screen/panel_screen.parquet": "57de4528811602893aecf3ff85b39e7caaec3849c8f0202d6a89cf7a36305d4b"
+      },
+      "outputs_after_run": {
+        "research/sector_stock_momentum/results/ndx/coverage_ndx_only.csv": "64e1ba0b24265680125ead050733da3a8719d5a6f6deb4fcccf43bf8240dcfb0",
+        "research/sector_stock_momentum/results/ndx/gap_ndx.csv": "93252590290ea0edf7429cd5f3c8d1063297a4fce9f1f5fbb1ee46d9b9344114",
+        "research/sector_stock_momentum/results/ndx/membership_spells_excluded.csv": "31e570663c526ab5383383d7ddce6da30fb13e15c6fce734f7605bf8b6b60e11",
+        "research/sector_stock_momentum/results/ndx/monthly_A_SPEC__S_P___NDX_.csv": "8b26e08e9c5f806ae5d5ee3bd11adaed2fe51a77a32b5da9327f4fcf42c8373e",
+        "research/sector_stock_momentum/results/ndx/monthly_A_SPEC__S_P_only_.csv": "c6bc5a8b8729da078b22418d3add8f6604ca68d370878bb11fb4b61f68201388",
+        "research/sector_stock_momentum/results/ndx/monthly_B_pure_momentum_top_1__S_P___NDX_.csv": "068f743c43ec4dd21eed756249c9b70314714bd86ce9bac36b794d1ce6b6a49a",
+        "research/sector_stock_momentum/results/ndx/monthly_B_pure_momentum_top_1__S_P_only_.csv": "c0177e061d2c66545ba898f0d0bb082a0599da817f9c27d0c9f94a6f0d13160c",
+        "research/sector_stock_momentum/results/ndx/monthly_C_all_top_5_inv_vol__S_P___NDX_.csv": "be4f1a994bdab83046d2ef6cb86d7f875ccca4b47bd90208b13d0d3bcecb7c09",
+        "research/sector_stock_momentum/results/ndx/monthly_C_all_top_5_inv_vol__S_P_only_.csv": "e7c304686dc63ea54f80ab4829c117f01022ccabaed03132b1c573731145bf90",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_1__S_P___NDX_.csv": "7f3091a28aaed8b8baf63c15c4fc92b97642c2c55a1135610cb1e6de6f367d09",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_1__S_P_only_.csv": "30c55ebc09e23dd1e4cb4ad71c7805d0f4f7889d8be95d5a2c6738d234320cb5",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_EW__S_P___NDX_.csv": "cbdd21d80b5e457736d553ad399345a8bbf9ad89fc7093dc20726fb51080dfce",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_EW__S_P_only_.csv": "269a77d6695cbeb607841b96b6bb0aff047c6ea18e8e7098b43f25ff8c7491f9",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P___NDX_.csv": "767a1c193162ead29c958a26fe8aac5996187bb2ff8b488a45fd165fc627d540",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P___NDX____XLK_regime.csv": "25f25c8e5fd83a60f45970723761627b9b4fb2039dff004460f63ffb832e580a",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P_only_.csv": "e8441380c0812db1b5fe209745baa75cdb9916ab13fdfafa0a0576e2103958b1",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P_only____XLK_regime.csv": "573884082e23df3faf87022640ee6dbee123921949cf089fe39567dbc3e883ff",
+        "research/sector_stock_momentum/results/ndx/monthly_SPY.csv": "18135dbc2c534fc072c43c6504f5559691c727847770d3cc6110fa0d191ed3ff",
+        "research/sector_stock_momentum/results/ndx/monthly_SPY_full.csv": "f47eb8ef858fc7ae1816b5935db15635294ea6b727615a239a15582ed5bcf96e",
+        "research/sector_stock_momentum/results/ndx/monthly_XLK.csv": "424ac830fa22f016771247ee160a05eb115aa459c2dea995454b6f688b158188",
+        "research/sector_stock_momentum/results/ndx/panel_union.parquet": "ba04e2cd9624b9bd7e9db3590f5e8e7c0e40ab6ff8539214ed1cb92fad41a395",
+        "research/sector_stock_momentum/results/ndx/price_integrity.csv": "73866b4c31f20dd5c2b3a6098767fb1e2b3305fc134f6f41d98a33aa38fc795d",
+        "research/sector_stock_momentum/results/ndx/sanity_sp_only_diffs.csv": "13e0e3735693d2d0f75bc3c888547693cb1dc85707230ea2f4a3ac8c7ddbda6d",
+        "research/sector_stock_momentum/results/ndx/summary.csv": "c2d75ae1c2f398fe02ac2f6ed1358dd563180080c5165e00053194dfd5560029",
+        "research/sector_stock_momentum/results/ndx/ticker_aliases_rejected.csv": "be651628c710a056c306ceb2a57138586133284befa3abe58039504dc2f8b2e6",
+        "research/sector_stock_momentum/results/ndx/ticker_aliases_used.csv": "4c51716250bdaf0a7e3cb85c8029218d031caaff8113f59168eda4332e3007c1"
+      },
+      "outputs_written_this_run": {
+        "research/sector_stock_momentum/results/ndx/coverage_ndx_only.csv": "64e1ba0b24265680125ead050733da3a8719d5a6f6deb4fcccf43bf8240dcfb0",
+        "research/sector_stock_momentum/results/ndx/membership_spells_excluded.csv": "31e570663c526ab5383383d7ddce6da30fb13e15c6fce734f7605bf8b6b60e11",
+        "research/sector_stock_momentum/results/ndx/monthly_A_SPEC__S_P___NDX_.csv": "8b26e08e9c5f806ae5d5ee3bd11adaed2fe51a77a32b5da9327f4fcf42c8373e",
+        "research/sector_stock_momentum/results/ndx/monthly_A_SPEC__S_P_only_.csv": "c6bc5a8b8729da078b22418d3add8f6604ca68d370878bb11fb4b61f68201388",
+        "research/sector_stock_momentum/results/ndx/monthly_B_pure_momentum_top_1__S_P___NDX_.csv": "068f743c43ec4dd21eed756249c9b70314714bd86ce9bac36b794d1ce6b6a49a",
+        "research/sector_stock_momentum/results/ndx/monthly_B_pure_momentum_top_1__S_P_only_.csv": "c0177e061d2c66545ba898f0d0bb082a0599da817f9c27d0c9f94a6f0d13160c",
+        "research/sector_stock_momentum/results/ndx/monthly_C_all_top_5_inv_vol__S_P___NDX_.csv": "be4f1a994bdab83046d2ef6cb86d7f875ccca4b47bd90208b13d0d3bcecb7c09",
+        "research/sector_stock_momentum/results/ndx/monthly_C_all_top_5_inv_vol__S_P_only_.csv": "e7c304686dc63ea54f80ab4829c117f01022ccabaed03132b1c573731145bf90",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_1__S_P___NDX_.csv": "7f3091a28aaed8b8baf63c15c4fc92b97642c2c55a1135610cb1e6de6f367d09",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_1__S_P_only_.csv": "30c55ebc09e23dd1e4cb4ad71c7805d0f4f7889d8be95d5a2c6738d234320cb5",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_EW__S_P___NDX_.csv": "cbdd21d80b5e457736d553ad399345a8bbf9ad89fc7093dc20726fb51080dfce",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_EW__S_P_only_.csv": "269a77d6695cbeb607841b96b6bb0aff047c6ea18e8e7098b43f25ff8c7491f9",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P___NDX_.csv": "767a1c193162ead29c958a26fe8aac5996187bb2ff8b488a45fd165fc627d540",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P___NDX____XLK_regime.csv": "25f25c8e5fd83a60f45970723761627b9b4fb2039dff004460f63ffb832e580a",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P_only_.csv": "e8441380c0812db1b5fe209745baa75cdb9916ab13fdfafa0a0576e2103958b1",
+        "research/sector_stock_momentum/results/ndx/monthly_C_tech_top_5_inv_vol__S_P_only____XLK_regime.csv": "573884082e23df3faf87022640ee6dbee123921949cf089fe39567dbc3e883ff",
+        "research/sector_stock_momentum/results/ndx/monthly_SPY.csv": "18135dbc2c534fc072c43c6504f5559691c727847770d3cc6110fa0d191ed3ff",
+        "research/sector_stock_momentum/results/ndx/monthly_SPY_full.csv": "f47eb8ef858fc7ae1816b5935db15635294ea6b727615a239a15582ed5bcf96e",
+        "research/sector_stock_momentum/results/ndx/monthly_XLK.csv": "424ac830fa22f016771247ee160a05eb115aa459c2dea995454b6f688b158188",
+        "research/sector_stock_momentum/results/ndx/panel_union.parquet": "ba04e2cd9624b9bd7e9db3590f5e8e7c0e40ab6ff8539214ed1cb92fad41a395",
+        "research/sector_stock_momentum/results/ndx/price_integrity.csv": "73866b4c31f20dd5c2b3a6098767fb1e2b3305fc134f6f41d98a33aa38fc795d",
+        "research/sector_stock_momentum/results/ndx/sanity_sp_only_diffs.csv": "13e0e3735693d2d0f75bc3c888547693cb1dc85707230ea2f4a3ac8c7ddbda6d",
+        "research/sector_stock_momentum/results/ndx/summary.csv": "c2d75ae1c2f398fe02ac2f6ed1358dd563180080c5165e00053194dfd5560029",
+        "research/sector_stock_momentum/results/ndx/ticker_aliases_rejected.csv": "be651628c710a056c306ceb2a57138586133284befa3abe58039504dc2f8b2e6",
+        "research/sector_stock_momentum/results/ndx/ticker_aliases_used.csv": "4c51716250bdaf0a7e3cb85c8029218d031caaff8113f59168eda4332e3007c1"
+      },
+      "stale_outputs_not_revalidated": [
+        "research/sector_stock_momentum/results/ndx/gap_ndx.csv"
+      ],
+      "frozen_input_manifest": "audit_v2/baseline.json",
+      "outputs_status": "REAL_RUN_COMPLETED_PENDING_REVIEW"
+    },
+    "screen_build": {
+      "task": "screen_build",
+      "script": "factor_screen.py",
+      "command": [
+        "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+        "/Users/happygolucky/projects/宏观观察器/backtest_versions/2026-10-30_codex_full_audit_v2/audit_v2/factors_runner.py",
+        "--child",
+        "screen_build"
+      ],
+      "started_utc": "2026-10-30T06:43:39.724035+00:00",
+      "elapsed_seconds": 9.389284708537161,
+      "exit_code": 0,
+      "log": "audit_v2/factors_screen_build_08.log",
+      "input_hashes": {
+        "research/sector_stock_momentum/backtest.py": "76b8e21765c9fa984a1e0eb426ed0527f3eff2756347350cd1b666486295b7d7",
+        "research/sector_stock_momentum/portfolio_accounting.py": "78a91d9885ffe8f96153d18531e45953d1fd85c7882033bd51063dc7434746d7",
+        "research/sector_stock_momentum/legacy_portfolio.py": "c58404ea4c9b12da4053783cdaaf305d472dd266f0c7a67f4b8997e5d2730e65",
+        "research/sector_stock_momentum/factor_screen.py": "beafc99b212d7565f2d0b9881b3f51de00fabf8f74f4b56c7b95c6cc6ebe789a",
+        "research/sector_stock_momentum/ml_features.py": "27b5224b96bf1b247699dd7b30eea9e9fd3f9069731d4ea3c7807d3747e53cea",
+        "research/sector_stock_momentum/fundamentals_pit.py": "df058d3021c9079823390a82891f7db05988d2c98c44db9a3c8ebfc387c18b27",
+        "research/sector_stock_momentum/explosive_factors.py": "3d0b4350b885ddde2a2d056a26ed9db555845faeaf006e3f54ee83b84c68351c",
+        "research/sector_stock_momentum/sma200_overlay.py": "abbd82b294227eefa65f747986fbfa9cfca7fe34ffc9e611c06892b260aeb244",
+        "research/sector_stock_momentum/improve_v3.py": "7aac5f3e29eda1dfcdc422360756bea7b82122a558b849f2094b4fd518dce58f",
+        "research/sector_stock_momentum/ndx_universe.py": "7baafcf5801499a4cdbd6c547304313fc16950bc80b00be267efc82d6284612e",
+        "research/sector_stock_momentum/results/explosive/v2_selected_factors.json": "0647b217b184b3d5f574464eeb66896cee399ad523fb78533713994fec5f443a",
+        "research/sector_stock_momentum/results/ml/panel.parquet": "6cd72b3d2db68ac89b0d3e132b8919c965952ee3ad36e95bf93314faf13f1d9c",
+        "research/sector_stock_momentum/results/explosive/panel_explosive_ear.parquet": "55776083735488ee77900d1fde720ca793f14d320684374ff7f7339b4cc14272",
+        "research/sector_stock_momentum/results/factor_screen/panel_screen.parquet": "b4ff5944b9c6e5ac1524f375b88d9971e605bd4e3f46fac0a9d80bd7e17d0b34"
+      },
+      "outputs_after_run": {
+        "research/sector_stock_momentum/results/factor_screen/new_fundamentals.parquet": "ef3c5225daf02f4abba500c9cd87686088b0fc74bc35329dd61128a85fd37afb",
+        "research/sector_stock_momentum/results/factor_screen/panel_screen.parquet": "57de4528811602893aecf3ff85b39e7caaec3849c8f0202d6a89cf7a36305d4b"
+      },
+      "outputs_written_this_run": {
+        "research/sector_stock_momentum/results/factor_screen/new_fundamentals.parquet": "ef3c5225daf02f4abba500c9cd87686088b0fc74bc35329dd61128a85fd37afb",
+        "research/sector_stock_momentum/results/factor_screen/panel_screen.parquet": "57de4528811602893aecf3ff85b39e7caaec3849c8f0202d6a89cf7a36305d4b"
+      },
+      "stale_outputs_not_revalidated": [],
+      "frozen_input_manifest": "audit_v2/baseline.json",
+      "outputs_status": "REAL_RUN_COMPLETED_PENDING_REVIEW"
+    },
+    "screen": {
+      "task": "screen",
+      "script": "factor_screen.py",
+      "command": [
+        "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+        "/Users/happygolucky/projects/宏观观察器/backtest_versions/2026-10-30_codex_full_audit_v2/audit_v2/factors_runner.py",
+        "--child",
+        "screen"
+      ],
+      "started_utc": "2026-10-30T06:43:49.243027+00:00",
+      "elapsed_seconds": 254.2014051247388,
+      "exit_code": 0,
+      "log": "audit_v2/factors_screen_09.log",
+      "input_hashes": {
+        "research/sector_stock_momentum/backtest.py": "76b8e21765c9fa984a1e0eb426ed0527f3eff2756347350cd1b666486295b7d7",
+        "research/sector_stock_momentum/portfolio_accounting.py": "78a91d9885ffe8f96153d18531e45953d1fd85c7882033bd51063dc7434746d7",
+        "research/sector_stock_momentum/legacy_portfolio.py": "c58404ea4c9b12da4053783cdaaf305d472dd266f0c7a67f4b8997e5d2730e65",
+        "research/sector_stock_momentum/factor_screen.py": "beafc99b212d7565f2d0b9881b3f51de00fabf8f74f4b56c7b95c6cc6ebe789a",
+        "research/sector_stock_momentum/ml_features.py": "27b5224b96bf1b247699dd7b30eea9e9fd3f9069731d4ea3c7807d3747e53cea",
+        "research/sector_stock_momentum/fundamentals_pit.py": "df058d3021c9079823390a82891f7db05988d2c98c44db9a3c8ebfc387c18b27",
+        "research/sector_stock_momentum/explosive_factors.py": "3d0b4350b885ddde2a2d056a26ed9db555845faeaf006e3f54ee83b84c68351c",
+        "research/sector_stock_momentum/sma200_overlay.py": "abbd82b294227eefa65f747986fbfa9cfca7fe34ffc9e611c06892b260aeb244",
+        "research/sector_stock_momentum/improve_v3.py": "7aac5f3e29eda1dfcdc422360756bea7b82122a558b849f2094b4fd518dce58f",
+        "research/sector_stock_momentum/ndx_universe.py": "7baafcf5801499a4cdbd6c547304313fc16950bc80b00be267efc82d6284612e",
+        "research/sector_stock_momentum/results/explosive/v2_selected_factors.json": "0647b217b184b3d5f574464eeb66896cee399ad523fb78533713994fec5f443a",
+        "research/sector_stock_momentum/results/ml/panel.parquet": "6cd72b3d2db68ac89b0d3e132b8919c965952ee3ad36e95bf93314faf13f1d9c",
+        "research/sector_stock_momentum/results/explosive/panel_explosive_ear.parquet": "55776083735488ee77900d1fde720ca793f14d320684374ff7f7339b4cc14272",
+        "research/sector_stock_momentum/results/factor_screen/panel_screen.parquet": "57de4528811602893aecf3ff85b39e7caaec3849c8f0202d6a89cf7a36305d4b"
+      },
+      "outputs_after_run": {
+        "research/sector_stock_momentum/results/factor_screen/lgbm_base_ic_by_year.csv": "962ac924e4770295d4be9f44e6e8f00e8660cbec4cbefaba2452542fd5deb9bf",
+        "research/sector_stock_momentum/results/factor_screen/perm_importance_by_year.csv": "2dac4a7b18109fd8e70713dca8e4a47fba3e81c51bd93aab90c758110acd755e",
+        "research/sector_stock_momentum/results/factor_screen/screen_table.csv": "cefbc2ec566f7ee6013937f92aaebc03e5b4a009de5bdbe44118b75d10e237e9",
+        "research/sector_stock_momentum/results/factor_screen/yearly_ic.csv": "4596f3f04caf747a591831198b38278f1631f95765fcb4696dbd88cd8556cac0"
+      },
+      "outputs_written_this_run": {
+        "research/sector_stock_momentum/results/factor_screen/lgbm_base_ic_by_year.csv": "962ac924e4770295d4be9f44e6e8f00e8660cbec4cbefaba2452542fd5deb9bf",
+        "research/sector_stock_momentum/results/factor_screen/perm_importance_by_year.csv": "2dac4a7b18109fd8e70713dca8e4a47fba3e81c51bd93aab90c758110acd755e",
+        "research/sector_stock_momentum/results/factor_screen/screen_table.csv": "cefbc2ec566f7ee6013937f92aaebc03e5b4a009de5bdbe44118b75d10e237e9",
+        "research/sector_stock_momentum/results/factor_screen/yearly_ic.csv": "4596f3f04caf747a591831198b38278f1631f95765fcb4696dbd88cd8556cac0"
+      },
+      "stale_outputs_not_revalidated": [],
+      "frozen_input_manifest": "audit_v2/baseline.json",
+      "outputs_status": "REAL_RUN_COMPLETED_PENDING_REVIEW"
+    },
+    "combo": {
+      "task": "combo",
+      "script": "factor_combo.py",
+      "command": [
+        "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+        "/Users/happygolucky/projects/宏观观察器/backtest_versions/2026-10-30_codex_full_audit_v2/audit_v2/factors_runner.py",
+        "--child",
+        "combo"
+      ],
+      "started_utc": "2026-10-30T06:48:03.591787+00:00",
+      "elapsed_seconds": 369.0660953745246,
+      "exit_code": 0,
+      "log": "audit_v2/factors_combo_10.log",
+      "input_hashes": {
+        "research/sector_stock_momentum/backtest.py": "76b8e21765c9fa984a1e0eb426ed0527f3eff2756347350cd1b666486295b7d7",
+        "research/sector_stock_momentum/portfolio_accounting.py": "78a91d9885ffe8f96153d18531e45953d1fd85c7882033bd51063dc7434746d7",
+        "research/sector_stock_momentum/legacy_portfolio.py": "c58404ea4c9b12da4053783cdaaf305d472dd266f0c7a67f4b8997e5d2730e65",
+        "research/sector_stock_momentum/factor_combo.py": "a2828639fabcfb4446c19aa087ec9b37df36e4399ade35927f5b17f3ecf5069f",
+        "research/sector_stock_momentum/ml_features.py": "27b5224b96bf1b247699dd7b30eea9e9fd3f9069731d4ea3c7807d3747e53cea",
+        "research/sector_stock_momentum/fundamentals_pit.py": "df058d3021c9079823390a82891f7db05988d2c98c44db9a3c8ebfc387c18b27",
+        "research/sector_stock_momentum/explosive_factors.py": "3d0b4350b885ddde2a2d056a26ed9db555845faeaf006e3f54ee83b84c68351c",
+        "research/sector_stock_momentum/sma200_overlay.py": "abbd82b294227eefa65f747986fbfa9cfca7fe34ffc9e611c06892b260aeb244",
+        "research/sector_stock_momentum/factor_screen.py": "beafc99b212d7565f2d0b9881b3f51de00fabf8f74f4b56c7b95c6cc6ebe789a",
+        "research/sector_stock_momentum/improve_v3.py": "7aac5f3e29eda1dfcdc422360756bea7b82122a558b849f2094b4fd518dce58f",
+        "research/sector_stock_momentum/ndx_universe.py": "7baafcf5801499a4cdbd6c547304313fc16950bc80b00be267efc82d6284612e",
+        "research/sector_stock_momentum/results/explosive/v2_selected_factors.json": "0647b217b184b3d5f574464eeb66896cee399ad523fb78533713994fec5f443a",
+        "research/sector_stock_momentum/results/ml/panel.parquet": "6cd72b3d2db68ac89b0d3e132b8919c965952ee3ad36e95bf93314faf13f1d9c",
+        "research/sector_stock_momentum/results/explosive/panel_explosive_ear.parquet": "55776083735488ee77900d1fde720ca793f14d320684374ff7f7339b4cc14272",
+        "research/sector_stock_momentum/results/factor_screen/panel_screen.parquet": "57de4528811602893aecf3ff85b39e7caaec3849c8f0202d6a89cf7a36305d4b"
+      },
+      "outputs_after_run": {
+        "research/sector_stock_momentum/results/factor_combo/combo_table.csv": "a0c86724ddbc9014385a7b59a86a82e41d3266ebe01ffd459f78c252d1195986",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A1_价值_动量.csv": "290fc45ff83ecf1732db41d23981dffe5f8ecdbdbe6038be9308333225ed7f00",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A2_质量_价值.csv": "0d42eb89894c18428fc7b349bb8f7badb25ddfaf7bd62d2aba2c7dd1f7ef60a0",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A3_动量_低波动.csv": "fc2f4cb0178b9309341589e7b1dc47b98c653a2e5981394897079f69ea79773c",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A4_动量_盈利惊喜.csv": "ebd0b54c9fd8d70530258ee50b1d433dbd232ad7f2d918986149a145ec2fbd8e",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A5_GARP.csv": "07f3b8c19da8ec379edcafc1f0efd9b35f34b012a76b3bac3037c9ec1b963b5d",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A6_动量_营收毛利加速.csv": "27c4b137f269235a6bd0a5dad65a3c18f8c8958592f19cda5a2df32761f11bd9",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A7_质量_动量_价值.csv": "dfd51901ddbcc7ebc614e397e76558095858deb4a3f9b35611a4f204f226f648",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A8_动量_短期反转.csv": "e512acf2cf1f5d6842b7e999e83d17060b2bf112c76e34412c75199b8f117813",
+        "research/sector_stock_momentum/results/factor_combo/monthly_BENCH_EW_universe.csv": "4d9480ccc213e3f1817cde2931bc3bbabb4b63844e66f90c49c125366818176f",
+        "research/sector_stock_momentum/results/factor_combo/monthly_BENCH_SPY.csv": "5fabdef2b82829db673e05d330f15aff5ebe39ad3c80c61ab75008f8949bc5b8",
+        "research/sector_stock_momentum/results/factor_combo/monthly_B_lasso.csv": "bfaddb833d98f4d8b62ed03cee031052f5d0dadc3638a379c08ab04060e7556c",
+        "research/sector_stock_momentum/results/factor_combo/monthly_B_lgbm.csv": "d00af6ec3ec1426e0baf83acefbba605207bd6721c21814f2420d921a057a0ad",
+        "research/sector_stock_momentum/results/factor_combo/monthly_B_ridge.csv": "300db187472c62ba851e4bbc64c7dcb3f156c1d4d0d9b04bc6eb3953c87c37da",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_asset_turn______dist_sma200_前30_.csv": "7c4083322b54fa6c8db77fb4bd0c8882c46b1fb3c9c299345c2e1b1046aab6a0",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_deps_p______rev_g_q_前30_.csv": "205f4d8877406247dd1f228bb2a4a1bac318fd9ef778ac031272382ae068fbc8",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_ep______vol_12m_前30_.csv": "8d0e092ad4760afb5009dcad6694d51549f8decf3eb9ff11b2d32c5603ff1537",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_eps_g______rev_g_q_前30_.csv": "2255dfb3774fbdd696876ce70ac1e6a9cb195b95b42b0f3c4ffec127a8b4faa3",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_eps_g______rev_g_前30_.csv": "be2d1c2409e0c89ddbfe6d066adf38e34a35fa5bfcab1292e09f1a782eb84448",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_eps_g_sym______rev_g_q_前30_.csv": "6dd9f55b3b503765ea28d77133d0141336a9a0b66d14cc9eb0383a637abba9d2",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_margin______dist_sma200_前30_.csv": "ddad2e79bc1e41d9a4449471e51052ab7089c75dd18764aa62699af87008f043",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_mom_12_1_secrel______asset_turn_前30_.csv": "0d9082b24226c1df2af71c9f4ae65953beeee6cf6556123d5c5afe9f98785fa5",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______asset_g_前30_.csv": "7b7385633997e09e6b9120a570e0c41f84f04f03425c414f7517df66a5d87d0f",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______beta_12m_前30_.csv": "3dc27e7bd586fb1b546e40f887ec10a7310e19864fe7a22de9df340daf131c43",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______log_mcap_前30_.csv": "fe7f4dcc0398503dfcd29ed6b134e11caab9fde42ed0254fe1df35ef53148ff2",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______vol_3m_前30_.csv": "945512be5473ec9ee5f9d6f798c8dde89e0ecc1bdf33a13bf501ba570a8216bb",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_sue______log_mcap_前30_.csv": "3828797f645a16174e8f1787176df4482f22613459b17a79728bfaf1a6fcec93",
+        "research/sector_stock_momentum/results/factor_combo/pair_search_top.csv": "06f7b8408a6389f9c63416d4aaa19ca2c70cb45521e73e1686e764cba333407e",
+        "research/sector_stock_momentum/results/factor_combo/yearly_ic.csv": "9b5726a1ed0f3ec85b414a1be648efa741f12fab9ecdcb5d74a3f50c6476aaa4"
+      },
+      "outputs_written_this_run": {
+        "research/sector_stock_momentum/results/factor_combo/combo_table.csv": "a0c86724ddbc9014385a7b59a86a82e41d3266ebe01ffd459f78c252d1195986",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A1_价值_动量.csv": "290fc45ff83ecf1732db41d23981dffe5f8ecdbdbe6038be9308333225ed7f00",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A2_质量_价值.csv": "0d42eb89894c18428fc7b349bb8f7badb25ddfaf7bd62d2aba2c7dd1f7ef60a0",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A3_动量_低波动.csv": "fc2f4cb0178b9309341589e7b1dc47b98c653a2e5981394897079f69ea79773c",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A4_动量_盈利惊喜.csv": "ebd0b54c9fd8d70530258ee50b1d433dbd232ad7f2d918986149a145ec2fbd8e",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A5_GARP.csv": "07f3b8c19da8ec379edcafc1f0efd9b35f34b012a76b3bac3037c9ec1b963b5d",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A6_动量_营收毛利加速.csv": "27c4b137f269235a6bd0a5dad65a3c18f8c8958592f19cda5a2df32761f11bd9",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A7_质量_动量_价值.csv": "dfd51901ddbcc7ebc614e397e76558095858deb4a3f9b35611a4f204f226f648",
+        "research/sector_stock_momentum/results/factor_combo/monthly_A8_动量_短期反转.csv": "e512acf2cf1f5d6842b7e999e83d17060b2bf112c76e34412c75199b8f117813",
+        "research/sector_stock_momentum/results/factor_combo/monthly_BENCH_EW_universe.csv": "4d9480ccc213e3f1817cde2931bc3bbabb4b63844e66f90c49c125366818176f",
+        "research/sector_stock_momentum/results/factor_combo/monthly_BENCH_SPY.csv": "5fabdef2b82829db673e05d330f15aff5ebe39ad3c80c61ab75008f8949bc5b8",
+        "research/sector_stock_momentum/results/factor_combo/monthly_B_lasso.csv": "bfaddb833d98f4d8b62ed03cee031052f5d0dadc3638a379c08ab04060e7556c",
+        "research/sector_stock_momentum/results/factor_combo/monthly_B_lgbm.csv": "d00af6ec3ec1426e0baf83acefbba605207bd6721c21814f2420d921a057a0ad",
+        "research/sector_stock_momentum/results/factor_combo/monthly_B_ridge.csv": "300db187472c62ba851e4bbc64c7dcb3f156c1d4d0d9b04bc6eb3953c87c37da",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_asset_turn______dist_sma200_前30_.csv": "7c4083322b54fa6c8db77fb4bd0c8882c46b1fb3c9c299345c2e1b1046aab6a0",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_deps_p______rev_g_q_前30_.csv": "205f4d8877406247dd1f228bb2a4a1bac318fd9ef778ac031272382ae068fbc8",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_eps_g______rev_g_q_前30_.csv": "2255dfb3774fbdd696876ce70ac1e6a9cb195b95b42b0f3c4ffec127a8b4faa3",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_eps_g______rev_g_前30_.csv": "be2d1c2409e0c89ddbfe6d066adf38e34a35fa5bfcab1292e09f1a782eb84448",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_eps_g_sym______rev_g_q_前30_.csv": "6dd9f55b3b503765ea28d77133d0141336a9a0b66d14cc9eb0383a637abba9d2",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_margin______dist_sma200_前30_.csv": "ddad2e79bc1e41d9a4449471e51052ab7089c75dd18764aa62699af87008f043",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______asset_g_前30_.csv": "7b7385633997e09e6b9120a570e0c41f84f04f03425c414f7517df66a5d87d0f",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______beta_12m_前30_.csv": "3dc27e7bd586fb1b546e40f887ec10a7310e19864fe7a22de9df340daf131c43",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______log_mcap_前30_.csv": "fe7f4dcc0398503dfcd29ed6b134e11caab9fde42ed0254fe1df35ef53148ff2",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_rev_accel______vol_3m_前30_.csv": "945512be5473ec9ee5f9d6f798c8dde89e0ecc1bdf33a13bf501ba570a8216bb",
+        "research/sector_stock_momentum/results/factor_combo/pair_search_top.csv": "06f7b8408a6389f9c63416d4aaa19ca2c70cb45521e73e1686e764cba333407e",
+        "research/sector_stock_momentum/results/factor_combo/yearly_ic.csv": "9b5726a1ed0f3ec85b414a1be648efa741f12fab9ecdcb5d74a3f50c6476aaa4"
+      },
+      "stale_outputs_not_revalidated": [
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_ep______vol_12m_前30_.csv",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_mom_12_1_secrel______asset_turn_前30_.csv",
+        "research/sector_stock_momentum/results/factor_combo/monthly_C_sue______log_mcap_前30_.csv"
+      ],
+      "frozen_input_manifest": "audit_v2/baseline.json",
+      "outputs_status": "REAL_RUN_COMPLETED_PENDING_REVIEW"
+    }
+  },
+  "entry_dispositions": [
+    {
+      "entry": "eps_momentum.py",
+      "status": "REAL_RUN_COMPLETED_PENDING_REVIEW",
+      "task": "eps",
+      "exit_code": 0,
+      "log": "audit_v2/factors_eps_08.log"
+    },
+    {
+      "entry": "sma200_overlay.py",
+      "status": "REAL_RUN_COMPLETED_PENDING_REVIEW",
+      "task": "sma",
+      "exit_code": 0,
+      "log": "audit_v2/factors_sma_09.log"
+    },
+    {
+      "entry": "composite3.py",
+      "status": "REAL_RUN_COMPLETED_PENDING_REVIEW",
+      "task": "composite",
+      "exit_code": 0,
+      "log": "audit_v2/factors_composite_10.log"
+    },
+    {
+      "entry": "mom30_roe.py",
+      "status": "REAL_RUN_COMPLETED_PENDING_REVIEW",
+      "task": "roe",
+      "exit_code": 0,
+      "log": "audit_v2/factors_roe_11.log"
+    },
+    {
+      "entry": "tech_only.py",
+      "status": "REAL_RUN_COMPLETED_PENDING_REVIEW",
+      "task": "tech",
+      "exit_code": 0,
+      "log": "audit_v2/factors_tech_12.log"
+    },
+    {
+      "entry": "factor_screen.py build",
+      "status": "REAL_RUN_COMPLETED_PENDING_REVIEW",
+      "task": "screen_build",
+      "exit_code": 0,
+      "log": "audit_v2/factors_screen_build_08.log"
+    },
+    {
+      "entry": "factor_screen.py screen",
+      "status": "REAL_RUN_COMPLETED_PENDING_REVIEW",
+      "task": "screen",
+      "exit_code": 0,
+      "log": "audit_v2/factors_screen_09.log"
+    },
+    {
+      "entry": "factor_combo.py",
+      "status": "REAL_RUN_COMPLETED_PENDING_REVIEW",
+      "task": "combo",
+      "exit_code": 0,
+      "log": "audit_v2/factors_combo_10.log"
+    },
+    {
+      "entry": "ndx_expand.py",
+      "status": "REAL_RUN_COMPLETED_PENDING_REVIEW",
+      "task": "ndx",
+      "exit_code": 0,
+      "log": "audit_v2/factors_ndx_13.log"
+    }
+  ],
+  "strategy_index": "audit_v2/factors_strategy_index.json",
+  "run_history": "audit_v2/factors_runs.json",
+  "preserved_failed_or_superseded_runs": "Earlier runs are retained in run history/archive. Only latest successful per task is final evidence.",
+  "blockers": [
+    "Retrospective history repeatedly examined; not a new blind holdout.",
+    "Frozen vendor/index/sector/terminal data still have documented gaps; raw historical accuracy not certified.",
+    "Month-end drawdown only; same-close execution is an idealized assumption, not next-open execution.",
+    "No official historical Nasdaq constituent/industry file certification.",
+    "Fixed explosive-factor variants include their selection sample before 2023 and cannot be ranked as clean out-of-sample across that interval."
+  ],
+  "source_to_result": "frozen cached prices / SEC / membership -> corrected timing and ledger -> real replay -> recomputed tables -> independent root review",
+  "approval_owner": "root auditor; writer report is not approval"
+}

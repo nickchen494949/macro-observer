@@ -1,0 +1,9 @@
+{
+ "candidates": [
+  "T2 S1 top-5 hold1m",
+  "T3 mom top-5 ew +crash",
+  "T2 S1 top-5 hold6m"
+ ],
+ "benchmark": "BENCH pure momentum top-1",
+ "rule": "WINNERS_SPEC §4"
+}

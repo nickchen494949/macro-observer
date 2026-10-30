@@ -1,0 +1,20 @@
+{
+  "source": "Yardeni Research / LSEG I/B/E/S — S&P 500 sectors quarterly operating EPS (Figure 11)",
+  "source_url": "https://yardeni.com/charts/us-stock-market/stock-market-fundamentals/sp-500-quarterly-metrics",
+  "provider": "yardeni",
+  "file_as_of": "2026-10-20",
+  "header_actuals_through": "2026-06-30",
+  "last_actual_quarter": {
+    "operating": "2026Q2",
+    "as_reported": null
+  },
+  "first_estimate_quarter": {
+    "operating": null,
+    "as_reported": null
+  },
+  "first_quarter": "2010Q1",
+  "n_values": 700,
+  "n_printed": 11,
+  "n_curve_approx": 689,
+  "note": "Operating EPS only. 689 of 700 values are read off a chart curve (approximate); only 11 latest-quarter values are printed on the chart. Sector EPS is per sector-index unit; levels are NOT additive across sectors. Real Estate starts 2016Q3."
+}

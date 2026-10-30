@@ -1,0 +1,872 @@
+{
+  "version": 2,
+  "activeWorkspaceId": "ws-main",
+  "workspaces": [
+    {
+      "id": "ws-main",
+      "name": "国家经济系统",
+      "state": {
+        "nodes": [
+          {
+            "id": 1,
+            "label": "国家经济系统",
+            "desc": "一个国家为什么变强/变弱？\n看五类主体、四条链条、最终状态。",
+            "bg": "#f8fafc",
+            "border": "#475569",
+            "nw": 300,
+            "showDesc": true,
+            "level": 0,
+            "lane": 1
+          },
+          {
+            "id": 2,
+            "label": "比较筛选",
+            "desc": "分析前先分类。\n点击🔗查看详细。",
+            "bg": "#f5f3ff",
+            "border": "#7c3aed",
+            "nw": 200,
+            "showDesc": true,
+            "level": 1,
+            "lane": 0,
+            "linkedWorkspaceId": "ws-compare"
+          },
+          {
+            "id": 3,
+            "label": "国内五主体",
+            "desc": "央行、政府、银行、企业、居民。\n点击🔗查看详细。",
+            "bg": "#eff6ff",
+            "border": "#2563eb",
+            "nw": 200,
+            "showDesc": true,
+            "level": 1,
+            "lane": 1,
+            "linkedWorkspaceId": "ws-entities"
+          },
+          {
+            "id": 4,
+            "label": "四条传导链",
+            "desc": "🔵利率 🟢资金 🟠收入 🔴风险\n点击🔗查看传导路径。",
+            "bg": "#fef3c7",
+            "border": "#d97706",
+            "nw": 200,
+            "showDesc": true,
+            "level": 1,
+            "lane": 2,
+            "linkedWorkspaceId": "ws-chains"
+          },
+          {
+            "id": 5,
+            "label": "宏观状态输出",
+            "desc": "GDP、通胀、失业率、汇率。\n国家变强还是变弱？",
+            "bg": "#f1f5f9",
+            "border": "#475569",
+            "nw": 300,
+            "showDesc": true,
+            "level": 2,
+            "lane": 1
+          }
+        ],
+        "arrows": [
+          {
+            "id": 1,
+            "from": 1,
+            "to": 2,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "先分类",
+            "isStraight": true
+          },
+          {
+            "id": 2,
+            "from": 1,
+            "to": 3,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "看角色",
+            "isStraight": true
+          },
+          {
+            "id": 3,
+            "from": 1,
+            "to": 4,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "看传导",
+            "isStraight": true
+          },
+          {
+            "id": 4,
+            "from": 3,
+            "to": 5,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "汇总表现",
+            "isStraight": true
+          }
+        ],
+        "nextId": 10,
+        "zoom": 0.85,
+        "panX": 40,
+        "panY": 20
+      }
+    },
+    {
+      "id": "ws-compare",
+      "name": "比较筛选 (子图)",
+      "parentWorkspaceId": "ws-main",
+      "parentNodeId": 2,
+      "state": {
+        "nodes": [
+          {
+            "id": 1,
+            "label": "比较筛选",
+            "desc": "分析前先分类，避免生搬硬套。",
+            "bg": "#f5f3ff",
+            "border": "#7c3aed",
+            "nw": 240,
+            "showDesc": true,
+            "level": 0,
+            "lane": 1
+          },
+          {
+            "id": 2,
+            "label": "地区可比",
+            "desc": "东亚模式、拉美陷阱、欧元区。",
+            "bg": "#f5f3ff",
+            "border": "#a78bfa",
+            "nw": 220,
+            "showDesc": true,
+            "level": 1,
+            "lane": 0
+          },
+          {
+            "id": 3,
+            "label": "发展阶段可比",
+            "desc": "发达、新兴、低收入。",
+            "bg": "#f5f3ff",
+            "border": "#a78bfa",
+            "nw": 220,
+            "showDesc": true,
+            "level": 1,
+            "lane": 1
+          },
+          {
+            "id": 4,
+            "label": "产业角色可比",
+            "desc": "资源国、制造国、消费金融国。",
+            "bg": "#f5f3ff",
+            "border": "#a78bfa",
+            "nw": 220,
+            "showDesc": true,
+            "level": 1,
+            "lane": 2
+          }
+        ],
+        "arrows": [
+          {
+            "id": 1,
+            "from": 1,
+            "to": 2,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "按地区",
+            "isStraight": true
+          },
+          {
+            "id": 2,
+            "from": 1,
+            "to": 3,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "按阶段",
+            "isStraight": true
+          },
+          {
+            "id": 3,
+            "from": 1,
+            "to": 4,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "按产业",
+            "isStraight": true
+          }
+        ],
+        "nextId": 10,
+        "zoom": 0.85,
+        "panX": 10,
+        "panY": 10
+      }
+    },
+    {
+      "id": "ws-entities",
+      "name": "国内五主体 (子图)",
+      "parentWorkspaceId": "ws-main",
+      "parentNodeId": 3,
+      "state": {
+        "nodes": [
+          {
+            "id": 1,
+            "label": "国内五主体",
+            "desc": "经济运行的五个核心角色。",
+            "bg": "#eff6ff",
+            "border": "#2563eb",
+            "nw": 220,
+            "showDesc": true,
+            "level": 0,
+            "lane": 2
+          },
+          {
+            "id": 2,
+            "label": "央行",
+            "desc": "利率、准备金率、流动性。",
+            "bg": "#dbeafe",
+            "border": "#2563eb",
+            "nw": 160,
+            "showDesc": true,
+            "level": 1,
+            "lane": 0
+          },
+          {
+            "id": 3,
+            "label": "政府",
+            "desc": "税收、国债、财政支出。",
+            "bg": "#ffedd5",
+            "border": "#ea580c",
+            "nw": 160,
+            "showDesc": true,
+            "level": 1,
+            "lane": 1
+          },
+          {
+            "id": 4,
+            "label": "银行",
+            "desc": "吸储放贷，信贷枢纽。",
+            "bg": "#dbeafe",
+            "border": "#2563eb",
+            "nw": 160,
+            "showDesc": true,
+            "level": 1,
+            "lane": 2
+          },
+          {
+            "id": 5,
+            "label": "企业",
+            "desc": "生产者。",
+            "bg": "#ffedd5",
+            "border": "#ea580c",
+            "nw": 160,
+            "showDesc": true,
+            "level": 1,
+            "lane": 3
+          },
+          {
+            "id": 6,
+            "label": "居民",
+            "desc": "消费者与劳动者。",
+            "bg": "#dcfce7",
+            "border": "#16a34a",
+            "nw": 160,
+            "showDesc": true,
+            "level": 1,
+            "lane": 4
+          },
+          {
+            "id": 7,
+            "label": "强企业",
+            "desc": "技术领先、有定价权。",
+            "bg": "#dcfce7",
+            "border": "#16a34a",
+            "nw": 150,
+            "showDesc": true,
+            "level": 2,
+            "lane": 2,
+            "group": "企业分层"
+          },
+          {
+            "id": 8,
+            "label": "弱企业/僵尸",
+            "desc": "靠低息续命。",
+            "bg": "#fee2e2",
+            "border": "#dc2626",
+            "nw": 150,
+            "showDesc": true,
+            "level": 2,
+            "lane": 3,
+            "group": "企业分层"
+          },
+          {
+            "id": 9,
+            "label": "高级员工",
+            "desc": "高收入、抗风险。",
+            "bg": "#dbeafe",
+            "border": "#3b82f6",
+            "nw": 140,
+            "showDesc": true,
+            "level": 2,
+            "lane": 4,
+            "group": "居民分层"
+          },
+          {
+            "id": 10,
+            "label": "普通员工",
+            "desc": "受景气影响。",
+            "bg": "#fef3c7",
+            "border": "#d97706",
+            "nw": 140,
+            "showDesc": true,
+            "level": 2,
+            "lane": 5,
+            "group": "居民分层"
+          },
+          {
+            "id": 11,
+            "label": "零工/失业",
+            "desc": "最先受冲击。",
+            "bg": "#fee2e2",
+            "border": "#dc2626",
+            "nw": 140,
+            "showDesc": true,
+            "level": 2,
+            "lane": 6,
+            "group": "居民分层"
+          },
+          {
+            "id": 12,
+            "label": "宏观状态输出",
+            "desc": "GDP、通胀、失业率、汇率。",
+            "bg": "#f1f5f9",
+            "border": "#475569",
+            "nw": 260,
+            "showDesc": true,
+            "level": 3,
+            "lane": 3
+          }
+        ],
+        "arrows": [
+          {
+            "id": 1,
+            "from": 1,
+            "to": 2,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "货币政策",
+            "isStraight": true
+          },
+          {
+            "id": 2,
+            "from": 1,
+            "to": 3,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "财政政策",
+            "isStraight": true
+          },
+          {
+            "id": 3,
+            "from": 1,
+            "to": 4,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "信用中介",
+            "isStraight": true
+          },
+          {
+            "id": 4,
+            "from": 1,
+            "to": 5,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "生产端",
+            "isStraight": true
+          },
+          {
+            "id": 5,
+            "from": 1,
+            "to": 6,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "消费端",
+            "isStraight": true
+          },
+          {
+            "id": 6,
+            "from": 5,
+            "to": 7,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "竞争力强",
+            "isStraight": true
+          },
+          {
+            "id": 7,
+            "from": 5,
+            "to": 8,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "竞争力弱",
+            "isStraight": true
+          },
+          {
+            "id": 8,
+            "from": 6,
+            "to": 9,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "高收入",
+            "isStraight": true
+          },
+          {
+            "id": 9,
+            "from": 6,
+            "to": 10,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "中等收入",
+            "isStraight": true
+          },
+          {
+            "id": 10,
+            "from": 6,
+            "to": 11,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "低收入",
+            "isStraight": true
+          },
+          {
+            "id": 11,
+            "from": 7,
+            "to": 12,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "拉动GDP",
+            "isStraight": true
+          },
+          {
+            "id": 12,
+            "from": 8,
+            "to": 12,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "拖累GDP",
+            "isStraight": true
+          },
+          {
+            "id": 13,
+            "from": 9,
+            "to": 12,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "稳消费",
+            "isStraight": true
+          },
+          {
+            "id": 14,
+            "from": 11,
+            "to": 12,
+            "fromPort": "bottom",
+            "toPort": "top",
+            "label": "失业风险",
+            "isStraight": true
+          }
+        ],
+        "nextId": 20,
+        "zoom": 0.65,
+        "panX": 10,
+        "panY": 10
+      }
+    },
+    {
+      "id": "ws-chains",
+      "name": "四条传导链 (子图)",
+      "parentWorkspaceId": "ws-main",
+      "parentNodeId": 4,
+      "state": {
+        "nodes": [
+          {
+            "id": 1,
+            "label": "🔵 利率链",
+            "bg": "#dbeafe",
+            "border": "#2563eb",
+            "nw": 150,
+            "showDesc": false,
+            "level": 0,
+            "lane": 0
+          },
+          {
+            "id": 2,
+            "label": "央行调利率",
+            "desc": "加息或降息。",
+            "bg": "#eff6ff",
+            "border": "#3b82f6",
+            "nw": 160,
+            "showDesc": true,
+            "level": 0,
+            "lane": 1
+          },
+          {
+            "id": 3,
+            "label": "银行成本变",
+            "desc": "贷款变贵或便宜。",
+            "bg": "#eff6ff",
+            "border": "#3b82f6",
+            "nw": 160,
+            "showDesc": true,
+            "level": 0,
+            "lane": 2
+          },
+          {
+            "id": 4,
+            "label": "企业融资变",
+            "desc": "融资贵→投资减。",
+            "bg": "#eff6ff",
+            "border": "#3b82f6",
+            "nw": 160,
+            "showDesc": true,
+            "level": 0,
+            "lane": 3
+          },
+          {
+            "id": 5,
+            "label": "居民房贷变",
+            "desc": "影响购房消费。",
+            "bg": "#eff6ff",
+            "border": "#3b82f6",
+            "nw": 160,
+            "showDesc": true,
+            "level": 0,
+            "lane": 4
+          },
+          {
+            "id": 6,
+            "label": "🟢 资金链",
+            "bg": "#dcfce7",
+            "border": "#16a34a",
+            "nw": 150,
+            "showDesc": false,
+            "level": 1,
+            "lane": 0
+          },
+          {
+            "id": 7,
+            "label": "央行注入流动性",
+            "desc": "MLF/降准。",
+            "bg": "#f0fdf4",
+            "border": "#22c55e",
+            "nw": 160,
+            "showDesc": true,
+            "level": 1,
+            "lane": 1
+          },
+          {
+            "id": 8,
+            "label": "银行信贷扩张",
+            "desc": "有钱可贷。",
+            "bg": "#f0fdf4",
+            "border": "#22c55e",
+            "nw": 160,
+            "showDesc": true,
+            "level": 1,
+            "lane": 2
+          },
+          {
+            "id": 9,
+            "label": "企业加杠杆",
+            "desc": "借钱扩产。",
+            "bg": "#f0fdf4",
+            "border": "#22c55e",
+            "nw": 160,
+            "showDesc": true,
+            "level": 1,
+            "lane": 3
+          },
+          {
+            "id": 10,
+            "label": "资产价格涨",
+            "desc": "股房上涨。",
+            "bg": "#f0fdf4",
+            "border": "#22c55e",
+            "nw": 160,
+            "showDesc": true,
+            "level": 1,
+            "lane": 4
+          },
+          {
+            "id": 11,
+            "label": "🟠 实体收入链",
+            "bg": "#ffedd5",
+            "border": "#ea580c",
+            "nw": 150,
+            "showDesc": false,
+            "level": 2,
+            "lane": 0
+          },
+          {
+            "id": 12,
+            "label": "政府财政/订单",
+            "desc": "基建补贴采购。",
+            "bg": "#fff7ed",
+            "border": "#f97316",
+            "nw": 160,
+            "showDesc": true,
+            "level": 2,
+            "lane": 1
+          },
+          {
+            "id": 13,
+            "label": "企业营收增",
+            "desc": "订单多收入增。",
+            "bg": "#fff7ed",
+            "border": "#f97316",
+            "nw": 160,
+            "showDesc": true,
+            "level": 2,
+            "lane": 2
+          },
+          {
+            "id": 14,
+            "label": "员工薪资升",
+            "desc": "赚钱涨工资。",
+            "bg": "#fff7ed",
+            "border": "#f97316",
+            "nw": 160,
+            "showDesc": true,
+            "level": 2,
+            "lane": 3
+          },
+          {
+            "id": 15,
+            "label": "消费扩大",
+            "desc": "收入增消费增。",
+            "bg": "#fff7ed",
+            "border": "#f97316",
+            "nw": 160,
+            "showDesc": true,
+            "level": 2,
+            "lane": 4
+          },
+          {
+            "id": 16,
+            "label": "🔴 风险链",
+            "bg": "#fee2e2",
+            "border": "#dc2626",
+            "nw": 150,
+            "showDesc": false,
+            "level": 3,
+            "lane": 0
+          },
+          {
+            "id": 17,
+            "label": "企业违约",
+            "desc": "弱企业断裂。",
+            "bg": "#fef2f2",
+            "border": "#ef4444",
+            "nw": 160,
+            "showDesc": true,
+            "level": 3,
+            "lane": 1
+          },
+          {
+            "id": 18,
+            "label": "银行坏账升",
+            "desc": "贷款收不回。",
+            "bg": "#fef2f2",
+            "border": "#ef4444",
+            "nw": 160,
+            "showDesc": true,
+            "level": 3,
+            "lane": 2
+          },
+          {
+            "id": 19,
+            "label": "信贷紧缩",
+            "desc": "银行惜贷。",
+            "bg": "#fef2f2",
+            "border": "#ef4444",
+            "nw": 160,
+            "showDesc": true,
+            "level": 3,
+            "lane": 3
+          },
+          {
+            "id": 20,
+            "label": "失业扩散",
+            "desc": "裁员→消费萎缩。",
+            "bg": "#fef2f2",
+            "border": "#ef4444",
+            "nw": 160,
+            "showDesc": true,
+            "level": 3,
+            "lane": 4
+          }
+        ],
+        "arrows": [
+          {
+            "id": 1,
+            "from": 1,
+            "to": 2,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "调基准",
+            "isStraight": true,
+            "color": "#2563eb"
+          },
+          {
+            "id": 2,
+            "from": 2,
+            "to": 3,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "传导",
+            "isStraight": true,
+            "color": "#2563eb"
+          },
+          {
+            "id": 3,
+            "from": 3,
+            "to": 4,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "影响",
+            "isStraight": true,
+            "color": "#2563eb"
+          },
+          {
+            "id": 4,
+            "from": 4,
+            "to": 5,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "影响",
+            "isStraight": true,
+            "color": "#2563eb"
+          },
+          {
+            "id": 5,
+            "from": 6,
+            "to": 7,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "释放",
+            "isStraight": true,
+            "color": "#16a34a"
+          },
+          {
+            "id": 6,
+            "from": 7,
+            "to": 8,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "放大",
+            "isStraight": true,
+            "color": "#16a34a"
+          },
+          {
+            "id": 7,
+            "from": 8,
+            "to": 9,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "加杠杆",
+            "isStraight": true,
+            "color": "#16a34a"
+          },
+          {
+            "id": 8,
+            "from": 9,
+            "to": 10,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "推高",
+            "isStraight": true,
+            "color": "#16a34a"
+          },
+          {
+            "id": 9,
+            "from": 11,
+            "to": 12,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "投放",
+            "isStraight": true,
+            "color": "#ea580c"
+          },
+          {
+            "id": 10,
+            "from": 12,
+            "to": 13,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "带动",
+            "isStraight": true,
+            "color": "#ea580c"
+          },
+          {
+            "id": 11,
+            "from": 13,
+            "to": 14,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "增长",
+            "isStraight": true,
+            "color": "#ea580c"
+          },
+          {
+            "id": 12,
+            "from": 14,
+            "to": 15,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "拉动",
+            "isStraight": true,
+            "color": "#ea580c"
+          },
+          {
+            "id": 13,
+            "from": 16,
+            "to": 17,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "暴雷",
+            "isStraight": true,
+            "color": "#dc2626"
+          },
+          {
+            "id": 14,
+            "from": 17,
+            "to": 18,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "传染",
+            "isStraight": true,
+            "color": "#dc2626"
+          },
+          {
+            "id": 15,
+            "from": 18,
+            "to": 19,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "收缩",
+            "isStraight": true,
+            "color": "#dc2626"
+          },
+          {
+            "id": 16,
+            "from": 19,
+            "to": 20,
+            "fromPort": "right",
+            "toPort": "left",
+            "label": "扩散",
+            "isStraight": true,
+            "color": "#dc2626"
+          }
+        ],
+        "nextId": 25,
+        "zoom": 0.7,
+        "panX": 10,
+        "panY": 10
+      }
+    }
+  ]
+}

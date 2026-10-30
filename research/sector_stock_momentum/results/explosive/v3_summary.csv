@@ -1,0 +1,73 @@
+strategy,period,v
+tech top-1 [fixed],2015-01..2022-12,17.2% / 0.57 / -65%
+tech top-1 [fixed],2023-01..2026-09,87.7% / 1.27 / -29%
+tech top-1 [fixed],2015-01..2026-09,36.2% / 0.83 / -68%
+tech top-1 [fixed],2022 only,-54.0%
+tech top-5 EW [fixed],2015-01..2022-12,18.2% / 0.81 / -32%
+tech top-5 EW [fixed],2023-01..2026-09,58.5% / 1.24 / -23%
+tech top-5 EW [fixed],2015-01..2026-09,29.8% / 0.96 / -32%
+tech top-5 EW [fixed],2022 only,-27.9%
+tech top-5 inv-vol [fixed],2015-01..2022-12,18.1% / 0.84 / -29%
+tech top-5 inv-vol [fixed],2023-01..2026-09,56.8% / 1.22 / -22%
+tech top-5 inv-vol [fixed],2015-01..2026-09,29.3% / 0.97 / -29%
+tech top-5 inv-vol [fixed],2022 only,-26.3%
+tech top-1 [annual-reselect],2015-01..2022-12,14.5% / 0.54 / -61%
+tech top-1 [annual-reselect],2023-01..2026-09,52.8% / 0.90 / -35%
+tech top-1 [annual-reselect],2015-01..2026-09,25.6% / 0.67 / -71%
+tech top-1 [annual-reselect],2022 only,-54.0%
+tech top-5 EW [annual-reselect],2015-01..2022-12,13.4% / 0.65 / -32%
+tech top-5 EW [annual-reselect],2023-01..2026-09,53.4% / 1.18 / -25%
+tech top-5 EW [annual-reselect],2015-01..2026-09,24.9% / 0.85 / -32%
+tech top-5 EW [annual-reselect],2022 only,-27.9%
+tech top-5 inv-vol [annual-reselect],2015-01..2022-12,14.8% / 0.73 / -29%
+tech top-5 inv-vol [annual-reselect],2023-01..2026-09,50.0% / 1.15 / -24%
+tech top-5 inv-vol [annual-reselect],2015-01..2026-09,25.1% / 0.88 / -29%
+tech top-5 inv-vol [annual-reselect],2022 only,-26.3%
+tech top-1 [fixed] + XLK regime,2015-01..2022-12,16.0% / 0.56 / -63%
+tech top-1 [fixed] + XLK regime,2023-01..2026-09,68.8% / 1.09 / -29%
+tech top-1 [fixed] + XLK regime,2015-01..2026-09,30.8% / 0.76 / -70%
+tech top-1 [fixed] + XLK regime,2022 only,-42.1%
+tech top-5 EW [fixed] + XLK regime,2015-01..2022-12,14.3% / 0.73 / -21%
+tech top-5 EW [fixed] + XLK regime,2023-01..2026-09,37.7% / 1.02 / -23%
+tech top-5 EW [fixed] + XLK regime,2015-01..2026-09,21.3% / 0.83 / -25%
+tech top-5 EW [fixed] + XLK regime,2022 only,-20.1%
+tech top-5 inv-vol [fixed] + XLK regime,2015-01..2022-12,14.6% / 0.77 / -19%
+tech top-5 inv-vol [fixed] + XLK regime,2023-01..2026-09,39.0% / 1.06 / -22%
+tech top-5 inv-vol [fixed] + XLK regime,2015-01..2026-09,21.9% / 0.86 / -24%
+tech top-5 inv-vol [fixed] + XLK regime,2022 only,-18.4%
+tech top-1 [annual-reselect] + XLK regime,2015-01..2022-12,13.4% / 0.53 / -51%
+tech top-1 [annual-reselect] + XLK regime,2023-01..2026-09,42.7% / 0.79 / -35%
+tech top-1 [annual-reselect] + XLK regime,2015-01..2026-09,22.0% / 0.62 / -67%
+tech top-1 [annual-reselect] + XLK regime,2022 only,-42.1%
+tech top-5 EW [annual-reselect] + XLK regime,2015-01..2022-12,10.3% / 0.57 / -28%
+tech top-5 EW [annual-reselect] + XLK regime,2023-01..2026-09,35.5% / 0.95 / -25%
+tech top-5 EW [annual-reselect] + XLK regime,2015-01..2026-09,17.8% / 0.71 / -28%
+tech top-5 EW [annual-reselect] + XLK regime,2022 only,-20.1%
+tech top-5 inv-vol [annual-reselect] + XLK regime,2015-01..2022-12,12.0% / 0.67 / -28%
+tech top-5 inv-vol [annual-reselect] + XLK regime,2023-01..2026-09,34.4% / 0.94 / -24%
+tech top-5 inv-vol [annual-reselect] + XLK regime,2015-01..2026-09,18.7% / 0.76 / -28%
+tech top-5 inv-vol [annual-reselect] + XLK regime,2022 only,-18.4%
+pure momentum top-1 (all S&P),2015-01..2022-12,13.3% / 0.49 / -69%
+pure momentum top-1 (all S&P),2023-01..2026-09,137.1% / 1.48 / -47%
+pure momentum top-1 (all S&P),2015-01..2026-09,43.4% / 0.88 / -69%
+pure momentum top-1 (all S&P),2022 only,-9.9%
+pure momentum top-1 (all) + SPY regime,2015-01..2022-12,3.9% / 0.28 / -71%
+pure momentum top-1 (all) + SPY regime,2023-01..2026-09,74.8% / 1.12 / -47%
+pure momentum top-1 (all) + SPY regime,2015-01..2026-09,22.7% / 0.62 / -71%
+pure momentum top-1 (all) + SPY regime,2022 only,-29.9%
+XLK,2015-01..2022-12,16.3% / 0.83 / -31%
+XLK,2023-01..2026-09,36.7% / 1.33 / -11%
+XLK,2015-01..2026-09,22.5% / 1.00 / -31%
+XLK,2022 only,-27.7%
+XLK + own regime,2015-01..2022-12,13.1% / 0.82 / -21%
+XLK + own regime,2023-01..2026-09,26.7% / 1.12 / -11%
+XLK + own regime,2015-01..2026-09,17.3% / 0.93 / -21%
+XLK + own regime,2022 only,-20.5%
+SPY,2015-01..2022-12,10.1% / 0.62 / -24%
+SPY,2023-01..2026-09,21.7% / 1.28 / -8%
+SPY,2015-01..2026-09,13.7% / 0.80 / -24%
+SPY,2022 only,-18.2%
+SPY + own regime,2015-01..2022-12,5.7% / 0.45 / -20%
+SPY + own regime,2023-01..2026-09,12.8% / 0.79 / -8%
+SPY + own regime,2015-01..2026-09,7.9% / 0.55 / -22%
+SPY + own regime,2022 only,-20.5%

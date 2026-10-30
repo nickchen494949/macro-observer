@@ -1,0 +1,88 @@
+71 quarters, 71 to fetch
+2009q1 ok: 0 filings, 0 values
+2009q2 ok: 20 filings, 953 values
+2009q3 ok: 430 filings, 31408 values
+2009q4 ok: 474 filings, 34853 values
+2010q1 ok: 478 filings, 33621 values
+2010q2 ok: 478 filings, 27134 values
+2010q3 ok: 1368 filings, 100491 values
+2010q4 ok: 1438 filings, 106451 values
+2011q1 ok: 1461 filings, 112521 values
+2011q2 ok: 1625 filings, 93462 values
+2011q3 ok: 6980 filings, 420295 values
+2011q4 ok: 7378 filings, 442139 values
+2012q1 ok: 7125 filings, 442525 values
+2012q2 ok: 8645 filings, 410579 values
+2012q3 ok: 7715 filings, 461609 values
+2012q4 ok: 7823 filings, 475238 values
+2013q1 ok: 6472 filings, 476070 values
+2013q2 ok: 8407 filings, 418891 values
+2013q3 ok: 7652 filings, 463438 values
+2013q4 ok: 7516 filings, 461511 values
+2014q1 ok: 6785 filings, 497314 values
+2014q2 ok: 8007 filings, 399301 values
+2014q3 ok: 7437 filings, 453138 values
+2014q4 ok: 7438 filings, 455735 values
+2015q1 ok: 6686 filings, 494743 values
+2015q2 ok: 7732 filings, 377627 values
+2015q3 ok: 7160 filings, 438162 values
+2015q4 ok: 7018 filings, 435612 values
+2016q1 ok: 6267 filings, 480411 values
+2016q2 ok: 7096 filings, 352812 values
+2016q3 ok: 5963 filings, 370956 values
+2016q4 ok: 6541 filings, 409323 values
+2017q1 ok: 5959 filings, 462217 values
+2017q2 ok: 6818 filings, 337657 values
+2017q3 ok: 6288 filings, 392021 values
+2017q4 ok: 6339 filings, 397007 values
+2018q1 ok: 5492 filings, 433583 values
+2018q2 ok: 6839 filings, 343190 values
+2018q3 ok: 6130 filings, 386668 values
+2018q4 ok: 6143 filings, 392580 values
+2019q1 ok: 5218 filings, 415597 values
+2019q2 ok: 6625 filings, 340329 values
+2019q3 ok: 5931 filings, 396257 values
+2019q4 ok: 5955 filings, 410298 values
+2020q1 ok: 5312 filings, 416548 values
+2020q2 ok: 5925 filings, 308432 values
+2020q3 ok: 5904 filings, 394127 values
+2020q4 ok: 5866 filings, 397600 values
+2021q1 ok: 5578 filings, 392988 values
+2021q2 ok: 6881 filings, 333613 values
+2021q3 ok: 6844 filings, 429146 values
+2021q4 ok: 6955 filings, 449548 values
+2022q1 ok: 6368 filings, 377484 values
+2022q2 ok: 7350 filings, 357522 values
+2022q3 ok: 6740 filings, 447283 values
+2022q4 PROCESS FAIL Error tokenizing data. C error: Expected 10 fields in line 16618, saw 33
+
+2023q1 PROCESS FAIL Error tokenizing data. C error: Expected 10 fields in line 312006, saw 11
+
+2023q2 PROCESS FAIL Error tokenizing data. C error: Expected 10 fields in line 337467, saw 11
+
+2023q3 ok: 6299 filings, 432145 values
+2023q4 PROCESS FAIL Error tokenizing data. C error: Expected 10 fields in line 880015, saw 11
+
+2024q1 PROCESS FAIL Error tokenizing data. C error: Expected 10 fields in line 398796, saw 11
+
+2024q2 PROCESS FAIL Error tokenizing data. C error: Expected 10 fields in line 325969, saw 11
+
+2024q3 PROCESS FAIL Error tokenizing data. C error: Expected 10 fields in line 84619, saw 11
+
+2024q4 PROCESS FAIL Error tokenizing data. C error: Expected 10 fields in line 64698, saw 11
+
+2025q1 PROCESS FAIL Error tokenizing data. C error: Expected 10 fields in line 180486, saw 11
+
+2025q2 PROCESS FAIL Error tokenizing data. C error: Expected 10 fields in line 1289874, saw 11
+
+2025q3 PROCESS FAIL Error tokenizing data. C error: Expected 10 fields in line 176125, saw 12
+
+2025q4 PROCESS FAIL Error tokenizing data. C error: Expected 10 fields in line 231253, saw 11
+
+2026q1 PROCESS FAIL Error tokenizing data. C error: Expected 10 fields in line 2451014, saw 11
+
+2026q2 PROCESS FAIL Error tokenizing data. C error: Expected 10 fields in line 2876539, saw 11
+
+2026q3 PROCESS FAIL Error tokenizing data. C error: Expected 10 fields in line 2949369, saw 11
+
+done

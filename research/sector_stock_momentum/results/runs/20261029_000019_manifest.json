@@ -1,0 +1,195 @@
+{
+ "spec": {
+  "look": 12,
+  "n_sec": 1,
+  "n_stk": 1,
+  "score": "ew"
+ },
+ "grid": {
+  "look": [
+   3,
+   6,
+   9,
+   12
+  ],
+  "n_sec": [
+   1,
+   2,
+   3
+  ],
+  "n_stk": [
+   1,
+   3,
+   5,
+   10
+  ],
+  "score": [
+   "ew",
+   "etf"
+  ]
+ },
+ "cost_per_side": 0.001,
+ "is_frac": 0.7,
+ "holding_months": [
+  "2009-01-31",
+  "2026-09-30",
+  213
+ ],
+ "IS": [
+  "2009-01-31",
+  "2021-05-31",
+  149
+ ],
+ "IS_selection_window": [
+  "2009-01-31",
+  "2021-04-30",
+  148
+ ],
+ "OOS": [
+  "2021-06-30",
+  "2026-09-30",
+  64
+ ],
+ "first_formation": "2008-12-31",
+ "momentum_needs_prices_from": "2007-12-31",
+ "membership_changes_applied_after_file_end": [
+  [
+   "2026-09-21",
+   "BE",
+   "TAP"
+  ],
+  [
+   "2026-09-21",
+   "P",
+   "TTD"
+  ],
+  [
+   "2026-09-21",
+   "ILMN",
+   "BLDR"
+  ],
+  [
+   "2026-10-01",
+   "VYLR",
+   "nan"
+  ],
+  [
+   "2026-10-06",
+   "TWLO",
+   "WBD"
+  ],
+  [
+   "2026-10-06",
+   "nan",
+   "CTVA"
+  ]
+ ],
+ "stress_unresolved_exit": [
+  -0.3,
+  -1.0
+ ],
+ "provenance": {
+  "run_at": "2026-10-29T00:00:19",
+  "git_head": "723963418f0ce5d8cd7541c8c1d85006fdc1715d",
+  "git_dirty_files": [
+   "M research/sector_stock_momentum/.gitignore",
+   " D research/sector_stock_momentum/WORKFLOW_AUDIT.md",
+   " D research/sector_stock_momentum/backtest_run.log",
+   " M research/sector_stock_momentum/build_fundamentals.py",
+   " M research/sector_stock_momentum/data/fundamentals/by_sector/Communication_Services_eps_quarterly_pit.csv",
+   " M research/sector_stock_momentum/data/fundamentals/by_sector/Consumer_Staples_eps_quarterly_pit.csv",
+   " M research/sector_stock_momentum/data/fundamentals/by_sector/Energy_eps_quarterly_pit.csv",
+   " M research/sector_stock_momentum/data/fundamentals/by_sector/Health_Care_eps_quarterly_pit.csv",
+   " M research/sector_stock_momentum/data/fundamentals/cik_map.csv",
+   " M research/sector_stock_momentum/data/fundamentals/eps_quarterly_pit.parquet",
+   " M research/sector_stock_momentum/data/fundamentals/pit_long/Health_Care.parquet",
+   " M research/sector_stock_momentum/data/identity_resolutions.csv",
+   " M research/sector_stock_momentum/data/rf_monthly.csv",
+   " D research/sector_stock_momentum/determinism_test.log",
+   " M research/sector_stock_momentum/eps_momentum.py",
+   " D research/sector_stock_momentum/explosive_factors.log",
+   " M research/sector_stock_momentum/explosive_factors.py",
+   " M research/sector_stock_momentum/explosive_v2.py",
+   " D research/sector_stock_momentum/fetch_prices_part1.log",
+   " D research/sector_stock_momentum/fetch_prices_part2.log",
+   " D research/sector_stock_momentum/fetch_prices_part3.log",
+   " D research/sector_stock_momentum/fetch_sec.log",
+   " D research/sector_stock_momentum/fetch_sec_part1.log",
+   " D research/sector_stock_momentum/fetch_sectors.log",
+   " M research/sector_stock_momentum/fetch_sectors.py",
+   " D research/sector_stock_momentum/fetch_tiingo.log",
+   " D research/sector_stock_momentum/fetch_tiingo_pass2.log",
+   " D research/sector_stock_momentum/fetch_tiingo_pass3.log",
+   " D research/sector_stock_momentum/fetch_wiki.log",
+   " D research/sector_stock_momentum/fetch_wiki_crosscheck.log",
+   " M research/sector_stock_momentum/fundamentals_pit.py",
+   " D research/sector_stock_momentum/gap_ledger.log",
+   " D research/sector_stock_momentum/ml_dev.log",
+   " D research/sector_stock_momentum/ml_features.log",
+   " M research/sector_stock_momentum/ml_features.py",
+   " M research/sector_stock_momentum/mom30_roe.py",
+   " D research/sector_stock_momentum/pit_truncation_test.log",
+   " D research/sector_stock_momentum/resolve_successors.log",
+   " D research/sector_stock_momentum/results_eps_momentum.log",
+   " M research/sector_stock_momentum/run_fetch_chain.sh",
+   " M research/sector_stock_momentum/run_final.sh",
+   " M research/sector_stock_momentum/run_tiingo_chain.sh",
+   "?? research/sector_stock_momentum/AUDIT_INDEX.md",
+   "?? research/sector_stock_momentum/audit/WORKFLOW_AUDIT.md",
+   "?? research/sector_stock_momentum/audit/before_tiefix/",
+   "?? research/sector_stock_momentum/build_manifest.py",
+   "?? research/sector_stock_momentum/build_ndx_membership.py",
+   "?? research/sector_stock_momentum/data/cik_validity.csv",
+   "?? research/sector_stock_momentum/data/earnings_dates.csv",
+   "?? research/sector_stock_momentum/data/fundamentals_ndx/",
+   "?? research/sector_stock_momentum/data/nasdaq100_src/",
+   "?? research/sector_stock_momentum/data/ndx_cik_map.csv",
+   "?? research/sector_stock_momentum/data/ndx_monthly_members.csv",
+   "?? research/sector_stock_momentum/data/ndx_sectors.csv",
+   "?? research/sector_stock_momentum/data/ndx_spells.csv",
+   "?? research/sector_stock_momentum/data/ndx_symbol_map.csv",
+   "?? research/sector_stock_momentum/data/ndx_ticker_spells.csv",
+   "?? research/sector_stock_momentum/data/ndx_wiki_current.csv",
+   "?? research/sector_stock_momentum/data/raw_ndx/",
+   "?? research/sector_stock_momentum/earnings_factor.py",
+   "?? research/sector_stock_momentum/fetch_earnings_dates.py",
+   "?? research/sector_stock_momentum/fetch_ndx_meta.py",
+   "?? research/sector_stock_momentum/fetch_ndx_prices.py",
+   "?? research/sector_stock_momentum/fetch_volume.py",
+   "?? research/sector_stock_momentum/identity_screen_earnings.py",
+   "?? research/sector_stock_momentum/improve_v3.py",
+   "?? research/sector_stock_momentum/logs/",
+   "?? research/sector_stock_momentum/ndx_expand.py",
+   "?? research/sector_stock_momentum/ndx_fundamentals.py",
+   "?? research/sector_stock_momentum/ndx_universe.py",
+   "?? research/sector_stock_momentum/risk_report.py",
+   "?? research/sector_stock_momentum/run_ndx_fetch.sh",
+   "?? research/sector_stock_momentum/run_postaudit2.sh",
+   "?? research/sector_stock_momentum/run_volume_later.sh"
+  ],
+  "raw_price_snapshot_sha256": "512af794bc310343",
+  "n_raw_files": 683,
+  "n_tiingo_files": 167,
+  "n_symbols_priced_from_tiingo": 143,
+  "n_symbols_using_wiki": 58,
+  "file_sha256_16": {
+   "data/sp500_hist_components.csv": "36326709d46d6cd2",
+   "data/wiki_changes.csv": "ead71c635151cacc",
+   "data/sectors.csv": "e2095b63c08d3ef2",
+   "data/wiki_current_constituents.csv": "08f2e2a6e3e908e6",
+   "backtest.py": "994f0883e50e8cf9",
+   "historical_sectors.py": "acb519f68a228769"
+  },
+  "python": "3.11.6",
+  "pandas": "2.2.3",
+  "numpy": "2.2.6",
+  "scipy": "1.14.1",
+  "sources": {
+   "membership": "github.com/fja05680/sp500 (Historical Components & Changes, Updated)",
+   "membership_after_file_end": "en.wikipedia.org/wiki/Historical_components_of_the_S&P_500",
+   "sectors": "Wikipedia current GICS + Yahoo sector/industry, rebuilt by historical_sectors.py",
+   "prices": "Yahoo Finance chart API v8 (adjclose), fetched by fetch_prices.py; Tiingo EOD adjClose for delisted names Yahoo dropped (fetch_tiingo.py); Nasdaq Data Link WIKI/PRICES adj_close (frozen 2018-03-27) as last resort, validated vs Yahoo (data/raw_wiki/_validation.json)",
+   "rf": "FRED DGS3MO"
+  }
+ }
+}

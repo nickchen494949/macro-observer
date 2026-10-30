@@ -1,0 +1,16 @@
+{
+  "runnerVersion": 1,
+  "jobId": "20260810-1409-macro-yahoo-recovery-smoke",
+  "action": "node_script",
+  "status": "failed",
+  "exitCode": 4,
+  "signal": null,
+  "error": "",
+  "stdout": "{\n  \"http\": 200,\n  \"found\": {\n    \"CL Oil 原油\": {\n      \"current\": 78.37,\n      \"zscore\": 64,\n      \"zscoreAll\": 78,\n      \"changes\": {\n        \"1d\": 0.24,\n        \"1w\": -2.45,\n        \"1m\": 9.75,\n        \"1q\": -17.87,\n        \"6m\": 22.53,\n        \"1y\": 22.68\n      }\n    },\n    \"NG Gas 天然气\": {\n      \"current\": 2.735,\n      \"zscore\": 37,\n      \"zscoreAll\": 37,\n      \"changes\": {\n        \"1d\": 2.74,\n        \"1w\": -1.65,\n        \"1m\": -6.97,\n        \"1q\": -0.8,\n        \"6m\": -12.2,\n        \"1y\": -8.53\n      }\n    },\n    \"GC Gold 黄金\": {\n      \"current\": 4401.8999,\n      \"zscore\": 89,\n      \"zscoreAll\": 96,\n      \"changes\": {\n        \"1d\": 1.41,\n        \"1w\": 9.13,\n        \"1m\": 7.26,\n        \"1q\": -6.75,\n        \"6m\": -12.03,\n        \"1y\": 28\n      }\n    },\n    \"S&P 500\": {\n      \"current\": null,\n      \"zscore\": null,\n      \"zscoreAll\": null,\n      \"changes\": null\n    },\n    \"Nasdaq\": {\n      \"current\": null,\n      \"zscore\": null,\n      \"zscoreAll\": null,\n      \"changes\": null\n    },\n    \"Russell 2000\": {\n      \"current\": null,\n      \"zscore\": null,\n      \"zscoreAll\": null,\n      \"changes\": null\n    },\n    \"SOXX 半导体\": {\n      \"current\": 543.27,\n      \"zscore\": 96,\n      \"zscoreAll\": 99,\n      \"changes\": {\n        \"1d\": 2.02,\n        \"1w\": 7.6,\n        \"1m\": -1.53,\n        \"1q\": 10.34,\n        \"6m\": 55.88,\n        \"1y\": 125.57\n      }\n    }\n  }\n}\n",
+  "stderr": "Still broken: S&P 500, Nasdaq, Russell 2000\n",
+  "startedAt": "2026-08-10T06:09:08.103Z",
+  "finishedAt": "2026-08-10T06:09:09.067Z",
+  "durationMs": 963,
+  "localHeadBefore": "67513ebe9dfa",
+  "codeWorktreeStatusAfter": ""
+}

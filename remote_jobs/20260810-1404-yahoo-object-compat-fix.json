@@ -1,0 +1,8 @@
+{
+  "id": "20260810-1404-yahoo-object-compat-fix",
+  "enabled": true,
+  "action": "node_script",
+  "path": "scripts/apply_yahoo_object_compat_fix.js",
+  "args": [],
+  "timeoutMs": 120000
+}

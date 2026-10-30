@@ -1,0 +1,409 @@
+basis,sector,year,sum_q,annual,diff
+operating,ALL (index),2008,49.51,49.51,0.0
+operating,ALL (index),2009,56.86,56.86,0.0
+operating,ALL (index),2010,83.77000000000001,83.77,1.4210854715202004e-14
+operating,ALL (index),2011,96.44000000000001,96.44,1.4210854715202004e-14
+operating,ALL (index),2012,96.82,96.82,0.0
+operating,ALL (index),2013,107.3,107.31,-0.010000000000005116
+operating,ALL (index),2014,113.00999999999999,113.01,-1.4210854715202004e-14
+operating,ALL (index),2015,100.45,100.45,0.0
+operating,ALL (index),2016,106.25999999999999,106.26,-1.4210854715202004e-14
+operating,ALL (index),2017,124.50999999999999,124.52,-0.010000000000005116
+operating,ALL (index),2018,151.6,151.6,0.0
+operating,ALL (index),2019,157.12,157.12,0.0
+operating,ALL (index),2020,122.37,122.37,0.0
+operating,ALL (index),2021,208.20999999999998,208.2,0.009999999999990905
+operating,ALL (index),2022,196.95,196.95,0.0
+operating,ALL (index),2023,213.53,213.52,0.009999999999990905
+operating,ALL (index),2024,233.36,233.36,0.0
+operating,Communication Services,2008,8.21,8.21,0.0
+operating,Communication Services,2009,7.22,7.22,0.0
+operating,Communication Services,2010,7.359999999999999,7.36,-8.881784197001252e-16
+operating,Communication Services,2011,6.85,6.85,0.0
+operating,Communication Services,2012,3.3799999999999994,3.38,-4.440892098500626e-16
+operating,Communication Services,2013,12.33,12.31,0.019999999999999574
+operating,Communication Services,2014,7.21,7.21,0.0
+operating,Communication Services,2015,12.16,12.15,0.009999999999999787
+operating,Communication Services,2016,9.86,9.86,0.0
+operating,Communication Services,2017,10.18,10.18,0.0
+operating,Communication Services,2018,11.78,11.78,0.0
+operating,Communication Services,2019,8.25,8.25,0.0
+operating,Communication Services,2020,7.26,7.26,0.0
+operating,Communication Services,2021,12.440000000000001,12.44,1.7763568394002505e-15
+operating,Communication Services,2022,9.99,9.99,0.0
+operating,Communication Services,2023,12.440000000000001,12.45,-0.00999999999999801
+operating,Communication Services,2024,16.009999999999998,16.0,0.00999999999999801
+operating,Consumer Discretionary,2008,5.28,5.28,0.0
+operating,Consumer Discretionary,2009,10.96,10.96,0.0
+operating,Consumer Discretionary,2010,18.2,18.2,0.0
+operating,Consumer Discretionary,2011,20.810000000000002,20.81,3.552713678800501e-15
+operating,Consumer Discretionary,2012,22.270000000000003,22.27,3.552713678800501e-15
+operating,Consumer Discretionary,2013,25.12,25.12,0.0
+operating,Consumer Discretionary,2014,27.7,27.7,0.0
+operating,Consumer Discretionary,2015,30.44,30.44,0.0
+operating,Consumer Discretionary,2016,33.3,33.3,0.0
+operating,Consumer Discretionary,2017,35.24,35.23,0.010000000000005116
+operating,Consumer Discretionary,2018,39.84,39.84,0.0
+operating,Consumer Discretionary,2019,39.47,39.48,-0.00999999999999801
+operating,Consumer Discretionary,2020,28.29,28.29,0.0
+operating,Consumer Discretionary,2021,45.3,45.29,0.00999999999999801
+operating,Consumer Discretionary,2022,35.88,35.88,0.0
+operating,Consumer Discretionary,2023,50.730000000000004,50.73,7.105427357601002e-15
+operating,Consumer Discretionary,2024,60.24000000000001,60.24,7.105427357601002e-15
+operating,Consumer Staples,2008,17.169999999999998,17.17,-3.552713678800501e-15
+operating,Consumer Staples,2009,18.36,18.36,0.0
+operating,Consumer Staples,2010,19.45,19.45,0.0
+operating,Consumer Staples,2011,21.38,21.38,0.0
+operating,Consumer Staples,2012,22.6,22.59,0.010000000000001563
+operating,Consumer Staples,2013,23.950000000000003,23.95,3.552713678800501e-15
+operating,Consumer Staples,2014,24.160000000000004,24.16,3.552713678800501e-15
+operating,Consumer Staples,2015,24.32,24.32,0.0
+operating,Consumer Staples,2016,25.330000000000002,25.33,3.552713678800501e-15
+operating,Consumer Staples,2017,27.310000000000002,27.32,-0.00999999999999801
+operating,Consumer Staples,2018,29.349999999999998,29.35,-3.552713678800501e-15
+operating,Consumer Staples,2019,30.509999999999998,30.5,0.00999999999999801
+operating,Consumer Staples,2020,32.06,32.05,0.010000000000005116
+operating,Consumer Staples,2021,35.12,35.12,0.0
+operating,Consumer Staples,2022,33.43000000000001,33.43,7.105427357601002e-15
+operating,Consumer Staples,2023,37.76,37.77,-0.010000000000005116
+operating,Consumer Staples,2024,39.410000000000004,39.41,7.105427357601002e-15
+operating,Energy,2008,50.92999999999999,50.93,-7.105427357601002e-15
+operating,Energy,2009,17.26,17.26,0.0
+operating,Energy,2010,35.2,35.21,-0.00999999999999801
+operating,Energy,2011,47.94,47.94,0.0
+operating,Energy,2012,44.31,44.3,0.010000000000005116
+operating,Energy,2013,42.35,42.35,0.0
+operating,Energy,2014,42.940000000000005,42.93,0.010000000000005116
+operating,Energy,2015,-13.709999999999999,-13.71,1.7763568394002505e-15
+operating,Energy,2016,-3.4899999999999993,-3.49,8.881784197001252e-16
+operating,Energy,2017,13.29,13.28,0.009999999999999787
+operating,Energy,2018,30.619999999999997,30.61,0.00999999999999801
+operating,Energy,2019,16.09,16.09,0.0
+operating,Energy,2020,-27.589999999999996,-27.58,-0.00999999999999801
+operating,Energy,2021,31.09,31.08,0.010000000000001563
+operating,Energy,2022,82.97,82.97,0.0
+operating,Energy,2023,57.11,57.11,0.0
+operating,Energy,2024,46.11,46.12,-0.00999999999999801
+operating,Financials,2008,-21.240000000000002,-21.24,-3.552713678800501e-15
+operating,Financials,2009,4.4,4.4,0.0
+operating,Financials,2010,14.82,14.82,0.0
+operating,Financials,2011,16.23,16.23,0.0
+operating,Financials,2012,16.44,16.44,0.0
+operating,Financials,2013,21.07,21.07,0.0
+operating,Financials,2014,21.96,21.96,0.0
+operating,Financials,2015,23.0,23.01,-0.010000000000001563
+operating,Financials,2016,23.79,23.78,0.00999999999999801
+operating,Financials,2017,26.59,26.59,0.0
+operating,Financials,2018,31.249999999999996,31.25,-3.552713678800501e-15
+operating,Financials,2019,43.44,43.44,0.0
+operating,Financials,2020,32.67,32.66,0.010000000000005116
+operating,Financials,2021,59.260000000000005,59.26,7.105427357601002e-15
+operating,Financials,2022,33.89,33.9,-0.00999999999999801
+operating,Financials,2023,43.03,43.03,0.0
+operating,Financials,2024,49.129999999999995,49.13,-7.105427357601002e-15
+operating,Health Care,2008,24.470000000000002,24.47,3.552713678800501e-15
+operating,Health Care,2009,26.400000000000002,26.4,3.552713678800501e-15
+operating,Health Care,2010,28.9,28.9,0.0
+operating,Health Care,2011,31.07,31.08,-0.00999999999999801
+operating,Health Care,2012,31.529999999999998,31.53,-3.552713678800501e-15
+operating,Health Care,2013,32.43,32.43,0.0
+operating,Health Care,2014,35.78,35.79,-0.00999999999999801
+operating,Health Care,2015,38.72,38.72,0.0
+operating,Health Care,2016,42.44,42.45,-0.010000000000005116
+operating,Health Care,2017,45.089999999999996,45.08,0.00999999999999801
+operating,Health Care,2018,50.04,50.04,0.0
+operating,Health Care,2019,55.62,55.62,0.0
+operating,Health Care,2020,57.92999999999999,57.93,-7.105427357601002e-15
+operating,Health Care,2021,78.09,78.09,0.0
+operating,Health Care,2022,78.1,78.09,0.009999999999990905
+operating,Health Care,2023,65.97,65.97,0.0
+operating,Health Care,2024,69.22,69.23,-0.010000000000005116
+operating,Industrials,2008,21.18,21.18,0.0
+operating,Industrials,2009,14.22,14.22,0.0
+operating,Industrials,2010,18.41,18.41,0.0
+operating,Industrials,2011,20.96,20.96,0.0
+operating,Industrials,2012,22.27,22.28,-0.010000000000001563
+operating,Industrials,2013,24.88,24.88,0.0
+operating,Industrials,2014,26.82,26.83,-0.00999999999999801
+operating,Industrials,2015,27.99,28.0,-0.010000000000001563
+operating,Industrials,2016,27.07,27.07,0.0
+operating,Industrials,2017,30.29,30.29,0.0
+operating,Industrials,2018,37.44,37.43,0.00999999999999801
+operating,Industrials,2019,35.47,35.48,-0.00999999999999801
+operating,Industrials,2020,13.59,13.59,0.0
+operating,Industrials,2021,31.880000000000003,31.88,3.552713678800501e-15
+operating,Industrials,2022,40.51,40.51,0.0
+operating,Industrials,2023,46.699999999999996,46.7,-7.105427357601002e-15
+operating,Industrials,2024,44.09,44.09,0.0
+operating,Information Technology,2008,16.12,16.12,0.0
+operating,Information Technology,2009,17.48,17.48,0.0
+operating,Information Technology,2010,26.25,26.25,0.0
+operating,Information Technology,2011,31.450000000000003,31.44,0.010000000000001563
+operating,Information Technology,2012,32.690000000000005,32.69,7.105427357601002e-15
+operating,Information Technology,2013,33.58,33.58,0.0
+operating,Information Technology,2014,37.0,36.99,0.00999999999999801
+operating,Information Technology,2015,37.98,37.97,0.00999999999999801
+operating,Information Technology,2016,37.98,37.99,-0.010000000000005116
+operating,Information Technology,2017,50.59,50.59,0.0
+operating,Information Technology,2018,63.709999999999994,63.7,0.009999999999990905
+operating,Information Technology,2019,62.92,62.92,0.0
+operating,Information Technology,2020,67.78999999999999,67.79,-1.4210854715202004e-14
+operating,Information Technology,2021,93.5,93.5,0.0
+operating,Information Technology,2022,90.05,90.05,0.0
+operating,Information Technology,2023,99.81,99.81,0.0
+operating,Information Technology,2024,117.67000000000002,117.67,1.4210854715202004e-14
+operating,Materials,2008,8.09,8.09,0.0
+operating,Materials,2009,7.09,7.09,0.0
+operating,Materials,2010,13.34,13.33,0.009999999999999787
+operating,Materials,2011,16.19,16.2,-0.00999999999999801
+operating,Materials,2012,14.670000000000002,14.67,1.7763568394002505e-15
+operating,Materials,2013,14.03,14.04,-0.009999999999999787
+operating,Materials,2014,15.85,15.86,-0.009999999999999787
+operating,Materials,2015,8.479999999999999,8.49,-0.010000000000001563
+operating,Materials,2016,13.02,13.01,0.009999999999999787
+operating,Materials,2017,17.18,17.18,0.0
+operating,Materials,2018,21.580000000000002,21.58,3.552713678800501e-15
+operating,Materials,2019,17.04,17.05,-0.010000000000001563
+operating,Materials,2020,15.870000000000001,15.86,0.010000000000001563
+operating,Materials,2021,30.520000000000003,30.52,3.552713678800501e-15
+operating,Materials,2022,32.17,32.17,0.0
+operating,Materials,2023,24.099999999999998,24.11,-0.010000000000001563
+operating,Materials,2024,21.75,21.75,0.0
+operating,Real Estate,2008,1.79,1.79,0.0
+operating,Real Estate,2009,0.9899999999999999,0.9899999999999999,0.0
+operating,Real Estate,2010,1.3230000000000002,1.3230000000000002,0.0
+operating,Real Estate,2011,2.487,2.487,0.0
+operating,Real Estate,2012,3.13,3.13,0.0
+operating,Real Estate,2013,3.31,3.31,0.0
+operating,Real Estate,2014,5.34,5.34,0.0
+operating,Real Estate,2015,5.450000000000001,5.45,8.881784197001252e-16
+operating,Real Estate,2016,7.369999999999999,7.38,-0.010000000000000675
+operating,Real Estate,2017,5.6000000000000005,5.6,8.881784197001252e-16
+operating,Real Estate,2018,6.4,6.4,0.0
+operating,Real Estate,2019,7.0,7.0,0.0
+operating,Real Estate,2020,5.27,5.28,-0.010000000000000675
+operating,Real Estate,2021,8.010000000000002,8.0,0.010000000000001563
+operating,Real Estate,2022,7.37,7.36,0.009999999999999787
+operating,Real Estate,2023,6.74,6.74,0.0
+operating,Real Estate,2024,6.75,6.75,0.0
+operating,Utilities,2008,12.25,12.25,0.0
+operating,Utilities,2009,11.5,11.5,0.0
+operating,Utilities,2010,12.34,12.34,0.0
+operating,Utilities,2011,12.469999999999999,12.47,-1.7763568394002505e-15
+operating,Utilities,2012,11.97,11.97,0.0
+operating,Utilities,2013,12.13,12.15,-0.019999999999999574
+operating,Utilities,2014,13.22,13.22,0.0
+operating,Utilities,2015,11.25,11.25,0.0
+operating,Utilities,2016,13.67,13.67,0.0
+operating,Utilities,2017,14.530000000000001,14.53,1.7763568394002505e-15
+operating,Utilities,2018,15.41,15.41,0.0
+operating,Utilities,2019,15.66,15.66,0.0
+operating,Utilities,2020,15.599999999999998,15.6,-1.7763568394002505e-15
+operating,Utilities,2021,15.28,15.27,0.009999999999999787
+operating,Utilities,2022,15.399999999999999,15.4,-1.7763568394002505e-15
+operating,Utilities,2023,18.69,18.7,-0.00999999999999801
+operating,Utilities,2024,20.759999999999998,20.77,-0.010000000000001563
+as_reported,ALL (index),2008,14.879999999999995,14.88,-5.329070518200751e-15
+as_reported,ALL (index),2009,50.97,50.97,0.0
+as_reported,ALL (index),2010,77.35,77.35,0.0
+as_reported,ALL (index),2011,86.95,86.95,0.0
+as_reported,ALL (index),2012,86.51000000000002,86.51,1.4210854715202004e-14
+as_reported,ALL (index),2013,100.2,100.2,0.0
+as_reported,ALL (index),2014,102.31,102.31,0.0
+as_reported,ALL (index),2015,86.53,86.52,0.010000000000005116
+as_reported,ALL (index),2016,94.55,94.55,0.0
+as_reported,ALL (index),2017,109.88,109.88,0.0
+as_reported,ALL (index),2018,132.39,132.39,0.0
+as_reported,ALL (index),2019,139.47,139.47,0.0
+as_reported,ALL (index),2020,94.13,94.13,0.0
+as_reported,ALL (index),2021,197.87,197.87,0.0
+as_reported,ALL (index),2022,172.75,172.75,0.0
+as_reported,ALL (index),2023,192.42999999999998,192.44,-0.010000000000019327
+as_reported,ALL (index),2024,210.17,210.16,0.009999999999990905
+as_reported,Communication Services,2008,7.01,7.01,0.0
+as_reported,Communication Services,2009,5.85,5.85,0.0
+as_reported,Communication Services,2010,7.73,7.72,0.010000000000000675
+as_reported,Communication Services,2011,1.8599999999999999,1.86,-2.220446049250313e-16
+as_reported,Communication Services,2012,1.9399999999999995,1.94,-4.440892098500626e-16
+as_reported,Communication Services,2013,11.079999999999998,11.09,-0.010000000000001563
+as_reported,Communication Services,2014,6.679999999999998,6.68,-1.7763568394002505e-15
+as_reported,Communication Services,2015,12.240000000000002,12.24,1.7763568394002505e-15
+as_reported,Communication Services,2016,9.15,9.15,0.0
+as_reported,Communication Services,2017,21.4,21.41,-0.010000000000001563
+as_reported,Communication Services,2018,10.99,10.99,0.0
+as_reported,Communication Services,2019,7.529999999999999,7.53,-8.881784197001252e-16
+as_reported,Communication Services,2020,5.8100000000000005,5.81,8.881784197001252e-16
+as_reported,Communication Services,2021,11.82,11.83,-0.009999999999999787
+as_reported,Communication Services,2022,6.74,6.73,0.009999999999999787
+as_reported,Communication Services,2023,10.829999999999998,10.84,-0.010000000000001563
+as_reported,Communication Services,2024,14.03,14.02,0.009999999999999787
+as_reported,Consumer Discretionary,2008,-13.709999999999999,-13.71,1.7763568394002505e-15
+as_reported,Consumer Discretionary,2009,10.49,10.49,0.0
+as_reported,Consumer Discretionary,2010,16.66,16.67,-0.010000000000001563
+as_reported,Consumer Discretionary,2011,22.36,22.36,0.0
+as_reported,Consumer Discretionary,2012,21.22,21.22,0.0
+as_reported,Consumer Discretionary,2013,24.299999999999997,24.29,0.00999999999999801
+as_reported,Consumer Discretionary,2014,27.09,27.08,0.010000000000001563
+as_reported,Consumer Discretionary,2015,28.74,28.75,-0.010000000000001563
+as_reported,Consumer Discretionary,2016,29.05,29.07,-0.019999999999999574
+as_reported,Consumer Discretionary,2017,37.61,37.61,0.0
+as_reported,Consumer Discretionary,2018,32.879999999999995,32.88,-7.105427357601002e-15
+as_reported,Consumer Discretionary,2019,36.849999999999994,36.85,-7.105427357601002e-15
+as_reported,Consumer Discretionary,2020,19.36,19.36,0.0
+as_reported,Consumer Discretionary,2021,44.970000000000006,44.96,0.010000000000005116
+as_reported,Consumer Discretionary,2022,29.370000000000005,29.37,3.552713678800501e-15
+as_reported,Consumer Discretionary,2023,49.86,49.86,0.0
+as_reported,Consumer Discretionary,2024,55.5,55.49,0.00999999999999801
+as_reported,Consumer Staples,2008,14.24,14.24,0.0
+as_reported,Consumer Staples,2009,16.55,16.55,0.0
+as_reported,Consumer Staples,2010,19.09,19.09,0.0
+as_reported,Consumer Staples,2011,19.019999999999996,19.02,-3.552713678800501e-15
+as_reported,Consumer Staples,2012,20.950000000000003,20.94,0.010000000000001563
+as_reported,Consumer Staples,2013,22.689999999999998,22.7,-0.010000000000001563
+as_reported,Consumer Staples,2014,20.999999999999996,21.01,-0.010000000000005116
+as_reported,Consumer Staples,2015,22.5,22.49,0.010000000000001563
+as_reported,Consumer Staples,2016,26.28,26.28,0.0
+as_reported,Consumer Staples,2017,25.41,25.42,-0.010000000000001563
+as_reported,Consumer Staples,2018,25.74,25.75,-0.010000000000001563
+as_reported,Consumer Staples,2019,21.970000000000002,21.98,-0.00999999999999801
+as_reported,Consumer Staples,2020,25.93,25.94,-0.010000000000001563
+as_reported,Consumer Staples,2021,30.020000000000003,30.02,3.552713678800501e-15
+as_reported,Consumer Staples,2022,28.46,28.46,0.0
+as_reported,Consumer Staples,2023,32.22,32.22,0.0
+as_reported,Consumer Staples,2024,31.64,31.63,0.010000000000001563
+as_reported,Energy,2008,35.15,35.15,0.0
+as_reported,Energy,2009,16.01,16.01,0.0
+as_reported,Energy,2010,35.54,35.54,0.0
+as_reported,Energy,2011,44.79,44.79,0.0
+as_reported,Energy,2012,44.480000000000004,44.48,7.105427357601002e-15
+as_reported,Energy,2013,41.82,41.82,0.0
+as_reported,Energy,2014,35.23,35.24,-0.010000000000005116
+as_reported,Energy,2015,-23.52,-23.52,0.0
+as_reported,Energy,2016,-12.540000000000001,-12.53,-0.010000000000001563
+as_reported,Energy,2017,17.92,17.91,0.010000000000001563
+as_reported,Energy,2018,27.64,27.65,-0.00999999999999801
+as_reported,Energy,2019,5.23,5.23,0.0
+as_reported,Energy,2020,-47.68,-47.69,0.00999999999999801
+as_reported,Energy,2021,29.0,29.0,0.0
+as_reported,Energy,2022,82.08,82.07,0.010000000000005116
+as_reported,Energy,2023,57.5,57.51,-0.00999999999999801
+as_reported,Energy,2024,44.7,44.7,0.0
+as_reported,Financials,2008,-37.96,-37.96,0.0
+as_reported,Financials,2009,2.61,2.61,0.0
+as_reported,Financials,2010,12.77,12.77,0.0
+as_reported,Financials,2011,14.08,14.08,0.0
+as_reported,Financials,2012,15.56,15.56,0.0
+as_reported,Financials,2013,18.93,18.93,0.0
+as_reported,Financials,2014,19.1,19.09,0.010000000000001563
+as_reported,Financials,2015,21.910000000000004,21.91,3.552713678800501e-15
+as_reported,Financials,2016,23.0,23.01,-0.010000000000001563
+as_reported,Financials,2017,25.09,25.1,-0.010000000000001563
+as_reported,Financials,2018,30.79,30.78,0.00999999999999801
+as_reported,Financials,2019,42.730000000000004,42.75,-0.01999999999999602
+as_reported,Financials,2020,29.200000000000003,29.2,3.552713678800501e-15
+as_reported,Financials,2021,58.69,58.68,0.00999999999999801
+as_reported,Financials,2022,32.04,32.05,-0.00999999999999801
+as_reported,Financials,2023,40.84,40.83,0.010000000000005116
+as_reported,Financials,2024,47.94,47.93,0.00999999999999801
+as_reported,Health Care,2008,19.09,19.09,0.0
+as_reported,Health Care,2009,25.61,25.61,0.0
+as_reported,Health Care,2010,22.46,22.46,0.0
+as_reported,Health Care,2011,25.310000000000002,25.31,3.552713678800501e-15
+as_reported,Health Care,2012,25.090000000000003,25.09,3.552713678800501e-15
+as_reported,Health Care,2013,27.43,27.43,0.0
+as_reported,Health Care,2014,31.63,31.64,-0.010000000000001563
+as_reported,Health Care,2015,31.28,31.28,0.0
+as_reported,Health Care,2016,34.79,34.8,-0.00999999999999801
+as_reported,Health Care,2017,29.18,29.19,-0.010000000000001563
+as_reported,Health Care,2018,37.56,37.57,-0.00999999999999801
+as_reported,Health Care,2019,46.81,46.81,0.0
+as_reported,Health Care,2020,40.970000000000006,40.97,7.105427357601002e-15
+as_reported,Health Care,2021,67.94,67.93,0.009999999999990905
+as_reported,Health Care,2022,63.11,63.12,-0.00999999999999801
+as_reported,Health Care,2023,46.949999999999996,46.95,-7.105427357601002e-15
+as_reported,Health Care,2024,46.769999999999996,46.77,-7.105427357601002e-15
+as_reported,Industrials,2008,17.62,17.62,0.0
+as_reported,Industrials,2009,12.549999999999999,12.55,-1.7763568394002505e-15
+as_reported,Industrials,2010,17.09,17.09,0.0
+as_reported,Industrials,2011,20.17,20.17,0.0
+as_reported,Industrials,2012,20.47,20.47,0.0
+as_reported,Industrials,2013,25.380000000000003,25.39,-0.00999999999999801
+as_reported,Industrials,2014,25.36,25.36,0.0
+as_reported,Industrials,2015,22.84,22.84,0.0
+as_reported,Industrials,2016,24.96,24.96,0.0
+as_reported,Industrials,2017,26.189999999999998,26.19,-3.552713678800501e-15
+as_reported,Industrials,2018,26.869999999999997,26.87,-3.552713678800501e-15
+as_reported,Industrials,2019,29.439999999999998,29.43,0.00999999999999801
+as_reported,Industrials,2020,11.3,11.29,0.010000000000001563
+as_reported,Industrials,2021,31.549999999999997,31.55,-3.552713678800501e-15
+as_reported,Industrials,2022,36.480000000000004,36.48,7.105427357601002e-15
+as_reported,Industrials,2023,37.69,37.69,0.0
+as_reported,Industrials,2024,42.72,42.73,-0.00999999999999801
+as_reported,Information Technology,2008,12.82,12.82,0.0
+as_reported,Information Technology,2009,15.07,15.07,0.0
+as_reported,Information Technology,2010,25.559999999999995,25.56,-3.552713678800501e-15
+as_reported,Information Technology,2011,29.060000000000002,29.06,3.552713678800501e-15
+as_reported,Information Technology,2012,27.240000000000002,27.24,3.552713678800501e-15
+as_reported,Information Technology,2013,32.4,32.41,-0.00999999999999801
+as_reported,Information Technology,2014,36.1,36.1,0.0
+as_reported,Information Technology,2015,33.86,33.86,0.0
+as_reported,Information Technology,2016,36.839999999999996,36.85,-0.010000000000005116
+as_reported,Information Technology,2017,33.75,33.74,0.00999999999999801
+as_reported,Information Technology,2018,58.620000000000005,58.62,7.105427357601002e-15
+as_reported,Information Technology,2019,60.309999999999995,60.31,-7.105427357601002e-15
+as_reported,Information Technology,2020,65.09,65.1,-0.009999999999990905
+as_reported,Information Technology,2021,91.94,91.94,0.0
+as_reported,Information Technology,2022,81.73,81.72,0.010000000000005116
+as_reported,Information Technology,2023,97.47,97.46,0.010000000000005116
+as_reported,Information Technology,2024,110.1,110.1,0.0
+as_reported,Materials,2008,0.5799999999999983,0.58,-1.6653345369377348e-15
+as_reported,Materials,2009,5.88,5.88,0.0
+as_reported,Materials,2010,12.76,12.75,0.009999999999999787
+as_reported,Materials,2011,14.549999999999999,14.55,-1.7763568394002505e-15
+as_reported,Materials,2012,11.18,11.18,0.0
+as_reported,Materials,2013,11.39,11.4,-0.009999999999999787
+as_reported,Materials,2014,13.1,13.1,0.0
+as_reported,Materials,2015,6.989999999999999,6.98,0.009999999999998899
+as_reported,Materials,2016,10.26,10.26,0.0
+as_reported,Materials,2017,15.58,15.57,0.009999999999999787
+as_reported,Materials,2018,19.23,19.23,0.0
+as_reported,Materials,2019,11.28,11.29,-0.009999999999999787
+as_reported,Materials,2020,11.36,11.35,0.009999999999999787
+as_reported,Materials,2021,27.669999999999998,27.66,0.00999999999999801
+as_reported,Materials,2022,28.299999999999997,28.3,-3.552713678800501e-15
+as_reported,Materials,2023,17.78,17.78,0.0
+as_reported,Materials,2024,19.57,19.58,-0.00999999999999801
+as_reported,Real Estate,2008,0.8099999999999996,0.81,-4.440892098500626e-16
+as_reported,Real Estate,2009,0.8300000000000001,0.83,1.1102230246251565e-16
+as_reported,Real Estate,2010,0.77,0.77,0.0
+as_reported,Real Estate,2011,2.36,2.37,-0.010000000000000231
+as_reported,Real Estate,2012,3.0799999999999996,3.07,0.009999999999999787
+as_reported,Real Estate,2013,3.16,3.17,-0.009999999999999787
+as_reported,Real Estate,2014,5.23,5.22,0.010000000000000675
+as_reported,Real Estate,2015,5.02,5.02,0.0
+as_reported,Real Estate,2016,7.15,7.15,0.0
+as_reported,Real Estate,2017,5.220000000000001,5.22,8.881784197001252e-16
+as_reported,Real Estate,2018,6.16,6.16,0.0
+as_reported,Real Estate,2019,6.709999999999999,6.71,-8.881784197001252e-16
+as_reported,Real Estate,2020,4.82,4.82,0.0
+as_reported,Real Estate,2021,7.66,7.65,0.009999999999999787
+as_reported,Real Estate,2022,7.609999999999999,7.61,-8.881784197001252e-16
+as_reported,Real Estate,2023,6.5200000000000005,6.53,-0.009999999999999787
+as_reported,Real Estate,2024,5.53,5.52,0.010000000000000675
+as_reported,Utilities,2008,11.61,11.61,0.0
+as_reported,Utilities,2009,12.36,12.36,0.0
+as_reported,Utilities,2010,11.04,11.04,0.0
+as_reported,Utilities,2011,11.15,11.15,0.0
+as_reported,Utilities,2012,9.13,9.12,0.010000000000001563
+as_reported,Utilities,2013,9.76,9.76,0.0
+as_reported,Utilities,2014,11.5,11.5,0.0
+as_reported,Utilities,2015,8.969999999999999,8.97,-1.7763568394002505e-15
+as_reported,Utilities,2016,8.189999999999998,8.19,-1.7763568394002505e-15
+as_reported,Utilities,2017,12.020000000000001,12.02,1.7763568394002505e-15
+as_reported,Utilities,2018,10.74,10.74,0.0
+as_reported,Utilities,2019,15.79,15.8,-0.010000000000001563
+as_reported,Utilities,2020,11.07,11.06,0.009999999999999787
+as_reported,Utilities,2021,12.78,12.79,-0.009999999999999787
+as_reported,Utilities,2022,13.5,13.5,0.0
+as_reported,Utilities,2023,17.56,17.56,0.0
+as_reported,Utilities,2024,19.7,19.69,0.00999999999999801

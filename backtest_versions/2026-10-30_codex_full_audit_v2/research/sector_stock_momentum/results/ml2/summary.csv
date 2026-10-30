@@ -1,0 +1,307 @@
+strategy,period,CAGR,Sharpe,vol,maxDD_month_end,maxDD_daily,daily_nav_status,capital_status,losing_years,best5_months_share,avg_exposure
+A-ridge Top1,2015-2019,0.21305546692202126,0.6975543528663752,0.34436327848093745,-0.24946547674017705,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2015,1.0850005620529335,1.0
+A-ridge Top1,2020-2022,-0.15136126690427842,-0.27841518866894144,0.3724127134379315,-0.46814335489499814,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2020,2021,2022",,1.0
+A-ridge Top1,2023-2026.09,0.34580914632961335,0.7172657705344297,0.5572601574518771,-0.4804219680402654,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2023,2024",1.348814140709607,1.0
+A-ridge Top1,TEST 2015-2026.09,0.14461758891963505,0.4720820940109209,0.43102650417784816,-0.6805165629921222,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2020,2021,2022,2023,2024",1.003223787041552,1.0
+A-ridge Top1,year 2015,-0.015272507386237866,,,,,,,,,
+A-ridge Top1,year 2016,0.34203209551483127,,,,,,,,,
+A-ridge Top1,year 2017,0.28556211888173655,,,,,,,,,
+A-ridge Top1,year 2018,0.043497864989720414,,,,,,,,,
+A-ridge Top1,year 2019,0.48162978495226727,,,,,,,,,
+A-ridge Top1,year 2020,-0.04045120956611625,,,,,,,,,
+A-ridge Top1,year 2021,-0.012556332491503785,,,,,,,,,
+A-ridge Top1,year 2022,-0.3549562705069641,,,,,,,,,
+A-ridge Top1,year 2023,-0.2095232846741093,,,,,,,,,
+A-ridge Top1,year 2024,-0.16191243793108911,,,,,,,,,
+A-ridge Top1,year 2025,1.1319834832554778,,,,,,,,,
+A-ridge Top1,year 2026,1.1563821106375771,,,,,,,,,
+A-ridge Top1,TEST 2015-2026.09 stress -30%,0.14461758891963505,,,,,,,,,
+A-ridge Top1,TEST 2015-2026.09 stress -100%,0.14461758891963505,,,,,,,,,
+A-ridge Top3,2015-2019,0.2123097534374523,0.890663723696351,0.23650893374406276,-0.17246717114617083,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2018,0.6822005485455847,1.0
+A-ridge Top3,2020-2022,0.045797766989173594,0.2665842134094141,0.3085788424972537,-0.39072443287455894,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2021,2022",5.297445723066347,1.0
+A-ridge Top3,2023-2026.09,0.35434855843248925,0.7756971961535271,0.4595805637063133,-0.281449267152733,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2023,1.0449402672814418,1.0
+A-ridge Top3,TEST 2015-2026.09,0.20944816718488646,0.662740657992566,0.33905682479373433,-0.3907244328745588,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2018,2021,2022,2023",0.5704465140594909,1.0
+A-ridge Top3,year 2015,0.2647010422175031,,,,,,,,,
+A-ridge Top3,year 2016,0.21884125602105597,,,,,,,,,
+A-ridge Top3,year 2017,0.3293827929529878,,,,,,,,,
+A-ridge Top3,year 2018,-0.04829262299235204,,,,,,,,,
+A-ridge Top3,year 2019,0.3427015330983063,,,,,,,,,
+A-ridge Top3,year 2020,0.2867797260772138,,,,,,,,,
+A-ridge Top3,year 2021,-0.0868809376901929,,,,,,,,,
+A-ridge Top3,year 2022,-0.026554791933816713,,,,,,,,,
+A-ridge Top3,year 2023,-0.0009161755795101811,,,,,,,,,
+A-ridge Top3,year 2024,0.17304696426870425,,,,,,,,,
+A-ridge Top3,year 2025,0.16416449969254177,,,,,,,,,
+A-ridge Top3,year 2026,1.285901473492801,,,,,,,,,
+A-ridge Top3,TEST 2015-2026.09 stress -30%,0.20944816718488646,,,,,,,,,
+A-ridge Top3,TEST 2015-2026.09 stress -100%,0.20944816718488646,,,,,,,,,
+B-ridge Top1,2015-2019,-0.13292988629600933,-0.2783336694721698,0.33352058113187405,-0.6998180823355091,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2016,2018",,1.0
+B-ridge Top1,2020-2022,0.11137479363565195,0.44879283080467314,0.3512067358325238,-0.2847385429706586,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2021,2.6626414253106825,1.0
+B-ridge Top1,2023-2026.09,0.46348956176670386,0.7498457482463049,0.6751451067296992,-0.3896072796732334,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2024,1.0954320420080128,1.0
+B-ridge Top1,TEST 2015-2026.09,0.0917748640891054,0.34136084216334167,0.47659602920316935,-0.6998180823355091,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2016,2018,2021,2024",1.5532385238412347,1.0
+B-ridge Top1,year 2015,-0.35416582279233144,,,,,,,,,
+B-ridge Top1,year 2016,-0.1154335471403658,,,,,,,,,
+B-ridge Top1,year 2017,0.1431126221958272,,,,,,,,,
+B-ridge Top1,year 2018,-0.38107380908952004,,,,,,,,,
+B-ridge Top1,year 2019,0.2125278315328838,,,,,,,,,
+B-ridge Top1,year 2020,0.39197676655643954,,,,,,,,,
+B-ridge Top1,year 2021,-0.15514266750054706,,,,,,,,,
+B-ridge Top1,year 2022,0.16725639950618,,,,,,,,,
+B-ridge Top1,year 2023,0.16605136335841042,,,,,,,,,
+B-ridge Top1,year 2024,-0.031313246012971585,,,,,,,,,
+B-ridge Top1,year 2025,0.10699559270665482,,,,,,,,,
+B-ridge Top1,year 2026,2.3355248112073586,,,,,,,,,
+B-ridge Top1,TEST 2015-2026.09 stress -30%,0.0917748640891054,,,,,,,,,
+B-ridge Top1,TEST 2015-2026.09 stress -100%,0.0917748640891054,,,,,,,,,
+B-ridge Top3,2015-2019,0.040767280213883206,0.26080476902126837,0.16402004418894878,-0.24472994516544067,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2016,2018",2.084796685555329,1.0
+B-ridge Top3,2020-2022,0.07434652075570214,0.36802101884650773,0.27974138400290843,-0.27841020885063283,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2021,2022",2.6789327536790184,1.0
+B-ridge Top3,2023-2026.09,0.34720480091382533,0.7804112547541892,0.43602392642829096,-0.2786177072978331,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,,0.9298949491727121,1.0
+B-ridge Top3,TEST 2015-2026.09,0.13931780187642695,0.5044884387491045,0.3040807579941714,-0.278617707297833,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2016,2018,2021,2022",0.691211621058061,1.0
+B-ridge Top3,year 2015,-0.12380349476238228,,,,,,,,,
+B-ridge Top3,year 2016,-0.06049721368648475,,,,,,,,,
+B-ridge Top3,year 2017,0.24633578627835417,,,,,,,,,
+B-ridge Top3,year 2018,-0.1077736541991815,,,,,,,,,
+B-ridge Top3,year 2019,0.3340080629215645,,,,,,,,,
+B-ridge Top3,year 2020,0.30482448803227724,,,,,,,,,
+B-ridge Top3,year 2021,-0.0363120701591757,,,,,,,,,
+B-ridge Top3,year 2022,-0.013846257986684596,,,,,,,,,
+B-ridge Top3,year 2023,0.1462385667464554,,,,,,,,,
+B-ridge Top3,year 2024,0.1065587973528257,,,,,,,,,
+B-ridge Top3,year 2025,0.4645919835385972,,,,,,,,,
+B-ridge Top3,year 2026,0.6459245273097376,,,,,,,,,
+B-ridge Top3,TEST 2015-2026.09 stress -30%,0.13931780187642695,,,,,,,,,
+B-ridge Top3,TEST 2015-2026.09 stress -100%,0.13931780187642695,,,,,,,,,
+C-ridge Top1,2015-2019,-0.10848248878880518,-0.17115361946465624,0.3537627616681198,-0.6498019837958098,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2016,2018",,1.0
+C-ridge Top1,2020-2022,0.0955345270415624,0.41948914924403463,0.32570467831063643,-0.5761080917588186,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2021,2022",2.7394787126998392,1.0
+C-ridge Top1,2023-2026.09,0.274624170824199,0.5481732960214086,0.7528397239336968,-0.633766909757961,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2024,2.0561771636188793,1.0
+C-ridge Top1,TEST 2015-2026.09,0.053242964555017425,0.27575898044769453,0.5112306331939743,-0.7373119683036269,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2016,2018,2021,2022,2024",3.230148918768013,1.0
+C-ridge Top1,year 2015,0.11769607307894203,,,,,,,,,
+C-ridge Top1,year 2016,-0.3586252531989852,,,,,,,,,
+C-ridge Top1,year 2017,0.07431897455184133,,,,,,,,,
+C-ridge Top1,year 2018,-0.4183708582077583,,,,,,,,,
+C-ridge Top1,year 2019,0.257286939948262,,,,,,,,,
+C-ridge Top1,year 2020,0.8347451987093637,,,,,,,,,
+C-ridge Top1,year 2021,-0.25496674489874305,,,,,,,,,
+C-ridge Top1,year 2022,-0.03810694272187842,,,,,,,,,
+C-ridge Top1,year 2023,0.048230305459711076,,,,,,,,,
+C-ridge Top1,year 2024,-0.4834386538769958,,,,,,,,,
+C-ridge Top1,year 2025,1.244721382065856,,,,,,,,,
+C-ridge Top1,year 2026,1.0438169739614178,,,,,,,,,
+C-ridge Top1,TEST 2015-2026.09 stress -30%,0.053242964555017425,,,,,,,,,
+C-ridge Top1,TEST 2015-2026.09 stress -100%,0.053242964555017425,,,,,,,,,
+C-ridge Top3,2015-2019,0.14993247984584368,0.7499275071384921,0.1985053373746918,-0.2150365929460426,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2016,2018",0.9300206176194401,1.0
+C-ridge Top3,2020-2022,0.1366376702721841,0.6323507255972874,0.23358709271161512,-0.23769160873301565,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2021,2022",1.3731898548964454,1.0
+C-ridge Top3,2023-2026.09,0.3649925080698002,0.8260296385628599,0.43165391321662855,-0.3695830189207743,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2024,0.9781902159307457,1.0
+C-ridge Top3,TEST 2015-2026.09,0.2110053779443697,0.7177070016880912,0.29982878818634956,-0.3695830189207744,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2016,2018,2021,2022,2024",0.518887471352209,1.0
+C-ridge Top3,year 2015,0.12039727188044269,,,,,,,,,
+C-ridge Top3,year 2016,-0.029507142821147525,,,,,,,,,
+C-ridge Top3,year 2017,0.6908910547557401,,,,,,,,,
+C-ridge Top3,year 2018,-0.1972746915685727,,,,,,,,,
+C-ridge Top3,year 2019,0.36243168677479987,,,,,,,,,
+C-ridge Top3,year 2020,0.6945470285107176,,,,,,,,,
+C-ridge Top3,year 2021,-0.07138711087702465,,,,,,,,,
+C-ridge Top3,year 2022,-0.06679339880710577,,,,,,,,,
+C-ridge Top3,year 2023,0.15046153640766202,,,,,,,,,
+C-ridge Top3,year 2024,-0.12571050733416544,,,,,,,,,
+C-ridge Top3,year 2025,0.7554509911669625,,,,,,,,,
+C-ridge Top3,year 2026,0.8189569986872547,,,,,,,,,
+C-ridge Top3,TEST 2015-2026.09 stress -30%,0.2110053779443697,,,,,,,,,
+C-ridge Top3,TEST 2015-2026.09 stress -100%,0.2110053779443697,,,,,,,,,
+A-lgbm Top1,2015-2019,0.040549023120832084,0.24544789552610466,0.3301203716568467,-0.2701037447243533,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2017,2018",4.976007374005341,1.0
+A-lgbm Top1,2020-2022,-0.2054530054505307,-0.5141528754541335,0.342293864230803,-0.5918291357307806,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2020,2022",,1.0
+A-lgbm Top1,2023-2026.09,0.57608371425069,1.0596972873329045,0.4998047860047992,-0.32335584138415696,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2025,0.8609255565444495,1.0
+A-lgbm Top1,TEST 2015-2026.09,0.10892353366341356,0.3964844799389595,0.400995393617459,-0.5918291357307806,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2017,2018,2020,2022,2025",1.2163302722756621,1.0
+A-lgbm Top1,year 2015,-0.10886865587209016,,,,,,,,,
+A-lgbm Top1,year 2016,0.1663288174292077,,,,,,,,,
+A-lgbm Top1,year 2017,-0.03797516103170795,,,,,,,,,
+A-lgbm Top1,year 2018,-0.17833761836592377,,,,,,,,,
+A-lgbm Top1,year 2019,0.48480805170919994,,,,,,,,,
+A-lgbm Top1,year 2020,-0.49383684035029296,,,,,,,,,
+A-lgbm Top1,year 2021,0.10231716758611542,,,,,,,,,
+A-lgbm Top1,year 2022,-0.10099591732191537,,,,,,,,,
+A-lgbm Top1,year 2023,0.09437103785177658,,,,,,,,,
+A-lgbm Top1,year 2024,1.1621398610321254,,,,,,,,,
+A-lgbm Top1,year 2025,-0.16787921236557057,,,,,,,,,
+A-lgbm Top1,year 2026,1.7969683983042497,,,,,,,,,
+A-lgbm Top1,TEST 2015-2026.09 stress -30%,0.10892353366341356,,,,,,,,,
+A-lgbm Top1,TEST 2015-2026.09 stress -100%,0.10892353366341356,,,,,,,,,
+A-lgbm Top3,2015-2019,-0.08444244338642437,-0.32226741863630554,0.22653224569108968,-0.488701774969166,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2016,2018",,1.0
+A-lgbm Top3,2020-2022,0.09787299165599572,0.44224921183001475,0.2796230807004899,-0.26158841631136753,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,,2.26162085964336,1.0
+A-lgbm Top3,2023-2026.09,0.5301123966207861,1.235152715271717,0.36352609326139823,-0.18651547195227391,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,,0.6265532453400794,1.0
+A-lgbm Top3,TEST 2015-2026.09,0.12980633439863576,0.4880489672146873,0.29579547778224363,-0.488701774969166,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2016,2018",0.6968903546454605,1.0
+A-lgbm Top3,year 2015,-0.281130650450619,,,,,,,,,
+A-lgbm Top3,year 2016,-0.04872230204885175,,,,,,,,,
+A-lgbm Top3,year 2017,0.2677308566309333,,,,,,,,,
+A-lgbm Top3,year 2018,-0.41022013494378784,,,,,,,,,
+A-lgbm Top3,year 2019,0.25821243265422544,,,,,,,,,
+A-lgbm Top3,year 2020,0.04873044630896617,,,,,,,,,
+A-lgbm Top3,year 2021,0.20442983260141645,,,,,,,,,
+A-lgbm Top3,year 2022,0.047637229580364426,,,,,,,,,
+A-lgbm Top3,year 2023,0.2863209763654604,,,,,,,,,
+A-lgbm Top3,year 2024,0.37604572780854406,,,,,,,,,
+A-lgbm Top3,year 2025,0.4890795908705723,,,,,,,,,
+A-lgbm Top3,year 2026,0.8698741251616471,,,,,,,,,
+A-lgbm Top3,TEST 2015-2026.09 stress -30%,0.11773729708672076,,,,,,,,,
+A-lgbm Top3,TEST 2015-2026.09 stress -100%,0.08247697542032006,,,,,,,,,
+B-lgbm Top1,2015-2019,0.12286984054477679,0.512680739280906,0.2879407178127863,-0.484946505624534,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2015,1.2893247773992615,1.0
+B-lgbm Top1,2020-2022,-0.06827881229175958,-0.06827406709424177,0.3380976467929599,-0.4524138551906072,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2020,2022",,1.0
+B-lgbm Top1,2023-2026.09,0.7438185480397135,1.120105074781201,0.6010688658743815,-0.4732739420293296,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2024,0.8034463886182328,1.0
+B-lgbm Top1,TEST 2015-2026.09,0.23211082823369056,0.633905262019913,0.42968718691320223,-0.4958704856157594,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2020,2022,2024",0.6979545017160566,1.0
+B-lgbm Top1,year 2015,-0.41389132215767654,,,,,,,,,
+B-lgbm Top1,year 2016,0.10215905627168698,,,,,,,,,
+B-lgbm Top1,year 2017,0.19597931046135963,,,,,,,,,
+B-lgbm Top1,year 2018,0.6148124534468422,,,,,,,,,
+B-lgbm Top1,year 2019,0.43079990933820356,,,,,,,,,
+B-lgbm Top1,year 2020,-0.05327738795660064,,,,,,,,,
+B-lgbm Top1,year 2021,0.11258163229946572,,,,,,,,,
+B-lgbm Top1,year 2022,-0.23210245548803565,,,,,,,,,
+B-lgbm Top1,year 2023,0.33352062226269985,,,,,,,,,
+B-lgbm Top1,year 2024,-0.20078074608796814,,,,,,,,,
+B-lgbm Top1,year 2025,0.8940198145211553,,,,,,,,,
+B-lgbm Top1,year 2026,2.9863888129438547,,,,,,,,,
+B-lgbm Top1,TEST 2015-2026.09 stress -30%,0.23211082823369056,,,,,,,,,
+B-lgbm Top1,TEST 2015-2026.09 stress -100%,0.23211082823369056,,,,,,,,,
+B-lgbm Top3,2015-2019,0.15195141846641635,0.7395471947380441,0.20629311590615898,-0.17195802566513207,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2016",0.9026484984030693,1.0
+B-lgbm Top3,2020-2022,0.046019292656919175,0.27468105340883825,0.24463435935918443,-0.33357472314523673,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2022,4.066304950560162,1.0
+B-lgbm Top3,2023-2026.09,0.5808342689490431,1.1948876160416217,0.4215327358811691,-0.2729965718256385,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,,0.6871298368895997,1.0
+B-lgbm Top3,TEST 2015-2026.09,0.24338441660940147,0.8025608958259861,0.30341774444508146,-0.3335747231452363,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2016,2022",0.4610214685464821,1.0
+B-lgbm Top3,year 2015,-0.005321461357128743,,,,,,,,,
+B-lgbm Top3,year 2016,-0.113361203747401,,,,,,,,,
+B-lgbm Top3,year 2017,0.6030801960837557,,,,,,,,,
+B-lgbm Top3,year 2018,0.0002889833767147909,,,,,,,,,
+B-lgbm Top3,year 2019,0.4343680612027949,,,,,,,,,
+B-lgbm Top3,year 2020,0.35368966206459085,,,,,,,,,
+B-lgbm Top3,year 2021,0.015335945098751136,,,,,,,,,
+B-lgbm Top3,year 2022,-0.16729684462673466,,,,,,,,,
+B-lgbm Top3,year 2023,0.17118140128789494,,,,,,,,,
+B-lgbm Top3,year 2024,0.25828057644485103,,,,,,,,,
+B-lgbm Top3,year 2025,0.6268426587762674,,,,,,,,,
+B-lgbm Top3,year 2026,1.3231463543704103,,,,,,,,,
+B-lgbm Top3,TEST 2015-2026.09 stress -30%,0.24338441660940147,,,,,,,,,
+B-lgbm Top3,TEST 2015-2026.09 stress -100%,0.24338441660940147,,,,,,,,,
+C-lgbm Top1,2015-2019,0.08051787304447844,0.3615472894710379,0.35588203298820836,-0.635217039768566,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2016,2018",2.418566485115783,1.0
+C-lgbm Top1,2020-2022,0.12482636207403863,0.4489121471211533,0.4659780864159324,-0.5584139302787383,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2022,3.0733791237968293,1.0
+C-lgbm Top1,2023-2026.09,1.0246658308834853,1.3544238631978183,0.6209500238819419,-0.4548297911983398,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2024,0.6769861618624841,1.0
+C-lgbm Top1,TEST 2015-2026.09,0.3339112027730047,0.7731013515859873,0.48822563290532983,-0.635217039768566,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2016,2018,2022,2024",0.5992558249598027,1.0
+C-lgbm Top1,year 2015,-0.3466370047850178,,,,,,,,,
+C-lgbm Top1,year 2016,-0.23250242284764333,,,,,,,,,
+C-lgbm Top1,year 2017,0.48480491578824836,,,,,,,,,
+C-lgbm Top1,year 2018,-0.022494346808824894,,,,,,,,,
+C-lgbm Top1,year 2019,1.0236693499116796,,,,,,,,,
+C-lgbm Top1,year 2020,0.4410506234778486,,,,,,,,,
+C-lgbm Top1,year 2021,0.3623955171319493,,,,,,,,,
+C-lgbm Top1,year 2022,-0.27510681815976323,,,,,,,,,
+C-lgbm Top1,year 2023,0.2992223264540175,,,,,,,,,
+C-lgbm Top1,year 2024,-0.11287203775402344,,,,,,,,,
+C-lgbm Top1,year 2025,1.2997381097141654,,,,,,,,,
+C-lgbm Top1,year 2026,4.314677917402411,,,,,,,,,
+C-lgbm Top1,TEST 2015-2026.09 stress -30%,0.3339112027730047,,,,,,,,,
+C-lgbm Top1,TEST 2015-2026.09 stress -100%,0.3339112027730047,,,,,,,,,
+C-lgbm Top3,2015-2019,0.09456028973048225,0.5359787641754536,0.1796785804249982,-0.25935638587745524,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2016,2018",1.0466765564690188,1.0
+C-lgbm Top3,2020-2022,0.05119254029309861,0.28507270959633385,0.30409063432161926,-0.37199120187451573,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2022,4.5549165848876445,1.0
+C-lgbm Top3,2023-2026.09,0.42531416844029835,0.8932794261515344,0.4563984731700763,-0.2756040546651679,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2024,0.9848854166472787,1.0
+C-lgbm Top3,TEST 2015-2026.09,0.17856636698563255,0.5989839048900992,0.3231848837842241,-0.3928664343454058,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2016,2018,2022,2024",0.7136970659772095,1.0
+C-lgbm Top3,year 2015,-0.060118642612769335,,,,,,,,,
+C-lgbm Top3,year 2016,-0.12845766894378963,,,,,,,,,
+C-lgbm Top3,year 2017,0.3933511926138349,,,,,,,,,
+C-lgbm Top3,year 2018,-0.0012008384257228277,,,,,,,,,
+C-lgbm Top3,year 2019,0.37815528924676367,,,,,,,,,
+C-lgbm Top3,year 2020,0.25697536884432903,,,,,,,,,
+C-lgbm Top3,year 2021,0.18104341959653203,,,,,,,,,
+C-lgbm Top3,year 2022,-0.21755435232788412,,,,,,,,,
+C-lgbm Top3,year 2023,0.006996896442181377,,,,,,,,,
+C-lgbm Top3,year 2024,-0.07381700972753746,,,,,,,,,
+C-lgbm Top3,year 2025,0.872560623839745,,,,,,,,,
+C-lgbm Top3,year 2026,1.1627381394291154,,,,,,,,,
+C-lgbm Top3,TEST 2015-2026.09 stress -30%,0.17856636698563255,,,,,,,,,
+C-lgbm Top3,TEST 2015-2026.09 stress -100%,0.17856636698563255,,,,,,,,,
+BENCH momentum Top1,2015-2019,0.08429048478124201,0.39401660514235687,0.46701291018167324,-0.7067123787532212,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2018",2.7859882211129285,1.0
+BENCH momentum Top1,2020-2022,0.1867176508935522,0.5825804516581314,0.4584491562405764,-0.3781397382698529,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2022,1.9966104559150553,1.0
+BENCH momentum Top1,2023-2026.09,1.347306448906581,1.493067811097518,0.7173029957193451,-0.4437671704100854,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,,0.6193233327871955,1.0
+BENCH momentum Top1,TEST 2015-2026.09,0.419727074761727,0.8637785982332473,0.5663782703018028,-0.7067123787532212,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2018,2022",0.48122959046877234,1.0
+BENCH momentum Top1,year 2015,-0.00845117497342307,,,,,,,,,
+BENCH momentum Top1,year 2016,0.649798950300571,,,,,,,,,
+BENCH momentum Top1,year 2017,0.05634268801206499,,,,,,,,,
+BENCH momentum Top1,year 2018,-0.6067915146137632,,,,,,,,,
+BENCH momentum Top1,year 2019,1.2057454609778948,,,,,,,,,
+BENCH momentum Top1,year 2020,0.6913186669066287,,,,,,,,,
+BENCH momentum Top1,year 2021,0.03389033754705051,,,,,,,,,
+BENCH momentum Top1,year 2022,-0.0442544441813425,,,,,,,,,
+BENCH momentum Top1,year 2023,0.11872367091533698,,,,,,,,,
+BENCH momentum Top1,year 2024,1.4734437757973122,,,,,,,,,
+BENCH momentum Top1,year 2025,1.078367695125225,,,,,,,,,
+BENCH momentum Top1,year 2026,3.2647096240069926,,,,,,,,,
+BENCH momentum Top1,TEST 2015-2026.09 stress -30%,0.419727074761727,,,,,,,,,
+BENCH momentum Top1,TEST 2015-2026.09 stress -100%,0.419727074761727,,,,,,,,,
+BENCH momentum Top3,2015-2019,0.16513167869115852,0.683312121646232,0.25773458478575356,-0.257648716488852,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2018,0.8202060648691885,1.0
+BENCH momentum Top3,2020-2022,0.113257181376055,0.4492970992407418,0.3690154590635314,-0.2335854752741433,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,,2.5720419756308135,1.0
+BENCH momentum Top3,2023-2026.09,0.5957095400562735,1.1513738247621124,0.4571640148003547,-0.24626940250250862,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,,0.7273810922473001,1.0
+BENCH momentum Top3,TEST 2015-2026.09,0.27325066790743335,0.7910773422708022,0.36125827158884366,-0.257648716488852,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2018,0.4715543582551541,1.0
+BENCH momentum Top3,year 2015,0.139672390710337,,,,,,,,,
+BENCH momentum Top3,year 2016,0.22244236527887962,,,,,,,,,
+BENCH momentum Top3,year 2017,0.39410675911493653,,,,,,,,,
+BENCH momentum Top3,year 2018,-0.1986174733105811,,,,,,,,,
+BENCH momentum Top3,year 2019,0.3795286699107461,,,,,,,,,
+BENCH momentum Top3,year 2020,0.06236038621359463,,,,,,,,,
+BENCH momentum Top3,year 2021,0.15309849766435923,,,,,,,,,
+BENCH momentum Top3,year 2022,0.1262848480869112,,,,,,,,,
+BENCH momentum Top3,year 2023,0.2303555225513696,,,,,,,,,
+BENCH momentum Top3,year 2024,0.5429787709720022,,,,,,,,,
+BENCH momentum Top3,year 2025,0.32427805511570296,,,,,,,,,
+BENCH momentum Top3,year 2026,1.2946008466088048,,,,,,,,,
+BENCH momentum Top3,TEST 2015-2026.09 stress -30%,0.27325066790743335,,,,,,,,,
+BENCH momentum Top3,TEST 2015-2026.09 stress -100%,0.27325066790743335,,,,,,,,,
+BENCH full-universe C-lgbm Top1,2015-2019,0.008439946129868092,0.15554408185514557,0.3311021097117122,-0.7285909072170258,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2016,2017",19.853288642710744,1.0
+BENCH full-universe C-lgbm Top1,2020-2022,0.19830281588330578,0.6096583577846332,0.4197043920369974,-0.456522173342612,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2022,1.9067427794820886,1.0
+BENCH full-universe C-lgbm Top1,2023-2026.09,0.5431132482337986,1.0601799857596732,0.45521702916571977,-0.3109631573170245,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,,0.7670635699719194,1.0
+BENCH full-universe C-lgbm Top1,TEST 2015-2026.09,0.20709018448100736,0.6069401544394336,0.39837244744837774,-0.7285909072170258,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2016,2017,2022",0.6595369198028302,1.0
+BENCH full-universe C-lgbm Top1,year 2015,-0.2031616333180839,,,,,,,,,
+BENCH full-universe C-lgbm Top1,year 2016,-0.31279074878384816,,,,,,,,,
+BENCH full-universe C-lgbm Top1,year 2017,-0.22280345406938584,,,,,,,,,
+BENCH full-universe C-lgbm Top1,year 2018,0.5081551597645266,,,,,,,,,
+BENCH full-universe C-lgbm Top1,year 2019,0.6248530226717706,,,,,,,,,
+BENCH full-universe C-lgbm Top1,year 2020,1.0218609720251814,,,,,,,,,
+BENCH full-universe C-lgbm Top1,year 2021,0.565909361334066,,,,,,,,,
+BENCH full-universe C-lgbm Top1,year 2022,-0.45652217334261214,,,,,,,,,
+BENCH full-universe C-lgbm Top1,year 2023,0.11084977968570131,,,,,,,,,
+BENCH full-universe C-lgbm Top1,year 2024,0.15661774356221825,,,,,,,,,
+BENCH full-universe C-lgbm Top1,year 2025,0.8323127869016236,,,,,,,,,
+BENCH full-universe C-lgbm Top1,year 2026,1.1609611214348905,,,,,,,,,
+BENCH full-universe C-lgbm Top1,TEST 2015-2026.09 stress -30%,0.20709018448100736,,,,,,,,,
+BENCH full-universe C-lgbm Top1,TEST 2015-2026.09 stress -100%,0.20709018448100736,,,,,,,,,
+BENCH full-universe C-lgbm Top3,2015-2019,0.15397417131617286,0.6930810665602308,0.2299647639358423,-0.3872126608223472,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2016,2017",0.920355188402464,1.0
+BENCH full-universe C-lgbm Top3,2020-2022,0.01576302126261031,0.19097458250083207,0.33557604750519043,-0.44204861238449533,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2022,14.375412418501247,1.0
+BENCH full-universe C-lgbm Top3,2023-2026.09,0.10228998934432698,0.3196880398051157,0.2756793254276137,-0.25790679584602805,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2024,1.9551122419719185,1.0
+BENCH full-universe C-lgbm Top3,TEST 2015-2026.09,0.10077695700660927,0.4109586843553753,0.27285977210390894,-0.5006684430725862,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2016,2017,2022,2024",0.8007667061002116,1.0
+BENCH full-universe C-lgbm Top3,year 2015,0.09710180653060219,,,,,,,,,
+BENCH full-universe C-lgbm Top3,year 2016,-0.03715459305717017,,,,,,,,,
+BENCH full-universe C-lgbm Top3,year 2017,-0.0628902967077225,,,,,,,,,
+BENCH full-universe C-lgbm Top3,year 2018,0.27773269900468445,,,,,,,,,
+BENCH full-universe C-lgbm Top3,year 2019,0.6178807391286634,,,,,,,,,
+BENCH full-universe C-lgbm Top3,year 2020,0.03647433192502536,,,,,,,,,
+BENCH full-universe C-lgbm Top3,year 2021,0.6670570487868277,,,,,,,,,
+BENCH full-universe C-lgbm Top3,year 2022,-0.3934478011106056,,,,,,,,,
+BENCH full-universe C-lgbm Top3,year 2023,0.0476562152465374,,,,,,,,,
+BENCH full-universe C-lgbm Top3,year 2024,-0.06690519916871684,,,,,,,,,
+BENCH full-universe C-lgbm Top3,year 2025,0.3325076629959012,,,,,,,,,
+BENCH full-universe C-lgbm Top3,year 2026,0.10610207941957905,,,,,,,,,
+BENCH full-universe C-lgbm Top3,TEST 2015-2026.09 stress -30%,0.10077695700660927,,,,,,,,,
+BENCH full-universe C-lgbm Top3,TEST 2015-2026.09 stress -100%,0.10077695700660927,,,,,,,,,
+BENCH SPY,2015-2019,0.11563218407041687,0.8244552070469363,0.13103683135266156,-0.15300260750900652,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2018",0.655584124375864,1.0
+BENCH SPY,2020-2022,0.07613231734701809,0.4046071877884981,0.22218644600789011,-0.23312903631105708,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,2022,2.1270848837244123,1.0
+BENCH SPY,2023-2026.09,0.21643556789288287,1.3316344619429885,0.11937372128324611,-0.07800493526929542,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,,0.47725968363361543,1.0
+BENCH SPY,TEST 2015-2026.09,0.13635422893150273,0.7693042107299078,0.1556344727451059,-0.2331290363110573,,open-to-open holdings require execution-time marks; close-path proxy disabled,active_at_period_start,"2015,2018,2022",0.34447737130013734,1.0
+BENCH SPY,year 2015,-0.00948395438019023,,,,,,,,,
+BENCH SPY,year 2016,0.14655371651761873,,,,,,,,,
+BENCH SPY,year 2017,0.21332697470910422,,,,,,,,,
+BENCH SPY,year 2018,-0.06417138890052898,,,,,,,,,
+BENCH SPY,year 2019,0.3402168653736868,,,,,,,,,
+BENCH SPY,year 2020,0.18167416994459895,,,,,,,,,
+BENCH SPY,year 2021,0.28600089857294697,,,,,,,,,
+BENCH SPY,year 2022,-0.17991662618920212,,,,,,,,,
+BENCH SPY,year 2023,0.24706980932071598,,,,,,,,,
+BENCH SPY,year 2024,0.2642966859617275,,,,,,,,,
+BENCH SPY,year 2025,0.17708544246044067,,,,,,,,,
+BENCH SPY,year 2026,0.12340514783465784,,,,,,,,,
+BENCH SPY,TEST 2015-2026.09 stress -30%,0.13635422893150273,,,,,,,,,
+BENCH SPY,TEST 2015-2026.09 stress -100%,0.13635422893150273,,,,,,,,,

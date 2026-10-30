@@ -1,0 +1,16 @@
+{
+  "hypothesis_id": "systematicFlowComposite_5d",
+  "N": 1913,
+  "valid": true,
+  "spearman_rho": 0.00355391454669432,
+  "direction_pass": true,
+  "hac_beta": 0.0035539145466943235,
+  "hac_p_two_sided": 0.9138570673781267,
+  "hac_maxlag": 7,
+  "hac_pass": false,
+  "bootstrap_ci_low": -0.06887925226154587,
+  "bootstrap_ci_high": 0.07113630377489386,
+  "ic_bootstrap_pass": false,
+  "partial_rank_ic": 0.016482204021681157,
+  "partial_ic_pass": true
+}

@@ -1,0 +1,180 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "scope": "main daily summary",
+      "monthly_sha256_unchanged": true,
+      "status": "2015-09-30 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "BENCH pure momentum top-1 / base (unknown outcome = 0 %)",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2018-03-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T3 mom top-5 ew / base (unknown outcome = 0 %)",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-08-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T3 mom top-5 ew +crash / base (unknown outcome = 0 %)",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-08-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T2 S1 top-5 hold1m / base (unknown outcome = 0 %)",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-05-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T2 S1 top-5 hold6m / base (unknown outcome = 0 %)",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-04-30 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "REF equal-weight holdout universe / base (unknown outcome = 0 %)",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2010-03-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "REF SPY / base (unknown outcome = 0 %)",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "reconciled_close_marks_with_modeled_daily_cash_carry"
+    },
+    {
+      "scope": "BENCH pure momentum top-1 / stress \u221230 %",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2018-03-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T3 mom top-5 ew / stress \u221230 %",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-08-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T3 mom top-5 ew +crash / stress \u221230 %",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-08-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T2 S1 top-5 hold1m / stress \u221230 %",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-05-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T2 S1 top-5 hold6m / stress \u221230 %",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-04-30 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "BENCH pure momentum top-1 / stress \u2212100 %",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2018-03-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T3 mom top-5 ew / stress \u2212100 %",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-08-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T3 mom top-5 ew +crash / stress \u2212100 %",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-08-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T2 S1 top-5 hold1m / stress \u2212100 %",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-05-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T2 S1 top-5 hold6m / stress \u2212100 %",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-04-30 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "BENCH pure momentum top-1 / base (unknown outcome = 0 %)_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2018-03-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T3 mom top-5 ew / base (unknown outcome = 0 %)_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-08-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T3 mom top-5 ew +crash / base (unknown outcome = 0 %)_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-08-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T2 S1 top-5 hold1m / base (unknown outcome = 0 %)_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-05-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T2 S1 top-5 hold6m / base (unknown outcome = 0 %)_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-04-30 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "REF equal-weight holdout universe / base (unknown outcome = 0 %)_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2010-03-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "REF SPY / base (unknown outcome = 0 %)_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "reconciled_close_marks_with_modeled_daily_cash_carry"
+    },
+    {
+      "scope": "BENCH pure momentum top-1 / stress \u221230 %_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2018-03-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T3 mom top-5 ew / stress \u221230 %_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-08-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T3 mom top-5 ew +crash / stress \u221230 %_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-08-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T2 S1 top-5 hold1m / stress \u221230 %_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-05-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T2 S1 top-5 hold6m / stress \u221230 %_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-04-30 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "BENCH pure momentum top-1 / stress \u2212100 %_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2018-03-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T3 mom top-5 ew / stress \u2212100 %_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-08-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T3 mom top-5 ew +crash / stress \u2212100 %_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-08-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T2 S1 top-5 hold1m / stress \u2212100 %_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-05-31 00:00:00: missing observed holding-day close; daily risk unavailable"
+    },
+    {
+      "scope": "T2 S1 top-5 hold6m / stress \u2212100 %_STRICT",
+      "monthly_sha256_unchanged": true,
+      "daily_status": "2014-04-30 00:00:00: missing observed holding-day close; daily risk unavailable"
+    }
+  ]
+}

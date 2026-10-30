@@ -1,0 +1,259 @@
+{
+  "ShortFlow_1D": {
+    "id": "ShortFlow_1D",
+    "valid": true,
+    "N": 2491,
+    "spearman_rho": 0.003909768435336012,
+    "direction_pass": true,
+    "hac_p": 0.8338436255172116,
+    "bootstrap_ci_low": -0.03126458306288494,
+    "bootstrap_ci_high": 0.03998604924810465,
+    "partial_rank_ic": 0.014931088895207736,
+    "annual_ic": {
+      "2016": {
+        "N": 81,
+        "IC": 0.05510534993734912
+      },
+      "2017": {
+        "N": 251,
+        "IC": -0.011649402390438247
+      },
+      "2018": {
+        "N": 251,
+        "IC": 0.08738798850085312
+      },
+      "2019": {
+        "N": 252,
+        "IC": -0.05037857229092289
+      },
+      "2020": {
+        "N": 253,
+        "IC": 0.10092834245521683
+      },
+      "2021": {
+        "N": 252,
+        "IC": -0.09023645677032133
+      },
+      "2022": {
+        "N": 251,
+        "IC": 0.021346992980459115
+      },
+      "2023": {
+        "N": 250,
+        "IC": 0.003660730571689146
+      },
+      "2024": {
+        "N": 252,
+        "IC": -0.03349598031739033
+      },
+      "2025": {
+        "N": 250,
+        "IC": 0.018804396870349925
+      },
+      "2026": {
+        "N": 148,
+        "IC": -0.06370841461924875
+      }
+    },
+    "pct_eligible_years_expected_direction": 0.5454545454545454,
+    "leave_one_year_out_median_ic": 0.004732525227545643,
+    "catastrophic_sign_reversals": 5,
+    "component_correlations": {
+      "score_volControl": {
+        "score_volControl": 1.0,
+        "score_ctaEtfProxy": 0.19818690403014966,
+        "score_riskParity": 0.6080939911865247,
+        "score_pensionRebalance": -0.40761270587274545
+      },
+      "score_ctaEtfProxy": {
+        "score_volControl": 0.19818690403014966,
+        "score_ctaEtfProxy": 1.0,
+        "score_riskParity": 0.12339444116518425,
+        "score_pensionRebalance": -0.1872331928484915
+      },
+      "score_riskParity": {
+        "score_volControl": 0.6080939911865247,
+        "score_ctaEtfProxy": 0.12339444116518425,
+        "score_riskParity": 1.0,
+        "score_pensionRebalance": -0.22351821595489066
+      },
+      "score_pensionRebalance": {
+        "score_volControl": -0.40761270587274545,
+        "score_ctaEtfProxy": -0.1872331928484915,
+        "score_riskParity": -0.22351821595489066,
+        "score_pensionRebalance": 1.0
+      }
+    },
+    "shortflow_pension_diagnostic": {
+      "active_N": 675,
+      "active_IC": 0.07872386002493284,
+      "inactive_N": 1816,
+      "inactive_IC": -0.01361550360619881,
+      "pct_active": 0.27097551184263347
+    }
+  },
+  "CoreFlow_5D": {
+    "id": "CoreFlow_5D",
+    "valid": true,
+    "N": 2308,
+    "spearman_rho": -0.01880751819415942,
+    "direction_pass": false,
+    "hac_p": 0.5315668660526698,
+    "bootstrap_ci_low": -0.07757977101012224,
+    "bootstrap_ci_high": 0.04665626139675212,
+    "partial_rank_ic": -0.0032403012912219924,
+    "annual_ic": {
+      "2017": {
+        "N": 153,
+        "IC": -0.19083805771112272
+      },
+      "2018": {
+        "N": 251,
+        "IC": -0.03944754316069057
+      },
+      "2019": {
+        "N": 252,
+        "IC": -0.0565342619733751
+      },
+      "2020": {
+        "N": 253,
+        "IC": 0.09030071833906139
+      },
+      "2021": {
+        "N": 252,
+        "IC": -0.10940390517733323
+      },
+      "2022": {
+        "N": 251,
+        "IC": 0.07423259343578069
+      },
+      "2023": {
+        "N": 250,
+        "IC": 0.09387836605385685
+      },
+      "2024": {
+        "N": 252,
+        "IC": -0.05475331874084689
+      },
+      "2025": {
+        "N": 250,
+        "IC": -0.1322528680458887
+      },
+      "2026": {
+        "N": 144,
+        "IC": -0.10483883932159795
+      }
+    },
+    "pct_eligible_years_expected_direction": 0.3,
+    "leave_one_year_out_median_ic": -0.014655802456499226,
+    "catastrophic_sign_reversals": 7,
+    "component_correlations": {
+      "score_volControl": {
+        "score_volControl": 1.0,
+        "score_ctaEtfProxy": 0.2009880207463058,
+        "score_riskParity": 0.6180353916321869,
+        "score_pensionRebalance": -0.4274873585083211
+      },
+      "score_ctaEtfProxy": {
+        "score_volControl": 0.2009880207463058,
+        "score_ctaEtfProxy": 1.0,
+        "score_riskParity": 0.1253204714972102,
+        "score_pensionRebalance": -0.18545822752440566
+      },
+      "score_riskParity": {
+        "score_volControl": 0.6180353916321869,
+        "score_ctaEtfProxy": 0.1253204714972102,
+        "score_riskParity": 1.0,
+        "score_pensionRebalance": -0.24320962670432097
+      },
+      "score_pensionRebalance": {
+        "score_volControl": -0.4274873585083211,
+        "score_ctaEtfProxy": -0.18545822752440566,
+        "score_riskParity": -0.24320962670432097,
+        "score_pensionRebalance": 1.0
+      }
+    }
+  },
+  "MediumFlow_20D": {
+    "id": "MediumFlow_20D",
+    "valid": true,
+    "N": 2293,
+    "spearman_rho": -0.016868115086678695,
+    "direction_pass": false,
+    "hac_p": 0.6478823704734831,
+    "bootstrap_ci_low": -0.09307106968525926,
+    "bootstrap_ci_high": 0.0549793025110221,
+    "partial_rank_ic": -0.0005365975639149554,
+    "annual_ic": {
+      "2017": {
+        "N": 153,
+        "IC": -0.12090386393791965
+      },
+      "2018": {
+        "N": 251,
+        "IC": -0.04542970973249858
+      },
+      "2019": {
+        "N": 252,
+        "IC": -0.26354435448494
+      },
+      "2020": {
+        "N": 253,
+        "IC": 0.1015885860117288
+      },
+      "2021": {
+        "N": 252,
+        "IC": -0.07646207940682218
+      },
+      "2022": {
+        "N": 251,
+        "IC": 0.10162322140011384
+      },
+      "2023": {
+        "N": 250,
+        "IC": 0.1676359621753948
+      },
+      "2024": {
+        "N": 252,
+        "IC": -0.22955795864162404
+      },
+      "2025": {
+        "N": 250,
+        "IC": 0.02891143858301733
+      },
+      "2026": {
+        "N": 129,
+        "IC": -0.1210196779964222
+      }
+    },
+    "pct_eligible_years_expected_direction": 0.4,
+    "leave_one_year_out_median_ic": -0.01481940572676584,
+    "catastrophic_sign_reversals": 6,
+    "component_correlations": {
+      "score_volControl": {
+        "score_volControl": 1.0,
+        "score_ctaEtfProxy": 0.20162513468002244,
+        "score_riskParity": 0.6170002423928772,
+        "score_pensionRebalance": -0.428366535434816
+      },
+      "score_ctaEtfProxy": {
+        "score_volControl": 0.20162513468002244,
+        "score_ctaEtfProxy": 1.0,
+        "score_riskParity": 0.12408138654008694,
+        "score_pensionRebalance": -0.18330138266168233
+      },
+      "score_riskParity": {
+        "score_volControl": 0.6170002423928772,
+        "score_ctaEtfProxy": 0.12408138654008694,
+        "score_riskParity": 1.0,
+        "score_pensionRebalance": -0.24191795441695016
+      },
+      "score_pensionRebalance": {
+        "score_volControl": -0.428366535434816,
+        "score_ctaEtfProxy": -0.18330138266168233,
+        "score_riskParity": -0.24191795441695016,
+        "score_pensionRebalance": 1.0
+      }
+    }
+  }
+}

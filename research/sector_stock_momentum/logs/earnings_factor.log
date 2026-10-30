@@ -1,0 +1,20 @@
+events 56844 tickers 825 | panel coverage ear 0.966 ear_sum4 0.957
+universe  period   factor  explosive_lift  t_NW  bust_lift  ratio  months
+     all     dev      ear            1.48  6.45       1.48   1.00     126
+     all     dev ear_sum4            1.44  4.59       1.47   0.98     126
+     all     dev      sue            0.99 -0.11       0.96   1.03     126
+     all holdout ear_sum4            1.85  5.01       1.27   1.46      39
+     all holdout      ear            1.74  5.99       1.53   1.14      39
+     all holdout      sue            1.45  3.46       0.90   1.61      39
+    tech     dev ear_sum4            1.70  3.12       1.35   1.26     126
+    tech     dev      ear            1.57  3.14       1.45   1.08     126
+    tech     dev      sue            1.14  0.84       1.10   1.04     126
+    tech holdout      ear            1.76  2.80       0.92   1.92      39
+    tech holdout ear_sum4            1.54  3.01       1.70   0.90      39
+    tech holdout      sue            1.27  1.32       1.64   0.77      39
+useful on dev (pre-declared rule): none
+period                                      2015-01..2022-12     2015-01..2026-09     2023-01..2026-09
+strategy                                                                                              
+tech top-5 inv-vol, 6-factor (baseline)  21.4% / 0.94 / -29%  34.9% / 1.14 / -29%  68.9% / 1.50 / -20%
+tech top-5 inv-vol, 6-factor + ear       20.5% / 0.87 / -35%  33.4% / 1.03 / -35%  65.7% / 1.33 / -14%
+tech top-5 inv-vol, 6-factor + ear_sum4  19.5% / 0.83 / -35%  28.4% / 0.95 / -35%  49.8% / 1.17 / -31%

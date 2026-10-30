@@ -1,17 +1,46 @@
 # 🔭 宏观观察器 — Macro Dashboard
 
+## 🌳 Sector Rotation Research Tree
+
+```text
+Sector Rotation
+│
+├── 9-feature Random Forest      ❌ FAIL (Overfit to noise on small N)
+│
+├── Individual ETF features      ❌ weak / mostly noise
+│
+├── ETF-implied EPS              ❌ FAIL (Magnitude/Accel IC ≈ 0 on true universe)
+│
+├── Macro Shock × Sector
+│      ├── Composite             ❌ FAIL (IC +0.034, p=0.265)
+│      │
+│      ├── Real Yield            🟢 BEST LEAD (IC +0.094, FWER p=0.018)
+│      │      ├── Group-spread confirmation ⏳ NEXT
+│      │      ├── Time stability            ⏳
+│      │      ├── Lag robustness            ⏳
+│      │      └── Dynamic realized beta     ⏳
+│      │
+│      └── Macro Event Study     ⏳ NOT TESTED
+│             └── Does market price shocks immediately?
+│
+├── Waterfall Autopsy            ⏳ NOT COMPLETED
+│
+└── True Constituent EPS         💤 PAUSED (Research design ready, pending data)
+```
+
+
 A macroeconomic dashboard tracking rates, commodities, equities, and macro indicators — all stored locally, updated once per day.
 
 ---
 
 ## 🚀 How to Start
 
-```bash
-cd ~/Desktop/宏观观察器
-node server.js
-```
+The server runs **automatically** as a macOS launchd agent (`~/Library/LaunchAgents/com.macro-observer.dashboard.plist` → `npm start` = `node --env-file=.env server.js`, `KeepAlive`, starts at login, restarts on crash). Just open **http://localhost:8765**.
 
-Then open **http://localhost:8765** in your browser.
+- Real location: `~/projects/宏观观察器` (launchd's `WorkingDirectory`). `~/Desktop/宏观观察器` is only a **symlink** to it — do NOT move the real folder, the agents (`dashboard` + `autosync`) would break.
+- Logs: `~/Library/Logs/macro-observer/server.log` / `server.err.log`
+- Restart after code changes: `launchctl kickstart -k gui/$(id -u)/com.macro-observer.dashboard`
+- Manual run (only if the agent is unloaded): `cd ~/projects/宏观观察器 && node --env-file=.env server.js   # .env must define FRED_API_KEY and LOCAL_ADMIN_TOKEN`
 
 ---
 
@@ -130,6 +159,29 @@ python3 fetch_yahoo.py "^GSPC" 5d   # test connection
 - `"ok": true` → working, problem elsewhere
 - `HTTP 429` → IP blocked — wait 12–24h, do NOT restart server repeatedly
 
+### Live column (实时 %) — fully automatic
+
+Two different things in the stock table:
+- **Current / 1D Δ** = the last **completed** session (daily store). Today's unfinished bar is never stored (`dropUnfinishedBar`: US symbols until 18:00 ET; Nikkei/Shanghai/STOXX after their close).
+- **实时 %** = today's move vs previous close, refreshed automatically by the server (`liveTick`, checked every 5 min). No button, nothing to click.
+
+Schedule on NYSE trading days (New York time), all via Python:
+
+| Window | What | Requests |
+|---|---|---|
+| 04:00–09:30 pre-market | index futures `ES/NQ/YM/RTY=F` via one spark request every 15 min (index rows tagged `期货≈`); ETF pre-market quotes (`fetch_yahoo_live.py`, 1 per symbol, 5–10s apart) once per hour | ≈125 |
+| 09:30–16:05 regular | all ETFs + indices via `fetch_yahoo_spark.py` (2 requests) every 10 min, tagged `盘中` | ≈78 |
+| 16:20–20:00 | one final spark run, tagged `收盘` (after VIX settles at 16:15) | 2 |
+
+- **After the daily batch stores the session**, `/api/premarket` derives the column from the same daily data, so after the close and on weekends **实时 % = 1D Δ exactly** (avoids VIX settlement, futures settlement-vs-last-trade and contract-roll differences).
+- **Daily batch schedule:** Yahoo once per completed NYSE session, at/after **18:15 ET** (≈06:15 / 07:15 Beijing); FRED once per New York calendar day. State in `data/update_state.json`; restarts only catch up what is missing (no repeated Yahoo batches). Replaces the old "every 24h from server start" timer, which could run mid-session and leave the last close missing.
+
+- Shares the `isUpdating` lock with the daily batch. HTTP 429 → live prices pause 12h.
+- The snapshot stays visible until the next pre-market (weekends show Friday). `GET /api/premarket` reads local state only. Cached in `data/premarket.json`.
+- **Gap fill:** Yahoo's daily chart sometimes drops a bar (2026-10-21 was missing for US equities). The live previous close fills the missing previous NYSE session (`data/nyse_calendar.json`) — never overwrites existing bars.
+- **Daily merge** overwrites every overlapping date in the 5-day window, so bars captured mid-session (VIX, futures, FX trade at 08:15 ET) are corrected the next day. VIX history was repaired against the official CBOE file once (2026-10-22).
+- **Restarts:** catch up only what is missing per `data/update_state.json` (see "Daily batch schedule" above).
+
 ---
 
 ## 🎨 UI/UX Design Preferences — Must Follow
@@ -203,6 +255,8 @@ The user has confirmed these design choices. All future UI work must respect the
 server.js            — Main server (Node.js, port 8765)
 index.html           — Frontend dashboard
 fetch_yahoo.py       — Python Yahoo fetcher (DO NOT DELETE)
+fetch_yahoo_live.py  — Python single-symbol quote incl. pre-market (live column)
+fetch_yahoo_spark.py — Python batch quote, up to 20 symbols per request (live column)
 import_bdi.py        — One-time BDI CSV importer (Investing.com)
 data/fred/           — Cached FRED JSON (42 series)
 data/yahoo/          — Cached Yahoo JSON (26 tickers)

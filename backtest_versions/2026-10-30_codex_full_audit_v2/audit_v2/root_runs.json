@@ -1,0 +1,393 @@
+[
+  {
+    "name": "ledger",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "audit_v2/root_ledger_gate.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 0.67,
+    "log": "audit_v2/root_ledger.log",
+    "log_sha256": "00b8003394aa7eaca5234d806423c91c4c6d62325cbf68e4bc894d4a36b82421"
+  },
+  {
+    "name": "stock_regression",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "research/sector_stock_momentum/test_codex_regressions.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 0.67,
+    "log": "audit_v2/root_stock_regression.log",
+    "log_sha256": "886a3fc4ead9c828e867f7c9a03b5b7e173eb09ae7b8fb8abca6a520e9277c1b"
+  },
+  {
+    "name": "ledger_original",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "research/sector_stock_momentum/test_portfolio_ledger.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 0.64,
+    "log": "audit_v2/root_ledger_original.log",
+    "log_sha256": "6d1e20a3f2238d1dacb1f70bd02327556cb8cc8e8cfe3a59f290d98fe2b2297a"
+  },
+  {
+    "name": "fundamentals",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "research/sector_stock_momentum/test_fundamentals_pit.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 1.85,
+    "log": "audit_v2/root_fundamentals.log",
+    "log_sha256": "35078688fbfd36ef3057f581253f3c69c2a8bc623e5337c12fc14c8df4396b51"
+  },
+  {
+    "name": "additional",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "audit/test_additional_regressions.py"
+    ],
+    "exit": 1,
+    "expected": 0,
+    "pass": false,
+    "seconds": 1.52,
+    "log": "audit_v2/root_additional.log",
+    "log_sha256": "388bc71013ca8b9cfa3fa62dedbcf04cbf566b982e2768faadcfaaece474b7ce"
+  },
+  {
+    "name": "macro",
+    "command": [
+      "node",
+      "test/codex_macro_regressions.js"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 0.53,
+    "log": "audit_v2/root_macro.log",
+    "log_sha256": "bafcfa8b654fc608d3802233ec9a08822bfb07b4e8f61f09207028156add0a11"
+  },
+  {
+    "name": "forward_labels",
+    "command": [
+      "node",
+      "test/forward_labels_test.js"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 0.05,
+    "log": "audit_v2/root_forward_labels.log",
+    "log_sha256": "e726ed4b26114b865a17dce0b5618027cfba42b580a7f0bfa26c858a0110d2f1"
+  },
+  {
+    "name": "macro_replay",
+    "command": [
+      "node",
+      "backtest_v3.js",
+      "--revised-history"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 0.91,
+    "log": "audit_v2/root_macro_replay.log",
+    "log_sha256": "6682e28cea4d0b5711d8548c8fadc44a86459130f6863e4f4aecbd8141cf4337"
+  },
+  {
+    "name": "macro_source_gate",
+    "command": [
+      "node",
+      "backtest_v3.js"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "pass": true,
+    "seconds": 0.05,
+    "log": "audit_v2/root_macro_source_gate.log",
+    "log_sha256": "bfcb028731d03ee9dc2b7e4f42e7befaa2daa1721b881101e842fe4806daa9a6"
+  },
+  {
+    "name": "data_gate",
+    "command": [
+      "node",
+      "backtest/audit_data_coverage.js"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "pass": true,
+    "seconds": 0.74,
+    "log": "audit_v2/root_data_gate.log",
+    "log_sha256": "3a358fd65a44efbd28805252dc5de0c86d8546a84aef31b5e5f62224a58cd0e3"
+  },
+  {
+    "name": "00_validate_artifacts",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "test/phase3_validation/00_validate_artifacts.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 0.47,
+    "log": "audit_v2/root_00_validate_artifacts.log",
+    "log_sha256": "b88b853d480ebf48d97293c64bfbd459ae23105ac43988db8df46fd7b795f104"
+  },
+  {
+    "name": "01_build_panel",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "test/phase3_validation/01_build_panel.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 1.23,
+    "log": "audit_v2/root_01_build_panel.log",
+    "log_sha256": "24be60e80e738d5fe32bd75a4eda08dc5adb238c346a471c6e921fe97e8aad56"
+  },
+  {
+    "name": "02_single_factor",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "test/phase3_validation/02_single_factor.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 121.81,
+    "log": "audit_v2/root_02_single_factor.log",
+    "log_sha256": "14dc61b8ed8ae14f6a6792ab50614430a2e6941053bad593025b6910033b321a"
+  },
+  {
+    "name": "03_04_oos",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "test/phase3_validation/03_04_oos.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 14.52,
+    "log": "audit_v2/root_03_04_oos.log",
+    "log_sha256": "6c389286b70928aabb885bf802dfab30fd6d806a2c97d522f304514c8332d81a"
+  },
+  {
+    "name": "05_robustness",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "test/phase3_validation/05_robustness.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 2.03,
+    "log": "audit_v2/root_05_robustness.log",
+    "log_sha256": "e8f0a045f8f2990049725cee5221906e3f1a1c08ba10712a634eff1e16f3f99d"
+  },
+  {
+    "name": "06_multiple_testing",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "test/phase3_validation/06_multiple_testing.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 0.94,
+    "log": "audit_v2/root_06_multiple_testing.log",
+    "log_sha256": "55b6d149b106756a9712914fa99948648660ed8d7b89f1ff840bf13b0fa6f060"
+  },
+  {
+    "name": "07_evidence_gate",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "test/phase3_validation/07_evidence_gate.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 0.04,
+    "log": "audit_v2/root_07_evidence_gate.log",
+    "log_sha256": "a9b22c73cd8b75a02f8ce1b4993cbf254e4e7f7c0d4f7347729152eec8a00f37"
+  },
+  {
+    "name": "01_build_composite_panel",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "test/phase4_composite_validation/01_build_composite_panel.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 3.07,
+    "log": "audit_v2/root_01_build_composite_panel.log",
+    "log_sha256": "60f7a3e349090584e83b59a13c8169f01dea80e5595d611b75f8ece3c5896e6b"
+  },
+  {
+    "name": "02_test_composite_ic",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "test/phase4_composite_validation/02_test_composite_ic.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 39.74,
+    "log": "audit_v2/root_02_test_composite_ic.log",
+    "log_sha256": "aa00006b3e19ae103ec4cf65d9e084f9832ccb3fac0de96ba826de155b12aa64"
+  },
+  {
+    "name": "03_composite_oos",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "test/phase4_composite_validation/03_composite_oos.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 3.3,
+    "log": "audit_v2/root_03_composite_oos.log",
+    "log_sha256": "e4db86ff97c045d90391a700582f6891b1609d945b52cbe3fa7d647255a8f607"
+  },
+  {
+    "name": "04_composite_robustness",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "test/phase4_composite_validation/04_composite_robustness.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 2.03,
+    "log": "audit_v2/root_04_composite_robustness.log",
+    "log_sha256": "b41cf2dce29a032a3c82c28fa5731b494946fb0a077a5c649cc05d276c97b2ff"
+  },
+  {
+    "name": "05_composite_gate",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "test/phase4_composite_validation/05_composite_gate.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 0.05,
+    "log": "audit_v2/root_05_composite_gate.log",
+    "log_sha256": "c526fb7d9a0f046a5d1eb9d4ea3589cf92fef2010a9a0b69d8a00618545734f9"
+  },
+  {
+    "name": "01_build_multi_horizon_panel",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "test/phase5_exploratory/01_build_multi_horizon_panel.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 2.2,
+    "log": "audit_v2/root_01_build_multi_horizon_panel.log",
+    "log_sha256": "99837075b862235ab898aeba797a870dd26b098d49c70281a4510b4a6ea9fcd8"
+  },
+  {
+    "name": "02_test_multi_horizon_ic",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "test/phase5_exploratory/02_test_multi_horizon_ic.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 29.6,
+    "log": "audit_v2/root_02_test_multi_horizon_ic.log",
+    "log_sha256": "efc3d603a34b6e7d84aa82cbb6be7bfc279c19e6a4c45c19bfb64b66bcd209c9"
+  },
+  {
+    "name": "03_pension_diagnostic",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "test/phase5_exploratory/03_pension_diagnostic.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 9.34,
+    "log": "audit_v2/root_03_pension_diagnostic.log",
+    "log_sha256": "e0daed489d0d69d5596a9059b3dff8ee06b567206bd4c65765b64539524a3c46"
+  },
+  {
+    "name": "vc",
+    "command": [
+      "node",
+      "test/phase6_construct_audit/vc_external_benchmark_validation.js"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 0.26,
+    "log": "audit_v2/root_vc.log",
+    "log_sha256": "28878a705cdbbc89ddb9d076c6cb66b23f0a47028bb1da541c82ac3967ee6f8e"
+  },
+  {
+    "name": "rp",
+    "command": [
+      "node",
+      "test/phase6_construct_audit/rp_external_benchmark_validation.js"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 0.38,
+    "log": "audit_v2/root_rp.log",
+    "log_sha256": "d6d1df0741c5fe7befdd83d10863b3964387091155e81e9da831636528fdf100"
+  },
+  {
+    "name": "main",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "research/sector_stock_momentum/backtest.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 622.41,
+    "log": "audit_v2/root_main.log",
+    "log_sha256": "0e25615cdf9ca77a7bbb62e58c162793295ca6d6abf0a7f03f464e6f2ac500b6"
+  },
+  {
+    "name": "stock_pool",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "audit/audit_stock_pool.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 36.76,
+    "log": "audit_v2/root_stock_pool.log",
+    "log_sha256": "8403f380fab397ee4579dc5afa78f995e2b027f263d0b5ad46c2ac008f9c4fd7"
+  },
+  {
+    "name": "ndx_pool",
+    "command": [
+      "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3",
+      "audit/audit_ndx_pool.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "pass": true,
+    "seconds": 18.67,
+    "log": "audit_v2/root_ndx_pool.log",
+    "log_sha256": "8e9d8936bd2ff6d88e6be0f61a48760cc35c3c6d91fd01519840cfc265867f56"
+  }
+]

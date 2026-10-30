@@ -1,0 +1,56 @@
+ticker,sector,source,industry,sic,note
+ALAB,Information Technology,sic,SIC 3674,3674,SEC submissions SIC 3674 (Semiconductors & Related Devices) via build_fundamentals.sic_to_sector
+ALNY,Health Care,sic,SIC 2834,2834,SEC submissions SIC 2834 (Pharmaceutical Preparations) via build_fundamentals.sic_to_sector
+ARM,Information Technology,sic,SIC 3674,3674,SEC submissions SIC 3674 (Semiconductors & Related Devices) via build_fundamentals.sic_to_sector
+ASML,Information Technology,sic,SIC 3559,3559,"SEC submissions SIC 3559 (Special Industry Machinery, NEC) via build_fundamentals.sic_to_sector"
+AZN,Health Care,sic,SIC 2834,2834,SEC submissions SIC 2834 (Pharmaceutical Preparations) via build_fundamentals.sic_to_sector
+BB,Information Technology,sic,SIC 7372,7372,SEC submissions SIC 7372 (Services-Prepackaged Software) via build_fundamentals.sic_to_sector
+BIDU,Communication Services,manual_gics,Interactive Media & Services,7370,SIC 7370 maps to IT; GICS moved Baidu to Communication Services in 2018 (pre-2018 rebuilt to IT); not independently web-verified per ticker
+BMRN,Health Care,sic,SIC 2834,2834,SEC submissions SIC 2834 (Pharmaceutical Preparations) via build_fundamentals.sic_to_sector
+CHKP,Information Technology,sic,SIC 7372,7372,SEC submissions SIC 7372 (Services-Prepackaged Software) via build_fundamentals.sic_to_sector
+CRWV,Information Technology,sic,SIC 7372,7372,SEC submissions SIC 7372 (Services-Prepackaged Software) via build_fundamentals.sic_to_sector
+CTRX,Health Care,manual_gics,Health Care Services,6411,SIC 6411 (insurance agents) maps to Financials; Catamaran was a pharmacy-benefit manager (GICS Health Care Services); not independently web-verified per ticker
+DOCU,Information Technology,sic,SIC 7372,7372,SEC submissions SIC 7372 (Services-Prepackaged Software) via build_fundamentals.sic_to_sector
+FER,Industrials,sic,SIC 1600,1600,SEC submissions SIC 1600 (Heavy Construction Other Than Bldg Const - Contractors) via build_fundamentals.sic_to_sector
+FWLT,Industrials,sic,SIC 1600,1600,SEC submissions SIC 1600 (Heavy Construction Other Than Bldg Const - Contractors) via build_fundamentals.sic_to_sector
+GFS,Information Technology,sic,SIC 3674,3674,SEC submissions SIC 3674 (Semiconductors & Related Devices) via build_fundamentals.sic_to_sector
+GOLD,Materials,sic,SIC 1040,1040,SEC submissions SIC 1040 (Gold and Silver Ores) via build_fundamentals.sic_to_sector
+IACI,Communication Services,manual_gics,Interactive Media & Services,7370,SIC 7370; NDX months 2008-2009 → rebuilt to IT (Internet Software & Services); not independently web-verified per ticker
+INFY,Information Technology,sic,SIC 7371,7371,SEC submissions SIC 7371 (Services-Computer Programming Services) via build_fundamentals.sic_to_sector
+INSM,Health Care,sic,SIC 2834,2834,SEC submissions SIC 2834 (Pharmaceutical Preparations) via build_fundamentals.sic_to_sector
+JD,Consumer Discretionary,sic,SIC 5990,5990,"SEC submissions SIC 5990 (Retail-Retail Stores, NEC) via build_fundamentals.sic_to_sector"
+LBTYA,Communication Services,manual_gics,Cable & Satellite,4841,SIC 4841; pre-2018 rebuilt to Consumer Discretionary (media/cable); not independently web-verified per ticker
+LBTYK,Communication Services,manual_gics,Cable & Satellite,4841,as LBTYA; not independently web-verified per ticker
+LCID,Consumer Discretionary,sic,SIC 3711,3711,SEC submissions SIC 3711 (Motor Vehicles & Passenger Car Bodies) via build_fundamentals.sic_to_sector
+LMCA,Communication Services,manual_gics,Movies & Entertainment,4833,SIC 4833; NDX months 2013-2016 → rebuilt to Consumer Discretionary (media); not independently web-verified per ticker
+LOGI,Information Technology,sic,SIC 3577,3577,"SEC submissions SIC 3577 (Computer Peripheral Equipment, NEC) via build_fundamentals.sic_to_sector"
+MDB,Information Technology,sic,SIC 7372,7372,SEC submissions SIC 7372 (Services-Prepackaged Software) via build_fundamentals.sic_to_sector
+MELI,Consumer Discretionary,manual_gics,Broadline Retail,7389,SIC 7389 maps to Industrials; MercadoLibre is GICS Consumer Discretionary (e-commerce); not independently web-verified per ticker
+MSTR,Information Technology,manual_gics,Application Software,6199,SIC 6199 (finance) maps to Financials; GICS keeps Strategy/MicroStrategy in IT software; not independently web-verified per ticker
+NBIS,Information Technology,sic,SIC 7370,7370,"SEC submissions SIC 7370 (Services-Computer Programming, Data Processing, Etc.) via build_fundamentals.sic_to_sector"
+NTES,Communication Services,manual_gics,Interactive Home Entertainment,7372,SIC 7372 maps to IT; GICS moved NetEase to Communication Services in 2018 (pre-2018 rebuilt to IT); not independently web-verified per ticker
+NUAN,Information Technology,sic,SIC 7372,7372,SEC submissions SIC 7372 (Services-Prepackaged Software) via build_fundamentals.sic_to_sector
+OKTA,Information Technology,sic,SIC 7372,7372,SEC submissions SIC 7372 (Services-Prepackaged Software) via build_fundamentals.sic_to_sector
+PDD,Consumer Discretionary,manual_gics,Broadline Retail,7389,SIC 7389 maps to Industrials; PDD is GICS Consumer Discretionary (e-commerce); not independently web-verified per ticker
+PTON,Consumer Discretionary,manual_gics,Leisure Products,3949,SIC 3949 maps to Industrials; Peloton is GICS Consumer Discretionary; not independently web-verified per ticker
+QGEN,Health Care,sic,SIC 2836,2836,"SEC submissions SIC 2836 (Biological Products, (No Diagnostic Substances)) via build_fundamentals.sic_to_sector"
+QVCA,Consumer Discretionary,sic,SIC 5961,5961,SEC submissions SIC 5961 (Retail-Catalog & Mail-Order Houses) via build_fundamentals.sic_to_sector
+RIVN,Consumer Discretionary,sic,SIC 3711,3711,SEC submissions SIC 3711 (Motor Vehicles & Passenger Car Bodies) via build_fundamentals.sic_to_sector
+RKLB,Industrials,sic,SIC 3760,3760,SEC submissions SIC 3760 (Guided Missiles & Space Vehicles & Parts) via build_fundamentals.sic_to_sector
+RYAAY,Industrials,sic,SIC 4512,4512,"SEC submissions SIC 4512 (Air Transportation, Scheduled) via build_fundamentals.sic_to_sector"
+SGEN,Health Care,sic,SIC 2836,2836,"SEC submissions SIC 2836 (Biological Products, (No Diagnostic Substances)) via build_fundamentals.sic_to_sector"
+SHOP,Information Technology,sic,SIC 7372,7372,SEC submissions SIC 7372 (Services-Prepackaged Software) via build_fundamentals.sic_to_sector
+SHPG,Health Care,sic,SIC 2834,2834,SEC submissions SIC 2834 (Pharmaceutical Preparations) via build_fundamentals.sic_to_sector
+SIRI,Communication Services,manual_gics,Broadcasting,4832,SIC 4832 maps to Industrials in the coarse SIC table; GICS Media/Broadcasting (Cons. Disc. pre-2018); not independently web-verified per ticker
+SPLK,Information Technology,sic,SIC 7372,7372,SEC submissions SIC 7372 (Services-Prepackaged Software) via build_fundamentals.sic_to_sector
+TCOM,Consumer Discretionary,manual_gics,"Hotels, Resorts & Cruise Lines",7389,SIC 7389 maps to Industrials; Trip.com/Ctrip is GICS Consumer Discretionary (online travel); not independently web-verified per ticker
+TEAM,Information Technology,sic,SIC 7372,7372,SEC submissions SIC 7372 (Services-Prepackaged Software) via build_fundamentals.sic_to_sector
+TEVA,Health Care,sic,SIC 2834,2834,SEC submissions SIC 2834 (Pharmaceutical Preparations) via build_fundamentals.sic_to_sector
+TRI,Industrials,sic,SIC 2741,2741,SEC submissions SIC 2741 (Miscellaneous Publishing) via build_fundamentals.sic_to_sector
+VEON,Communication Services,manual_gics,Wireless Telecommunication Services,4812,SIC 4812; pre-2018 Telecommunication Services; not independently web-verified per ticker
+VMED,Communication Services,manual_gics,Cable & Satellite,4813,SIC 4813; Virgin Media was a cable operator (Cons. Disc. media pre-2018); not independently web-verified per ticker
+VOD,Communication Services,manual_gics,Wireless Telecommunication Services,4812,SIC 4812; pre-2018 Telecommunication Services; not independently web-verified per ticker
+WCRX,Health Care,sic,SIC 2834,2834,SEC submissions SIC 2834 (Pharmaceutical Preparations) via build_fundamentals.sic_to_sector
+YHOO,Communication Services,manual_gics,Interactive Media & Services,,no SIC in SEC submissions; Yahoo was Internet Software & Services (IT) — all NDX months are before 2018-09 so the rebuild yields IT; not independently web-verified per ticker
+ZM,Information Technology,sic,SIC 7370,7370,"SEC submissions SIC 7370 (Services-Computer Programming, Data Processing, Etc.) via build_fundamentals.sic_to_sector"
+ZS,Information Technology,sic,SIC 7371,7371,SEC submissions SIC 7371 (Services-Computer Programming Services) via build_fundamentals.sic_to_sector

@@ -1,0 +1,197 @@
+{
+  "request": {
+    "symbol": [
+      "MU",
+      "SNDK",
+      "SPY"
+    ],
+    "timeframe": "1Month",
+    "start": "2026-03-01",
+    "end": "2026-06-01",
+    "feed": "sip",
+    "limit": 20,
+    "sort": "asc"
+  },
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"tool\":\"get_stock_bars\",\"request\":{\"symbols\":[\"MU\",\"SNDK\",\"SPY\"],\"days\":5,\"hours\":0,\"minutes\":30,\"timeframe\":\"1Month\",\"limit\":20,\"start\":\"2026-03-01\",\"end\":\"2026-06-01\",\"sort\":\"asc\",\"feed\":\"sip\",\"currency\":null,\"asof\":null,\"tz\":\"America/New_York\"},\"counts\":{\"symbols\":3,\"records\":12,\"per_symbol\":{\"MU\":4,\"SNDK\":4,\"SPY\":4}},\"bars\":{\"MU\":[{\"symbol\":\"MU\",\"timestamp\":\"2026-03-01T05:00:00+00:00\",\"open\":401.47,\"high\":471.34,\"low\":311.49,\"close\":337.84,\"volume\":1023939969.0,\"trade_count\":18043819.0,\"vwap\":396.514663},{\"symbol\":\"MU\",\"timestamp\":\"2026-04-01T04:00:00+00:00\",\"open\":348.905,\"high\":535.5,\"low\":340.2,\"close\":517.16,\"volume\":872072520.0,\"trade_count\":14219231.0,\"vwap\":439.614908},{\"symbol\":\"MU\",\"timestamp\":\"2026-05-01T04:00:00+00:00\",\"open\":511.78,\"high\":981.0,\"low\":510.21,\"close\":971.0,\"volume\":1119551752.0,\"trade_count\":26495017.0,\"vwap\":753.592562},{\"symbol\":\"MU\",\"timestamp\":\"2026-06-01T04:00:00+00:00\",\"open\":1009.72,\"high\":1255.0,\"low\":854.35,\"close\":1154.29,\"volume\":1208813820.0,\"trade_count\":35167042.0,\"vwap\":1044.854895}],\"SNDK\":[{\"symbol\":\"SNDK\",\"timestamp\":\"2026-03-01T05:00:00+00:00\",\"open\":618.645,\"high\":777.6,\"low\":517.0,\"close\":635.34,\"volume\":411632430.0,\"trade_count\":8752450.0,\"vwap\":644.533681},{\"symbol\":\"SNDK\",\"timestamp\":\"2026-04-01T04:00:00+00:00\",\"open\":652.29,\"high\":1115.0,\"low\":641.0,\"close\":1096.51,\"volume\":325322438.0,\"trade_count\":8350547.0,\"vwap\":878.495908},{\"symbol\":\"SNDK\",\"timestamp\":\"2026-05-01T04:00:00+00:00\",\"open\":1059.02,\"high\":1708.8255,\"low\":1048.0,\"close\":1694.98,\"volume\":293019574.0,\"trade_count\":11969770.0,\"vwap\":1412.697696},{\"symbol\":\"SNDK\",\"timestamp\":\"2026-06-01T04:00:00+00:00\",\"open\":1731.15,\"high\":2354.3899,\"low\":1514.36,\"close\":2273.73,\"volume\":242303584.0,\"trade_count\":12268521.0,\"vwap\":1932.338099}],\"SPY\":[{\"symbol\":\"SPY\",\"timestamp\":\"2026-03-01T05:00:00+00:00\",\"open\":678.7,\"high\":688.62,\"low\":629.28,\"close\":650.34,\"volume\":2239631202.0,\"trade_count\":29586146.0,\"vwap\":662.976009},{\"symbol\":\"SPY\",\"timestamp\":\"2026-04-01T04:00:00+00:00\",\"open\":653.9,\"high\":719.79,\"low\":645.11,\"close\":718.66,\"volume\":1198027397.0,\"trade_count\":14968568.0,\"vwap\":688.506693},{\"symbol\":\"SPY\",\"timestamp\":\"2026-05-01T04:00:00+00:00\",\"open\":721.25,\"high\":758.08,\"low\":714.99,\"close\":756.48,\"volume\":946754358.0,\"trade_count\":13378086.0,\"vwap\":738.487092},{\"symbol\":\"SPY\",\"timestamp\":\"2026-06-01T04:00:00+00:00\",\"open\":755.36,\"high\":760.4,\"low\":716.58,\"close\":746.77,\"volume\":1324977528.0,\"trade_count\":17407900.0,\"vwap\":742.328253}]}}"
+      }
+    ],
+    "structuredContent": {
+      "tool": "get_stock_bars",
+      "request": {
+        "symbols": [
+          "MU",
+          "SNDK",
+          "SPY"
+        ],
+        "days": 5,
+        "hours": 0,
+        "minutes": 30,
+        "timeframe": "1Month",
+        "limit": 20,
+        "start": "2026-03-01",
+        "end": "2026-06-01",
+        "sort": "asc",
+        "feed": "sip",
+        "currency": null,
+        "asof": null,
+        "tz": "America/New_York"
+      },
+      "counts": {
+        "symbols": 3,
+        "records": 12,
+        "per_symbol": {
+          "MU": 4,
+          "SNDK": 4,
+          "SPY": 4
+        }
+      },
+      "bars": {
+        "MU": [
+          {
+            "symbol": "MU",
+            "timestamp": "2026-03-01T05:00:00+00:00",
+            "open": 401.47,
+            "high": 471.34,
+            "low": 311.49,
+            "close": 337.84,
+            "volume": 1023939969,
+            "trade_count": 18043819,
+            "vwap": 396.514663
+          },
+          {
+            "symbol": "MU",
+            "timestamp": "2026-04-01T04:00:00+00:00",
+            "open": 348.905,
+            "high": 535.5,
+            "low": 340.2,
+            "close": 517.16,
+            "volume": 872072520,
+            "trade_count": 14219231,
+            "vwap": 439.614908
+          },
+          {
+            "symbol": "MU",
+            "timestamp": "2026-05-01T04:00:00+00:00",
+            "open": 511.78,
+            "high": 981,
+            "low": 510.21,
+            "close": 971,
+            "volume": 1119551752,
+            "trade_count": 26495017,
+            "vwap": 753.592562
+          },
+          {
+            "symbol": "MU",
+            "timestamp": "2026-06-01T04:00:00+00:00",
+            "open": 1009.72,
+            "high": 1255,
+            "low": 854.35,
+            "close": 1154.29,
+            "volume": 1208813820,
+            "trade_count": 35167042,
+            "vwap": 1044.854895
+          }
+        ],
+        "SNDK": [
+          {
+            "symbol": "SNDK",
+            "timestamp": "2026-03-01T05:00:00+00:00",
+            "open": 618.645,
+            "high": 777.6,
+            "low": 517,
+            "close": 635.34,
+            "volume": 411632430,
+            "trade_count": 8752450,
+            "vwap": 644.533681
+          },
+          {
+            "symbol": "SNDK",
+            "timestamp": "2026-04-01T04:00:00+00:00",
+            "open": 652.29,
+            "high": 1115,
+            "low": 641,
+            "close": 1096.51,
+            "volume": 325322438,
+            "trade_count": 8350547,
+            "vwap": 878.495908
+          },
+          {
+            "symbol": "SNDK",
+            "timestamp": "2026-05-01T04:00:00+00:00",
+            "open": 1059.02,
+            "high": 1708.8255,
+            "low": 1048,
+            "close": 1694.98,
+            "volume": 293019574,
+            "trade_count": 11969770,
+            "vwap": 1412.697696
+          },
+          {
+            "symbol": "SNDK",
+            "timestamp": "2026-06-01T04:00:00+00:00",
+            "open": 1731.15,
+            "high": 2354.3899,
+            "low": 1514.36,
+            "close": 2273.73,
+            "volume": 242303584,
+            "trade_count": 12268521,
+            "vwap": 1932.338099
+          }
+        ],
+        "SPY": [
+          {
+            "symbol": "SPY",
+            "timestamp": "2026-03-01T05:00:00+00:00",
+            "open": 678.7,
+            "high": 688.62,
+            "low": 629.28,
+            "close": 650.34,
+            "volume": 2239631202,
+            "trade_count": 29586146,
+            "vwap": 662.976009
+          },
+          {
+            "symbol": "SPY",
+            "timestamp": "2026-04-01T04:00:00+00:00",
+            "open": 653.9,
+            "high": 719.79,
+            "low": 645.11,
+            "close": 718.66,
+            "volume": 1198027397,
+            "trade_count": 14968568,
+            "vwap": 688.506693
+          },
+          {
+            "symbol": "SPY",
+            "timestamp": "2026-05-01T04:00:00+00:00",
+            "open": 721.25,
+            "high": 758.08,
+            "low": 714.99,
+            "close": 756.48,
+            "volume": 946754358,
+            "trade_count": 13378086,
+            "vwap": 738.487092
+          },
+          {
+            "symbol": "SPY",
+            "timestamp": "2026-06-01T04:00:00+00:00",
+            "open": 755.36,
+            "high": 760.4,
+            "low": 716.58,
+            "close": 746.77,
+            "volume": 1324977528,
+            "trade_count": 17407900,
+            "vwap": 742.328253
+          }
+        ]
+      }
+    },
+    "isError": false
+  },
+  "retrieved_utc": "2026-10-30T07:26:16.976Z",
+  "scope": "Bounded independent spot-check, not a model input or full price-history certification"
+}

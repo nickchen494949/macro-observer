@@ -39,15 +39,16 @@ function calcRealizedVol(spxData, startIdx, h) {
 
 function main() {
   const yahooDir = path.join(__dirname, '../data/yahoo');
-  const phase3Dir = path.join(__dirname, 'phase3');
-  
-  let snapshotsPath = path.join(phase3Dir, 'snapshots_phase3.json');
-  if (!fs.existsSync(snapshotsPath)) {
-      throw new Error("Canonical Phase 3 snapshots missing: " + snapshotsPath);
+  const snapshotPath = process.argv[2] || path.join(__dirname, 'phase3/snapshots_phase3.json');
+  const outPath = process.argv[3] || path.join(__dirname, 'phase3/forward_labels_phase3.json');
+
+  const snapshots = loadJson(snapshotPath);
+  if (!snapshots) {
+    console.error("No snapshots found at " + snapshotPath);
+    return;
   }
   
   const spx = loadJson(path.join(yahooDir, '_GSPC.json'));
-  const snapshots = loadJson(snapshotsPath);
   
   if (!spx || !snapshots) {
     console.error("Missing SPX data or snapshots.json");
@@ -175,10 +176,10 @@ function main() {
     }
   }
   
-  if (!fs.existsSync(phase3Dir)) fs.mkdirSync(phase3Dir, { recursive: true });
-  const outPath = path.join(phase3Dir, 'forward_labels_phase3.json');
+  const outDir = path.dirname(outPath);
+  if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify(labels, null, 2));
-  console.log(`Wrote module-specific expanded forward labels for ${Object.keys(labels).length} days to ${outPath}`);
+  console.log(`Wrote forward labels for ${Object.keys(labels).length} days to ${outPath}`);
 }
 
 main();

@@ -1,0 +1,1373 @@
+strategy,month,ticker,flags
+BENCH pure momentum top-1,2010-02-28,CAR,F2_split_like 2009-03-20
+BENCH pure momentum top-1,2010-03-31,DAN,F2_split_like 2009-03-10
+BENCH pure momentum top-1,2011-06-30,SWSH,F3_stale_run 2010-06-04
+BENCH pure momentum top-1,2011-07-31,AMRN,F2_split_like 2011-04-18
+BENCH pure momentum top-1,2013-01-31,SRPT,F2_split_like 2012-10-03
+BENCH pure momentum top-1,2013-05-31,SRPT,F2_split_like 2012-10-03
+BENCH pure momentum top-1,2013-07-31,SRPT,F2_split_like 2012-10-03
+BENCH pure momentum top-1,2014-05-31,ICPT,F1_spike_reversal 2014-01-10
+BENCH pure momentum top-1,2014-06-30,ICPT,F1_spike_reversal 2014-01-10
+BENCH pure momentum top-1,2014-11-30,PBYI,F2_split_like 2014-07-23
+BENCH pure momentum top-1,2014-12-31,PBYI,F2_split_like 2014-07-23
+BENCH pure momentum top-1,2016-07-31,ERII,F2_split_like 2015-10-20
+BENCH pure momentum top-1,2017-08-31,BCEI,F1_spike_reversal 2016-08-17
+BENCH pure momentum top-1,2018-10-31,TBCH,F1_spike_reversal 2018-01-12
+BENCH pure momentum top-1,2021-04-30,CHRD,F1_spike_reversal 2020-06-08
+BENCH pure momentum top-1,2021-06-30,CHRD,F1_spike_reversal 2020-06-08
+BENCH pure momentum top-1,2021-12-31,OCGN,F2_split_like 2021-02-08
+BENCH pure momentum top-1,2022-01-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+BENCH pure momentum top-1,2022-02-28,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+BENCH pure momentum top-1,2022-03-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+BENCH pure momentum top-1,2022-04-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+BENCH pure momentum top-1,2022-05-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+BENCH pure momentum top-1,2022-06-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+BENCH pure momentum top-1,2022-07-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+BENCH pure momentum top-1,2022-08-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+BENCH pure momentum top-1,2022-09-30,IVT,F2_split_like 2021-09-24
+BENCH pure momentum top-1,2023-07-31,APLD,F2_split_like 2022-07-19
+BENCH pure momentum top-1,2025-08-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+BENCH pure momentum top-1,2025-10-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew,2010-01-31,CAR,F2_split_like 2009-03-20
+T3 mom top-5 ew,2010-01-31,PIR,F1_spike_reversal 2009-02-24
+T3 mom top-5 ew,2010-01-31,DAN,F2_split_like 2009-03-10
+T3 mom top-5 ew,2010-02-28,CAR,F2_split_like 2009-03-20
+T3 mom top-5 ew,2010-02-28,DAN,F2_split_like 2009-03-10
+T3 mom top-5 ew,2010-02-28,PIR,F1_spike_reversal 2009-02-24
+T3 mom top-5 ew,2010-03-31,DAN,F2_split_like 2009-03-10
+T3 mom top-5 ew,2010-03-31,CAR,F2_split_like 2009-03-20
+T3 mom top-5 ew,2010-06-30,WNC,F1_spike_reversal 2009-06-24
+T3 mom top-5 ew,2011-04-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ew,2011-06-30,SWSH,F3_stale_run 2010-06-04
+T3 mom top-5 ew,2011-06-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ew,2011-07-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ew,2011-08-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ew,2011-09-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ew,2011-10-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ew,2011-11-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ew,2012-12-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew,2013-01-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew,2013-02-28,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew,2013-03-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew,2013-04-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew,2013-05-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew,2013-06-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew,2013-07-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew,2014-03-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew,2014-04-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew,2014-05-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew,2014-06-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew,2014-07-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew,2014-08-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew,2014-09-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew,2014-09-30,PBYI,F2_split_like 2014-07-23
+T3 mom top-5 ew,2014-10-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-5 ew,2014-10-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew,2014-11-30,PBYI,F2_split_like 2014-07-23
+T3 mom top-5 ew,2014-11-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew,2014-12-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-5 ew,2014-12-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew,2016-07-31,ERII,F2_split_like 2015-10-20
+T3 mom top-5 ew,2017-08-31,BCEI,F1_spike_reversal 2016-08-17
+T3 mom top-5 ew,2018-02-28,RIOT,F1_spike_reversal 2017-11-24
+T3 mom top-5 ew,2018-07-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ew,2018-08-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-5 ew,2018-09-30,VKTX,F2_split_like 2018-05-31
+T3 mom top-5 ew,2018-09-30,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ew,2018-10-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ew,2018-10-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-5 ew,2018-11-30,VKTX,F2_split_like 2018-05-31
+T3 mom top-5 ew,2018-11-30,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ew,2018-12-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ew,2018-12-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-5 ew,2019-01-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ew,2020-04-30,APT,F2_split_like 2020-02-27
+T3 mom top-5 ew,2020-05-31,APT,F2_split_like 2020-02-27
+T3 mom top-5 ew,2020-06-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-5 ew,2020-07-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-5 ew,2020-08-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-5 ew,2020-09-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-5 ew,2021-02-28,CHRD,F1_spike_reversal 2020-03-13|F1_spike_reversal 2020-06-08
+T3 mom top-5 ew,2021-03-31,CHRD,F1_spike_reversal 2020-03-13|F1_spike_reversal 2020-06-08
+T3 mom top-5 ew,2021-04-30,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-5 ew,2021-04-30,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-5 ew,2021-04-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew,2021-05-31,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-5 ew,2021-05-31,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-5 ew,2021-05-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-5 ew,2021-06-30,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-5 ew,2021-06-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew,2021-06-30,AMTX,F2_split_like 2021-01-25
+T3 mom top-5 ew,2021-07-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew,2021-08-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-5 ew,2021-08-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew,2021-09-30,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-5 ew,2021-09-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew,2021-10-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew,2021-11-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew,2021-11-30,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-5 ew,2021-12-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew,2021-12-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ew,2022-01-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ew,2022-01-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-5 ew,2022-01-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-5 ew,2022-02-28,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ew,2022-03-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ew,2022-03-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12|F3_stale_run 2021-04-20
+T3 mom top-5 ew,2022-04-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ew,2022-04-30,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12|F3_stale_run 2021-04-20
+T3 mom top-5 ew,2022-05-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ew,2022-05-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-5 ew,2022-06-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ew,2022-06-30,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-5 ew,2022-07-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+T3 mom top-5 ew,2022-07-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-5 ew,2022-08-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+T3 mom top-5 ew,2022-09-30,IVT,F2_split_like 2021-09-24
+T3 mom top-5 ew,2023-06-30,BMEA,F2_split_like 2023-03-28
+T3 mom top-5 ew,2023-07-31,APLD,F2_split_like 2022-07-19
+T3 mom top-5 ew,2023-09-30,IMVT,F2_split_like 2023-09-26
+T3 mom top-5 ew,2025-02-28,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew,2025-03-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew,2025-05-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew,2025-06-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew,2025-07-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew,2025-08-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew,2025-09-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew,2025-10-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew,2025-11-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew,2025-12-31,QURE,F2_split_like 2025-11-03
+T3 mom top-5 ew +crash,2010-01-31,CAR,F2_split_like 2009-03-20
+T3 mom top-5 ew +crash,2010-01-31,PIR,F1_spike_reversal 2009-02-24
+T3 mom top-5 ew +crash,2010-01-31,DAN,F2_split_like 2009-03-10
+T3 mom top-5 ew +crash,2010-02-28,CAR,F2_split_like 2009-03-20
+T3 mom top-5 ew +crash,2010-02-28,DAN,F2_split_like 2009-03-10
+T3 mom top-5 ew +crash,2010-02-28,PIR,F1_spike_reversal 2009-02-24
+T3 mom top-5 ew +crash,2010-03-31,DAN,F2_split_like 2009-03-10
+T3 mom top-5 ew +crash,2010-03-31,CAR,F2_split_like 2009-03-20
+T3 mom top-5 ew +crash,2010-06-30,WNC,F1_spike_reversal 2009-06-24
+T3 mom top-5 ew +crash,2011-04-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ew +crash,2011-06-30,SWSH,F3_stale_run 2010-06-04
+T3 mom top-5 ew +crash,2011-06-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ew +crash,2011-07-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ew +crash,2011-08-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ew +crash,2011-09-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ew +crash,2011-10-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ew +crash,2011-11-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ew +crash,2012-12-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew +crash,2013-01-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew +crash,2013-02-28,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew +crash,2013-03-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew +crash,2013-04-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew +crash,2013-05-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew +crash,2013-06-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew +crash,2013-07-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ew +crash,2014-03-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew +crash,2014-04-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew +crash,2014-05-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew +crash,2014-06-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew +crash,2014-07-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew +crash,2014-08-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew +crash,2014-09-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew +crash,2014-09-30,PBYI,F2_split_like 2014-07-23
+T3 mom top-5 ew +crash,2014-10-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-5 ew +crash,2014-10-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew +crash,2014-11-30,PBYI,F2_split_like 2014-07-23
+T3 mom top-5 ew +crash,2014-11-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew +crash,2014-12-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-5 ew +crash,2014-12-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ew +crash,2016-07-31,ERII,F2_split_like 2015-10-20
+T3 mom top-5 ew +crash,2017-08-31,BCEI,F1_spike_reversal 2016-08-17
+T3 mom top-5 ew +crash,2018-02-28,RIOT,F1_spike_reversal 2017-11-24
+T3 mom top-5 ew +crash,2018-07-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ew +crash,2018-08-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-5 ew +crash,2018-09-30,VKTX,F2_split_like 2018-05-31
+T3 mom top-5 ew +crash,2018-09-30,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ew +crash,2018-10-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ew +crash,2018-10-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-5 ew +crash,2018-11-30,VKTX,F2_split_like 2018-05-31
+T3 mom top-5 ew +crash,2018-11-30,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ew +crash,2018-12-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ew +crash,2018-12-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-5 ew +crash,2019-01-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ew +crash,2020-04-30,APT,F2_split_like 2020-02-27
+T3 mom top-5 ew +crash,2020-05-31,APT,F2_split_like 2020-02-27
+T3 mom top-5 ew +crash,2020-06-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-5 ew +crash,2020-07-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-5 ew +crash,2020-08-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-5 ew +crash,2020-09-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-5 ew +crash,2021-02-28,CHRD,F1_spike_reversal 2020-03-13|F1_spike_reversal 2020-06-08
+T3 mom top-5 ew +crash,2021-03-31,CHRD,F1_spike_reversal 2020-03-13|F1_spike_reversal 2020-06-08
+T3 mom top-5 ew +crash,2021-04-30,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-5 ew +crash,2021-04-30,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-5 ew +crash,2021-04-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew +crash,2021-05-31,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-5 ew +crash,2021-05-31,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-5 ew +crash,2021-05-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-5 ew +crash,2021-06-30,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-5 ew +crash,2021-06-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew +crash,2021-06-30,AMTX,F2_split_like 2021-01-25
+T3 mom top-5 ew +crash,2021-07-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew +crash,2021-08-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-5 ew +crash,2021-08-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew +crash,2021-09-30,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-5 ew +crash,2021-09-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew +crash,2021-10-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew +crash,2021-11-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew +crash,2021-11-30,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-5 ew +crash,2021-12-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ew +crash,2021-12-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ew +crash,2022-01-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ew +crash,2022-01-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-5 ew +crash,2022-01-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-5 ew +crash,2022-02-28,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ew +crash,2022-03-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ew +crash,2022-03-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12|F3_stale_run 2021-04-20
+T3 mom top-5 ew +crash,2022-04-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ew +crash,2022-04-30,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12|F3_stale_run 2021-04-20
+T3 mom top-5 ew +crash,2022-05-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ew +crash,2022-05-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-5 ew +crash,2022-06-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ew +crash,2022-06-30,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-5 ew +crash,2022-07-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+T3 mom top-5 ew +crash,2022-07-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-5 ew +crash,2022-08-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+T3 mom top-5 ew +crash,2022-09-30,IVT,F2_split_like 2021-09-24
+T3 mom top-5 ew +crash,2023-06-30,BMEA,F2_split_like 2023-03-28
+T3 mom top-5 ew +crash,2023-07-31,APLD,F2_split_like 2022-07-19
+T3 mom top-5 ew +crash,2023-09-30,IMVT,F2_split_like 2023-09-26
+T3 mom top-5 ew +crash,2025-02-28,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew +crash,2025-03-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew +crash,2025-05-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew +crash,2025-06-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew +crash,2025-07-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew +crash,2025-08-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew +crash,2025-09-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew +crash,2025-10-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew +crash,2025-11-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ew +crash,2025-12-31,QURE,F2_split_like 2025-11-03
+T3 mom top-5 ivol,2010-01-31,CAR,F2_split_like 2009-03-20
+T3 mom top-5 ivol,2010-01-31,PIR,F1_spike_reversal 2009-02-24
+T3 mom top-5 ivol,2010-01-31,DAN,F2_split_like 2009-03-10
+T3 mom top-5 ivol,2010-02-28,CAR,F2_split_like 2009-03-20
+T3 mom top-5 ivol,2010-02-28,DAN,F2_split_like 2009-03-10
+T3 mom top-5 ivol,2010-02-28,PIR,F1_spike_reversal 2009-02-24
+T3 mom top-5 ivol,2010-03-31,DAN,F2_split_like 2009-03-10
+T3 mom top-5 ivol,2010-03-31,CAR,F2_split_like 2009-03-20
+T3 mom top-5 ivol,2010-06-30,WNC,F1_spike_reversal 2009-06-24
+T3 mom top-5 ivol,2011-04-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ivol,2011-06-30,SWSH,F3_stale_run 2010-06-04
+T3 mom top-5 ivol,2011-06-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ivol,2011-07-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ivol,2011-08-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ivol,2011-09-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ivol,2011-10-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ivol,2011-11-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-5 ivol,2012-12-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ivol,2013-01-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ivol,2013-02-28,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ivol,2013-03-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ivol,2013-04-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ivol,2013-05-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ivol,2013-06-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ivol,2013-07-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-5 ivol,2014-03-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ivol,2014-04-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ivol,2014-05-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ivol,2014-06-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ivol,2014-07-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ivol,2014-08-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ivol,2014-09-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ivol,2014-09-30,PBYI,F2_split_like 2014-07-23
+T3 mom top-5 ivol,2014-10-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-5 ivol,2014-10-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ivol,2014-11-30,PBYI,F2_split_like 2014-07-23
+T3 mom top-5 ivol,2014-11-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ivol,2014-12-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-5 ivol,2014-12-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-5 ivol,2016-07-31,ERII,F2_split_like 2015-10-20
+T3 mom top-5 ivol,2017-08-31,BCEI,F1_spike_reversal 2016-08-17
+T3 mom top-5 ivol,2018-02-28,RIOT,F1_spike_reversal 2017-11-24
+T3 mom top-5 ivol,2018-07-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ivol,2018-08-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-5 ivol,2018-09-30,VKTX,F2_split_like 2018-05-31
+T3 mom top-5 ivol,2018-09-30,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ivol,2018-10-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ivol,2018-10-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-5 ivol,2018-11-30,VKTX,F2_split_like 2018-05-31
+T3 mom top-5 ivol,2018-11-30,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ivol,2018-12-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ivol,2018-12-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-5 ivol,2019-01-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-5 ivol,2020-04-30,APT,F2_split_like 2020-02-27
+T3 mom top-5 ivol,2020-05-31,APT,F2_split_like 2020-02-27
+T3 mom top-5 ivol,2020-06-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-5 ivol,2020-07-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-5 ivol,2020-08-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-5 ivol,2020-09-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-5 ivol,2021-02-28,CHRD,F1_spike_reversal 2020-03-13|F1_spike_reversal 2020-06-08
+T3 mom top-5 ivol,2021-03-31,CHRD,F1_spike_reversal 2020-03-13|F1_spike_reversal 2020-06-08
+T3 mom top-5 ivol,2021-04-30,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-5 ivol,2021-04-30,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-5 ivol,2021-04-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ivol,2021-05-31,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-5 ivol,2021-05-31,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-5 ivol,2021-05-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-5 ivol,2021-06-30,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-5 ivol,2021-06-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ivol,2021-06-30,AMTX,F2_split_like 2021-01-25
+T3 mom top-5 ivol,2021-07-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ivol,2021-08-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-5 ivol,2021-08-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ivol,2021-09-30,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-5 ivol,2021-09-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ivol,2021-10-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ivol,2021-11-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ivol,2021-11-30,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-5 ivol,2021-12-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-5 ivol,2021-12-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ivol,2022-01-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ivol,2022-01-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-5 ivol,2022-01-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-5 ivol,2022-02-28,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ivol,2022-03-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ivol,2022-03-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12|F3_stale_run 2021-04-20
+T3 mom top-5 ivol,2022-04-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ivol,2022-04-30,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12|F3_stale_run 2021-04-20
+T3 mom top-5 ivol,2022-05-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ivol,2022-05-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-5 ivol,2022-06-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-5 ivol,2022-06-30,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-5 ivol,2022-07-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+T3 mom top-5 ivol,2022-07-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-5 ivol,2022-08-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+T3 mom top-5 ivol,2022-09-30,IVT,F2_split_like 2021-09-24
+T3 mom top-5 ivol,2023-06-30,BMEA,F2_split_like 2023-03-28
+T3 mom top-5 ivol,2023-07-31,APLD,F2_split_like 2022-07-19
+T3 mom top-5 ivol,2023-09-30,IMVT,F2_split_like 2023-09-26
+T3 mom top-5 ivol,2025-02-28,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ivol,2025-03-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ivol,2025-05-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ivol,2025-06-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ivol,2025-07-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ivol,2025-08-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ivol,2025-09-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ivol,2025-10-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ivol,2025-11-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-5 ivol,2025-12-31,QURE,F2_split_like 2025-11-03
+T3 mom top-10 ew,2010-01-31,CAR,F2_split_like 2009-03-20
+T3 mom top-10 ew,2010-01-31,PIR,F1_spike_reversal 2009-02-24
+T3 mom top-10 ew,2010-01-31,DAN,F2_split_like 2009-03-10
+T3 mom top-10 ew,2010-01-31,DNDN,F1_spike_reversal 2009-04-28|F2_split_like 2009-04-29
+T3 mom top-10 ew,2010-02-28,CAR,F2_split_like 2009-03-20
+T3 mom top-10 ew,2010-02-28,DAN,F2_split_like 2009-03-10
+T3 mom top-10 ew,2010-02-28,PIR,F1_spike_reversal 2009-02-24
+T3 mom top-10 ew,2010-02-28,DNDN,F1_spike_reversal 2009-04-28|F2_split_like 2009-04-29
+T3 mom top-10 ew,2010-03-31,DAN,F2_split_like 2009-03-10
+T3 mom top-10 ew,2010-03-31,CAR,F2_split_like 2009-03-20
+T3 mom top-10 ew,2010-06-30,WNC,F1_spike_reversal 2009-06-24
+T3 mom top-10 ew,2011-03-31,MDR,F2_split_like 2010-08-02
+T3 mom top-10 ew,2011-04-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ew,2011-05-31,MDR,F2_split_like 2010-08-02
+T3 mom top-10 ew,2011-05-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ew,2011-06-30,SWSH,F3_stale_run 2010-06-04
+T3 mom top-10 ew,2011-06-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ew,2011-07-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ew,2011-08-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ew,2011-09-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ew,2011-10-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ew,2011-11-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ew,2012-12-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ew,2013-01-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ew,2013-02-28,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ew,2013-03-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ew,2013-04-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ew,2013-05-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ew,2013-06-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ew,2013-07-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ew,2013-08-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ew,2013-09-30,CLVS,F2_split_like 2013-06-03
+T3 mom top-10 ew,2014-03-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ew,2014-04-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ew,2014-05-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ew,2014-06-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ew,2014-07-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ew,2014-08-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ew,2014-09-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ew,2014-09-30,PBYI,F2_split_like 2014-07-23
+T3 mom top-10 ew,2014-10-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-10 ew,2014-10-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ew,2014-11-30,PBYI,F2_split_like 2014-07-23
+T3 mom top-10 ew,2014-11-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ew,2014-12-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-10 ew,2014-12-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ew,2015-05-31,ASPX,F2_split_like 2014-12-17
+T3 mom top-10 ew,2016-07-31,ERII,F2_split_like 2015-10-20
+T3 mom top-10 ew,2017-08-31,BCEI,F1_spike_reversal 2016-08-17
+T3 mom top-10 ew,2018-01-31,RIOT,F1_spike_reversal 2017-11-24
+T3 mom top-10 ew,2018-02-28,RIOT,F1_spike_reversal 2017-11-24
+T3 mom top-10 ew,2018-02-28,ANAB,F2_split_like 2017-10-10
+T3 mom top-10 ew,2018-03-31,RIOT,F1_spike_reversal 2017-11-24
+T3 mom top-10 ew,2018-03-31,ANAB,F2_split_like 2017-10-10
+T3 mom top-10 ew,2018-03-31,GYRE,F2_split_like 2017-03-28
+T3 mom top-10 ew,2018-04-30,ANAB,F2_split_like 2017-10-10
+T3 mom top-10 ew,2018-05-31,ANAB,F2_split_like 2017-10-10
+T3 mom top-10 ew,2018-06-30,ANAB,F2_split_like 2017-10-10
+T3 mom top-10 ew,2018-07-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-10 ew,2018-08-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-10 ew,2018-08-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-10 ew,2018-09-30,VKTX,F2_split_like 2018-05-31
+T3 mom top-10 ew,2018-09-30,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-10 ew,2018-10-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-10 ew,2018-10-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-10 ew,2018-11-30,VKTX,F2_split_like 2018-05-31
+T3 mom top-10 ew,2018-11-30,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-10 ew,2018-12-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-10 ew,2018-12-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-10 ew,2019-01-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-10 ew,2019-01-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-10 ew,2020-04-30,APT,F2_split_like 2020-02-27
+T3 mom top-10 ew,2020-05-31,APT,F2_split_like 2020-02-27
+T3 mom top-10 ew,2020-06-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-10 ew,2020-06-30,APT,F2_split_like 2020-02-27
+T3 mom top-10 ew,2020-07-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-10 ew,2020-08-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-10 ew,2020-08-31,APT,F2_split_like 2020-02-27
+T3 mom top-10 ew,2020-09-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-10 ew,2020-09-30,APT,F2_split_like 2020-02-27
+T3 mom top-10 ew,2020-10-31,MCRB,F2_split_like 2020-08-10
+T3 mom top-10 ew,2020-11-30,MCRB,F2_split_like 2020-08-10
+T3 mom top-10 ew,2020-12-31,MCRB,F2_split_like 2020-08-10
+T3 mom top-10 ew,2021-02-28,CHRD,F1_spike_reversal 2020-03-13|F1_spike_reversal 2020-06-08
+T3 mom top-10 ew,2021-03-31,CHRD,F1_spike_reversal 2020-03-13|F1_spike_reversal 2020-06-08
+T3 mom top-10 ew,2021-04-30,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-10 ew,2021-04-30,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-10 ew,2021-04-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ew,2021-05-31,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-10 ew,2021-05-31,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-10 ew,2021-05-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-10 ew,2021-05-31,RTB,F2_split_like 2020-06-19
+T3 mom top-10 ew,2021-05-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ew,2021-06-30,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-10 ew,2021-06-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ew,2021-06-30,AMTX,F2_split_like 2021-01-25
+T3 mom top-10 ew,2021-06-30,RTB,F2_split_like 2020-06-19
+T3 mom top-10 ew,2021-06-30,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-10 ew,2021-07-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ew,2021-07-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-10 ew,2021-07-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-10 ew,2021-08-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-10 ew,2021-08-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ew,2021-08-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-10 ew,2021-09-30,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-10 ew,2021-09-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ew,2021-09-30,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-10 ew,2021-10-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ew,2021-10-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-10 ew,2021-11-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ew,2021-11-30,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-10 ew,2021-12-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ew,2021-12-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-10 ew,2021-12-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-10 ew,2021-12-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-10 ew,2022-01-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-10 ew,2022-01-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-10 ew,2022-01-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-10 ew,2022-01-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-10 ew,2022-02-28,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-10 ew,2022-03-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-10 ew,2022-03-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12|F3_stale_run 2021-04-20
+T3 mom top-10 ew,2022-04-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-10 ew,2022-04-30,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12|F3_stale_run 2021-04-20
+T3 mom top-10 ew,2022-05-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-10 ew,2022-05-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-10 ew,2022-06-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-10 ew,2022-06-30,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-10 ew,2022-07-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+T3 mom top-10 ew,2022-07-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-10 ew,2022-08-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+T3 mom top-10 ew,2022-09-30,IVT,F2_split_like 2021-09-24
+T3 mom top-10 ew,2022-09-30,SIGA,F1_spike_reversal 2022-05-20
+T3 mom top-10 ew,2022-10-31,XENE,F2_split_like 2021-10-04
+T3 mom top-10 ew,2023-06-30,BMEA,F2_split_like 2023-03-28
+T3 mom top-10 ew,2023-07-31,APLD,F2_split_like 2022-07-19
+T3 mom top-10 ew,2023-08-31,TGTX,F2_split_like 2023-08-01
+T3 mom top-10 ew,2023-09-30,IMVT,F2_split_like 2023-09-26
+T3 mom top-10 ew,2023-10-31,IMVT,F2_split_like 2023-09-26
+T3 mom top-10 ew,2023-11-30,IMVT,F2_split_like 2023-09-26
+T3 mom top-10 ew,2025-01-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ew,2025-02-28,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ew,2025-03-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ew,2025-04-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ew,2025-05-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ew,2025-05-31,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-10 ew,2025-06-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ew,2025-07-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ew,2025-08-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ew,2025-09-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ew,2025-09-30,ALMU,F1_spike_reversal 2024-12-17
+T3 mom top-10 ew,2025-10-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ew,2025-11-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ew,2025-11-30,QURE,F2_split_like 2025-11-03
+T3 mom top-10 ew,2025-11-30,UAMY,F1_spike_reversal 2024-12-06
+T3 mom top-10 ew,2025-12-31,QURE,F2_split_like 2025-11-03
+T3 mom top-10 ew,2025-12-31,UAMY,F1_spike_reversal 2024-12-06
+T3 mom top-10 ew,2025-12-31,CTEV,F2_split_like 2024-12-24
+T3 mom top-10 ew,2026-01-31,INBX,F2_split_like 2025-10-24
+T3 mom top-10 ew,2026-02-28,INBX,F2_split_like 2025-10-24
+T3 mom top-10 ew,2026-03-31,CTMX,F1_spike_reversal 2026-03-16
+T3 mom top-10 ew,2026-07-31,NUAI,F1_spike_reversal 2025-09-11
+T3 mom top-10 ew,2026-09-30,ALMS,F2_split_like 2026-01-06
+T3 mom top-10 ivol,2010-01-31,CAR,F2_split_like 2009-03-20
+T3 mom top-10 ivol,2010-01-31,PIR,F1_spike_reversal 2009-02-24
+T3 mom top-10 ivol,2010-01-31,DAN,F2_split_like 2009-03-10
+T3 mom top-10 ivol,2010-01-31,DNDN,F1_spike_reversal 2009-04-28|F2_split_like 2009-04-29
+T3 mom top-10 ivol,2010-02-28,CAR,F2_split_like 2009-03-20
+T3 mom top-10 ivol,2010-02-28,DAN,F2_split_like 2009-03-10
+T3 mom top-10 ivol,2010-02-28,PIR,F1_spike_reversal 2009-02-24
+T3 mom top-10 ivol,2010-02-28,DNDN,F1_spike_reversal 2009-04-28|F2_split_like 2009-04-29
+T3 mom top-10 ivol,2010-03-31,DAN,F2_split_like 2009-03-10
+T3 mom top-10 ivol,2010-03-31,CAR,F2_split_like 2009-03-20
+T3 mom top-10 ivol,2010-06-30,WNC,F1_spike_reversal 2009-06-24
+T3 mom top-10 ivol,2011-03-31,MDR,F2_split_like 2010-08-02
+T3 mom top-10 ivol,2011-04-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ivol,2011-05-31,MDR,F2_split_like 2010-08-02
+T3 mom top-10 ivol,2011-05-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ivol,2011-06-30,SWSH,F3_stale_run 2010-06-04
+T3 mom top-10 ivol,2011-06-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ivol,2011-07-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ivol,2011-08-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ivol,2011-09-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ivol,2011-10-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ivol,2011-11-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-10 ivol,2012-12-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ivol,2013-01-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ivol,2013-02-28,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ivol,2013-03-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ivol,2013-04-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ivol,2013-05-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ivol,2013-06-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ivol,2013-07-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ivol,2013-08-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-10 ivol,2013-09-30,CLVS,F2_split_like 2013-06-03
+T3 mom top-10 ivol,2014-03-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ivol,2014-04-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ivol,2014-05-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ivol,2014-06-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ivol,2014-07-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ivol,2014-08-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ivol,2014-09-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ivol,2014-09-30,PBYI,F2_split_like 2014-07-23
+T3 mom top-10 ivol,2014-10-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-10 ivol,2014-10-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ivol,2014-11-30,PBYI,F2_split_like 2014-07-23
+T3 mom top-10 ivol,2014-11-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ivol,2014-12-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-10 ivol,2014-12-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-10 ivol,2015-05-31,ASPX,F2_split_like 2014-12-17
+T3 mom top-10 ivol,2016-07-31,ERII,F2_split_like 2015-10-20
+T3 mom top-10 ivol,2017-08-31,BCEI,F1_spike_reversal 2016-08-17
+T3 mom top-10 ivol,2018-01-31,RIOT,F1_spike_reversal 2017-11-24
+T3 mom top-10 ivol,2018-02-28,RIOT,F1_spike_reversal 2017-11-24
+T3 mom top-10 ivol,2018-02-28,ANAB,F2_split_like 2017-10-10
+T3 mom top-10 ivol,2018-03-31,RIOT,F1_spike_reversal 2017-11-24
+T3 mom top-10 ivol,2018-03-31,ANAB,F2_split_like 2017-10-10
+T3 mom top-10 ivol,2018-03-31,GYRE,F2_split_like 2017-03-28
+T3 mom top-10 ivol,2018-04-30,ANAB,F2_split_like 2017-10-10
+T3 mom top-10 ivol,2018-05-31,ANAB,F2_split_like 2017-10-10
+T3 mom top-10 ivol,2018-06-30,ANAB,F2_split_like 2017-10-10
+T3 mom top-10 ivol,2018-07-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-10 ivol,2018-08-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-10 ivol,2018-08-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-10 ivol,2018-09-30,VKTX,F2_split_like 2018-05-31
+T3 mom top-10 ivol,2018-09-30,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-10 ivol,2018-10-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-10 ivol,2018-10-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-10 ivol,2018-11-30,VKTX,F2_split_like 2018-05-31
+T3 mom top-10 ivol,2018-11-30,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-10 ivol,2018-12-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-10 ivol,2018-12-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-10 ivol,2019-01-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-10 ivol,2019-01-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-10 ivol,2020-04-30,APT,F2_split_like 2020-02-27
+T3 mom top-10 ivol,2020-05-31,APT,F2_split_like 2020-02-27
+T3 mom top-10 ivol,2020-06-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-10 ivol,2020-06-30,APT,F2_split_like 2020-02-27
+T3 mom top-10 ivol,2020-07-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-10 ivol,2020-08-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-10 ivol,2020-08-31,APT,F2_split_like 2020-02-27
+T3 mom top-10 ivol,2020-09-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-10 ivol,2020-09-30,APT,F2_split_like 2020-02-27
+T3 mom top-10 ivol,2020-10-31,MCRB,F2_split_like 2020-08-10
+T3 mom top-10 ivol,2020-11-30,MCRB,F2_split_like 2020-08-10
+T3 mom top-10 ivol,2020-12-31,MCRB,F2_split_like 2020-08-10
+T3 mom top-10 ivol,2021-02-28,CHRD,F1_spike_reversal 2020-03-13|F1_spike_reversal 2020-06-08
+T3 mom top-10 ivol,2021-03-31,CHRD,F1_spike_reversal 2020-03-13|F1_spike_reversal 2020-06-08
+T3 mom top-10 ivol,2021-04-30,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-10 ivol,2021-04-30,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-10 ivol,2021-04-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ivol,2021-05-31,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-10 ivol,2021-05-31,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-10 ivol,2021-05-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-10 ivol,2021-05-31,RTB,F2_split_like 2020-06-19
+T3 mom top-10 ivol,2021-05-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ivol,2021-06-30,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-10 ivol,2021-06-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ivol,2021-06-30,AMTX,F2_split_like 2021-01-25
+T3 mom top-10 ivol,2021-06-30,RTB,F2_split_like 2020-06-19
+T3 mom top-10 ivol,2021-06-30,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-10 ivol,2021-07-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ivol,2021-07-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-10 ivol,2021-07-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-10 ivol,2021-08-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-10 ivol,2021-08-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ivol,2021-08-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-10 ivol,2021-09-30,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-10 ivol,2021-09-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ivol,2021-09-30,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-10 ivol,2021-10-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ivol,2021-10-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-10 ivol,2021-11-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ivol,2021-11-30,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-10 ivol,2021-12-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-10 ivol,2021-12-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-10 ivol,2021-12-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-10 ivol,2021-12-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-10 ivol,2022-01-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-10 ivol,2022-01-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-10 ivol,2022-01-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-10 ivol,2022-01-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-10 ivol,2022-02-28,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-10 ivol,2022-03-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-10 ivol,2022-03-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12|F3_stale_run 2021-04-20
+T3 mom top-10 ivol,2022-04-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-10 ivol,2022-04-30,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12|F3_stale_run 2021-04-20
+T3 mom top-10 ivol,2022-05-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-10 ivol,2022-05-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-10 ivol,2022-06-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-10 ivol,2022-06-30,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-10 ivol,2022-07-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+T3 mom top-10 ivol,2022-07-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-10 ivol,2022-08-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+T3 mom top-10 ivol,2022-09-30,IVT,F2_split_like 2021-09-24
+T3 mom top-10 ivol,2022-09-30,SIGA,F1_spike_reversal 2022-05-20
+T3 mom top-10 ivol,2022-10-31,XENE,F2_split_like 2021-10-04
+T3 mom top-10 ivol,2023-06-30,BMEA,F2_split_like 2023-03-28
+T3 mom top-10 ivol,2023-07-31,APLD,F2_split_like 2022-07-19
+T3 mom top-10 ivol,2023-08-31,TGTX,F2_split_like 2023-08-01
+T3 mom top-10 ivol,2023-09-30,IMVT,F2_split_like 2023-09-26
+T3 mom top-10 ivol,2023-10-31,IMVT,F2_split_like 2023-09-26
+T3 mom top-10 ivol,2023-11-30,IMVT,F2_split_like 2023-09-26
+T3 mom top-10 ivol,2025-01-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ivol,2025-02-28,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ivol,2025-03-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ivol,2025-04-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ivol,2025-05-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ivol,2025-05-31,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-10 ivol,2025-06-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ivol,2025-07-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ivol,2025-08-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ivol,2025-09-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ivol,2025-09-30,ALMU,F1_spike_reversal 2024-12-17
+T3 mom top-10 ivol,2025-10-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ivol,2025-11-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-10 ivol,2025-11-30,QURE,F2_split_like 2025-11-03
+T3 mom top-10 ivol,2025-11-30,UAMY,F1_spike_reversal 2024-12-06
+T3 mom top-10 ivol,2025-12-31,QURE,F2_split_like 2025-11-03
+T3 mom top-10 ivol,2025-12-31,UAMY,F1_spike_reversal 2024-12-06
+T3 mom top-10 ivol,2025-12-31,CTEV,F2_split_like 2024-12-24
+T3 mom top-10 ivol,2026-01-31,INBX,F2_split_like 2025-10-24
+T3 mom top-10 ivol,2026-02-28,INBX,F2_split_like 2025-10-24
+T3 mom top-10 ivol,2026-03-31,CTMX,F1_spike_reversal 2026-03-16
+T3 mom top-10 ivol,2026-07-31,NUAI,F1_spike_reversal 2025-09-11
+T3 mom top-10 ivol,2026-09-30,ALMS,F2_split_like 2026-01-06
+T3 mom top-20 ew,2010-01-31,CAR,F2_split_like 2009-03-20
+T3 mom top-20 ew,2010-01-31,PIR,F1_spike_reversal 2009-02-24
+T3 mom top-20 ew,2010-01-31,DAN,F2_split_like 2009-03-10
+T3 mom top-20 ew,2010-01-31,DNDN,F1_spike_reversal 2009-04-28|F2_split_like 2009-04-29
+T3 mom top-20 ew,2010-02-28,CAR,F2_split_like 2009-03-20
+T3 mom top-20 ew,2010-02-28,DAN,F2_split_like 2009-03-10
+T3 mom top-20 ew,2010-02-28,PIR,F1_spike_reversal 2009-02-24
+T3 mom top-20 ew,2010-02-28,DNDN,F1_spike_reversal 2009-04-28|F2_split_like 2009-04-29
+T3 mom top-20 ew,2010-03-31,DAN,F2_split_like 2009-03-10
+T3 mom top-20 ew,2010-03-31,CAR,F2_split_like 2009-03-20
+T3 mom top-20 ew,2010-03-31,DNDN,F1_spike_reversal 2009-04-28|F2_split_like 2009-04-29
+T3 mom top-20 ew,2010-04-30,DNDN,F1_spike_reversal 2009-04-28|F2_split_like 2009-04-29
+T3 mom top-20 ew,2010-06-30,WNC,F1_spike_reversal 2009-06-24
+T3 mom top-20 ew,2010-12-31,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ew,2011-01-31,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ew,2011-02-28,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ew,2011-03-31,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ew,2011-04-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ew,2011-04-30,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ew,2011-05-31,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ew,2011-05-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ew,2011-06-30,SWSH,F3_stale_run 2010-06-04
+T3 mom top-20 ew,2011-06-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ew,2011-06-30,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ew,2011-07-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ew,2011-07-31,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ew,2011-08-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ew,2011-08-31,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ew,2011-09-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ew,2011-10-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ew,2011-11-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ew,2012-11-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ew,2012-12-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ew,2013-01-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ew,2013-02-28,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ew,2013-03-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ew,2013-04-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ew,2013-05-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ew,2013-06-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ew,2013-07-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ew,2013-08-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ew,2013-08-31,CLVS,F2_split_like 2013-06-03
+T3 mom top-20 ew,2013-09-30,CLVS,F2_split_like 2013-06-03
+T3 mom top-20 ew,2013-10-31,CLVS,F2_split_like 2013-06-03
+T3 mom top-20 ew,2014-01-31,CLVS,F2_split_like 2013-06-03
+T3 mom top-20 ew,2014-03-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ew,2014-04-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ew,2014-04-30,VNDA,F2_split_like 2013-11-12
+T3 mom top-20 ew,2014-05-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ew,2014-06-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ew,2014-07-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ew,2014-07-31,INO,F1_spike_reversal 2013-08-05
+T3 mom top-20 ew,2014-08-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ew,2014-09-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ew,2014-09-30,PBYI,F2_split_like 2014-07-23
+T3 mom top-20 ew,2014-10-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-20 ew,2014-10-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ew,2014-11-30,PBYI,F2_split_like 2014-07-23
+T3 mom top-20 ew,2014-11-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ew,2014-12-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-20 ew,2014-12-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ew,2014-12-31,LAKE,F1_spike_reversal 2014-10-13
+T3 mom top-20 ew,2015-01-31,RGLS,F2_split_like 2014-10-22
+T3 mom top-20 ew,2015-03-31,ASPX,F2_split_like 2014-12-17
+T3 mom top-20 ew,2015-05-31,ASPX,F2_split_like 2014-12-17
+T3 mom top-20 ew,2015-05-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-20 ew,2015-07-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-20 ew,2016-07-31,ERII,F2_split_like 2015-10-20
+T3 mom top-20 ew,2017-08-31,BCEI,F1_spike_reversal 2016-08-17
+T3 mom top-20 ew,2018-01-31,RIOT,F1_spike_reversal 2017-11-24
+T3 mom top-20 ew,2018-02-28,RIOT,F1_spike_reversal 2017-11-24
+T3 mom top-20 ew,2018-02-28,ANAB,F2_split_like 2017-10-10
+T3 mom top-20 ew,2018-03-31,RIOT,F1_spike_reversal 2017-11-24
+T3 mom top-20 ew,2018-03-31,ANAB,F2_split_like 2017-10-10
+T3 mom top-20 ew,2018-03-31,GYRE,F2_split_like 2017-03-28
+T3 mom top-20 ew,2018-04-30,ANAB,F2_split_like 2017-10-10
+T3 mom top-20 ew,2018-05-31,ANAB,F2_split_like 2017-10-10
+T3 mom top-20 ew,2018-06-30,ANAB,F2_split_like 2017-10-10
+T3 mom top-20 ew,2018-07-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-20 ew,2018-07-31,ANAB,F2_split_like 2017-10-10
+T3 mom top-20 ew,2018-08-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-20 ew,2018-08-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-20 ew,2018-09-30,VKTX,F2_split_like 2018-05-31
+T3 mom top-20 ew,2018-09-30,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-20 ew,2018-10-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-20 ew,2018-10-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-20 ew,2018-11-30,VKTX,F2_split_like 2018-05-31
+T3 mom top-20 ew,2018-11-30,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-20 ew,2018-12-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-20 ew,2018-12-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-20 ew,2019-01-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-20 ew,2019-01-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-20 ew,2019-05-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-20 ew,2020-04-30,APT,F2_split_like 2020-02-27
+T3 mom top-20 ew,2020-05-31,APT,F2_split_like 2020-02-27
+T3 mom top-20 ew,2020-05-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-20 ew,2020-06-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-20 ew,2020-06-30,APT,F2_split_like 2020-02-27
+T3 mom top-20 ew,2020-07-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-20 ew,2020-07-31,APT,F2_split_like 2020-02-27
+T3 mom top-20 ew,2020-08-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-20 ew,2020-08-31,APT,F2_split_like 2020-02-27
+T3 mom top-20 ew,2020-08-31,DKNG,F3_stale_run 2019-08-20
+T3 mom top-20 ew,2020-09-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-20 ew,2020-09-30,APT,F2_split_like 2020-02-27
+T3 mom top-20 ew,2020-10-31,MCRB,F2_split_like 2020-08-10
+T3 mom top-20 ew,2020-10-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-20 ew,2020-11-30,MCRB,F2_split_like 2020-08-10
+T3 mom top-20 ew,2020-11-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-20 ew,2020-12-31,MCRB,F2_split_like 2020-08-10
+T3 mom top-20 ew,2020-12-31,APT,F2_split_like 2020-02-27
+T3 mom top-20 ew,2021-01-31,MCRB,F2_split_like 2020-08-10
+T3 mom top-20 ew,2021-02-28,CHRD,F1_spike_reversal 2020-03-13|F1_spike_reversal 2020-06-08
+T3 mom top-20 ew,2021-02-28,MCRB,F2_split_like 2020-08-10
+T3 mom top-20 ew,2021-03-31,CHRD,F1_spike_reversal 2020-03-13|F1_spike_reversal 2020-06-08
+T3 mom top-20 ew,2021-04-30,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-20 ew,2021-04-30,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-20 ew,2021-04-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ew,2021-04-30,CPSH,F1_spike_reversal 2020-06-30
+T3 mom top-20 ew,2021-04-30,AMTX,F2_split_like 2021-01-25
+T3 mom top-20 ew,2021-05-31,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-20 ew,2021-05-31,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-20 ew,2021-05-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-20 ew,2021-05-31,RTB,F2_split_like 2020-06-19
+T3 mom top-20 ew,2021-05-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ew,2021-06-30,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-20 ew,2021-06-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ew,2021-06-30,AMTX,F2_split_like 2021-01-25
+T3 mom top-20 ew,2021-06-30,RTB,F2_split_like 2020-06-19
+T3 mom top-20 ew,2021-06-30,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-20 ew,2021-06-30,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-20 ew,2021-07-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ew,2021-07-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-20 ew,2021-07-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-20 ew,2021-07-31,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-20 ew,2021-08-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-20 ew,2021-08-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ew,2021-08-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-20 ew,2021-08-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-20 ew,2021-08-31,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-20 ew,2021-09-30,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-20 ew,2021-09-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ew,2021-09-30,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-20 ew,2021-09-30,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-20 ew,2021-10-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ew,2021-10-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-20 ew,2021-10-31,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-20 ew,2021-11-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ew,2021-11-30,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-20 ew,2021-11-30,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-20 ew,2021-12-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ew,2021-12-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-20 ew,2021-12-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-20 ew,2021-12-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-20 ew,2021-12-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-20 ew,2022-01-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-20 ew,2022-01-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-20 ew,2022-01-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-20 ew,2022-01-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-20 ew,2022-02-28,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-20 ew,2022-02-28,TULP,F2_split_like 2021-12-06
+T3 mom top-20 ew,2022-03-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-20 ew,2022-03-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12|F3_stale_run 2021-04-20
+T3 mom top-20 ew,2022-04-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-20 ew,2022-04-30,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12|F3_stale_run 2021-04-20
+T3 mom top-20 ew,2022-05-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-20 ew,2022-05-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-20 ew,2022-06-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-20 ew,2022-06-30,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-20 ew,2022-07-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+T3 mom top-20 ew,2022-07-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-20 ew,2022-08-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+T3 mom top-20 ew,2022-09-30,IVT,F2_split_like 2021-09-24
+T3 mom top-20 ew,2022-09-30,SIGA,F1_spike_reversal 2022-05-20
+T3 mom top-20 ew,2022-10-31,XENE,F2_split_like 2021-10-04
+T3 mom top-20 ew,2022-10-31,SIGA,F1_spike_reversal 2022-05-20
+T3 mom top-20 ew,2023-06-30,BMEA,F2_split_like 2023-03-28
+T3 mom top-20 ew,2023-07-31,APLD,F2_split_like 2022-07-19
+T3 mom top-20 ew,2023-07-31,BMEA,F2_split_like 2023-03-28
+T3 mom top-20 ew,2023-08-31,TGTX,F2_split_like 2023-08-01
+T3 mom top-20 ew,2023-09-30,IMVT,F2_split_like 2023-09-26
+T3 mom top-20 ew,2023-09-30,TGTX,F2_split_like 2023-08-01
+T3 mom top-20 ew,2023-10-31,IMVT,F2_split_like 2023-09-26
+T3 mom top-20 ew,2023-11-30,IMVT,F2_split_like 2023-09-26
+T3 mom top-20 ew,2023-12-31,IMVT,F2_split_like 2023-09-26
+T3 mom top-20 ew,2024-09-30,CATX,F1_spike_reversal 2023-09-15
+T3 mom top-20 ew,2024-11-30,CATX,F2_split_like 2024-11-21
+T3 mom top-20 ew,2025-01-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ew,2025-02-28,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ew,2025-02-28,QMCO,F2_split_like 2024-06-18
+T3 mom top-20 ew,2025-03-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ew,2025-03-31,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-20 ew,2025-04-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ew,2025-04-30,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-20 ew,2025-04-30,LTBR,F1_spike_reversal 2025-01-23
+T3 mom top-20 ew,2025-05-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ew,2025-05-31,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-20 ew,2025-06-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ew,2025-06-30,LTBR,F1_spike_reversal 2025-01-23
+T3 mom top-20 ew,2025-07-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ew,2025-08-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ew,2025-08-31,TRON,F1_spike_reversal 2024-09-05|F2_split_like 2025-02-14
+T3 mom top-20 ew,2025-08-31,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-20 ew,2025-09-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ew,2025-09-30,ALMU,F1_spike_reversal 2024-12-17
+T3 mom top-20 ew,2025-09-30,NAKA,F1_spike_reversal 2025-09-09
+T3 mom top-20 ew,2025-09-30,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-20 ew,2025-10-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ew,2025-10-31,CTEV,F2_split_like 2024-12-24
+T3 mom top-20 ew,2025-10-31,ALMU,F1_spike_reversal 2024-12-17
+T3 mom top-20 ew,2025-10-31,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-20 ew,2025-10-31,UAMY,F1_spike_reversal 2024-12-06
+T3 mom top-20 ew,2025-10-31,LTBR,F1_spike_reversal 2025-01-23
+T3 mom top-20 ew,2025-11-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ew,2025-11-30,QURE,F2_split_like 2025-11-03
+T3 mom top-20 ew,2025-11-30,UAMY,F1_spike_reversal 2024-12-06
+T3 mom top-20 ew,2025-11-30,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-20 ew,2025-11-30,CTEV,F2_split_like 2024-12-24
+T3 mom top-20 ew,2025-12-31,QURE,F2_split_like 2025-11-03
+T3 mom top-20 ew,2025-12-31,UAMY,F1_spike_reversal 2024-12-06
+T3 mom top-20 ew,2025-12-31,CTEV,F2_split_like 2024-12-24
+T3 mom top-20 ew,2025-12-31,INBX,F2_split_like 2025-10-24
+T3 mom top-20 ew,2026-01-31,INBX,F2_split_like 2025-10-24
+T3 mom top-20 ew,2026-01-31,OPEN,F1_spike_reversal 2025-07-21
+T3 mom top-20 ew,2026-02-28,INBX,F2_split_like 2025-10-24
+T3 mom top-20 ew,2026-02-28,OPEN,F1_spike_reversal 2025-07-21
+T3 mom top-20 ew,2026-03-31,CTMX,F1_spike_reversal 2026-03-16
+T3 mom top-20 ew,2026-03-31,INBX,F2_split_like 2025-10-24
+T3 mom top-20 ew,2026-06-30,INBX,F2_split_like 2025-10-24
+T3 mom top-20 ew,2026-06-30,OPEN,F1_spike_reversal 2025-07-21
+T3 mom top-20 ew,2026-07-31,NUAI,F1_spike_reversal 2025-09-11
+T3 mom top-20 ew,2026-07-31,INBX,F2_split_like 2025-10-24
+T3 mom top-20 ew,2026-07-31,ALMS,F2_split_like 2026-01-06
+T3 mom top-20 ew,2026-08-31,ALMS,F2_split_like 2026-01-06
+T3 mom top-20 ew,2026-09-30,ALMS,F2_split_like 2026-01-06
+T3 mom top-20 ivol,2010-01-31,CAR,F2_split_like 2009-03-20
+T3 mom top-20 ivol,2010-01-31,PIR,F1_spike_reversal 2009-02-24
+T3 mom top-20 ivol,2010-01-31,DAN,F2_split_like 2009-03-10
+T3 mom top-20 ivol,2010-01-31,DNDN,F1_spike_reversal 2009-04-28|F2_split_like 2009-04-29
+T3 mom top-20 ivol,2010-02-28,CAR,F2_split_like 2009-03-20
+T3 mom top-20 ivol,2010-02-28,DAN,F2_split_like 2009-03-10
+T3 mom top-20 ivol,2010-02-28,PIR,F1_spike_reversal 2009-02-24
+T3 mom top-20 ivol,2010-02-28,DNDN,F1_spike_reversal 2009-04-28|F2_split_like 2009-04-29
+T3 mom top-20 ivol,2010-03-31,DAN,F2_split_like 2009-03-10
+T3 mom top-20 ivol,2010-03-31,CAR,F2_split_like 2009-03-20
+T3 mom top-20 ivol,2010-03-31,DNDN,F1_spike_reversal 2009-04-28|F2_split_like 2009-04-29
+T3 mom top-20 ivol,2010-04-30,DNDN,F1_spike_reversal 2009-04-28|F2_split_like 2009-04-29
+T3 mom top-20 ivol,2010-06-30,WNC,F1_spike_reversal 2009-06-24
+T3 mom top-20 ivol,2010-12-31,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ivol,2011-01-31,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ivol,2011-02-28,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ivol,2011-03-31,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ivol,2011-04-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ivol,2011-04-30,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ivol,2011-05-31,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ivol,2011-05-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ivol,2011-06-30,SWSH,F3_stale_run 2010-06-04
+T3 mom top-20 ivol,2011-06-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ivol,2011-06-30,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ivol,2011-07-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ivol,2011-07-31,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ivol,2011-08-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ivol,2011-08-31,MDR,F2_split_like 2010-08-02
+T3 mom top-20 ivol,2011-09-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ivol,2011-10-31,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ivol,2011-11-30,AMRN,F2_split_like 2011-04-18
+T3 mom top-20 ivol,2012-11-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ivol,2012-12-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ivol,2013-01-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ivol,2013-02-28,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ivol,2013-03-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ivol,2013-04-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ivol,2013-05-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ivol,2013-06-30,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ivol,2013-07-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ivol,2013-08-31,SRPT,F2_split_like 2012-10-03
+T3 mom top-20 ivol,2013-08-31,CLVS,F2_split_like 2013-06-03
+T3 mom top-20 ivol,2013-09-30,CLVS,F2_split_like 2013-06-03
+T3 mom top-20 ivol,2013-10-31,CLVS,F2_split_like 2013-06-03
+T3 mom top-20 ivol,2014-01-31,CLVS,F2_split_like 2013-06-03
+T3 mom top-20 ivol,2014-03-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ivol,2014-04-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ivol,2014-04-30,VNDA,F2_split_like 2013-11-12
+T3 mom top-20 ivol,2014-05-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ivol,2014-06-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ivol,2014-07-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ivol,2014-07-31,INO,F1_spike_reversal 2013-08-05
+T3 mom top-20 ivol,2014-08-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ivol,2014-09-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ivol,2014-09-30,PBYI,F2_split_like 2014-07-23
+T3 mom top-20 ivol,2014-10-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-20 ivol,2014-10-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ivol,2014-11-30,PBYI,F2_split_like 2014-07-23
+T3 mom top-20 ivol,2014-11-30,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ivol,2014-12-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-20 ivol,2014-12-31,ICPT,F1_spike_reversal 2014-01-10
+T3 mom top-20 ivol,2014-12-31,LAKE,F1_spike_reversal 2014-10-13
+T3 mom top-20 ivol,2015-01-31,RGLS,F2_split_like 2014-10-22
+T3 mom top-20 ivol,2015-03-31,ASPX,F2_split_like 2014-12-17
+T3 mom top-20 ivol,2015-05-31,ASPX,F2_split_like 2014-12-17
+T3 mom top-20 ivol,2015-05-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-20 ivol,2015-07-31,PBYI,F2_split_like 2014-07-23
+T3 mom top-20 ivol,2016-07-31,ERII,F2_split_like 2015-10-20
+T3 mom top-20 ivol,2017-08-31,BCEI,F1_spike_reversal 2016-08-17
+T3 mom top-20 ivol,2018-01-31,RIOT,F1_spike_reversal 2017-11-24
+T3 mom top-20 ivol,2018-02-28,RIOT,F1_spike_reversal 2017-11-24
+T3 mom top-20 ivol,2018-02-28,ANAB,F2_split_like 2017-10-10
+T3 mom top-20 ivol,2018-03-31,RIOT,F1_spike_reversal 2017-11-24
+T3 mom top-20 ivol,2018-03-31,ANAB,F2_split_like 2017-10-10
+T3 mom top-20 ivol,2018-03-31,GYRE,F2_split_like 2017-03-28
+T3 mom top-20 ivol,2018-04-30,ANAB,F2_split_like 2017-10-10
+T3 mom top-20 ivol,2018-05-31,ANAB,F2_split_like 2017-10-10
+T3 mom top-20 ivol,2018-06-30,ANAB,F2_split_like 2017-10-10
+T3 mom top-20 ivol,2018-07-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-20 ivol,2018-07-31,ANAB,F2_split_like 2017-10-10
+T3 mom top-20 ivol,2018-08-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-20 ivol,2018-08-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-20 ivol,2018-09-30,VKTX,F2_split_like 2018-05-31
+T3 mom top-20 ivol,2018-09-30,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-20 ivol,2018-10-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-20 ivol,2018-10-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-20 ivol,2018-11-30,VKTX,F2_split_like 2018-05-31
+T3 mom top-20 ivol,2018-11-30,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-20 ivol,2018-12-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-20 ivol,2018-12-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-20 ivol,2019-01-31,TBCH,F1_spike_reversal 2018-01-12
+T3 mom top-20 ivol,2019-01-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-20 ivol,2019-05-31,VKTX,F2_split_like 2018-05-31
+T3 mom top-20 ivol,2020-04-30,APT,F2_split_like 2020-02-27
+T3 mom top-20 ivol,2020-05-31,APT,F2_split_like 2020-02-27
+T3 mom top-20 ivol,2020-05-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-20 ivol,2020-06-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-20 ivol,2020-06-30,APT,F2_split_like 2020-02-27
+T3 mom top-20 ivol,2020-07-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-20 ivol,2020-07-31,APT,F2_split_like 2020-02-27
+T3 mom top-20 ivol,2020-08-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-20 ivol,2020-08-31,APT,F2_split_like 2020-02-27
+T3 mom top-20 ivol,2020-08-31,DKNG,F3_stale_run 2019-08-20
+T3 mom top-20 ivol,2020-09-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-20 ivol,2020-09-30,APT,F2_split_like 2020-02-27
+T3 mom top-20 ivol,2020-10-31,MCRB,F2_split_like 2020-08-10
+T3 mom top-20 ivol,2020-10-31,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-20 ivol,2020-11-30,MCRB,F2_split_like 2020-08-10
+T3 mom top-20 ivol,2020-11-30,INO,F1_spike_reversal 2020-03-06|F1_spike_reversal 2020-03-10|F1_spike_reversal 2020-03-11
+T3 mom top-20 ivol,2020-12-31,MCRB,F2_split_like 2020-08-10
+T3 mom top-20 ivol,2020-12-31,APT,F2_split_like 2020-02-27
+T3 mom top-20 ivol,2021-01-31,MCRB,F2_split_like 2020-08-10
+T3 mom top-20 ivol,2021-02-28,CHRD,F1_spike_reversal 2020-03-13|F1_spike_reversal 2020-06-08
+T3 mom top-20 ivol,2021-02-28,MCRB,F2_split_like 2020-08-10
+T3 mom top-20 ivol,2021-03-31,CHRD,F1_spike_reversal 2020-03-13|F1_spike_reversal 2020-06-08
+T3 mom top-20 ivol,2021-04-30,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-20 ivol,2021-04-30,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-20 ivol,2021-04-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ivol,2021-04-30,CPSH,F1_spike_reversal 2020-06-30
+T3 mom top-20 ivol,2021-04-30,AMTX,F2_split_like 2021-01-25
+T3 mom top-20 ivol,2021-05-31,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-20 ivol,2021-05-31,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-20 ivol,2021-05-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-20 ivol,2021-05-31,RTB,F2_split_like 2020-06-19
+T3 mom top-20 ivol,2021-05-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ivol,2021-06-30,CHRD,F1_spike_reversal 2020-06-08
+T3 mom top-20 ivol,2021-06-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ivol,2021-06-30,AMTX,F2_split_like 2021-01-25
+T3 mom top-20 ivol,2021-06-30,RTB,F2_split_like 2020-06-19
+T3 mom top-20 ivol,2021-06-30,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-20 ivol,2021-06-30,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-20 ivol,2021-07-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ivol,2021-07-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-20 ivol,2021-07-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-20 ivol,2021-07-31,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-20 ivol,2021-08-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-20 ivol,2021-08-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ivol,2021-08-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-20 ivol,2021-08-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-20 ivol,2021-08-31,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-20 ivol,2021-09-30,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-20 ivol,2021-09-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ivol,2021-09-30,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-20 ivol,2021-09-30,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-20 ivol,2021-10-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ivol,2021-10-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-20 ivol,2021-10-31,MVIS,F1_spike_reversal 2021-04-26
+T3 mom top-20 ivol,2021-11-30,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ivol,2021-11-30,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-20 ivol,2021-11-30,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-20 ivol,2021-12-31,OCGN,F2_split_like 2021-02-08
+T3 mom top-20 ivol,2021-12-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-20 ivol,2021-12-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-20 ivol,2021-12-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-20 ivol,2021-12-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-20 ivol,2022-01-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-20 ivol,2022-01-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T3 mom top-20 ivol,2022-01-31,FLNA,F1_spike_reversal 2021-02-03
+T3 mom top-20 ivol,2022-01-31,AMTX,F2_split_like 2021-01-25
+T3 mom top-20 ivol,2022-02-28,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-02-16|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-20 ivol,2022-02-28,TULP,F2_split_like 2021-12-06
+T3 mom top-20 ivol,2022-03-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-03-03|F3_stale_run 2021-03-17|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-20 ivol,2022-03-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12|F3_stale_run 2021-04-20
+T3 mom top-20 ivol,2022-04-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-04-14|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-20 ivol,2022-04-30,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12|F3_stale_run 2021-04-20
+T3 mom top-20 ivol,2022-05-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-05-04|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-20 ivol,2022-05-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-20 ivol,2022-06-30,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-06-07|F3_stale_run 2021-06-30|F3_stale_run 2021-08-12
+T3 mom top-20 ivol,2022-06-30,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-20 ivol,2022-07-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+T3 mom top-20 ivol,2022-07-31,PECO,F2_split_like 2021-07-06|F2_split_like 2021-07-12
+T3 mom top-20 ivol,2022-08-31,IVT,F2_split_like 2021-08-06|F2_split_like 2021-09-24|F3_stale_run 2021-08-12
+T3 mom top-20 ivol,2022-09-30,IVT,F2_split_like 2021-09-24
+T3 mom top-20 ivol,2022-09-30,SIGA,F1_spike_reversal 2022-05-20
+T3 mom top-20 ivol,2022-10-31,XENE,F2_split_like 2021-10-04
+T3 mom top-20 ivol,2022-10-31,SIGA,F1_spike_reversal 2022-05-20
+T3 mom top-20 ivol,2023-06-30,BMEA,F2_split_like 2023-03-28
+T3 mom top-20 ivol,2023-07-31,APLD,F2_split_like 2022-07-19
+T3 mom top-20 ivol,2023-07-31,BMEA,F2_split_like 2023-03-28
+T3 mom top-20 ivol,2023-08-31,TGTX,F2_split_like 2023-08-01
+T3 mom top-20 ivol,2023-09-30,IMVT,F2_split_like 2023-09-26
+T3 mom top-20 ivol,2023-09-30,TGTX,F2_split_like 2023-08-01
+T3 mom top-20 ivol,2023-10-31,IMVT,F2_split_like 2023-09-26
+T3 mom top-20 ivol,2023-11-30,IMVT,F2_split_like 2023-09-26
+T3 mom top-20 ivol,2023-12-31,IMVT,F2_split_like 2023-09-26
+T3 mom top-20 ivol,2024-09-30,CATX,F1_spike_reversal 2023-09-15
+T3 mom top-20 ivol,2024-11-30,CATX,F2_split_like 2024-11-21
+T3 mom top-20 ivol,2025-01-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ivol,2025-02-28,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ivol,2025-02-28,QMCO,F2_split_like 2024-06-18
+T3 mom top-20 ivol,2025-03-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ivol,2025-03-31,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-20 ivol,2025-04-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ivol,2025-04-30,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-20 ivol,2025-04-30,LTBR,F1_spike_reversal 2025-01-23
+T3 mom top-20 ivol,2025-05-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ivol,2025-05-31,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-20 ivol,2025-06-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ivol,2025-06-30,LTBR,F1_spike_reversal 2025-01-23
+T3 mom top-20 ivol,2025-07-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ivol,2025-08-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ivol,2025-08-31,TRON,F1_spike_reversal 2024-09-05|F2_split_like 2025-02-14
+T3 mom top-20 ivol,2025-08-31,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-20 ivol,2025-09-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ivol,2025-09-30,ALMU,F1_spike_reversal 2024-12-17
+T3 mom top-20 ivol,2025-09-30,NAKA,F1_spike_reversal 2025-09-09
+T3 mom top-20 ivol,2025-09-30,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-20 ivol,2025-10-31,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ivol,2025-10-31,CTEV,F2_split_like 2024-12-24
+T3 mom top-20 ivol,2025-10-31,ALMU,F1_spike_reversal 2024-12-17
+T3 mom top-20 ivol,2025-10-31,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-20 ivol,2025-10-31,UAMY,F1_spike_reversal 2024-12-06
+T3 mom top-20 ivol,2025-10-31,LTBR,F1_spike_reversal 2025-01-23
+T3 mom top-20 ivol,2025-11-30,QUBT,F1_spike_reversal 2024-11-14|F1_spike_reversal 2024-12-18
+T3 mom top-20 ivol,2025-11-30,QURE,F2_split_like 2025-11-03
+T3 mom top-20 ivol,2025-11-30,UAMY,F1_spike_reversal 2024-12-06
+T3 mom top-20 ivol,2025-11-30,UMAC,F1_spike_reversal 2024-11-29
+T3 mom top-20 ivol,2025-11-30,CTEV,F2_split_like 2024-12-24
+T3 mom top-20 ivol,2025-12-31,QURE,F2_split_like 2025-11-03
+T3 mom top-20 ivol,2025-12-31,UAMY,F1_spike_reversal 2024-12-06
+T3 mom top-20 ivol,2025-12-31,CTEV,F2_split_like 2024-12-24
+T3 mom top-20 ivol,2025-12-31,INBX,F2_split_like 2025-10-24
+T3 mom top-20 ivol,2026-01-31,INBX,F2_split_like 2025-10-24
+T3 mom top-20 ivol,2026-01-31,OPEN,F1_spike_reversal 2025-07-21
+T3 mom top-20 ivol,2026-02-28,INBX,F2_split_like 2025-10-24
+T3 mom top-20 ivol,2026-02-28,OPEN,F1_spike_reversal 2025-07-21
+T3 mom top-20 ivol,2026-03-31,CTMX,F1_spike_reversal 2026-03-16
+T3 mom top-20 ivol,2026-03-31,INBX,F2_split_like 2025-10-24
+T3 mom top-20 ivol,2026-06-30,INBX,F2_split_like 2025-10-24
+T3 mom top-20 ivol,2026-06-30,OPEN,F1_spike_reversal 2025-07-21
+T3 mom top-20 ivol,2026-07-31,NUAI,F1_spike_reversal 2025-09-11
+T3 mom top-20 ivol,2026-07-31,INBX,F2_split_like 2025-10-24
+T3 mom top-20 ivol,2026-07-31,ALMS,F2_split_like 2026-01-06
+T3 mom top-20 ivol,2026-08-31,ALMS,F2_split_like 2026-01-06
+T3 mom top-20 ivol,2026-09-30,ALMS,F2_split_like 2026-01-06
+T2 S1 top-5 hold1m,2014-07-31,ARIA,F2_split_like 2013-10-09
+T2 S1 top-5 hold1m,2015-06-30,NYLD,F2_split_like 2015-05-15
+T2 S1 top-5 hold1m,2015-12-31,FMI,F2_split_like 2015-01-12
+T2 S1 top-5 hold1m,2016-02-29,LOCK,F2_split_like 2015-07-21
+T2 S1 top-5 hold1m,2017-02-28,VRX,F2_split_like 2016-03-15
+T2 S1 top-5 hold1m,2017-02-28,BHC,F2_split_like 2016-03-15
+T2 S1 top-5 hold1m,2017-05-31,BAS,F2_split_like 2016-10-24|F1_spike_reversal 2016-10-25
+T2 S1 top-5 hold1m,2017-07-31,BAS,F2_split_like 2016-10-24|F1_spike_reversal 2016-10-25
+T2 S1 top-5 hold1m,2017-08-31,BAS,F2_split_like 2016-10-24|F1_spike_reversal 2016-10-25
+T2 S1 top-5 hold1m,2017-09-30,BAS,F2_split_like 2016-10-24|F1_spike_reversal 2016-10-25
+T2 S1 top-5 hold1m,2019-06-30,NVAX,F2_split_like 2019-02-28
+T2 S1 top-5 hold1m,2020-09-30,ATNM,F1_spike_reversal 2019-10-24
+T2 S1 top-5 hold1m,2022-01-31,RKT,F1_spike_reversal 2021-03-02
+T2 S1 top-5 hold1m,2022-01-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T2 S1 top-5 hold1m,2022-02-28,AVIR,F2_split_like 2021-10-19
+T2 S1 top-5 hold1m,2022-05-31,CCCC,F2_split_like 2022-04-08
+T2 S1 top-5 hold1m,2022-11-30,RLMD,F2_split_like 2022-10-13
+T2 S1 top-5 hold1m,2023-05-31,LUNR,F2_split_like 2023-02-23|F3_stale_run 2022-06-22|F3_stale_run 2022-07-22
+T2 S1 top-5 hold1m,2023-07-31,BMEA,F2_split_like 2023-03-28
+T2 S1 top-5 hold1m,2023-08-31,BMEA,F2_split_like 2023-03-28
+T2 S1 top-5 hold1m,2023-09-30,BMEA,F2_split_like 2023-03-28
+T2 S1 top-5 hold1m,2023-10-31,BMEA,F2_split_like 2023-03-28
+T2 S1 top-5 hold1m,2023-11-30,BMEA,F2_split_like 2023-03-28
+T2 S1 top-5 hold1m,2024-01-31,BMEA,F2_split_like 2023-03-28
+T2 S1 top-5 hold1m,2024-02-29,IMVT,F2_split_like 2023-09-26
+T2 S1 top-5 hold1m,2024-09-30,QXO,F1_spike_reversal 2024-07-24|F2_split_like 2024-07-30
+T2 S1 top-5 hold1m,2024-10-31,QXO,F1_spike_reversal 2024-07-24|F2_split_like 2024-07-30
+T2 S1 top-5 hold1m,2025-02-28,QMCO,F2_split_like 2024-06-18
+T2 S1 top-5 hold1m,2025-02-28,QXO,F1_spike_reversal 2024-07-24|F2_split_like 2024-07-30
+T2 S1 top-5 hold1m,2025-03-31,TECX,F1_spike_reversal 2024-06-21
+T2 S1 top-5 hold1m,2025-03-31,QMCO,F2_split_like 2024-06-18|F1_spike_reversal 2025-03-17
+T2 S1 top-5 hold1m,2025-03-31,TNXP,F1_spike_reversal 2024-12-19|F3_stale_run 2024-11-01
+T2 S1 top-5 hold1m,2025-04-30,TECX,F1_spike_reversal 2024-06-21
+T2 S1 top-5 hold1m,2025-05-31,MLGO,F2_split_like 2024-06-24
+T2 S1 top-5 hold1m,2025-05-31,HOLO,F1_spike_reversal 2024-05-14|F1_spike_reversal 2025-05-28
+T2 S1 top-5 hold1m,2025-05-31,TNXP,F1_spike_reversal 2024-12-19|F3_stale_run 2024-11-01
+T2 S1 top-5 hold1m,2025-06-30,HOLO,F1_spike_reversal 2025-05-28
+T2 S1 top-5 hold1m,2025-09-30,HYPD,F1_spike_reversal 2025-06-06|F1_spike_reversal 2025-07-02
+T2 S1 top-5 hold1m,2025-10-31,MLTX,F2_split_like 2025-09-29
+T2 S1 top-5 hold1m,2026-03-31,QURE,F2_split_like 2025-11-03
+T2 S1 top-5 hold1m,2026-03-31,SBET,F1_spike_reversal 2025-06-16
+T2 S1 top-5 hold1m,2026-04-30,ASST,F1_spike_reversal 2025-05-22
+T2 S1 top-5 hold1m,2026-04-30,SBET,F1_spike_reversal 2025-06-16
+T2 S1 top-5 hold1m,2026-05-31,ASST,F1_spike_reversal 2025-05-22
+T2 S1 top-5 hold1m,2026-07-31,MNTS,F1_spike_reversal 2026-01-07|F1_spike_reversal 2026-06-11
+T2 S1 top-5 hold1m,2026-08-31,SDOT,F1_spike_reversal 2026-05-04|F2_split_like 2026-06-03|F1_spike_reversal 2026-06-15|F1_spike_reversal 2026-06-17|F2_split_like 2026-07-01|F2_split_like 2026-07-08
+T2 S1 top-5 hold1m,2026-09-30,SDOT,F1_spike_reversal 2026-05-04|F2_split_like 2026-06-03|F1_spike_reversal 2026-06-15|F1_spike_reversal 2026-06-17|F2_split_like 2026-07-01|F2_split_like 2026-07-08
+T2 S1 top-5 hold6m,2014-07-31,ARIA,F2_split_like 2013-10-09
+T2 S1 top-5 hold6m,2014-08-31,ARIA,F2_split_like 2013-10-09
+T2 S1 top-5 hold6m,2014-09-30,ARIA,F2_split_like 2013-10-09
+T2 S1 top-5 hold6m,2014-10-31,ARIA,F2_split_like 2013-10-09
+T2 S1 top-5 hold6m,2015-06-30,NYLD,F2_split_like 2015-05-15
+T2 S1 top-5 hold6m,2015-07-31,NYLD,F2_split_like 2015-05-15
+T2 S1 top-5 hold6m,2015-08-31,NYLD,F2_split_like 2015-05-15
+T2 S1 top-5 hold6m,2015-09-30,NYLD,F2_split_like 2015-05-15
+T2 S1 top-5 hold6m,2015-10-31,NYLD,F2_split_like 2015-05-15
+T2 S1 top-5 hold6m,2015-11-30,NYLD,F2_split_like 2015-05-15
+T2 S1 top-5 hold6m,2015-12-31,FMI,F2_split_like 2015-01-12
+T2 S1 top-5 hold6m,2016-01-31,FMI,F2_split_like 2015-01-12
+T2 S1 top-5 hold6m,2016-02-29,LOCK,F2_split_like 2015-07-21
+T2 S1 top-5 hold6m,2016-03-31,LOCK,F2_split_like 2015-07-21
+T2 S1 top-5 hold6m,2016-04-30,LOCK,F2_split_like 2015-07-21
+T2 S1 top-5 hold6m,2016-05-31,LOCK,F2_split_like 2015-07-21
+T2 S1 top-5 hold6m,2016-06-30,LOCK,F2_split_like 2015-07-21
+T2 S1 top-5 hold6m,2016-07-31,LOCK,F2_split_like 2015-07-21
+T2 S1 top-5 hold6m,2016-10-31,CYH,F2_split_like 2016-10-27
+T2 S1 top-5 hold6m,2016-11-30,CYH,F2_split_like 2016-10-27
+T2 S1 top-5 hold6m,2017-02-28,VRX,F2_split_like 2016-03-15
+T2 S1 top-5 hold6m,2017-02-28,BHC,F2_split_like 2016-03-15
+T2 S1 top-5 hold6m,2017-03-31,VRX,F2_split_like 2016-03-15
+T2 S1 top-5 hold6m,2017-03-31,BHC,F2_split_like 2016-03-15
+T2 S1 top-5 hold6m,2017-05-31,BAS,F2_split_like 2016-10-24|F1_spike_reversal 2016-10-25
+T2 S1 top-5 hold6m,2017-06-30,BAS,F2_split_like 2016-10-24|F1_spike_reversal 2016-10-25
+T2 S1 top-5 hold6m,2017-07-31,BAS,F2_split_like 2016-10-24|F1_spike_reversal 2016-10-25
+T2 S1 top-5 hold6m,2017-08-31,BAS,F2_split_like 2016-10-24|F1_spike_reversal 2016-10-25
+T2 S1 top-5 hold6m,2017-09-30,BAS,F2_split_like 2016-10-24|F1_spike_reversal 2016-10-25
+T2 S1 top-5 hold6m,2017-10-31,BAS,F2_split_like 2016-10-24|F1_spike_reversal 2016-10-25
+T2 S1 top-5 hold6m,2018-04-30,P,F2_split_like 2018-04-30
+T2 S1 top-5 hold6m,2019-06-30,NVAX,F2_split_like 2019-02-28
+T2 S1 top-5 hold6m,2019-07-31,NVAX,F2_split_like 2019-02-28
+T2 S1 top-5 hold6m,2019-08-31,NVAX,F2_split_like 2019-02-28
+T2 S1 top-5 hold6m,2019-09-30,NVAX,F2_split_like 2019-02-28
+T2 S1 top-5 hold6m,2019-10-31,NVAX,F2_split_like 2019-02-28
+T2 S1 top-5 hold6m,2019-11-30,NVAX,F2_split_like 2019-02-28
+T2 S1 top-5 hold6m,2019-11-30,LAB,F2_split_like 2019-11-06
+T2 S1 top-5 hold6m,2019-12-31,LAB,F2_split_like 2019-11-06
+T2 S1 top-5 hold6m,2020-01-31,LAB,F2_split_like 2019-11-06
+T2 S1 top-5 hold6m,2020-02-29,LAB,F2_split_like 2019-11-06
+T2 S1 top-5 hold6m,2020-09-30,ATNM,F1_spike_reversal 2019-10-24
+T2 S1 top-5 hold6m,2020-10-31,ATNM,F1_spike_reversal 2019-10-24
+T2 S1 top-5 hold6m,2021-07-31,INTZ,F2_split_like 2021-07-20
+T2 S1 top-5 hold6m,2021-08-31,INTZ,F2_split_like 2021-07-20
+T2 S1 top-5 hold6m,2021-09-30,INTZ,F2_split_like 2021-07-20
+T2 S1 top-5 hold6m,2021-09-30,ATER,F1_spike_reversal 2021-09-13
+T2 S1 top-5 hold6m,2021-10-31,INTZ,F2_split_like 2021-07-20
+T2 S1 top-5 hold6m,2021-10-31,ATER,F1_spike_reversal 2021-09-13
+T2 S1 top-5 hold6m,2021-11-30,ATER,F1_spike_reversal 2021-09-13
+T2 S1 top-5 hold6m,2021-12-31,ATER,F1_spike_reversal 2021-09-13
+T2 S1 top-5 hold6m,2022-01-31,RKT,F1_spike_reversal 2021-03-02
+T2 S1 top-5 hold6m,2022-01-31,AMC,F2_split_like 2021-01-27|F1_spike_reversal 2021-01-29|F2_split_like 2021-06-02
+T2 S1 top-5 hold6m,2022-02-28,RKT,F1_spike_reversal 2021-03-02
+T2 S1 top-5 hold6m,2022-02-28,AMC,F2_split_like 2021-06-02
+T2 S1 top-5 hold6m,2022-02-28,AVIR,F2_split_like 2021-10-19
+T2 S1 top-5 hold6m,2022-03-31,RKT,F1_spike_reversal 2021-03-02
+T2 S1 top-5 hold6m,2022-03-31,AMC,F2_split_like 2021-06-02
+T2 S1 top-5 hold6m,2022-03-31,AVIR,F2_split_like 2021-10-19
+T2 S1 top-5 hold6m,2022-04-30,AMC,F2_split_like 2021-06-02
+T2 S1 top-5 hold6m,2022-04-30,AVIR,F2_split_like 2021-10-19
+T2 S1 top-5 hold6m,2022-05-31,AMC,F2_split_like 2021-06-02
+T2 S1 top-5 hold6m,2022-05-31,AVIR,F2_split_like 2021-10-19
+T2 S1 top-5 hold6m,2022-05-31,CCCC,F2_split_like 2022-04-08
+T2 S1 top-5 hold6m,2022-06-30,AMC,F2_split_like 2021-06-02
+T2 S1 top-5 hold6m,2022-06-30,AVIR,F2_split_like 2021-10-19
+T2 S1 top-5 hold6m,2022-06-30,CCCC,F2_split_like 2022-04-08
+T2 S1 top-5 hold6m,2022-07-31,AVIR,F2_split_like 2021-10-19
+T2 S1 top-5 hold6m,2022-07-31,CCCC,F2_split_like 2022-04-08
+T2 S1 top-5 hold6m,2022-08-31,FUBO,F1_spike_reversal 2022-08-16
+T2 S1 top-5 hold6m,2022-08-31,CCCC,F2_split_like 2022-04-08
+T2 S1 top-5 hold6m,2022-09-30,FUBO,F1_spike_reversal 2022-08-16
+T2 S1 top-5 hold6m,2022-09-30,CCCC,F2_split_like 2022-04-08
+T2 S1 top-5 hold6m,2022-10-31,CCCC,F2_split_like 2022-04-08
+T2 S1 top-5 hold6m,2022-11-30,RLMD,F2_split_like 2022-10-13
+T2 S1 top-5 hold6m,2022-12-31,RLMD,F2_split_like 2022-10-13
+T2 S1 top-5 hold6m,2023-01-31,RLMD,F2_split_like 2022-10-13
+T2 S1 top-5 hold6m,2023-02-28,RLMD,F2_split_like 2022-10-13
+T2 S1 top-5 hold6m,2023-03-31,RLMD,F2_split_like 2022-10-13
+T2 S1 top-5 hold6m,2023-04-30,RLMD,F2_split_like 2022-10-13
+T2 S1 top-5 hold6m,2023-05-31,LUNR,F2_split_like 2023-02-23|F3_stale_run 2022-06-22|F3_stale_run 2022-07-22
+T2 S1 top-5 hold6m,2023-06-30,LUNR,F2_split_like 2023-02-23|F3_stale_run 2022-06-22|F3_stale_run 2022-07-22
+T2 S1 top-5 hold6m,2023-07-31,LUNR,F2_split_like 2023-02-23|F3_stale_run 2022-07-22
+T2 S1 top-5 hold6m,2023-07-31,BMEA,F2_split_like 2023-03-28
+T2 S1 top-5 hold6m,2023-08-31,LUNR,F2_split_like 2023-02-23
+T2 S1 top-5 hold6m,2023-08-31,BMEA,F2_split_like 2023-03-28
+T2 S1 top-5 hold6m,2023-09-30,LUNR,F2_split_like 2023-02-23
+T2 S1 top-5 hold6m,2023-09-30,BMEA,F2_split_like 2023-03-28
+T2 S1 top-5 hold6m,2023-10-31,LUNR,F2_split_like 2023-02-23
+T2 S1 top-5 hold6m,2023-10-31,BMEA,F2_split_like 2023-03-28
+T2 S1 top-5 hold6m,2023-11-30,BMEA,F2_split_like 2023-03-28
+T2 S1 top-5 hold6m,2023-12-31,BMEA,F2_split_like 2023-03-28
+T2 S1 top-5 hold6m,2024-01-31,BMEA,F2_split_like 2023-03-28
+T2 S1 top-5 hold6m,2024-02-29,BMEA,F2_split_like 2023-03-28
+T2 S1 top-5 hold6m,2024-02-29,IMVT,F2_split_like 2023-09-26
+T2 S1 top-5 hold6m,2024-03-31,BMEA,F2_split_like 2023-03-28
+T2 S1 top-5 hold6m,2024-03-31,IMVT,F2_split_like 2023-09-26
+T2 S1 top-5 hold6m,2024-04-30,IMVT,F2_split_like 2023-09-26
+T2 S1 top-5 hold6m,2024-05-31,IMVT,F2_split_like 2023-09-26
+T2 S1 top-5 hold6m,2024-06-30,IMVT,F2_split_like 2023-09-26
+T2 S1 top-5 hold6m,2024-07-31,IMVT,F2_split_like 2023-09-26
+T2 S1 top-5 hold6m,2024-09-30,QXO,F1_spike_reversal 2024-07-24|F2_split_like 2024-07-30
+T2 S1 top-5 hold6m,2024-10-31,QXO,F1_spike_reversal 2024-07-24|F2_split_like 2024-07-30
+T2 S1 top-5 hold6m,2024-11-30,QXO,F1_spike_reversal 2024-07-24|F2_split_like 2024-07-30
+T2 S1 top-5 hold6m,2024-12-31,QXO,F1_spike_reversal 2024-07-24|F2_split_like 2024-07-30
+T2 S1 top-5 hold6m,2025-01-31,QXO,F1_spike_reversal 2024-07-24|F2_split_like 2024-07-30
+T2 S1 top-5 hold6m,2025-02-28,QXO,F1_spike_reversal 2024-07-24|F2_split_like 2024-07-30
+T2 S1 top-5 hold6m,2025-02-28,QMCO,F2_split_like 2024-06-18
+T2 S1 top-5 hold6m,2025-03-31,QXO,F1_spike_reversal 2024-07-24|F2_split_like 2024-07-30
+T2 S1 top-5 hold6m,2025-03-31,QMCO,F2_split_like 2024-06-18|F1_spike_reversal 2025-03-17
+T2 S1 top-5 hold6m,2025-03-31,TECX,F1_spike_reversal 2024-06-21
+T2 S1 top-5 hold6m,2025-03-31,TNXP,F1_spike_reversal 2024-12-19|F3_stale_run 2024-11-01
+T2 S1 top-5 hold6m,2025-04-30,QMCO,F2_split_like 2024-06-18|F1_spike_reversal 2025-03-17
+T2 S1 top-5 hold6m,2025-04-30,QXO,F1_spike_reversal 2024-07-24|F2_split_like 2024-07-30
+T2 S1 top-5 hold6m,2025-04-30,TECX,F1_spike_reversal 2024-06-21
+T2 S1 top-5 hold6m,2025-04-30,TNXP,F1_spike_reversal 2024-12-19|F3_stale_run 2024-11-01
+T2 S1 top-5 hold6m,2025-05-31,QMCO,F2_split_like 2024-06-18|F1_spike_reversal 2025-03-17
+T2 S1 top-5 hold6m,2025-05-31,QXO,F1_spike_reversal 2024-07-24|F2_split_like 2024-07-30
+T2 S1 top-5 hold6m,2025-05-31,TECX,F1_spike_reversal 2024-06-21
+T2 S1 top-5 hold6m,2025-05-31,TNXP,F1_spike_reversal 2024-12-19|F3_stale_run 2024-11-01
+T2 S1 top-5 hold6m,2025-05-31,MLGO,F2_split_like 2024-06-24
+T2 S1 top-5 hold6m,2025-05-31,HOLO,F1_spike_reversal 2024-05-14|F1_spike_reversal 2025-05-28
+T2 S1 top-5 hold6m,2025-06-30,QMCO,F2_split_like 2024-06-18|F1_spike_reversal 2025-03-17
+T2 S1 top-5 hold6m,2025-06-30,QXO,F1_spike_reversal 2024-07-24|F2_split_like 2024-07-30
+T2 S1 top-5 hold6m,2025-06-30,TECX,F1_spike_reversal 2024-06-21
+T2 S1 top-5 hold6m,2025-06-30,TNXP,F1_spike_reversal 2024-12-19|F3_stale_run 2024-11-01
+T2 S1 top-5 hold6m,2025-06-30,MLGO,F2_split_like 2024-06-24
+T2 S1 top-5 hold6m,2025-06-30,HOLO,F1_spike_reversal 2025-05-28
+T2 S1 top-5 hold6m,2025-07-31,QMCO,F1_spike_reversal 2025-03-17
+T2 S1 top-5 hold6m,2025-07-31,QXO,F1_spike_reversal 2024-07-24|F2_split_like 2024-07-30
+T2 S1 top-5 hold6m,2025-07-31,TNXP,F1_spike_reversal 2024-12-19|F3_stale_run 2024-11-01
+T2 S1 top-5 hold6m,2025-07-31,HOLO,F1_spike_reversal 2025-05-28
+T2 S1 top-5 hold6m,2025-08-31,QMCO,F1_spike_reversal 2025-03-17
+T2 S1 top-5 hold6m,2025-08-31,TNXP,F1_spike_reversal 2024-12-19|F3_stale_run 2024-11-01
+T2 S1 top-5 hold6m,2025-08-31,HOLO,F1_spike_reversal 2025-05-28
+T2 S1 top-5 hold6m,2025-09-30,HOLO,F1_spike_reversal 2025-05-28
+T2 S1 top-5 hold6m,2025-09-30,TNXP,F1_spike_reversal 2024-12-19|F3_stale_run 2024-11-01
+T2 S1 top-5 hold6m,2025-09-30,HYPD,F1_spike_reversal 2025-06-06|F1_spike_reversal 2025-07-02
+T2 S1 top-5 hold6m,2025-10-31,HOLO,F1_spike_reversal 2025-05-28
+T2 S1 top-5 hold6m,2025-10-31,TNXP,F1_spike_reversal 2024-12-19|F3_stale_run 2024-11-01
+T2 S1 top-5 hold6m,2025-10-31,HYPD,F1_spike_reversal 2025-06-06|F1_spike_reversal 2025-07-02
+T2 S1 top-5 hold6m,2025-10-31,MLTX,F2_split_like 2025-09-29
+T2 S1 top-5 hold6m,2025-11-30,HOLO,F1_spike_reversal 2025-05-28
+T2 S1 top-5 hold6m,2025-11-30,HYPD,F1_spike_reversal 2025-06-06|F1_spike_reversal 2025-07-02
+T2 S1 top-5 hold6m,2025-11-30,MLTX,F2_split_like 2025-09-29
+T2 S1 top-5 hold6m,2025-12-31,HYPD,F1_spike_reversal 2025-06-06|F1_spike_reversal 2025-07-02
+T2 S1 top-5 hold6m,2025-12-31,MLTX,F2_split_like 2025-09-29
+T2 S1 top-5 hold6m,2026-01-31,HYPD,F1_spike_reversal 2025-06-06|F1_spike_reversal 2025-07-02
+T2 S1 top-5 hold6m,2026-01-31,MLTX,F2_split_like 2025-09-29
+T2 S1 top-5 hold6m,2026-02-28,HYPD,F1_spike_reversal 2025-06-06|F1_spike_reversal 2025-07-02
+T2 S1 top-5 hold6m,2026-02-28,MLTX,F2_split_like 2025-09-29
+T2 S1 top-5 hold6m,2026-03-31,MLTX,F2_split_like 2025-09-29
+T2 S1 top-5 hold6m,2026-03-31,QURE,F2_split_like 2025-11-03
+T2 S1 top-5 hold6m,2026-03-31,SBET,F1_spike_reversal 2025-06-16
+T2 S1 top-5 hold6m,2026-04-30,QURE,F2_split_like 2025-11-03
+T2 S1 top-5 hold6m,2026-04-30,SBET,F1_spike_reversal 2025-06-16
+T2 S1 top-5 hold6m,2026-04-30,ASST,F1_spike_reversal 2025-05-22
+T2 S1 top-5 hold6m,2026-05-31,CTEV,F1_spike_reversal 2026-05-15
+T2 S1 top-5 hold6m,2026-05-31,QURE,F2_split_like 2025-11-03
+T2 S1 top-5 hold6m,2026-05-31,SBET,F1_spike_reversal 2025-06-16
+T2 S1 top-5 hold6m,2026-05-31,ASST,F1_spike_reversal 2025-05-22
+T2 S1 top-5 hold6m,2026-06-30,CTEV,F1_spike_reversal 2026-05-15
+T2 S1 top-5 hold6m,2026-06-30,QURE,F2_split_like 2025-11-03
+T2 S1 top-5 hold6m,2026-06-30,SBET,F1_spike_reversal 2025-06-16
+T2 S1 top-5 hold6m,2026-07-31,CTEV,F1_spike_reversal 2026-05-15
+T2 S1 top-5 hold6m,2026-07-31,QURE,F2_split_like 2025-11-03
+T2 S1 top-5 hold6m,2026-07-31,MNTS,F1_spike_reversal 2026-01-07|F1_spike_reversal 2026-06-11
+T2 S1 top-5 hold6m,2026-08-31,CTEV,F1_spike_reversal 2026-05-15
+T2 S1 top-5 hold6m,2026-08-31,QURE,F2_split_like 2025-11-03
+T2 S1 top-5 hold6m,2026-08-31,MNTS,F1_spike_reversal 2026-01-07|F1_spike_reversal 2026-06-11
+T2 S1 top-5 hold6m,2026-08-31,SDOT,F1_spike_reversal 2026-05-04|F2_split_like 2026-06-03|F1_spike_reversal 2026-06-15|F1_spike_reversal 2026-06-17|F2_split_like 2026-07-01|F2_split_like 2026-07-08
+T2 S1 top-5 hold6m,2026-09-30,MNTS,F1_spike_reversal 2026-01-07|F1_spike_reversal 2026-06-11
+T2 S1 top-5 hold6m,2026-09-30,SDOT,F1_spike_reversal 2026-05-04|F2_split_like 2026-06-03|F1_spike_reversal 2026-06-15|F1_spike_reversal 2026-06-17|F2_split_like 2026-07-01|F2_split_like 2026-07-08

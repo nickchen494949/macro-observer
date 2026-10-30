@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "sheets": 14,
+  "numeric_cells": 4553,
+  "error_cells": [],
+  "headline_B6_checked": true,
+  "sha256": "03959db63b00a4b6307c879b5c3d8f6b139c5bbffec7cc917dca1510eb27a459",
+  "visual_inspection": "3 previews viewed; headers, percent values, notes and status labels readable"
+}

@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "checks": [
+    "self_financing_entry",
+    "exit_to_cash",
+    "empty_month_interest",
+    "cash_no_churn",
+    "missing_month_rejected",
+    "known_carry_daily_path",
+    "residual_not_smoothed",
+    "exit_cash_no_early_interest",
+    "bankruptcy_absorbing"
+  ]
+}

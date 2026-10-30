@@ -1,0 +1,8 @@
+{
+  "label": "Claude audited",
+  "label_assigned_by": "User instruction on 2026-10-30",
+  "audit_certification": "Historical attribution only; Codex has not independently verified the identity or completeness of a Claude audit",
+  "baseline_commit": "78a2d0d95c7a235c4d0ced739097d7780a66ca70",
+  "codex_copy": "/Users/happygolucky/projects/宏观观察器/backtest_versions/2026-10-30_codex_audited_modified",
+  "note": "Original code retained. Codex fixes and new results belong to the separate copy."
+}

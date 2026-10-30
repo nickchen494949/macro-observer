@@ -1,0 +1,21 @@
+old,new,cik,status
+ADS,BFH,1101215,accepted
+ARNC,HWM,4281,rejected: HWM history starts 2016-11-01
+CHK,EXE,895126,rejected: EXE history starts 2021-02-10
+EQR,VMRK,906107,accepted
+ESV,VAL,314808,rejected: VAL history starts 2021-05-03
+FB,META,1326801,accepted
+FBHS,FBIN,1519751,accepted
+FII,FHI,1056288,accepted
+FLT,CPAY,1175454,accepted
+FOX,FOXA,1754301,rejected: FOXA history starts 2019-03-12
+FOXA,FOX,1754301,rejected: FOX history starts 2019-03-13
+GPS,GAP,39911,accepted
+HRS,LHX,202058,accepted
+JEC,J,52988,accepted
+KORS,CPRI,1530721,accepted
+PSKY,SKYD,2041610,accepted
+RE,EG,1095073,accepted
+SATS,ECHO,1415404,accepted
+SGP,MRK,310158,accepted
+WLTW,WTW,1140536,accepted

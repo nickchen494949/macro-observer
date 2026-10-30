@@ -1,0 +1,14 @@
+corrections: {'rescale_before': 36, 'set_missing_days': 5}
+{
+ "securities_checked": 4750,
+ "flags_by_type": {
+  "F0_nonpositive_price": 6641,
+  "F3_stale_run": 5465,
+  "F1_spike_reversal": 1775,
+  "F2_split_like": 1067
+ },
+ "securities_flagged": 1169,
+ "wiki_vs_yahoo_tickers": 900,
+ "wiki_vs_yahoo_median_abs_monthly_diff": 2.1462605875877117e-07,
+ "wiki_vs_yahoo_share_months_gt_5pct": 0.0013993384945298587
+}

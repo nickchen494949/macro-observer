@@ -1,0 +1,474 @@
+eligible % of members: first 0.976 median 0.99 last 0.994
+
+== SPEC
+  FULL_net   CAGR   27.4%  vol  42.8%  Sharpe  0.74  maxDD  -50.7%  alpha  16.1% (NW t 1.63)
+  IS_net     CAGR   12.1%  vol  28.4%  Sharpe  0.53  maxDD  -36.5%  alpha   2.2% (NW t 0.29)
+  OOS_net    CAGR   71.3%  vol  63.8%  Sharpe  1.10  maxDD  -50.7%  alpha  51.3% (NW t 1.92)
+  FULL_TO_2025_net CAGR   17.9%  vol  33.2%  Sharpe  0.62  maxDD  -50.7%  alpha   7.6% (NW t 0.90)
+  OOS_TO_2025_net CAGR   35.2%  vol  43.5%  Sharpe  0.83  maxDD  -50.7%  alpha  23.7% (NW t 1.05)
+
+== SPEC | ETF sector score
+  FULL_net   CAGR   11.2%  vol  42.3%  Sharpe  0.42  maxDD  -68.5%  alpha   2.3% (NW t 0.24)
+  IS_net     CAGR    3.5%  vol  32.4%  Sharpe  0.26  maxDD  -68.5%  alpha  -7.6% (NW t -0.91)
+  OOS_net    CAGR   31.2%  vol  59.0%  Sharpe  0.68  maxDD  -57.5%  alpha  26.1% (NW t 1.04)
+  FULL_TO_2025_net CAGR   10.1%  vol  38.6%  Sharpe  0.40  maxDD  -68.5%  alpha   0.4% (NW t 0.05)
+  OOS_TO_2025_net CAGR   30.1%  vol  51.6%  Sharpe  0.67  maxDD  -38.9%  alpha  22.6% (NW t 0.96)
+
+== SPEC | next-day-close execution
+  FULL_net   CAGR   28.1%  vol  42.2%  Sharpe  0.76  maxDD  -49.8%  alpha  18.5% (NW t 1.92)
+  IS_net     CAGR   13.7%  vol  29.7%  Sharpe  0.56  maxDD  -40.8%  alpha   5.2% (NW t 0.67)
+  OOS_net    CAGR   69.1%  vol  61.2%  Sharpe  1.10  maxDD  -49.8%  alpha  49.3% (NW t 1.93)
+  FULL_TO_2025_net CAGR   19.1%  vol  34.8%  Sharpe  0.64  maxDD  -49.8%  alpha  10.5% (NW t 1.24)
+  OOS_TO_2025_net CAGR   35.2%  vol  46.1%  Sharpe  0.81  maxDD  -49.8%  alpha  25.0% (NW t 1.08)
+
+== SPEC | unresolved exits = -30%
+  FULL_net   CAGR   27.4%  vol  42.8%  Sharpe  0.74  maxDD  -50.7%  alpha  16.1% (NW t 1.63)
+  IS_net     CAGR   12.1%  vol  28.4%  Sharpe  0.53  maxDD  -36.5%  alpha   2.2% (NW t 0.29)
+  OOS_net    CAGR   71.3%  vol  63.8%  Sharpe  1.10  maxDD  -50.7%  alpha  51.3% (NW t 1.92)
+  FULL_TO_2025_net CAGR   17.9%  vol  33.2%  Sharpe  0.62  maxDD  -50.7%  alpha   7.6% (NW t 0.90)
+  OOS_TO_2025_net CAGR   35.2%  vol  43.5%  Sharpe  0.83  maxDD  -50.7%  alpha  23.7% (NW t 1.05)
+
+== SPEC | unresolved exits = -100%
+  FULL_net   CAGR   27.4%  vol  42.8%  Sharpe  0.74  maxDD  -50.7%  alpha  16.1% (NW t 1.63)
+  IS_net     CAGR   12.1%  vol  28.4%  Sharpe  0.53  maxDD  -36.5%  alpha   2.2% (NW t 0.29)
+  OOS_net    CAGR   71.3%  vol  63.8%  Sharpe  1.10  maxDD  -50.7%  alpha  51.3% (NW t 1.92)
+  FULL_TO_2025_net CAGR   17.9%  vol  33.2%  Sharpe  0.62  maxDD  -50.7%  alpha   7.6% (NW t 0.90)
+  OOS_TO_2025_net CAGR   35.2%  vol  43.5%  Sharpe  0.83  maxDD  -50.7%  alpha  23.7% (NW t 1.05)
+
+== NO SECTOR FILTER: top-1 stock
+  FULL_net   CAGR   36.6%  vol  51.6%  Sharpe  0.83  maxDD  -69.4%  alpha  25.4% (NW t 2.29)
+  IS_net     CAGR   18.2%  vol  40.8%  Sharpe  0.61  maxDD  -69.4%  alpha   9.9% (NW t 0.89)
+  OOS_net    CAGR   91.4%  vol  69.4%  Sharpe  1.23  maxDD  -46.6%  alpha  64.6% (NW t 2.62)
+  FULL_TO_2025_net CAGR   26.9%  vol  44.6%  Sharpe  0.73  maxDD  -69.4%  alpha  17.4% (NW t 1.70)
+  OOS_TO_2025_net CAGR   53.8%  vol  53.4%  Sharpe  1.01  maxDD  -35.2%  alpha  39.3% (NW t 1.76)
+
+== Ref: EW all stocks of best sector
+  FULL_net   CAGR   16.1%  vol  21.4%  Sharpe  0.74  maxDD  -30.2%  alpha   2.5% (NW t 0.59)
+  IS_net     CAGR   10.6%  vol  18.6%  Sharpe  0.61  maxDD  -30.2%  alpha  -3.6% (NW t -1.13)
+  OOS_net    CAGR   30.1%  vol  26.5%  Sharpe  0.99  maxDD  -19.3%  alpha  16.3% (NW t 1.55)
+  FULL_TO_2025_net CAGR   14.7%  vol  20.8%  Sharpe  0.70  maxDD  -30.2%  alpha   1.7% (NW t 0.39)
+  OOS_TO_2025_net CAGR   26.5%  vol  25.8%  Sharpe  0.90  maxDD  -19.3%  alpha  15.1% (NW t 1.30)
+
+== Ref: top-10, no sector filter
+  FULL_net   CAGR   15.5%  vol  26.2%  Sharpe  0.63  maxDD  -34.4%  alpha  -0.4% (NW t -0.10)
+  IS_net     CAGR    9.9%  vol  21.4%  Sharpe  0.53  maxDD  -34.4%  alpha  -5.6% (NW t -1.43)
+  OOS_net    CAGR   29.8%  vol  34.8%  Sharpe  0.82  maxDD  -25.1%  alpha  12.8% (NW t 1.24)
+  FULL_TO_2025_net CAGR   11.9%  vol  22.9%  Sharpe  0.55  maxDD  -34.4%  alpha  -3.2% (NW t -0.92)
+  OOS_TO_2025_net CAGR   17.4%  vol  26.6%  Sharpe  0.61  maxDD  -18.0%  alpha   3.6% (NW t 0.45)
+
+== Ref: best sector ETF
+  FULL_net   CAGR   11.2%  vol  19.7%  Sharpe  0.56  maxDD  -26.7%  alpha  -1.3% (NW t -0.32)
+  IS_net     CAGR   11.1%  vol  17.7%  Sharpe  0.66  maxDD  -26.7%  alpha  -2.5% (NW t -0.87)
+  OOS_net    CAGR   11.2%  vol  23.8%  Sharpe  0.41  maxDD  -19.8%  alpha   1.1% (NW t 0.10)
+  FULL_TO_2025_net CAGR   12.8%  vol  19.6%  Sharpe  0.65  maxDD  -26.7%  alpha   0.3% (NW t 0.07)
+  OOS_TO_2025_net CAGR   17.5%  vol  24.3%  Sharpe  0.64  maxDD  -17.1%  alpha   7.1% (NW t 0.61)
+
+== Bench: SPY
+  FULL_gross CAGR   14.8%  vol  14.8%  Sharpe  0.91  maxDD  -23.9%  alpha   nan% (NW t  nan)
+  IS_gross   CAGR   15.4%  vol  14.7%  Sharpe  1.02  maxDD  -19.4%  alpha   nan% (NW t  nan)
+  OOS_gross  CAGR   13.4%  vol  15.4%  Sharpe  0.67  maxDD  -23.9%  alpha   nan% (NW t  nan)
+  FULL_TO_2025_gross CAGR   14.7%  vol  14.9%  Sharpe  0.91  maxDD  -23.9%  alpha   nan% (NW t  nan)
+  OOS_TO_2025_gross CAGR   12.8%  vol  15.6%  Sharpe  0.63  maxDD  -23.9%  alpha   nan% (NW t  nan)
+
+== Bench: RSP
+  FULL_gross CAGR   13.9%  vol  16.7%  Sharpe  0.78  maxDD  -26.7%  alpha  -1.4% (NW t -1.10)
+  IS_gross   CAGR   16.5%  vol  17.1%  Sharpe  0.95  maxDD  -26.7%  alpha  -0.7% (NW t -0.56)
+  OOS_gross  CAGR    8.0%  vol  15.6%  Sharpe  0.34  maxDD  -20.7%  alpha  -4.0% (NW t -1.54)
+  FULL_TO_2025_gross CAGR   13.9%  vol  16.8%  Sharpe  0.78  maxDD  -26.7%  alpha  -1.5% (NW t -1.20)
+  OOS_TO_2025_gross CAGR    7.1%  vol  16.0%  Sharpe  0.29  maxDD  -20.7%  alpha  -4.6% (NW t -1.76)
+
+== IS-selected config
+  FULL_net   CAGR   26.9%  vol  32.8%  Sharpe  0.84  maxDD  -42.5%  alpha  15.4% (NW t 2.02)
+  IS_net     CAGR   24.3%  vol  24.5%  Sharpe  0.99  maxDD  -31.9%  alpha  11.3% (NW t 1.75)
+  OOS_net    CAGR   33.2%  vol  46.9%  Sharpe  0.74  maxDD  -42.5%  alpha  25.0% (NW t 1.24)
+  FULL_TO_2025_net CAGR   25.2%  vol  27.1%  Sharpe  0.92  maxDD  -31.9%  alpha  12.6% (NW t 2.18)
+  OOS_TO_2025_net CAGR   27.7%  vol  33.4%  Sharpe  0.79  maxDD  -25.7%  alpha  16.7% (NW t 1.31)
+
+== IS-selected, NO sector filter (same 3 stocks)
+  FULL_net   CAGR   25.4%  vol  35.0%  Sharpe  0.77  maxDD  -35.6%  alpha  10.0% (NW t 1.50)
+  IS_net     CAGR   17.4%  vol  26.0%  Sharpe  0.73  maxDD  -35.6%  alpha   3.3% (NW t 0.60)
+  OOS_net    CAGR   46.4%  vol  49.8%  Sharpe  0.92  maxDD  -30.0%  alpha  27.9% (NW t 1.53)
+  FULL_TO_2025_net CAGR   17.6%  vol  28.4%  Sharpe  0.67  maxDD  -35.6%  alpha   3.1% (NW t 0.64)
+  OOS_TO_2025_net CAGR   18.1%  vol  34.2%  Sharpe  0.55  maxDD  -30.0%  alpha   4.4% (NW t 0.43)
+
+meta {
+ "IS_selected_cfg": {
+  "look": 6,
+  "n_sec": 1,
+  "n_stk": 3,
+  "score": "ew"
+ },
+ "grid_configs": 96,
+ "grid_distinct_return_series": 96,
+ "spec_rank_by_SEL_Sharpe": 77,
+ "deflated_sharpe_prob_IS_best": 0.9814427382154403,
+ "expected_max_sharpe_under_null_ann": 0.39011873054480545,
+ "diag_SEL_vs_OOS_sharpe_spearman_distinct": -0.2353771025501899,
+ "bootstrap_paired_net": {
+  "FULL": {
+   "SPEC": {
+    "Sharpe_p5_p50_p95": [
+     0.4182,
+     0.7459,
+     1.0561
+    ],
+    "CAGR_p5_p50_p95": [
+     0.105,
+     0.2673,
+     0.4908
+    ],
+    "P(Sharpe<=0)": 0.00025
+   },
+   "NO_SECTOR_FILTER_top1": {
+    "Sharpe_p5_p50_p95": [
+     0.4732,
+     0.848,
+     1.1913
+    ],
+    "CAGR_p5_p50_p95": [
+     0.1256,
+     0.3676,
+     0.6487
+    ],
+    "P(Sharpe<=0)": 0.0
+   },
+   "SPY": {
+    "Sharpe_p5_p50_p95": [
+     0.5886,
+     0.9226,
+     1.2798
+    ],
+    "CAGR_p5_p50_p95": [
+     0.0976,
+     0.1484,
+     0.1983
+    ],
+    "P(Sharpe<=0)": 0.0
+   },
+   "SPEC minus NO_SECTOR_FILTER_top1: annualised ARITHMETIC mean-return diff p5/p50/p95": [
+    -0.3091,
+    -0.1136,
+    0.0699
+   ],
+   "SPEC minus NO_SECTOR_FILTER_top1: share of resamples with arithmetic diff <= 0": 0.844,
+   "SPEC minus NO_SECTOR_FILTER_top1: CAGR diff p5/p50/p95": [
+    -0.3593,
+    -0.0922,
+    0.1473
+   ],
+   "SPEC minus NO_SECTOR_FILTER_top1: share of resamples with CAGR diff <= 0": 0.7295,
+   "SPEC minus SPY: annualised ARITHMETIC mean-return diff p5/p50/p95": [
+    0.014,
+    0.1702,
+    0.3681
+   ],
+   "SPEC minus SPY: share of resamples with arithmetic diff <= 0": 0.03725,
+   "SPEC minus SPY: CAGR diff p5/p50/p95": [
+    -0.0431,
+    0.1185,
+    0.334
+   ],
+   "SPEC minus SPY: share of resamples with CAGR diff <= 0": 0.12425,
+   "note": "shares of bootstrap resamples conditional on the realised series; NOT p-values and NOT forecast probabilities of future under-performance"
+  },
+  "IS": {
+   "SPEC": {
+    "Sharpe_p5_p50_p95": [
+     0.073,
+     0.5313,
+     1.019
+    ],
+    "CAGR_p5_p50_p95": [
+     -0.0135,
+     0.1226,
+     0.2877
+    ],
+    "P(Sharpe<=0)": 0.0295
+   },
+   "NO_SECTOR_FILTER_top1": {
+    "Sharpe_p5_p50_p95": [
+     0.1534,
+     0.6229,
+     1.1474
+    ],
+    "CAGR_p5_p50_p95": [
+     -0.0288,
+     0.1857,
+     0.4234
+    ],
+    "P(Sharpe<=0)": 0.0125
+   },
+   "SPY": {
+    "Sharpe_p5_p50_p95": [
+     0.6652,
+     1.0376,
+     1.4625
+    ],
+    "CAGR_p5_p50_p95": [
+     0.0992,
+     0.1552,
+     0.215
+    ],
+    "P(Sharpe<=0)": 0.0
+   },
+   "SPEC minus NO_SECTOR_FILTER_top1: annualised ARITHMETIC mean-return diff p5/p50/p95": [
+    -0.2933,
+    -0.1015,
+    0.1045
+   ],
+   "SPEC minus NO_SECTOR_FILTER_top1: share of resamples with arithmetic diff <= 0": 0.80475,
+   "SPEC minus NO_SECTOR_FILTER_top1: CAGR diff p5/p50/p95": [
+    -0.3031,
+    -0.0649,
+    0.1718
+   ],
+   "SPEC minus NO_SECTOR_FILTER_top1: share of resamples with CAGR diff <= 0": 0.678,
+   "SPEC minus SPY: annualised ARITHMETIC mean-return diff p5/p50/p95": [
+    -0.1289,
+    -0.0007,
+    0.1319
+   ],
+   "SPEC minus SPY: share of resamples with arithmetic diff <= 0": 0.503,
+   "SPEC minus SPY: CAGR diff p5/p50/p95": [
+    -0.1681,
+    -0.0323,
+    0.1223
+   ],
+   "SPEC minus SPY: share of resamples with CAGR diff <= 0": 0.641,
+   "note": "shares of bootstrap resamples conditional on the realised series; NOT p-values and NOT forecast probabilities of future under-performance"
+  },
+  "OOS": {
+   "SPEC": {
+    "Sharpe_p5_p50_p95": [
+     0.3914,
+     1.114,
+     1.7723
+    ],
+    "CAGR_p5_p50_p95": [
+     0.1152,
+     0.692,
+     1.6992
+    ],
+    "P(Sharpe<=0)": 0.0035
+   },
+   "NO_SECTOR_FILTER_top1": {
+    "Sharpe_p5_p50_p95": [
+     0.6857,
+     1.2451,
+     1.7792
+    ],
+    "CAGR_p5_p50_p95": [
+     0.2927,
+     0.8995,
+     1.8794
+    ],
+    "P(Sharpe<=0)": 0.0
+   },
+   "SPY": {
+    "Sharpe_p5_p50_p95": [
+     0.1138,
+     0.7069,
+     1.3526
+    ],
+    "CAGR_p5_p50_p95": [
+     0.0332,
+     0.1384,
+     0.2293
+    ],
+    "P(Sharpe<=0)": 0.0245
+   },
+   "SPEC minus NO_SECTOR_FILTER_top1: annualised ARITHMETIC mean-return diff p5/p50/p95": [
+    -0.6313,
+    -0.1466,
+    0.3126
+   ],
+   "SPEC minus NO_SECTOR_FILTER_top1: share of resamples with arithmetic diff <= 0": 0.69375,
+   "SPEC minus NO_SECTOR_FILTER_top1: CAGR diff p5/p50/p95": [
+    -1.0509,
+    -0.1893,
+    0.6671
+   ],
+   "SPEC minus NO_SECTOR_FILTER_top1: share of resamples with CAGR diff <= 0": 0.65,
+   "SPEC minus SPY: annualised ARITHMETIC mean-return diff p5/p50/p95": [
+    0.092,
+    0.5857,
+    1.1713
+   ],
+   "SPEC minus SPY: share of resamples with arithmetic diff <= 0": 0.019,
+   "SPEC minus SPY: CAGR diff p5/p50/p95": [
+    -0.0245,
+    0.5621,
+    1.5683
+   ],
+   "SPEC minus SPY: share of resamples with CAGR diff <= 0": 0.05875,
+   "note": "shares of bootstrap resamples conditional on the realised series; NOT p-values and NOT forecast probabilities of future under-performance"
+  },
+  "FULL_TO_2025": {
+   "SPEC": {
+    "Sharpe_p5_p50_p95": [
+     0.2572,
+     0.6242,
+     1.0193
+    ],
+    "CAGR_p5_p50_p95": [
+     0.0459,
+     0.1777,
+     0.3391
+    ],
+    "P(Sharpe<=0)": 0.003
+   },
+   "NO_SECTOR_FILTER_top1": {
+    "Sharpe_p5_p50_p95": [
+     0.3557,
+     0.7378,
+     1.152
+    ],
+    "CAGR_p5_p50_p95": [
+     0.0683,
+     0.2686,
+     0.5091
+    ],
+    "P(Sharpe<=0)": 0.00125
+   },
+   "SPY": {
+    "Sharpe_p5_p50_p95": [
+     0.5829,
+     0.9258,
+     1.2895
+    ],
+    "CAGR_p5_p50_p95": [
+     0.0948,
+     0.1472,
+     0.1983
+    ],
+    "P(Sharpe<=0)": 0.0
+   },
+   "SPEC minus NO_SECTOR_FILTER_top1: annualised ARITHMETIC mean-return diff p5/p50/p95": [
+    -0.3186,
+    -0.1189,
+    0.0763
+   ],
+   "SPEC minus NO_SECTOR_FILTER_top1: share of resamples with arithmetic diff <= 0": 0.83975,
+   "SPEC minus NO_SECTOR_FILTER_top1: CAGR diff p5/p50/p95": [
+    -0.3506,
+    -0.088,
+    0.1516
+   ],
+   "SPEC minus NO_SECTOR_FILTER_top1: share of resamples with CAGR diff <= 0": 0.7345,
+   "SPEC minus SPY: annualised ARITHMETIC mean-return diff p5/p50/p95": [
+    -0.0521,
+    0.0679,
+    0.2053
+   ],
+   "SPEC minus SPY: share of resamples with arithmetic diff <= 0": 0.18375,
+   "SPEC minus SPY: CAGR diff p5/p50/p95": [
+    -0.1019,
+    0.0296,
+    0.1939
+   ],
+   "SPEC minus SPY: share of resamples with CAGR diff <= 0": 0.365,
+   "note": "shares of bootstrap resamples conditional on the realised series; NOT p-values and NOT forecast probabilities of future under-performance"
+  },
+  "OOS_TO_2025": {
+   "SPEC": {
+    "Sharpe_p5_p50_p95": [
+     0.0884,
+     0.8278,
+     1.664
+    ],
+    "CAGR_p5_p50_p95": [
+     -0.0134,
+     0.3457,
+     0.8629
+    ],
+    "P(Sharpe<=0)": 0.03125
+   },
+   "NO_SECTOR_FILTER_top1": {
+    "Sharpe_p5_p50_p95": [
+     0.3982,
+     1.0251,
+     1.7101
+    ],
+    "CAGR_p5_p50_p95": [
+     0.1034,
+     0.5391,
+     1.2103
+    ],
+    "P(Sharpe<=0)": 0.00225
+   },
+   "SPY": {
+    "Sharpe_p5_p50_p95": [
+     0.0308,
+     0.6688,
+     1.4715
+    ],
+    "CAGR_p5_p50_p95": [
+     0.0193,
+     0.1325,
+     0.2407
+    ],
+    "P(Sharpe<=0)": 0.04125
+   },
+   "SPEC minus NO_SECTOR_FILTER_top1: annualised ARITHMETIC mean-return diff p5/p50/p95": [
+    -0.7288,
+    -0.1791,
+    0.3207
+   ],
+   "SPEC minus NO_SECTOR_FILTER_top1: share of resamples with arithmetic diff <= 0": 0.7055,
+   "SPEC minus NO_SECTOR_FILTER_top1: CAGR diff p5/p50/p95": [
+    -1.0329,
+    -0.1905,
+    0.5221
+   ],
+   "SPEC minus NO_SECTOR_FILTER_top1: share of resamples with CAGR diff <= 0": 0.657,
+   "SPEC minus SPY: annualised ARITHMETIC mean-return diff p5/p50/p95": [
+    -0.0694,
+    0.2548,
+    0.6157
+   ],
+   "SPEC minus SPY: share of resamples with arithmetic diff <= 0": 0.1115,
+   "SPEC minus SPY: CAGR diff p5/p50/p95": [
+    -0.156,
+    0.2128,
+    0.7498
+   ],
+   "SPEC minus SPY: share of resamples with CAGR diff <= 0": 0.20225,
+   "note": "shares of bootstrap resamples conditional on the realised series; NOT p-values and NOT forecast probabilities of future under-performance"
+  }
+ },
+ "spec_daily_maxDD_gross": -0.564929329764454,
+ "spec_contribution": {
+  "total_log_return": 4.29387145808045,
+  "top5_months_log_return": 1.9013235013029368,
+  "total_ex_top5_months_CAGR": 0.14429809799545912,
+  "top5_stocks": {
+   "NVDA": 1.314,
+   "DVN": 1.073,
+   "SNDK": 0.965,
+   "NFLX": 0.851,
+   "WDC": 0.483
+  },
+  "bottom5_stocks": {
+   "DISCA": -0.219,
+   "TGNA": -0.223,
+   "PENN": -0.248,
+   "VST": -0.273,
+   "SMCI": -0.412
+  },
+  "distinct_stocks_held": 89
+ },
+ "spec_sector_flags_of_picks": {
+  "as_today": 180,
+  "rebuilt_2018": 31,
+  "rebuilt_2023": 1,
+  "manual_dated": 1
+ },
+ "exit_events_spec": 2,
+ "eligible_pct_of_members": {
+  "first": 0.976,
+  "median": 0.9899799599198397,
+  "min": 0.969939879759519,
+  "last": 0.9940357852882704
+ }
+}
+ALLDONE

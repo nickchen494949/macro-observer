@@ -1,0 +1,13 @@
+{
+ "securities_checked": 5306,
+ "flags_by_type": {
+  "F3_stale_run": 7448,
+  "F0_nonpositive_price": 6641,
+  "F1_spike_reversal": 2835,
+  "F2_split_like": 1635
+ },
+ "securities_flagged": 1508,
+ "wiki_vs_yahoo_tickers": 914,
+ "wiki_vs_yahoo_median_abs_monthly_diff": 2.1559572827012374e-07,
+ "wiki_vs_yahoo_share_months_gt_5pct": 0.0013951242197141785
+}

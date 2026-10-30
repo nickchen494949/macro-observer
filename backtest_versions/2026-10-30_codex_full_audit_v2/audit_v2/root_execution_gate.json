@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "checks": [
+    "manual close return rebased to actual delayed entry",
+    "formation-close unchanged",
+    "manual open return rebased to actual entry",
+    "last trade terminal value rebased to actual open",
+    "no entry quote stays unresolved",
+    "no stale execution quote",
+    "unknown labels excluded",
+    "fit rejects unknown labels",
+    "validation candidates preserve unknown outcomes",
+    "test candidates preserve unknown outcomes"
+  ],
+  "source_hashes": {
+    "backtest.py": "82246f5012c13b565e4107670a288369b05465accb75cb00b881a80e14928c18",
+    "ml2_run.py": "848fdd5e7f83c13270947e17989f303366c5edd3e9b32e450bb1d3089a5074b1"
+  }
+}

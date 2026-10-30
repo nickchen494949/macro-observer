@@ -1,0 +1,636 @@
+{
+  "status": "PASS",
+  "checked_ledgers_and_metrics": 105,
+  "checks": [
+    {
+      "name": "research/sector_rotation/results_v2/Ridge_Top1_(no_XLE)_monthly.csv",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 44,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/QQQ_monthly.csv",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 44,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/Ridge_Top1_monthly.csv",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/RF_Top3_(no_XLE)_monthly.csv",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 44,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/RF_Top1_monthly.csv",
+      "max_abs_error": 9.063930161978817e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/SPY_Ridge_Top1_aligned_monthly.csv",
+      "max_abs_error": 9.020562075079397e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/SPY_monthly.csv",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 44,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/RF_Top3_monthly.csv",
+      "max_abs_error": 9.627715291671279e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/RF_Top1_(no_XLE)_monthly.csv",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 44,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/common_monthly/Ridge_Top1_(no_XLE)_monthly.csv",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/common_monthly/Ridge_Top1_monthly.csv",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/common_monthly/RF_Top3_(no_XLE)_monthly.csv",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/common_monthly/RF_Top1_monthly.csv",
+      "max_abs_error": 9.063930161978817e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/common_monthly/RF_Top3_monthly.csv",
+      "max_abs_error": 9.627715291671279e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/common_monthly/SPY_(aligned_no-XLE_reference)_monthly.csv",
+      "max_abs_error": 9.020562075079397e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/common_monthly/QQQ_(aligned_no-XLE_reference)_monthly.csv",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/results_v2/common_monthly/RF_Top1_(no_XLE)_monthly.csv",
+      "max_abs_error": 9.063930161978817e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary SPY (aligned no-XLE reference):CAGR",
+      "max_abs_error": 2.7755575615628914e-16,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary SPY (aligned no-XLE reference):MDD",
+      "max_abs_error": 6.245004513516506e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary QQQ (aligned no-XLE reference):CAGR",
+      "max_abs_error": 2.220446049250313e-16,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary QQQ (aligned no-XLE reference):MDD",
+      "max_abs_error": 5.551115123125783e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary RF Top3:CAGR",
+      "max_abs_error": 1.6653345369377348e-16,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary RF Top3:MDD",
+      "max_abs_error": 6.938893903907228e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary RF Top1:CAGR",
+      "max_abs_error": 6.800116025829084e-16,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary RF Top1:MDD",
+      "max_abs_error": 4.996003610813204e-16,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary RF Top3 (no XLE):CAGR",
+      "max_abs_error": 4.163336342344337e-16,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary RF Top3 (no XLE):MDD",
+      "max_abs_error": 2.7755575615628914e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary RF Top1 (no XLE):CAGR",
+      "max_abs_error": 0.0,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary RF Top1 (no XLE):MDD",
+      "max_abs_error": 2.7755575615628914e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary Ridge Top1:CAGR",
+      "max_abs_error": 3.0531133177191805e-16,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary Ridge Top1:MDD",
+      "max_abs_error": 0.0,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary Ridge Top1 (no XLE):CAGR",
+      "max_abs_error": 4.163336342344337e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "common summary Ridge Top1 (no XLE):MDD",
+      "max_abs_error": 1.1102230246251565e-16,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_momentum_all_h1.csv:top3",
+      "max_abs_error": 9.616873269946424e-17,
+      "rows": 42,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_momentum_all_h1.csv:bot3",
+      "max_abs_error": 9.280770596475918e-17,
+      "rows": 42,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_eps_revision_all_h1.csv:top3",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 42,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_eps_revision_all_h1.csv:bot3",
+      "max_abs_error": 9.389190813724468e-17,
+      "rows": 42,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_eps_revision_all_h3.csv:top3",
+      "max_abs_error": 9.020562075079397e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_eps_revision_all_h3.csv:bot3",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_valuation_falling_h1.csv:top3",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 16,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_valuation_falling_h1.csv:bot3",
+      "max_abs_error": 8.673617379884035e-17,
+      "rows": 16,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_valuation_all_h3.csv:top3",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_valuation_all_h3.csv:bot3",
+      "max_abs_error": 9.367506770274758e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_eps_revision_rising_h1.csv:top3",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 26,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_eps_revision_rising_h1.csv:bot3",
+      "max_abs_error": 9.389190813724468e-17,
+      "rows": 26,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_val+eps+mom_all_h1.csv:top3",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 42,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_val+eps+mom_all_h1.csv:bot3",
+      "max_abs_error": 9.454242944073599e-17,
+      "rows": 42,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_val+eps+mom_all_h3.csv:top3",
+      "max_abs_error": 9.020562075079397e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_val+eps+mom_all_h3.csv:bot3",
+      "max_abs_error": 9.676504389433127e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_valuation_all_h1.csv:top3",
+      "max_abs_error": 9.947554932554503e-17,
+      "rows": 42,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_valuation_all_h1.csv:bot3",
+      "max_abs_error": 9.627715291671279e-17,
+      "rows": 42,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_val+eps_rising_h1.csv:top3",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 26,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_val+eps_rising_h1.csv:bot3",
+      "max_abs_error": 9.280770596475918e-17,
+      "rows": 26,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_val+eps_all_h1.csv:top3",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 42,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_val+eps_all_h1.csv:bot3",
+      "max_abs_error": 9.280770596475918e-17,
+      "rows": 42,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_val+eps_all_h3.csv:top3",
+      "max_abs_error": 9.020562075079397e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_val+eps_all_h3.csv:bot3",
+      "max_abs_error": 9.367506770274758e-17,
+      "rows": 40,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_valuation_rising_h1.csv:top3",
+      "max_abs_error": 9.947554932554503e-17,
+      "rows": 26,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_valuation_rising_h1.csv:bot3",
+      "max_abs_error": 9.627715291671279e-17,
+      "rows": 26,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_eps_revision_falling_h1.csv:top3",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 16,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_eps_revision_falling_h1.csv:bot3",
+      "max_abs_error": 9.020562075079397e-17,
+      "rows": 16,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_val+eps_falling_h1.csv:top3",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 16,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_val+eps_falling_h1.csv:bot3",
+      "max_abs_error": 9.020562075079397e-17,
+      "rows": 16,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_all_equal_all_h1.csv:top3",
+      "max_abs_error": 9.71445146547012e-17,
+      "rows": 42,
+      "passed": true
+    },
+    {
+      "name": "research/sector_rotation/detail_all_equal_all_h1.csv:bot3",
+      "max_abs_error": 9.454242944073599e-17,
+      "rows": 42,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce1.5_rate-0.25_daily.csv",
+      "max_abs_error": 4.440892098500626e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce1.5_rate-0.25_daily.csv:CAGR",
+      "max_abs_error": 0.0,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce1.5_rate0.0_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce1.5_rate0.0_daily.csv:CAGR",
+      "max_abs_error": 0.0,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce1.5_rate0.25_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce1.5_rate0.25_daily.csv:CAGR",
+      "max_abs_error": 0.0,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce1.5_rate0.5_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce1.5_rate0.5_daily.csv:CAGR",
+      "max_abs_error": 2.7755575615628914e-17,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce1.8_rate-0.25_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce1.8_rate-0.25_daily.csv:CAGR",
+      "max_abs_error": 2.7755575615628914e-17,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce1.8_rate0.0_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce1.8_rate0.0_daily.csv:CAGR",
+      "max_abs_error": 0.0,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce1.8_rate0.25_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce1.8_rate0.25_daily.csv:CAGR",
+      "max_abs_error": 0.0,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce1.8_rate0.5_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce1.8_rate0.5_daily.csv:CAGR",
+      "max_abs_error": 2.7755575615628914e-17,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce2.0_rate-0.25_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce2.0_rate-0.25_daily.csv:CAGR",
+      "max_abs_error": 2.7755575615628914e-17,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce2.0_rate0.0_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce2.0_rate0.0_daily.csv:CAGR",
+      "max_abs_error": 2.7755575615628914e-17,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce2.0_rate0.25_daily.csv",
+      "max_abs_error": 1.7763568394002505e-15,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce2.0_rate0.25_daily.csv:CAGR",
+      "max_abs_error": 2.7755575615628914e-17,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce2.0_rate0.5_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce2.0_rate0.5_daily.csv:CAGR",
+      "max_abs_error": 2.7755575615628914e-17,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce2.2_rate-0.25_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce2.2_rate-0.25_daily.csv:CAGR",
+      "max_abs_error": 2.7755575615628914e-17,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce2.2_rate0.0_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce2.2_rate0.0_daily.csv:CAGR",
+      "max_abs_error": 2.7755575615628914e-17,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce2.2_rate0.25_daily.csv",
+      "max_abs_error": 1.7763568394002505e-15,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce2.2_rate0.25_daily.csv:CAGR",
+      "max_abs_error": 2.7755575615628914e-17,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce2.2_rate0.5_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce2.2_rate0.5_daily.csv:CAGR",
+      "max_abs_error": 2.7755575615628914e-17,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce2.5_rate-0.25_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce2.5_rate-0.25_daily.csv:CAGR",
+      "max_abs_error": 8.326672684688674e-17,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce2.5_rate0.0_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce2.5_rate0.0_daily.csv:CAGR",
+      "max_abs_error": 5.551115123125783e-17,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce2.5_rate0.25_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce2.5_rate0.25_daily.csv:CAGR",
+      "max_abs_error": 5.551115123125783e-17,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "research/strategy_comparison/results_v2/sep_pce2.5_rate0.5_daily.csv",
+      "max_abs_error": 8.881784197001252e-16,
+      "rows": 2741,
+      "passed": true
+    },
+    {
+      "name": "sep_pce2.5_rate0.5_daily.csv:CAGR",
+      "max_abs_error": 2.7755575615628914e-17,
+      "rows": 2741,
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "id": "20260810-1443-capture-commodities-proof",
+  "enabled": true,
+  "action": "node_script",
+  "path": "scripts/capture_dashboard_proof.js",
+  "args": ["commodities"],
+  "timeoutMs": 120000
+}
