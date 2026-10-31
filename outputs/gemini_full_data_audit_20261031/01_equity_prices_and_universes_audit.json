@@ -1,0 +1,1484 @@
+{
+  "raw_stores": {
+    "raw": {
+      "files": 682,
+      "total_bars": 2979500,
+      "non_monotonic_files": 0,
+      "duplicate_date_files": 0,
+      "nan_values": 0,
+      "nonpos_close_bars": 0,
+      "nonpos_adjclose_bars": 0,
+      "nonpos_open_bars": 0,
+      "extreme_daily_5x_or_80pct_drop_bars": 24,
+      "zero_or_neg_adjclose_examples": []
+    },
+    "raw_open": {
+      "files": 682,
+      "total_bars": 2981563,
+      "non_monotonic_files": 0,
+      "duplicate_date_files": 0,
+      "nan_values": 0,
+      "nonpos_close_bars": 0,
+      "nonpos_adjclose_bars": 0,
+      "nonpos_open_bars": 1,
+      "extreme_daily_5x_or_80pct_drop_bars": 27,
+      "zero_or_neg_adjclose_examples": []
+    },
+    "raw_volume": {
+      "files": 682,
+      "total_bars": 2980886,
+      "non_monotonic_files": 0,
+      "duplicate_date_files": 0,
+      "nan_values": 0,
+      "nonpos_close_bars": 0,
+      "nonpos_adjclose_bars": 0,
+      "nonpos_open_bars": 0,
+      "extreme_daily_5x_or_80pct_drop_bars": 0,
+      "zero_or_neg_adjclose_examples": []
+    },
+    "raw_tiingo": {
+      "files": 166,
+      "total_bars": 466039,
+      "non_monotonic_files": 0,
+      "duplicate_date_files": 0,
+      "nan_values": 0,
+      "nonpos_close_bars": 0,
+      "nonpos_adjclose_bars": 0,
+      "nonpos_open_bars": 0,
+      "extreme_daily_5x_or_80pct_drop_bars": 24,
+      "zero_or_neg_adjclose_examples": []
+    },
+    "raw_wiki": {
+      "files": 199,
+      "total_bars": 485196,
+      "non_monotonic_files": 0,
+      "duplicate_date_files": 0,
+      "nan_values": 0,
+      "nonpos_close_bars": 0,
+      "nonpos_adjclose_bars": 0,
+      "nonpos_open_bars": 0,
+      "extreme_daily_5x_or_80pct_drop_bars": 0,
+      "zero_or_neg_adjclose_examples": []
+    },
+    "raw_archive": {
+      "files": 42,
+      "total_bars": 101729,
+      "non_monotonic_files": 0,
+      "duplicate_date_files": 0,
+      "nan_values": 11068,
+      "nonpos_close_bars": 0,
+      "nonpos_adjclose_bars": 0,
+      "nonpos_open_bars": 0,
+      "extreme_daily_5x_or_80pct_drop_bars": 1,
+      "zero_or_neg_adjclose_examples": []
+    },
+    "raw_ndx": {
+      "files": 56,
+      "total_bars": 184008,
+      "non_monotonic_files": 0,
+      "duplicate_date_files": 0,
+      "nan_values": 0,
+      "nonpos_close_bars": 0,
+      "nonpos_adjclose_bars": 0,
+      "nonpos_open_bars": 0,
+      "extreme_daily_5x_or_80pct_drop_bars": 0,
+      "zero_or_neg_adjclose_examples": []
+    },
+    "raw_smallcap": {
+      "files": 3830,
+      "total_bars": 10779936,
+      "non_monotonic_files": 0,
+      "duplicate_date_files": 0,
+      "nan_values": 0,
+      "nonpos_close_bars": 3,
+      "nonpos_adjclose_bars": 6641,
+      "nonpos_open_bars": 0,
+      "extreme_daily_5x_or_80pct_drop_bars": 415,
+      "zero_or_neg_adjclose_examples": [
+        {
+          "symbol": "CBIO",
+          "nonpos_adj_bars": 2189,
+          "min_adj": -2788.5
+        },
+        {
+          "symbol": "DEC",
+          "nonpos_adj_bars": 732,
+          "min_adj": 0.0
+        },
+        {
+          "symbol": "NFE",
+          "nonpos_adj_bars": 988,
+          "min_adj": -23.594336
+        },
+        {
+          "symbol": "PRTA",
+          "nonpos_adj_bars": 3,
+          "min_adj": 0.0
+        },
+        {
+          "symbol": "VATE",
+          "nonpos_adj_bars": 2729,
+          "min_adj": -37.709606
+        }
+      ]
+    }
+  },
+  "raw_open_integrity": {
+    "max_adj_open_factor_diff_across_all_files": 1.1102230246251565e-16,
+    "raw_vs_raw_open_overlapping_bars": 2979500,
+    "raw_vs_raw_open_close_diff_gt_1bp_bars": 1160
+  },
+  "external_ivv_verification": {
+    "ivv_equity_rows_total": 68066,
+    "matched_ticker_months_with_same_day_quote": 65811,
+    "exact_match_within_10bp": 65601,
+    "exact_match_within_10bp_pct": 99.6809,
+    "match_within_50bp": 65609,
+    "match_within_50bp_pct": 99.6931,
+    "match_within_1pct": 65614,
+    "match_within_1pct_pct": 99.7007,
+    "outliers_gt_1pct_count": 197,
+    "outliers_gt_1pct_sample": [
+      {
+        "formation": "2014-12-31",
+        "asof": "2014-12-31",
+        "ticker": "DD",
+        "issueName": "E I DU PONT DE NEMOURS",
+        "ivv_unitPrice": 73.94,
+        "store_unadj_close": 45.61,
+        "rel_diff_pct": 38.315,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2014-12-31",
+        "asof": "2014-12-31",
+        "ticker": "AGN",
+        "issueName": "ALLERGAN INC",
+        "ivv_unitPrice": 212.59,
+        "store_unadj_close": 257.41,
+        "rel_diff_pct": 21.083,
+        "source": "tiingo_raw"
+      },
+      {
+        "formation": "2014-12-31",
+        "asof": "2014-12-31",
+        "ticker": "JCI",
+        "issueName": "JOHNSON CONTROLS INC",
+        "ivv_unitPrice": 48.34,
+        "store_unadj_close": 43.86,
+        "rel_diff_pct": 9.268,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2014-12-31",
+        "asof": "2014-12-31",
+        "ticker": "BBT",
+        "issueName": "BB AND T CORP",
+        "ivv_unitPrice": 38.89,
+        "store_unadj_close": 26.66,
+        "rel_diff_pct": 31.448,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2014-12-31",
+        "asof": "2014-12-31",
+        "ticker": "CB",
+        "issueName": "CHUBB CORP",
+        "ivv_unitPrice": 103.47,
+        "store_unadj_close": 114.88,
+        "rel_diff_pct": 11.027,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2015-01-31",
+        "asof": "2015-01-30",
+        "ticker": "AGN",
+        "issueName": "ALLERGAN INC",
+        "ivv_unitPrice": 219.26,
+        "store_unadj_close": 266.54,
+        "rel_diff_pct": 21.563,
+        "source": "tiingo_raw"
+      },
+      {
+        "formation": "2015-01-31",
+        "asof": "2015-01-30",
+        "ticker": "DD",
+        "issueName": "E I DU PONT DE NEMOURS",
+        "ivv_unitPrice": 71.21,
+        "store_unadj_close": 45.16,
+        "rel_diff_pct": 36.582,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2015-01-31",
+        "asof": "2015-01-30",
+        "ticker": "JCI",
+        "issueName": "JOHNSON CONTROLS INC",
+        "ivv_unitPrice": 46.47,
+        "store_unadj_close": 40.81,
+        "rel_diff_pct": 12.18,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2015-01-31",
+        "asof": "2015-01-30",
+        "ticker": "BBT",
+        "issueName": "BB AND T CORP",
+        "ivv_unitPrice": 35.29,
+        "store_unadj_close": 24.9,
+        "rel_diff_pct": 29.442,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2015-01-31",
+        "asof": "2015-01-30",
+        "ticker": "CB",
+        "issueName": "CHUBB CORP",
+        "ivv_unitPrice": 97.9,
+        "store_unadj_close": 107.96,
+        "rel_diff_pct": 10.276,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2015-02-28",
+        "asof": "2015-02-27",
+        "ticker": "DD",
+        "issueName": "E I DU PONT DE NEMOURS",
+        "ivv_unitPrice": 77.85,
+        "store_unadj_close": 49.24,
+        "rel_diff_pct": 36.75,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2015-02-28",
+        "asof": "2015-02-27",
+        "ticker": "AGN",
+        "issueName": "ALLERGAN INC",
+        "ivv_unitPrice": 232.74,
+        "store_unadj_close": 291.36,
+        "rel_diff_pct": 25.187,
+        "source": "tiingo_raw"
+      },
+      {
+        "formation": "2015-02-28",
+        "asof": "2015-02-27",
+        "ticker": "JCI",
+        "issueName": "JOHNSON CONTROLS INC",
+        "ivv_unitPrice": 50.81,
+        "store_unadj_close": 42.22,
+        "rel_diff_pct": 16.906,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2015-02-28",
+        "asof": "2015-02-27",
+        "ticker": "BBT",
+        "issueName": "BB AND T CORP",
+        "ivv_unitPrice": 38.05,
+        "store_unadj_close": 26.68,
+        "rel_diff_pct": 29.882,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2015-02-28",
+        "asof": "2015-02-27",
+        "ticker": "CB",
+        "issueName": "CHUBB CORP",
+        "ivv_unitPrice": 100.45,
+        "store_unadj_close": 114.01,
+        "rel_diff_pct": 13.499,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2015-03-31",
+        "asof": "2015-03-31",
+        "ticker": "DD",
+        "issueName": "E I DU PONT DE NEMOURS",
+        "ivv_unitPrice": 71.47,
+        "store_unadj_close": 47.98,
+        "rel_diff_pct": 32.867,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2015-03-31",
+        "asof": "2015-03-31",
+        "ticker": "JCI",
+        "issueName": "JOHNSON CONTROLS INC",
+        "ivv_unitPrice": 50.44,
+        "store_unadj_close": 43.06,
+        "rel_diff_pct": 14.631,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2015-03-31",
+        "asof": "2015-03-31",
+        "ticker": "BBT",
+        "issueName": "BB AND T CORP",
+        "ivv_unitPrice": 38.99,
+        "store_unadj_close": 27.7,
+        "rel_diff_pct": 28.956,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2015-03-31",
+        "asof": "2015-03-31",
+        "ticker": "CB",
+        "issueName": "CHUBB CORP",
+        "ivv_unitPrice": 101.1,
+        "store_unadj_close": 111.49,
+        "rel_diff_pct": 10.277,
+        "source": "yahoo_unsplit"
+      },
+      {
+        "formation": "2015-04-30",
+        "asof": "2015-04-30",
+        "ticker": "DD",
+        "issueName": "E I DU PONT DE NEMOURS",
+        "ivv_unitPrice": 73.2,
+        "store_unadj_close": 51.0,
+        "rel_diff_pct": 30.328,
+        "source": "yahoo_unsplit"
+      }
+    ],
+    "confirmed_59_membership_defects_pick_impact": {
+      "confirmed_membership_corrections_rows": 59,
+      "unique_tickers_in_corrections": [
+        "ACE",
+        "ALB",
+        "BRCM",
+        "CCEP",
+        "CFG",
+        "COTY",
+        "CPRI",
+        "DO",
+        "FRT",
+        "GAS",
+        "LNT",
+        "PCP",
+        "TE"
+      ],
+      "hits_in_SPEC_picks_during_defect_month": [
+        {
+          "formation": "2016-06-30",
+          "ticker": "TE",
+          "action": "REMOVE",
+          "reason": "Official after-close deletion already effective at formation"
+        }
+      ],
+      "hits_in_PureMom_Top1_during_defect_month": [],
+      "hits_in_PureMom_Top10_during_defect_month": [
+        {
+          "formation": "2018-02-28",
+          "ticker": "CPRI",
+          "action": "REMOVE",
+          "reason": "Same security counted twice under historical and future ticker"
+        },
+        {
+          "formation": "2018-05-31",
+          "ticker": "CPRI",
+          "action": "REMOVE",
+          "reason": "Same security counted twice under historical and future ticker"
+        },
+        {
+          "formation": "2016-06-30",
+          "ticker": "TE",
+          "action": "REMOVE",
+          "reason": "Official after-close deletion already effective at formation"
+        }
+      ],
+      "hits_in_ML2_C_lgbm_Top3_during_defect_month": []
+    }
+  },
+  "external_wiki_overlap_verification": {
+    "wiki_bulk_total_tickers_2008_2018": 3199,
+    "sp500_overlapping_tickers": 519,
+    "sp500_overlapping_stock_months": 54365,
+    "sp500_monthly_ret_within_10bp_pct": 96.5548,
+    "sp500_monthly_ret_within_50bp_pct": 97.5848,
+    "sp500_monthly_ret_within_1pct_pct": 98.3041,
+    "sp500_monthly_ret_gt_2pct_count": 766,
+    "sp500_monthly_ret_gt_5pct_count": 522,
+    "top_outliers_sample": [
+      {
+        "ticker": "CPWR",
+        "ym": "2012-07",
+        "y_ret": 3.545452395778322,
+        "w_ret": -0.009489916963227207,
+        "abs_diff": 3.5549423127415496
+      },
+      {
+        "ticker": "CPWR",
+        "ym": "2011-08",
+        "y_ret": 3.000001734072973,
+        "w_ret": -0.12342857142857067,
+        "abs_diff": 3.123430305501544
+      },
+      {
+        "ticker": "CPWR",
+        "ym": "2010-10",
+        "y_ret": 1.7500001083795138,
+        "w_ret": 0.17487046632124303,
+        "abs_diff": 1.5751296420582708
+      },
+      {
+        "ticker": "CPWR",
+        "ym": "2011-06",
+        "y_ret": 1.380955723274595,
+        "w_ret": -0.04225352112676006,
+        "abs_diff": 1.423209244401355
+      },
+      {
+        "ticker": "FSLR",
+        "ym": "2018-03",
+        "y_ret": 0.13778845307202725,
+        "w_ret": 1.4673202614379086,
+        "abs_diff": 1.3295318083658814
+      },
+      {
+        "ticker": "WTW",
+        "ym": "2015-10",
+        "y_ret": 0.08884542720240418,
+        "w_ret": 1.4106583072100314,
+        "abs_diff": 1.3218128800076272
+      },
+      {
+        "ticker": "CPWR",
+        "ym": "2012-10",
+        "y_ret": 1.0,
+        "w_ret": -0.12500000000000056,
+        "abs_diff": 1.1250000000000004
+      },
+      {
+        "ticker": "ITT",
+        "ym": "2011-11",
+        "y_ret": 0.33992266431200346,
+        "w_ret": -0.7778181768694756,
+        "abs_diff": 1.117740841181479
+      },
+      {
+        "ticker": "CPWR",
+        "ym": "2010-05",
+        "y_ret": 1.0000008670364866,
+        "w_ret": -0.048717948717948434,
+        "abs_diff": 1.0487188157544352
+      },
+      {
+        "ticker": "CPWR",
+        "ym": "2011-05",
+        "y_ret": -0.9000001651497661,
+        "w_ret": -0.10126582278481022,
+        "abs_diff": 0.7987343423649559
+      },
+      {
+        "ticker": "MTW",
+        "ym": "2017-11",
+        "y_ret": 0.05514700340614476,
+        "w_ret": -0.7362132352941176,
+        "abs_diff": 0.7913602387002624
+      },
+      {
+        "ticker": "CPWR",
+        "ym": "2010-04",
+        "y_ret": -0.7142858558426215,
+        "w_ret": 0.024967148488830082,
+        "abs_diff": 0.7392530043314516
+      },
+      {
+        "ticker": "CZR",
+        "ym": "2015-08",
+        "y_ret": 0.11479289940828408,
+        "w_ret": 0.8330134357005761,
+        "abs_diff": 0.718220536292292
+      },
+      {
+        "ticker": "SE",
+        "ym": "2018-03",
+        "y_ret": -0.008211678832116931,
+        "w_ret": -0.7150934119960668,
+        "abs_diff": 0.7068817331639499
+      },
+      {
+        "ticker": "WTW",
+        "ym": "2015-11",
+        "y_ret": 0.03760768009931015,
+        "w_ret": 0.7152145643693106,
+        "abs_diff": 0.6776068842700005
+      }
+    ],
+    "smallcap_wiki_vs_yahoo": {
+      "smallcap_overlap_CSV_rows": 914,
+      "smallcap_overlap_columns": [
+        "ticker",
+        "months",
+        "median_abs_diff",
+        "share_gt_5pct"
+      ],
+      "within_50bp_pct": 100.0,
+      "within_1pct_pct": 100.0,
+      "gt_5pct_count": 0
+    }
+  },
+  "universes_and_corporate_actions": {
+    "sp500": {
+      "formation_months": 213,
+      "members_min_median_max": [
+        499,
+        503.0,
+        507
+      ],
+      "eligible_min_median_max": [
+        484,
+        498.0,
+        505
+      ],
+      "gap_ledger_total_rows": 89,
+      "gap_ledger_by_category": {},
+      "manual_exit_resolutions": [
+        {
+          "formation": "2015-08-31",
+          "ticker": "HSP",
+          "holding_return": 0.000333444,
+          "source": "Hospira: cash merger with Pfizer, $90.00 per share paid 2015-09-03 (SEC 8-K https://www.sec.gov/Archives/edgar/data/78003/000007800315000038/n8kp93.htm); entry close 2015-08-31 $89.97 → 90/89.97-1"
+        },
+        {
+          "formation": "2016-06-30",
+          "ticker": "TE",
+          "holding_return": -0.003256151,
+          "source": "TECO Energy: cash merger with Emera, $27.55 per share, closed 2016-07-01; entry close 2016-06-30 $27.64 → 27.55/27.64-1 (cash held for the rest of the month)"
+        },
+        {
+          "formation": "2018-09-30",
+          "ticker": "ANDV",
+          "holding_return": -0.141749186,
+          "source": "Andeavor: merger with Marathon Petroleum closed 2018-10-01, 1.87 MPC shares per ANDV share (cash election $152.27 prorated; approximated as all-stock); exit value 1.87 x MPC close 2018-10-31 $70.45 vs entry $153.50; MPC dividend in the month ignored"
+        },
+        {
+          "formation": "2018-12-31",
+          "ticker": "SCG",
+          "holding_return": -0.016522394,
+          "source": "SCANA: merger with Dominion Energy closed 2019-01-01, 0.669 D shares per SCG share; exit 0.669 x D close 2019-01-31 $70.24 vs entry $47.78; D dividend in the month ignored"
+        }
+      ],
+      "identity_resolutions": [
+        {
+          "ticker": "EP",
+          "action": "use_archive_before",
+          "date": "2012-05-25",
+          "date_to": NaN,
+          "evidence": "Yahoo EP history is Empire Petroleum (took the EP ticker 2022-03; its 2013 1:12 and 2022 1:4 reverse splits are in the series; external audit). El Paso Corp was acquired by Kinder Morgan 2012-05-25 → QSTK Yahoo archive EP (snapshot ~2012, before Empire took the ticker) for the El Paso spell"
+        },
+        {
+          "ticker": "CPWR",
+          "action": "use_wiki_before",
+          "date": "2014-12-15",
+          "date_to": NaN,
+          "evidence": "Yahoo CPWR history is TetriDyn/Ocean Thermal (2017 splits in series; raw price $0.005-0.06 → market cap < $15m); Compuware went private 2014-12 → WIKI CPWR"
+        },
+        {
+          "ticker": "DD",
+          "action": "use_wiki_before",
+          "date": "2017-09-01",
+          "date_to": NaN,
+          "evidence": "Yahoo DD before 2017-09-01 is Dow Chemical (2014 returns identical to WIKI DOW; 2013-12 close 79.32/1.786 = 44.41 = Dow close; independent audit). E.I. du Pont → WIKI DD"
+        },
+        {
+          "ticker": "DD",
+          "action": "segment_break",
+          "date": "2019-06-03",
+          "date_to": NaN,
+          "evidence": "Corteva spin-off + 1:3 reverse split booked as one adjclose factor (+17.8% artificial day): momentum/returns must not bridge"
+        },
+        {
+          "ticker": "CB",
+          "action": "use_wiki_before",
+          "date": "2016-01-15",
+          "date_to": NaN,
+          "evidence": "ACE Ltd acquired Chubb Corp 2016-01-14 and took the CB ticker; Yahoo CB history before is ACE (monthly corr with WIKI CB 0.71). Chubb Corp → WIKI CB"
+        },
+        {
+          "ticker": "JCI",
+          "action": "exclude_before",
+          "date": "2010-08-26",
+          "date_to": NaN,
+          "evidence": "Tyco acquired Johnson Controls 2016-09 and kept the JCI ticker; Yahoo JCI before 2016-09 is Tyco (close 42.97 = 41.04/0.955). Tyco joined the S&P 500 only on 2010-08-26 (Wikipedia changes) → before that the series is a non-member; Johnson Controls Inc 2009-2016 has no clean free source (missing)"
+        },
+        {
+          "ticker": "CCE",
+          "action": "segment_break",
+          "date": "2010-10-04",
+          "date_to": NaN,
+          "evidence": "Old Coca-Cola Enterprises (to 2010-10-01, sold N.A. bottling to KO incl. $10 cash) and new CCE (from 2010-10-04) spliced without a gap; -30.8% day is the cash payment"
+        },
+        {
+          "ticker": "PARA",
+          "action": "exclude_spell",
+          "date": "2022-02-17",
+          "date_to": "2025-08-08",
+          "evidence": "Price series held for PARA implies a $76m market cap with Paramount Global's share count → not Paramount (re-used ticker); no clean source for Paramount 2022-2025"
+        },
+        {
+          "ticker": "LSI",
+          "action": "exclude_before",
+          "date": "2014-05-08",
+          "date_to": NaN,
+          "evidence": "LSI Corp (semiconductors, CIK 703360) was an S&P member until its 2014-05-06 cash acquisition (11.15 USD/share, SEC 8-K 0001193125-14-185188). Every source we hold for 'LSI' (Tiingo, WIKI) carries Sovran Self Storage / Life Storage history relabelled under LSI (close 49.10 on 2012-02-27; LSI Corp traded ~8) → no clean free source for LSI Corp: spell excluded (found by the external audit 2026-10-28; confirmed by identity_screen_earnings.py ratio 0.68)"
+        }
+      ],
+      "earnings_volatility_identity_screen_rows": 825
+    },
+    "nasdaq100": {
+      "months": 226,
+      "unique_tickers_all_time": 269,
+      "members_per_month_min_median_max": [
+        100,
+        101.0,
+        107
+      ]
+    },
+    "smallcap": {
+      "price_source_counts": {
+        "yahoo": 3741,
+        "wiki": 1476,
+        "sp_store": 877,
+        "wiki|yahoo": 89
+      },
+      "quality_flags_by_type": {
+        "F3_stale_run": 7448,
+        "F0_nonpositive_price": 6641,
+        "F1_spike_reversal": 2835,
+        "F2_split_like": 1635
+      },
+      "F1_spike_reversal_total": 2835,
+      "F1_single_day_skipped_by_strict_lt_end_bug": 1160,
+      "F2_price_corrections_total": 64,
+      "F2_corrections_not_matching_exact_split_factor_within_2pct": 45,
+      "F2_mismatch_examples": [
+        {
+          "ticker": "CBIO",
+          "end": "2022-09-20",
+          "applied_factor": NaN,
+          "recorded_split_factors_nearby": [
+            0.01,
+            100.0
+          ],
+          "evidence": "non-positive adjusted close; Yahoo raw close positive on those days → vendor adjustment error"
+        },
+        {
+          "ticker": "DEC",
+          "end": "2023-11-29",
+          "applied_factor": NaN,
+          "recorded_split_factors_nearby": [],
+          "evidence": "non-positive adjusted close; Yahoo raw close positive on those days → vendor adjustment error"
+        },
+        {
+          "ticker": "NFE",
+          "end": "2022-12-30",
+          "applied_factor": NaN,
+          "recorded_split_factors_nearby": [
+            0.02,
+            50.0
+          ],
+          "evidence": "non-positive adjusted close; Yahoo raw close positive on those days → vendor adjustment error"
+        },
+        {
+          "ticker": "PRTA",
+          "end": "2012-12-20",
+          "applied_factor": NaN,
+          "recorded_split_factors_nearby": [],
+          "evidence": "non-positive adjusted close"
+        },
+        {
+          "ticker": "VATE",
+          "end": "2020-05-13",
+          "applied_factor": NaN,
+          "recorded_split_factors_nearby": [
+            0.1,
+            10.0
+          ],
+          "evidence": "non-positive adjusted close; Yahoo raw close positive on those days → vendor adjustment error"
+        },
+        {
+          "ticker": "ACHC",
+          "end": "2011-11-01",
+          "applied_factor": 2.034231,
+          "recorded_split_factors_nearby": [
+            0.25,
+            4.0
+          ],
+          "evidence": "yahoo split 2011-11-01 1.0:4.0; wiki split_ratio 2011-11-03 0.5672149744753262"
+        },
+        {
+          "ticker": "AIMD",
+          "end": "2022-08-09",
+          "applied_factor": 0.338889,
+          "recorded_split_factors_nearby": [
+            0.066667,
+            15.0,
+            0.2,
+            5.0,
+            0.2,
+            5.0
+          ],
+          "evidence": "yahoo split 2022-08-09 1.0:15.0"
+        },
+        {
+          "ticker": "AIN",
+          "end": "2012-03-19",
+          "applied_factor": 2.026372,
+          "recorded_split_factors_nearby": [],
+          "evidence": "wiki split_ratio 2012-03-19 2.0"
+        },
+        {
+          "ticker": "AIN",
+          "end": "2014-07-10",
+          "applied_factor": 1.981867,
+          "recorded_split_factors_nearby": [],
+          "evidence": "wiki split_ratio 2014-07-10 2.0"
+        },
+        {
+          "ticker": "BRTX",
+          "end": "2021-10-29",
+          "applied_factor": 2.031884,
+          "recorded_split_factors_nearby": [
+            0.02,
+            50.0,
+            0.05,
+            20.0,
+            0.00025,
+            4000.0
+          ],
+          "evidence": "yahoo split 2021-10-27 1.0:4000.0"
+        },
+        {
+          "ticker": "CAPS",
+          "end": "2019-09-09",
+          "applied_factor": 0.5,
+          "recorded_split_factors_nearby": [
+            0.001,
+            1000.0,
+            0.033333,
+            30.0
+          ],
+          "evidence": "yahoo split 2019-09-10 1.0:1000.0"
+        },
+        {
+          "ticker": "CETX",
+          "end": "2024-10-03",
+          "applied_factor": 0.490421,
+          "recorded_split_factors_nearby": [
+            0.125,
+            8.0,
+            0.028571,
+            35.0,
+            0.016667,
+            60.0
+          ],
+          "evidence": "yahoo split 2024-10-03 1.0:60.0"
+        },
+        {
+          "ticker": "ENVB",
+          "end": "2025-01-27",
+          "applied_factor": 0.064756,
+          "recorded_split_factors_nearby": [
+            0.04,
+            25.0,
+            0.25,
+            4.0,
+            0.02,
+            50.0
+          ],
+          "evidence": "yahoo split 2025-01-27 1.0:15.0; yahoo split 2025-01-29 1.0:15.0"
+        },
+        {
+          "ticker": "ERNA",
+          "end": "2016-06-20",
+          "applied_factor": 2.0409,
+          "recorded_split_factors_nearby": [
+            0.02,
+            50.0,
+            0.5,
+            2.0,
+            0.05,
+            20.0
+          ],
+          "evidence": "yahoo split 2016-06-17 1.0:50.0"
+        },
+        {
+          "ticker": "IBCP",
+          "end": "2010-09-02",
+          "applied_factor": 0.122727,
+          "recorded_split_factors_nearby": [
+            0.1,
+            10.0
+          ],
+          "evidence": "yahoo split 2010-09-01 1.0:10.0; wiki split_ratio 2010-09-02 0.1"
+        }
+      ],
+      "universe_size_rows": 201,
+      "sec_pit_operating_company_audit": {
+        "smallcap_candidates_total": 3830,
+        "candidates_pure_non_operating_trust_SPAC_SIC": 354,
+        "pure_non_operating_SIC_examples": [
+          {
+            "ticker": "UROY",
+            "cik": 2143673,
+            "sics": [
+              6221
+            ]
+          },
+          {
+            "ticker": "DMII",
+            "cik": 2040475,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "EVAC",
+            "cik": 2042902,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "BCSS",
+            "cik": 2064355,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "CEPF",
+            "cik": 2034267,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "CXII",
+            "cik": 2114227,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "AEXA",
+            "cik": 2079173,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "NWAX",
+            "cik": 2074878,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "AAC",
+            "cik": 2128115,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "MLAA",
+            "cik": 2094265,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "KRSP",
+            "cik": 2074872,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "BRTM",
+            "cik": 2131350,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "CRAN",
+            "cik": 2081358,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "GTEN",
+            "cik": 1986817,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "APXT",
+            "cik": 2079253,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "GCGR",
+            "cik": 2108962,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "BCCQ",
+            "cik": 2128045,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "GHXI",
+            "cik": 2086438,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "KBON",
+            "cik": 2088749,
+            "sics": [
+              6770
+            ]
+          },
+          {
+            "ticker": "MBVI",
+            "cik": 2073928,
+            "sics": [
+              6770
+            ]
+          }
+        ],
+        "candidates_with_no_SEC_10K_10Q_until_after_2018_03": 1751,
+        "main_holdout_trade_picks_with_no_prior_10K_10Q_count": 6174,
+        "main_holdout_trade_picks_with_no_prior_10K_10Q_unique_tickers": [
+          "AA",
+          "AAMI",
+          "ACET",
+          "ACI",
+          "ADCT",
+          "ADEA",
+          "AI",
+          "ANGI",
+          "ARCC",
+          "ARRY",
+          "ARTC",
+          "AUPH",
+          "AUTL",
+          "BAM",
+          "BBDC",
+          "BCSF",
+          "BCTX",
+          "BID",
+          "BRUN",
+          "BTBT",
+          "BTCT",
+          "BUR",
+          "BV",
+          "BXSL",
+          "BYSI",
+          "CAMP",
+          "CCC",
+          "CENN",
+          "CGBD",
+          "CGC",
+          "CLB",
+          "CLBK",
+          "CLMT",
+          "CLS",
+          "CLVT",
+          "CMPS",
+          "CNH",
+          "CP",
+          "CR",
+          "CRON",
+          "CRTO",
+          "CSTM",
+          "CUB",
+          "CYN",
+          "DBVT",
+          "DEC",
+          "DK",
+          "DKNG",
+          "DMRC",
+          "DOLE",
+          "DRS",
+          "DV",
+          "EE",
+          "ENB",
+          "ESI",
+          "ETH",
+          "ETHE",
+          "EVER",
+          "FLUT",
+          "FSK",
+          "FUN",
+          "GBDC",
+          "GBTC",
+          "GCT",
+          "GSBD",
+          "HAWK",
+          "HCC",
+          "HHH",
+          "HIVE",
+          "HTGC",
+          "HTZ",
+          "HUT",
+          "IMCR",
+          "INDI",
+          "INDV",
+          "IREN",
+          "ITG",
+          "JBI",
+          "JBS",
+          "JHX",
+          "KEEL",
+          "KRNY",
+          "KTWO",
+          "LILA",
+          "LLYVA",
+          "LRN",
+          "MAIN",
+          "MFIC",
+          "MNR",
+          "MOVE",
+          "NCNO",
+          "NG",
+          "NMFC",
+          "NNDM",
+          "NP",
+          "NSLR",
+          "NVA",
+          "NVRI",
+          "NWE",
+          "NWN",
+          "NXDT",
+          "OBDC",
+          "OCSL",
+          "OEC",
+          "OPEN",
+          "OSW",
+          "OVV",
+          "OXSQ",
+          "P",
+          "PAY",
+          "PEW",
+          "PFX",
+          "PGY",
+          "PL",
+          "PNFP",
+          "PNNT",
+          "PPLI",
+          "PRG",
+          "PRMB",
+          "PSEC",
+          "QDEL",
+          "QURE",
+          "RBA",
+          "RBBN",
+          "RENT",
+          "RJET",
+          "RKT",
+          "ROC",
+          "RPRX",
+          "RPT",
+          "SBGI",
+          "SDRL",
+          "SLRC",
+          "SMC",
+          "SN",
+          "SNOW",
+          "SPWR",
+          "SSRM",
+          "SWX",
+          "TCPC",
+          "TOP",
+          "TRLV",
+          "TROX",
+          "TSLX",
+          "TTGT",
+          "TW",
+          "UNIT",
+          "URGN",
+          "VG",
+          "VIP",
+          "VNOM",
+          "WCN",
+          "WOOF",
+          "XERS",
+          "XPRO",
+          "XXI",
+          "ZG",
+          "ZLAB",
+          "ZYME"
+        ],
+        "main_holdout_trade_picks_with_no_prior_10K_10Q_sample": [
+          {
+            "ledger": "monthly_BENCH_pure_momentum_top_1_base__unknown_outcome___0___",
+            "holding_month": "2013-12-31",
+            "ticker": "SPWR",
+            "cik": 1838987,
+            "first_10K_10Q": "2021-05-24"
+          },
+          {
+            "ledger": "monthly_BENCH_pure_momentum_top_1_base__unknown_outcome___0___",
+            "holding_month": "2017-10-31",
+            "ticker": "GBTC",
+            "cik": 1588489,
+            "first_10K_10Q": "2020-05-08"
+          },
+          {
+            "ledger": "monthly_BENCH_pure_momentum_top_1_base__unknown_outcome___0___",
+            "holding_month": "2017-11-30",
+            "ticker": "GBTC",
+            "cik": 1588489,
+            "first_10K_10Q": "2020-05-08"
+          },
+          {
+            "ledger": "monthly_BENCH_pure_momentum_top_1_base__unknown_outcome___0___",
+            "holding_month": "2017-12-31",
+            "ticker": "GBTC",
+            "cik": 1588489,
+            "first_10K_10Q": "2020-05-08"
+          },
+          {
+            "ledger": "monthly_BENCH_pure_momentum_top_1_base__unknown_outcome___0___",
+            "holding_month": "2018-02-28",
+            "ticker": "GBTC",
+            "cik": 1588489,
+            "first_10K_10Q": "2020-05-08"
+          },
+          {
+            "ledger": "monthly_BENCH_pure_momentum_top_1_base__unknown_outcome___0___",
+            "holding_month": "2021-02-28",
+            "ticker": "BTBT",
+            "cik": 1710350,
+            "first_10K_10Q": "2025-03-14"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "AA",
+            "cik": 1675149,
+            "first_10K_10Q": "2016-12-01"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "ACI",
+            "cik": 1646972,
+            "first_10K_10Q": "2018-05-11"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "ADEA",
+            "cik": 1803696,
+            "first_10K_10Q": "2020-08-10"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "ARCC",
+            "cik": 1287750,
+            "first_10K_10Q": "2022-10-25"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "BID",
+            "cik": 2094919,
+            "first_10K_10Q": "2026-08-14"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "CCC",
+            "cik": 1818201,
+            "first_10K_10Q": "2020-11-16"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "CLB",
+            "cik": 1958086,
+            "first_10K_10Q": "2023-07-27"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "CP",
+            "cik": 16875,
+            "first_10K_10Q": "2016-02-29"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "CR",
+            "cik": 1944013,
+            "first_10K_10Q": "2023-05-10"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "CYN",
+            "cik": 1874097,
+            "first_10K_10Q": "2021-11-19"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "DV",
+            "cik": 1819928,
+            "first_10K_10Q": "2021-05-26"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "EE",
+            "cik": 1888447,
+            "first_10K_10Q": "2022-05-26"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "ENB",
+            "cik": 895728,
+            "first_10K_10Q": "2018-02-16"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "ESI",
+            "cik": 1590714,
+            "first_10K_10Q": "2014-05-07"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "ETH",
+            "cik": 2020455,
+            "first_10K_10Q": "2024-08-30"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "HCC",
+            "cik": 1691303,
+            "first_10K_10Q": "2017-05-18"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "HHH",
+            "cik": 1981792,
+            "first_10K_10Q": "2023-11-06"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "HTZ",
+            "cik": 1657853,
+            "first_10K_10Q": "2016-08-08"
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2012-02-29",
+            "ticker": "LRN",
+            "cik": 1157408,
+            "first_10K_10Q": "2012-02-09"
+          }
+        ],
+        "main_holdout_trade_picks_with_non_operating_PIT_SIC_count": 3528,
+        "main_holdout_trade_picks_with_non_operating_PIT_SIC_sample": [
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-09-30",
+            "ticker": "DBA",
+            "cik": 1383082,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-09-30",
+            "ticker": "DBC",
+            "cik": 1328237,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-09-30",
+            "ticker": "GSG",
+            "cik": 1332174,
+            "pit_sic": 6799
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-09-30",
+            "ticker": "UNG",
+            "cik": 1376227,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-09-30",
+            "ticker": "USO",
+            "cik": 1327068,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-10-31",
+            "ticker": "AGQ",
+            "cik": 1415311,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-10-31",
+            "ticker": "DBA",
+            "cik": 1383082,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-10-31",
+            "ticker": "DBC",
+            "cik": 1328237,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-10-31",
+            "ticker": "GSG",
+            "cik": 1332174,
+            "pit_sic": 6799
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-10-31",
+            "ticker": "UNG",
+            "cik": 1376227,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-10-31",
+            "ticker": "USO",
+            "cik": 1327068,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-11-30",
+            "ticker": "AGQ",
+            "cik": 1415311,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-11-30",
+            "ticker": "DBA",
+            "cik": 1383082,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-11-30",
+            "ticker": "DBC",
+            "cik": 1328237,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-11-30",
+            "ticker": "GSG",
+            "cik": 1332174,
+            "pit_sic": 6799
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-11-30",
+            "ticker": "UNG",
+            "cik": 1376227,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-11-30",
+            "ticker": "USO",
+            "cik": 1327068,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-12-31",
+            "ticker": "AGQ",
+            "cik": 1415311,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-12-31",
+            "ticker": "DBA",
+            "cik": 1383082,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-12-31",
+            "ticker": "DBC",
+            "cik": 1328237,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-12-31",
+            "ticker": "GSG",
+            "cik": 1332174,
+            "pit_sic": 6799
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-12-31",
+            "ticker": "IAU",
+            "cik": 1278680,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-12-31",
+            "ticker": "SLV",
+            "cik": 1330568,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-12-31",
+            "ticker": "UNG",
+            "cik": 1376227,
+            "pit_sic": 6221
+          },
+          {
+            "ledger": "monthly_REF_equal_weight_holdout_universe_base__unknown_outcome___0___",
+            "holding_month": "2010-12-31",
+            "ticker": "USO",
+            "cik": 1327068,
+            "pit_sic": 6221
+          }
+        ]
+      }
+    }
+  }
+}

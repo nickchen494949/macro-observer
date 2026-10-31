@@ -1,0 +1,258 @@
+{
+  "fred_macro_and_alfred_vintages": {
+    "fred_series_files": 91,
+    "total_observations": 309288,
+    "non_monotonic_series": [],
+    "null_or_nan_values": 0,
+    "non_daily_weekly_monthly_quarterly_series_count": 62,
+    "legacy_audit_report_md_mislabelled_all_as_daily_1d_lag": true,
+    "live_official_fred_and_alfred_vintage_checks": [
+      {
+        "series": "DGS10",
+        "kind": "market_rate",
+        "obs_date": "2022-06-15",
+        "asof_vintage_checked": "2022-07-15",
+        "local_cached_value": 3.33,
+        "official_fred_current_value": 3.33,
+        "official_alfred_first_release_value": null,
+        "matches_current_fred": true,
+        "macro_revision_since_first_release": null
+      },
+      {
+        "series": "DFF",
+        "kind": "market_rate",
+        "obs_date": "2023-03-15",
+        "asof_vintage_checked": "2023-04-15",
+        "local_cached_value": 4.58,
+        "official_fred_current_value": 4.58,
+        "official_alfred_first_release_value": null,
+        "matches_current_fred": true,
+        "macro_revision_since_first_release": null
+      },
+      {
+        "series": "BAMLH0A0HYM2",
+        "kind": "market_spread",
+        "obs_date": "2024-01-10",
+        "asof_vintage_checked": "2024-02-10",
+        "local_cached_value": 3.5,
+        "official_fred_current_value": 3.5,
+        "official_alfred_first_release_value": 3.5,
+        "matches_current_fred": true,
+        "macro_revision_since_first_release": 0.0
+      },
+      {
+        "series": "PAYEMS",
+        "kind": "revised_macro_monthly",
+        "obs_date": "2021-06-01",
+        "asof_vintage_checked": "2021-07-15",
+        "local_cached_value": 145820.0,
+        "official_fred_current_value": 145820.0,
+        "official_alfred_first_release_value": 145759.0,
+        "matches_current_fred": true,
+        "macro_revision_since_first_release": 61.0
+      },
+      {
+        "series": "GDP",
+        "kind": "revised_macro_quarterly",
+        "obs_date": "2020-04-01",
+        "asof_vintage_checked": "2020-08-15",
+        "local_cached_value": 19958.291,
+        "official_fred_current_value": 19958.291,
+        "official_alfred_first_release_value": 19408.759,
+        "matches_current_fred": true,
+        "macro_revision_since_first_release": 549.532
+      },
+      {
+        "series": "PCEPILFE",
+        "kind": "revised_macro_monthly",
+        "obs_date": "2022-01-01",
+        "asof_vintage_checked": "2022-03-15",
+        "local_cached_value": 111.976,
+        "official_fred_current_value": 111.822,
+        "official_alfred_first_release_value": 120.723,
+        "matches_current_fred": false,
+        "macro_revision_since_first_release": -8.901
+      }
+    ]
+  },
+  "etf_and_sector_rotation_prices": {
+    "data_yahoo_files": 66,
+    "data_yahoo_validated_files": 11,
+    "sector_rotation_adj_price_files": 13,
+    "price_vs_total_return_comparison_data_yahoo_vs_adj_prices": [
+      {
+        "symbol": "SPY",
+        "overlapping_months": 295,
+        "mean_annualized_dividend_return_gap_pct": 1.8,
+        "months_with_dividend_diff_gt_10bp": 100
+      },
+      {
+        "symbol": "QQQ",
+        "overlapping_months": 295,
+        "mean_annualized_dividend_return_gap_pct": 0.681,
+        "months_with_dividend_diff_gt_10bp": 76
+      },
+      {
+        "symbol": "XLK",
+        "overlapping_months": 295,
+        "mean_annualized_dividend_return_gap_pct": 1.137,
+        "months_with_dividend_diff_gt_10bp": 82
+      },
+      {
+        "symbol": "XLE",
+        "overlapping_months": 295,
+        "mean_annualized_dividend_return_gap_pct": 2.659,
+        "months_with_dividend_diff_gt_10bp": 99
+      }
+    ]
+  },
+  "sector_eps_fomc_sep_hawkish_lseg": {
+    "sector_eps_yardeni": {
+      "total_rows": 700,
+      "method_breakdown": {
+        "curve_approx": 689,
+        "printed": 11
+      },
+      "curve_approx_pct": 98.43,
+      "recovered_spdji_vintages_summary": {
+        "status": "UNIVERSE_AUDIT_FAIL_CONFIRMED_DEFECTS",
+        "running": false,
+        "completed": "135 primary snapshots reconciled; confirmed defects repaired in candidate copy; independent checks run",
+        "strategy_comparisons": "BLOCKED pending universe PASS",
+        "authoritative_verdict": "universe_audit/VERDICT.json",
+        "prior_comparison_conclusions": "Withdrawn as trustworthy; numerical ledgers retained for audit history",
+        "remaining": [
+          "Six independent monthly snapshots missing; source alternatives logged",
+          "Remaining membership/timing discrepancies need official-event adjudication",
+          "55 tickers have sector classification disagreements against dated primary holdings",
+          "311 original stock-month price/identity exclusions need repair or justified treatment",
+          "Corrected candidate universe and recovered ACE prices not integrated into a new audited backtest"
+        ]
+      }
+    },
+    "fomc_sep": {
+      "pdf_files_count": 76,
+      "sep_revisions_rows": 74,
+      "pre_2015_06_rows_without_official_fed_medians": 30,
+      "post_2015_06_rows_with_official_fed_medians": 44
+    },
+    "lseg_source_identity_proof": {
+      "lseg_rows": 400,
+      "source_id_values": [
+        82221,
+        82222
+      ],
+      "matched_dates_with_GSPC": 389,
+      "exact_match_with_SP500_GSPC_within_1bp_pct": 100.0,
+      "max_rel_diff_vs_SP500_GSPC": 2.2276112510824183e-08,
+      "sample_2016_10_14": {
+        "lseg_price": 2132.97998046875,
+        "sp500_gspc_close": 2132.98,
+        "qqq_close": 117.14,
+        "lseg_forward_eps": 129.22,
+        "lseg_forward_pe": 16.5
+      },
+      "median_abs_pe_diff_price_div_eps_vs_forward_pe": 0.2126,
+      "finding": "PROVEN: lseg_backtest_results_v3.csv (source=82221) is S&P 500 (^GSPC) Forward EPS/PE, NOT Nasdaq-100/QQQ!"
+    },
+    "hawkish_path_kim_wright": {
+      "kw_snapshot_rows": 9549,
+      "kw_columns": [
+        "Date",
+        "THREEFF0100.B",
+        "THREEFF0200.B",
+        "THREEFF0300.B",
+        "THREEFF0400.B",
+        "THREEFF0500.B",
+        "THREEFF0600.B",
+        "THREEFF0700.B",
+        "THREEFF0800.B",
+        "THREEFF0900.B"
+      ],
+      "hawkish_v2_signal_rows": 9136,
+      "hawkish_v2_date_range": [
+        "1990-01-02",
+        "2026-08-07"
+      ]
+    }
+  },
+  "smart_money_13f": {
+    "bulk_sec_zip_archives": 53,
+    "partial_13f_db": {
+      "filing_events": 10605,
+      "qa_results_rows": 0,
+      "note": "Partial 3-ZIP dev DB; full corpus is in 13f_full_4409f14.db"
+    },
+    "full_13f_corpus_db": {
+      "db_file": "13f_full_4409f14.db",
+      "filing_events_total": 397833,
+      "filing_line_items_max_rowid": 120182194,
+      "acceptance_datetime_nonnull": 397833,
+      "acceptance_datetime_coverage_pct": 100.0,
+      "period_of_report_min_max": [
+        "1987-03-31",
+        "2026-03-31"
+      ],
+      "form_type_counts": {
+        "13F-HR": 297727,
+        "13F-HR/A": 15328,
+        "13F-NT": 84028,
+        "13F-NT/A": 750
+      },
+      "qa_checks_CH1_to_CH13": {
+        "CH-1": {
+          "status": "PASS",
+          "detail": "Berkshire 0000950123-23-002585: ×1 ✓, line=299.01B tvt=299.01B diff=0.000%"
+        },
+        "CH-2": {
+          "status": "PASS",
+          "detail": "Berkshire Apple: 905,560,000 shares (expected 905,560,000, diff=0.000% ✓)"
+        },
+        "CH-3": {
+          "status": "PASS",
+          "detail": "NVDA holders=4,116; raw median=10.0019×; 10:1-adjusted median=1.0002× (no spurious 9× jump)"
+        },
+        "CH-4": {
+          "status": "PASS",
+          "detail": "Amendments: 16078 total; RESTATEMENT=10853; ADD=5170; unclassified=55"
+        },
+        "CH-5": {
+          "status": "PASS",
+          "detail": "Point72 graph=16 CIKs; filing CIKs=4; overlapping CUSIPs=1,577; exact duplicate disclosures removed=0; economic rows=4,408; second pass dupl"
+        },
+        "CH-6": {
+          "status": "PASS",
+          "detail": "Berkshire Apple CUSIP 037833100: 32/32 quarters from 2016Q1–2023Q4; missing=none"
+        },
+        "CH-7": {
+          "status": "PASS",
+          "detail": "2020q1 raw INFOTABLE=2,159,065, DB=2,159,065; pre-delisting Twitter rows=1,117 (CUSIP 90184L102 retained)"
+        },
+        "CH-8": {
+          "status": "PASS",
+          "detail": "397833/397833 = 100.0% have acceptance_datetime"
+        },
+        "CH-9": {
+          "status": "PASS",
+          "detail": "Holdings at deadline: 41; after ADD amendment: 42 (ADD merged ✓)"
+        },
+        "CH-10": {
+          "status": "PASS",
+          "detail": "cash_equity=112,605,642  call_option=3,328,373  put_option=3,282,582  bond=965,597  other=0"
+        },
+        "CH-11": {
+          "status": "PASS",
+          "detail": "compute_13f_deadline('2025-12-31') = 2026-02-17 ✓"
+        },
+        "CH-12": {
+          "status": "PASS",
+          "detail": "Morgan Stanley oldest period: 2013-06-30 ✓"
+        },
+        "CH-13": {
+          "status": "PASS",
+          "detail": "deterministic 2020-03-31 sample=100; ticker mapped=95 (95.0%); name-verified=91 (91.0%); explicit unmapped=5; TWTR delisted_flag=yes"
+        }
+      }
+    }
+  }
+}

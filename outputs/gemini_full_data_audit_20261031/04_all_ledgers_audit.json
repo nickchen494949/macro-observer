@@ -1,0 +1,162 @@
+{
+  "ledger_group_summaries": [
+    {
+      "group": "claude_original_78a2d0d",
+      "ledgers_audited": 166,
+      "nan_return_files": [],
+      "ruin_bound_lt_minus100pct_violations": [
+        {
+          "file": "research/sector_stock_momentum/results/winners_holdout/monthly_BENCH_pure_momentum_top_1_stress__100__.csv",
+          "months": [
+            {
+              "month": "2018-04-30",
+              "net": -1.002
+            }
+          ]
+        }
+      ],
+      "cost_formula_mismatches_gt_1e6": [],
+      "cost_formula_mismatch_count": 0
+    },
+    {
+      "group": "codex_v2_4ea9a1d",
+      "ledgers_audited": 173,
+      "nan_return_files": [],
+      "ruin_bound_lt_minus100pct_violations": [],
+      "cost_formula_mismatches_gt_1e6": [
+        {
+          "file": "backtest_versions/2026-10-30_codex_full_audit_v2/research/sector_stock_momentum/results/winners_holdout/monthly_BENCH_pure_momentum_top_1_stress__100__.csv",
+          "mode": "self_financing_ruin_safe",
+          "max_err": 1.0
+        },
+        {
+          "file": "backtest_versions/2026-10-30_codex_full_audit_v2/research/sector_stock_momentum/results/winners_holdout/monthly_BENCH_pure_momentum_top_1_stress__100___STRICT.csv",
+          "mode": "self_financing_ruin_safe",
+          "max_err": 1.0
+        }
+      ],
+      "cost_formula_mismatch_count": 2
+    },
+    {
+      "group": "top3_studies_20261030",
+      "ledgers_audited": 8,
+      "nan_return_files": [],
+      "ruin_bound_lt_minus100pct_violations": [],
+      "cost_formula_mismatches_gt_1e6": [],
+      "cost_formula_mismatch_count": 0
+    }
+  ],
+  "total_ledgers_audited": 347,
+  "independent_raw_endpoint_recomputation": [
+    {
+      "strategy": "Claude_SPEC",
+      "execution": "close_to_close",
+      "months_total": 213,
+      "months_recomputed_from_raw_prices": 213,
+      "max_abs_gross_diff": 9.71445146547012e-17,
+      "exact_match_lt_1e10": true,
+      "cagr_pct": 27.3677,
+      "monthly_mdd_pct": -50.7193,
+      "mismatches": []
+    },
+    {
+      "strategy": "Claude_PureMom_Top1",
+      "execution": "close_to_close",
+      "months_total": 213,
+      "months_recomputed_from_raw_prices": 213,
+      "max_abs_gross_diff": 9.936712910829648e-17,
+      "exact_match_lt_1e10": true,
+      "cagr_pct": 36.594,
+      "monthly_mdd_pct": -69.397,
+      "mismatches": []
+    },
+    {
+      "strategy": "Claude_PureMom_Top10",
+      "execution": "close_to_close",
+      "months_total": 213,
+      "months_recomputed_from_raw_prices": 213,
+      "max_abs_gross_diff": 9.71445146547012e-17,
+      "exact_match_lt_1e10": true,
+      "cagr_pct": 15.4983,
+      "monthly_mdd_pct": -34.4037,
+      "mismatches": []
+    },
+    {
+      "strategy": "CodexV2_SPEC",
+      "execution": "close_to_close",
+      "months_total": 213,
+      "months_recomputed_from_raw_prices": 213,
+      "max_abs_gross_diff": 9.71445146547012e-17,
+      "exact_match_lt_1e10": true,
+      "cagr_pct": 27.3641,
+      "monthly_mdd_pct": -50.6644,
+      "mismatches": []
+    },
+    {
+      "strategy": "CodexV2_PureMom_Top1",
+      "execution": "close_to_close",
+      "months_total": 213,
+      "months_recomputed_from_raw_prices": 213,
+      "max_abs_gross_diff": 9.936712910829648e-17,
+      "exact_match_lt_1e10": true,
+      "cagr_pct": 36.5851,
+      "monthly_mdd_pct": -69.3718,
+      "mismatches": []
+    },
+    {
+      "strategy": "Claude_ML2_C_lgbm_Top3",
+      "execution": "next_day_open_to_open",
+      "months_total": 140,
+      "months_recomputed_from_raw_opens": 140,
+      "max_abs_gross_diff": 1.1102230246251565e-16,
+      "exact_match_lt_1e8": true,
+      "cagr_pct": 36.6859,
+      "monthly_mdd_pct": -32.5989,
+      "mismatches": []
+    },
+    {
+      "strategy": "Claude_ML2_C_lgbm_Top1",
+      "execution": "next_day_open_to_open",
+      "months_total": 140,
+      "months_recomputed_from_raw_opens": 140,
+      "max_abs_gross_diff": 9.71445146547012e-17,
+      "exact_match_lt_1e8": true,
+      "cagr_pct": 46.124,
+      "monthly_mdd_pct": -44.3767,
+      "mismatches": []
+    },
+    {
+      "strategy": "CodexV2_ML2_C_lgbm_Top3",
+      "execution": "next_day_open_to_open",
+      "months_total": 141,
+      "months_recomputed_from_raw_opens": 141,
+      "max_abs_gross_diff": 1.1102230246251565e-16,
+      "exact_match_lt_1e8": true,
+      "cagr_pct": 17.8566,
+      "monthly_mdd_pct": -39.2866,
+      "mismatches": []
+    },
+    {
+      "strategy": "CodexV2_ML2_C_lgbm_Top1",
+      "execution": "next_day_open_to_open",
+      "months_total": 141,
+      "months_recomputed_from_raw_opens": 141,
+      "max_abs_gross_diff": 9.8879238130678e-17,
+      "exact_match_lt_1e8": true,
+      "cagr_pct": 33.3911,
+      "monthly_mdd_pct": -63.5217,
+      "mismatches": []
+    },
+    {
+      "strategy": "Top3_Study_Monthly_Skip1M",
+      "execution": "next_day_open_to_open",
+      "months_total": 141,
+      "months_recomputed_from_raw_opens": 141,
+      "max_abs_gross_diff": 1.1102230246251565e-16,
+      "exact_match_lt_1e8": true,
+      "cagr_pct": 27.3251,
+      "monthly_mdd_pct": -25.7649,
+      "mismatches": []
+    }
+  ]
+}

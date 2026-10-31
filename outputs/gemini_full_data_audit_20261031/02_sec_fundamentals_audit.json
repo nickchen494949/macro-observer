@@ -1,0 +1,279 @@
+{
+  "panels": [
+    {
+      "store": "sp500_fundamentals",
+      "quarterly_panel_rows": 46861,
+      "unique_tickers": 801,
+      "unique_ciks": 801,
+      "period_end_min_max": [
+        "2007-09-30",
+        "2026-08-31"
+      ],
+      "available_date_ne_filed_plus_1d": 0,
+      "period_end_gt_filed_plus_16d": 0,
+      "q4_derived_rows": 9086,
+      "ttm_availability_checks": {
+        "eps_diluted_approx": {
+          "nonnull_ttm_rows": 42018,
+          "missing_ttm_available_date": 0,
+          "ttm_available_before_own_quarter_filed_plus_1d": 0
+        },
+        "eps_basic_approx": {
+          "nonnull_ttm_rows": 41940,
+          "missing_ttm_available_date": 0,
+          "ttm_available_before_own_quarter_filed_plus_1d": 0
+        },
+        "net_income": {
+          "nonnull_ttm_rows": 43115,
+          "missing_ttm_available_date": 0,
+          "ttm_available_before_own_quarter_filed_plus_1d": 0
+        },
+        "revenue": {
+          "nonnull_ttm_rows": 42131,
+          "missing_ttm_available_date": 0,
+          "ttm_available_before_own_quarter_filed_plus_1d": 0
+        }
+      },
+      "eps_split_basis_rows_checked": 45178,
+      "eps_split_basis_mismatches": 0,
+      "pit_long_files": 11,
+      "pit_long_total_rows": 1762828,
+      "pit_long_first_report_rows": 1633660,
+      "pit_long_future_ddate_violations": 0
+    },
+    {
+      "store": "ndx_fundamentals",
+      "quarterly_panel_rows": 1383,
+      "unique_tickers": 33,
+      "unique_ciks": 34,
+      "period_end_min_max": [
+        "2008-03-31",
+        "2026-08-31"
+      ],
+      "available_date_ne_filed_plus_1d": 0,
+      "period_end_gt_filed_plus_16d": 0,
+      "q4_derived_rows": 249,
+      "ttm_availability_checks": {
+        "eps_diluted_approx": {
+          "nonnull_ttm_rows": 1133,
+          "missing_ttm_available_date": 0,
+          "ttm_available_before_own_quarter_filed_plus_1d": 0
+        },
+        "eps_basic_approx": {
+          "nonnull_ttm_rows": 1152,
+          "missing_ttm_available_date": 0,
+          "ttm_available_before_own_quarter_filed_plus_1d": 0
+        },
+        "net_income": {
+          "nonnull_ttm_rows": 1171,
+          "missing_ttm_available_date": 0,
+          "ttm_available_before_own_quarter_filed_plus_1d": 0
+        },
+        "revenue": {
+          "nonnull_ttm_rows": 1209,
+          "missing_ttm_available_date": 0,
+          "ttm_available_before_own_quarter_filed_plus_1d": 0
+        }
+      },
+      "eps_split_basis_rows_checked": 1246,
+      "eps_split_basis_mismatches": 0,
+      "pit_long_files": 5,
+      "pit_long_total_rows": 48873,
+      "pit_long_first_report_rows": 45557,
+      "pit_long_future_ddate_violations": 0
+    },
+    {
+      "store": "smallcap_fundamentals",
+      "quarterly_panel_rows": 156279,
+      "unique_tickers": 3778,
+      "unique_ciks": 3778,
+      "period_end_min_max": [
+        "1997-06-30",
+        "2026-08-31"
+      ],
+      "available_date_ne_filed_plus_1d": 0,
+      "period_end_gt_filed_plus_16d": 0,
+      "q4_derived_rows": 31421,
+      "ttm_availability_checks": {
+        "eps_diluted_approx": {
+          "nonnull_ttm_rows": 128526,
+          "missing_ttm_available_date": 0,
+          "ttm_available_before_own_quarter_filed_plus_1d": 0
+        },
+        "eps_basic_approx": {
+          "nonnull_ttm_rows": 131905,
+          "missing_ttm_available_date": 0,
+          "ttm_available_before_own_quarter_filed_plus_1d": 0
+        },
+        "net_income": {
+          "nonnull_ttm_rows": 140062,
+          "missing_ttm_available_date": 0,
+          "ttm_available_before_own_quarter_filed_plus_1d": 0
+        },
+        "revenue": {
+          "nonnull_ttm_rows": 123176,
+          "missing_ttm_available_date": 0,
+          "ttm_available_before_own_quarter_filed_plus_1d": 0
+        }
+      },
+      "eps_split_basis_rows_checked": 141562,
+      "eps_split_basis_mismatches": 0,
+      "pit_long_files": 1,
+      "pit_long_total_rows": 5045848,
+      "pit_long_first_report_rows": 4719135,
+      "pit_long_future_ddate_violations": 0
+    }
+  ],
+  "valuation_price_future_dividend_distortion": {
+    "matched_sp500_feature_stock_months": 59805,
+    "pct_rows_affected_by_future_dividends_gt_1pct": 79.93,
+    "pct_rows_affected_by_future_dividends_gt_10pct": 49.43,
+    "pct_rows_affected_by_future_dividends_gt_25pct": 20.61,
+    "median_mcap_distortion_all_years_pct": 9.78,
+    "median_mcap_distortion_2010_2015_pct": 25.6,
+    "p90_mcap_distortion_2010_2015_pct": 41.66,
+    "worst_distortions_sample": [
+      {
+        "t": "2010-05-31",
+        "ticker": "KDP",
+        "div_factor": 0.10521259904912837,
+        "mcap_understatement_pct": 89.47874009508716
+      },
+      {
+        "t": "2010-06-30",
+        "ticker": "KDP",
+        "div_factor": 0.1059089863599893,
+        "mcap_understatement_pct": 89.40910136400106
+      },
+      {
+        "t": "2010-08-31",
+        "ticker": "KDP",
+        "div_factor": 0.105908989679522,
+        "mcap_understatement_pct": 89.4091010320478
+      },
+      {
+        "t": "2010-07-31",
+        "ticker": "KDP",
+        "div_factor": 0.10590902796271638,
+        "mcap_understatement_pct": 89.40909720372836
+      },
+      {
+        "t": "2010-09-30",
+        "ticker": "KDP",
+        "div_factor": 0.1066579954954955,
+        "mcap_understatement_pct": 89.33420045045045
+      },
+      {
+        "t": "2010-10-31",
+        "ticker": "KDP",
+        "div_factor": 0.10665802131729979,
+        "mcap_understatement_pct": 89.33419786827001
+      },
+      {
+        "t": "2010-11-30",
+        "ticker": "KDP",
+        "div_factor": 0.10665803985803984,
+        "mcap_understatement_pct": 89.33419601419601
+      },
+      {
+        "t": "2011-01-31",
+        "ticker": "KDP",
+        "div_factor": 0.10737866215071973,
+        "mcap_understatement_pct": 89.26213378492803
+      },
+      {
+        "t": "2010-12-31",
+        "ticker": "KDP",
+        "div_factor": 0.10737866894197953,
+        "mcap_understatement_pct": 89.26213310580205
+      },
+      {
+        "t": "2011-02-28",
+        "ticker": "KDP",
+        "div_factor": 0.10737872989462006,
+        "mcap_understatement_pct": 89.262127010538
+      },
+      {
+        "t": "2011-05-31",
+        "ticker": "KDP",
+        "div_factor": 0.10810929611650484,
+        "mcap_understatement_pct": 89.1890703883495
+      },
+      {
+        "t": "2011-04-30",
+        "ticker": "KDP",
+        "div_factor": 0.1081093112244898,
+        "mcap_understatement_pct": 89.18906887755102
+      },
+      {
+        "t": "2011-03-31",
+        "ticker": "KDP",
+        "div_factor": 0.10810936490850377,
+        "mcap_understatement_pct": 89.18906350914962
+      },
+      {
+        "t": "2011-07-31",
+        "ticker": "KDP",
+        "div_factor": 0.10896562500000001,
+        "mcap_understatement_pct": 89.1034375
+      },
+      {
+        "t": "2011-06-30",
+        "ticker": "KDP",
+        "div_factor": 0.10896565704746006,
+        "mcap_understatement_pct": 89.10343429525399
+      }
+    ]
+  },
+  "cik_validity_and_8k_events": {
+    "cik_validity_rules": [
+      {
+        "ticker": "CB",
+        "cik": 896159,
+        "valid_from": "2016-01-15",
+        "valid_to": NaN,
+        "evidence": "CB prices before 2016-01-15 are the old Chubb Corp (identity_resolutions: use_wiki_before 2016-01-15); CIK 896159 is ACE Ltd, renamed Chubb Ltd after buying Chubb Corp on 2016-01-14 → ACE fundamentals must not be paired with old-Chubb prices"
+      },
+      {
+        "ticker": "AGN",
+        "cik": 1578845,
+        "valid_from": "2013-10-01",
+        "valid_to": NaN,
+        "evidence": "AGN prices = Watson/Actavis/Allergan plc lineage; CIK 1578845 (Actavis plc → Allergan plc) first files 2013-10-31; before that no mapped CIK (Watson/Actavis Inc 884629 not mapped)"
+      },
+      {
+        "ticker": "DD",
+        "cik": 1666700,
+        "valid_from": "2017-09-01",
+        "valid_to": NaN,
+        "evidence": "DD prices before 2017-09-01 are the old E.I. du Pont (identity_resolutions: use_wiki_before 2017-09-01); CIK 1666700 is DowDuPont / DuPont de Nemours (from 2017-08-31 merger)"
+      },
+      {
+        "ticker": "DOW",
+        "cik": 1751788,
+        "valid_from": "2019-04-02",
+        "valid_to": NaN,
+        "evidence": "CIK 1751788 is Dow Inc (spun off 2019-04-01); DOW prices before 2017-08-31 are the old Dow Chemical (WIKI) → no pairing before the Dow Inc listing"
+      },
+      {
+        "ticker": "LSI",
+        "cik": 703360,
+        "valid_from": NaN,
+        "valid_to": "2014-05-07",
+        "evidence": "LSI Corp (CIK 703360) has no clean price source: Yahoo/Tiingo/WIKI 'LSI' history is Sovran/Life Storage (close 49.1 in 2012-03 vs LSI Corp ~8); prices excluded via identity_resolutions; kept here for completeness"
+      }
+    ],
+    "sec_submissions_json_files": 2019,
+    "earnings_8k_rows": 61645,
+    "earnings_8k_columns": [
+      "cik",
+      "ticker",
+      "filing_date",
+      "acceptance",
+      "form",
+      "reaction_date"
+    ],
+    "amd_2017_06_30_margin_leak_regression_value_is_null": true,
+    "amd_2017_06_30_margin_value": null
+  }
+}
