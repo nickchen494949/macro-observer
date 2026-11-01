@@ -1,116 +1,94 @@
-# 全库回测数据独立审计报告（含 `v2` 纯独立 Clean-Room 升级版与 300 张随机核查卡）
+# 全库回测数据纯独立 Clean-Room 终版审计报告（`v3` 最终签收版：400 张随机核查卡 + 10 份核心策略全链路重建）
 
-> **🔥 [`v2` 纯独立 Clean-Room 审计套件已上线（`v2_standalone/`）](v2_standalone/STANDALONE_AUDIT_V2_REPORT.md)**  
-> 针对外部审阅指出的 `v1`（`782f33b`）6 项审计程序缺陷，已在 [`v2_standalone/`](v2_standalone/) 彻底重写并重跑了 **100% 零项目依赖、零回退假通过** 的 `v2` 独立审计套件：
-> 1. **100% 零项目代码 `import`（由 `ast.parse` 机械强制）**：[`v2_00_cleanroom_ast_and_readonly_guard.py`](v2_standalone/v2_00_cleanroom_ast_and_readonly_guard.py) → [`v2_00_cleanroom_guard_report.json`](v2_standalone/v2_00_cleanroom_guard_report.json)（`5` 个脚本 `violations = 0`；`10,964` 份受保护文件 `changed = 0`）。
-> 2. **全部 `347` 份月度策略账本（`63,272` 个策略月）零回退独立重算**：[`v2_01_standalone_all_347_ledgers_auditor.py`](v2_standalone/v2_01_standalone_all_347_ledgers_auditor.py) → [`v2_01_all_347_ledgers_cleanroom_summary.json`](v2_standalone/v2_01_all_347_ledgers_cleanroom_summary.json)。**`295` 份**全月成分级复算通过（含全部标普 500 核心纯动量账本及 Codex v2 修复后的 `ML2 C-lgbm` / `NDX` 账本）；**`27` 份**缺 `picks` 列的旧 `factor_combo` 账本如实标为 **`UNVERIFIABLE_NET_ONLY_LEDGER`**（绝不假通过）；并额外抓出 **4 项 `v1` 因复用加载器/差值回退而漏掉的真实 bug**：
->    - 原版 `78a2d0d` 的 **8 份 NDX 5 股篮子账本**（`results/ndx/monthly_C_*top_5*.csv`）每月硬扣固定 `20bp`（连首月建仓及保留持仓也按 200% 换手扣费），且 `XLK_regime` 在 `CASH(regime)` 空仓月把未持有的 5 股收益留在 `gross`、仅把 `net` 设为 `rf`（`0bp` 平仓/重入费）——Codex v2 中对应 8 份账本已全部修复并 `177/177` 月通过；
->    - `build_fundamentals.py:344,354` 行级 `q4_derived = max(derived)` 误把 10-K 中直接披露了 3 个月 `qtrs=1` 的 Q4 `eps_diluted` 抹成 `NaN`（被随机卡 `X007` `ABT 2019Q4=0.59`、`X051` `ZM 2019Q4=0.01` 抓获）；
->    - `winners_holdout` 等权基准在 **4 个月买入了月中已退市、月末无原始成交价（`NaN`）的股票**（`IPCM`、`HUB-B`、`HNT`、`DV` → 2 份账本标为 `PARTIAL_UNVERIFIABLE_MISSING_RAW_INPUT`）；
->    - **15 份账本存在单月（`1 / 140..213` 月）月中并购退市成交价口径不一致**（如 `CAM 2016-03`、`CVC 2016-06` 用首日 `open` 买入却按退市前末日 `close` 退出；`HSP 2015-08/09` 的 `lag=0` vs `lag=1` 并购退出表）。
-> 3. **100 张 SEC 原始 XBRL 数值事实核查卡（`eps_diluted` / `revenue` / `net_income`）+ `100/100` 实时连线 `data.sec.gov` 校验**：[`v2_02_sec_xbrl_100_cards.md`](v2_standalone/v2_02_sec_xbrl_100_cards.md)（`98` 张 `PASS_EXTERNAL_PRIMARY` + `2` 张 `DATA_WARNING_KNOWN_LIMITATION` + **`0` 张 `FAIL`**，`14` 张 Q4 `FY - 9M` 推导、`34/34` 张披露后拆股换算全部 `0` 误差）。
-> 4. **300 张严格互斥证据分层随机主核查表**（含 **120 张对全部 `347` 份账本零预过滤双阶段盲抽** + **100 张 SEC XBRL 数值卡** + **40 张 SEC 13F 原始 `.zip` 整份申报全行数/全元组严苛核对 `40/40 PASS`** + **40 张宏观/SEP PDF/S&P DJI `.xlsx`/估值/跨本地缓存 ETF 卡**）：[`v2_300_master_random_cards.md`](v2_standalone/v2_300_master_random_cards.md) → **`PASS_EXTERNAL_PRIMARY = 177`**、**`PASS_INTERNAL_MATH_SINGLE_VENDOR = 81`**、**`PASS_INTERNAL_CROSS_STORE = 5`**（同源双缓存严格单列，绝不混充外部主源）、**`DATA_WARNING_KNOWN_LIMITATION = 14`**、**`UNVERIFIABLE_NET_ONLY_LEDGER = 12`**、**`DATA_DEFECT_CONFIRMED = 8`**、**`FAIL_MATH_OR_FACT_MISMATCH = 3`**（精准命中原版 NDX 硬扣 `20bp` 账本 `L007/L030/L083`）。
+- **旗舰英文/双语技术终审报告**：[`v2_standalone/STANDALONE_AUDIT_V3_FINAL_REPORT.md`](v2_standalone/STANDALONE_AUDIT_V3_FINAL_REPORT.md)（兼容入口：[`v2_standalone/STANDALONE_AUDIT_V2_REPORT.md`](v2_standalone/STANDALONE_AUDIT_V2_REPORT.md)）
+- **10 份核心策略全链路端到端 PIT 重建结果**：[`v2_standalone/v2_05_full_chain_pit_reconstruction_summary.json`](v2_standalone/v2_05_full_chain_pit_reconstruction_summary.json) | [`v2_standalone/v2_05_full_chain_picks_comparison.csv`](v2_standalone/v2_05_full_chain_picks_comparison.csv)
+- **全部 347 份策略账本（`63,272` 策略月）100% 第一性原理成本与现金收益复算表**：[`v2_standalone/v2_01_all_347_ledgers_cleanroom_audit.csv`](v2_standalone/v2_01_all_347_ledgers_cleanroom_audit.csv) | [`v2_standalone/v2_01_all_347_ledgers_cleanroom_summary.json`](v2_standalone/v2_01_all_347_ledgers_cleanroom_summary.json)
+- **300 张严格 9 层互斥随机主核查表**：[`v2_standalone/v2_300_master_random_cards.md`](v2_standalone/v2_300_master_random_cards.md) | [`v2_standalone/v2_300_master_summary.json`](v2_standalone/v2_300_master_summary.json)
+- **100 张 SEC XBRL 非空数值事实卡（`100/100` 实时 `data.sec.gov`）**：[`v2_standalone/v2_02_sec_xbrl_100_cards.md`](v2_standalone/v2_02_sec_xbrl_100_cards.md) | [`v2_standalone/v2_02_sec_xbrl_100_summary.json`](v2_standalone/v2_02_sec_xbrl_100_summary.json)
+- **100 张 SEC XBRL `NULL` 空值完整性核查卡（`100/100` 实时 `data.sec.gov`）**：[`v2_standalone/v2_04_sec_xbrl_100_null_cards.md`](v2_standalone/v2_04_sec_xbrl_100_null_cards.md) | [`v2_standalone/v2_04_sec_xbrl_100_null_summary.json`](v2_standalone/v2_04_sec_xbrl_100_null_summary.json)
+- **`ast.parse` 零项目依赖、零读取账本成本列 & `10,964` 文件只读指纹守卫证明**：[`v2_standalone/v2_00_cleanroom_guard_report.json`](v2_standalone/v2_00_cleanroom_guard_report.json)（`scripts_checked = 7, total_ast_or_pattern_violations = 0`；`10,964` 份受保护文件 `changed = 0`）
 
 ---
 
-## 一句话总结论（人话版，`v1` 背景存档）
+## 一、人话总结论（`v3` 终审定案）
 
-**不能给整座仓库的所有回测数据盖“100% 全部无瑕疵通过”的章；但核心大盘价格算术、SEC 财报披露时点、13F 机构持仓库和 347 份策略月度账本的复算全部 100% 对得上（误差 $\le 1.11 \times 10^{-16}$）。**
+针对上一轮外部审计提出的 **6 项最终签收升级要求**，我们在 `v2_standalone/` 完成了彻底的机械级加固并从头跑通全部 7 阶段独立审计流水线。现在的结论边界做到了 **100% 硬证据支撑、零夸大审计范围**：
 
-具体来说，全库 7 大回测数据域、**2,096 万条日线行情**、**20.45 万条季度财报 / 685.75 万条财报明细**、**91 条 FRED 宏观序列（30.93 万条观测）**、**1.20 亿行 SEC 13F 原始持仓**、以及 **347 份策略月度账本** 经全量扫描 + 固定随机种子（`seed=20261031`）**100 张分层随机核查卡**逐笔核对外部主数据源后，结论清清楚楚分成三类：
+### 1. 已从最底层原始文件 100% 全链路重建并外部核对通过的核心资产（可放心签收）
+- **标普 500 全部 8 份核心纯动量与行业动量（`SPEC`）主账本（`v2_05` 全链路端到端重建 `8 / 8 PASS`）**：
+  - 不读取任何项目预生成 Parquet/CSV，不读取账本任何成本或现金列，直接从原始成分股区间、原始价格/开盘价 JSON、142 份 SEC FSDS 原始 `sub_*.parquet`（独立重建 `41/41` 别名与 `842/842` CIK 映射，100% 一致）、历史 GICS 行业规则与一阶自融资/加性扣费公式从头跑出每月选股与净收益：
+    1. **全市场纯动量 Top1（收盘→收盘，`2009-01..2026-09`，213 个月）**：原版 `36.59%` / Codex v2 自融资 `36.59%`（`213/213` 选股、`213/213` 候选股数完全一致，`max |net_diff| <= 1.67e-16`；有贝莱德官方 `IVV` 持仓快照的 **`135 / 135` 个月 100.0% 确认为真实 `IVV` 持仓成分股**）。
+    2. **最强行业 → 行业内 Top1 `SPEC`（收盘→收盘，`2009-01..2026-09`，213 个月）**：原版 `27.37%` / Codex v2 自融资 `27.36%`（`213/213` 最强行业、`213/213` 选股完全一致，`max |net_diff| <= 1.63e-16`；官方 `IVV` **`135 / 135` 个月 100.0% 确认**）。
+    3. **纯动量 Top1（次日开盘→次月开盘，`2015-01..2026-09`，141 个月，`ML2` 基准）**：净年化 **`41.97%`**（`141/141` 选股完全一致，`max |net_diff| = 9.71e-17`；官方 `IVV` **`135 / 135 = 100.0%` 确认**）。
+    4. **纯动量 Top3（次日开盘→次月开盘，`2015-01..2026-09`，141 个月，3 份专题与基准账本）**：净年化 **`27.33%`**（`141/141` 选股完全一致，`max |net_diff| = 2.22e-16`；官方 `IVV` **`404 / 405 = 99.75%` 确认**，唯一 1 笔未匹配为 `2018-05-31 CPRI`，当时贝莱德仍按改名前旧代码 `KORS` 持仓）。
+- **Smart Money SEC Form 13F 机构持仓全量库（`13f_full_4409f14.db`，39.78 万份申报 / 1.20 亿行）**：随机盲抽 **`40` 份跨年申报**，不截断行数、不用 `set()` 去重，直接对原始 SEC `.zip` 内整份 `INFOTABLE.tsv` 做 **100% 排序多重集全等比对（`sorted(raw_rows) == sorted(db_rows)`）**：**`40 / 40` 份申报（共 `18,099` 条持仓元组）100% 分毫不差**。
+- **SEC 原始 XBRL 首次披露财报事实与 57 维特征算术**：从 142 份原始 SEC FSDS `sub/num` Parquet 独立重建 `94,010 行 × 57 特征 = 5,358,570` 个特征单元格，与 `Codex v2` 特征面板 **`94,010 / 94,010` 行完全对齐、`0` 个 `NaN` 错位、最大浮点差仅 `2.075e-14`**。`100` 张非空 XBRL 随机卡 **`100/100` 实时 `data.sec.gov` 确认**（`98` 张 `PASS_EXTERNAL_PRIMARY`、`2` 张 Q4 EPS 保守置空警告、`0` 张错误）；新增 **`100` 张 `NULL` 空值完整性随机卡（`v2_04`）** 按总体加权证明：**`65.40%`** 为 SEC 原始申报确实未披露该季度标签，**`32.24%`** 为公司使用了银行/公用事业/REITs 等替代 US-GAAP 标签而解析器未纳入，**`2.36%`** 为缺 9M 累计值或非美元币种导致的保守置空。
 
-1. **算术与外部主源硬核对过关的部分（可放心引用算术真值）**：
-   - **标普 500 核心股价与开盘价**：与贝莱德官方 `IVV` 逐月持仓未复权原价核对 **65,811 个股票月**，**99.6809%（65,601 个）误差 $\le 10\text{bp}$（0.10%）**，**99.7007% 误差 $\le 1\%$**；与 Nasdaq Data Link `WIKI` 核对 **54,365 个重叠股票月**，**98.3041% 月收益率一致（$\le 1\%$）**。`raw_open` 共 2,981,563 条日线中，`adj_open / open` 与 `adjclose / close` 最大偏差仅 **$1.11 \times 10^{-16}$**。
-   - **全部 347 份月度策略账本**：从最底层原始价格/开盘价 JSON 逐月独立重算 10 条代表性主策略（含收盘成交与次日开盘成交），毛收益最大绝对误差 **$\le 1.11 \times 10^{-16}$**（机器浮点极限）。
-   - **SEC EDGAR PIT 财报披露时点与拆股换算**：三套财报面板共 **204,523 行季报**、`pit_long` **6,857,549 行**，`available_date != filed + 1天` 为 **0**，`period_end > filed + 16天` 为 **0**，TTM 跨字段提前放行（如旧版 AMD 2017-06-30 利润率偷看未来）回归检查为 **`null`（0 泄漏）**，187,986 行 EPS 披露后拆股换算误差为 **0**。
-   - **Smart Money SEC Form 13F 机构持仓全量库（`13f_full_4409f14.db`）**：**397,833 份申报 / 120,182,194 行持仓**，`acceptance_datetime` 覆盖率 **100.0%**，13 项内置 QA（`CH-1`..`CH-13`）全部 `PASS`，随机抽查 10 个年份的 SEC 官方原始 `.zip` 压缩包（`SUBMISSION.tsv` + `INFOTABLE.tsv`）金额（含 2023-01-03 前 $\times 1000$、后 $\times 1$ 规则）与股数 **10/10 分毫不差**。
-   - **100 张随机核查卡（`seed=20261031`）**：**0 张算术错误（`FAIL_MATH = 0`）**；**89 张**直接与外部官方/独立主源核对一致（`PASS_PRIMARY_VERIFIED`），**7 张**无免费第二源覆盖但内部算术精确（`PASS_INTERNAL_SINGLE_VENDOR`），其余 **4 张**精准命中下述真实数据缺陷/宏观修订警告。
-
-2. **被抓出并量化的真实数据缺陷（不能装作没看见）**：
-   - **原版（`78a2d0d`）估值价格用错复权口径（已在 Codex v2 修复）**：用含未来分红折算的 `adjclose` 乘以历史当期股本/EPS，导致标普 500 特征表 **59,805 个股票月中有 49.43% 市值/估值失真 $>10\%$**（2010–2015 年中位数低估 **25.60%**，特殊分红股 `KDP` 低估达 **89.48%**）。加上训练验证窗口跨月开盘泄漏与费用计提修正后，`ML2 C-lgbm Top1` 年化从原版 **46.12% 降至 33.39%**（落后同窗口纯动量 Top1 的 **41.97%**），`C-lgbm Top3` 从 **36.69% 降至 17.86%**（落后纯动量 Top3 的 **27.33%**）。
-   - **中小盘（`winners_holdout`）股票池严重非 PIT，且混入大宗商品/加密货币/外汇信托与代码借壳映射**：
-     - 候选池直接取自**今天**的 SEC `company_tickers_exchange.json`（3,830 只），其中 **354 只**是纯非经营性商品/加密信托或空白支票 SPAC（`SIC 6221 / 6770 / 6799`），**1,751 只**在 `2018-03`（WIKI 停更）前根本没有任何 SEC XBRL `10-K/10-Q`。
-     - 更直接的证据：中小盘纯动量 Top1 基准账本（`monthly_BENCH_pure_momentum_top_1_base`）在 **2017-10、2017-11、2017-12、2018-02 连续 4 个月把当时还在 OTC 交易的比特币信托 `GBTC`（直到 2020-05-08 才首次交 10-Q）当成“全市场第 1 名中小盘股票”买入**；等权基准与持仓池中出现 **3,528 笔** `AGQ`（2 倍做多白银）、`USO`（原油）、`UNG`（天然气）、`SLV`、`IAU` 等商品信托持仓；且旧公司退市后代码被新公司/SPAC 接管（如 2013 年老 `SPWR` 被映射到 2021 年 SPAC `CIK 1838987`，2012 年老苏富比 `BID` 被映射到 2026 年新注册 `CIK 2094919`，老家具股 `ETH` 被映射到 2024 年灰度以太坊信托 `CIK 2020455`）。
-     - 此外，`raw_smallcap` 存在 **6,641 根非正 `adjclose` K 线**（极端合股股 `CBIO` 最低 `-2788.5`、`VATE` `-37.71`、`NFE` `-23.59`）；原版 `STRICT` 过滤因 `< r.end` 边界 bug 漏掉了 **1,160 / 2,835 条**单日暴涨暴跌反转异常；`price_corrections.csv` 的 64 条修补中有 **45 条**直接按跳变比例缩放而非精确拆股比。
-   - **跨策略研究中的两处硬口径错配**：
-     - **`lseg_backtest_results_v3.csv`（`source=82221/82222`）被数学证明 100% 是标普 500（`^GSPC`），绝非纳指 100 / QQQ**：389 个重叠周收盘价与 `^GSPC` **100.0% 吻合在 1bp 以内**（最大相对误差 $2.23 \times 10^{-8}$，如 `2016-10-14` `price=2132.98` = `^GSPC 2132.98`，而当天 `QQQ=117.14`）。用标普 500 预期 EPS 去交易 QQQ 属于跨指数混搭。
-     - **行业 EPS 与 FOMC SEP 的历史时点缺陷**：`data/sector_eps/sector_eps_quarterly.csv` 中 **689 / 700 行（98.43%）** 为 Yardeni 图表曲线像素描点（`curve_approx`，非 PIT）；Wayback 找回的 145 份 S&P DJI 官方 `.xlsx`（150,190 个单元格抽查 100% 精确）目前仅能完整覆盖 **94 / 141 个月**（缺 47 个月）。`data/sep_revisions.json` 的 74 期中有 **30 期早于 2015-06**，而美联储官方 PDF 在 2015 年之前根本没有发布 `Median`（中位数）表。
-   - **宏观 FRED 历史修订（非 PIT）与 `data/yahoo` 无分红问题**：
-     - 91 个 FRED JSON 中，市场利率/利差（`DGS10`、`DFF`、`BAMLH0A0HYM2`）无修订问题；但 **62 个非日频宏观序列**在实时历史上经历过大幅修订（通过官方 ALFRED 实时库核实：`2020-Q2 GDP` 初值 `19,408.76` vs 现值 `19,958.29`，上修 `+549.5 亿美元`；`2021-06 PAYEMS` 非农上修 `+6.1 万人`；`PCEPILFE` 基期重算从 `120.72` 变为 `111.82`）。旧版 `backtest/audit_report.md` 把全部 89 条 FRED 序列统标为 `"Daily | 1 day lag | Point-in-time: Yes"` 与事实不符。
-     - 根目录 `data/yahoo/*.json`（供宏观状态回测 `backtest/` 使用）存的是不含分红的价格序列，与 `research/sector_rotation/adj_prices/*.csv` 含分红总回报相比，每年少算分红收益：`SPY` **1.80%/年**、`QQQ` **0.68%/年**、`XLK` **1.14%/年**、`XLE` **2.66%/年**。
-
-3. **标普 500 成分股历史残余缺口及对核心策略的实际影响**：
-   - 与贝莱德官方 `IVV` 135 期月度持仓逐一比对确认的 **59 处成分股归属/收盘后生效时点偏差**（涉及 `ACE`、`CPRI/KORS`、`CCEP/CCE`、`TE` 等 13 个代码），对不同策略的实际命中次数为：
-     - **全市场纯动量 Top1（`PureMom_Top1`）**：**0 次命中（完全不受影响）**
-     - **机器学习 `ML2 C-lgbm Top3`**：**0 次命中（完全不受影响）**
-     - **行业→个股动量 `SPEC`**：**1 次命中**（`2016-06-30` 选了 `TE`，官方收盘后剔除已生效，当月实际现金收购价退出收益 `-0.33%`）
-     - **纯动量 Top10**：**3 次命中**（`2016-06-30` `TE`，以及 `2018-02-28` / `2018-05-31` `CPRI` 与 `KORS` 重复计入）
-   - 免费数据源下仍客观存在的边界：2017 上半年缺 6 期独立 `IVV` 快照、`gap_ledger.csv` 记录的 89 段历史缺失（659 个股票月）、55 个股票代码的历史 GICS 行业与 `IVV` 持仓行业存在差异、以及 2 笔换股并购退出（`ANDV`、`SCG`）忽略了收购方当月分红。
+### 2. 本轮 `v3` 全链路重建与一阶成本复算新抓出的重大发现（之前任何一轮审计均未发现）
+- **重大新发现 E — `Codex v2` 的 `CAM 2016-04-01` `<` 开盘价边界 Bug 不仅导致 5 份 Ridge 账本持仓算错 `200.1 bp`，更通过 Top-50 训练池级联放大了 `ML2 C-lgbm Top1` 的收益（`33.39% -> 16.33%`），且 `Codex v2` 估值比仍残留 `adjclose` 未来分红折算（纯无分红复算为 `23.51% / 14.08%`）**：
+  1. **根因精确定位到 2 行训练标签**：`Codex v2`（`backtest.py:222` + `ml2_run.py:89`）在拼接 WIKI 开盘价时写了严格小于 `< 2016-04-01`（应为 `<=`），误把被斯伦贝谢收购的 `CAM` 最后一个真实开盘价 `O['2016-04-01', 'CAM'] = 66.18` 抹成 `NaN`。上一轮只查“给定选股后的组合收益”时，我们以为只有当天买入 `CAM` 的 5 份 Ridge 账本受影响；但本轮 `v2_05` 从头训练 `ML2` 发现：**`CAM` 在 `2016-02-29`（动量第 9 名，出场日 `2016-04-01`）和 `2016-03-31`（动量第 10 名，入场日 `2016-04-01`）均处于 Top-50 训练池内**！这 1 天的 `<` bug 改写了 `CAM` 这 **2 行**训练标签 `ret_oo`（`2016-02-29` 相差 `+200.081 bp`，`2016-03-31` 相差 `-25.688 bp`）。
+  2. **双向数学闭环验证**：在 `v2_05` 中若仅模拟这 1 天的 `<` bug，我们的无尘室管线 **100% 逐月复现 `Codex v2` 的 `C-lgbm Top1`（`33.39%`，`141/141` 选股、`12/12` 年度选参一致，误差 `1.67e-16`）和 `C-lgbm Top3`（`17.86%`，`141/141` 选股一致，误差 `2.22e-16`）**；而**只要修掉这 1 天的 `<` bug（改为正确的 `<=`）**，2017 年起的树分裂与 `[Y-2, Y-1]` `num_leaves` 选参随之改变，**`C-lgbm Top1` 净年化直接从 `33.39%` 跌至 `16.33%`（`-17.06` 个百分点，`104/141` 个月选股相同）**，`C-lgbm Top3` 从 `17.86%` 变为 `18.69%`（`68/141` 个月 3 股集合完全相同）！
+  3. **100% 去分红纯拆股历史价格估值敏感性测试（`v2_05 Step 5`）**：`Codex v2` 的 `ml_features.py`（第 21–22、220–226 行）在计算 `ep / deps_p / log_mcap / sp / bm / cfo_yield` 6 个估值特征时，仍用经拆股调整的基本面除以含未来现金分红回溯折算的 `adjclose[t]`。将这 6 个特征彻底替换为 **100% PIT 无未来分红的 `raw_close[t] / split_factor_after(t)`**（配合无 bug 的 `<=` 开盘价）重跑 12 年滚动训练后，**`C-lgbm Top1` 净年化为 `23.51%`**（比存储值 `33.39%` 低 `-9.88 pp`，比 `<=` `adjclose` 版高 `+7.18 pp`），**`C-lgbm Top3` 净年化为 `14.08%`**（比存储值 `17.86%` 低 `-3.78 pp`）。**结论非常明确**：无论在哪一种严格无泄漏口径下，现有 `ML2 C-lgbm` 都显著跑输完全验证通过的**纯动量基准（Top1 `41.97%`、Top3 `27.33%`）**，且 Top1 机器学习排序对极小样本扰动高度脆弱。
+- **重大新发现 C — FOMC SEP `data/sep_revisions.json` 全量 74 行官方 PDF Table 1 坐标级普查（`v2_03`）**：用 PyMuPDF 单词坐标精确锁定每期官方 PDF `Table 1` 的 `(Median × target_year)` 单元格同时核查 `Core PCE` 与 `Federal funds rate` 后，74 行全部水落石出：**`31` 行**（`2015-09` 之前）美联储官方 Table 1 根本没有发布 `Median` 列；**`11` 行**（集中在 `2015-09..2018-12`）存在早期人工/脚本摘录错格（误摘了 Headline PCE、相邻年份列或把 `1.4` 利率填进 `pce`）；**`32` 行**两格双双 `0.0000` 精确吻合（其中 **`2019-03` 至 `2026-06` 连续 `29 / 29` 期 100.0% 零误差**）。
 
 ---
 
-## 二、7 大数据域全量审计总表
+## 二、外部审计 6 项最终签收要求落实总表
 
-| 数据域 | 审计覆盖规模（100% 全量扫描） | 外部主数据源 / 独立校验基准 | 结论等级 | 核心量化证据 |
-|---|---|---|---|---|
-| **1. 标普 500 & 纳指 100 股票日线价格/开盘价** | 7 个核心库共 `2,509` 个 JSON、`1,017.9 万`根日线 + `WIKI` `3,199` 股 | 贝莱德官方 `IVV` 持仓 (`65,811` 股票月) + Nasdaq `WIKI` (`54,365` 股票月) | **核心价格通过；成分股池有小幅已知残差** | `IVV` 原价 `99.6809% <= 10bp`；`raw_open` 复权因子最大误差 `1.11e-16`；`PureMom_Top1` 与 `ML2 Top3` 0 次命中 59 处成分股缺陷（`SPEC` 命中 1 次 `TE`） |
-| **2. 中小盘 (`winners_holdout`) 价格与候选池** | `raw_smallcap` `3,830` 个 JSON（`1,078.0 万`根日线）+ 48 份账本 | Nasdaq `WIKI` + SEC 官方 71 个季度 FSDS `sub_*.parquet` (`2009Q1–2026Q3`) | **未通过 PIT 审计（结构性污染）** | `6,641` 根非正 `adjclose`；`354` 只商品/加密信托与 SPAC（`GBTC` 4 次入选纯动量 Top1；`AGQ/USO/UNG/SLV` 等 `3,528` 笔持仓）；代码借壳错配（`SPWR/BID/ETH`）；`STRICT` 漏拦 `1,160` 条单日尖峰 |
-| **3. SEC EDGAR PIT 财报与估值特征** | 3 套季报面板 `204,523` 行 + `pit_long` `6,857,549` 行 + `8-K` `61,645` 行 | SEC 官方 `data.sec.gov` 申报档案 + 71 期 SEC FSDS | **财报时点 100% 通过；原版估值价有分红泄漏（Codex v2 已修）** | `available_date != filed+1d` = `0`；EPS 拆股误差 = `0`；AMD `2017-06-30` 泄漏回归 = `null`；原版用 `adjclose` 算市值致 `49.43%` 样本失真 `>10%` |
-| **4. FRED 宏观序列 & 轮动 ETF 行情** | `91` 个 FRED JSON（`309,288` 条观测）+ `66` 个 `data/yahoo` + `13` 个 `adj_prices` | 圣路易斯联储官方 `api.stlouisfed.org` 实时 & ALFRED 初值 API | **利率精确；宏观经济存在历史修订；`data/yahoo` 不含分红** | 利率 `0` 修订；`2020Q2 GDP` 修订 `+549.5B`、`2021-06 PAYEMS` `+61k`；`data/yahoo` 比总回报每年少算 `0.68%–2.66%` 分红 |
-| **5. 行业 EPS、FOMC SEP、Kim-Wright & LSEG** | Yardeni `700` 行 + S&P DJI `145` 份 `.xlsx`（`150,190` 格）+ `76` 份 SEP PDF + LSEG `400` 周 | 美联储官方 PDF 原文 + S&P DJI 官方归档表 + `^GSPC`/`QQQ` | **部分通过，抓出 3 处硬缺陷** | **数学证明 LSEG `82221` 100% 是标普 500 `^GSPC` 而非 QQQ**；Yardeni `98.43%` 为曲线描点；SEP `2015-06` 前 30 期无官方中位数；S&P DJI `.xlsx` 单元格抽查 `0` 误差但缺 47 个月 |
-| **6. Smart Money SEC Form 13F 机构库** | `53` 个 SEC 官方季度 `.zip`、`397,833` 份申报、`120,182,194` 行持仓 | 直接解包核对 SEC 官方原始 `SUBMISSION.tsv` & `INFOTABLE.tsv` | **100% 通过（生产级 PIT）** | `100.0%` 精确到秒级 `acceptance_datetime`；`CH-1`..`CH-13` 全 `PASS`；10 次跨年原始 `.zip` 随机直抽金额与股数 `0` 误差（注意勿误用仅含 `10,605` 份申报的开发子集 `13f.db`） |
-| **7. 全仓库策略月度账本（Claude 原版 + Codex v2 + Top3 专题）** | 共 **`347` 份**月度策略账本（原版 `166` + Codex v2 `173` + Top3 专题 `8`） | 从底层 `raw` / `raw_open` / `raw_tiingo` / `raw_wiki` 逐月独立复算 | **算术复算 100% 通过（Codex v2 已修复原版破产下界与 ML2 偏差）** | 10 条主账本毛收益复算最大误差 `<= 1.11e-16`；原版唯一单月跌破 `-100%`（`2018-04 BCEI net=-100.2%`）已在 Codex v2 修正为 `-100.0%` 破产吸收 |
-
----
-
-## 三、核心策略原版（Claude `78a2d0d`）vs 修正版（Codex v2 `4ea9a1d`）独立复算对照表
-
-以下数字全部由本次审计脚本 `04_audit_all_ledgers.py` 直接从底层原始价格/开盘价文件逐月重算验证（毛收益逐月复算误差全部 $\le 1.11 \times 10^{-16}$）：
-
-| 策略名称 | 成交方式 | 审计窗口（月数） | 原版 `78a2d0d` 净年化 (CAGR) | Codex v2 `4ea9a1d` 净年化 (CAGR) | Codex v2 月频最大回撤 | 差异原因与审计判定 |
-|---|---|---|---|---|---|---|
-| **全市场纯动量 Top1 (`NO_SECTOR_FILTER__top_1`)** | 月末收盘 → 下月末收盘 | `2009-01..2026-09` (213) | **36.59%** | **36.59%** (`36.585%`) | `-69.37%` (日频约 `-73%`) | **算术完全站得住**（微小 0.9bp 差异仅来自自融资乘性扣费替代加性扣费）；但高度依赖 2026 年前 9 个月牛股集中爆发（截至 2025 底为 `26.88%`） |
-| **最强行业 → 行业内动量 Top1 (`SPEC`)** | 月末收盘 → 下月末收盘 | `2009-01..2026-09` (213) | **27.37%** | **27.36%** (`27.364%`) | `-50.66%` | **算术完全站得住**；仅 `2016-06-30` `TE` 1 个月受收盘后剔除时点影响（当月毛收益 `-0.33%`） |
-| **全市场纯动量 Top10 (`Ref__top_10`)** | 月末收盘 → 下月末收盘 | `2009-01..2026-09` (213) | **15.50%** | **15.49%** | `-34.38%` | 算术精确；含 3 笔成分股边界瑕疵（`TE` 1 次、`CPRI` 双重计入 2 次） |
-| **纯动量 Top3（跳过最近 1 个月，次日开盘成交）** | 次月初开盘 → 下月初开盘 | `2015-01..2026-09` (141) | **26.86%** (140 月) | **27.33%** (141 月) | `-25.76%` | **最干净、抗回撤显著优于 Top1 的纯价格基准**；补回被旧代码误丢的 `2015-01` 首月后共 141 个月 |
-| **机器学习 `ML2 C-lgbm Top1`（动量 Top50 内基本面变化排序）** | 次月初开盘 → 下月初开盘 | `2015-01..2026-09` (141) | ~~46.12%~~ (140 月) | **33.39%** (141 月) | `-63.52%` | **原版超额收益主要来自泄漏与估值价失真**：修掉选参跨月开盘泄漏 + 改用未含未来分红的 `close` 算市值后，**跑输同窗口纯动量 Top1（`41.97%`）8.58 个百分点** |
-| **机器学习 `ML2 C-lgbm Top3`** | 次月初开盘 → 下月初开盘 | `2015-01..2026-09` (141) | ~~36.69%~~ (140 月) | **17.86%** (141 月) | `-39.29%` | 同上修复后，**跑输同窗口纯动量 Top3（`27.33%`）9.47 个百分点**——说明现有基本面特征尚未证明能稳定战胜纯动量 |
+| # | 外部审计最终签收要求 | `v2_standalone/` 机械级实现 | 执行验证证据 |
+|---|---|---|---|
+| **1** | **零读取账本 `turnover`、`capital_after_costs`、`cash_return` 及月度 `rf` CSV**（100% 第一性原理算换手费与现金收益） | [`v2_00_cleanroom_ast_and_readonly_guard.py`](v2_standalone/v2_00_cleanroom_ast_and_readonly_guard.py) 源码级封禁上述所有列名与文件名；[`v2_cleanroom_lib.py`](v2_standalone/v2_cleanroom_lib.py) 仅凭 `(picks, weights)` + 原始日/月收益独立递推漂移权重 `w_prev`、季频漂移、6 子仓重叠 `hold6m` 扣费、自融资二分求解及原始 `data/fred/DGS3MO.json` 现金收益 | `7` 个脚本 `violations = 0`；全库 `347` 份账本中 `298` 份一阶复算 `PASS`，精准揪出 `20` 份扣费/并购退出不一致账本（含 `5` 份 `Codex v2` Ridge `CAM` 账本与 `8` 份原版 `NDX` 硬扣 `20bp` 账本） |
+| **2** | **核心策略从原始文件端到端全链路 PIT 信号/特征/模型/选股重建** + 其余账本诚实标注审计范围 | [`v2_05_full_chain_pit_strategy_reconstructor.py`](v2_standalone/v2_05_full_chain_pit_strategy_reconstructor.py) 零项目依赖、零读取预生成 Parquet，端到端重建 **10 份核心主账本**；`v2_01` 对其余次级网格账本如实标注 `RETURN_AND_FIRST_PRINCIPLES_COST_VERIFIED_ONLY`（`211` 份），绝不夸大为全链路重建 | **8 份纯动量与 `SPEC` 主账本 `100% PASS`（`max |net_diff| <= 2.22e-16`）**；**2 份 `Codex v2` `C-lgbm` 账本精准抓出 `CAM` 训练池级联（`33.39% -> 16.33%`）与无分红估值敏感性（`23.51% / 14.08%`）** |
+| **3** | **SEC 13F 整份申报 100% 排序多重集全等比对**（禁止 `set()` 吞掉同 CUSIP 多子管理人重复行） | `v2_03` Part C 直接比对 `sorted(raw_rows) == sorted(db_rows)`，覆盖整份申报全部 `(cusip, raw_value, value_usd, shares, put_call)` 元组 | **`40 / 40` 份申报（`18,099` 条持仓）100% 多重集全等 `PASS_EXTERNAL_PRIMARY`** |
+| **4** | **FRED 当 `ALFRED_initial = None` 时严禁计入 `PASS_EXTERNAL_PRIMARY`** | `v2_03` Part D 新增独立层级 **`PASS_EXTERNAL_LATEST_ONLY`**（`5` 张卡），仅在 ALFRED 确有历史初值且 `0` 修订时才授予 `PASS_EXTERNAL_PRIMARY` | `PASS_EXTERNAL_LATEST_ONLY = 5` 与 `PASS_EXTERNAL_PRIMARY = 199` 严格分离 |
+| **5** | **官方美联储 FOMC SEP PDF Table 1 坐标级单元格解析（`Core PCE` + `Fed funds rate` 双指标）** | `v2_cleanroom_lib.py` 用 PyMuPDF `(x0, y0)` 坐标定位 `Table 1` 的 `Median` 表头区间与 `target_year` 列中心，对全部 `74` 行做完整普查 | 普查全量 74 行：`31` 行无官方中位数、`11` 行 `2015–2018` 摘录错格、**`32` 行双指标 `0.0000` 吻合（`2019-03..2026-06` 连续 `29/29 = 100%`）** |
+| **6** | **新增 100 张 SEC 财报 `NULL` 空值完整性随机核查卡（`N001..N100`）** | [`v2_04_sec_xbrl_100_null_completeness_auditor.py`](v2_standalone/v2_04_sec_xbrl_100_null_completeness_auditor.py) 扫描全部 142 份 SEC FSDS 原始 Parquet + `100/100` 实时 `data.sec.gov`，输出 Horvitz-Thompson 总体加权归因与全库零财报代码清单 | 样本计数 `38` 真缺失 / `54` 替代标签未纳入 / `8` 保守置空；总体加权占比 **`65.40%` 真缺失 / `32.24%` 替代标签 / `2.36%` 保守置空** |
 
 ---
 
-## 四、固定随机种子（`seed=20261031`）100 张分层随机抽查结果
+## 三、核心策略全链路端到端无尘室重建对照总表（`v2_05`）
 
-为彻底杜绝人工挑样本，脚本 [`05_stratified_random_spotcheck.py`](05_stratified_random_spotcheck.py) 使用固定随机数种子 `np.random.default_rng(20261031)`，按 8 个分层一次性随机抽取 **100 张审计卡**，逐笔重算并直接打到外部官方/独立数据源：
+| # | 核心策略与成交/扣费口径 | 窗口（月数） | 无尘室全链路判定（`<=` 无 Bug 开盘价） | 选股一致率 | 无尘室净年化 | 账本记录净年化 | 最大月净收益差 | 贝莱德官方 `IVV` 持仓外部确认 |
+|---:|---|---:|---|---:|---:|---:|---:|---|
+| **1** | 全市场纯动量 Top1（收盘，加性，原版） | `2009-01..2026-09` (`213`) | **`PASS`** | **`213 / 213`** | **`36.59%`** | `36.59%` | `9.71e-17` | **`135 / 135` (`100.0%`)** |
+| **2** | 全市场纯动量 Top1（收盘，自融资，`Codex v2`） | `2009-01..2026-09` (`213`) | **`PASS`** | **`213 / 213`** | **`36.59%`** | `36.59%` | `1.67e-16` | **`135 / 135` (`100.0%`)** |
+| **3** | 最强行业→个股 `SPEC`（收盘，加性，原版） | `2009-01..2026-09` (`213`) | **`PASS`**（`213/213` 行业） | **`213 / 213`** | **`27.37%`** | `27.37%` | `9.97e-17` | **`135 / 135` (`100.0%`)** |
+| **4** | 最强行业→个股 `SPEC`（收盘，自融资，`Codex v2`） | `2009-01..2026-09` (`213`) | **`PASS`**（`213/213` 行业） | **`213 / 213`** | **`27.36%`** | `27.36%` | `1.63e-16` | **`135 / 135` (`100.0%`)** |
+| **5** | 纯动量 Top1（次日开盘，自融资，`ML2 Bench`） | `2015-01..2026-09` (`141`) | **`PASS`** | **`141 / 141`** | **`41.97%`** | `41.97%` | `9.71e-17` | **`135 / 135` (`100.0%`)** |
+| **6** | 纯动量 Top3（次日开盘，自融资，`ML2 Bench`） | `2015-01..2026-09` (`141`) | **`PASS`** | **`141 / 141`** | **`27.33%`** | `27.33%` | `2.22e-16` | **`404 / 405` (`99.75%`)** |
+| **7** | 纯动量 Top3（次日开盘，`Top3_skip_monthly`） | `2015-01..2026-09` (`141`) | **`PASS`** | **`141 / 141`** | **`27.33%`** | `27.33%` | `2.22e-16` | **`404 / 405` (`99.75%`)** |
+| **8** | 纯动量 Top3（次日开盘，`Top3_qqq_rebalance`） | `2015-01..2026-09` (`141`) | **`PASS`** | **`141 / 141`** | **`27.33%`** | `27.33%` | `2.22e-16` | **`404 / 405` (`99.75%`)** |
+| **9** | `Codex v2` `ML2 C-lgbm Top1`（滚动训练，次日开盘） | `2015-01..2026-09` (`141`) | **`FLAGGED_CAM_TRAINING_OPEN_CUTOFF_CASCADE`** *(模拟 `<` bug 时 `141/141` 精确复现 `1.67e-16`)* | `104 / 141` *(模拟 `<`: `141/141`)* | **`16.33%`** *(无分红估值: **`23.51%`**)* | `33.39%` | `2.81e-01` *(模拟 `<`: `1.67e-16`)* | 受 `CAM` 训练标签 `<` bug（`-17.06 pp`）与 `adjclose` 未来分红敏感性影响 |
+| **10** | `Codex v2` `ML2 C-lgbm Top3`（滚动训练，次日开盘） | `2015-01..2026-09` (`141`) | **`FLAGGED_CAM_TRAINING_OPEN_CUTOFF_CASCADE`** *(模拟 `<` bug 时 `141/141` 精确复现 `2.22e-16`)* | `68 / 141` *(模拟 `<`: `141/141`)* | **`18.69%`** *(无分红估值: **`14.08%`**)* | `17.86%` | `1.34e-01` *(模拟 `<`: `2.22e-16`)* | 受 `CAM` 训练标签 `<` bug（`+0.83 pp`）与无分红估值（`-3.78 pp`）影响 |
 
-| 分层编号与抽样范围 | 抽查卡数 | `PASS_PRIMARY_VERIFIED`（外部主源核实无误） | `PASS_INTERNAL_SINGLE_VENDOR`（单源区间内部精确） | 数据警告 / 历史修订 | 真实口径缺陷命中 | 算术错误 (`FAIL_MATH`) |
+---
+
+## 四、300 张严格 9 层互斥随机主核查表（`v2_03`）+ 100 张 `NULL` 空值完整性核查表（`v2_04`）
+
+### 1. 300 张主随机核查卡（9 个严格互斥结论层级）
+
+| 互斥结论层级 | A: 全 347 账本零过滤双阶段盲抽 | B: SEC 原始 XBRL + 实时 `sec.gov` | C: SEC 13F `.zip` 100% 多重集全等 | D: 宏观 / 坐标级 SEP / S&P DJI / ETF | **300 卡合计** | **占比** |
 |---|---:|---:|---:|---:|---:|---:|
-| **S1**：标普 500 收盘成交笔数 (`2009–2018`) vs `WIKI` & `IVV` | 15 | **15** | 0 | 0 | 0 | **0** |
-| **S2**：标普 500 次日开盘成交笔数 (`2019–2026`) vs `raw_open` & `IVV` | 15 | **12** | **3** | 0 | 0 | **0** |
-| **S3**：拆股因子、代码改名别名、退市并购手工退出、纳指 100 合并池 | 10 | **7** | **2** | **1** (`ANDV` 换股忽略当月分红) | 0 | **0** |
-| **S4**：中小盘 Holdout 实际持仓交易 vs `WIKI` & SEC FSDS | 15 | **14** | **1** | 0 | 0 *(全量扫描已单独列出 `GBTC` 等非 PIT 缺陷)* | **0** |
-| **S5**：SEC EDGAR PIT 季报披露日、隔日生效与拆股 EPS 换算 vs `data.sec.gov` | 15 | **15** | 0 | 0 | 0 | **0** |
-| **S6**：FRED 宏观观测点（实时联网查圣路易斯联储官网 API）& 行业 ETF 总回报 | 10 | **9** | 0 | **1** (`TNWBSHNO` 2013Q2 美联储后续下修) | 0 | **0** |
-| **S7**：FOMC SEP 官方 PDF 原文、S&P DJI 归档 `.xlsx` 单元格、Yardeni、LSEG | 10 | **7** | **1** | 0 | **2** (`2014-12` SEP 无官方中位数；`LSEG 82221` 实为标普 500 而非 QQQ) | **0** |
-| **S8**：Smart Money 13F 数据库 vs SEC 官方原始 `.zip` 内 `SUBMISSION/INFOTABLE.tsv` | 10 | **10** | 0 | 0 | 0 | **0** |
-| **合计** | **100** | **89** | **7** | **2** | **2** | **0** |
+| **`PASS_EXTERNAL_PRIMARY`** *(经真正外部独立主源验证：SEC EDGAR/FSDS、100% 多重集 13F `.zip`、贝莱德官方 `IVV` 快照、WIKI/Tiingo 第二源、ALFRED 未修订初值、坐标解析 SEP Table 1、S&P DJI `.xlsx`)* | **48** | **98** | **40** | **13** | **199** | **`66.33%`** |
+| **`PASS_INTERNAL_MATH_SINGLE_VENDOR`** *(单价格源覆盖区间内原始成分与一阶换手扣费算术精确)* | 51 | 0 | 0 | 0 | **51** | **`17.00%`** |
+| **`UNVERIFIABLE_NET_ONLY_LEDGER`** *(无过滤盲抽自然命中 27 份无 `picks` 旧 `factor_combo` 账本)* | **12** | 0 | 0 | 0 | **12** | **`4.00%`** |
+| **`DATA_WARNING_KNOWN_LIMITATION`** *(ALFRED 宏观修订、Yardeni 描点、`-100%` 压力破产行、换股并购分红省略、Q4 EPS 保守置空)* | 3 | 2 | 0 | 6 | **11** | **`3.67%`** |
+| **`DATA_DEFECT_CONFIRMED`** *(中小盘混入 `BDRY/GBTC/UNG` 3、2015–2018 SEP Table 1 摘录错格 3、LSEG `82221=^GSPC` 2)* | **3** | 0 | 0 | **5** | **8** | **`2.67%`** |
+| **`UNVERIFIABLE_MISSING_RAW_INPUT`** *(2015-09 前 SEP 官方无 `Median` 列或缺失历史归档原文件)* | 0 | 0 | 0 | **6** | **6** | **`2.00%`** |
+| **`PASS_EXTERNAL_LATEST_ONLY`** *(实时 `api.stlouisfed.org` 最新值 `0` 误差吻合，但 ALFRED 无历史初值返回，严格降级单列)* | 0 | 0 | 0 | **5** | **5** | **`1.67%`** |
+| **`PASS_INTERNAL_CROSS_STORE`** *(同源双本地缓存一致，绝不混充外部主源)* | 0 | 0 | 0 | **5** | **5** | **`1.67%`** |
+| **`FAIL_MATH_OR_FACT_MISMATCH`** *(一阶换手扣费抓出原版 NDX 硬扣 `20bp/月` 错误：`L007`、`L030`、`L083`)* | **3** | **0** | **0** | **0** | **3** | **`1.00%`** |
+| **合计** | **120** | **100** | **40** | **40** | **300** | **`100.00%`** |
 
-> 全部 100 张核查卡的逐笔明细（含抽样实体、账本原值、独立复算值、外部主数据源核对证据、单卡结论）完整保存在：
-> - Markdown 表格：[`05_random_spotcheck_100_cards.md`](05_random_spotcheck_100_cards.md)
-> - CSV 原始表：[`05_random_spotcheck_100_cards.csv`](05_random_spotcheck_100_cards.csv)
+### 2. 100 张 SEC 财报 `NULL` 空值完整性随机核查卡（`v2_04`，`N001..N100`）
+- **`TRUE_ABSENT_IN_SEC_XBRL`**：样本 **`38 / 100`**，Horvitz-Thompson 总体加权占比 **`65.40%`**（SEC 原始 FSDS 与实时 `data.sec.gov` 均确认该季度确实未披露任何主标签或替代标签）。
+- **`PARSER_OMITTED_ALTERNATIVE_TAG_IN_SEC`**：样本 **`54 / 100`**，总体加权占比 **`32.24%`**（公司披露了 `NetIncomeLossAvailableToCommonStockholdersBasic`、公用事业 `RegulatedAndUnregulatedOperatingRevenue`、银行 `InterestIncomeExpenseNet`、油气 `OilAndGasRevenue`、REITs `RealEstateRevenueNet` 等行业/替代标签，指明了未来扩充基本面解析器的精确标签清单）。
+- **`CONSERVATIVE_RULE_BLANK_UNAMBIGUOUS_QTR_UNAVAILABLE`**：样本 **`8 / 100`**，总体加权占比 **`2.36%`**（仅有全年 `qtrs=4` 缺 `qtrs=3` 9M 申报或采用 `GBP`/`CAD` 非美元计价，按保守规则置空未做猜测）。
 
 ---
 
-## 五、只读边界校验与一键复现方法
+## 五、一键完整复现全部 7 阶段独立无尘室审计
 
-### 1. 原始代码与历史归档零改动证明
-审计开始前，[`00_baseline_integrity_guard.py`](00_baseline_integrity_guard.py) 对仓库内全部 **10,964 份**受保护回测代码、数据与账本文件记录了大小与 SHA-256 指纹（[`baseline_fingerprints.json`](baseline_fingerprints.json)）。全部审计脚本运行完毕后复验结果（[`baseline_integrity_check.json`](baseline_integrity_check.json)）：
-- **`status`: `"PASS"`（`10,964` 份文件：`changed = 0`、`missing = 0`、`added = 0`）**。Claude 原版冻结文件与 Codex 独立副本未动一分一毫。
-
-### 2. 本目录全部审计脚本与产出清单
-- [`run_all_audits.sh`](run_all_audits.sh)：一键从头重跑全部全量审计 + 100 张随机抽查 + 只读指纹复验
-- [`00_baseline_integrity_guard.py`](00_baseline_integrity_guard.py) → [`baseline_integrity_check.json`](baseline_integrity_check.json)
-- [`01_audit_equity_prices_and_universes.py`](01_audit_equity_prices_and_universes.py) → [`01_equity_prices_and_universes_audit.json`](01_equity_prices_and_universes_audit.json)、[`ivv_vs_store_price_outliers_gt1pct.csv`](ivv_vs_store_price_outliers_gt1pct.csv)、[`sp500_yahoo_vs_wiki_monthly_outliers_gt2pct.csv`](sp500_yahoo_vs_wiki_monthly_outliers_gt2pct.csv)
-- [`02_audit_sec_fundamentals.py`](02_audit_sec_fundamentals.py) → [`02_sec_fundamentals_audit.json`](02_sec_fundamentals_audit.json)
-- [`03_audit_macro_sector_13f_datasets.py`](03_audit_macro_sector_13f_datasets.py) → [`03_macro_sector_13f_audit.json`](03_macro_sector_13f_audit.json)
-- [`04_audit_all_ledgers.py`](04_audit_all_ledgers.py) → [`04_all_ledgers_audit.json`](04_all_ledgers_audit.json)、[`04_all_ledgers_inventory.csv`](04_all_ledgers_inventory.csv)
-- [`05_stratified_random_spotcheck.py`](05_stratified_random_spotcheck.py) → [`05_random_spotcheck_summary.json`](05_random_spotcheck_summary.json)、[`05_random_spotcheck_100_cards.md`](05_random_spotcheck_100_cards.md)、[`05_random_spotcheck_100_cards.csv`](05_random_spotcheck_100_cards.csv)
+```bash
+bash outputs/gemini_full_data_audit_20261031/v2_standalone/run_v2_standalone_audit.sh
+```

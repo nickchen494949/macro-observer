@@ -1,0 +1,574 @@
+{
+  "audit_module": "v2_05_full_chain_pit_strategy_reconstructor.py",
+  "zero_project_imports": true,
+  "zero_ledger_cost_or_cash_reads": true,
+  "zero_project_parquet_reads_in_reconstruction": true,
+  "elapsed_seconds": 169.63,
+  "raw_alias_and_cik_reconstruction_parity": {
+    "cleanroom_aliases_count": 41,
+    "stored_aliases_count": 41,
+    "aliases_exact_100pct_match": true,
+    "cleanroom_cik_map_count": 842,
+    "stored_cik_map_count": 842,
+    "cik_map_exact_100pct_match": true
+  },
+  "raw_sec_xbrl_57_feature_panel_parity_vs_codex_v2": {
+    "cleanroom_rows": 94010,
+    "stored_panel_rows": 94010,
+    "exact_universe_row_matches": 94010,
+    "mom_rank_mismatches": 0,
+    "features_checked_count": 57,
+    "total_feature_cells_checked": 5358570,
+    "total_feature_nan_mismatches": 0,
+    "overall_max_feature_abs_diff": 2.0747292772682613e-14,
+    "ret_oo_differences_cleanroom_le_vs_codex_lt": [
+      {
+        "t": "2016-02-29",
+        "ticker": "CAM",
+        "cleanroom_ret_oo": 0.0030312215822976274,
+        "codex_v2_stored_ret_oo": -0.016976917349218135,
+        "diff_bp": 200.081
+      },
+      {
+        "t": "2016-03-31",
+        "ticker": "CAM",
+        "cleanroom_ret_oo": -0.0025687518887881344,
+        "codex_v2_stored_ret_oo": 0.0,
+        "diff_bp": -25.688
+      }
+    ],
+    "ret_oo_mismatches_when_emulating_codex_lt_boundary": 0
+  },
+  "core_headline_ledgers_reconstructed_count": 10,
+  "strict_bugfree_cleanroom_passed_count": 8,
+  "flagged_cam_training_open_cutoff_cascade_count": 2,
+  "pipeline_root_cause_reproduced_10_of_10_count": 10,
+  "overall_status": "8_OF_8_PURE_MOMENTUM_AND_SPEC_PASS__2_OF_2_CODEX_CLGBM_FLAGGED_CAM_OPEN_BUG_AND_REPRODUCED",
+  "per_ledger_results": [
+    {
+      "strategy": "Pure_Momentum_Top1_Close_Additive_2009_2026",
+      "ledger_path": "research/sector_stock_momentum/results/monthly_NO_SECTOR_FILTER__top_1_stock.csv",
+      "status": "PASS",
+      "months": 213,
+      "picks_exact_ordered_matches": 213,
+      "picks_exact_set_matches": 213,
+      "max_gross_abs_diff": 9.936712910829648e-17,
+      "max_net_abs_diff": 9.71445146547012e-17,
+      "cleanroom_gross_cagr": 0.3810941187851895,
+      "ledger_gross_cagr": 0.38109411878518973,
+      "cleanroom_net_cagr": 0.36594019692848345,
+      "ledger_net_cagr": 0.3659401969284839,
+      "mismatches": [],
+      "n_eligible_exact_matches": 213,
+      "external_ivv_verification": {
+        "total_pick_months": 213,
+        "months_with_official_blackrock_ivv_snapshot": 135,
+        "confirmed_in_official_blackrock_ivv_holdings": 135,
+        "ivv_membership_confirmation_rate": 1.0,
+        "external_second_vendor_or_ivv_return_matches": 201,
+        "external_return_divergences": 3,
+        "unmatched_ivv_ticker_notes": []
+      }
+    },
+    {
+      "strategy": "Pure_Momentum_Top1_Close_SelfFinancing_2009_2026",
+      "ledger_path": "backtest_versions/2026-10-30_codex_full_audit_v2/research/sector_stock_momentum/results/monthly_NO_SECTOR_FILTER__top_1_stock.csv",
+      "status": "PASS",
+      "months": 213,
+      "picks_exact_ordered_matches": 213,
+      "picks_exact_set_matches": 213,
+      "max_gross_abs_diff": 9.936712910829648e-17,
+      "max_net_abs_diff": 1.6653345369377348e-16,
+      "cleanroom_gross_cagr": 0.3810941187851895,
+      "ledger_gross_cagr": 0.38109411878518973,
+      "cleanroom_net_cagr": 0.3658506995906421,
+      "ledger_net_cagr": 0.3658506995906423,
+      "mismatches": [],
+      "n_eligible_exact_matches": 213,
+      "external_ivv_verification": {
+        "total_pick_months": 213,
+        "months_with_official_blackrock_ivv_snapshot": 135,
+        "confirmed_in_official_blackrock_ivv_holdings": 135,
+        "ivv_membership_confirmation_rate": 1.0,
+        "external_second_vendor_or_ivv_return_matches": 201,
+        "external_return_divergences": 3,
+        "unmatched_ivv_ticker_notes": []
+      }
+    },
+    {
+      "strategy": "SPEC_TopSector_Top1Stock_Close_Additive_2009_2026",
+      "ledger_path": "research/sector_stock_momentum/results/monthly_SPEC.csv",
+      "status": "PASS",
+      "months": 213,
+      "picks_exact_ordered_matches": 213,
+      "picks_exact_set_matches": 213,
+      "max_gross_abs_diff": 9.71445146547012e-17,
+      "max_net_abs_diff": 9.974659986866641e-17,
+      "cleanroom_gross_cagr": 0.2923619841895657,
+      "ledger_gross_cagr": 0.29236198418956594,
+      "cleanroom_net_cagr": 0.27367732903706,
+      "ledger_net_cagr": 0.27367732903706044,
+      "mismatches": [],
+      "top_sector_exact_matches": 213,
+      "n_eligible_exact_matches": 213,
+      "external_ivv_verification": {
+        "total_pick_months": 213,
+        "months_with_official_blackrock_ivv_snapshot": 135,
+        "confirmed_in_official_blackrock_ivv_holdings": 135,
+        "ivv_membership_confirmation_rate": 1.0,
+        "external_second_vendor_or_ivv_return_matches": 187,
+        "external_return_divergences": 4,
+        "unmatched_ivv_ticker_notes": []
+      }
+    },
+    {
+      "strategy": "SPEC_TopSector_Top1Stock_Close_SelfFinancing_2009_2026",
+      "ledger_path": "backtest_versions/2026-10-30_codex_full_audit_v2/research/sector_stock_momentum/results/monthly_SPEC.csv",
+      "status": "PASS",
+      "months": 213,
+      "picks_exact_ordered_matches": 213,
+      "picks_exact_set_matches": 213,
+      "max_gross_abs_diff": 9.71445146547012e-17,
+      "max_net_abs_diff": 1.6306400674181987e-16,
+      "cleanroom_gross_cagr": 0.2923619841895657,
+      "ledger_gross_cagr": 0.29236198418956594,
+      "cleanroom_net_cagr": 0.27364143582353506,
+      "ledger_net_cagr": 0.2736414358235355,
+      "mismatches": [],
+      "top_sector_exact_matches": 213,
+      "n_eligible_exact_matches": 213,
+      "external_ivv_verification": {
+        "total_pick_months": 213,
+        "months_with_official_blackrock_ivv_snapshot": 135,
+        "confirmed_in_official_blackrock_ivv_holdings": 135,
+        "ivv_membership_confirmation_rate": 1.0,
+        "external_second_vendor_or_ivv_return_matches": 187,
+        "external_return_divergences": 4,
+        "unmatched_ivv_ticker_notes": []
+      }
+    },
+    {
+      "strategy": "Pure_Momentum_Top1_OpenToOpen_SelfFinancing_2015_2026",
+      "ledger_path": "backtest_versions/2026-10-30_codex_full_audit_v2/research/sector_stock_momentum/results/ml2/monthly_BENCH_momentum_Top1.csv",
+      "status": "PASS",
+      "months": 141,
+      "picks_exact_ordered_matches": 141,
+      "picks_exact_set_matches": 141,
+      "max_gross_abs_diff": 9.71445146547012e-17,
+      "max_net_abs_diff": 9.71445146547012e-17,
+      "cleanroom_gross_cagr": 0.43417858783924235,
+      "ledger_gross_cagr": 0.43417858783924257,
+      "cleanroom_net_cagr": 0.419727074761727,
+      "ledger_net_cagr": 0.4197270747617272,
+      "mismatches": [],
+      "external_ivv_verification": {
+        "total_pick_months": 141,
+        "months_with_official_blackrock_ivv_snapshot": 135,
+        "confirmed_in_official_blackrock_ivv_holdings": 135,
+        "ivv_membership_confirmation_rate": 1.0,
+        "external_second_vendor_or_ivv_return_matches": 137,
+        "external_return_divergences": 3,
+        "unmatched_ivv_ticker_notes": []
+      }
+    },
+    {
+      "strategy": "Pure_Momentum_Top3_OpenToOpen_SelfFinancing_ML2_Bench_2015_2026",
+      "ledger_path": "backtest_versions/2026-10-30_codex_full_audit_v2/research/sector_stock_momentum/results/ml2/monthly_BENCH_momentum_Top3.csv",
+      "status": "PASS",
+      "months": 141,
+      "picks_exact_ordered_matches": 141,
+      "picks_exact_set_matches": 141,
+      "max_gross_abs_diff": 9.952975943416931e-17,
+      "max_net_abs_diff": 2.220446049250313e-16,
+      "cleanroom_gross_cagr": 0.285660984384833,
+      "ledger_gross_cagr": 0.285660984384833,
+      "cleanroom_net_cagr": 0.27325066790743247,
+      "ledger_net_cagr": 0.2732506679074338,
+      "mismatches": [],
+      "external_ivv_verification": {
+        "total_pick_months": 423,
+        "months_with_official_blackrock_ivv_snapshot": 405,
+        "confirmed_in_official_blackrock_ivv_holdings": 404,
+        "ivv_membership_confirmation_rate": 0.997531,
+        "external_second_vendor_or_ivv_return_matches": 412,
+        "external_return_divergences": 7,
+        "unmatched_ivv_ticker_notes": [
+          {
+            "formation": "2018-05-31",
+            "pick": "CPRI",
+            "raw_sym": "CPRI"
+          }
+        ]
+      }
+    },
+    {
+      "strategy": "Pure_Momentum_Top3_OpenToOpen_SkipLatest_2015_2026",
+      "ledger_path": "outputs/top3_include_latest_month_20261030/Top3_skip_monthly_monthly_ledger.csv",
+      "status": "PASS",
+      "months": 141,
+      "picks_exact_ordered_matches": 141,
+      "picks_exact_set_matches": 141,
+      "max_gross_abs_diff": 9.952975943416931e-17,
+      "max_net_abs_diff": 2.220446049250313e-16,
+      "cleanroom_gross_cagr": 0.285660984384833,
+      "ledger_gross_cagr": 0.285660984384833,
+      "cleanroom_net_cagr": 0.27325066790743247,
+      "ledger_net_cagr": 0.2732506679074338,
+      "mismatches": [],
+      "external_ivv_verification": {
+        "total_pick_months": 423,
+        "months_with_official_blackrock_ivv_snapshot": 405,
+        "confirmed_in_official_blackrock_ivv_holdings": 404,
+        "ivv_membership_confirmation_rate": 0.997531,
+        "external_second_vendor_or_ivv_return_matches": 412,
+        "external_return_divergences": 7,
+        "unmatched_ivv_ticker_notes": [
+          {
+            "formation": "2018-05-31",
+            "pick": "CPRI",
+            "raw_sym": "CPRI"
+          }
+        ]
+      }
+    },
+    {
+      "strategy": "Pure_Momentum_Top3_OpenToOpen_QQQComparison_2015_2026",
+      "ledger_path": "outputs/top3_qqq_rebalance_20261030/Top3_monthly_monthly_ledger.csv",
+      "status": "PASS",
+      "months": 141,
+      "picks_exact_ordered_matches": 141,
+      "picks_exact_set_matches": 141,
+      "max_gross_abs_diff": 9.952975943416931e-17,
+      "max_net_abs_diff": 2.220446049250313e-16,
+      "cleanroom_gross_cagr": 0.285660984384833,
+      "ledger_gross_cagr": 0.285660984384833,
+      "cleanroom_net_cagr": 0.27325066790743247,
+      "ledger_net_cagr": 0.2732506679074338,
+      "mismatches": [],
+      "external_ivv_verification": {
+        "total_pick_months": 423,
+        "months_with_official_blackrock_ivv_snapshot": 405,
+        "confirmed_in_official_blackrock_ivv_holdings": 404,
+        "ivv_membership_confirmation_rate": 0.997531,
+        "external_second_vendor_or_ivv_return_matches": 412,
+        "external_return_divergences": 7,
+        "unmatched_ivv_ticker_notes": [
+          {
+            "formation": "2018-05-31",
+            "pick": "CPRI",
+            "raw_sym": "CPRI"
+          }
+        ]
+      }
+    },
+    {
+      "strategy": "Codex_v2_ML2_C_lgbm_Top1_WalkForward_2015_2026",
+      "ledger_path": "backtest_versions/2026-10-30_codex_full_audit_v2/research/sector_stock_momentum/results/ml2/monthly_C_lgbm_Top1.csv",
+      "status": "FLAGGED_CAM_TRAINING_OPEN_CUTOFF_CASCADE",
+      "months": 141,
+      "picks_exact_ordered_matches": 104,
+      "picks_exact_set_matches": 104,
+      "max_gross_abs_diff": 0.28154307610985696,
+      "max_net_abs_diff": 0.28098055248126586,
+      "cleanroom_gross_cagr": 0.18608824350660336,
+      "ledger_gross_cagr": 0.36178480508971744,
+      "cleanroom_net_cagr": 0.16329503457158423,
+      "ledger_net_cagr": 0.3339112027730049,
+      "mismatches": [
+        {
+          "month": "2017-04-30",
+          "cleanroom_picks": "AMD",
+          "ledger_picks": "DVN",
+          "gross_diff": 0.026659769026248364,
+          "net_diff": 0.026606502754467645
+        },
+        {
+          "month": "2017-07-31",
+          "cleanroom_picks": "BKNG",
+          "ledger_picks": "EA",
+          "gross_diff": 0.02258678467241121,
+          "net_diff": 0.02254165623150728
+        },
+        {
+          "month": "2018-02-28",
+          "cleanroom_picks": "STZ",
+          "ledger_picks": "AMAT",
+          "gross_diff": 0.0954208463637508,
+          "net_diff": 0.09523019532206498
+        },
+        {
+          "month": "2018-04-30",
+          "cleanroom_picks": "AMZN",
+          "ledger_picks": "ABBV",
+          "gross_diff": 0.005285986716116839,
+          "net_diff": 0.005275425304096595
+        },
+        {
+          "month": "2018-05-31",
+          "cleanroom_picks": "NOC",
+          "ledger_picks": "ZTS",
+          "gross_diff": 0.010290571196653319,
+          "net_diff": 0.010270010614841958
+        },
+        {
+          "month": "2018-07-31",
+          "cleanroom_picks": "CF",
+          "ledger_picks": "BF-B",
+          "gross_diff": 0.08107640019595155,
+          "net_diff": 0.07891414421098375
+        },
+        {
+          "month": "2018-08-31",
+          "cleanroom_picks": "EL",
+          "ledger_picks": "TRIP",
+          "gross_diff": 0.08874688808113855,
+          "net_diff": 0.08856957162143594
+        },
+        {
+          "month": "2018-11-30",
+          "cleanroom_picks": "AMZN",
+          "ledger_picks": "FL",
+          "gross_diff": 0.08429166376837394,
+          "net_diff": 0.0841232488557499
+        },
+        {
+          "month": "2019-01-31",
+          "cleanroom_picks": "UA",
+          "ledger_picks": "AMD",
+          "gross_diff": 0.18362032028232367,
+          "net_diff": 0.18325344651552594
+        },
+        {
+          "month": "2019-03-31",
+          "cleanroom_picks": "AES",
+          "ledger_picks": "VTR",
+          "gross_diff": 0.021906246854107154,
+          "net_diff": 0.02186247812912418
+        }
+      ],
+      "chosen_num_leaves_match_stored_cleanroom_le": false,
+      "chosen_num_leaves_match_stored_codex_lt": true,
+      "cleanroom_le_vs_codex_lt_identical_pick_months_out_of_141": 104,
+      "cleanroom_le_chosen_params_by_year": {
+        "2015": 7,
+        "2016": 7,
+        "2017": 7,
+        "2018": 7,
+        "2019": 7,
+        "2020": 15,
+        "2021": 7,
+        "2022": 7,
+        "2023": 7,
+        "2024": 7,
+        "2025": 7,
+        "2026": 15
+      },
+      "codex_lt_chosen_params_by_year": {
+        "2015": 7,
+        "2016": 7,
+        "2017": 7,
+        "2018": 7,
+        "2019": 15,
+        "2020": 7,
+        "2021": 15,
+        "2022": 7,
+        "2023": 15,
+        "2024": 15,
+        "2025": 15,
+        "2026": 15
+      },
+      "root_cause_finding": "Codex v2 `backtest.py:222` + `ml2_run.py:89` used strict `< 2016-04-01` on WIKI opens, wiping `O['2016-04-01', 'CAM'] = 66.18` to NaN and altering `CAM` (Top-50 training pool rank #9 on 2016-02-29 and #10 on 2016-03-31) training labels `ret_oo` on those 2 rows (`+200.1 bp` on 2016-02-29, `-25.7 bp` on 2016-03-31). Emulating only that 1-day `<` bug reproduces 141/141 picks and 12/12 annual `chosen_params` to <=2.22e-16; fixing it to `<=` shifts LightGBM splits from 2017 onward.",
+      "codex_v2_lt_open_bug_diagnostic_reproduction": {
+        "status": "PASS",
+        "months": 141,
+        "picks_exact_ordered_matches": 141,
+        "picks_exact_set_matches": 141,
+        "chosen_params_exact_12_of_12_match": true,
+        "max_gross_abs_diff": 9.8879238130678e-17,
+        "max_net_abs_diff": 1.6653345369377348e-16,
+        "reproduced_net_cagr": 0.3339112027730047
+      }
+    },
+    {
+      "strategy": "Codex_v2_ML2_C_lgbm_Top3_WalkForward_2015_2026",
+      "ledger_path": "backtest_versions/2026-10-30_codex_full_audit_v2/research/sector_stock_momentum/results/ml2/monthly_C_lgbm_Top3.csv",
+      "status": "FLAGGED_CAM_TRAINING_OPEN_CUTOFF_CASCADE",
+      "months": 141,
+      "picks_exact_ordered_matches": 44,
+      "picks_exact_set_matches": 68,
+      "max_gross_abs_diff": 0.13323529639838366,
+      "max_net_abs_diff": 0.1337026927708799,
+      "cleanroom_gross_cagr": 0.2090120853210662,
+      "ledger_gross_cagr": 0.20038942890441613,
+      "cleanroom_net_cagr": 0.18690226065948545,
+      "ledger_net_cagr": 0.17856636698563277,
+      "mismatches": [
+        {
+          "month": "2017-01-31",
+          "cleanroom_picks": "SWN|FCX|PWR",
+          "ledger_picks": "FCX|SWN|NVDA",
+          "gross_diff": 0.010251366512119532,
+          "net_diff": 0.010230884261346038
+        },
+        {
+          "month": "2017-03-31",
+          "cleanroom_picks": "NVDA|FCX|CHK",
+          "ledger_picks": "NVDA|FCX|RF",
+          "gross_diff": 0.04203626574981081,
+          "net_diff": 0.04197558933521306
+        },
+        {
+          "month": "2017-04-30",
+          "cleanroom_picks": "RF|DVN|MU",
+          "ledger_picks": "RF|DVN|LNC",
+          "gross_diff": 0.019084367870827717,
+          "net_diff": 0.019659047350910668
+        },
+        {
+          "month": "2017-05-31",
+          "cleanroom_picks": "MU|GLW|SWKS",
+          "ledger_picks": "MU|GLW|SWKS",
+          "gross_diff": 5.551115123125783e-17,
+          "net_diff": 0.000706841315951931
+        },
+        {
+          "month": "2017-06-30",
+          "cleanroom_picks": "SYMC|PH|MU",
+          "ledger_picks": "SYMC|MU|BKNG",
+          "gross_diff": 0.00501117911480169,
+          "net_diff": 0.005004499769097177
+        },
+        {
+          "month": "2017-07-31",
+          "cleanroom_picks": "EA|AAL|BKNG",
+          "ledger_picks": "AAL|ADSK|EA",
+          "gross_diff": 0.0039010036245028523,
+          "net_diff": 0.0038932094114666888
+        },
+        {
+          "month": "2017-08-31",
+          "cleanroom_picks": "MU|LUV|BBY",
+          "ledger_picks": "MU|ADSK|LUV",
+          "gross_diff": 0.03372876080349817,
+          "net_diff": 0.03435037732277042
+        },
+        {
+          "month": "2017-09-30",
+          "cleanroom_picks": "MU|RF|LUV",
+          "ledger_picks": "MU|LUV|RF",
+          "gross_diff": 5.551115123125783e-17,
+          "net_diff": 2.2890316347945472e-05
+        },
+        {
+          "month": "2017-10-31",
+          "cleanroom_picks": "MU|INCY|NRG",
+          "ledger_picks": "MU|NRG|HUM",
+          "gross_diff": 0.025876930551696025,
+          "net_diff": 0.02584243947465298
+        },
+        {
+          "month": "2017-11-30",
+          "cleanroom_picks": "CSX|VRTX|CNC",
+          "ledger_picks": "VRTX|CSX|CF",
+          "gross_diff": 0.03250498699638555,
+          "net_diff": 0.032440041967421604
+        }
+      ],
+      "chosen_num_leaves_match_stored_cleanroom_le": false,
+      "chosen_num_leaves_match_stored_codex_lt": true,
+      "cleanroom_le_vs_codex_lt_identical_pick_months_out_of_141": 68,
+      "cleanroom_le_chosen_params_by_year": {
+        "2015": 7,
+        "2016": 7,
+        "2017": 15,
+        "2018": 7,
+        "2019": 15,
+        "2020": 7,
+        "2021": 7,
+        "2022": 7,
+        "2023": 7,
+        "2024": 7,
+        "2025": 7,
+        "2026": 15
+      },
+      "codex_lt_chosen_params_by_year": {
+        "2015": 7,
+        "2016": 7,
+        "2017": 15,
+        "2018": 7,
+        "2019": 15,
+        "2020": 15,
+        "2021": 15,
+        "2022": 7,
+        "2023": 7,
+        "2024": 15,
+        "2025": 7,
+        "2026": 7
+      },
+      "root_cause_finding": "Codex v2 `backtest.py:222` + `ml2_run.py:89` used strict `< 2016-04-01` on WIKI opens, wiping `O['2016-04-01', 'CAM'] = 66.18` to NaN and altering `CAM` (Top-50 training pool rank #9 on 2016-02-29 and #10 on 2016-03-31) training labels `ret_oo` on those 2 rows (`+200.1 bp` on 2016-02-29, `-25.7 bp` on 2016-03-31). Emulating only that 1-day `<` bug reproduces 141/141 picks and 12/12 annual `chosen_params` to <=2.22e-16; fixing it to `<=` shifts LightGBM splits from 2017 onward.",
+      "codex_v2_lt_open_bug_diagnostic_reproduction": {
+        "status": "PASS",
+        "months": 141,
+        "picks_exact_ordered_matches": 141,
+        "picks_exact_set_matches": 141,
+        "chosen_params_exact_12_of_12_match": true,
+        "max_gross_abs_diff": 9.71445146547012e-17,
+        "max_net_abs_diff": 2.220446049250313e-16,
+        "reproduced_net_cagr": 0.17856636698563189
+      }
+    }
+  ],
+  "dividend_free_unadjusted_price_valuation_sensitivity": {
+    "finding_note": "In Codex v2 `ml_features.py` (lines 21-22 & 220-226), valuation ratios (`ep`, `deps_p`, `log_mcap`, `sp`, `bm`, `cfo_yield`) divide split-adjusted SEC fundamentals by `adjclose[t]`, which still includes backward future cash-dividend adjustments after `t`. Replacing `adjclose[t]` with 100% PIT dividend-free `raw_close[t] / split_factor_after(t)` (with bug-free `<=` opens) and re-running the full 12-year purged walk-forward quantifies exact ΔCAGR relative to both Codex v2 stored `C-lgbm` and Clean-Room `<=` `C-lgbm`:",
+    "C_lgbm_Top1": {
+      "codex_v2_stored_lt_adjclose_net_cagr": 0.3339112027730047,
+      "cleanroom_bugfree_le_adjclose_net_cagr": 0.16329503457158423,
+      "pit_unadjusted_split_only_bugfree_le_net_cagr": 0.23512474932268312,
+      "delta_cagr_vs_codex_v2_stored_pp": -9.879,
+      "delta_cagr_vs_cleanroom_bugfree_le_pp": 7.183,
+      "pure_momentum_top1_benchmark_net_cagr": 0.419727074761727,
+      "identical_pick_months_vs_codex_v2_stored_out_of_141": 55,
+      "identical_pick_months_vs_cleanroom_le_out_of_141": 54,
+      "chosen_num_leaves_by_year": {
+        "2015": 15,
+        "2016": 15,
+        "2017": 15,
+        "2018": 15,
+        "2019": 15,
+        "2020": 15,
+        "2021": 7,
+        "2022": 15,
+        "2023": 15,
+        "2024": 7,
+        "2025": 7,
+        "2026": 15
+      }
+    },
+    "C_lgbm_Top3": {
+      "codex_v2_stored_lt_adjclose_net_cagr": 0.17856636698563189,
+      "cleanroom_bugfree_le_adjclose_net_cagr": 0.18690226065948545,
+      "pit_unadjusted_split_only_bugfree_le_net_cagr": 0.14079704866170073,
+      "delta_cagr_vs_codex_v2_stored_pp": -3.777,
+      "delta_cagr_vs_cleanroom_bugfree_le_pp": -4.611,
+      "pure_momentum_top3_benchmark_net_cagr": 0.27325066790743247,
+      "exact_3_of_3_pick_months_vs_codex_v2_stored_out_of_141": 14,
+      "exact_3_of_3_pick_months_vs_cleanroom_le_out_of_141": 15,
+      "mean_monthly_pick_jaccard_vs_codex_v2_stored": 0.4085,
+      "mean_monthly_pick_jaccard_vs_cleanroom_le": 0.4,
+      "chosen_num_leaves_by_year": {
+        "2015": 7,
+        "2016": 15,
+        "2017": 15,
+        "2018": 7,
+        "2019": 7,
+        "2020": 7,
+        "2021": 15,
+        "2022": 15,
+        "2023": 7,
+        "2024": 15,
+        "2025": 15,
+        "2026": 7
+      }
+    }
+  }
+}

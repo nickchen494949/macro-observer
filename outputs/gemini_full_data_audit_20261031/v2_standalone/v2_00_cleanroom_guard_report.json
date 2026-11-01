@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "scripts_checked": 5,
+  "scripts_checked": 7,
   "total_ast_or_pattern_violations": 0,
   "per_script": [
     {
@@ -22,8 +22,6 @@
         "from typing",
         "from v2_cleanroom_lib",
         "json",
-        "math",
-        "numpy",
         "os",
         "pandas",
         "sys"
@@ -53,13 +51,11 @@
       "script": "v2_03_twostage_unrestricted_200_cards_auditor.py",
       "imports": [
         "csv",
-        "from pypdf",
         "from typing",
         "from v2_cleanroom_lib",
         "glob",
         "io",
         "json",
-        "math",
         "numpy",
         "openpyxl",
         "os",
@@ -68,6 +64,43 @@
         "sys",
         "urllib.request",
         "zipfile"
+      ],
+      "violation_count": 0,
+      "violations": []
+    },
+    {
+      "script": "v2_04_sec_xbrl_100_null_completeness_auditor.py",
+      "imports": [
+        "from typing",
+        "from v2_cleanroom_lib",
+        "glob",
+        "json",
+        "numpy",
+        "os",
+        "pandas",
+        "sys",
+        "time",
+        "urllib.request"
+      ],
+      "violation_count": 0,
+      "violations": []
+    },
+    {
+      "script": "v2_05_full_chain_pit_strategy_reconstructor.py",
+      "imports": [
+        "difflib",
+        "from typing",
+        "from v2_cleanroom_lib",
+        "glob",
+        "json",
+        "lightgbm",
+        "math",
+        "numpy",
+        "os",
+        "pandas",
+        "re",
+        "sys",
+        "time"
       ],
       "violation_count": 0,
       "violations": []
@@ -83,7 +116,9 @@
         "numpy",
         "os",
         "pandas",
-        "re"
+        "pymupdf",
+        "re",
+        "unicodedata"
       ],
       "violation_count": 0,
       "violations": []

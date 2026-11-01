@@ -5,13 +5,18 @@ v2_00_cleanroom_ast_and_readonly_guard.py — Mechanical Clean-Room & Read-Only 
 Audits all Python scripts inside `outputs/gemini_full_data_audit_20261031/v2_standalone/` using
 Python's `ast` module and enforces:
   1. ZERO imports of any audited project module (`backtest`, `ml2_run`, `fundamentals_pit`,
-     `build_fundamentals`, `historical_sectors`, `ticker_aliases`, `winners_tracks`, `winners_holdout`, etc.).
-     Only an explicit allowlist of Python stdlib modules, standard scientific packages
-     (`numpy`, `pandas`, `openpyxl`, `pypdf`, `scipy`), and `v2_cleanroom_lib` is permitted.
+     `build_fundamentals`, `historical_sectors`, `ticker_aliases`, `winners_tracks`, `winners_holdout`,
+     `portfolio_accounting`, etc.).
+     Only an explicit allowlist of Python stdlib modules, standard scientific/PDF/ML packages
+     (`numpy`, `pandas`, `openpyxl`, `pypdf`, `pymupdf`, `scipy`, `sklearn`, `lightgbm`), and
+     `v2_cleanroom_lib` is permitted.
   2. ZERO `sys.path.insert` / `sys.path.append` calls pointing outside `v2_standalone/`.
   3. ZERO false-pass fallback anti-patterns (`else led_g`, `else: ok = True`, `else: ok_13f = True`,
-     or `LIMIT 25` in 13F line-item verification).
-  4. ZERO modifications to any of the 10,964 protected baseline files (`00_baseline_integrity_guard.py verify`).
+     `LIMIT 25` in 13F line-item verification, or reading project-computed `rf_monthly.csv`).
+  4. ZERO reads of ledger-supplied `turnover`, `capital_after_costs`, or `cash_return` columns
+     (enforced mechanically via AST subscript/attribute/call checks so transaction costs and cash
+     carry MUST be reconstructed 100% from first principles: `(picks, weights)` + raw prices + `DGS3MO.json`).
+  5. ZERO modifications to any of the 10,964 protected baseline files (`00_baseline_integrity_guard.py verify`).
 """
 import ast
 import glob
@@ -30,6 +35,7 @@ ALLOWED_TOP_LEVEL_MODULES = {
     "collections",
     "csv",
     "datetime",
+    "difflib",
     "functools",
     "glob",
     "hashlib",
@@ -47,14 +53,18 @@ ALLOWED_TOP_LEVEL_MODULES = {
     "sys",
     "time",
     "typing",
+    "unicodedata",
     "urllib",
     "zipfile",
     # Third-party standard packages
+    "lightgbm",
     "numpy",
-    "pandas",
     "openpyxl",
+    "pandas",
+    "pymupdf",
     "pypdf",
     "scipy",
+    "sklearn",
     # Clean-room standalone helper inside v2_standalone/ ONLY
     "v2_cleanroom_lib",
 }
@@ -71,6 +81,8 @@ FORBIDDEN_PROJECT_MODULES = {
     "factor_screen",
     "fundamentals_pit",
     "historical_sectors",
+    "improve_v3",
+    "legacy_portfolio",
     "ml2_features",
     "ml2_run",
     "ml_features",
@@ -78,11 +90,19 @@ FORBIDDEN_PROJECT_MODULES = {
     "ndx_expand",
     "ndx_fundamentals",
     "ndx_universe",
+    "portfolio_accounting",
+    "sma200_overlay",
     "smallcap_data_audit",
     "smallcap_universe",
     "ticker_aliases",
     "winners_holdout",
     "winners_tracks",
+}
+
+FORBIDDEN_LEDGER_COST_FIELDS = {
+    "turnover",
+    "capital_after_costs",
+    "cash_return",
 }
 
 FORBIDDEN_SUBSTRINGS = [
@@ -92,6 +112,7 @@ FORBIDDEN_SUBSTRINGS = [
     "LIMIT 25",
     "implied_cost = led_g - led_n",
     'float(row["gross"]) - float(row["net"])',
+    "rf_monthly.csv",
 ]
 
 
@@ -119,6 +140,15 @@ def check_script(py_path: str) -> dict:
                 violations.append(f"Line {node.lineno}: relative import `{mod}`")
             elif top in FORBIDDEN_PROJECT_MODULES or (top and top not in ALLOWED_TOP_LEVEL_MODULES):
                 violations.append(f"Line {node.lineno}: forbidden from-import `{mod}`")
+        elif isinstance(node, ast.Subscript) and bn != "v2_00_cleanroom_ast_and_readonly_guard.py":
+            if isinstance(node.ctx, ast.Load) and isinstance(node.slice, ast.Constant):
+                if node.slice.value in FORBIDDEN_LEDGER_COST_FIELDS:
+                    expr_src = ast.unparse(node) if hasattr(ast, "unparse") else str(node.slice.value)
+                    violations.append(f"Line {node.lineno}: forbidden ledger cost/cash read `{expr_src}`")
+        elif isinstance(node, ast.Attribute) and bn != "v2_00_cleanroom_ast_and_readonly_guard.py":
+            if isinstance(node.ctx, ast.Load) and node.attr in FORBIDDEN_LEDGER_COST_FIELDS:
+                expr_src = ast.unparse(node) if hasattr(ast, "unparse") else node.attr
+                violations.append(f"Line {node.lineno}: forbidden ledger cost/cash attribute read `{expr_src}`")
         elif isinstance(node, ast.Call):
             # Detect sys.path.insert / sys.path.append
             func_src = ast.unparse(node.func) if hasattr(ast, "unparse") else ""
@@ -128,6 +158,16 @@ def check_script(py_path: str) -> dict:
                     violations.append(f"Line {node.lineno}: forbidden sys.path mutation `{call_src}`")
             if func_src in ("__import__", "importlib.import_module"):
                 violations.append(f"Line {node.lineno}: dynamic import `{func_src}` forbidden")
+            if (
+                bn != "v2_00_cleanroom_ast_and_readonly_guard.py"
+                and isinstance(node.func, ast.Attribute)
+                and node.func.attr == "get"
+                and node.args
+                and isinstance(node.args[0], ast.Constant)
+                and node.args[0].value in FORBIDDEN_LEDGER_COST_FIELDS
+            ):
+                call_src = ast.unparse(node) if hasattr(ast, "unparse") else node.args[0].value
+                violations.append(f"Line {node.lineno}: forbidden ledger cost/cash .get() read `{call_src}`")
 
     # Skip self-inspection literal table inside v2_00 itself
     if bn != "v2_00_cleanroom_ast_and_readonly_guard.py":

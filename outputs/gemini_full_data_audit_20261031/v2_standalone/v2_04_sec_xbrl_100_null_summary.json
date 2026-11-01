@@ -1,0 +1,448 @@
+{
+  "seed": 20261104,
+  "sampling_design": "Predefined stratified random sampling without replacement across all 9 (store x metric) NULL cell populations",
+  "zero_project_imports": true,
+  "total_null_cards_audited": 100,
+  "unique_ciks_scanned_unfiltered_across_142_fsds_parquets_and_live_edgar": 84,
+  "live_sec_gov_api_confirmed_count": 100,
+  "root_cause_class_counts_100_cards": {
+    "PARSER_OMITTED_ALTERNATIVE_TAG_IN_SEC": 54,
+    "TRUE_ABSENT_IN_SEC_XBRL": 38,
+    "CONSERVATIVE_RULE_BLANK_UNAMBIGUOUS_QTR_UNAVAILABLE": 8
+  },
+  "horvitz_thompson_population_weighted_root_cause_pct": {
+    "CONSERVATIVE_RULE_BLANK_UNAMBIGUOUS_QTR_UNAVAILABLE": 2.36,
+    "PARSER_OMITTED_ALTERNATIVE_TAG_IN_SEC": 32.24,
+    "TRUE_ABSENT_IN_SEC_XBRL": 65.4
+  },
+  "by_store": {
+    "ndx": {
+      "CONSERVATIVE_RULE_BLANK_UNAMBIGUOUS_QTR_UNAVAILABLE": 2,
+      "PARSER_OMITTED_ALTERNATIVE_TAG_IN_SEC": 7,
+      "TRUE_ABSENT_IN_SEC_XBRL": 6
+    },
+    "smallcap": {
+      "CONSERVATIVE_RULE_BLANK_UNAMBIGUOUS_QTR_UNAVAILABLE": 3,
+      "PARSER_OMITTED_ALTERNATIVE_TAG_IN_SEC": 15,
+      "TRUE_ABSENT_IN_SEC_XBRL": 17
+    },
+    "sp500": {
+      "CONSERVATIVE_RULE_BLANK_UNAMBIGUOUS_QTR_UNAVAILABLE": 3,
+      "PARSER_OMITTED_ALTERNATIVE_TAG_IN_SEC": 32,
+      "TRUE_ABSENT_IN_SEC_XBRL": 15
+    }
+  },
+  "by_metric": {
+    "eps_diluted": {
+      "CONSERVATIVE_RULE_BLANK_UNAMBIGUOUS_QTR_UNAVAILABLE": 2,
+      "PARSER_OMITTED_ALTERNATIVE_TAG_IN_SEC": 13,
+      "TRUE_ABSENT_IN_SEC_XBRL": 19
+    },
+    "net_income": {
+      "CONSERVATIVE_RULE_BLANK_UNAMBIGUOUS_QTR_UNAVAILABLE": 4,
+      "PARSER_OMITTED_ALTERNATIVE_TAG_IN_SEC": 29,
+      "TRUE_ABSENT_IN_SEC_XBRL": 0
+    },
+    "revenue": {
+      "CONSERVATIVE_RULE_BLANK_UNAMBIGUOUS_QTR_UNAVAILABLE": 2,
+      "PARSER_OMITTED_ALTERNATIVE_TAG_IN_SEC": 12,
+      "TRUE_ABSENT_IN_SEC_XBRL": 19
+    }
+  },
+  "detailed_sub_reason_counts": {
+    "NO_PRIMARY_OR_ALT_TAG_FILED_FOR_QUARTER": 38,
+    "ALT_TAG_QTRS1_NetIncomeLossAvailableToCommonStockholdersBasic": 20,
+    "ALT_TAG_QTRS1_IncomeLossFromContinuingOperationsPerBasicShare": 7,
+    "ALT_TAG_QTRS1_IncomeLossFromContinuingOperations": 5,
+    "ALT_TAG_LIVE_SEC_QTRS1_RegulatedAndUnregulatedOperatingRevenue": 4,
+    "FY_ONLY_MISSING_9M_QTRS3_YTD_FILING": 4,
+    "ALT_TAG_QTRS1_EarningsPerShareBasic": 3,
+    "ALT_TAG_LIVE_SEC_QTRS1_InterestIncomeExpenseNet": 3,
+    "ALT_TAG_DERIVABLE_Q4_NetIncomeLossAvailableToCommonStockholdersBasic": 2,
+    "ALT_TAG_LIVE_SEC_QTRS1_OilAndGasRevenue": 2,
+    "ALT_TAG_LIVE_SEC_QTRS1_RealEstateRevenueNet": 2,
+    "ALT_TAG_LIVE_SEC_QTRS1_NetIncomeLossAvailableToCommonStockholdersBasic": 1,
+    "YTD_OR_NON_3M_DURATION_ONLY_QTRS_[3]": 1,
+    "YTD_OR_NON_3M_DURATION_ONLY_QTRS_[2]": 1,
+    "ALT_TAG_DERIVABLE_Q4_IncomeLossFromContinuingOperationsPerBasicShare": 1,
+    "NON_USD_REPORTING_CURRENCY_['GBP']": 1,
+    "ALT_TAG_LIVE_SEC_QTRS1_EarningsPerShareBasic": 1,
+    "ALT_TAG_LIVE_SEC_QTRS1_IncomeLossFromContinuingOperationsIncludingPortionAttributableToNoncontrollingInterest": 1,
+    "ALT_TAG_LIVE_SEC_QTRS1_OperatingLeaseLeaseIncome": 1,
+    "ALT_TAG_LIVE_SEC_QTRS1_IncomeLossFromContinuingOperationsPerBasicAndDilutedShare": 1,
+    "NON_USD_REPORTING_CURRENCY_['CAD']": 1
+  },
+  "strata_null_populations_and_weights": [
+    {
+      "store": "sp500",
+      "metric": "eps_diluted",
+      "store_total_rows": 46861,
+      "null_population_N_h": 1683,
+      "null_share_of_store_pct": 3.591,
+      "sampled_n_h": 18,
+      "sampling_probability": 0.0106951871657754
+    },
+    {
+      "store": "sp500",
+      "metric": "revenue",
+      "store_total_rows": 46861,
+      "null_population_N_h": 1800,
+      "null_share_of_store_pct": 3.841,
+      "sampled_n_h": 16,
+      "sampling_probability": 0.008888888888888889
+    },
+    {
+      "store": "sp500",
+      "metric": "net_income",
+      "store_total_rows": 46861,
+      "null_population_N_h": 724,
+      "null_share_of_store_pct": 1.545,
+      "sampled_n_h": 16,
+      "sampling_probability": 0.022099447513812154
+    },
+    {
+      "store": "ndx",
+      "metric": "eps_diluted",
+      "store_total_rows": 1383,
+      "null_population_N_h": 137,
+      "null_share_of_store_pct": 9.906,
+      "sampled_n_h": 5,
+      "sampling_probability": 0.0364963503649635
+    },
+    {
+      "store": "ndx",
+      "metric": "revenue",
+      "store_total_rows": 1383,
+      "null_population_N_h": 70,
+      "null_share_of_store_pct": 5.061,
+      "sampled_n_h": 5,
+      "sampling_probability": 0.07142857142857142
+    },
+    {
+      "store": "ndx",
+      "metric": "net_income",
+      "store_total_rows": 1383,
+      "null_population_N_h": 106,
+      "null_share_of_store_pct": 7.664,
+      "sampled_n_h": 5,
+      "sampling_probability": 0.04716981132075472
+    },
+    {
+      "store": "smallcap",
+      "metric": "eps_diluted",
+      "store_total_rows": 156279,
+      "null_population_N_h": 14717,
+      "null_share_of_store_pct": 9.417,
+      "sampled_n_h": 11,
+      "sampling_probability": 0.0007474349391859754
+    },
+    {
+      "store": "smallcap",
+      "metric": "revenue",
+      "store_total_rows": 156279,
+      "null_population_N_h": 21337,
+      "null_share_of_store_pct": 13.653,
+      "sampled_n_h": 12,
+      "sampling_probability": 0.0005624033369264657
+    },
+    {
+      "store": "smallcap",
+      "metric": "net_income",
+      "store_total_rows": 156279,
+      "null_population_N_h": 2747,
+      "null_share_of_store_pct": 1.758,
+      "sampled_n_h": 12,
+      "sampling_probability": 0.004368401892974154
+    }
+  ],
+  "store_wide_null_and_zero_row_cik_census": {
+    "sp500": {
+      "total_company_quarter_rows": 46861,
+      "unique_ciks_with_rows": 801,
+      "null_counts": {
+        "eps_diluted_approx": 1683,
+        "revenue": 1800,
+        "net_income": 724
+      },
+      "null_rates_pct": {
+        "eps_diluted_approx": 3.591,
+        "revenue": 3.841,
+        "net_income": 1.545
+      }
+    },
+    "ndx": {
+      "total_company_quarter_rows": 1383,
+      "unique_ciks_with_rows": 34,
+      "null_counts": {
+        "eps_diluted_approx": 137,
+        "revenue": 70,
+        "net_income": 106
+      },
+      "null_rates_pct": {
+        "eps_diluted_approx": 9.906,
+        "revenue": 5.061,
+        "net_income": 7.664
+      }
+    },
+    "smallcap": {
+      "total_company_quarter_rows": 156279,
+      "unique_ciks_with_rows": 3778,
+      "null_counts": {
+        "eps_diluted_approx": 14717,
+        "revenue": 21337,
+        "net_income": 2747
+      },
+      "null_rates_pct": {
+        "eps_diluted_approx": 9.417,
+        "revenue": 13.653,
+        "net_income": 1.758
+      }
+    },
+    "sp500_zero_fundamental_row_tickers": {
+      "unmapped_non_sec_or_pre_xbrl_tickers_count": 58,
+      "unmapped_tickers": [
+        {
+          "ticker": "ABI",
+          "method": NaN
+        },
+        {
+          "ticker": "ABKFQ",
+          "method": NaN
+        },
+        {
+          "ticker": "ACAS",
+          "method": NaN
+        },
+        {
+          "ticker": "ACS",
+          "method": NaN
+        },
+        {
+          "ticker": "ASH",
+          "method": NaN
+        },
+        {
+          "ticker": "AW",
+          "method": NaN
+        },
+        {
+          "ticker": "BC",
+          "method": NaN
+        },
+        {
+          "ticker": "BDK",
+          "method": NaN
+        },
+        {
+          "ticker": "BRL",
+          "method": NaN
+        },
+        {
+          "ticker": "BSC",
+          "method": NaN
+        },
+        {
+          "ticker": "BUD",
+          "method": NaN
+        },
+        {
+          "ticker": "CBH",
+          "method": NaN
+        },
+        {
+          "ticker": "CCEP",
+          "method": "no_sec_filings: Coca-Cola European Partners — foreign private issuer (20-F)"
+        },
+        {
+          "ticker": "CCTYQ",
+          "method": NaN
+        },
+        {
+          "ticker": "CCU",
+          "method": NaN
+        },
+        {
+          "ticker": "CFC",
+          "method": NaN
+        },
+        {
+          "ticker": "CITGQ",
+          "method": NaN
+        },
+        {
+          "ticker": "CTX",
+          "method": NaN
+        },
+        {
+          "ticker": "CVG",
+          "method": NaN
+        },
+        {
+          "ticker": "DDR",
+          "method": NaN
+        },
+        {
+          "ticker": "DDS",
+          "method": NaN
+        },
+        {
+          "ticker": "DYN",
+          "method": NaN
+        },
+        {
+          "ticker": "EDS",
+          "method": NaN
+        },
+        {
+          "ticker": "EQ",
+          "method": NaN
+        },
+        {
+          "ticker": "FMCC",
+          "method": NaN
+        },
+        {
+          "ticker": "FNMA",
+          "method": NaN
+        },
+        {
+          "ticker": "FRC",
+          "method": "no_sec_filings: First Republic Bank — reported to FDIC"
+        },
+        {
+          "ticker": "HET",
+          "method": NaN
+        },
+        {
+          "ticker": "HPC",
+          "method": NaN
+        },
+        {
+          "ticker": "IAC",
+          "method": NaN
+        },
+        {
+          "ticker": "JAVA",
+          "method": NaN
+        },
+        {
+          "ticker": "JNY",
+          "method": NaN
+        },
+        {
+          "ticker": "KATE",
+          "method": NaN
+        },
+        {
+          "ticker": "KBH",
+          "method": NaN
+        },
+        {
+          "ticker": "LEHMQ",
+          "method": NaN
+        },
+        {
+          "ticker": "MBI",
+          "method": NaN
+        },
+        {
+          "ticker": "MER",
+          "method": NaN
+        },
+        {
+          "ticker": "MIL",
+          "method": NaN
+        },
+        {
+          "ticker": "MTG",
+          "method": NaN
+        },
+        {
+          "ticker": "MTLQQ",
+          "method": NaN
+        },
+        {
+          "ticker": "MTW",
+          "method": NaN
+        },
+        {
+          "ticker": "NCC",
+          "method": NaN
+        },
+        {
+          "ticker": "OMX",
+          "method": NaN
+        },
+        {
+          "ticker": "ROH",
+          "method": NaN
+        },
+        {
+          "ticker": "RX",
+          "method": NaN
+        },
+        {
+          "ticker": "SAF",
+          "method": NaN
+        },
+        {
+          "ticker": "SBNY",
+          "method": "no_sec_filings: Signature Bank — reported to FDIC"
+        },
+        {
+          "ticker": "SNV",
+          "method": NaN
+        },
+        {
+          "ticker": "SOV",
+          "method": NaN
+        },
+        {
+          "ticker": "SSP",
+          "method": NaN
+        },
+        {
+          "ticker": "TEX",
+          "method": NaN
+        },
+        {
+          "ticker": "UIS",
+          "method": NaN
+        },
+        {
+          "ticker": "UST",
+          "method": NaN
+        },
+        {
+          "ticker": "WAMUQ",
+          "method": NaN
+        },
+        {
+          "ticker": "WB",
+          "method": NaN
+        },
+        {
+          "ticker": "WEN",
+          "method": NaN
+        },
+        {
+          "ticker": "WFT",
+          "method": NaN
+        },
+        {
+          "ticker": "WWY",
+          "method": NaN
+        }
+      ],
+      "mapped_cik_but_zero_xbrl_quarterly_rows_count": 1,
+      "mapped_cik_zero_row_tickers": [
+        {
+          "ticker": "FDXF",
+          "cik": 2082247.0,
+          "method": "wikipedia_current",
+          "edgar_name": "FEDEX FREIGHT HOLDING COMPANY, INC."
+        }
+      ]
+    }
+  }
+}

@@ -2,10 +2,11 @@
   "total_random_cards": 300,
   "zero_project_imports": true,
   "zero_false_pass_fallbacks": true,
+  "zero_reads_of_ledger_cost_or_cash_columns": true,
   "seeds": {
     "Part_A_120_Unrestricted_TwoStage_Ledgers": 20261101,
     "Part_B_100_SEC_Raw_XBRL_Facts": 20261101,
-    "Part_C_40_Strict_SEC_13F_Raw_ZIP": 20261102,
+    "Part_C_40_Strict_SEC_13F_Full_Multiset": 20261102,
     "Part_D_40_Macro_SEP_SPDJI_Valuation_ETF": 20261103
   },
   "part_a_stage1_unrestricted_coverage": {
@@ -17,50 +18,174 @@
     "codex_v2_4ea9a1d_cards_drawn": 47,
     "top3_study_cards_drawn": 3
   },
+  "part_c_13f_full_accession_multiset_verification": {
+    "filings_sampled": 40,
+    "filings_100pct_multiset_equal": 40,
+    "total_holding_tuples_100pct_multiset_verified": 18099
+  },
+  "fomc_sep_full_74_row_coordinate_table1_census": {
+    "total_rows_in_sep_revisions_json": 74,
+    "pre_2015_09_rows_without_median_in_fed_table1": 31,
+    "post_2015_09_rows_with_median_in_fed_table1": 43,
+    "post_2015_09_exact_2cell_matches_core_pce_and_ffr": 32,
+    "post_2015_09_cell_extraction_mismatches_2015_to_2018": 11,
+    "post_2019_03_to_2026_06_exact_2cell_matches": "29/29",
+    "cell_mismatches_detail": [
+      {
+        "date": "2015-09-17",
+        "target_year": 2016,
+        "stored_pce": 1.4,
+        "stored_rate": 0.38,
+        "pdf_table1_core_pce_median": 1.7,
+        "pdf_table1_headline_pce_median": 1.7,
+        "pdf_table1_fed_funds_median": 1.4
+      },
+      {
+        "date": "2015-12-16",
+        "target_year": 2016,
+        "stored_pce": 1.4,
+        "stored_rate": 1.4,
+        "pdf_table1_core_pce_median": 1.6,
+        "pdf_table1_headline_pce_median": 1.6,
+        "pdf_table1_fed_funds_median": 1.4
+      },
+      {
+        "date": "2016-03-16",
+        "target_year": 2016,
+        "stored_pce": 1.7,
+        "stored_rate": 0.9,
+        "pdf_table1_core_pce_median": 1.6,
+        "pdf_table1_headline_pce_median": 1.2,
+        "pdf_table1_fed_funds_median": 0.9
+      },
+      {
+        "date": "2016-06-15",
+        "target_year": 2016,
+        "stored_pce": 1.9,
+        "stored_rate": 0.9,
+        "pdf_table1_core_pce_median": 1.7,
+        "pdf_table1_headline_pce_median": 1.4,
+        "pdf_table1_fed_funds_median": 0.9
+      },
+      {
+        "date": "2016-09-21",
+        "target_year": 2017,
+        "stored_pce": 1.9,
+        "stored_rate": 1.1,
+        "pdf_table1_core_pce_median": 1.8,
+        "pdf_table1_headline_pce_median": 1.9,
+        "pdf_table1_fed_funds_median": 1.1
+      },
+      {
+        "date": "2016-12-14",
+        "target_year": 2017,
+        "stored_pce": 1.9,
+        "stored_rate": 1.4,
+        "pdf_table1_core_pce_median": 1.8,
+        "pdf_table1_headline_pce_median": 1.9,
+        "pdf_table1_fed_funds_median": 1.4
+      },
+      {
+        "date": "2017-03-15",
+        "target_year": 2017,
+        "stored_pce": 2.0,
+        "stored_rate": 1.4,
+        "pdf_table1_core_pce_median": 1.9,
+        "pdf_table1_headline_pce_median": 1.9,
+        "pdf_table1_fed_funds_median": 1.4
+      },
+      {
+        "date": "2017-06-14",
+        "target_year": 2017,
+        "stored_pce": 1.6,
+        "stored_rate": 1.4,
+        "pdf_table1_core_pce_median": 1.7,
+        "pdf_table1_headline_pce_median": 1.6,
+        "pdf_table1_fed_funds_median": 1.4
+      },
+      {
+        "date": "2017-09-20",
+        "target_year": 2018,
+        "stored_pce": 1.4,
+        "stored_rate": 2.1,
+        "pdf_table1_core_pce_median": 1.9,
+        "pdf_table1_headline_pce_median": 1.9,
+        "pdf_table1_fed_funds_median": 2.1
+      },
+      {
+        "date": "2017-12-13",
+        "target_year": 2018,
+        "stored_pce": 1.4,
+        "stored_rate": 2.1,
+        "pdf_table1_core_pce_median": 1.9,
+        "pdf_table1_headline_pce_median": 1.9,
+        "pdf_table1_fed_funds_median": 2.1
+      },
+      {
+        "date": "2018-12-19",
+        "target_year": 2019,
+        "stored_pce": 2.1,
+        "stored_rate": 2.9,
+        "pdf_table1_core_pce_median": 2.0,
+        "pdf_table1_headline_pce_median": 1.9,
+        "pdf_table1_fed_funds_median": 2.9
+      }
+    ]
+  },
   "disjoint_verdict_tier_totals_300_cards": {
-    "PASS_EXTERNAL_PRIMARY": 177,
-    "PASS_INTERNAL_MATH_SINGLE_VENDOR": 81,
-    "DATA_WARNING_KNOWN_LIMITATION": 14,
+    "PASS_EXTERNAL_PRIMARY": 199,
+    "PASS_INTERNAL_MATH_SINGLE_VENDOR": 51,
     "UNVERIFIABLE_NET_ONLY_LEDGER": 12,
+    "DATA_WARNING_KNOWN_LIMITATION": 11,
     "DATA_DEFECT_CONFIRMED": 8,
+    "UNVERIFIABLE_MISSING_RAW_INPUT": 6,
+    "PASS_EXTERNAL_LATEST_ONLY": 5,
     "PASS_INTERNAL_CROSS_STORE": 5,
     "FAIL_MATH_OR_FACT_MISMATCH": 3
   },
   "verdict_breakdown_by_section": {
     "A_TwoStage_Ledger_347": {
       "DATA_DEFECT_CONFIRMED": 3,
-      "DATA_WARNING_KNOWN_LIMITATION": 1,
+      "DATA_WARNING_KNOWN_LIMITATION": 3,
       "FAIL_MATH_OR_FACT_MISMATCH": 3,
-      "PASS_EXTERNAL_PRIMARY": 20,
+      "PASS_EXTERNAL_LATEST_ONLY": 0,
+      "PASS_EXTERNAL_PRIMARY": 48,
       "PASS_INTERNAL_CROSS_STORE": 0,
-      "PASS_INTERNAL_MATH_SINGLE_VENDOR": 81,
+      "PASS_INTERNAL_MATH_SINGLE_VENDOR": 51,
+      "UNVERIFIABLE_MISSING_RAW_INPUT": 0,
       "UNVERIFIABLE_NET_ONLY_LEDGER": 12
     },
     "B_SEC_Raw_XBRL_100": {
       "DATA_DEFECT_CONFIRMED": 0,
       "DATA_WARNING_KNOWN_LIMITATION": 2,
       "FAIL_MATH_OR_FACT_MISMATCH": 0,
+      "PASS_EXTERNAL_LATEST_ONLY": 0,
       "PASS_EXTERNAL_PRIMARY": 98,
       "PASS_INTERNAL_CROSS_STORE": 0,
       "PASS_INTERNAL_MATH_SINGLE_VENDOR": 0,
+      "UNVERIFIABLE_MISSING_RAW_INPUT": 0,
       "UNVERIFIABLE_NET_ONLY_LEDGER": 0
     },
     "C_SEC_13F_Raw_ZIP": {
       "DATA_DEFECT_CONFIRMED": 0,
       "DATA_WARNING_KNOWN_LIMITATION": 0,
       "FAIL_MATH_OR_FACT_MISMATCH": 0,
+      "PASS_EXTERNAL_LATEST_ONLY": 0,
       "PASS_EXTERNAL_PRIMARY": 40,
       "PASS_INTERNAL_CROSS_STORE": 0,
       "PASS_INTERNAL_MATH_SINGLE_VENDOR": 0,
+      "UNVERIFIABLE_MISSING_RAW_INPUT": 0,
       "UNVERIFIABLE_NET_ONLY_LEDGER": 0
     },
     "D_Macro_SEP_SPDJI_ETF": {
       "DATA_DEFECT_CONFIRMED": 5,
-      "DATA_WARNING_KNOWN_LIMITATION": 11,
+      "DATA_WARNING_KNOWN_LIMITATION": 6,
       "FAIL_MATH_OR_FACT_MISMATCH": 0,
-      "PASS_EXTERNAL_PRIMARY": 19,
+      "PASS_EXTERNAL_LATEST_ONLY": 5,
+      "PASS_EXTERNAL_PRIMARY": 13,
       "PASS_INTERNAL_CROSS_STORE": 5,
       "PASS_INTERNAL_MATH_SINGLE_VENDOR": 0,
+      "UNVERIFIABLE_MISSING_RAW_INPUT": 6,
       "UNVERIFIABLE_NET_ONLY_LEDGER": 0
     }
   }
