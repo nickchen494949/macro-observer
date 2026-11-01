@@ -1,6 +1,19 @@
-# 全库回测数据独立审计与 100 张分层随机抽查报告（2026-10-31）
+# 全库回测数据独立审计报告（含 `v2` 纯独立 Clean-Room 升级版与 300 张随机核查卡）
 
-## 一句话总结论（人话版）
+> **🔥 [`v2` 纯独立 Clean-Room 审计套件已上线（`v2_standalone/`）](v2_standalone/STANDALONE_AUDIT_V2_REPORT.md)**  
+> 针对外部审阅指出的 `v1`（`782f33b`）6 项审计程序缺陷，已在 [`v2_standalone/`](v2_standalone/) 彻底重写并重跑了 **100% 零项目依赖、零回退假通过** 的 `v2` 独立审计套件：
+> 1. **100% 零项目代码 `import`（由 `ast.parse` 机械强制）**：[`v2_00_cleanroom_ast_and_readonly_guard.py`](v2_standalone/v2_00_cleanroom_ast_and_readonly_guard.py) → [`v2_00_cleanroom_guard_report.json`](v2_standalone/v2_00_cleanroom_guard_report.json)（`5` 个脚本 `violations = 0`；`10,964` 份受保护文件 `changed = 0`）。
+> 2. **全部 `347` 份月度策略账本（`63,272` 个策略月）零回退独立重算**：[`v2_01_standalone_all_347_ledgers_auditor.py`](v2_standalone/v2_01_standalone_all_347_ledgers_auditor.py) → [`v2_01_all_347_ledgers_cleanroom_summary.json`](v2_standalone/v2_01_all_347_ledgers_cleanroom_summary.json)。**`295` 份**全月成分级复算通过（含全部标普 500 核心纯动量账本及 Codex v2 修复后的 `ML2 C-lgbm` / `NDX` 账本）；**`27` 份**缺 `picks` 列的旧 `factor_combo` 账本如实标为 **`UNVERIFIABLE_NET_ONLY_LEDGER`**（绝不假通过）；并额外抓出 **4 项 `v1` 因复用加载器/差值回退而漏掉的真实 bug**：
+>    - 原版 `78a2d0d` 的 **8 份 NDX 5 股篮子账本**（`results/ndx/monthly_C_*top_5*.csv`）每月硬扣固定 `20bp`（连首月建仓及保留持仓也按 200% 换手扣费），且 `XLK_regime` 在 `CASH(regime)` 空仓月把未持有的 5 股收益留在 `gross`、仅把 `net` 设为 `rf`（`0bp` 平仓/重入费）——Codex v2 中对应 8 份账本已全部修复并 `177/177` 月通过；
+>    - `build_fundamentals.py:344,354` 行级 `q4_derived = max(derived)` 误把 10-K 中直接披露了 3 个月 `qtrs=1` 的 Q4 `eps_diluted` 抹成 `NaN`（被随机卡 `X007` `ABT 2019Q4=0.59`、`X051` `ZM 2019Q4=0.01` 抓获）；
+>    - `winners_holdout` 等权基准在 **4 个月买入了月中已退市、月末无原始成交价（`NaN`）的股票**（`IPCM`、`HUB-B`、`HNT`、`DV` → 2 份账本标为 `PARTIAL_UNVERIFIABLE_MISSING_RAW_INPUT`）；
+>    - **15 份账本存在单月（`1 / 140..213` 月）月中并购退市成交价口径不一致**（如 `CAM 2016-03`、`CVC 2016-06` 用首日 `open` 买入却按退市前末日 `close` 退出；`HSP 2015-08/09` 的 `lag=0` vs `lag=1` 并购退出表）。
+> 3. **100 张 SEC 原始 XBRL 数值事实核查卡（`eps_diluted` / `revenue` / `net_income`）+ `100/100` 实时连线 `data.sec.gov` 校验**：[`v2_02_sec_xbrl_100_cards.md`](v2_standalone/v2_02_sec_xbrl_100_cards.md)（`98` 张 `PASS_EXTERNAL_PRIMARY` + `2` 张 `DATA_WARNING_KNOWN_LIMITATION` + **`0` 张 `FAIL`**，`14` 张 Q4 `FY - 9M` 推导、`34/34` 张披露后拆股换算全部 `0` 误差）。
+> 4. **300 张严格互斥证据分层随机主核查表**（含 **120 张对全部 `347` 份账本零预过滤双阶段盲抽** + **100 张 SEC XBRL 数值卡** + **40 张 SEC 13F 原始 `.zip` 整份申报全行数/全元组严苛核对 `40/40 PASS`** + **40 张宏观/SEP PDF/S&P DJI `.xlsx`/估值/跨本地缓存 ETF 卡**）：[`v2_300_master_random_cards.md`](v2_standalone/v2_300_master_random_cards.md) → **`PASS_EXTERNAL_PRIMARY = 177`**、**`PASS_INTERNAL_MATH_SINGLE_VENDOR = 81`**、**`PASS_INTERNAL_CROSS_STORE = 5`**（同源双缓存严格单列，绝不混充外部主源）、**`DATA_WARNING_KNOWN_LIMITATION = 14`**、**`UNVERIFIABLE_NET_ONLY_LEDGER = 12`**、**`DATA_DEFECT_CONFIRMED = 8`**、**`FAIL_MATH_OR_FACT_MISMATCH = 3`**（精准命中原版 NDX 硬扣 `20bp` 账本 `L007/L030/L083`）。
+
+---
+
+## 一句话总结论（人话版，`v1` 背景存档）
 
 **不能给整座仓库的所有回测数据盖“100% 全部无瑕疵通过”的章；但核心大盘价格算术、SEC 财报披露时点、13F 机构持仓库和 347 份策略月度账本的复算全部 100% 对得上（误差 $\le 1.11 \times 10^{-16}$）。**
 

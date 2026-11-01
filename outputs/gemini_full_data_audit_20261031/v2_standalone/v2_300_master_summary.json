@@ -1,0 +1,67 @@
+{
+  "total_random_cards": 300,
+  "zero_project_imports": true,
+  "zero_false_pass_fallbacks": true,
+  "seeds": {
+    "Part_A_120_Unrestricted_TwoStage_Ledgers": 20261101,
+    "Part_B_100_SEC_Raw_XBRL_Facts": 20261101,
+    "Part_C_40_Strict_SEC_13F_Raw_ZIP": 20261102,
+    "Part_D_40_Macro_SEP_SPDJI_Valuation_ETF": 20261103
+  },
+  "part_a_stage1_unrestricted_coverage": {
+    "total_candidate_ledgers_in_stage1_pool": 347,
+    "pre_filtered_exclusions": 0,
+    "cards_drawn": 120,
+    "unique_ledger_files_hit": 103,
+    "claude_78a2d0d_cards_drawn": 70,
+    "codex_v2_4ea9a1d_cards_drawn": 47,
+    "top3_study_cards_drawn": 3
+  },
+  "disjoint_verdict_tier_totals_300_cards": {
+    "PASS_EXTERNAL_PRIMARY": 177,
+    "PASS_INTERNAL_MATH_SINGLE_VENDOR": 81,
+    "DATA_WARNING_KNOWN_LIMITATION": 14,
+    "UNVERIFIABLE_NET_ONLY_LEDGER": 12,
+    "DATA_DEFECT_CONFIRMED": 8,
+    "PASS_INTERNAL_CROSS_STORE": 5,
+    "FAIL_MATH_OR_FACT_MISMATCH": 3
+  },
+  "verdict_breakdown_by_section": {
+    "A_TwoStage_Ledger_347": {
+      "DATA_DEFECT_CONFIRMED": 3,
+      "DATA_WARNING_KNOWN_LIMITATION": 1,
+      "FAIL_MATH_OR_FACT_MISMATCH": 3,
+      "PASS_EXTERNAL_PRIMARY": 20,
+      "PASS_INTERNAL_CROSS_STORE": 0,
+      "PASS_INTERNAL_MATH_SINGLE_VENDOR": 81,
+      "UNVERIFIABLE_NET_ONLY_LEDGER": 12
+    },
+    "B_SEC_Raw_XBRL_100": {
+      "DATA_DEFECT_CONFIRMED": 0,
+      "DATA_WARNING_KNOWN_LIMITATION": 2,
+      "FAIL_MATH_OR_FACT_MISMATCH": 0,
+      "PASS_EXTERNAL_PRIMARY": 98,
+      "PASS_INTERNAL_CROSS_STORE": 0,
+      "PASS_INTERNAL_MATH_SINGLE_VENDOR": 0,
+      "UNVERIFIABLE_NET_ONLY_LEDGER": 0
+    },
+    "C_SEC_13F_Raw_ZIP": {
+      "DATA_DEFECT_CONFIRMED": 0,
+      "DATA_WARNING_KNOWN_LIMITATION": 0,
+      "FAIL_MATH_OR_FACT_MISMATCH": 0,
+      "PASS_EXTERNAL_PRIMARY": 40,
+      "PASS_INTERNAL_CROSS_STORE": 0,
+      "PASS_INTERNAL_MATH_SINGLE_VENDOR": 0,
+      "UNVERIFIABLE_NET_ONLY_LEDGER": 0
+    },
+    "D_Macro_SEP_SPDJI_ETF": {
+      "DATA_DEFECT_CONFIRMED": 5,
+      "DATA_WARNING_KNOWN_LIMITATION": 11,
+      "FAIL_MATH_OR_FACT_MISMATCH": 0,
+      "PASS_EXTERNAL_PRIMARY": 19,
+      "PASS_INTERNAL_CROSS_STORE": 5,
+      "PASS_INTERNAL_MATH_SINGLE_VENDOR": 0,
+      "UNVERIFIABLE_NET_ONLY_LEDGER": 0
+    }
+  }
+}

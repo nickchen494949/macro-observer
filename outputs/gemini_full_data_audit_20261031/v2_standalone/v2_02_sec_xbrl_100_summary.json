@@ -1,0 +1,127 @@
+{
+  "seed": 20261101,
+  "sampling_design": "Predefined stratified random without replacement across 9 (store x metric) strata; zero post-hoc filtering",
+  "zero_project_imports": true,
+  "zero_fallback_to_stored_values": true,
+  "total_cards": 100,
+  "unique_ciks_queried_on_sec_fsds_and_live_edgar": 95,
+  "verdict_counts": {
+    "PASS_EXTERNAL_PRIMARY": 98,
+    "DATA_WARNING_KNOWN_LIMITATION": 2
+  },
+  "by_metric": {
+    "eps_diluted": {
+      "DATA_WARNING_KNOWN_LIMITATION": 2,
+      "PASS_EXTERNAL_PRIMARY": 32
+    },
+    "net_income": {
+      "DATA_WARNING_KNOWN_LIMITATION": 0,
+      "PASS_EXTERNAL_PRIMARY": 33
+    },
+    "revenue": {
+      "DATA_WARNING_KNOWN_LIMITATION": 0,
+      "PASS_EXTERNAL_PRIMARY": 33
+    }
+  },
+  "by_store": {
+    "ndx": {
+      "DATA_WARNING_KNOWN_LIMITATION": 1,
+      "PASS_EXTERNAL_PRIMARY": 14
+    },
+    "smallcap": {
+      "DATA_WARNING_KNOWN_LIMITATION": 0,
+      "PASS_EXTERNAL_PRIMARY": 35
+    },
+    "sp500": {
+      "DATA_WARNING_KNOWN_LIMITATION": 1,
+      "PASS_EXTERNAL_PRIMARY": 49
+    }
+  },
+  "live_sec_gov_api_confirmed_count": 100,
+  "q4_derived_fy_minus_9m_cards_tested": 14,
+  "eps_split_adjustment_cards_tested": 34,
+  "eps_split_adjustment_all_pass": true,
+  "strata_population_and_weights": [
+    {
+      "store": "sp500",
+      "metric": "eps_diluted",
+      "store_total_rows": 46861,
+      "eligible_non_null_rows_N_h": 45178,
+      "null_rows_in_store": 1683,
+      "sampled_n_h": 18,
+      "sampling_probability": 0.00039842401168710433
+    },
+    {
+      "store": "sp500",
+      "metric": "revenue",
+      "store_total_rows": 46861,
+      "eligible_non_null_rows_N_h": 45061,
+      "null_rows_in_store": 1800,
+      "sampled_n_h": 16,
+      "sampling_probability": 0.00035507423270677527
+    },
+    {
+      "store": "sp500",
+      "metric": "net_income",
+      "store_total_rows": 46861,
+      "eligible_non_null_rows_N_h": 46137,
+      "null_rows_in_store": 724,
+      "sampled_n_h": 16,
+      "sampling_probability": 0.0003467932462015302
+    },
+    {
+      "store": "ndx",
+      "metric": "eps_diluted",
+      "store_total_rows": 1383,
+      "eligible_non_null_rows_N_h": 1246,
+      "null_rows_in_store": 137,
+      "sampled_n_h": 5,
+      "sampling_probability": 0.0040128410914927765
+    },
+    {
+      "store": "ndx",
+      "metric": "revenue",
+      "store_total_rows": 1383,
+      "eligible_non_null_rows_N_h": 1313,
+      "null_rows_in_store": 70,
+      "sampled_n_h": 5,
+      "sampling_probability": 0.003808073115003808
+    },
+    {
+      "store": "ndx",
+      "metric": "net_income",
+      "store_total_rows": 1383,
+      "eligible_non_null_rows_N_h": 1277,
+      "null_rows_in_store": 106,
+      "sampled_n_h": 5,
+      "sampling_probability": 0.003915426781519186
+    },
+    {
+      "store": "smallcap",
+      "metric": "eps_diluted",
+      "store_total_rows": 156279,
+      "eligible_non_null_rows_N_h": 141562,
+      "null_rows_in_store": 14717,
+      "sampled_n_h": 11,
+      "sampling_probability": 7.770446871335528e-05
+    },
+    {
+      "store": "smallcap",
+      "metric": "revenue",
+      "store_total_rows": 156279,
+      "eligible_non_null_rows_N_h": 134942,
+      "null_rows_in_store": 21337,
+      "sampled_n_h": 12,
+      "sampling_probability": 8.892709460360747e-05
+    },
+    {
+      "store": "smallcap",
+      "metric": "net_income",
+      "store_total_rows": 156279,
+      "eligible_non_null_rows_N_h": 153532,
+      "null_rows_in_store": 2747,
+      "sampled_n_h": 12,
+      "sampling_probability": 7.815960190709428e-05
+    }
+  ]
+}
