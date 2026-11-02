@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
 """
 v2_06_frozen_rs60_cleanroom_auditor.py — 100% Standalone Clean-Room First-Principles Auditor
-for the Frozen Stall-Detector Rule: `12-1 Momentum + RS(6-0) > Benchmark (else CASH)`.
+for:
+  (A) The Frozen Stall-Detector Rule: `12-1 Momentum + RS(6-0) > Benchmark (else CASH)`
+  (B) `All S&P Top-1 + SMA200` (both Pass-Down `<SMA200 -> next stock` and Gate-to-Cash `<SMA200 -> CASH`,
+      and both Close-to-Close and Next-Day Open-to-Open with Drifted Weights & 0.1% per-side costs).
 
 STRICT CLEAN-ROOM GUARANTEES (Mechanically enforced by v2_00_cleanroom_ast_and_readonly_guard.py):
   1. ZERO imports of any audited project module (`backtest`, `ml2_run`, `winners_tracks`, `tech_only`,
      `sma200_overlay`, `historical_sectors`, `ticker_aliases`, etc.).
-  2. ZERO reads of project-generated intermediate panels (`panel.parquet`, `panel_ml2.parquet`,
-     project RF CSVs, `ticker_aliases_used.csv`, `cik_map.csv`) and ZERO reads of ledger
-     cost/cash columns.
+  2. ZERO reads of project-generated intermediate feature panels, project RF CSVs, project alias CSVs,
+     or project CIK CSVs, and ZERO reads of ledger cost/cash columns.
   3. Reconstructs 100% from raw files on disk (`data/raw/*.json`, `data/raw_open/*.json`,
-     `data/raw_tiingo/*.json`, `data/raw_wiki/*.json`, `sp500_hist_components.csv`, `DGS3MO.json`)
+     `data/raw_tiingo/*.json`, `data/raw_wiki/*.json`, `sec_raw/sub_*.parquet`, `sp500_hist_components.csv`,
+     `sp500_ticker_start_end.csv`, `wiki_changes.csv`, `wiki_current_constituents.csv`, `DGS3MO.json`)
      via `CleanRoomEquityStore`:
+       - Ticker aliases reconstructed 100% from raw SEC FSDS + membership spells + Wikipedia corporate actions
        - PIT S&P 500 membership + spell-trust filter + historical GICS sector panel (2016/2018/2023)
        - 12-1 momentum (`P[t-1] / P[t-12] - 1` with segment-continuity verification)
        - 6-0 relative strength (`P[t] / P[t-6] - 1` with segment-continuity verification)
@@ -19,10 +23,7 @@ STRICT CLEAN-ROOM GUARANTEES (Mechanically enforced by v2_00_cleanroom_ast_and_r
        - Both Execution Engines:
            * Engine A: Close-to-Close (`Close[t] -> Close[t+1]`) with first-principles equal-weight turnover
            * Engine B: Next-Day Open-to-Open (`Open[t+1_day1] -> Open[t+2_day1]`, zero same-bar overlap with
-             `Close[t]` in `RS(6-0)`) with first-principles drifted-weight self-financing & additive turnover
-       - Both Cash Transaction Cost Assumptions:
-           * Cost Model 1 (`Cash 0bp`): 10bp per side on stock buys/sells; 0bp on T-bill cash sweep
-           * Cost Model 2 (`Cash ETF 10bp`): 10bp per side on both stocks AND T-bill ETF (`Stock <-> Cash = 20bp`)
+             `Close[t]`) with first-principles drifted-weight turnover (both `additive` and `self_financing`)
 """
 import difflib
 import glob
@@ -42,9 +43,15 @@ if HERE not in sys.path:
     sys.path.insert(0, HERE)
 
 from v2_cleanroom_lib import (
+    DOCUMENTED_MANUAL_CIKS,
+    DOCUMENTED_NAME_HINTS,
+    DOCUMENTED_SEC_SAME_CIK_RENAMES,
     DOCUMENTED_TIME_SPLITS,
+    NO_SEC_FILINGS_TICKERS,
     CleanRoomEquityStore,
     ExternalEquityCrossChecker,
+    _norm_company_name,
+    _norm_sym,
     solve_self_financing_capital,
 )
 
@@ -53,37 +60,6 @@ REPO_ROOT = os.path.dirname(os.path.dirname(AUDIT_ROOT))
 CODEX_V2_SSM_REL = "backtest_versions/2026-10-30_codex_full_audit_v2/research/sector_stock_momentum"
 ORIG_SSM_REL = "research/sector_stock_momentum"
 COST_PER_SIDE = 0.0010
-
-DOCUMENTED_SEC_SAME_CIK_RENAMES = {
-    "LB": "BBWI", "CTL": "LUMN", "CBS": "VIAC", "VIAC": "PARA",
-    "HCP": "PEAK", "SYMC": "NLOK", "UTX": "RTX", "GPS": "GAP",
-    "FBHS": "FBIN", "KORS": "CPRI", "COG": "CTRA", "DISCA": "WBD",
-    "ARNC": "HWM", "WLTW": "WTW", "SIVB": "SIVBQ", "FRC": "FRCB",
-    "WYND": "TNL", "CDAY": "DAY", "HFC": "DINO", "DWDP": "DD",
-}
-
-DOCUMENTED_NAME_HINTS = {
-    "AABA": "Yahoo Inc", "ACS": "Affiliated Computer Services", "ANRZQ": "Alpha Natural Resources",
-    "ATGE": "Adtalem Global Education", "BDK": "Black & Decker", "BNI": "Burlington Northern Santa Fe",
-    "BTUUQ": "Peabody Energy", "CITGQ": "CIT Group", "EKDKQ": "Eastman Kodak", "HSH": "Hillshire Brands",
-    "JCP": "Penney J C Co", "MWV": "MeadWestvaco", "PBG": "Pepsi Bottling Group", "PX": "Praxair",
-    "QLGC": "QLogic", "RSHCQ": "RadioShack", "SUNEQ": "SunEdison", "WRK": "WestRock", "WYE": "Wyeth",
-    "LO": "Lorillard", "WIN": "Windstream", "WYND": "Wyndham Worldwide",
-    "HOT": "Starwood Hotel & Resorts Worldwide", "TSS": "Total System Services", "MYL": "Mylan",
-    "PKI": "PerkinElmer", "TMK": "Torchmark", "UTX": "United Technologies", "BLL": "Ball Corp",
-    "MMC": "Marsh & McLennan", "BK": "Bank of New York Mellon", "ANTM": "Anthem",
-    "ABC": "AmerisourceBergen", "CTL": "CenturyLink", "CBS": "CBS Corp", "HCP": "HCP Inc",
-    "SYMC": "Symantec", "NLOK": "NortonLifeLock", "PEAK": "Healthpeak Properties", "VIAC": "ViacomCBS",
-    "BHGE": "Baker Hughes", "FI": "Fiserv", "EQ": "Embarq", "JAVA": "Sun Microsystems",
-    "LB": "L Brands", "BEAM": "Beam Inc", "CCEP": "Coca-Cola European Partners",
-    "CDAY": "Ceridian HCM", "DWDP": "DowDuPont", "CMCSK": "Comcast",
-}
-
-DOCUMENTED_MANUAL_CIKS = {
-    "CA": 356028, "BRCM": 1054374, "BBT": 92230, "PARA": 813828,
-    "XRX": 108772, "AGN": 1578845, "KRFT": 1545158, "AIV": 922864,
-}
-NO_SEC_FILINGS_TICKERS = {"FRC", "SBNY", "CCEP"}
 
 SECTOR_ETF_MAP = {
     "Information Technology": "XLK",
@@ -98,10 +74,6 @@ SECTOR_ETF_MAP = {
     "Real Estate": "XLRE",
     "Materials": "XLB",
 }
-
-
-def _norm_sym(sym: str) -> str:
-    return str(sym).strip().replace(".", "-")
 
 
 def _sic_to_sector(sic_val) -> Optional[str]:
@@ -138,150 +110,7 @@ def _sic_to_sector(sic_val) -> Optional[str]:
     return "Industrials"
 
 
-def _norm_company_name(name: str) -> str:
-    n = re.sub(r"/[^/]*/?", " ", str(name)).lower()
-    n = re.sub(r"&", " and ", n)
-    n = re.sub(r"[^a-z0-9 ]", " ", n)
-    stop = {
-        "inc", "incorporated", "corp", "corporation", "co", "company", "ltd", "plc",
-        "the", "group", "holdings", "holding", "llc", "lp", "sa", "nv", "de", "new",
-        "cos", "companies", "international", "intl",
-    }
-    words = [w for w in n.split() if w not in stop]
-    out: List[str] = []
-    prev_single = False
-    for w in words:
-        if len(w) == 1 and out and len(out[-1]) <= 3 and out[-1].isalpha() and prev_single:
-            out[-1] += w
-        else:
-            out.append(w)
-        prev_single = len(w) == 1
-    return " ".join(out)
-
-
-def cleanroom_raw_first_price_dates(data_dir: str) -> Dict[str, pd.Timestamp]:
-    first: Dict[str, pd.Timestamp] = {}
-    for sub in ("raw", "raw_tiingo"):
-        dpath = os.path.join(data_dir, sub)
-        if not os.path.isdir(dpath):
-            continue
-        for p in sorted(glob.glob(os.path.join(dpath, "*.json"))):
-            bn = os.path.basename(p)
-            if bn.startswith("_"):
-                continue
-            with open(p, "r", encoding="utf-8") as fh:
-                jd = json.load(fh)
-            dts = jd.get("dates") or []
-            if dts:
-                k = bn[:-5]
-                t0 = pd.Timestamp(dts[0])
-                first[k] = min(first.get(k, t0), t0)
-    return first
-
-
-def cleanroom_reconstruct_aliases(
-    data_dir: str,
-    first_price_date: Dict[str, pd.Timestamp],
-    cik_seed: Optional[Dict[str, int]] = None,
-) -> pd.DataFrame:
-    sp = pd.read_csv(os.path.join(data_dir, "sp500_ticker_start_end.csv"), parse_dates=["start_date", "end_date"])
-    ch = pd.read_csv(os.path.join(data_dir, "wiki_changes.csv"))
-    ch["date"] = pd.to_datetime(ch["date"], errors="coerce")
-    wiki = pd.read_csv(os.path.join(data_dir, "wiki_current_constituents.csv"))
-
-    cik: Dict[str, int] = dict(cik_seed or {})
-    for t, c in zip(wiki["Symbol"], wiki["CIK"]):
-        if pd.notna(c):
-            cik[str(t)] = int(c)
-
-    def listed(tk: str, col: str, d: pd.Timestamp) -> bool:
-        x = ch[(ch[col] == tk) & ((ch["date"] - d).abs() <= pd.Timedelta(days=7))]
-        return len(x) > 0
-
-    added = dict(zip(wiki["Symbol"], pd.to_datetime(wiki["Date added"], errors="coerce")))
-    acc: List[dict] = []
-    succ: Dict[str, str] = {}
-
-    def cik_of(t: str) -> Optional[int]:
-        seen = set()
-        while t not in cik and t in succ and t not in seen:
-            seen.add(t)
-            t = succ[t]
-        return cik.get(t)
-
-    starts = sp.sort_values("start_date", ascending=False)
-    for b in starts.itertuples():
-        if b.start_date < pd.Timestamp("2008-01-01"):
-            continue
-        cands_df = sp[
-            sp["end_date"].notna()
-            & ((sp["end_date"] - b.start_date).abs() <= pd.Timedelta(days=3))
-            & (sp["ticker"] != b.ticker)
-        ]
-        cands = [a for a in cands_df["ticker"] if not listed(a, "removed_ticker", b.start_date)]
-        if not cands or listed(b.ticker, "added_ticker", b.start_date):
-            continue
-        fp = first_price_date.get(_norm_sym(b.ticker))
-        carries = fp is not None and fp <= b.start_date - pd.Timedelta(days=365)
-        cb = cik_of(b.ticker)
-        same = [a for a in cands if cb is not None and cik.get(a) == cb]
-        if len(same) == 1:
-            cands, evidence = same, "same_cik"
-        else:
-            cands = [a for a in cands if cik.get(a) is None or cik.get(a) == cb]
-            old_member = (
-                b.ticker in added
-                and pd.notna(added[b.ticker])
-                and added[b.ticker] <= b.start_date - pd.Timedelta(days=365)
-            )
-            evidence = "wiki_date_added" if old_member else None
-        if len(cands) == 1 and carries and evidence:
-            acc.append({"old": cands[0], "new": b.ticker, "evidence": evidence})
-            succ[cands[0]] = b.ticker
-
-    done = {r["old"] for r in acc}
-    sec_succ_path = os.path.join(data_dir, "sec_successor_aliases.csv")
-    if os.path.exists(sec_succ_path):
-        def overlap(a: str, b: str) -> bool:
-            A = sp[sp["ticker"] == a]
-            B = sp[sp["ticker"] == b.replace("-", ".")]
-            return any(
-                x.start_date < (y.end_date if pd.notna(y.end_date) else pd.Timestamp("2100-01-01"))
-                and y.start_date < (x.end_date if pd.notna(x.end_date) else pd.Timestamp("2100-01-01"))
-                for x in A.itertuples()
-                for y in B.itertuples()
-            )
-
-        for r in pd.read_csv(sec_succ_path).itertuples():
-            if (
-                r.status == "accepted"
-                and r.old not in done
-                and r.old not in DOCUMENTED_SEC_SAME_CIK_RENAMES
-                and not overlap(r.old, r.new)
-            ):
-                acc.append({"old": r.old, "new": r.new.replace("-", "."), "evidence": f"sec_same_cik_{int(r.cik)}"})
-                done.add(r.old)
-
-    for a, b in DOCUMENTED_SEC_SAME_CIK_RENAMES.items():
-        if a not in done:
-            acc.append({"old": a, "new": b, "evidence": "manual_same_cik"})
-
-    acc_df = pd.DataFrame(acc)
-    if len(acc_df):
-        nxt = dict(zip(acc_df["old"], acc_df["new"]))
-
-        def final_sym(t: str) -> str:
-            seen = set()
-            while t in nxt and t not in seen:
-                seen.add(t)
-                t = nxt[t]
-            return t
-
-        acc_df["price_symbol"] = [_norm_sym(final_sym(t)) for t in acc_df["new"]]
-    return acc_df
-
-
-def cleanroom_reconstruct_cik_map_and_aliases(ssm_dir: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
+def cleanroom_reconstruct_cik_map_and_aliases(ssm_dir: str, store: CleanRoomEquityStore) -> Tuple[pd.DataFrame, pd.DataFrame]:
     data_dir = os.path.join(ssm_dir, "data")
     sec_raw_dir = os.path.join(data_dir, "fundamentals", "sec_raw")
     subs = [pd.read_parquet(p, columns=["cik", "name", "sic", "filed"]) for p in sorted(glob.glob(os.path.join(sec_raw_dir, "sub_*.parquet")))]
@@ -380,19 +209,14 @@ def cleanroom_reconstruct_cik_map_and_aliases(ssm_dir: str) -> Tuple[pd.DataFram
         rows.append({"ticker": t, "cik": c_val, "method": how})
 
     cmap = pd.DataFrame(rows)
-    first_px = cleanroom_raw_first_price_dates(data_dir)
-    seed_map = {str(t): int(c) for t, c in zip(cmap["ticker"], cmap["cik"]) if pd.notna(c)}
-    al0 = cleanroom_reconstruct_aliases(data_dir, first_px, cik_seed=seed_map)
+    aliases = store._read_aliases()
     tk2cik = dict(zip(cmap["ticker"], cmap["cik"]))
-    for r in al0.itertuples():
-        old, new = r.old, r.price_symbol.replace("-", ".")
+    for r in aliases.itertuples():
+        old, new = str(r.old).replace("-", "."), str(r.price_symbol).replace("-", ".")
         if pd.isna(tk2cik.get(old)) and pd.notna(tk2cik.get(new)):
             idx = cmap.index[cmap["ticker"] == old]
             cmap.loc[idx, ["cik", "method"]] = [tk2cik[new], f"alias_of_{new}"]
     cmap["cik"] = cmap["cik"].astype("Int64")
-
-    final_seed = {str(t): int(c) for t, c in zip(cmap["ticker"], cmap["cik"]) if pd.notna(c)}
-    aliases = cleanroom_reconstruct_aliases(data_dir, first_px, cik_seed=final_seed)
 
     sic_last = sub.dropna(subset=["sic"]).groupby("cik")["sic"].last()
     cmap["sic"] = [sic_last.get(int(c)) if pd.notna(c) else None for c in cmap["cik"]]
@@ -638,20 +462,11 @@ def cleanroom_build_pit_momentum_rs_panel(
     sec_panel: pd.DataFrame,
     form_dates: pd.DatetimeIndex,
 ) -> pd.DataFrame:
-    """
-    Builds the monthly PIT formation panel directly from `store.P` (monthly closes),
-    `store.seg_m` (segment IDs), and `store.daily` (for SMA200):
-      - `mom_12_1`: P[t-1] / P[t-12] - 1 (valid only when seg_m[t] == seg_m[t-1] == seg_m[t-12])
-      - `rs_6_0`:   P[t] / P[t-6] - 1   (valid only when seg_m[t] == seg_m[t-6])
-      - `rs_6_1`:   P[t-1] / P[t-6] - 1 (valid only when seg_m[t] == seg_m[t-1] == seg_m[t-6])
-      - `dist_sma200`: Close[t] / mean(Close[t-199..t]) - 1 (valid only when seg_d[t] == seg_d[t-200])
-    """
     P = store.P
     seg_m = store.seg_m
     daily = store.daily
     seg_d = store.seg_d
 
-    # Segment-guarded monthly window returns
     mom_12_1 = (P.shift(1) / P.shift(12) - 1.0).where((seg_m == seg_m.shift(12)) & (seg_m == seg_m.shift(1)))
     rs_6_0 = (P / P.shift(6) - 1.0).where(seg_m == seg_m.shift(6))
     rs_6_1 = (P.shift(1) / P.shift(6) - 1.0).where((seg_m == seg_m.shift(6)) & (seg_m == seg_m.shift(1)))
@@ -659,7 +474,6 @@ def cleanroom_build_pit_momentum_rs_panel(
     rs_12_0 = (P / P.shift(12) - 1.0).where(seg_m == seg_m.shift(12))
     rs_3_0 = (P / P.shift(3) - 1.0).where(seg_m == seg_m.shift(3))
 
-    # Daily SMA200 sampled at each month-end t
     sma200_d = daily.ffill(limit=5).rolling(200, min_periods=160).mean()
     dist_sma200_d = (daily / sma200_d - 1.0).where(seg_d == seg_d.shift(200))
     dist_sma200_m = dist_sma200_d.resample("ME").last().reindex(P.index)
@@ -720,7 +534,7 @@ def simulate_cleanroom_rs_strategy(
     store: CleanRoomEquityStore,
     form_dates: pd.DatetimeIndex,
     k: int = 1,
-    sma200: bool = False,
+    sma200_mode: str = "none",       # "none", "pass_down" (<SMA200 skipped to next stock), or "gate_cash" (<SMA200 -> CASH)
     rs_col: Optional[str] = None,
     bench_col: Optional[str] = None,
     exec_mode: str = "close",        # "close" or "open"
@@ -729,7 +543,7 @@ def simulate_cleanroom_rs_strategy(
     cash_cost_bps: float = 0.0,      # 0.0 (0bp on cash sweep) or 10.0 (10bp per side on T-bill ETF)
 ) -> pd.DataFrame:
     """
-    100% First-Principles Portfolio Simulator for `12-1 Top-K + RS > Benchmark (else CASH)`.
+    100% First-Principles Portfolio Simulator for `12-1 Top-K` with optional `SMA200` and `RS > Benchmark`.
     Zero reads of any ledger turnover/cost column.
     """
     rows = []
@@ -743,39 +557,36 @@ def simulate_cleanroom_rs_strategy(
         g = df_panel[df_panel["t"] == t].copy()
         if exec_mode == "open":
             g = g[g["ret_oo"].notna()]
-        if sma200:
+        if sma200_mode == "pass_down":
             g = g[g["dist_sma200"] > 0]
         g = g.sort_values(["mom_12_1", "ticker"], ascending=[False, True])
         top = g.head(k)
 
         target_stocks: Dict[str, float] = {}
         slot_picks: List[str] = []
-        slot_returns: List[float] = []
         stock_rets: Dict[str, Tuple[float, str]] = {}
 
         if top.empty:
             slot_picks = ["CASH"] * k
-            slot_returns = [rf_m] * k
         else:
             for _, r in top.iterrows():
                 tk = str(r["ticker"])
                 rv = float(r[ret_col])
                 st = str(r[st_col])
                 st_ok = "ok" if st in ("ok", "ok_open", "ok_close1_fallback") else st
-                pass_rs = True
+                pass_gate = True
+                if sma200_mode == "gate_cash":
+                    pass_gate = pass_gate and bool(pd.notna(r["dist_sma200"]) and float(r["dist_sma200"]) > 0.0)
                 if rs_col is not None and bench_col is not None:
-                    pass_rs = bool(pd.notna(r[rs_col]) and pd.notna(r[bench_col]) and float(r[rs_col]) > float(r[bench_col]))
-                if pass_rs:
+                    pass_gate = pass_gate and bool(pd.notna(r[rs_col]) and pd.notna(r[bench_col]) and float(r[rs_col]) > float(r[bench_col]))
+                if pass_gate:
                     target_stocks[tk] = target_stocks.get(tk, 0.0) + (1.0 / k)
                     slot_picks.append(tk)
-                    slot_returns.append(rv)
                     stock_rets[tk] = (rv, st_ok)
                 else:
                     slot_picks.append("CASH")
-                    slot_returns.append(rf_m)
             while len(slot_picks) < k:
                 slot_picks.append("CASH")
-                slot_returns.append(rf_m)
 
         exposure = float(sum(target_stocks.values()))
         cash_weight = max(0.0, 1.0 - exposure)
@@ -798,7 +609,7 @@ def simulate_cleanroom_rs_strategy(
             grow = {s: target_stocks[s] * (1.0 + stock_rets[s][0]) for s in target_stocks if stock_rets[s][1] == "ok"}
             w_prev = {s: v / (1.0 + gross) for s, v in grow.items()} if (1.0 + gross) > 0 else {}
         else:
-            w_prev = dict(target_stocks)
+            w_prev = {s: target_stocks[s] for s in target_stocks if stock_rets[s][1] == "ok"}
 
         rows.append({
             "formation": str(t.date()),
@@ -842,63 +653,158 @@ def compute_metrics(df_sim: pd.DataFrame, start: str, end: str, exclude_year: Op
     }
 
 
+def check_ivv_confirmation(ext_checker: ExternalEquityCrossChecker, store: CleanRoomEquityStore, df_sim: pd.DataFrame) -> dict:
+    checked = 0
+    confirmed = 0
+    for m_dt, row in df_sim.iterrows():
+        t_dt = pd.Timestamp(row["formation"])
+        ivv_snap = ext_checker.ivv_prices.get(t_dt)
+        if ivv_snap is None:
+            continue
+        for tk in str(row["picks"]).split("|"):
+            if tk == "CASH":
+                continue
+            _, raw_sym = store.vendor_at(tk, t_dt)
+            cands = {tk, tk.replace("-", ""), raw_sym, raw_sym.replace("-", "")}
+            checked += 1
+            if any(c in ivv_snap for c in cands):
+                confirmed += 1
+    return {
+        "ivv_checked": int(checked),
+        "ivv_confirmed": int(confirmed),
+        "ivv_confirmation_rate": round(confirmed / max(1, checked), 6),
+    }
+
+
 def main() -> None:
     t0 = time.time()
     ssm_dir = os.path.join(REPO_ROOT, ORIG_SSM_REL)
     data_dir = os.path.join(ssm_dir, "data")
 
-    print("[v2_06] 1. Initializing CleanRoomEquityStore from raw JSON/CSV files...")
+    print("[v2_06] 1. Initializing CleanRoomEquityStore (100% raw SEC/membership alias reconstruction, 0 derived CSV reads)...")
     store = CleanRoomEquityStore(REPO_ROOT, ssm_rel=ORIG_SSM_REL, include_ndx=False)
     ext_checker = ExternalEquityCrossChecker(REPO_ROOT)
 
-    print("[v2_06] 2. Reconstructing SEC CIK map, ticker aliases, PIT membership & GICS sector panel...")
-    cmap, aliases = cleanroom_reconstruct_cik_map_and_aliases(ssm_dir)
+    print("[v2_06] 2. Reconstructing SEC CIK map, ticker aliases, PIT membership & GICS sector panel from raw files...")
+    cmap, aliases = cleanroom_reconstruct_cik_map_and_aliases(ssm_dir, store)
     bad_spells = cleanroom_untrusted_and_excluded_spells(data_dir, store)
     form_dates = store.P.index[(store.P.index >= pd.Timestamp("2009-12-31")) & (store.P.index <= pd.Timestamp("2026-08-31"))]
     members = cleanroom_load_pit_membership(data_dir, form_dates, bad_spells)
     sec_panel = cleanroom_build_pit_sector_panel(data_dir, store, aliases, cmap, form_dates)
 
+    print(f"        Reconstructed {len(aliases)} ticker aliases from raw SEC FSDS + membership spells + Wikipedia changes.")
+
     print("[v2_06] 3. Building clean-room PIT Mom(12-1), RS(6-0), SMA200, Close-to-Close & Open-to-Open panel...")
     panel = cleanroom_build_pit_momentum_rs_panel(store, members, sec_panel, form_dates)
     print(f"        Panel built: {len(panel)} ticker-months across {panel['t'].nunique()} formation months.")
 
-    # Verify exact match of baseline Top-3 Open-to-Open against audited `monthly_BENCH_momentum_Top3.csv` (141m 2015-01..2026-09)
-    sim_top3_oo_base = simulate_cleanroom_rs_strategy(
+    # ── PARITY CHECK 1: Audited `BENCH_momentum_Top3` (`141` months `2015-01..2026-09`) ──
+    sim_top3_oo_base_sf = simulate_cleanroom_rs_strategy(
         panel[panel["mom_rank"] <= 50], store, form_dates[form_dates >= pd.Timestamp("2014-12-31")],
-        k=3, rs_col=None, bench_col=None, exec_mode="open", weight_mode="drifted", self_financing=True, cash_cost_bps=0.0
+        k=3, sma200_mode="none", rs_col=None, bench_col=None, exec_mode="open", weight_mode="drifted", self_financing=True, cash_cost_bps=0.0
     )
-    sim_top3_oo_rs60 = simulate_cleanroom_rs_strategy(
-        panel[panel["mom_rank"] <= 50], store, form_dates[form_dates >= pd.Timestamp("2014-12-31")],
-        k=3, rs_col="rs_6_0", bench_col="spy_6_0", exec_mode="open", weight_mode="drifted", self_financing=True, cash_cost_bps=0.0
-    )
-
     codex_v2_top3_path = os.path.join(REPO_ROOT, CODEX_V2_SSM_REL, "results", "ml2", "monthly_BENCH_momentum_Top3.csv")
     led_bench_top3 = pd.read_csv(codex_v2_top3_path)
     led_bench_top3["month_dt"] = pd.to_datetime(led_bench_top3["month"]) + pd.offsets.MonthEnd(0)
     led_bench_top3 = led_bench_top3.set_index("month_dt").loc["2015-01-31":"2026-09-30"]
-    sim_top3_oo_check = sim_top3_oo_base.loc["2015-01-31":"2026-09-30"]
+    sim_top3_oo_check = sim_top3_oo_base_sf.loc["2015-01-31":"2026-09-30"]
     top3_pick_matches = sum(
         set(str(sim_top3_oo_check.at[m, "picks"]).split("|")) == set(str(led_bench_top3.at[m, "picks"]).split("|"))
         for m in sim_top3_oo_check.index
     )
     top3_max_gross_diff = float((sim_top3_oo_check["gross"] - led_bench_top3["gross"]).abs().max())
     top3_max_net_diff = float((sim_top3_oo_check["net"] - led_bench_top3["net"]).abs().max())
-    print(f"[v2_06] Audited Baseline `BENCH_momentum_Top3` (27.33% CAGR) parity: {top3_pick_matches}/141 picks, "
+    top3_ivv = check_ivv_confirmation(ext_checker, store, sim_top3_oo_check)
+    print(f"[v2_06] Parity Check 1 (`BENCH_momentum_Top3` 141m): {top3_pick_matches}/141 picks, "
           f"max_gross_diff={top3_max_gross_diff:.2e}, max_net_diff={top3_max_net_diff:.2e}")
 
-    # Core strategy definitions
+    # ── PARITY CHECK 2: Audited `Top-1 + SMA200` (`sma200_pure_momentum_top_1___SMA200.csv`, 201m & 141m) ──
+    sim_sma200_cc = simulate_cleanroom_rs_strategy(
+        panel, store, form_dates,
+        k=1, sma200_mode="pass_down", rs_col=None, bench_col=None, exec_mode="close", weight_mode="fixed", self_financing=False, cash_cost_bps=0.0
+    )
+    led_sma200_path = os.path.join(ssm_dir, "results", "ml", "sma200_pure_momentum_top_1___SMA200.csv")
+    led_sma200 = pd.read_csv(led_sma200_path)
+    led_sma200["month_dt"] = pd.to_datetime(led_sma200["month"]) + pd.offsets.MonthEnd(0)
+    led_sma200 = led_sma200.set_index("month_dt")
+    sma200_201_picks = sum(str(sim_sma200_cc.at[m, "picks"]) == str(led_sma200.at[m, "pick"]) for m in led_sma200.index)
+    sma200_201_max_net_diff = float((sim_sma200_cc["net"] - led_sma200["net"]).abs().max())
+    sub_sma200_141 = sim_sma200_cc.loc["2015-01-31":"2026-09-30"]
+    led_sma200_141 = led_sma200.loc["2015-01-31":"2026-09-30"]
+    sma200_141_picks = sum(str(sub_sma200_141.at[m, "picks"]) == str(led_sma200_141.at[m, "pick"]) for m in led_sma200_141.index)
+    sma200_141_max_net_diff = float((sub_sma200_141["net"] - led_sma200_141["net"]).abs().max())
+    sma200_ivv = check_ivv_confirmation(ext_checker, store, sub_sma200_141)
+    print(f"[v2_06] Parity Check 2 (`Top-1 + SMA200` 201m & 141m): 201m={sma200_201_picks}/201 (max_net_diff={sma200_201_max_net_diff:.2e}), "
+          f"141m={sma200_141_picks}/141 (max_net_diff={sma200_141_max_net_diff:.2e}), IVV={sma200_ivv['ivv_confirmed']}/{sma200_ivv['ivv_checked']}")
+
+    # ── PARITY CHECK 3: Audited `Top-1 Pure Momentum` (`sma200_pure_momentum_top_1.csv`, 201m & 141m) ──
+    sim_top1_cc = simulate_cleanroom_rs_strategy(
+        panel, store, form_dates,
+        k=1, sma200_mode="none", rs_col=None, bench_col=None, exec_mode="close", weight_mode="fixed", self_financing=False, cash_cost_bps=0.0
+    )
+    led_top1_path = os.path.join(ssm_dir, "results", "ml", "sma200_pure_momentum_top_1.csv")
+    led_top1 = pd.read_csv(led_top1_path)
+    led_top1["month_dt"] = pd.to_datetime(led_top1["month"]) + pd.offsets.MonthEnd(0)
+    led_top1 = led_top1.set_index("month_dt")
+    top1_201_picks = sum(str(sim_top1_cc.at[m, "picks"]) == str(led_top1.at[m, "pick"]) for m in led_top1.index)
+    top1_201_max_net_diff = float((sim_top1_cc["net"] - led_top1["net"]).abs().max())
+    print(f"[v2_06] Parity Check 3 (`Top-1 Pure Momentum` 201m): {top1_201_picks}/201 (max_net_diff={top1_201_max_net_diff:.2e})")
+
+    # ── Dedicated Full Audit of `Top-1 + SMA200` (Next-Day Open vs Close, Pass-Down vs Gate-to-Cash) ──
+    sma200_variants = {}
+    for var_key, var_label, sma_mode, ex_mode, wt_mode, sf_flag, out_csv_name in [
+        ("sma200_passdown_cc", "Top-1 + SMA200 (Pass-Down <SMA200, Close-to-Close, Fixed Wt)", "pass_down", "close", "fixed", False, "v2_06_ledger_sp500_top1_sma200_cc.csv"),
+        ("sma200_passdown_oo_additive", "Top-1 + SMA200 (Pass-Down <SMA200, Next-Day Open, Drifted Wt, Additive Cost)", "pass_down", "open", "drifted", False, "v2_06_ledger_sp500_top1_sma200_oo.csv"),
+        ("sma200_passdown_oo_selffin", "Top-1 + SMA200 (Pass-Down <SMA200, Next-Day Open, Drifted Wt, Self-Financing Cost)", "pass_down", "open", "drifted", True, "v2_06_ledger_sp500_top1_sma200_oo_selffin.csv"),
+        ("sma200_gatecash_cc", "Top-1 + SMA200 (Gate-to-Cash if #1 <SMA200, Close-to-Close)", "gate_cash", "close", "fixed", False, None),
+        ("sma200_gatecash_oo_additive", "Top-1 + SMA200 (Gate-to-Cash if #1 <SMA200, Next-Day Open, Drifted Wt)", "gate_cash", "open", "drifted", False, None),
+    ]:
+        df_v = simulate_cleanroom_rs_strategy(
+            panel, store, form_dates,
+            k=1, sma200_mode=sma_mode, rs_col=None, bench_col=None,
+            exec_mode=ex_mode, weight_mode=wt_mode, self_financing=sf_flag, cash_cost_bps=0.0
+        )
+        if out_csv_name:
+            df_v.to_csv(os.path.join(HERE, out_csv_name))
+        sma200_variants[var_key] = {
+            "label": var_label,
+            "sma200_mode": sma_mode,
+            "exec_mode": ex_mode,
+            "weight_mode": wt_mode,
+            "self_financing": sf_flag,
+            "2010_2026_full": compute_metrics(df_v, "2010-01-31", "2026-09-30", None),
+            "2015_2026_full": compute_metrics(df_v, "2015-01-31", "2026-09-30", None),
+            "2015_2026_ex2022": compute_metrics(df_v, "2015-01-31", "2026-09-30", 2022),
+            "2010_2026_ex2022": compute_metrics(df_v, "2010-01-31", "2026-09-30", 2022),
+            "sub_2010_2014": compute_metrics(df_v, "2010-01-31", "2014-12-31", None),
+            "sub_2015_2019": compute_metrics(df_v, "2015-01-31", "2019-12-31", None),
+            "sub_2020_2021": compute_metrics(df_v, "2020-01-31", "2021-12-31", None),
+            "sub_2022_only": compute_metrics(df_v, "2022-01-31", "2022-12-31", None),
+            "sub_2023_2026": compute_metrics(df_v, "2023-01-31", "2026-09-30", None),
+        }
+
+    print(f"[v2_06] Top-1 + SMA200 (Pass-Down, Next-Day Open, Drifted Wt): "
+          f"2010-2026 CAGR={sma200_variants['sma200_passdown_oo_additive']['2010_2026_full']['cagr_pct']:.2f}% "
+          f"(Self-Fin {sma200_variants['sma200_passdown_oo_selffin']['2010_2026_full']['cagr_pct']:.2f}%), "
+          f"2015-2026 CAGR={sma200_variants['sma200_passdown_oo_additive']['2015_2026_full']['cagr_pct']:.2f}% "
+          f"(Self-Fin {sma200_variants['sma200_passdown_oo_selffin']['2015_2026_full']['cagr_pct']:.2f}%)")
+
+    # ── Core RS(6-0) > Benchmark Strategy Definitions (including both Additive and Self-Financing Open Engines) ──
     tech_panel = panel[panel["sector"] == "Information Technology"].copy()
     ex_tech_panel = panel[panel["sector"] != "Information Technology"].copy()
 
     core_specs = [
-        ("sp500_top3_cc", "All S&P Top-3 (Close-to-Close, Fixed Wt)", panel, 3, False, "spy_6_0", "close", "fixed"),
-        ("sp500_top3_oo", "All S&P Top-3 (Next-Day Open, Drifted Wt)", panel[panel["mom_rank"] <= 50], 3, False, "spy_6_0", "open", "drifted"),
-        ("sp500_top1_cc", "All S&P Top-1 (Close-to-Close, Fixed Wt)", panel, 1, False, "spy_6_0", "close", "fixed"),
-        ("sp500_top1_oo", "All S&P Top-1 (Next-Day Open, Drifted Wt)", panel[panel["mom_rank"] <= 50], 1, False, "spy_6_0", "open", "drifted"),
-        ("sp500_top1_sma200_cc", "All S&P Top-1 + SMA200 (Close-to-Close)", panel, 1, True, "spy_6_0", "close", "fixed"),
-        ("tech_top1_cc", "Tech Top-1 (Close-to-Close, vs XLK)", tech_panel, 1, False, "xlk_6_0", "close", "fixed"),
-        ("oos_non_tech_top3_cc", "[Untouched OOS] Non-Tech S&P Top-3 (vs SPY)", ex_tech_panel, 3, False, "spy_6_0", "close", "fixed"),
-        ("oos_non_tech_top1_cc", "[Untouched OOS] Non-Tech S&P Top-1 (vs SPY)", ex_tech_panel, 1, False, "spy_6_0", "close", "fixed"),
+        ("sp500_top3_cc", "All S&P Top-3 (Close-to-Close, Fixed Wt, Additive Cost)", panel, 3, "none", "spy_6_0", "close", "fixed", False),
+        ("sp500_top3_oo_additive", "All S&P Top-3 (Next-Day Open, Drifted Wt, Additive Cost)", panel[panel["mom_rank"] <= 50], 3, "none", "spy_6_0", "open", "drifted", False),
+        ("sp500_top3_oo_selffin", "All S&P Top-3 (Next-Day Open, Drifted Wt, Self-Financing Cost)", panel[panel["mom_rank"] <= 50], 3, "none", "spy_6_0", "open", "drifted", True),
+        ("sp500_top1_cc", "All S&P Top-1 (Close-to-Close, Fixed Wt, Additive Cost)", panel, 1, "none", "spy_6_0", "close", "fixed", False),
+        ("sp500_top1_oo_additive", "All S&P Top-1 (Next-Day Open, Drifted Wt, Additive Cost)", panel[panel["mom_rank"] <= 50], 1, "none", "spy_6_0", "open", "drifted", False),
+        ("sp500_top1_oo_selffin", "All S&P Top-1 (Next-Day Open, Drifted Wt, Self-Financing Cost)", panel[panel["mom_rank"] <= 50], 1, "none", "spy_6_0", "open", "drifted", True),
+        ("sp500_top1_sma200_cc", "All S&P Top-1 + SMA200 Pass-Down (Close-to-Close)", panel, 1, "pass_down", "spy_6_0", "close", "fixed", False),
+        ("sp500_top1_sma200_oo", "All S&P Top-1 + SMA200 Pass-Down (Next-Day Open, Drifted Wt)", panel, 1, "pass_down", "spy_6_0", "open", "drifted", False),
+        ("tech_top1_cc", "Tech Top-1 (Close-to-Close, vs XLK)", tech_panel, 1, "none", "xlk_6_0", "close", "fixed", False),
+        ("oos_non_tech_top3_cc", "[Untouched OOS] Non-Tech S&P Top-3 (vs SPY)", ex_tech_panel, 3, "none", "spy_6_0", "close", "fixed", False),
+        ("oos_non_tech_top1_cc", "[Untouched OOS] Non-Tech S&P Top-1 (vs SPY)", ex_tech_panel, 1, "none", "spy_6_0", "close", "fixed", False),
     ]
 
     period_slices = [
@@ -914,23 +820,30 @@ def main() -> None:
     ]
 
     strategy_results = {}
-    for key, label, sub_p, k_v, sma_v, b_col, ex_m, wt_m in core_specs:
+    for key, label, sub_p, k_v, sma_m, b_col, ex_m, wt_m, sf_v in core_specs:
         df_base = simulate_cleanroom_rs_strategy(
-            sub_p, store, form_dates, k=k_v, sma200=sma_v, rs_col=None, bench_col=None,
-            exec_mode=ex_m, weight_mode=wt_m, cash_cost_bps=0.0
+            sub_p, store, form_dates, k=k_v, sma200_mode=sma_m, rs_col=None, bench_col=None,
+            exec_mode=ex_m, weight_mode=wt_m, self_financing=sf_v, cash_cost_bps=0.0
         )
         df_rs_0bp = simulate_cleanroom_rs_strategy(
-            sub_p, store, form_dates, k=k_v, sma200=sma_v, rs_col="rs_6_0", bench_col=b_col,
-            exec_mode=ex_m, weight_mode=wt_m, cash_cost_bps=0.0
+            sub_p, store, form_dates, k=k_v, sma200_mode=sma_m, rs_col="rs_6_0", bench_col=b_col,
+            exec_mode=ex_m, weight_mode=wt_m, self_financing=sf_v, cash_cost_bps=0.0
         )
         df_rs_10bp = simulate_cleanroom_rs_strategy(
-            sub_p, store, form_dates, k=k_v, sma200=sma_v, rs_col="rs_6_0", bench_col=b_col,
-            exec_mode=ex_m, weight_mode=wt_m, cash_cost_bps=10.0
+            sub_p, store, form_dates, k=k_v, sma200_mode=sma_m, rs_col="rs_6_0", bench_col=b_col,
+            exec_mode=ex_m, weight_mode=wt_m, self_financing=sf_v, cash_cost_bps=10.0
         )
 
-        # Save monthly ledgers for the top headline strategies
-        if key in ("sp500_top3_cc", "sp500_top3_oo", "sp500_top1_cc", "tech_top1_cc"):
-            df_rs_0bp.to_csv(os.path.join(HERE, f"v2_06_ledger_{key}_rs60.csv"))
+        if key == "sp500_top3_cc":
+            df_rs_0bp.to_csv(os.path.join(HERE, "v2_06_ledger_sp500_top3_cc_rs60.csv"))
+        elif key == "sp500_top3_oo_additive":
+            df_rs_0bp.to_csv(os.path.join(HERE, "v2_06_ledger_sp500_top3_oo_rs60.csv"))
+        elif key == "sp500_top3_oo_selffin":
+            df_rs_0bp.to_csv(os.path.join(HERE, "v2_06_ledger_sp500_top3_oo_selffin_rs60.csv"))
+        elif key == "sp500_top1_cc":
+            df_rs_0bp.to_csv(os.path.join(HERE, "v2_06_ledger_sp500_top1_cc_rs60.csv"))
+        elif key == "tech_top1_cc":
+            df_rs_0bp.to_csv(os.path.join(HERE, "v2_06_ledger_tech_top1_cc_rs60.csv"))
 
         slices_dict = {}
         for p_key, s_dt, e_dt, ex_yr in period_slices:
@@ -948,10 +861,11 @@ def main() -> None:
         strategy_results[key] = {
             "label": label,
             "k": k_v,
-            "sma200": sma_v,
+            "sma200_mode": sma_m,
             "benchmark": b_col,
             "exec_mode": ex_m,
             "weight_mode": wt_m,
+            "self_financing": sf_v,
             "periods": slices_dict,
         }
 
@@ -998,23 +912,7 @@ def main() -> None:
                 "avoided_next_month_oo_ret_pct": round(float(r0["ret_oo"]) * 100.0, 2) if pd.notna(r0["ret_oo"]) else None,
             })
 
-    # External BlackRock IVV cross-check on all S&P Top-3 + RS(6-0) > SPY picks (2015-2026)
-    ivv_checked = 0
-    ivv_confirmed = 0
-    for t in form_dates[form_dates >= pd.Timestamp("2014-12-31")]:
-        ivv_snap = ext_checker.ivv_prices.get(t)
-        if ivv_snap is None:
-            continue
-        g = panel[panel["t"] == t].sort_values(["mom_12_1", "ticker"], ascending=[False, True]).head(3)
-        for _, r in g.iterrows():
-            tk = str(r["ticker"])
-            _, raw_sym = store.vendor_at(tk, t)
-            cands = {tk, tk.replace("-", ""), raw_sym, raw_sym.replace("-", "")}
-            ivv_checked += 1
-            if any(c in ivv_snap for c in cands):
-                ivv_confirmed += 1
-
-    # Live November 2026 (`2026-10-30` formation) verification from local Yahoo JSON store + verified 2026-10-30 closes
+    # Live November 2026 (`2026-10-30` formation) verification
     with open(os.path.join(REPO_ROOT, "data", "yahoo", "SPY.json"), "r", encoding="utf-8") as fh:
         spy_dash = pd.Series({pd.to_datetime(k): float(v) for k, v in json.load(fh)["values"]}).sort_index()
     with open(os.path.join(REPO_ROOT, "data", "yahoo", "XLK.json"), "r", encoding="utf-8") as fh:
@@ -1051,25 +949,47 @@ def main() -> None:
 
     summary = {
         "audit_script": "v2_06_frozen_rs60_cleanroom_auditor.py",
+        "audit_version": "v5_zero_alias_csv_and_full_sma200_open_audit",
         "status": "PASS",
         "elapsed_seconds": round(time.time() - t0, 2),
         "cleanroom_guarantees": {
             "zero_project_imports": True,
             "zero_intermediate_panel_reads": True,
+            "zero_alias_csv_reads_in_v2_cleanroom_lib": True,
+            "aliases_reconstructed_from_raw_sec_and_membership_count": int(len(aliases)),
             "zero_ledger_cost_or_cash_reads": True,
             "segment_continuity_enforced_on_12_1_and_6_0": True,
             "both_close_and_next_day_open_engines_verified": True,
+            "both_additive_and_selffinancing_open_costs_verified": True,
             "both_0bp_and_10bp_cash_etf_costs_verified": True,
         },
-        "baseline_top3_parity_check": {
-            "ledger": "research/sector_stock_momentum/results/ml2/monthly_BENCH_momentum_Top3.csv",
-            "months": 141,
-            "pick_set_exact_matches": int(top3_pick_matches),
-            "max_gross_abs_diff": top3_max_gross_diff,
-            "max_net_abs_diff": top3_max_net_diff,
-            "external_blackrock_ivv_checked": int(ivv_checked),
-            "external_blackrock_ivv_confirmed": int(ivv_confirmed),
+        "full_chain_parity_checks": {
+            "bench_momentum_top3_oo_141m": {
+                "ledger": "backtest_versions/2026-10-30_codex_full_audit_v2/research/sector_stock_momentum/results/ml2/monthly_BENCH_momentum_Top3.csv",
+                "months": 141,
+                "pick_set_exact_matches": int(top3_pick_matches),
+                "max_gross_abs_diff": top3_max_gross_diff,
+                "max_net_abs_diff": top3_max_net_diff,
+                **top3_ivv,
+            },
+            "top1_plus_sma200_cc_201m_and_141m": {
+                "ledger": "research/sector_stock_momentum/results/ml/sma200_pure_momentum_top_1___SMA200.csv",
+                "months_2010_2026": 201,
+                "pick_exact_matches_201m": int(sma200_201_picks),
+                "max_net_abs_diff_201m": sma200_201_max_net_diff,
+                "months_2015_2026": 141,
+                "pick_exact_matches_141m": int(sma200_141_picks),
+                "max_net_abs_diff_141m": sma200_141_max_net_diff,
+                **sma200_ivv,
+            },
+            "top1_pure_momentum_cc_201m": {
+                "ledger": "research/sector_stock_momentum/results/ml/sma200_pure_momentum_top_1.csv",
+                "months_2010_2026": 201,
+                "pick_exact_matches_201m": int(top1_201_picks),
+                "max_net_abs_diff_201m": top1_201_max_net_diff,
+            },
         },
+        "top1_sma200_dedicated_audit": sma200_variants,
         "strategies": strategy_results,
         "untouched_oos_10_non_tech_sectors": {
             "sectors_tested": len(sector_oos_rows),
@@ -1087,7 +1007,8 @@ def main() -> None:
             "frozen_allocations": {
                 "sp500_top3_rs60_vs_spy": "1/3 MRNA + 2/3 CASH (SNDK +4.96% <= SPY +7.10% -> CASH; LITE -6.83% <= SPY +7.10% -> CASH)",
                 "sp500_top1_rs60_vs_spy": "100% CASH (SNDK +4.96% <= SPY +7.10%)",
-                "sp500_top1_sma200": "100% MRNA (SNDK Close $1150.89 < SMA200 $1259.17; #2 MRNA > SMA200)",
+                "sp500_top1_sma200_passdown": "100% MRNA (SNDK Close $1150.89 < SMA200 $1259.17; #2 MRNA > SMA200)",
+                "sp500_top1_sma200_gatecash": "100% CASH (SNDK Close $1150.89 < SMA200 $1259.17)",
                 "tech_top1_rs60_vs_xlk": "100% CASH (SNDK +4.96% <= XLK +18.80%)",
             },
         },

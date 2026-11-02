@@ -113,6 +113,8 @@ FORBIDDEN_SUBSTRINGS = [
     "implied_cost = led_g - led_n",
     'float(row["gross"]) - float(row["net"])',
     "rf_monthly.csv",
+    "ticker_aliases_used.csv",
+    "panel.parquet",
 ]
 
 

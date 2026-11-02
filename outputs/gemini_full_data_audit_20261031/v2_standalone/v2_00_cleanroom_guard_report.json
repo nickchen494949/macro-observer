@@ -127,6 +127,7 @@
     {
       "script": "v2_cleanroom_lib.py",
       "imports": [
+        "difflib",
         "from io",
         "from typing",
         "glob",

@@ -11,6 +11,7 @@ STRICT AUDIT RULES ENFORCED MECHANICALLY (via v2_00_cleanroom_ast_and_readonly_g
      governed by a documented raw exit/delisting record, returns None + 'MISSING_RAW_INPUT'
      so callers mark UNVERIFIABLE or FAIL — NEVER substitutes the ledger's own return!
 """
+import difflib
 import glob
 import json
 import math
@@ -33,6 +34,58 @@ DOCUMENTED_TIME_SPLITS = {
     "IR": ("2020-03-02", "TT", "IR"),
     "BHGE": ("2017-07-03", "BHI", "BKR"),
 }
+
+DOCUMENTED_SEC_SAME_CIK_RENAMES = {
+    "LB": "BBWI", "CTL": "LUMN", "CBS": "VIAC", "VIAC": "PARA",
+    "HCP": "PEAK", "SYMC": "NLOK", "UTX": "RTX", "GPS": "GAP",
+    "FBHS": "FBIN", "KORS": "CPRI", "COG": "CTRA", "DISCA": "WBD",
+    "ARNC": "HWM", "WLTW": "WTW", "SIVB": "SIVBQ", "FRC": "FRCB",
+    "WYND": "TNL", "CDAY": "DAY", "HFC": "DINO", "DWDP": "DD",
+}
+
+DOCUMENTED_NAME_HINTS = {
+    "AABA": "Yahoo Inc", "ACS": "Affiliated Computer Services", "ANRZQ": "Alpha Natural Resources",
+    "ATGE": "Adtalem Global Education", "BDK": "Black & Decker", "BNI": "Burlington Northern Santa Fe",
+    "BTUUQ": "Peabody Energy", "CITGQ": "CIT Group", "EKDKQ": "Eastman Kodak", "HSH": "Hillshire Brands",
+    "JCP": "Penney J C Co", "MWV": "MeadWestvaco", "PBG": "Pepsi Bottling Group", "PX": "Praxair",
+    "QLGC": "QLogic", "RSHCQ": "RadioShack", "SUNEQ": "SunEdison", "WRK": "WestRock", "WYE": "Wyeth",
+    "LO": "Lorillard", "WIN": "Windstream", "WYND": "Wyndham Worldwide",
+    "HOT": "Starwood Hotel & Resorts Worldwide", "TSS": "Total System Services", "MYL": "Mylan",
+    "PKI": "PerkinElmer", "TMK": "Torchmark", "UTX": "United Technologies", "BLL": "Ball Corp",
+    "MMC": "Marsh & McLennan", "BK": "Bank of New York Mellon", "ANTM": "Anthem",
+    "ABC": "AmerisourceBergen", "CTL": "CenturyLink", "CBS": "CBS Corp", "HCP": "HCP Inc",
+    "SYMC": "Symantec", "NLOK": "NortonLifeLock", "PEAK": "Healthpeak Properties", "VIAC": "ViacomCBS",
+    "BHGE": "Baker Hughes", "FI": "Fiserv", "EQ": "Embarq", "JAVA": "Sun Microsystems",
+    "LB": "L Brands", "BEAM": "Beam Inc", "CCEP": "Coca-Cola European Partners",
+    "CDAY": "Ceridian HCM", "DWDP": "DowDuPont", "CMCSK": "Comcast",
+}
+
+DOCUMENTED_MANUAL_CIKS = {
+    "CA": 356028, "BRCM": 1054374, "BBT": 92230, "PARA": 813828,
+    "XRX": 108772, "AGN": 1578845, "KRFT": 1545158, "AIV": 922864,
+}
+NO_SEC_FILINGS_TICKERS = {"FRC", "SBNY", "CCEP"}
+
+
+def _norm_company_name(name: str) -> str:
+    n = re.sub(r"/[^/]*/?", " ", str(name)).lower()
+    n = re.sub(r"&", " and ", n)
+    n = re.sub(r"[^a-z0-9 ]", " ", n)
+    stop = {
+        "inc", "incorporated", "corp", "corporation", "co", "company", "ltd", "plc",
+        "the", "group", "holdings", "holding", "llc", "lp", "sa", "nv", "de", "new",
+        "cos", "companies", "international", "intl",
+    }
+    words = [w for w in n.split() if w not in stop]
+    out: List[str] = []
+    prev_single = False
+    for w in words:
+        if len(w) == 1 and out and len(out[-1]) <= 3 and out[-1].isalpha() and prev_single:
+            out[-1] += w
+        else:
+            out.append(w)
+        prev_single = len(w) == 1
+    return " ".join(out)
 
 
 def _norm_sym(sym: str) -> str:
@@ -152,18 +205,234 @@ class CleanRoomEquityStore:
         sp["ticker"] = sp["ticker"].astype(str).map(_norm_sym)
         return sp
 
+    def _reconstruct_aliases_from_raw(self, cik_seed: Dict[str, int], first_price_date: Dict[str, pd.Timestamp]) -> pd.DataFrame:
+        sp = pd.read_csv(os.path.join(self.data_dir, "sp500_ticker_start_end.csv"), parse_dates=["start_date", "end_date"])
+        ch = pd.read_csv(os.path.join(self.data_dir, "wiki_changes.csv"))
+        ch["date"] = pd.to_datetime(ch["date"], errors="coerce")
+        wiki = pd.read_csv(os.path.join(self.data_dir, "wiki_current_constituents.csv"))
+
+        cik: Dict[str, int] = dict(cik_seed or {})
+        for t, c in zip(wiki["Symbol"], wiki["CIK"]):
+            if pd.notna(c):
+                cik[str(t)] = int(c)
+
+        def listed(tk: str, col: str, d: pd.Timestamp) -> bool:
+            x = ch[(ch[col] == tk) & ((ch["date"] - d).abs() <= pd.Timedelta(days=7))]
+            return len(x) > 0
+
+        added = dict(zip(wiki["Symbol"], pd.to_datetime(wiki["Date added"], errors="coerce")))
+        acc: List[dict] = []
+        succ: Dict[str, str] = {}
+
+        def cik_of(t: str) -> Optional[int]:
+            seen = set()
+            while t not in cik and t in succ and t not in seen:
+                seen.add(t)
+                t = succ[t]
+            return cik.get(t)
+
+        starts = sp.sort_values("start_date", ascending=False)
+        for b in starts.itertuples():
+            if b.start_date < pd.Timestamp("2008-01-01"):
+                continue
+            cands_df = sp[
+                sp["end_date"].notna()
+                & ((sp["end_date"] - b.start_date).abs() <= pd.Timedelta(days=3))
+                & (sp["ticker"] != b.ticker)
+            ]
+            cands = [a for a in cands_df["ticker"] if not listed(a, "removed_ticker", b.start_date)]
+            if not cands or listed(b.ticker, "added_ticker", b.start_date):
+                continue
+            fp = first_price_date.get(_norm_sym(b.ticker))
+            carries = fp is not None and fp <= b.start_date - pd.Timedelta(days=365)
+            cb = cik_of(b.ticker)
+            same = [a for a in cands if cb is not None and cik.get(a) == cb]
+            if len(same) == 1:
+                cands, evidence = same, "same_cik"
+            else:
+                cands = [a for a in cands if cik.get(a) is None or cik.get(a) == cb]
+                old_member = (
+                    b.ticker in added
+                    and pd.notna(added[b.ticker])
+                    and added[b.ticker] <= b.start_date - pd.Timedelta(days=365)
+                )
+                evidence = "wiki_date_added" if old_member else None
+            if len(cands) == 1 and carries and evidence:
+                acc.append({"old": cands[0], "new": b.ticker, "evidence": evidence})
+                succ[cands[0]] = b.ticker
+
+        done = {r["old"] for r in acc}
+        sec_succ_path = os.path.join(self.data_dir, "sec_successor_aliases.csv")
+        if os.path.exists(sec_succ_path):
+            def overlap(a: str, b: str) -> bool:
+                A = sp[sp["ticker"] == a]
+                B = sp[sp["ticker"] == b.replace("-", ".")]
+                return any(
+                    x.start_date < (y.end_date if pd.notna(y.end_date) else pd.Timestamp("2100-01-01"))
+                    and y.start_date < (x.end_date if pd.notna(x.end_date) else pd.Timestamp("2100-01-01"))
+                    for x in A.itertuples()
+                    for y in B.itertuples()
+                )
+
+            for r in pd.read_csv(sec_succ_path).itertuples():
+                if (
+                    r.status == "accepted"
+                    and r.old not in done
+                    and r.old not in DOCUMENTED_SEC_SAME_CIK_RENAMES
+                    and not overlap(r.old, r.new)
+                ):
+                    acc.append({"old": r.old, "new": r.new.replace("-", "."), "evidence": f"sec_same_cik_{int(r.cik)}"})
+                    done.add(r.old)
+
+        for a, b in DOCUMENTED_SEC_SAME_CIK_RENAMES.items():
+            if a not in done:
+                acc.append({"old": a, "new": b, "evidence": "manual_same_cik"})
+
+        acc_df = pd.DataFrame(acc)
+        if len(acc_df):
+            nxt = dict(zip(acc_df["old"], acc_df["new"]))
+
+            def final_sym(t: str) -> str:
+                seen = set()
+                while t in nxt and t not in seen:
+                    seen.add(t)
+                    t = nxt[t]
+                return t
+
+            acc_df["old"] = acc_df["old"].astype(str).map(_norm_sym)
+            acc_df["price_symbol"] = [_norm_sym(final_sym(t)) for t in acc_df["new"]]
+        return acc_df
+
     def _read_aliases(self) -> pd.DataFrame:
-        cand_paths = []
-        if self.include_ndx:
-            cand_paths.append(os.path.join(self.res_dir, "ndx", "ticker_aliases_used.csv"))
-        cand_paths.append(os.path.join(self.res_dir, "ticker_aliases_used.csv"))
-        for p in cand_paths:
-            if os.path.exists(p):
-                df = pd.read_csv(p)
-                df["old"] = df["old"].astype(str).map(_norm_sym)
-                df["price_symbol"] = df["price_symbol"].astype(str).map(_norm_sym)
-                return df
-        return pd.DataFrame(columns=["old", "price_symbol"])
+        """
+        Reconstructs ticker aliases 100% from raw SEC FSDS `sub_*.parquet`, raw membership spells
+        (`sp500_ticker_start_end.csv`), Wikipedia changes/current tables, and raw first-price dates
+        (ZERO reads of any project-generated `results/` alias or CIK CSV).
+        """
+        first_px: Dict[str, pd.Timestamp] = {}
+        for sub_d in ("raw", "raw_tiingo"):
+            dpath = os.path.join(self.data_dir, sub_d)
+            if not os.path.isdir(dpath):
+                continue
+            for p in sorted(glob.glob(os.path.join(dpath, "*.json"))):
+                bn = os.path.basename(p)
+                if bn.startswith("_"):
+                    continue
+                with open(p, "r", encoding="utf-8") as fh:
+                    jd = json.load(fh)
+                dts = jd.get("dates") or []
+                if dts:
+                    k = bn[:-5]
+                    t0 = pd.Timestamp(dts[0])
+                    first_px[k] = min(first_px.get(k, t0), t0)
+
+        sec_raw_dir = os.path.join(self.data_dir, "fundamentals", "sec_raw")
+        sub_files = sorted(glob.glob(os.path.join(sec_raw_dir, "sub_*.parquet")))
+        if not sub_files:
+            return self._reconstruct_aliases_from_raw({}, first_px)
+
+        subs = [pd.read_parquet(p, columns=["cik", "name", "filed"]) for p in sub_files]
+        sub = pd.concat(subs, ignore_index=True)
+        sub["filed"] = pd.to_datetime(sub["filed"], format="%Y%m%d", errors="coerce")
+
+        spans = pd.read_csv(os.path.join(self.data_dir, "sp500_ticker_start_end.csv"), parse_dates=["start_date", "end_date"])
+        spans = spans[spans["end_date"].isna() | (spans["end_date"] >= pd.Timestamp("2008-01-01"))]
+        tickers = sorted(spans["ticker"].unique())
+
+        wiki = pd.read_csv(os.path.join(self.data_dir, "wiki_current_constituents.csv"))
+        wiki_cik = dict(zip(wiki["Symbol"], wiki["CIK"]))
+        sec_t = pd.read_csv(os.path.join(self.data_dir, "sec_company_tickers.csv"))
+        sec_cik = dict(zip(sec_t["ticker"].str.replace("-", ".", regex=False), sec_t["cik_str"]))
+        ch = pd.read_csv(os.path.join(self.data_dir, "wiki_changes.csv"))
+
+        names: Dict[str, str] = {}
+        for t, n in list(zip(ch["removed_ticker"], ch["removed_name"])) + list(zip(ch["added_ticker"], ch["added_name"])):
+            if isinstance(t, str) and isinstance(n, str):
+                names.setdefault(t, n)
+
+        ylog = os.path.join(self.ssm_dir, "logs", "fetch_sectors.log")
+        if os.path.exists(ylog):
+            with open(ylog, "r", encoding="utf-8", errors="replace") as fh:
+                for line in fh:
+                    m = re.match(r"\[\d+/\d+\] (\S+) .*\| (.+)$", line.strip())
+                    if m and m.group(2) != "None":
+                        names.setdefault(m.group(1).replace("-", "."), m.group(2))
+        for t, n in zip(wiki["Symbol"], wiki["Security"]):
+            names.setdefault(t, n)
+        for t, n in DOCUMENTED_NAME_HINTS.items():
+            names[t] = n
+
+        fil = sub.groupby("cik").agg(first=("filed", "min"), last=("filed", "max"), name=("name", "last"))
+        allnames = sub[["cik", "name"]].drop_duplicates()
+        allnames["n"] = allnames["name"].map(_norm_company_name)
+        by_norm = allnames.groupby("n")["cik"].apply(set).to_dict()
+        norm_keys = list(by_norm)
+        ref_today = pd.Timestamp("2026-10-30")
+
+        def active(c: int, s: pd.Timestamp, e: pd.Timestamp) -> bool:
+            if c not in fil.index:
+                return False
+            r = fil.loc[c]
+            e_eff = e if pd.notna(e) else ref_today
+            return r["first"] <= e_eff + pd.Timedelta(days=120) and r["last"] >= max(s, pd.Timestamp("2009-06-01")) - pd.Timedelta(days=30)
+
+        def overlap_days(c: int, s: pd.Timestamp, e: pd.Timestamp) -> int:
+            if c not in fil.index:
+                return -1
+            r = fil.loc[c]
+            e_eff = e if pd.notna(e) else ref_today
+            lo = max(r["first"], s, pd.Timestamp("2009-04-01"))
+            hi = min(r["last"], e_eff + pd.Timedelta(days=120))
+            return int((hi - lo).days)
+
+        def best_cand(cands, s: pd.Timestamp, e: pd.Timestamp) -> Optional[int]:
+            valid_c = [c for c in cands if active(c, s, e)]
+            return max(valid_c, key=lambda c: overlap_days(c, s, e)) if valid_c else None
+
+        seed_map: Dict[str, int] = {}
+        for t in tickers:
+            if t in NO_SEC_FILINGS_TICKERS:
+                continue
+            sp_t = spans[spans["ticker"] == t]
+            s = sp_t["start_date"].min()
+            e = sp_t["end_date"].max() if sp_t["end_date"].notna().all() else pd.NaT
+            c_val = None
+            if t in DOCUMENTED_MANUAL_CIKS:
+                c_val = DOCUMENTED_MANUAL_CIKS[t]
+            if c_val is None and t in wiki_cik and pd.notna(wiki_cik[t]) and int(wiki_cik[t]) in fil.index:
+                c_val = int(wiki_cik[t])
+            if c_val is None and t in names:
+                nm = _norm_company_name(names[t])
+                c = best_cand(by_norm.get(nm, set()), s, e)
+                if c is not None:
+                    c_val = c
+                else:
+                    for k in difflib.get_close_matches(nm, norm_keys, n=5, cutoff=0.88):
+                        c = best_cand(by_norm[k], s, e)
+                        if c is not None:
+                            c_val = c
+                            break
+            if c_val is None and t in sec_cik and active(int(sec_cik[t]), s, e):
+                c = int(sec_cik[t])
+                if t not in names or difflib.SequenceMatcher(None, _norm_company_name(names[t]), _norm_company_name(fil["name"].get(c, ""))).ratio() >= 0.6:
+                    c_val = c
+            if c_val is None and t in names:
+                hw = set(_norm_company_name(names[t]).split())
+                if hw:
+                    cands = [c for k_, cs in by_norm.items() for c in cs if hw <= set(k_.split())]
+                    c = best_cand(set(cands), s, e)
+                    if c is not None:
+                        c_val = c
+            if c_val is not None:
+                seed_map[str(t)] = int(c_val)
+
+        al0 = self._reconstruct_aliases_from_raw(seed_map, first_px)
+        for r in al0.itertuples():
+            old, new = str(r.old).replace("-", "."), str(r.price_symbol).replace("-", ".")
+            if old not in seed_map and new in seed_map:
+                seed_map[old] = seed_map[new]
+
+        return self._reconstruct_aliases_from_raw(seed_map, first_px)
 
     def _build_cleanroom_daily_and_monthly(self) -> None:
         spells = self._read_spells()

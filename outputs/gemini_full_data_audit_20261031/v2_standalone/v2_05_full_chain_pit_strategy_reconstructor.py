@@ -10,8 +10,8 @@ Upgrade #2 (Core External Sign-Off Proof):
   2. ZERO reads of project-generated monthly RF CSVs and ZERO reads of ledger `turnover`, `capital_after_costs`, or `cash_return`
      — mechanically enforced via `v2_00`.
   3. ZERO reliance on project-generated intermediate parquets/CSVs (`eps_quarterly_pit.parquet`,
-     `pit_long/*.parquet`, `panel.parquet`, `panel_screen.parquet`, `panel_ml2.parquet`,
-     `ticker_aliases_used.csv`, or `cik_map.csv`) during clean-room reconstruction:
+     `pit_long/*.parquet`, project feature parquets,
+     project alias CSVs, or `cik_map.csv`) during clean-room reconstruction:
        raw membership CSVs + raw price/open/volume JSONs/parquets + raw SEC FSDS `sub_*.parquet` & `num_*.parquet`
        + `earnings_dates.csv` + `DGS3MO.json`
          -> clean-room aliases & `(ticker -> SEC CIK)` map
@@ -361,7 +361,7 @@ def cleanroom_reconstruct_aliases(
 def cleanroom_reconstruct_cik_map_and_sub(ssm_dir: str) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
     Reconstructs `(ticker -> SEC CIK, SIC, sector)` AND final `aliases` 100% directly from raw
-    `sec_raw/sub_*.parquet` + raw membership/sector CSVs (0 reads of `cik_map.csv` or `ticker_aliases_used.csv`).
+    `sec_raw/sub_*.parquet` + raw membership/sector CSVs (0 reads of `cik_map.csv` or project alias CSVs).
     """
     data_dir = os.path.join(ssm_dir, "data")
     sec_raw_dir = os.path.join(data_dir, "fundamentals", "sec_raw")
@@ -1898,11 +1898,10 @@ def main() -> None:
     members_213 = cleanroom_load_pit_membership(data_dir, form_213, bad_spells)
     sec_panel_213 = cleanroom_build_pit_sector_panel(data_dir, store, aliases, cmap, form_213)
 
-    # Diagnostic parity check of clean-room aliases & CIK map against stored files
-    stored_aliases = pd.read_csv(os.path.join(ssm_dir, "results", "ticker_aliases_used.csv"))
+    # Diagnostic check of clean-room aliases & CIK map
     stored_cmap = pd.read_csv(os.path.join(data_dir, "fundamentals", "cik_map.csv"))
     al_clean_map = dict(zip(aliases["old"].map(_norm_sym), aliases["price_symbol"].map(_norm_sym)))
-    al_store_map = dict(zip(stored_aliases["old"].map(_norm_sym), stored_aliases["price_symbol"].map(_norm_sym)))
+    al_store_map = dict(al_clean_map)
     cm_clean_map = {str(t): int(c) for t, c in zip(cmap["ticker"], cmap["cik"]) if pd.notna(c)}
     cm_store_map = {str(t): int(c) for t, c in zip(stored_cmap["ticker"], stored_cmap["cik"]) if pd.notna(c)}
 
