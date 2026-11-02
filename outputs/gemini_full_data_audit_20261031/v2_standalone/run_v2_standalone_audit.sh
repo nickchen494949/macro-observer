@@ -20,10 +20,13 @@ python3 "$HERE/v2_03_twostage_unrestricted_200_cards_auditor.py"
 echo "=== [5/7] Clean-Room 100 Random SEC Fundamental NULL / Missing Completeness Audit (v2_04) ==="
 python3 "$HERE/v2_04_sec_xbrl_100_null_completeness_auditor.py"
 
-echo "=== [6/7] Clean-Room Full-Chain End-to-End PIT Strategy Signal, Model & Pick Reconstruction (v2_05) ==="
+echo "=== [6/8] Clean-Room Full-Chain End-to-End PIT Strategy Signal, Model & Pick Reconstruction (v2_05) ==="
 python3 "$HERE/v2_05_full_chain_pit_strategy_reconstructor.py"
 
-echo "=== [7/7] Post-Flight Clean-Room AST & 10,964-File Read-Only Baseline Verification (v2_00) ==="
+echo "=== [7/8] Clean-Room Frozen RS(6-0) > Benchmark Stall-Detector Audit & OOS Verification (v2_06) ==="
+python3 "$HERE/v2_06_frozen_rs60_cleanroom_auditor.py"
+
+echo "=== [8/8] Post-Flight Clean-Room AST & 10,964-File Read-Only Baseline Verification (v2_00) ==="
 python3 "$HERE/v2_00_cleanroom_ast_and_readonly_guard.py"
 
 echo "=== ALL CLEAN-ROOM STANDALONE FINAL SIGN-OFF AUDITS COMPLETED SUCCESSFULLY ==="
