@@ -1,0 +1,71 @@
+{
+  "fix1_zero_future_return_filter": {
+    "na_ret_oo_rows_in_panel": 0,
+    "total_panel_rows": 99949,
+    "months_changed_after_removing_ret_oo_filter": 0
+  },
+  "fix2_status_oo_distribution": {
+    "ok_open": 88121,
+    "ok_close1_fallback": 11668,
+    "delisted_in_month": 122,
+    "unresolved_no_quote_after_entry": 17,
+    "resolved_manual": 1,
+    "source_gap": 20
+  },
+  "fix4_eps_and_fundamental_coverage": {
+    "raw_sec_fsds_eps_uom_counts": {
+      "USD": 148441,
+      "pure": 470,
+      "shares": 64,
+      "shares/USD": 22,
+      "AUD": 2,
+      "BillionsCubicFeet": 2,
+      "segment": 2
+    },
+    "quarterly_firm_periods_with_eps_diluted": 45178,
+    "quarterly_firm_periods_with_eps_adj": 45242,
+    "grid_total_cik_month_rows": 161802,
+    "grid_non_null_counts": {
+      "eps_gs_q": 122975,
+      "eps_accel": 118125,
+      "eps_g_sym": 109261,
+      "opinc_gs_q": 127309,
+      "rev_g_q": 122690,
+      "rev_accel": 118337,
+      "rev_g_ttm": 110389,
+      "opm_chg": 121728,
+      "gm_chg": 68880,
+      "nm_chg": 120530
+    },
+    "active_sp500_panel_non_null_counts": {
+      "eps_gs_q": 92768,
+      "eps_accel": 89605,
+      "eps_g_sym": 83591,
+      "opinc_gs_q": 95439,
+      "rev_g_q": 91993,
+      "rev_accel": 89236,
+      "rev_g_ttm": 83997,
+      "opm_chg": 91370,
+      "gm_chg": 50255,
+      "nm_chg": 90235,
+      "res_mom_sec_ir": 99900,
+      "res_mom_mkt_ir": 99900,
+      "high52_prox": 99937
+    },
+    "active_sp500_panel_coverage_pct": {
+      "eps_gs_q": 92.82,
+      "eps_accel": 89.65,
+      "eps_g_sym": 83.63,
+      "opinc_gs_q": 95.49,
+      "rev_g_q": 92.04,
+      "rev_accel": 89.28,
+      "rev_g_ttm": 84.04,
+      "opm_chg": 91.42,
+      "gm_chg": 50.28,
+      "nm_chg": 90.28,
+      "res_mom_sec_ir": 99.95,
+      "res_mom_mkt_ir": 99.95,
+      "high52_prox": 99.99
+    }
+  }
+}
