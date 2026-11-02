@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "scripts_checked": 8,
+  "scripts_checked": 9,
   "total_ast_or_pattern_violations": 0,
   "per_script": [
     {
@@ -107,6 +107,25 @@
     },
     {
       "script": "v2_06_frozen_rs60_cleanroom_auditor.py",
+      "imports": [
+        "difflib",
+        "from typing",
+        "from v2_cleanroom_lib",
+        "glob",
+        "json",
+        "math",
+        "numpy",
+        "os",
+        "pandas",
+        "re",
+        "sys",
+        "time"
+      ],
+      "violation_count": 0,
+      "violations": []
+    },
+    {
+      "script": "v2_07_mece_24_grid_cleanroom_auditor.py",
       "imports": [
         "difflib",
         "from typing",
