@@ -1,0 +1,7 @@
+strategy,allocation
+Top-3 + RS(6-0)>SPY (price-only SPY),CASH|MRNA|CASH
+Top-3 + RS(6-0)>SPY (total-return SPY),CASH|MRNA|CASH
+Top-1 + RS(6-0)>SPY,CASH
+Top-1 + SMA200 pass-down,MRNA
+Top-1 + SMA200 gate-to-cash,CASH
+Top-3 (no filter),SNDK|MRNA|LITE

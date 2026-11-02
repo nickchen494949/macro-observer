@@ -1,0 +1,5 @@
+hypotheses,months,p_reality_check,p_spa_c,best,best_t_studentised,min_p_boot,min_p_holm,engine,window
+60,201,0.2957,0.589,3-1 / 1 / RS60>SPY,1.69,0.0557,1.0,claude,2010-2026
+60,141,0.2221,0.4252,6-1 / 1 / RS121>SPY,1.94,0.0309,1.0,claude,2015-2026
+60,201,0.2964,0.3558,6-1 / 1 / RS121>SPY,2.08,0.0258,1.0,gemini,2010-2026
+60,141,0.3038,0.3354,3-1 / 3 / SMA200 pass+RS60,2.12,0.0243,1.0,gemini,2015-2026

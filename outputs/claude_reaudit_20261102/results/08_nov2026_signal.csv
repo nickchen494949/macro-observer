@@ -1,0 +1,9 @@
+rank_12_1,ticker,mom_12_1_pct,close_used,close_date,rs_6_0_pct,sma200,above_sma200,pass_rs_vs_spy_price,pass_rs_vs_spy_tr,margin_vs_spy_price_pp,margin_vs_spy_tr_pp
+1,SNDK,772.87,1150.89,2026-10-30 (external),4.96,1259.26,False,False,False,-0.2,-0.73
+2,MRNA,609.02,221.72,2026-10-30 (external),382.63,86.55,True,True,True,377.47,376.94
+3,LITE,381.87,840.7,2026-10-30 (external),-6.83,801.26,True,False,False,-11.99,-12.52
+4,MU,376.45,884.74,2026-10-30 (external),71.08,746.88,True,True,True,65.92,65.39
+5,STX,262.58,703.72,"2026-10-29 (raw, NOT 10-30)",4.47,690.95,True,False,False,-0.69,-1.22
+6,DELL,235.08,487.78,"2026-10-29 (raw, NOT 10-30)",133.44,329.81,True,True,True,128.29,127.75
+7,WDC,203.11,395.61,"2026-10-29 (raw, NOT 10-30)",-8.95,418.23,False,False,False,-14.11,-14.64
+8,INTC,200.65,92.11,"2026-10-29 (raw, NOT 10-30)",-2.51,86.78,True,False,False,-7.67,-8.2

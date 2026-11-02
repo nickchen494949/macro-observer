@@ -1,0 +1,5 @@
+case,months,pick_match,gross_diff_gt_50bp,rf_max_abs_diff_vs_raw_fred,cagr_2010_claude,cagr_2010_gemini,mdd_2010_claude,mdd_2010_gemini,cagr_2015_claude,cagr_2015_gemini,mdd_2015_claude,mdd_2015_gemini
+"Top-1 + SMA200 pass-down, next-day open",201,190,28,9.8879238130678e-17,40.53,45.82,-65.46,-61.0,45.88,50.18,-65.46,-61.0
+"Top-3 + RS(6-0)>SPY, next-day open",201,162,57,9.8879238130678e-17,25.52,27.0,-28.46,-28.73,29.29,30.19,-26.21,-24.63
+"Top-1 + SMA200 pass-down, close-close",201,190,10,9.8879238130678e-17,42.42,45.47,-64.42,-62.29,48.68,52.04,-64.42,-62.29
+"Top-3 + RS(6-0)>SPY, close-close",201,162,33,9.8879238130678e-17,26.02,26.76,-28.81,-28.39,29.73,29.87,-28.81,-26.02
