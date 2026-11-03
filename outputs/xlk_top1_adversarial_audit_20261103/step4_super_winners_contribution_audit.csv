@@ -1,0 +1,85 @@
+pool_version,ticker,months_held,first_held,last_held,sp500_spell_start,archival_subindustry,sic_code,cum_compounded_ret_pct,sum_log_wealth,share_of_total_log_wealth_pct,win_months,best_month_pct,worst_month_pct,price_vendor,exec_leg_sources
+V0_Rebuilt,NVDA,42,2016-04-30,2024-12-31,2001-11-30,Semiconductors,3674.0,1348.78,2.6733,50.01,31,29.97,-16.0,yahoo,open_to_open
+V0_Rebuilt,SNDK,11,2009-11-30,2026-09-30,2006-04-20,"Technology Hardware, Storage & Peripherals",3572.0,181.82,1.0361,19.38,8,63.47,-44.38,wiki<2016-05-11|yahoo,open_to_open
+V0_Rebuilt,PLTR,12,2025-01-31,2025-12-31,2024-09-23,Application Software,7372.0,137.46,0.8648,16.18,9,43.09,-19.53,yahoo,open_to_open
+V0_Rebuilt,ON,3,2022-07-31,2022-11-30,2022-06-21,Semiconductors,3674.0,62.37,0.4847,9.07,3,30.17,3.81,yahoo,open_to_open
+V0_Rebuilt,MU,13,2009-09-30,2018-01-31,1996-01-02,Semiconductors,3674.0,56.94,0.4507,8.43,10,18.87,-15.27,yahoo,open_to_open
+V0_Rebuilt,WDC,2,2026-01-31,2026-02-28,2009-07-01,"Technology Hardware, Storage & Peripherals",3572.0,52.43,0.4215,7.89,2,37.36,10.97,yahoo,open_to_open
+V0_Rebuilt,AMD,18,2010-01-31,2020-10-31,1996-01-02,Semiconductors,3674.0,51.92,0.4182,7.82,10,36.45,-22.47,yahoo,open_to_open
+V0_Rebuilt,AVGO,4,2014-10-31,2015-02-28,2014-05-08,Semiconductors,3674.0,42.74,0.3559,6.66,3,23.01,-0.98,yahoo,open_to_open
+V0_Rebuilt,MA,5,2011-10-31,2012-04-30,2008-07-18,"Harrison, New York",7389.0,28.69,0.2522,4.72,3,17.93,-5.48,yahoo,open_to_open
+V0_Rebuilt,FTNT,7,2018-12-31,2022-04-30,2018-10-11,Systems Software,3577.0,24.14,0.2163,4.05,5,15.99,-15.58,yahoo,open_to_open
+V0_Rebuilt,FB,3,2014-04-30,2014-07-31,2013-12-23,Internet Software & Services,7370.0,13.72,0.1286,2.41,2,6.87,-0.25,alias:META:yahoo,open_to_open
+V0_Rebuilt,AKAM,4,2010-08-31,2010-12-31,2007-07-12,,7389.0,13.68,0.1282,2.4,3,20.86,-10.27,yahoo,open_to_open
+V0_Rebuilt,JBL,2,2010-03-31,2011-09-30,2001-01-30,,3672.0,11.42,0.1082,2.02,2,6.42,4.7,yahoo,open_to_open
+V0_Rebuilt,LRCX,1,2019-12-31,2019-12-31,2012-06-05,Semiconductor Equipment,3559.0,11.27,0.1068,2.0,1,11.27,11.27,yahoo,open_to_open
+V0_Rebuilt,EA,7,2011-12-31,2015-12-31,2002-07-22,Home Entertainment Software,7372.0,10.39,0.0988,1.85,3,17.07,-8.88,tiingo,close1_fallback
+V0_Rebuilt,STX,5,2012-08-31,2012-12-31,2012-07-02,"Dublin, Ireland",3572.0,8.21,0.0789,1.48,2,26.27,-12.54,yahoo,open_to_open
+V0_Rebuilt,EBAY,3,2013-01-31,2013-03-31,2002-07-22,"San Jose, California",7389.0,5.98,0.058,1.09,2,7.45,-3.23,yahoo,open_to_open
+V0_Rebuilt,AAPL,3,2012-05-31,2012-07-31,1996-01-02,"Cupertino, California",3571.0,5.09,0.0496,0.93,2,5.33,-2.89,yahoo,open_to_open
+V0_Rebuilt,ACS,1,2009-04-30,2009-04-30,2004-04-02,,,2.09,0.0207,0.39,1,2.09,2.09,archive:qstk_ott:ACS,close1_fallback
+V0_Rebuilt,FSLR,11,2013-06-30,2023-07-31,2009-10-16,Semiconductors,3674.0,1.66,0.0165,0.31,7,20.34,-25.16,yahoo,open_to_open
+V0_Rebuilt,Q,1,2009-07-31,2009-07-31,2000-07-06,,3674.0,-0.2,-0.002,-0.04,0,-0.2,-0.2,archive:qstk<2011-03-31|yahoo,close1_fallback
+V0_Rebuilt,PYPL,1,2018-02-28,2018-02-28,2015-07-20,Data Processing & Outsourced Services,7389.0,-0.64,-0.0064,-0.12,0,-0.64,-0.64,yahoo,open_to_open
+V0_Rebuilt,CDNS,2,2019-09-30,2019-10-31,2017-09-18,Application Software,7372.0,-3.34,-0.0339,-0.63,0,-0.99,-2.37,yahoo,open_to_open
+V0_Rebuilt,KLAC,1,2019-11-30,2019-11-30,1997-09-15,Semiconductor Equipment,3827.0,-3.37,-0.0343,-0.64,0,-3.37,-3.37,yahoo,open_to_open
+V0_Rebuilt,ALTR,2,2011-05-31,2011-06-30,2000-04-18,"San Jose, California",3674.0,-5.69,-0.0586,-1.1,0,-2.52,-3.25,wiki,open_to_open
+V0_Rebuilt,ADP,2,2009-01-31,2009-03-31,1996-01-02,,7374.0,-6.07,-0.0626,-1.17,1,3.35,-9.11,yahoo,open_to_open
+V0_Rebuilt,JKHY,1,2022-12-31,2022-12-31,2018-11-13,Data Processing & Outsourced Services,7373.0,-7.01,-0.0727,-1.36,0,-7.01,-7.01,yahoo,open_to_open
+V0_Rebuilt,ATVI,3,2016-01-31,2016-03-31,2015-08-31,Home Entertainment Software,7372.0,-7.97,-0.083,-1.55,1,7.73,-8.04,tiingo,close1_fallback
+V0_Rebuilt,ENPH,10,2021-02-28,2022-10-31,2021-01-07,Electronic Components,3674.0,-8.31,-0.0868,-1.62,4,26.17,-16.99,yahoo,open_to_open
+V0_Rebuilt,RHT,2,2009-12-31,2018-06-30,2009-07-27,,7370.0,-8.34,-0.0871,-1.63,1,13.17,-19.01,tiingo,close1_fallback
+V0_Rebuilt,VIAV,3,2010-04-30,2011-04-30,2000-07-27,,3674.0,-9.07,-0.0951,-1.78,2,3.42,-14.37,yahoo,open_to_open
+V0_Rebuilt,NTAP,2,2018-09-30,2018-10-31,1999-06-25,Internet Software & Services,3572.0,-9.44,-0.0991,-1.85,0,-0.95,-8.57,yahoo,open_to_open
+V0_Rebuilt,DXC,2,2013-04-30,2013-05-31,1996-01-02,IT Consulting & Services,7374.0,-9.84,-0.1036,-1.94,0,-4.53,-5.56,yahoo,open_to_open
+V0_Rebuilt,ANET,1,2022-06-30,2022-06-30,2018-08-28,Communications Equipment,3576.0,-10.21,-0.1077,-2.01,0,-10.21,-10.21,yahoo,open_to_open
+V0_Rebuilt,XLNX,1,2019-08-31,2019-08-31,1999-11-08,Semiconductors,3674.0,-11.4,-0.121,-2.26,0,-11.4,-11.4,tiingo,close1_fallback
+V0_Rebuilt,TDC,2,2011-08-31,2011-11-30,2007-10-01,"Miamisburg, Ohio",7372.0,-12.41,-0.1325,-2.48,0,-6.18,-6.64,yahoo,open_to_open
+V0_Rebuilt,CTXS,1,2011-07-31,2011-07-31,1999-12-01,"Fort Lauderdale, Florida",7372.0,-12.47,-0.1332,-2.49,0,-12.47,-12.47,tiingo,close1_fallback
+V0_Rebuilt,SWKS,5,2015-04-30,2015-08-31,2015-03-12,Semiconductors,3674.0,-13.6,-0.1461,-2.73,1,15.29,-10.98,yahoo,open_to_open
+V0_Rebuilt,MFE,4,2009-02-28,2009-08-31,2008-12-23,,7372.0,-19.98,-0.2229,-4.17,1,6.95,-12.56,tiingo,close1_fallback
+V0_Rebuilt,TWTR,2,2018-07-31,2018-08-31,2018-06-07,Internet Software & Services,7370.0,-22.77,-0.2583,-4.83,1,9.18,-29.26,tiingo,close1_fallback
+V0_Rebuilt,FFIV,3,2011-01-31,2011-03-31,2010-12-20,,3576.0,-24.5,-0.2811,-5.26,1,8.23,-17.76,yahoo,open_to_open
+V0_Rebuilt,SMCI,5,2024-04-30,2024-09-30,2024-03-18,"Technology Hardware, Storage & Peripherals",3571.0,-32.59,-0.3944,-7.38,2,3.67,-23.23,yahoo,open_to_open
+V1_Archival,NVDA,41,2016-05-31,2024-12-31,2001-11-30,Semiconductors,3674.0,1330.81,2.6608,44.48,30,29.77,-16.0,yahoo,open_to_open
+V1_Archival,SNDK,11,2009-11-30,2026-09-30,2006-04-20,"Technology Hardware, Storage & Peripherals",3572.0,181.82,1.0361,17.32,8,63.47,-44.38,wiki<2016-05-11|yahoo,open_to_open
+V1_Archival,PLTR,12,2025-01-31,2025-12-31,2024-09-23,Application Software,7372.0,137.46,0.8648,14.46,9,43.09,-19.53,yahoo,open_to_open
+V1_Archival,ON,3,2022-07-31,2022-11-30,2022-06-21,Semiconductors,3674.0,62.37,0.4847,8.1,3,30.17,3.81,yahoo,open_to_open
+V1_Archival,WDC,2,2026-01-31,2026-02-28,2009-07-01,"Technology Hardware, Storage & Peripherals",3572.0,52.43,0.4215,7.05,2,37.36,10.97,yahoo,open_to_open
+V1_Archival,AMD,18,2010-01-31,2020-10-31,1996-01-02,Semiconductors,3674.0,51.92,0.4182,6.99,10,36.45,-22.47,yahoo,open_to_open
+V1_Archival,AVGO,4,2014-10-31,2015-02-28,2014-05-08,Semiconductors,3674.0,42.74,0.3559,5.95,3,23.01,-0.98,yahoo,open_to_open
+V1_Archival,FSLR,7,2023-01-31,2023-07-31,2022-12-19,Semiconductors,3674.0,37.1,0.3155,5.28,5,20.34,-15.97,yahoo,open_to_open
+V1_Archival,FTNT,7,2018-12-31,2022-04-30,2018-10-11,Systems Software,3577.0,24.14,0.2163,3.62,5,15.99,-15.58,yahoo,open_to_open
+V1_Archival,MA,4,2012-01-31,2012-04-30,2008-07-18,"Harrison, New York",7389.0,20.36,0.1853,3.1,2,17.93,-5.48,yahoo,open_to_open
+V1_Archival,EA,5,2011-12-31,2015-10-31,2002-07-22,Application Software,7372.0,20.25,0.1844,3.08,3,17.07,-8.88,tiingo,close1_fallback
+V1_Archival,MU,9,2009-09-30,2018-01-31,1996-01-02,Semiconductors,3674.0,19.69,0.1797,3.0,6,9.98,-15.27,yahoo,open_to_open
+V1_Archival,LSI,1,2011-10-31,2011-10-31,1996-01-02,"Milpitas, California",3674.0,18.82,0.1724,2.88,1,18.82,18.82,archive:qstk_ott:LSI,open_to_open
+V1_Archival,FB,3,2014-04-30,2014-07-31,2013-12-23,Internet Software & Services,7370.0,13.72,0.1286,2.15,2,6.87,-0.25,alias:META:yahoo,open_to_open
+V1_Archival,AKAM,4,2010-08-31,2010-12-31,2007-07-12,,7389.0,13.68,0.1282,2.14,3,20.86,-10.27,yahoo,open_to_open
+V1_Archival,RHT,1,2009-12-31,2009-12-31,2009-07-27,,7370.0,13.17,0.1237,2.07,1,13.17,13.17,tiingo,close1_fallback
+V1_Archival,LRCX,1,2019-12-31,2019-12-31,2012-06-05,Semiconductor Equipment,3559.0,11.27,0.1068,1.79,1,11.27,11.27,yahoo,open_to_open
+V1_Archival,TWTR,1,2018-08-31,2018-08-31,2018-06-07,Internet Software & Services,7370.0,8.98,0.086,1.44,1,8.98,8.98,tiingo,close1_fallback
+V1_Archival,STX,5,2012-08-31,2012-12-31,2012-07-02,"Dublin, Ireland",3572.0,8.21,0.0789,1.32,2,26.27,-12.54,yahoo,open_to_open
+V1_Archival,JBL,1,2010-03-31,2010-03-31,2001-01-30,,3672.0,6.42,0.0622,1.04,1,6.42,6.42,yahoo,open_to_open
+V1_Archival,EBAY,3,2013-01-31,2013-03-31,2002-07-22,"San Jose, California",7389.0,5.98,0.058,0.97,2,7.45,-3.23,yahoo,open_to_open
+V1_Archival,AAPL,3,2012-05-31,2012-07-31,1996-01-02,"Cupertino, California",3571.0,5.09,0.0496,0.83,2,5.33,-2.89,yahoo,open_to_open
+V1_Archival,ACS,1,2009-04-30,2009-04-30,2004-04-02,,,4.43,0.0433,0.72,1,4.43,4.43,archive:qstk_ott:ACS,open_to_open
+V1_Archival,TLAB,1,2009-07-31,2009-07-31,1996-01-02,,3661.0,0.36,0.0036,0.06,1,0.36,0.36,archive:qstk_ott:TLAB,open_to_open
+V1_Archival,ATVI,2,2016-02-29,2016-03-31,2015-08-31,Home Entertainment Software,7372.0,-0.13,-0.0013,-0.02,1,7.73,-7.3,tiingo,close1_fallback
+V1_Archival,PYPL,1,2018-02-28,2018-02-28,2015-07-20,Data Processing & Outsourced Services,7389.0,-0.64,-0.0064,-0.11,0,-0.64,-0.64,yahoo,open_to_open
+V1_Archival,CDNS,2,2019-09-30,2019-10-31,2017-09-18,Application Software,7372.0,-3.34,-0.0339,-0.57,0,-0.99,-2.37,yahoo,open_to_open
+V1_Archival,KLAC,1,2019-11-30,2019-11-30,1997-09-15,Semiconductor Equipment,3827.0,-3.37,-0.0343,-0.57,0,-3.37,-3.37,yahoo,open_to_open
+V1_Archival,DXC,1,2013-04-30,2013-04-30,1996-01-02,IT Consulting & Services,7374.0,-5.56,-0.0572,-0.96,0,-5.56,-5.56,yahoo,open_to_open
+V1_Archival,ADP,2,2009-01-31,2009-03-31,1996-01-02,,7374.0,-6.07,-0.0626,-1.05,1,3.35,-9.11,yahoo,open_to_open
+V1_Archival,TDC,1,2011-11-30,2011-11-30,2007-10-01,"Miamisburg, Ohio",7372.0,-6.64,-0.0687,-1.15,0,-6.64,-6.64,yahoo,open_to_open
+V1_Archival,JKHY,1,2022-12-31,2022-12-31,2018-11-13,Data Processing & Outsourced Services,7373.0,-7.01,-0.0727,-1.22,0,-7.01,-7.01,yahoo,open_to_open
+V1_Archival,ENPH,10,2021-02-28,2022-10-31,2021-01-07,Electronic Components,3674.0,-8.31,-0.0868,-1.45,4,26.17,-16.99,yahoo,open_to_open
+V1_Archival,NTAP,2,2018-09-30,2018-10-31,1999-06-25,Internet Software & Services,3572.0,-9.44,-0.0991,-1.66,0,-0.95,-8.57,yahoo,open_to_open
+V1_Archival,ANET,1,2022-06-30,2022-06-30,2018-08-28,Communications Equipment,3576.0,-10.21,-0.1077,-1.8,0,-10.21,-10.21,yahoo,open_to_open
+V1_Archival,XLNX,1,2019-08-31,2019-08-31,1999-11-08,Semiconductors,3674.0,-11.4,-0.121,-2.02,0,-11.4,-11.4,tiingo,close1_fallback
+V1_Archival,VIAV,2,2010-04-30,2010-05-31,2000-07-27,,3674.0,-12.08,-0.1287,-2.15,1,2.68,-14.37,yahoo,open_to_open
+V1_Archival,SWKS,5,2015-04-30,2015-08-31,2015-03-12,Semiconductors,3674.0,-13.6,-0.1461,-2.44,1,15.29,-10.98,yahoo,open_to_open
+V1_Archival,MFE,4,2009-02-28,2009-08-31,2008-12-23,,7372.0,-19.98,-0.2229,-3.73,1,6.95,-12.56,tiingo,close1_fallback
+V1_Archival,FFIV,3,2011-01-31,2011-03-31,2010-12-20,,3576.0,-24.5,-0.2811,-4.7,1,8.23,-17.76,yahoo,open_to_open
+V1_Archival,SMCI,5,2024-04-30,2024-09-30,2024-03-18,"Technology Hardware, Storage & Peripherals",3571.0,-32.59,-0.3944,-6.59,2,3.67,-23.23,yahoo,open_to_open
+V1_Archival,NFLX,21,2011-04-30,2018-07-31,2010-12-20,Internet Software & Services,7841.0,-36.76,-0.4582,-7.66,12,16.59,-50.91,yahoo,open_to_open

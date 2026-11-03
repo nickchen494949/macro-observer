@@ -1,0 +1,11 @@
+ticker,reason,months,first_month,last_month,min_top1_mom_in_window_pct,max_top1_mom_in_window_pct
+CSRA,insufficient_history_for_12_1_spinoff,12,2015-11-30,2016-10-31,50.84,156.56
+PYPL,insufficient_history_for_12_1_spinoff,12,2015-07-31,2016-06-30,50.84,152.72
+HPE,insufficient_history_for_12_1_spinoff,11,2015-11-30,2016-09-30,50.84,156.56
+Q,insufficient_history_for_12_1_spinoff,10,2025-11-30,2026-08-31,198.85,5197.6
+QRVO,insufficient_history_for_12_1_spinoff,7,2015-06-30,2015-12-31,84.03,152.72
+VNT,insufficient_history_for_12_1_spinoff,5,2020-10-31,2021-02-28,128.13,456.69
+SNDK,insufficient_history_for_12_1_spinoff,3,2025-11-30,2026-01-31,198.85,263.48
+CA,no_price_at_t_after_archive_end,7,2018-04-30,2018-10-31,91.61,181.07
+NSM,no_price_data_at_source,33,2008-12-31,2011-08-31,-6.94,342.01
+MMI,no_price_data_at_source,16,2011-01-31,2012-04-30,36.0,180.27

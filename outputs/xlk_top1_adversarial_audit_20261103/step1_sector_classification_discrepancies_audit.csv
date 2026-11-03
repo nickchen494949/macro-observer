@@ -1,0 +1,21 @@
+ticker,v0_rebuilt_sector,v1_archival_sector,months,first_month,last_month,sic
+WU,Financials,Information Technology,156,2008-12-31,2021-11-30,7389
+ROP,Information Technology,Industrials,152,2009-12-31,2022-07-31,3823
+XRX,Industrials,Information Technology,147,2008-12-31,2021-02-28,3577
+NFLX,Consumer Discretionary,Information Technology,90,2011-03-31,2018-08-31,7841
+APH,Information Technology,Industrials,78,2010-07-31,2016-12-31,3678
+GLW,Information Technology,Industrials,78,2010-07-31,2016-12-31,3357
+FSLR,Information Technology,Industrials,53,2009-10-31,2014-02-28,3674
+FLIR,Information Technology,Industrials,47,2013-02-28,2016-12-31,3812
+PARA,Information Technology,Communication Services,42,2022-02-28,2025-07-31,4833
+A,Health Care,Information Technology,39,2008-12-31,2012-02-29,3826
+PAYC,Information Technology,Industrials,36,2023-03-31,2026-02-28,7372
+Q,Information Technology,Telecommunication Services,28,2008-12-31,2011-03-31,3674
+TDY,Information Technology,Industrials,25,2020-07-31,2022-07-31,3812
+DAY,Information Technology,Industrials,24,2024-02-29,2026-01-31,7372
+LDOS,Industrials,Information Technology,19,2019-08-31,2021-02-28,7373
+EQIX,Financials,Information Technology,18,2015-03-31,2016-08-31,6798
+MMI,Financials,Information Technology,16,2011-01-31,2012-04-30,3663
+FSLR,Information Technology,Energy,10,2014-03-31,2014-12-31,3674
+HRS,Information Technology,Industrials,9,2018-09-30,2019-05-31,3812
+EQIX,Real Estate,Information Technology,2,2016-09-30,2016-10-31,6798
