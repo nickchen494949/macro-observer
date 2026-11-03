@@ -32,6 +32,11 @@ def main():
     df_m4 = pd.read_csv(os.path.join(HERE, '05_mode4_ear_momentum_consensus.csv'))
     df_m4_diag = pd.read_csv(os.path.join(HERE, '05b_ear_consensus_diagnostic.csv'))
     df_dsr = pd.read_csv(os.path.join(HERE, '06_multiple_testing_dsr.csv'))
+    df_sh_diag = pd.read_csv(os.path.join(HERE, '07_shadow_industry_confirmer_diagnostic.csv'))
+    df_sh_sub = pd.read_csv(os.path.join(HERE, '07b_shadow_confirmer_subperiod_split.csv'))
+    df_sleeves = pd.read_csv(os.path.join(HERE, '08_standalone_sector_and_industry_sleeves.csv'))
+    df_sh_bt = pd.read_csv(os.path.join(HERE, '09_shadow_confirmer_conviction_backtests.csv'))
+    df_arch = pd.read_csv(os.path.join(HERE, '10_nontech_champion_vs_5leg_strawman.csv'))
 
     lines = []
     lines.append('# Multi-Leg Consensus ("Burst Switch") & 4 Burst Modes — Clean-Room Scientific Audit Report\n')
@@ -149,6 +154,68 @@ def main():
             f"`{fmt_num(r['Sharpe_Ann'], 3)}` | `{fmt_pct(r['Monthly_MaxDD'], 2)}` | "
             f"`{fmt_pct(r['Daily_MaxDD_5651ec2'], 2)}` | `{int(r['N_Cumulative_Canonical'])}` | "
             f"`{fmt_num(r['Expected_Max_Ann_SR0'], 3)}` | **`{fmt_num(r['DSR_p_value'], 3)}`** |"
+        )
+
+    # SECTION 7: SHADOW INDUSTRY / SECTOR CONFIRMERS
+    lines.append('\n---\n## 7. Round 2 Priority #1 — Shadow Industry & Sector Confirmers (`Broad + Sector + Industry 三层确认`)\n')
+    lines.append('### 7.1 Full-Sample Diagnostic Breakdown (`2009-01` – `2026-09`, `213` months)\n')
+    lines.append('| Strategy | Shadow Confirmation Slice | Months ($N$) | Share | Mean 1M | Median 1M | Ann. Compounded | Excess Sharpe | Win Rate | Worst Month | Consensus Stock CAGR |')
+    lines.append('| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |')
+    for _, r in df_sh_diag.iterrows():
+        lines.append(
+            f"| `{r['Strategy']}` | `{r['Consensus_State']}` | `{int(r['Months_N'])}` | `{fmt_pct(r['Share_Pct'], 1)}` | "
+            f"`{fmt_pct(r['Mean_Mo_Ret'], 2, True)}` | `{fmt_pct(r['Median_Mo_Ret'], 2, True)}` | "
+            f"**`{fmt_pct(r['Ann_Compounded_Ret'], 2)}`** | **`{fmt_num(r['Ann_Sharpe_Excess'], 2)}`** | "
+            f"**`{fmt_pct(r['Win_Rate'], 1)}`** | `{fmt_pct(r['Worst_Mo_Ret'], 2, True)} ({r['Worst_Mo_YM']})` | `{fmt_pct(r['Consensus_Stock_Ann_CAGR'], 1)}` |"
+        )
+
+    lines.append('\n### 7.2 Subperiod Stability (`2009–2018` First Half vs `2019–2026` Second Half)\n')
+    lines.append('| Subperiod | Shadow Confirmation Slice | Months ($N$) | Mean 1M | Median 1M | Ann. Compounded | Excess Sharpe | Win Rate | Worst Month |')
+    lines.append('| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |')
+    for _, r in df_sh_sub.iterrows():
+        lines.append(
+            f"| `{r['Strategy']}` | `{r['Consensus_State']}` | `{int(r['Months_N'])}` | "
+            f"`{fmt_pct(r['Mean_Mo_Ret'], 2, True)}` | `{fmt_pct(r['Median_Mo_Ret'], 2, True)}` | "
+            f"**`{fmt_pct(r['Ann_Compounded_Ret'], 2)}`** | **`{fmt_num(r['Ann_Sharpe_Excess'], 2)}`** | "
+            f"**`{fmt_pct(r['Win_Rate'], 1)}`** | `{fmt_pct(r['Worst_Mo_Ret'], 2, True)} ({r['Worst_Mo_YM']})` |"
+        )
+
+    # SECTION 8: SHADOW CONFIRMER CONVICTION BACKTESTS
+    lines.append('\n---\n## 8. Shadow-Confirmed Conviction Sizing Backtests (`SOXX #1` vs `3-Layer Group #1` vs `2-Leg Shadow Upgrade`)\n')
+    lines.append('| Variant | Avg Exp | CAGR (`09–26`) | Excess Sharpe | Monthly MaxDD | True Daily MaxDD (`5651ec2`) | `2009–2018` CAGR | `2019–2026` CAGR | `2022` Return | NW $t$ vs Ctrl |')
+    lines.append('| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |')
+    for _, r in df_sh_bt.iterrows():
+        lines.append(
+            f"| `{r['Variant']}` | `{r['Avg_Gross_Exp']:.2f}x` | **`{fmt_pct(r['CAGR_09_26'], 2)}`** | "
+            f"**`{fmt_num(r['Sharpe'], 3)}`** | `{fmt_pct(r['Monthly_MaxDD'], 2)}` | "
+            f"`{fmt_pct(r['Daily_MaxDD_5651ec2'], 2)}` | `{fmt_pct(r['CAGR_2009_2018'], 2)}` | "
+            f"`{fmt_pct(r['CAGR_2019_2026'], 2)}` | `{fmt_pct(r['Ret_2022'], 1, True)}` | `{fmt_num(r['NW_t_vs_Ctrl'], 2, True)}` |"
+        )
+
+    # SECTION 9: STANDALONE SECTOR & INDUSTRY SLEEVES
+    lines.append('\n---\n## 9. Round 2 Priority #2 — Standalone Sector & Sub-Industry Champion Sleeves (`SOXX`, `SMH`, `IGV`, `XLE`, `XLV`, `XLI`, `XLF`, `XLY`, `XLU`, `Ex-IT`)\n')
+    lines.append('| Sleeve | Group | CAGR (`09–26`) | Excess Sharpe | Monthly MaxDD | `2009–2018` CAGR | `2019–2026` CAGR | `2022` Return | Corr vs Tech | Corr vs QQQ | Pick Overlap vs Tech |')
+    lines.append('| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |')
+    for _, r in df_sleeves.iterrows():
+        lines.append(
+            f"| `{r['Sleeve_Name']}` | `{r['Category']}` | **`{fmt_pct(r['CAGR_09_26'], 2)}`** | "
+            f"`{fmt_num(r['Sharpe'], 2)}` | `{fmt_pct(r['Monthly_MaxDD'], 1)}` | "
+            f"`{fmt_pct(r['CAGR_2009_2018'], 1)}` | `{fmt_pct(r['CAGR_2019_2026'], 1)}` | "
+            f"`{fmt_pct(r['Ret_2022'], 1, True)}` | `{fmt_num(r['Corr_with_Tech_Sleeve'], 2)}` | "
+            f"`{fmt_num(r['Corr_with_QQQ_Sleeve'], 2)}` | `{fmt_pct(r['Pick_Overlap_with_Tech_Pct'], 1)}` |"
+        )
+
+    # SECTION 10: PORTFOLIO ARCHITECTURES (5-LEG SEMI STRAWMAN VS 4-LEG NON-TECH VS DYNAMIC ROUTING)
+    lines.append('\n---\n## 10. Portfolio Architecture Comparison: 5-Leg Semiconductor Strawman vs 4-Leg Non-Tech Champion vs Dynamic Routing\n')
+    lines.append('| Variant | Family | CAGR (`09–26`) | Excess Sharpe | Monthly MaxDD | True Daily MaxDD (`5651ec2`) | `2009–2018` CAGR | `2019–2026` CAGR | `2022` Return | Ex-2022 CAGR | NW $t$ vs Ctrl |')
+    lines.append('| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |')
+    for _, r in df_arch.iterrows():
+        lines.append(
+            f"| `{r['Variant']}` | `{r['Family']}` | **`{fmt_pct(r['CAGR_09_26'], 2)}`** | "
+            f"**`{fmt_num(r['Sharpe'], 3)}`** | `{fmt_pct(r['Monthly_MaxDD'], 2)}` | "
+            f"`{fmt_pct(r['Daily_MaxDD_5651ec2'], 2)}` | `{fmt_pct(r['CAGR_2009_2018'], 2)}` | "
+            f"`{fmt_pct(r['CAGR_2019_2026'], 2)}` | `{fmt_pct(r['Ret_2022'], 1, True)}` | "
+            f"`{fmt_pct(r['CAGR_Ex2022'], 2)}` | `{fmt_num(r['NW_t_vs_Ctrl'], 2, True)}` |"
         )
 
     out_md = os.path.join(HERE, 'CONSENSUS_BURST_MODE_AUDIT_REPORT.md')

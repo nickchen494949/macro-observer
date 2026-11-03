@@ -270,3 +270,147 @@
 | `M2_00_3S_G1_1k_Baseline (Always 50% QQQ + 25% Tech + 25% SPY)` | `M2_Baseline` | `49.94%` | `1.292` | `-22.60%` | `-40.19%` | `946` | `1.047` | **`0.863`** |
 | `M2_1a_SEP_Conservative_Cash (SEP OFF: 0% QQQ + 25% Tech + 25% SPY + 50% Cash 0%)` | `M2_SEP_Canonical` | `51.83%` | `1.362` | `-22.60%` | `-34.63%` | `946` | `1.047` | **`0.920`** |
 | `M2_1b_SEP_Conservative_SGOV (SEP OFF: 0% QQQ + 25% Tech + 25% SPY + 50% SGOV)` | `M2_SEP_Canonical` | `52.24%` | `1.371` | `-22.60%` | `-34.63%` | `946` | `1.047` | **`0.926`** |
+
+---
+## 7. Round 2 Priority #1 — Shadow Industry & Sector Confirmers (`Broad + Sector + Industry 三层确认`)
+
+### 7.1 Full-Sample Diagnostic Breakdown (`2009-01` – `2026-09`, `213` months)
+
+| Strategy | Shadow Confirmation Slice | Months ($N$) | Share | Mean 1M | Median 1M | Ann. Compounded | Excess Sharpe | Win Rate | Worst Month | Consensus Stock CAGR |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `0_No_Overlap (Baseline 0-Leg)` | `88` | `41.3%` | `+0.56%` | `+1.52%` | **`3.94%`** | **`0.25`** | **`55.7%`** | `-15.64% (2018-10)` | `N/A` |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `2_Two_Leg_Overlap (All 2-Leg)` | `82` | `38.5%` | `+4.90%` | `+3.50%` | **`66.44%`** | **`1.46`** | **`65.9%`** | `-19.92% (2026-07)` | `65.0%` |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `  2_Leg | NOT Confirmed by Sector/Ind Sharpe #1` | `36` | `16.9%` | `+7.15%` | `+4.28%` | **`108.54%`** | **`1.72`** | **`72.2%`** | `-19.92% (2026-07)` | `136.7%` |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `  2_Leg | Confirmed: Stock is Sector Raw#1 & Sharpe#1` | `44` | `20.7%` | `+3.38%` | `+2.49%` | **`43.36%`** | **`1.35`** | **`61.4%`** | `-11.65% (2025-03)` | `24.0%` |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `  2_Leg | QQQ==SPY Confirmed by Own Sector #1 (XLV/XLY/XLC/Storage)` | `14` | `6.6%` | `+6.27%` | `+5.17%` | **`100.60%`** | **`2.61`** | **`78.6%`** | `-8.08% (2021-09)` | `54.7%` |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `  2_Leg | QQQ==Tech Confirmed by SOXX #1 (while SPY in Non-Tech)` | `12` | `5.6%` | `+6.35%` | `+8.19%` | **`101.72%`** | **`2.55`** | **`83.3%`** | `-11.12% (2023-09)` | `96.8%` |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `3_Triple_Consensus (All 3-Leg Baseline)` | `43` | `20.2%` | `+8.82%` | `+7.67%` | **`160.14%`** | **`2.73`** | **`81.4%`** | `-16.93% (2025-11)` | `179.5%` |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `  3_Leg | Sub-Industry = SOXX_Strict #1 (Pure Semis: NVDA/MU/AMD/LRCX)` | `29` | `13.6%` | `+8.05%` | `+7.10%` | **`145.31%`** | **`3.38`** | **`82.8%`** | `-6.16% (2024-12)` | `180.4%` |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `  3_Leg | Sub-Industry = SMH_Broad #1 (Semis + Memory/Storage WDC)` | `32` | `15.0%` | `+8.39%` | `+7.38%` | **`150.50%`** | **`2.83`** | **`81.2%`** | `-11.31% (2012-10)` | `183.7%` |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `  3_Leg | Sub-Industry = Software #1 (PLTR/FB/EA)` | `11` | `5.2%` | `+10.08%` | `+8.49%` | **`190.33%`** | **`2.48`** | **`81.8%`** | `-16.93% (2025-11)` | `167.5%` |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `  3_Leg | Cross-Metric Confirmed: SOXX Raw#1 AND SOXX Sharpe#1` | `25` | `11.7%` | `+8.17%` | `+6.84%` | **`148.38%`** | **`3.37`** | **`84.0%`** | `-6.16% (2024-12)` | `186.9%` |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `  3_Leg | Cross-Metric Confirmed: Any SubInd Raw#1 AND Sharpe#1` | `37` | `17.4%` | `+8.40%` | `+7.67%` | **`148.73%`** | **`2.63`** | **`81.1%`** | `-16.93% (2025-11)` | `161.3%` |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `  3_Leg | SubInd Raw#1 but NOT SubInd Sharpe#1 (High-Vol Jump)` | `5` | `2.3%` | `+6.90%` | `+7.10%` | **`117.68%`** | **`3.25`** | **`80.0%`** | `-4.06% (2019-05)` | `138.8%` |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `  3_Leg | 3-Layer Group Confirmed: Stock 3-Leg + SubInd Group #1 in Tech` | `24` | `11.3%` | `+11.24%` | `+8.67%` | **`238.70%`** | **`3.37`** | **`87.5%`** | `-11.31% (2012-10)` | `273.7%` |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `  3_Leg | Stock 3-Leg but SubInd Group NOT #1 in Tech (Lone Outlier)` | `19` | `8.9%` | `+5.76%` | `+5.55%` | **`86.39%`** | **`1.95`** | **`73.7%`** | `-16.93% (2025-11)` | `93.7%` |
+| `3S_G1_1k (50% QQQ[<=5]+25% Tech[1]+25% SPY[<=3])` | `  3_Leg | Super-Crown: 3-Leg + SubInd Group #1 + Tech Sector Top-2 + Sharpe#1` | `10` | `4.7%` | `+14.39%` | `+8.93%` | **`375.23%`** | **`4.16`** | **`100.0%`** | `+2.29% (2016-10)` | `454.0%` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `0_No_Overlap (Baseline 0-Leg)` | `81` | `38.0%` | `+0.88%` | `+1.83%` | **`7.06%`** | **`0.35`** | **`58.0%`** | `-20.60% (2018-10)` | `N/A` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `2_Two_Leg_Overlap (All 2-Leg)` | `92` | `43.2%` | `+4.24%` | `+3.39%` | **`53.49%`** | **`1.22`** | **`66.3%`** | `-27.70% (2026-07)` | `44.9%` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `  2_Leg | NOT Confirmed by Sector/Ind Sharpe #1` | `28` | `13.1%` | `+7.01%` | `+3.98%` | **`107.90%`** | **`1.77`** | **`78.6%`** | `-12.30% (2020-03)` | `125.7%` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `  2_Leg | Confirmed: Stock is Sector Raw#1 & Sharpe#1` | `64` | `30.0%` | `+3.03%` | `+2.52%` | **`34.41%`** | **`0.94`** | **`60.9%`** | `-27.70% (2026-07)` | `19.3%` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `  2_Leg | QQQ==SPY Confirmed by Own Sector #1 (XLV/XLY/XLC/Storage)` | `21` | `9.9%` | `+4.05%` | `+2.68%` | **`55.38%`** | **`1.68`** | **`66.7%`** | `-8.08% (2021-09)` | `35.4%` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `  2_Leg | QQQ==Tech Confirmed by SOXX #1 (while SPY in Non-Tech)` | `14` | `6.6%` | `+6.60%` | `+6.33%` | **`110.46%`** | **`3.34`** | **`92.9%`** | `-9.02% (2024-12)` | `135.7%` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `3_Triple_Consensus (All 3-Leg Baseline)` | `40` | `18.8%` | `+9.10%` | `+7.67%` | **`168.48%`** | **`2.81`** | **`80.0%`** | `-12.16% (2023-09)` | `191.1%` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `  3_Leg | Sub-Industry = SOXX_Strict #1 (Pure Semis: NVDA/MU/AMD/LRCX)` | `27` | `12.7%` | `+7.77%` | `+7.10%` | **`135.63%`** | **`2.91`** | **`81.5%`** | `-12.16% (2023-09)` | `162.2%` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `  3_Leg | Sub-Industry = SMH_Broad #1 (Semis + Memory/Storage WDC)` | `29` | `13.6%` | `+8.83%` | `+7.67%` | **`162.11%`** | **`2.88`** | **`82.8%`** | `-12.16% (2023-09)` | `192.3%` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `  3_Leg | Sub-Industry = Software #1 (PLTR/FB/EA)` | `11` | `5.2%` | `+9.82%` | `+8.54%` | **`186.04%`** | **`2.58`** | **`72.7%`** | `-10.13% (2025-03)` | `188.0%` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `  3_Leg | Cross-Metric Confirmed: SOXX Raw#1 AND SOXX Sharpe#1` | `23` | `10.8%` | `+7.85%` | `+6.79%` | **`137.17%`** | **`2.85`** | **`82.6%`** | `-12.16% (2023-09)` | `165.7%` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `  3_Leg | Cross-Metric Confirmed: Any SubInd Raw#1 AND Sharpe#1` | `32` | `15.0%` | `+9.56%` | `+7.78%` | **`184.15%`** | **`3.10`** | **`84.4%`** | `-12.16% (2023-09)` | `190.0%` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `  3_Leg | SubInd Raw#1 but NOT SubInd Sharpe#1 (High-Vol Jump)` | `5` | `2.3%` | `+6.91%` | `+7.10%` | **`117.95%`** | **`3.26`** | **`80.0%`** | `-4.06% (2019-05)` | `138.8%` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `  3_Leg | 3-Layer Group Confirmed: Stock 3-Leg + SubInd Group #1 in Tech` | `26` | `12.2%` | `+9.41%` | `+7.67%` | **`174.05%`** | **`2.59`** | **`76.9%`** | `-12.16% (2023-09)` | `212.0%` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `  3_Leg | Stock 3-Leg but SubInd Group NOT #1 in Tech (Lone Outlier)` | `14` | `6.6%` | `+8.52%` | `+7.49%` | **`158.44%`** | **`3.45`** | **`85.7%`** | `-3.05% (2017-02)` | `155.9%` |
+| `3S_G1_1a (50% QQQ[<=5]+25% Tech[1]+25% SPY[1])` | `  3_Leg | Super-Crown: 3-Leg + SubInd Group #1 + Tech Sector Top-2 + Sharpe#1` | `12` | `5.6%` | `+10.56%` | `+7.67%` | **`205.62%`** | **`2.55`** | **`83.3%`** | `-12.16% (2023-09)` | `242.2%` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `0_No_Overlap (Baseline 0-Leg)` | `73` | `34.3%` | `+1.26%` | `+1.74%` | **`10.95%`** | **`0.46`** | **`54.8%`** | `-17.86% (2018-10)` | `N/A` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `2_Two_Leg_Overlap (All 2-Leg)` | `98` | `46.0%` | `+3.05%` | `+2.87%` | **`35.76%`** | **`0.99`** | **`61.2%`** | `-19.77% (2022-01)` | `42.4%` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `  2_Leg | NOT Confirmed by Sector/Ind Sharpe #1` | `34` | `16.0%` | `+5.68%` | `+3.99%` | **`77.98%`** | **`1.43`** | **`73.5%`** | `-19.77% (2022-01)` | `98.5%` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `  2_Leg | Confirmed: Stock is Sector Raw#1 & Sharpe#1` | `64` | `30.0%` | `+1.65%` | `+0.75%` | **`17.57%`** | **`0.67`** | **`54.7%`** | `-16.30% (2025-11)` | `19.4%` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `  2_Leg | QQQ==SPY Confirmed by Own Sector #1 (XLV/XLY/XLC/Storage)` | `19` | `8.9%` | `+3.66%` | `+4.26%` | **`48.69%`** | **`1.56`** | **`63.2%`** | `-8.42% (2011-08)` | `52.6%` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `  2_Leg | QQQ==Tech Confirmed by SOXX #1 (while SPY in Non-Tech)` | `16` | `7.5%` | `+2.97%` | `+3.71%` | **`37.07%`** | **`1.25`** | **`75.0%`** | `-19.77% (2022-01)` | `72.4%` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `3_Triple_Consensus (All 3-Leg Baseline)` | `42` | `19.7%` | `+9.38%` | `+7.67%` | **`163.74%`** | **`2.19`** | **`83.3%`** | `-36.63% (2026-07)` | `185.6%` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `  3_Leg | Sub-Industry = SOXX_Strict #1 (Pure Semis: NVDA/MU/AMD/LRCX)` | `23` | `10.8%` | `+7.57%` | `+7.10%` | **`132.73%`** | **`3.28`** | **`87.0%`** | `-10.62% (2023-09)` | `152.7%` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `  3_Leg | Sub-Industry = SMH_Broad #1 (Semis + Memory/Storage WDC)` | `31` | `14.6%` | `+9.36%` | `+7.67%` | **`159.43%`** | **`2.07`** | **`83.9%`** | `-36.63% (2026-07)` | `181.1%` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `  3_Leg | Sub-Industry = Software #1 (PLTR/FB/EA)` | `11` | `5.2%` | `+9.45%` | `+7.55%` | **`176.26%`** | **`2.57`** | **`81.8%`** | `-10.09% (2025-03)` | `198.7%` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `  3_Leg | Cross-Metric Confirmed: SOXX Raw#1 AND SOXX Sharpe#1` | `21` | `9.9%` | `+7.43%` | `+6.74%` | **`128.49%`** | **`3.08`** | **`85.7%`** | `-10.62% (2023-09)` | `152.4%` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `  3_Leg | Cross-Metric Confirmed: Any SubInd Raw#1 AND Sharpe#1` | `36` | `16.9%` | `+9.58%` | `+7.78%` | **`168.69%`** | **`2.21`** | **`86.1%`** | `-36.63% (2026-07)` | `177.1%` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `  3_Leg | SubInd Raw#1 but NOT SubInd Sharpe#1 (High-Vol Jump)` | `2` | `0.9%` | `+9.05%` | `+9.05%` | **`182.26%`** | **`11.21`** | **`100.0%`** | `+7.10% (2017-08)` | `155.9%` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `  3_Leg | 3-Layer Group Confirmed: Stock 3-Leg + SubInd Group #1 in Tech` | `30` | `14.1%` | `+9.23%` | `+7.61%` | **`151.73%`** | **`1.90`** | **`80.0%`** | `-36.63% (2026-07)` | `187.8%` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `  3_Leg | Stock 3-Leg but SubInd Group NOT #1 in Tech (Lone Outlier)` | `12` | `5.6%` | `+9.75%` | `+8.47%` | **`196.32%`** | **`4.00`** | **`91.7%`** | `-3.05% (2017-02)` | `180.3%` |
+| `3S_Core3_1a (Unbuffered Hard Top-2/1/1)` | `  3_Leg | Super-Crown: 3-Leg + SubInd Group #1 + Tech Sector Top-2 + Sharpe#1` | `16` | `7.5%` | `+10.78%` | `+8.60%` | **`176.71%`** | **`1.77`** | **`81.2%`** | `-36.63% (2026-07)` | `201.3%` |
+
+### 7.2 Subperiod Stability (`2009–2018` First Half vs `2019–2026` Second Half)
+
+| Subperiod | Shadow Confirmation Slice | Months ($N$) | Mean 1M | Median 1M | Ann. Compounded | Excess Sharpe | Win Rate | Worst Month |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `3S_G1_1k [FirstHalf_2009_2018 (120m)]` | `3_Leg_All` | `20` | `+6.77%` | `+6.50%` | **`112.97%`** | **`3.05`** | **`85.0%`** | `-11.31% (2012-10)` |
+| `3S_G1_1k [FirstHalf_2009_2018 (120m)]` | `3_Leg + SOXX_Strict #1` | `17` | `+7.82%` | `+6.84%` | **`141.25%`** | **`3.91`** | **`88.2%`** | `-3.09% (2014-03)` |
+| `3S_G1_1k [FirstHalf_2009_2018 (120m)]` | `3_Leg + SMH_Broad #1` | `18` | `+6.75%` | `+6.50%` | **`112.06%`** | **`2.88`** | **`83.3%`** | `-11.31% (2012-10)` |
+| `3S_G1_1k [FirstHalf_2009_2018 (120m)]` | `3_Leg + SubInd Raw#1 & Sharpe#1` | `17` | `+6.34%` | `+6.16%` | **`102.32%`** | **`2.72`** | **`82.4%`** | `-11.31% (2012-10)` |
+| `3S_G1_1k [FirstHalf_2009_2018 (120m)]` | `3_Leg + SubInd Group #1 in Tech` | `13` | `+8.39%` | `+7.67%` | **`153.87%`** | **`3.42`** | **`92.3%`** | `-11.31% (2012-10)` |
+| `3S_G1_1k [FirstHalf_2009_2018 (120m)]` | `3_Leg + SubInd Group NOT #1` | `7` | `+3.75%` | `+5.22%` | **`53.68%`** | **`2.53`** | **`71.4%`** | `-3.09% (2014-03)` |
+| `3S_G1_1k [FirstHalf_2009_2018 (120m)]` | `2_Leg + Confirmed Sector Raw#1 & Sharpe#1` | `27` | `+4.42%` | `+3.56%` | **`64.10%`** | **`2.24`** | **`66.7%`** | `-7.04% (2018-12)` |
+| `3S_G1_1k [FirstHalf_2009_2018 (120m)]` | `2_Leg + NOT Sector Sharpe#1` | `16` | `+4.28%` | `+3.19%` | **`60.39%`** | **`1.92`** | **`68.8%`** | `-8.88% (2015-08)` |
+| `3S_G1_1k [SecondHalf_2019_2026 (93m)]` | `3_Leg_All` | `23` | `+10.61%` | `+9.12%` | **`209.57%`** | **`2.72`** | **`78.3%`** | `-16.93% (2025-11)` |
+| `3S_G1_1k [SecondHalf_2019_2026 (93m)]` | `3_Leg + SOXX_Strict #1` | `12` | `+8.38%` | `+8.53%` | **`151.19%`** | **`2.82`** | **`75.0%`** | `-6.16% (2024-12)` |
+| `3S_G1_1k [SecondHalf_2019_2026 (93m)]` | `3_Leg + SMH_Broad #1` | `14` | `+10.49%` | `+8.53%` | **`210.34%`** | **`2.89`** | **`78.6%`** | `-6.16% (2024-12)` |
+| `3S_G1_1k [SecondHalf_2019_2026 (93m)]` | `3_Leg + SubInd Raw#1 & Sharpe#1` | `20` | `+10.16%` | `+8.53%` | **`196.47%`** | **`2.70`** | **`80.0%`** | `-16.93% (2025-11)` |
+| `3S_G1_1k [SecondHalf_2019_2026 (93m)]` | `3_Leg + SubInd Group #1 in Tech` | `11` | `+14.62%` | `+12.68%` | **`376.19%`** | **`3.60`** | **`81.8%`** | `-4.06% (2019-05)` |
+| `3S_G1_1k [SecondHalf_2019_2026 (93m)]` | `3_Leg + SubInd Group NOT #1` | `12` | `+6.93%` | `+7.69%` | **`108.60%`** | **`1.93`** | **`75.0%`** | `-16.93% (2025-11)` |
+| `3S_G1_1k [SecondHalf_2019_2026 (93m)]` | `2_Leg + Confirmed Sector Raw#1 & Sharpe#1` | `17` | `+1.71%` | `+1.99%` | **`15.68%`** | **`0.49`** | **`52.9%`** | `-11.65% (2025-03)` |
+| `3S_G1_1k [SecondHalf_2019_2026 (93m)]` | `2_Leg + NOT Sector Sharpe#1` | `20` | `+9.46%` | `+8.50%` | **`157.27%`** | **`1.82`** | **`75.0%`** | `-19.92% (2026-07)` |
+
+---
+## 8. Shadow-Confirmed Conviction Sizing Backtests (`SOXX #1` vs `3-Layer Group #1` vs `2-Leg Shadow Upgrade`)
+
+| Variant | Avg Exp | CAGR (`09–26`) | Excess Sharpe | Monthly MaxDD | True Daily MaxDD (`5651ec2`) | `2009–2018` CAGR | `2019–2026` CAGR | `2022` Return | NW $t$ vs Ctrl |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `SH_00_3S_G1_1k_Unlevered_Ctrl (1.0x Always)` | `1.00x` | **`49.94%`** | **`1.292`** | `-22.60%` | `-40.19%` | `35.78%` | `70.43%` | `+8.1%` | `N/A` |
+| `SH_01_Ref_All_3Leg -> 1.50x (Unconditional 3-Leg)` | `1.10x` | **`62.48%`** | **`1.341`** | `-25.57%` | `-45.52%` | `43.54%` | `90.65%` | `+8.1%` | `+2.93` |
+| `SH_1a_3Leg + SOXX_Strict #1 Only -> 1.50x (Semis Only)` | `1.07x` | **`58.13%`** | **`1.365`** | `-22.60%` | `-40.19%` | `43.62%` | `79.05%` | `+8.1%` | `+2.39` |
+| `SH_1b_Tiered: 3Leg_SOXX#1 -> 1.50x | 3Leg_NonSOXX -> 1.25x` | `1.08x` | **`60.37%`** | **`1.358`** | `-22.41%` | `-42.85%` | `43.59%` | `84.96%` | `+8.1%` | `+2.95` |
+| `SH_1c_3Leg + SubInd_Group_#1 -> 1.50x (3-Layer Group Confirm)` | `1.06x` | **`58.93%`** | **`1.324`** | `-22.41%` | `-45.52%` | `41.92%` | `83.91%` | `+8.1%` | `+2.71` |
+| `SH_1d_Tiered: 3Leg+SubIndGrp#1 -> 1.60x | Other 3Leg -> 1.20x` | `1.09x` | **`62.17%`** | **`1.334`** | `-22.41%` | `-46.58%` | `43.79%` | `89.41%` | `+8.1%` | `+2.84` |
+| `SH_1e_3Leg + SubInd Raw#1 & Sharpe#1 -> 1.50x` | `1.09x` | **`60.09%`** | **`1.332`** | `-25.57%` | `-40.19%` | `41.83%` | `87.17%` | `+8.1%` | `+2.66` |
+| `SH_1f_3Leg(1.50x) + Shadow-Confirmed 2Leg(1.25x)` | `1.15x` | **`64.90%`** | **`1.353`** | `-25.57%` | `-47.38%` | `47.17%` | `90.96%` | `+8.5%` | `+3.62` |
+| `SH_2a_SEP_LowVol + 3Leg + SubInd_Group_#1 -> 1.50x` | `1.05x` | **`57.85%`** | **`1.313`** | `-22.41%` | `-45.52%` | `41.92%` | `81.07%` | `+8.1%` | `+2.66` |
+| `SH_2b_SEP_LowVol + Tiered (3Leg+Grp#1=1.60x | Other3Leg=1.20x)` | `1.08x` | **`60.73%`** | **`1.320`** | `-22.41%` | `-46.58%` | `43.79%` | `85.57%` | `+8.1%` | `+2.81` |
+| `SH_2c_SEP_LowVol + 3Leg(1.50x) + Shadow-Confirmed 2Leg(1.25x)` | `1.13x` | **`63.92%`** | **`1.352`** | `-25.57%` | `-45.52%` | `47.24%` | `88.27%` | `+8.1%` | `+3.61` |
+
+---
+## 9. Round 2 Priority #2 — Standalone Sector & Sub-Industry Champion Sleeves (`SOXX`, `SMH`, `IGV`, `XLE`, `XLV`, `XLI`, `XLF`, `XLY`, `XLU`, `Ex-IT`)
+
+| Sleeve | Group | CAGR (`09–26`) | Excess Sharpe | Monthly MaxDD | `2009–2018` CAGR | `2019–2026` CAGR | `2022` Return | Corr vs Tech | Corr vs QQQ | Pick Overlap vs Tech |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `QQQ_Sharpe_G1_Hold5 (Ref Leg 1)` | `Core_Sleeves` | **`51.18%`** | `1.24` | `-40.8%` | `44.0%` | `61.0%` | `-25.1%` | `0.52` | `1.00` | `30.0%` |
+| `XLK_Tech_Raw_Hard1 (Ref Leg 2)` | `Core_Sleeves` | **`38.73%`** | `0.89` | `-67.0%` | `14.5%` | `77.7%` | `+41.6%` | `1.00` | `0.52` | `100.0%` |
+| `SPY_AllSector_Raw_G1_Hold3 (Ref Leg 3)` | `Core_Sleeves` | **`43.21%`** | `1.00` | `-44.7%` | `29.5%` | `63.0%` | `+45.6%` | `0.55` | `0.50` | `34.7%` |
+| `SOXX_Strict_Raw_Hard1 (Pure Semis)` | `Tech_SubIndustries` | **`43.61%`** | `0.93` | `-58.5%` | `31.7%` | `60.6%` | `-21.9%` | `0.76` | `0.52` | `52.1%` |
+| `SOXX_Strict_Raw_G1_Hold3 (Pure Semis)` | `Tech_SubIndustries` | **`43.95%`** | `0.91` | `-74.0%` | `43.0%` | `45.2%` | `-49.3%` | `0.64` | `0.54` | `36.2%` |
+| `SOXX_Strict_Sharpe_Hard1 (Pure Semis)` | `Tech_SubIndustries` | **`37.73%`** | `0.85` | `-68.4%` | `26.7%` | `53.4%` | `-26.1%` | `0.76` | `0.55` | `41.8%` |
+| `SOXX_Strict_Sharpe_G1_Hold3 (Pure Semis)` | `Tech_SubIndustries` | **`35.53%`** | `0.89` | `-60.6%` | `35.6%` | `35.4%` | `-48.6%` | `0.61` | `0.56` | `31.5%` |
+| `SMH_Broad_Raw_Hard1 (Semis+Memory+EDA)` | `Tech_SubIndustries` | **`49.90%`** | `1.05` | `-58.5%` | `36.8%` | `68.7%` | `-21.9%` | `0.80` | `0.53` | `61.0%` |
+| `SMH_Broad_Raw_G1_Hold3 (Semis+Memory+EDA)` | `Tech_SubIndustries` | **`50.06%`** | `1.05` | `-53.8%` | `47.9%` | `52.9%` | `-43.2%` | `0.60` | `0.50` | `42.7%` |
+| `SMH_Broad_Sharpe_G1_Hold3 (Semis+Memory+EDA)` | `Tech_SubIndustries` | **`39.59%`** | `0.89` | `-61.4%` | `34.1%` | `47.0%` | `-49.5%` | `0.71` | `0.58` | `34.7%` |
+| `IGV_Software_Raw_Hard1 (S&P Software)` | `Tech_SubIndustries` | **`11.55%`** | `0.44` | `-73.6%` | `5.7%` | `19.6%` | `-27.2%` | `0.44` | `0.36` | `30.0%` |
+| `Tech_Hardware_Storage_Raw_Hard1` | `Tech_SubIndustries` | **`11.08%`** | `0.42` | `-69.3%` | `-0.3%` | `27.7%` | `-35.3%` | `0.61` | `0.50` | `17.8%` |
+| `ExIT_NonTech_Raw_Hard1 (Best Stock Across 10 Non-IT Sectors)` | `NonTech_Champions` | **`-0.95%`** | `0.15` | `-87.8%` | `-2.9%` | `1.7%` | `-4.4%` | `0.25` | `0.26` | `0.0%` |
+| `ExIT_NonTech_Raw_G1_Hold3 (Best Stock Across 10 Non-IT Sectors)` | `NonTech_Champions` | **`5.83%`** | `0.31` | `-73.8%` | `9.1%` | `1.8%` | `+45.6%` | `0.27` | `0.27` | `0.0%` |
+| `ExIT_NonTech_Sharpe_Hard1 (10 Non-IT Sectors)` | `NonTech_Champions` | **`3.36%`** | `0.24` | `-78.9%` | `-1.0%` | `9.2%` | `+46.1%` | `0.21` | `0.27` | `0.0%` |
+| `ExIT_NonTech_Sharpe_G1_Hold3 (10 Non-IT Sectors)` | `NonTech_Champions` | **`-2.98%`** | `0.06` | `-68.7%` | `-1.7%` | `-4.6%` | `+12.9%` | `0.16` | `0.19` | `0.0%` |
+| `ExIT_BestSector_Top1_Hard1 (Top Non-IT Sector -> Top-1 Stock)` | `NonTech_Champions` | **`19.84%`** | `0.65` | `-55.6%` | `12.7%` | `29.8%` | `+54.2%` | `0.19` | `0.25` | `0.0%` |
+| `ExIT_BestSector_Top1_G1_Hold3 (Top Non-IT Sector -> Top-1 Stock)` | `NonTech_Champions` | **`15.73%`** | `0.55` | `-54.7%` | `11.2%` | `21.9%` | `+47.7%` | `0.20` | `0.25` | `0.0%` |
+| `XLE_Energy_Top1_G1_Hold3` | `Single_Sector_Champions` | **`7.77%`** | `0.38` | `-91.8%` | `4.0%` | `12.9%` | `+47.7%` | `0.16` | `0.13` | `0.0%` |
+| `XLV_HealthCare_Top1_G1_Hold3` | `Single_Sector_Champions` | **`13.56%`** | `0.42` | `-86.6%` | `21.7%` | `3.8%` | `-27.7%` | `0.27` | `0.16` | `0.0%` |
+| `XLI_Industrials_Top1_G1_Hold3` | `Single_Sector_Champions` | **`9.66%`** | `0.40` | `-56.2%` | `6.3%` | `14.1%` | `-18.3%` | `0.34` | `0.38` | `0.0%` |
+| `XLF_Financials_Top1_G1_Hold3` | `Single_Sector_Champions` | **`-5.84%`** | `-0.11` | `-69.0%` | `-3.9%` | `-8.3%` | `-28.5%` | `0.11` | `0.29` | `0.0%` |
+| `XLY_ConsDisc_Top1_G1_Hold3` | `Single_Sector_Champions` | **`3.88%`** | `0.27` | `-78.7%` | `3.6%` | `4.2%` | `-46.5%` | `0.21` | `0.32` | `0.0%` |
+| `XLU_Utilities_Top1_G1_Hold3` | `Single_Sector_Champions` | **`10.94%`** | `0.46` | `-39.2%` | `11.4%` | `10.3%` | `+1.3%` | `0.20` | `0.32` | `0.0%` |
+| `XLB_Materials_Top1_G1_Hold3` | `Single_Sector_Champions` | **`8.01%`** | `0.35` | `-61.4%` | `20.7%` | `-6.5%` | `-10.3%` | `0.16` | `0.22` | `0.0%` |
+| `XLP_ConsStaples_Top1_G1_Hold3` | `Single_Sector_Champions` | **`4.79%`** | `0.25` | `-63.2%` | `13.6%` | `-5.6%` | `+2.7%` | `0.05` | `0.11` | `0.0%` |
+
+---
+## 10. Portfolio Architecture Comparison: 5-Leg Semiconductor Strawman vs 4-Leg Non-Tech Champion vs Dynamic Routing
+
+| Variant | Family | CAGR (`09–26`) | Excess Sharpe | Monthly MaxDD | True Daily MaxDD (`5651ec2`) | `2009–2018` CAGR | `2019–2026` CAGR | `2022` Return | Ex-2022 CAGR | NW $t$ vs Ctrl |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `P4_00_3S_G1_1k_Baseline (50% QQQ + 25% XLK + 25% SPY)` | `Baseline_3Leg` | **`49.94%`** | **`1.292`** | `-22.60%` | `-40.19%` | `35.78%` | `70.43%` | `+8.1%` | `52.90%` | `N/A` |
+| `P4_1a_Strawman_5Leg_EW (20% QQQ + 20% XLK + 20% SOXX + 20% SMH + 20% SPY)` | `Bad_Strawman_5Leg_Semi` | **`47.73%`** | **`1.174`** | `-32.46%` | `-41.20%` | `34.27%` | `67.13%` | `-4.7%` | `51.65%` | `-0.16` |
+| `P4_1b_Strawman_5Leg_40QQQ (40% QQQ + 15% XLK + 15% SOXX + 15% SMH + 15% SPY)` | `Bad_Strawman_5Leg_Semi` | **`49.57%`** | **`1.254`** | `-27.16%` | `-38.75%` | `37.41%` | `66.86%` | `-9.6%` | `54.13%` | `+0.04` |
+| `P4_1c_Strawman_Replace_XLK_with_SOXX (50% QQQ + 25% SOXX_Pure + 25% SPY)` | `Bad_Strawman_5Leg_Semi` | **`51.31%`** | **`1.305`** | `-26.29%` | `-39.65%` | `40.66%` | `66.24%` | `-5.9%` | `55.66%` | `+0.50` |
+| `P4_2a_4Leg_ExIT_RawG3 (50% QQQ + 20% XLK + 15% SPY + 15% ExIT_Raw[<=3])` | `4Leg_With_NonTech_Champ` | **`44.25%`** | **`1.240`** | `-24.99%` | `-40.82%` | `33.61%` | `59.23%` | `+8.5%` | `46.72%` | `-2.28` |
+| `P4_2b_4Leg_ExIT_RawG3_40_20_20_20 (40% QQQ + 20% XLK + 20% SPY + 20% ExIT_Raw[<=3])` | `4Leg_With_NonTech_Champ` | **`41.73%`** | **`1.194`** | `-27.89%` | `-40.29%` | `31.40%` | `56.26%` | `+16.4%` | `43.41%` | `-2.41` |
+| `P4_2c_4Leg_ExIT_SecRot (50% QQQ + 20% XLK + 15% SPY + 15% ExIT_BestSec_Top1[<=3])` | `4Leg_With_NonTech_Champ` | **`45.99%`** | **`1.305`** | `-22.75%` | `-39.91%` | `33.56%` | `63.75%` | `+8.8%` | `48.57%` | `-2.09` |
+| `P4_2d_4Leg_ExIT_SharpeG3 (50% QQQ + 20% XLK + 15% SPY + 15% ExIT_Sharpe[<=3])` | `4Leg_With_NonTech_Champ` | **`42.40%`** | **`1.235`** | `-21.64%` | `-39.02%` | `31.46%` | `57.87%` | `+4.1%` | `45.09%` | `-3.32` |
+| `P4_3a_3Leg_PureExIT (50% QQQ + 25% XLK + 25% ExIT_Raw[<=3] — Never Overlaps Tech)` | `3Leg_Pure_ExIT_Split` | **`40.00%`** | **`1.164`** | `-28.02%` | `-41.54%` | `30.61%` | `53.11%` | `+8.1%` | `42.17%` | `-2.39` |
+| `P4_3b_3Leg_PureExIT_SecRot (50% QQQ + 25% XLK + 25% ExIT_BestSec_Top1[<=3])` | `3Leg_Pure_ExIT_Split` | **`42.71%`** | **`1.264`** | `-24.62%` | `-40.03%` | `30.40%` | `60.32%` | `+8.6%` | `45.05%` | `-2.17` |
+| `P4_4a_Dynamic_SEP_OFF_ExIT (SEP ON: 50/25/25 | SEP OFF: 0% QQQ+25% XLK+25% SPY+25% ExIT+25% SGOV)` | `Dynamic_NonTech_Routing` | **`52.24%`** | **`1.340`** | `-22.60%` | `-34.63%` | `35.78%` | `76.47%` | `+39.3%` | `53.05%` | `+1.28` |
+| `P4_4b_Dynamic_SectorLead_Tilt (Tilt 20% to ExIT only when Best Non-IT Sector Mom > Tech + 5%)` | `Dynamic_NonTech_Routing` | **`48.05%`** | **`1.267`** | `-24.44%` | `-40.49%` | `36.01%` | `65.18%` | `+12.6%` | `50.49%` | `-0.91` |
