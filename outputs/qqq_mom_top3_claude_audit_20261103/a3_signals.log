@@ -1,0 +1,25 @@
+213 formation months, 21380 eligible stock-months, mean eligible/members 98.537%
+store usage: {'raw_archive': 117, 'raw_ndx': 2075, 'raw_tiingo': 1638, 'raw_wiki': 1206, 'tiingo_api': 1191, 'wikibulk': 172, 'yahoo': 14981}
+gap reasons: {'history_shorter_than_12m': 140, 'no_price_series_in_any_store': 89, 'stale_or_gap>30d': 77, 'series_ends_before_t': 11}
+non-new-listing gaps by ticker:
+         n       first        last                                                                                                                                                                           why
+ticker                                                                                                                                                                                                          
+BATRA    2  2016-04-30  2016-05-31                                                                                                                                                  no_price_series_in_any_store
+BATRK    2  2016-04-30  2016-05-31                                                                                                                                                  no_price_series_in_any_store
+BMC     10  2012-09-30  2013-06-30                                                                                                                 series_ends_before_t | raw_archive:BMC:2000-02-01..2012-09-12
+CA       7  2018-04-30  2018-10-31                                             stale_or_gap>30d | raw_tiingo:CA:2023-12-14..2026-05-07 ; raw_wiki:CA:2006-12-01..2018-03-27 ; wikibulk:CA:2006-12-01..2018-03-27
+CEG     11  2022-02-28  2022-12-31                                                                                  stale_or_gap>30d | yahoo:CEG:2022-01-19..2026-10-29 ; raw_archive:CEG:2000-02-01..2012-03-12
+FMCN     1  2008-12-31  2008-12-31                                                                                                                                                  no_price_series_in_any_store
+FOX     23  2018-04-30  2020-02-29                                               stale_or_gap>30d | yahoo:FOX:2019-03-13..2026-10-29 ; raw_wiki:FOX:2006-12-01..2018-03-27 ; wikibulk:FOX:2006-12-01..2018-03-27
+FOXA    23  2018-04-30  2020-02-29                                            stale_or_gap>30d | yahoo:FOXA:2019-03-12..2026-10-29 ; raw_wiki:FOXA:2006-12-01..2018-03-27 ; wikibulk:FOXA:2006-12-01..2018-03-27
+KHC      1  2016-06-30  2016-06-30                                                                                     stale_or_gap>30d | yahoo:KHC:2015-07-06..2026-10-29 ; wikibulk:KHC:2015-07-06..2018-03-27
+LIFE    11  2012-09-30  2013-07-31  stale_or_gap>30d | yahoo:LIFE:2026-01-29..2026-10-29 ; raw_wiki:LIFE:2015-05-07..2018-03-07 ; wikibulk:LIFE:2015-05-07..2018-03-07 ; raw_archive:LIFE:2000-02-01..2012-09-11
+LILA     5  2015-07-31  2015-11-30                                                                                                                                                  no_price_series_in_any_store
+LILAK    5  2015-07-31  2015-11-30                                                                                                                                                  no_price_series_in_any_store
+LMCK    23  2014-07-31  2016-05-31                                                                                                                                                  no_price_series_in_any_store
+MICC    29  2008-12-31  2011-04-30                                                                                                                                                  no_price_series_in_any_store
+PPDI    12  2008-12-31  2009-11-30                                                                                                                                                  no_price_series_in_any_store
+PYPL     1  2016-06-30  2016-06-30                                          stale_or_gap>30d | yahoo:PYPL:2015-07-06..2026-10-29 ; tiingo_api:PYPL:2015-07-20..2026-11-02 ; wikibulk:PYPL:2015-07-20..2018-03-27
+QRTEA    8  2018-04-30  2018-11-30                                                                                                                                                  no_price_series_in_any_store
+QVCA     1  2018-03-31  2018-03-31                                                                           series_ends_before_t | tiingo_api:QVCA:2007-01-03..2018-03-09 ; raw_ndx:QVCA:2007-01-03..2018-03-09
+SPCX     2  2026-07-31  2026-08-31                                                                                                                                                  no_price_series_in_any_store

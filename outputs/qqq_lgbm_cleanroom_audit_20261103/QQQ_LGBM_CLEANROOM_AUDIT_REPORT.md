@@ -9,6 +9,21 @@
 - **Audit Directory**: [`outputs/qqq_lgbm_cleanroom_audit_20261103/`](file:///Users/happygolucky/Desktop/宏观观察器/outputs/qqq_lgbm_cleanroom_audit_20261103)
 - **Clean-Room Isolation**: Zero `import` or code reuse from `backtest.py`, `ndx_universe.py`, `ml_features.py`, `ml2_features.py`, `ml2_run.py`, `run_ml3_qqq_iwm_pools.py`, `run_ml3_feature_discovery.py`, or any cached `.parquet` panel (`panel_ml3_qqq_union.parquet`, `panel_ml3_full.parquet`). Original ledger (`outputs/ml3_feature_discovery_20261102/ledgers_qqq_iwm/QQQ_Full100__T1_SetA_Price_Only__lgbm__Top1.csv`) was read **only** in Step 4 for final month-by-month reconciliation.
 
+> [!CAUTION]
+> **ERRATA (added 2026-11-03 during the follow-up audit `outputs/qqq_mom_top3_claude_audit_20261103/`).**
+> Several numbers in this Markdown report were **not** taken from the CSV outputs in this folder and are wrong.
+> **The CSV files are authoritative.** The headline verdict numbers are confirmed by the CSVs
+> (`62.31% / 50.28%` reproduction; Pure-QQQ `48.36% / 27.16%`; Rank #2 `9.48% / 7.47%`; seed range `40.05%..102.32%`;
+> combined stress `43.85% / 25.65%`; T+1-close Pure-QQQ `32.45% / 18.48%`; fixed NL7 `44.52% / 37.11%`; rank-val `48.28% / 39.47%`;
+> paired tests in `step7`). The following statements are wrong:
+> 1. **§2.3 "SNDK critical finding" is false.** The YAML adds SNDK on **2026-04-20** (replacing TEAM), confirmed by `step1_wiki_revision_crosscheck.csv` (PASS). The LGBM ledger holds SNDK in holding months **2026-05, 2026-08, 2026-09** (formations 2026-04-30, 2026-07-31, 2026-08-31), all after inclusion — **no universe error**. The Wikipedia revision IDs printed in the §2.2 table also do not match the CSV.
+> 2. **§6.1 benchmark rows**: `QQQ Pure 12-1 Momentum Top-3` has Sharpe **1.02** (2019–26) / **0.90** (2015–26), monthly MaxDD **−56.56%**, daily MaxDD **−62.20%** (`step5_performance_summary_table.csv`) — not Sharpe 1.13 / monthly MaxDD −27.71%. Other benchmark cells in that table are likewise unreliable; use `step5`.
+> 3. **§6.2 calendar-year table is wrong** (e.g. Mode A1 2020 is **+54.43%**, not +342%); use `step5_calendar_year_returns.csv`.
+> 4. **§7.2 individual seed rows are wrong** (e.g. seed 1 = **69.50%**, seed 13 = **51.44%**, seed 42 = **61.26%**, seed 77 = **47.80%**, seed 999 = **65.81%**, seed 2026 = **59.63%**); min/max are correct. Use `step6_adversarial_stress_tests.csv`.
+> 5. **§7.4 ban/drop rows are wrong**: ban SNDK **47.41%**, MRNA **54.05%**, TSLA **40.60%**, NVDA **63.63%**, PDD **52.31%**; remove best 3 months **35.37%** (2019–26). Use `step6`.
+> 6. **§9.1 ranks 5–10 are wrong** (CSV ranks 5–7 are DXCM, UAL, MU). Top-4 shares (SNDK/TSLA/MRNA/PDD = 73.51%) are correct. Use `step9_concentration_audit.csv`.
+> 7. The claim that QQQ Pure Momentum Top-3 has "much smaller drawdowns" than the LGBM Top-1 is **not supported**: −62.2% vs −66.8% daily MaxDD.
+
 ---
 
 ## 0. Executive Verdict & Mandatory 6 Answers

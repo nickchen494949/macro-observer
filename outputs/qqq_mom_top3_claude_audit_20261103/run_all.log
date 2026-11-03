@@ -1,0 +1,462 @@
+YAML chain check: 19 year transitions, 0 inconsistent
+Monthly roster: 226 months, members/month min 100 median 101 max 107
+Diff vs project ndx_monthly_members.csv over 226 common months: only_claude=0, only_project=0
+214 snapshots, parseable 211; exact match vs revision-date roster: 149; median diffs 0.0, mean 0.65
+ticker  side            
+LVNTA   in_wiki_not_yaml    41
+CMCSK   in_wiki_not_yaml    12
+LILAK   in_wiki_not_yaml     7
+LILA    in_wiki_not_yaml     7
+BATRA   in_wiki_not_yaml     3
+ENDP    in_wiki_not_yaml     3
+MCHP    in_yaml_not_wiki     3
+LMCK    in_wiki_not_yaml     3
+LMCA    in_wiki_not_yaml     3
+BATRK   in_wiki_not_yaml     3
+XRAY    in_yaml_not_wiki     3
+DISCK   in_yaml_not_wiki     3
+MDLZ    in_yaml_not_wiki     2
+KFT     in_wiki_not_yaml     2
+MNST    in_yaml_not_wiki     2
+BMC     in_wiki_not_yaml     2
+CERN    in_yaml_not_wiki     2
+CHTR    in_yaml_not_wiki     2
+DELL    in_wiki_not_yaml     2
+JBHT    in_yaml_not_wiki     2
+JAVA    in_wiki_not_yaml     2
+VIP     in_yaml_not_wiki     2
+HANS    in_wiki_not_yaml     2
+NXPI    in_wiki_not_yaml     2
+UAL     in_wiki_not_yaml     1
+TFCFA   in_wiki_not_yaml     1
+PRGO    in_wiki_not_yaml     1
+TFCF    in_wiki_not_yaml     1
+STRZA   in_wiki_not_yaml     1
+VMED    in_wiki_not_yaml     1
+SOLS    in_yaml_not_wiki     1
+        in_wiki_not_yaml     1
+SHPG    in_yaml_not_wiki     1
+SBAC    in_wiki_not_yaml     1
+DOCU    in_yaml_not_wiki     1
+PCLN    in_wiki_not_yaml     1
+NFLX    in_yaml_not_wiki     1
+MRNA    in_yaml_not_wiki     1
+GMCR    in_yaml_not_wiki     1
+BKNG    in_yaml_not_wiki     1
+213 formation months, 21402 eligible stock-months, mean eligible/members 98.637%
+store usage: {'raw_archive': 117, 'raw_ndx': 1309, 'raw_tiingo': 977, 'raw_wiki': 1206, 'tiingo_api': 2640, 'wikibulk': 172, 'yahoo': 14981}
+gap reasons: {'history_shorter_than_12m': 177, 'stale_or_gap>30d': 55, 'no_price_series_in_any_store': 52, 'series_ends_before_t': 11}
+non-new-listing gaps by ticker:
+         n       first        last                                                                                                                                                                                                                    why
+ticker                                                                                                                                                                                                                                                   
+BATRA    2  2016-04-30  2016-05-31                                                                                                                                                                                           no_price_series_in_any_store
+BATRK    2  2016-04-30  2016-05-31                                                                                                                                                                                           no_price_series_in_any_store
+BMC     10  2012-09-30  2013-06-30                                                                                                                                                          series_ends_before_t | raw_archive:BMC:2000-02-01..2012-09-12
+CA       7  2018-04-30  2018-10-31                                               stale_or_gap>30d | tiingo_api:CA:2023-12-14..2026-05-07 ; raw_tiingo:CA:2023-12-14..2026-05-07 ; raw_wiki:CA:2006-12-01..2018-03-27 ; wikibulk:CA:2006-12-01..2018-03-27
+CEG     11  2022-02-28  2022-12-31                                                                                                                           stale_or_gap>30d | yahoo:CEG:2022-01-19..2026-10-29 ; raw_archive:CEG:2000-02-01..2012-03-12
+FMCN     1  2008-12-31  2008-12-31                                                                                                                                                                                           no_price_series_in_any_store
+FOX     12  2019-03-31  2020-02-29                                               stale_or_gap>30d | yahoo:FOX:2019-03-13..2026-10-29 ; raw_wiki:FOX:2006-12-01..2018-03-27 ; wikibulk:FOX:2006-12-01..2018-03-27 ; tiingo_api:TFCF:2007-01-03..2019-03-20
+FOXA    12  2019-03-31  2020-02-29                                           stale_or_gap>30d | yahoo:FOXA:2019-03-12..2026-10-29 ; raw_wiki:FOXA:2006-12-01..2018-03-27 ; wikibulk:FOXA:2006-12-01..2018-03-27 ; tiingo_api:TFCFA:2007-01-03..2019-03-20
+KHC      1  2016-06-30  2016-06-30                                                                                                                              stale_or_gap>30d | yahoo:KHC:2015-07-06..2026-10-29 ; wikibulk:KHC:2015-07-06..2018-03-27
+LIFE    11  2012-09-30  2013-07-31  stale_or_gap>30d | yahoo:LIFE:2026-01-29..2026-10-29 ; tiingo_api:LIFE:2026-01-29..2026-11-02 ; raw_wiki:LIFE:2015-05-07..2018-03-07 ; wikibulk:LIFE:2015-05-07..2018-03-07 ; raw_archive:LIFE:2000-02-01..2012-09-11
+LILA     5  2015-07-31  2015-11-30                                                                                                                                                                                           no_price_series_in_any_store
+LILAK    5  2015-07-31  2015-11-30                                                                                                                                                                                           no_price_series_in_any_store
+LMCK    23  2014-07-31  2016-05-31                                                                                                                                                                                           no_price_series_in_any_store
+PPDI    12  2008-12-31  2009-11-30                                                                                                                                                                                           no_price_series_in_any_store
+PYPL     1  2016-06-30  2016-06-30                                                                                   stale_or_gap>30d | yahoo:PYPL:2015-07-06..2026-10-29 ; tiingo_api:PYPL:2015-07-20..2026-11-02 ; wikibulk:PYPL:2015-07-20..2018-03-27
+QVCA     1  2018-03-31  2018-03-31                                                                                                                    series_ends_before_t | tiingo_api:QVCA:2007-01-03..2018-03-09 ; raw_ndx:QVCA:2007-01-03..2018-03-09
+SPCX     2  2026-07-31  2026-08-31                                                                                                                                                                                           no_price_series_in_any_store
+flags used by SPEC picks: {'open_to_open': 634, 'delist_last_close': 3, 'no_open_close_proxy': 2}
+SPEC Top-3 2009-01..2026-09 n=213 CAGR 32.88%
+SPEC Top-3 2015-01..2026-09 n=141 CAGR 40.50%
+SPEC Top-3 2015-02..2026-09 n=140 CAGR 40.95%
+SPEC Top-3 2019-01..2026-09 n=93 CAGR 54.27%
+recon: 140 original months; same pick set 135/140; |gross diff|>1bp among same-set months: 63
+original CAGR 40.96% (n=140)  vs claude same window 40.95%
+         month      picks_orig    picks_claude  gross_orig  gross_claude  gross_diff_bp                                        flags
+0   2015-02-28    AVGO|EA|GMCR    AVGO|EA|GMCR    0.108536      0.107530     -10.054775       open_to_open|open_to_open|open_to_open
+1   2015-03-31    EA|AVGO|AAPL    EA|AVGO|AAPL   -0.012873     -0.001626     112.464459       open_to_open|open_to_open|open_to_open
+2   2015-04-30    MNST|AVGO|EA    MNST|AVGO|EA   -0.014598     -0.030460    -158.621173       open_to_open|open_to_open|open_to_open
+3   2015-05-31    EA|MNST|AVGO    EA|MNST|AVGO    0.082829      0.090353      75.239135       open_to_open|open_to_open|open_to_open
+6   2015-08-31    BMRN|MNST|EA    BMRN|MNST|EA   -0.127041     -0.119632      74.090903       open_to_open|open_to_open|open_to_open
+7   2015-09-30    BMRN|EA|MNST    BMRN|EA|MNST   -0.023193     -0.043434    -202.406029       open_to_open|open_to_open|open_to_open
+8   2015-10-31    EA|BMRN|NFLX    EA|BMRN|NFLX    0.065588      0.089685     240.976600       open_to_open|open_to_open|open_to_open
+9   2015-11-30    NFLX|AMZN|EA    NFLX|AMZN|EA    0.055789      0.050455     -53.347836       open_to_open|open_to_open|open_to_open
+10  2015-12-31    NFLX|AMZN|EA    NFLX|AMZN|EA   -0.062355     -0.054280      80.749029       open_to_open|open_to_open|open_to_open
+11  2016-01-31  NFLX|TCOM|AMZN  NFLX|CTRP|AMZN   -0.116343     -0.109433      69.104415       open_to_open|open_to_open|open_to_open
+12  2016-02-29  TCOM|AMZN|ATVI  CTRP|AMZN|ATVI   -0.036811     -0.047253    -104.418793       open_to_open|open_to_open|open_to_open
+13  2016-03-31  TCOM|AMZN|ATVI  CTRP|AMZN|ATVI    0.069634      0.062480     -71.543855       open_to_open|open_to_open|open_to_open
+15  2016-05-31    NVDA|ATVI|FB    NVDA|ATVI|FB    0.141033      0.145604      45.712959       open_to_open|open_to_open|open_to_open
+17  2016-07-31  NVDA|AMZN|ATVI  NVDA|AMZN|ATVI    0.099152      0.101160      20.078165       open_to_open|open_to_open|open_to_open
+18  2016-08-31  NVDA|ATVI|ULTA  NVDA|ATVI|ULTA    0.021773      0.013136     -86.375458       open_to_open|open_to_open|open_to_open
+19  2016-09-30  NVDA|NTES|AMAT  NVDA|NTES|AMAT    0.086081      0.091473      53.919712       open_to_open|open_to_open|open_to_open
+20  2016-10-31  NVDA|AMAT|NTES  NVDA|AMAT|NTES    0.007966      0.023159     151.925164       open_to_open|open_to_open|open_to_open
+21  2016-11-30  NVDA|AMAT|NTES  NVDA|AMAT|NTES    0.092238      0.090391     -18.472243       open_to_open|open_to_open|open_to_open
+26  2017-04-30    NVDA|MU|NTES    NVDA|MU|NTES   -0.043556     -0.046699     -31.429565       open_to_open|open_to_open|open_to_open
+45  2018-11-30  NFLX|AMZN|ILMN   NFLX|FOX|AMZN    0.051379      0.047393     -39.864692       open_to_open|open_to_open|open_to_open
+46  2018-12-31  NFLX|ESRX|AMZN   NFLX|ESRX|FOX   -0.123394     -0.081302     420.917584  open_to_open|delist_last_close|open_to_open
+49  2019-03-31   AMD|LULU|XLNX   AMD|LULU|XLNX    0.068860      0.066569     -22.908803       open_to_open|open_to_open|open_to_open
+50  2019-04-30   AMD|XLNX|LULU   AMD|XLNX|LULU    0.021492      0.034745     132.532424       open_to_open|open_to_open|open_to_open
+51  2019-05-31   AMD|XLNX|LULU   AMD|XLNX|LULU   -0.062010     -0.069123     -71.137528       open_to_open|open_to_open|open_to_open
+52  2019-06-30   AMD|XLNX|LULU   AMD|XLNX|LULU    0.129834      0.128770     -10.633434       open_to_open|open_to_open|open_to_open
+53  2019-07-31   MELI|AMD|WDAY   MELI|AMD|WDAY   -0.024500     -0.029757     -52.566996       open_to_open|open_to_open|open_to_open
+54  2019-08-31  MELI|XLNX|WDAY  MELI|XLNX|WDAY   -0.105533     -0.096867      86.665702       open_to_open|open_to_open|open_to_open
+55  2019-09-30  MELI|SBUX|CDNS  MELI|SBUX|CDNS   -0.051695     -0.054955     -32.609013       open_to_open|open_to_open|open_to_open
+56  2019-10-31  MELI|SBUX|CDNS  MELI|SBUX|CDNS   -0.054353     -0.036194     181.595219       open_to_open|open_to_open|open_to_open
+57  2019-11-30  KLAC|MELI|LRCX  KLAC|MELI|LRCX    0.041734      0.018817    -229.177539       open_to_open|open_to_open|open_to_open
+59  2020-01-31   SGEN|AMD|LRCX   SGEN|AMD|LRCX   -0.009577     -0.013704     -41.267978       open_to_open|open_to_open|open_to_open
+63  2020-05-31    DXCM|TSLA|ZM    DXCM|TSLA|ZM    0.255127      0.212975    -421.523910       open_to_open|open_to_open|open_to_open
+65  2020-07-31  TSLA|DOCU|DXCM  TSLA|DOCU|DXCM    0.226656      0.230916      42.601503       open_to_open|open_to_open|open_to_open
+66  2020-08-31  MRNA|TSLA|DOCU  MRNA|TSLA|DOCU    0.255936      0.226767    -291.688149       open_to_open|open_to_open|open_to_open
+67  2020-09-30  TSLA|MRNA|DOCU  TSLA|MRNA|DOCU   -0.066825     -0.039415     274.102633       open_to_open|open_to_open|open_to_open
+68  2020-10-31    TSLA|ZM|MRNA    TSLA|ZM|MRNA   -0.063487     -0.053069     104.179361       open_to_open|open_to_open|open_to_open
+69  2020-11-30    TSLA|ZM|MRNA    TSLA|ZM|MRNA    0.675179      0.689656     144.768477       open_to_open|open_to_open|open_to_open
+70  2020-12-31    ZM|TSLA|MRNA    ZM|TSLA|MRNA   -0.102174     -0.136488    -343.136691       open_to_open|open_to_open|open_to_open
+71  2021-01-31    MRNA|ZM|TSLA    MRNA|ZM|TSLA    0.268806      0.276487      76.810639       open_to_open|open_to_open|open_to_open
+72  2021-02-28   TSLA|MRNA|PDD   TSLA|MRNA|PDD   -0.063244     -0.071292     -80.483074       open_to_open|open_to_open|open_to_open
+73  2021-03-31  MRNA|TSLA|PTON  MRNA|TSLA|PTON   -0.080438     -0.069262     111.758323       open_to_open|open_to_open|open_to_open
+74  2021-04-30   TSLA|MRNA|PDD   TSLA|MRNA|PDD    0.113512      0.119014      55.019565       open_to_open|open_to_open|open_to_open
+75  2021-05-31  TSLA|PTON|MRNA  TSLA|PTON|MRNA    0.009719      0.007218     -25.010537       open_to_open|open_to_open|open_to_open
+80  2021-10-31  MRNA|AMAT|ASML  MRNA|AMAT|ASML    0.027692      0.025897     -17.951998       open_to_open|open_to_open|open_to_open
+81  2021-11-30  MRNA|AMAT|ASML  MRNA|AMAT|ASML    0.029786      0.033554      37.679340       open_to_open|open_to_open|open_to_open
+82  2021-12-31  MRNA|TEAM|TSLA  MRNA|TEAM|TSLA   -0.093772     -0.090286      34.867680       open_to_open|open_to_open|open_to_open
+83  2022-01-31  LCID|MRNA|NVDA  LCID|MRNA|NVDA   -0.239020     -0.219071     199.491207       open_to_open|open_to_open|open_to_open
+96  2023-02-28    ENPH|CEG|PDD    ENPH|CEG|PDD   -0.095425     -0.088249      71.753069       open_to_open|open_to_open|open_to_open
+97  2023-03-31    PDD|CEG|GILD    PDD|CEG|GILD   -0.027848     -0.035380     -75.319681       open_to_open|open_to_open|open_to_open
+98  2023-04-30    PDD|GILD|CEG    PDD|GILD|CEG   -0.031777     -0.032652      -8.744154       open_to_open|open_to_open|open_to_open
+99  2023-05-31   NFLX|PDD|SGEN   NFLX|PDD|SGEN    0.063688      0.042070    -216.184344       open_to_open|open_to_open|open_to_open
+100 2023-06-30  NFLX|DXCM|MELI  NFLX|DXCM|MELI    0.046157      0.049722      35.653295       open_to_open|open_to_open|open_to_open
+101 2023-07-31  NVDA|NFLX|MELI  NVDA|NFLX|MELI    0.033751      0.042239      84.880402       open_to_open|open_to_open|open_to_open
+106 2023-12-31  META|NVDA|SGEN  META|NVDA|SGEN    0.071078      0.069602     -14.767057  open_to_open|open_to_open|delist_last_close
+113 2024-07-31    NVDA|CEG|PDD    NVDA|CEG|PDD   -0.060829     -0.062097     -12.676460       open_to_open|open_to_open|open_to_open
+116 2024-10-31   NVDA|ARM|AVGO   NVDA|ARM|AVGO    0.041071      0.030947    -101.238074       open_to_open|open_to_open|open_to_open
+117 2024-11-30    NVDA|ARM|CEG    NVDA|ARM|CEG    0.000776     -0.019590    -203.655981       open_to_open|open_to_open|open_to_open
+118 2024-12-31    APP|NVDA|ARM    APP|NVDA|ARM   -0.040298     -0.034327      59.708499       open_to_open|open_to_open|open_to_open
+119 2025-01-31   APP|MSTR|PLTR   APP|MSTR|PLTR    0.092083      0.050759    -413.245064       open_to_open|open_to_open|open_to_open
+120 2025-02-28   APP|MSTR|PLTR   APP|MSTR|PLTR   -0.060392      0.013848     742.400905       open_to_open|open_to_open|open_to_open
+121 2025-03-31   APP|PLTR|MSTR   APP|PLTR|MSTR   -0.026212     -0.098977    -727.652124       open_to_open|open_to_open|open_to_open
+123 2025-05-31   PLTR|APP|MSTR   PLTR|APP|MSTR    0.153882      0.141295    -125.873145       open_to_open|open_to_open|open_to_open
+124 2025-06-30   PLTR|APP|MSTR   PLTR|APP|MSTR   -0.027850     -0.003570     242.803525       open_to_open|open_to_open|open_to_open
+125 2025-07-31   PLTR|APP|MSTR   PLTR|APP|MSTR    0.072046      0.073542      14.954391       open_to_open|open_to_open|open_to_open
+127 2025-09-30   PLTR|APP|MSTR   PLTR|APP|MSTR    0.243468      0.244151       6.838623       open_to_open|open_to_open|open_to_open
+128 2025-10-31   PLTR|APP|MSTR   PLTR|APP|MSTR   -0.060657     -0.056481      41.764830       open_to_open|open_to_open|open_to_open
+129 2025-11-30    PLTR|APP|WBD    PLTR|APP|WBD   -0.071794     -0.075941     -41.464533       open_to_open|open_to_open|open_to_open
+131 2026-01-31    WDC|STX|INSM    WDC|STX|INSM    0.224144      0.231361      72.174014       open_to_open|open_to_open|open_to_open
+68 months attributed; max residual 418.5738 bp; residual>0.5bp: 2
+         month           picks     diff_bp                original_convention_per_pick   residual_bp
+0   2015-02-28    AVGO|EA|GMCR  -10.054775  open_yahoo|close_first_day|close_first_day  1.601021e-05
+1   2015-03-31    EA|AVGO|AAPL  112.464459       close_first_day|open_yahoo|open_yahoo  2.559424e-05
+2   2015-04-30    MNST|AVGO|EA -158.621173       open_yahoo|open_yahoo|close_first_day  9.780379e-06
+3   2015-05-31    EA|MNST|AVGO   75.239135       close_first_day|open_yahoo|open_yahoo  1.365354e-05
+4   2015-08-31    BMRN|MNST|EA   74.090903  close_first_day|open_yahoo|close_first_day  2.870557e-05
+5   2015-09-30    BMRN|EA|MNST -202.406029  close_first_day|close_first_day|open_yahoo  4.504562e-05
+6   2015-10-31    EA|BMRN|NFLX  240.976600  close_first_day|close_first_day|open_yahoo  4.381156e-05
+7   2015-11-30    NFLX|AMZN|EA  -53.347836       open_yahoo|open_yahoo|close_first_day  3.673355e-05
+8   2015-12-31    NFLX|AMZN|EA   80.749029       open_yahoo|open_yahoo|close_first_day  4.212265e-05
+9   2016-01-31  NFLX|CTRP|AMZN   69.104415  open_yahoo|close_first_day|open_tiingo_api  1.184611e-05
+10  2016-02-29  CTRP|AMZN|ATVI -104.418793  close_first_day|open_yahoo|close_first_day  7.903927e-05
+11  2016-03-31  CTRP|AMZN|ATVI  -71.543855  close_first_day|open_yahoo|close_first_day  2.640965e-05
+12  2016-05-31    NVDA|ATVI|FB   45.712959       open_yahoo|close_first_day|open_yahoo  5.646552e-06
+13  2016-07-31  NVDA|AMZN|ATVI   20.078165       open_yahoo|open_yahoo|close_first_day  1.958213e-05
+14  2016-08-31  NVDA|ATVI|ULTA  -86.375458    open_yahoo|close_first_day|open_wikibulk  1.147963e-05
+15  2016-09-30  NVDA|NTES|AMAT   53.919712       open_yahoo|close_first_day|open_yahoo  1.057278e-05
+16  2016-10-31  NVDA|AMAT|NTES  151.925164       open_yahoo|open_yahoo|close_first_day  2.623870e-05
+17  2016-11-30  NVDA|AMAT|NTES  -18.472243       open_yahoo|open_yahoo|close_first_day  2.027223e-05
+18  2017-04-30    NVDA|MU|NTES  -31.429565       open_yahoo|open_yahoo|close_first_day  2.798764e-05
+19  2018-11-30   NFLX|FOX|AMZN  -39.864692       open_yahoo|open_tiingo_api|open_yahoo  3.986469e+01
+20  2018-12-31   NFLX|ESRX|FOX  420.917584  open_yahoo|close_month_end|close_first_day  4.185738e+02
+21  2019-03-31   AMD|LULU|XLNX  -22.908803       open_yahoo|open_yahoo|close_first_day  1.802735e-05
+22  2019-04-30   AMD|XLNX|LULU  132.532424       open_yahoo|close_first_day|open_yahoo  6.226119e-06
+23  2019-05-31   AMD|XLNX|LULU  -71.137528       open_yahoo|close_first_day|open_yahoo  5.560104e-06
+24  2019-06-30   AMD|XLNX|LULU  -10.633434       open_yahoo|close_first_day|open_yahoo  4.645350e-06
+25  2019-07-31   MELI|AMD|WDAY  -52.566996       close_first_day|open_yahoo|open_yahoo  3.122502e-13
+26  2019-08-31  MELI|XLNX|WDAY   86.665702  close_first_day|close_first_day|open_yahoo  8.050349e-06
+27  2019-09-30  MELI|SBUX|CDNS  -32.609013       close_first_day|open_yahoo|open_yahoo  3.469447e-13
+28  2019-10-31  MELI|SBUX|CDNS  181.595219       close_first_day|open_yahoo|open_yahoo  3.469447e-13
+29  2019-11-30  KLAC|MELI|LRCX -229.177539       open_yahoo|close_first_day|open_yahoo  4.857226e-13
+30  2020-01-31   SGEN|AMD|LRCX  -41.267978       close_first_day|open_yahoo|open_yahoo  4.510281e-13
+31  2020-05-31    DXCM|TSLA|ZM -421.523910       open_yahoo|open_yahoo|close_first_day  5.551115e-13
+32  2020-07-31  TSLA|DOCU|DXCM   42.601503       open_yahoo|close_first_day|open_yahoo  5.551115e-13
+33  2020-08-31  MRNA|TSLA|DOCU -291.688149       open_yahoo|open_yahoo|close_first_day  5.551115e-13
+34  2020-09-30  TSLA|MRNA|DOCU  274.102633       open_yahoo|open_yahoo|close_first_day  4.163336e-13
+35  2020-10-31    TSLA|ZM|MRNA  104.179361       open_yahoo|close_first_day|open_yahoo  2.775558e-13
+36  2020-11-30    TSLA|ZM|MRNA  144.768477       open_yahoo|close_first_day|open_yahoo  1.110223e-12
+37  2020-12-31    ZM|TSLA|MRNA -343.136691       close_first_day|open_yahoo|open_yahoo  8.326673e-13
+38  2021-01-31    MRNA|ZM|TSLA   76.810639       open_yahoo|close_first_day|open_yahoo  0.000000e+00
+39  2021-02-28   TSLA|MRNA|PDD  -80.483074       open_yahoo|open_yahoo|close_first_day  4.163336e-13
+40  2021-03-31  MRNA|TSLA|PTON  111.758323       open_yahoo|open_yahoo|close_first_day  6.938894e-13
+41  2021-04-30   TSLA|MRNA|PDD   55.019565       open_yahoo|open_yahoo|close_first_day  9.714451e-13
+42  2021-05-31  TSLA|PTON|MRNA  -25.010537       open_yahoo|close_first_day|open_yahoo  3.295975e-13
+43  2021-10-31  MRNA|AMAT|ASML  -17.951998       open_yahoo|open_yahoo|close_first_day  1.800114e-06
+44  2021-11-30  MRNA|AMAT|ASML   37.679340       open_yahoo|open_yahoo|close_first_day  1.914381e-07
+45  2021-12-31  MRNA|TEAM|TSLA   34.867680       open_yahoo|close_first_day|open_yahoo  6.938894e-13
+46  2022-01-31  LCID|MRNA|NVDA  199.491207       close_first_day|open_yahoo|open_yahoo  5.551115e-13
+47  2023-02-28    ENPH|CEG|PDD   71.753069       open_yahoo|open_yahoo|close_first_day  5.551115e-13
+48  2023-03-31    PDD|CEG|GILD  -75.319681       close_first_day|open_yahoo|open_yahoo  7.979728e-13
+49  2023-04-30    PDD|GILD|CEG   -8.744154       close_first_day|open_yahoo|open_yahoo  4.857226e-13
+50  2023-05-31   NFLX|PDD|SGEN -216.184344  open_yahoo|close_first_day|close_first_day  0.000000e+00
+51  2023-06-30  NFLX|DXCM|MELI   35.653295       open_yahoo|open_yahoo|close_first_day  4.857226e-13
+52  2023-07-31  NVDA|NFLX|MELI   84.880402       open_yahoo|open_yahoo|close_first_day  9.020562e-13
+53  2023-12-31  META|NVDA|SGEN  -14.767057       open_yahoo|open_yahoo|close_first_day  4.163336e-13
+54  2024-07-31    NVDA|CEG|PDD  -12.676460       open_yahoo|open_yahoo|close_first_day  8.326673e-13
+55  2024-10-31   NVDA|ARM|AVGO -101.238074       open_yahoo|close_first_day|open_yahoo  4.857226e-13
+56  2024-11-30    NVDA|ARM|CEG -203.655981       open_yahoo|close_first_day|open_yahoo  8.218252e-13
+57  2024-12-31    APP|NVDA|ARM   59.708499       open_yahoo|open_yahoo|close_first_day  1.040834e-12
+58  2025-01-31   APP|MSTR|PLTR -413.245064       open_yahoo|close_first_day|open_yahoo  6.938894e-13
+59  2025-02-28   APP|MSTR|PLTR  742.400905       open_yahoo|close_first_day|open_yahoo  4.857226e-13
+60  2025-03-31   APP|PLTR|MSTR -727.652124       open_yahoo|open_yahoo|close_first_day  5.898060e-13
+61  2025-05-31   PLTR|APP|MSTR -125.873145       open_yahoo|open_yahoo|close_first_day  5.551115e-13
+62  2025-06-30   PLTR|APP|MSTR  242.803525       open_yahoo|open_yahoo|close_first_day  6.938894e-13
+63  2025-07-31   PLTR|APP|MSTR   14.954391       open_yahoo|open_yahoo|close_first_day  5.551115e-13
+64  2025-09-30   PLTR|APP|MSTR    6.838623       open_yahoo|open_yahoo|close_first_day  2.775558e-13
+65  2025-10-31   PLTR|APP|MSTR   41.764830       open_yahoo|open_yahoo|close_first_day  9.714451e-13
+66  2025-11-30    PLTR|APP|WBD  -41.464533       open_yahoo|open_yahoo|close_first_day  5.551115e-13
+67  2026-01-31    WDC|STX|INSM   72.174014       open_yahoo|open_yahoo|close_first_day  5.551115e-13
+truncation test: 213/213 months identical (roster, eligible set, momentum values, full ranking)
+top-3 identical in 213/213 months
+639 positions; Tiingo adjOpen available for 457; primary already Tiingo for 128; independent comparisons 332
+  |primary - Tiingo| bp: median 0.00, p90 0.18, max 4.5; >25bp: 0
+Empty DataFrame
+Columns: [month, ticker, primary_store, primary_flag, primary_ret, tiingo_open_to_open, diff_vs_tiingo_open_bp]
+Index: []
+positions without an independent second vendor open: 307 (flags: {'open_to_open': 302, 'delist_last_close': 3, 'no_open_close_proxy': 2})
+extreme |ret|>30% positions: 32
+          month ticker primary_store  primary_ret  tiingo_open_to_open  tiingo_close_to_close_t1
+30   2009-11-30   PCLN      wikibulk     0.366072                  NaN                       NaN
+98   2011-09-30   NFLX         yahoo    -0.509061            -0.509061                 -0.514511
+99   2011-10-31   GMCR    tiingo_api    -0.304770            -0.304770                 -0.290083
+300  2017-05-31   NVDA         yahoo     0.385743             0.385710                  0.355107
+352  2018-10-31   ALGN         yahoo    -0.434945                  NaN                       NaN
+360  2019-01-31    AMD         yahoo     0.366463             0.366463                  0.301646
+405  2020-04-30   TSLA         yahoo     0.498016             0.498016                  0.456350
+410  2020-05-31     ZM    tiingo_api     0.346912             0.346912                  0.473369
+414  2020-07-31   TSLA         yahoo     0.338135             0.338135                  0.326331
+418  2020-08-31   TSLA         yahoo     0.732473             0.732473                  0.599495
+426  2020-11-30   TSLA         yahoo     0.516726             0.516726                  0.460038
+428  2020-11-30   MRNA         yahoo     1.611879             1.611879                  1.101177
+431  2020-12-31   MRNA         yahoo    -0.396431            -0.396431                 -0.207645
+432  2021-01-31   MRNA         yahoo     0.613634             0.613634                  0.409469
+442  2021-04-30   MRNA         yahoo     0.391074             0.391074                  0.403395
+451  2021-07-31   MRNA         yahoo     0.523487             0.523487                  0.474246
+552  2024-05-31   NVDA         yahoo     0.335508             0.335508                  0.384858
+562  2024-08-31   SMCI         yahoo    -0.389619            -0.389619                 -0.342824
+566  2024-09-30    CEG         yahoo     0.325320                  NaN                       NaN
+586  2025-04-30   PLTR         yahoo     0.430921             0.430921                  0.372225
+589  2025-05-31    APP         yahoo     0.391170             0.391170                  0.438012
+601  2025-09-30    APP         yahoo     0.540593             0.540593                  0.461586
+612  2026-01-31    WDC         yahoo     0.375621             0.375593                  0.439691
+613  2026-01-31    STX         yahoo     0.427457             0.427457                  0.505704
+621  2026-04-30    WDC         yahoo     0.448200             0.448200                  0.449367
+622  2026-04-30    STX         yahoo     0.682287             0.682287                  0.718023
+623  2026-04-30     MU         yahoo     0.466797             0.466818                  0.473998
+624  2026-05-31   SNDK         yahoo     0.634672             0.634672                  0.483934
+625  2026-05-31    WDC         yahoo     0.319482             0.319482                  0.265758
+626  2026-05-31     MU         yahoo     0.972957             0.972957                  0.909777
+630  2026-07-31   SNDK         yahoo    -0.443767            -0.443767                 -0.366196
+633  2026-08-31   SNDK         yahoo     0.315707             0.315707                  0.193194
+identity overlap pairs: 169; pairs with corr<0.98 over >6 months: 2
+   ticker                              pair  n_months      corr  median_abs_diff_pct
+0     AAL         yahoo:AAL vs wikibulk:AAL       134  0.965209             0.000014
+16   APOL  raw_wiki:APOL vs tiingo_api:APOL        13  0.915546             0.000000
+{'confirmed': 65, 'single_vendor': 19}
+   ticker        store    sym        date       ret other_vendors         status
+35    AAL        yahoo    AAL  2020-03-24  0.358049                single_vendor
+36    AAL        yahoo    AAL  2020-06-04  0.410970                single_vendor
+40   ALGN        yahoo   ALGN  2025-07-31 -0.366262                single_vendor
+72   AXON        yahoo   AXON  2008-11-24  0.368030                single_vendor
+23   BIIB        yahoo   BIIB  2020-11-04  0.439739                single_vendor
+24   BIIB        yahoo   BIIB  2021-06-07  0.383414                single_vendor
+25   BIIB        yahoo   BIIB  2022-09-28  0.398503                single_vendor
+3    CEPH  raw_archive   CEPH  2000-07-31 -0.357610                single_vendor
+62   FANG        yahoo   FANG  2020-03-09 -0.446458                single_vendor
+5    FLEX        yahoo   FLEX  2018-10-26 -0.350137                single_vendor
+6    FLEX        yahoo   FLEX  2026-05-06  0.396890                single_vendor
+39     JD      raw_ndx     JD  2022-03-16  0.393649                single_vendor
+67    MDB      raw_ndx    MDB  2025-08-27  0.379584                single_vendor
+43   SNPS        yahoo   SNPS  2025-09-10 -0.358373                single_vendor
+32  STRZA     wikibulk  STRZA  2008-12-24  0.350000                single_vendor
+63    TTD        yahoo    TTD  2018-05-11  0.433909                single_vendor
+64    TTD        yahoo    TTD  2018-08-10  0.371315                single_vendor
+65    TTD        yahoo    TTD  2022-08-10  0.362202                single_vendor
+66    TTD        yahoo    TTD  2025-08-08 -0.386052                single_vendor
+window                                                             FULL 2009-01..2026-09 ORIG 2015-02..2026-09 ORIG 2019-01..2026-09
+variant                                                                                                                             
+SPEC Top-3 (10bp)                                                                 32.88%                40.95%                54.27%
+BENCH QQQ ETF                                                                     20.87%                19.51%                23.59%
+BENCH NDX equal-weight (PIT, 10bp)                                                17.18%                14.10%                17.47%
+Top-1                                                                             26.27%                40.44%                43.08%
+Top-2                                                                             37.13%                43.45%                55.31%
+Top-5                                                                             30.86%                33.12%                41.04%
+Top-10                                                                            24.92%                23.83%                28.47%
+Rank #1 alone                                                                     26.27%                40.44%                43.08%
+Rank #2 alone                                                                     36.61%                33.12%                49.52%
+Rank #3 alone                                                                     13.87%                22.89%                34.46%
+Rank #4 alone                                                                     13.12%                 4.67%                 0.29%
+Rank #5 alone                                                                     24.16%                20.73%                22.90%
+Rank #6 alone                                                                      7.31%                -3.52%                -8.68%
+Ranks 4-6 (neighbour Top-3)                                                       19.29%                11.57%                 9.76%
+Ranks 2-4                                                                         27.57%                27.62%                37.38%
+Cost 20bp/side                                                                    31.74%                39.82%                53.04%
+Cost 30bp/side                                                                    30.61%                38.71%                51.82%
+Cost 50bp/side                                                                    28.38%                36.49%                49.40%
+Cost 100bp/side                                                                   22.93%                31.10%                43.51%
+Exec T+1 close (first trading day close)                                          31.81%                39.80%                52.47%
+Exec month-end close (no lag, optimistic)                                         32.22%                40.03%                53.66%
+Exec open of trading day 2 (timing luck)                                          31.83%                39.99%                52.34%
+Exec open of trading day 3 (timing luck)                                          31.45%                38.73%                50.25%
+Exec open of trading day 5 (timing luck)                                          32.08%                39.45%                51.53%
+Exec open of trading day 10 (timing luck)                                         29.39%                35.77%                45.90%
+Signal 11-1 momentum                                                              31.47%                39.00%                45.53%
+Signal 12-2 momentum                                                              28.10%                27.61%                31.65%
+Signal 9-1 momentum                                                               35.92%                39.71%                52.08%
+Signal 6-1 momentum                                                               37.17%                45.61%                54.60%
+Signal 12-0 momentum                                                              36.45%                44.03%                53.23%
+Drop best 1 months (set to 0%)                                                    29.02%                34.75%                44.17%
+Drop best 3 months (set to 0%)                                                    22.48%                24.51%                27.99%
+Drop best 5 months (set to 0%)                                                    19.28%                19.60%                20.47%
+Drop best 10 months (set to 0%)                                                   12.41%                 9.27%                 5.16%
+Ban top-1 contributors (MRNA)                                                     27.89%                32.97%                41.32%
+Ban top-3 contributors (MRNA,TSLA,MU)                                             20.72%                25.58%                30.82%
+Ban top-6 contributors (MRNA,TSLA,MU,NFLX,SNDK,NVDA)                              12.99%                14.65%                18.67%
+Ban SNDK                                                                          33.37%                40.15%                52.96%
+Ban NVDA                                                                          26.87%                31.36%                45.70%
+Ban TSLA                                                                          28.80%                34.56%                43.86%
+Worst-case: fallback-priced positions = min(open,close proxy) - 2%                32.62%                40.78%                54.14%
+Worst-case combo: 30bp/side + T+1 close + fallback worst                          29.28%                37.37%                49.91%
+                  window  n_months      CAGR       vol    Sharpe  MaxDD_monthly  MaxDD_daily
+0  FULL 2009-01..2026-09       213  0.328843  0.415692  0.844014      -0.552007    -0.605586
+1              2009-2014        72  0.191379  0.294893  0.744969      -0.398632    -0.438498
+2              2015-2019        60  0.212107  0.301155  0.757499      -0.302291    -0.325974
+3              2020-2022        36  0.324899  0.583719  0.715197      -0.473246    -0.520764
+4           2023-2026.09        45  0.793200  0.533152  1.254614      -0.246287    -0.414852
+5  ORIG 2015-02..2026-09       140  0.409480  0.466475  0.903101      -0.552007    -0.605586
+6  ORIG 2019-01..2026-09        93  0.542692  0.531342  1.001841      -0.552007    -0.605586
+7   2009-2018 (pre-2019)       120  0.183722  0.291824  0.718253      -0.398632    -0.438498
+                   window                                   B    CAGR_A    CAGR_B  NW_t_lag3  NW_p_lag3  boot_P(diff<=0)  alpha_ann      beta  alpha_NW_t
+0   FULL 2009-01..2026-09                       BENCH QQQ ETF  0.328843  0.208707   1.814756   0.069561           0.1054   0.070112  1.451832    0.826344
+1   FULL 2009-01..2026-09  BENCH NDX equal-weight (PIT, 10bp)  0.328843  0.171770   2.164491   0.030427           0.0506        NaN       NaN         NaN
+2   FULL 2009-01..2026-09                               Top-1  0.328843  0.262662  -0.195374   0.845100           0.2398        NaN       NaN         NaN
+3   FULL 2009-01..2026-09         Ranks 4-6 (neighbour Top-3)  0.328843  0.192913   1.694466   0.090177           0.0962        NaN       NaN         NaN
+4               2009-2014                       BENCH QQQ ETF  0.191379  0.243821  -0.108736   0.913412           0.6532  -0.017407  1.021634   -0.152567
+5               2009-2014  BENCH NDX equal-weight (PIT, 10bp)  0.191379  0.244112  -0.127775   0.898327           0.6510        NaN       NaN         NaN
+6               2009-2014                               Top-1  0.191379  0.049639   0.667077   0.504723           0.0910        NaN       NaN         NaN
+7               2009-2014         Ranks 4-6 (neighbour Top-3)  0.191379  0.353717  -1.025721   0.305023           0.9038        NaN       NaN         NaN
+8               2015-2019                       BENCH QQQ ETF  0.212107  0.167152   0.820373   0.412004           0.3032   0.004120  1.416413    0.050541
+9               2015-2019  BENCH NDX equal-weight (PIT, 10bp)  0.212107  0.125885   1.268487   0.204624           0.1602        NaN       NaN         NaN
+10              2015-2019                               Top-1  0.212107  0.371429  -1.510899   0.130814           0.8692        NaN       NaN         NaN
+11              2015-2019         Ranks 4-6 (neighbour Top-3)  0.212107  0.210544   0.266961   0.789499           0.4834        NaN       NaN         NaN
+12              2020-2022                       BENCH QQQ ETF  0.324899  0.085024   1.313553   0.188997           0.1606   0.253286  1.565225    1.292677
+13              2020-2022  BENCH NDX equal-weight (PIT, 10bp)  0.324899  0.079209   1.347366   0.177862           0.1674        NaN       NaN         NaN
+14              2020-2022                               Top-1  0.324899 -0.043012   1.037475   0.299515           0.0382        NaN       NaN         NaN
+15              2020-2022         Ranks 4-6 (neighbour Top-3)  0.324899 -0.130887   2.389479   0.016872           0.0086        NaN       NaN         NaN
+16           2023-2026.09                       BENCH QQQ ETF  0.793200  0.318820   1.579878   0.114135           0.0656   0.185211  1.951787    0.685506
+17           2023-2026.09  BENCH NDX equal-weight (PIT, 10bp)  0.793200  0.199323   2.019565   0.043428           0.0188        NaN       NaN         NaN
+18           2023-2026.09                               Top-1  0.793200  0.897314  -0.851421   0.394536           0.6524        NaN       NaN         NaN
+19           2023-2026.09         Ranks 4-6 (neighbour Top-3)  0.793200  0.231029   1.712708   0.086766           0.0268        NaN       NaN         NaN
+20  ORIG 2015-02..2026-09                       BENCH QQQ ETF  0.409480  0.195075   2.115642   0.034375           0.0524   0.134511  1.623167    1.238704
+21  ORIG 2015-02..2026-09  BENCH NDX equal-weight (PIT, 10bp)  0.409480  0.140973   2.557281   0.010549           0.0196        NaN       NaN         NaN
+22  ORIG 2015-02..2026-09                               Top-1  0.409480  0.404410  -0.695986   0.486437           0.4986        NaN       NaN         NaN
+23  ORIG 2015-02..2026-09         Ranks 4-6 (neighbour Top-3)  0.409480  0.115748   2.519160   0.011764           0.0094        NaN       NaN         NaN
+24  ORIG 2019-01..2026-09                       BENCH QQQ ETF  0.542692  0.235892   1.953315   0.050782           0.0690   0.186503  1.671046    1.192056
+25  ORIG 2019-01..2026-09  BENCH NDX equal-weight (PIT, 10bp)  0.542692  0.174710   2.299844   0.021457           0.0330        NaN       NaN         NaN
+26  ORIG 2019-01..2026-09                               Top-1  0.542692  0.430838  -0.052069   0.958474           0.2806        NaN       NaN         NaN
+27  ORIG 2019-01..2026-09         Ranks 4-6 (neighbour Top-3)  0.542692  0.097559   2.573847   0.010057           0.0070        NaN       NaN         NaN
+28   2009-2018 (pre-2019)                       BENCH QQQ ETF  0.183722  0.188050   0.355223   0.722422           0.5062  -0.001508  1.157258   -0.019566
+29   2009-2018 (pre-2019)  BENCH NDX equal-weight (PIT, 10bp)  0.183722  0.169497   0.531484   0.595084           0.4236        NaN       NaN         NaN
+30   2009-2018 (pre-2019)                               Top-1  0.183722  0.146046  -0.234997   0.814211           0.3500        NaN       NaN         NaN
+31   2009-2018 (pre-2019)         Ranks 4-6 (neighbour Top-3)  0.183722  0.272474  -0.750106   0.453191           0.8344        NaN       NaN         NaN
+   ticker  months  log_contrib      best     worst  share_of_total_log_wealth            window
+0    MRNA      18     0.314534  1.611879 -0.396431                   0.062327  2009-01..2026-09
+1    TSLA      30     0.240365  0.732473 -0.291398                   0.047630  2009-01..2026-09
+2      MU      32     0.206334  0.972957 -0.130554                   0.040887  2009-01..2026-09
+3    NFLX      37     0.178484  0.226457 -0.509061                   0.035368  2009-01..2026-09
+4    SNDK      11     0.156673  0.634672 -0.443767                   0.031046  2009-01..2026-09
+5    NVDA      47     0.149804  0.385743 -0.158008                   0.029685  2009-01..2026-09
+6     WDC      12     0.110796  0.448200 -0.155027                   0.021955  2009-01..2026-09
+7     STX      16     0.110237  0.682287 -0.125400                   0.021844  2009-01..2026-09
+8    ALGN      13     0.078158  0.175104 -0.434945                   0.015488  2009-01..2026-09
+9     APP      12     0.072120  0.540593 -0.245603                   0.014291  2009-01..2026-09
+10   PCLN       8     0.051676  0.366072 -0.277511                   0.010240  2009-01..2026-09
+11   PLTR      12     0.050629  0.430921 -0.195299                   0.010033  2009-01..2026-09
+non-new-listing gap member-months: 118 over 80 months; priced via alternative: 0; would enter Top-3: 0; unknown: 118
+         n       first        last   thr_min  alt_max src
+ticker                                                   
+BATRA    2  2016-04-30  2016-05-31  0.448521      NaN    
+BATRK    2  2016-04-30  2016-05-31  0.448521      NaN    
+BMC     10  2012-09-30  2013-06-30  0.589441      NaN    
+CA       7  2018-04-30  2018-10-31  0.574601      NaN    
+CEG     11  2022-02-28  2022-12-31  0.166392      NaN    
+FMCN     1  2008-12-31  2008-12-31  0.095367      NaN    
+FOX     12  2019-03-31  2020-02-29  0.511033      NaN    
+FOXA    12  2019-03-31  2020-02-29  0.511033      NaN    
+KHC      1  2016-06-30  2016-06-30  0.634762      NaN    
+LIFE    11  2012-09-30  2013-07-31  0.589441      NaN    
+LILA     5  2015-07-31  2015-11-30  0.640565      NaN    
+LILAK    5  2015-07-31  2015-11-30  0.640565      NaN    
+LMCK    23  2014-07-31  2016-05-31  0.448521      NaN    
+PPDI    12  2008-12-31  2009-11-30  0.095367      NaN    
+PYPL     1  2016-06-30  2016-06-30  0.634762      NaN    
+QVCA     1  2018-03-31  2018-03-31  0.971315      NaN    
+SPCX     2  2026-07-31  2026-08-31  5.800056      NaN    
+repo strategy ledgers found (2015-02..2026-09, >=60m): 481; cross-trial SR(monthly) std 0.081
+                   window                   series  n_trials    sr_ann  sr0_ann (expected max of N null trials)       DSR
+0   ORIG 2015-02..2026-09  SPEC Top-3 excess of rf         1  0.903101                                 0.000000  0.999893
+1   ORIG 2015-02..2026-09  SPEC Top-3 excess of rf        10  0.903101                                 0.442619  0.970482
+2   ORIG 2015-02..2026-09  SPEC Top-3 excess of rf        50  0.903101                                 0.639867  0.859757
+3   ORIG 2015-02..2026-09  SPEC Top-3 excess of rf       100  0.903101                                 0.711351  0.784111
+4   ORIG 2015-02..2026-09  SPEC Top-3 excess of rf       481  0.903101                                 0.854784  0.578514
+5   ORIG 2015-02..2026-09  SPEC minus QQQ (active)         1  0.665760                                 0.000000  0.996939
+6   ORIG 2015-02..2026-09  SPEC minus QQQ (active)        10  0.665760                                 0.442619  0.820890
+7   ORIG 2015-02..2026-09  SPEC minus QQQ (active)        50  0.665760                                 0.639867  0.542451
+8   ORIG 2015-02..2026-09  SPEC minus QQQ (active)       100  0.665760                                 0.711351  0.425550
+9   ORIG 2015-02..2026-09  SPEC minus QQQ (active)       481  0.665760                                 0.854784  0.218199
+10  FULL 2009-01..2026-09  SPEC Top-3 excess of rf         1  0.844014                                 0.000000  0.999980
+11  FULL 2009-01..2026-09  SPEC Top-3 excess of rf        10  0.844014                                 0.442619  0.974512
+12  FULL 2009-01..2026-09  SPEC Top-3 excess of rf        50  0.844014                                 0.639867  0.839549
+13  FULL 2009-01..2026-09  SPEC Top-3 excess of rf       100  0.844014                                 0.711351  0.740548
+14  FULL 2009-01..2026-09  SPEC Top-3 excess of rf       481  0.844014                                 0.854784  0.479117
+15  FULL 2009-01..2026-09  SPEC minus QQQ (active)         1  0.475379                                 0.000000  0.988176
+16  FULL 2009-01..2026-09  SPEC minus QQQ (active)        10  0.475379                                 0.442619  0.561960
+17  FULL 2009-01..2026-09  SPEC minus QQQ (active)        50  0.475379                                 0.639867  0.216826
+18  FULL 2009-01..2026-09  SPEC minus QQQ (active)       100  0.475379                                 0.711351  0.130673
+19  FULL 2009-01..2026-09  SPEC minus QQQ (active)       481  0.475379                                 0.854784  0.035463
+                  window  SPEC_CAGR  QQQ_CAGR  vol_ratio      beta  QQQ_x_volmatched_CAGR  QQQ_x_beta_CAGR  QQQ_x_volmatched_MaxDD  SPEC_MaxDD  SPEC_Sharpe  QQQ_Sharpe
+0  FULL 2009-01..2026-09   0.328843  0.208707   2.285597  1.451832               0.439451         0.293605               -0.649307   -0.552007     0.844014    1.062641
+1              2009-2014   0.191379  0.243821   1.817342  1.021634               0.454801         0.249286               -0.233516   -0.398632     0.744969    1.430444
+2              2015-2019   0.212107  0.167152   1.849768  1.416413               0.290303         0.229114               -0.341923   -0.302291     0.757499    0.971988
+3              2020-2022   0.324899  0.085024   2.308484  1.565225               0.084768         0.100037               -0.653955   -0.473246     0.715197    0.414927
+4           2023-2026.09   0.793200  0.318820   3.131560  1.951787               0.958446         0.598240               -0.297170   -0.246287     1.254614    1.457795
+5  ORIG 2015-02..2026-09   0.409480  0.195075   2.430936  1.623167               0.400157         0.292880               -0.678138   -0.552007     0.903101    0.921265
+6  ORIG 2019-01..2026-09   0.542692  0.235892   2.560816  1.671046               0.507689         0.364104               -0.702536   -0.552007     1.001841    0.998348
+7   2009-2018 (pre-2019)   0.183722  0.188050   1.825368  1.157258               0.337912         0.216963               -0.337733   -0.398632     0.718253    1.140070
+vendor swap: same Top-3 set 213/213 months
+  FULL 2009-01..2026-09: primary 32.88%  tiingo-first 32.88%
+  2009-2014: primary 19.14%  tiingo-first 19.13%
+  2015-2019: primary 21.21%  tiingo-first 21.21%
+  2020-2022: primary 32.49%  tiingo-first 32.49%
+  2023-2026.09: primary 79.32%  tiingo-first 79.32%
+  ORIG 2015-02..2026-09: primary 40.95%  tiingo-first 40.95%
+  ORIG 2019-01..2026-09: primary 54.27%  tiingo-first 54.27%
+  2009-2018 (pre-2019): primary 18.37%  tiingo-first 18.37%
+Empty DataFrame
+Columns: [month, picks_primary, picks_tiingo_first]
+Index: []
+{'confirmed': 632, 'no_snapshot': 6, 'NOT_in_wikipedia': 1}
+              t       month ticker            status
+22   2009-07-31  2009-08-31   CERN  NOT_in_wikipedia
+633  2026-07-31  2026-08-31   SNDK       no_snapshot
+634  2026-07-31  2026-08-31     MU       no_snapshot
+635  2026-07-31  2026-08-31    WDC       no_snapshot
+636  2026-08-31  2026-09-30   SNDK       no_snapshot
+637  2026-08-31  2026-09-30     MU       no_snapshot
+638  2026-08-31  2026-09-30    WDC       no_snapshot
+                  window      SPEC  excluding_unconfirmed_picks
+0  FULL 2009-01..2026-09  0.328843                     0.330229
+1              2009-2014  0.191379                     0.195058
+2              2015-2019  0.212107                     0.212107
+3              2020-2022  0.324899                     0.324899
+4           2023-2026.09  0.793200                     0.793200
+5  ORIG 2015-02..2026-09  0.409480                     0.409480
+6  ORIG 2019-01..2026-09  0.542692                     0.542692
+7   2009-2018 (pre-2019)  0.183722                     0.185913
+written REPORT_TABLES.md
