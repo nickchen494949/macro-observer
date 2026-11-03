@@ -1,119 +1,119 @@
-t,ticker,reason,top3_threshold_mom,alt_mom,alt_source,would_enter_top3
-2008-12-31,FMCN,no_price_series_in_any_store,0.09536707056307914,,,unknown
-2008-12-31,PPDI,no_price_series_in_any_store,0.09536707056307914,,,unknown
-2009-01-31,PPDI,no_price_series_in_any_store,0.17385342069175702,,,unknown
-2009-02-28,PPDI,no_price_series_in_any_store,0.27908518395757387,,,unknown
-2009-03-31,PPDI,no_price_series_in_any_store,0.1711343763043236,,,unknown
-2009-04-30,PPDI,no_price_series_in_any_store,0.1827088356834583,,,unknown
-2009-05-31,PPDI,no_price_series_in_any_store,0.3047369700308833,,,unknown
-2009-06-30,PPDI,no_price_series_in_any_store,0.2727273449252119,,,unknown
-2009-07-31,PPDI,no_price_series_in_any_store,0.34995592697958444,,,unknown
-2009-08-31,PPDI,no_price_series_in_any_store,0.3406551564877973,,,unknown
-2009-09-30,PPDI,no_price_series_in_any_store,0.5271068494420574,,,unknown
-2009-10-31,PPDI,no_price_series_in_any_store,1.3261496488799156,,,unknown
-2009-11-30,PPDI,no_price_series_in_any_store,1.782435507774065,,,unknown
-2012-09-30,BMC,series_ends_before_t,0.7753557997777303,,,unknown
-2012-09-30,LIFE,stale_or_gap>30d,0.7753557997777303,,,unknown
-2012-10-31,BMC,series_ends_before_t,0.6551315557511894,,,unknown
-2012-10-31,LIFE,stale_or_gap>30d,0.6551315557511894,,,unknown
-2012-11-30,BMC,series_ends_before_t,0.6654018337522285,,,unknown
-2012-11-30,LIFE,stale_or_gap>30d,0.6654018337522285,,,unknown
-2012-12-31,BMC,series_ends_before_t,0.8323957162449995,,,unknown
-2012-12-31,LIFE,stale_or_gap>30d,0.8323957162449995,,,unknown
-2013-01-31,BMC,series_ends_before_t,0.7189063760957406,,,unknown
-2013-01-31,LIFE,stale_or_gap>30d,0.7189063760957406,,,unknown
-2013-02-28,BMC,series_ends_before_t,0.659890903216769,,,unknown
-2013-02-28,LIFE,stale_or_gap>30d,0.659890903216769,,,unknown
-2013-03-31,BMC,series_ends_before_t,0.7486698303217141,,,unknown
-2013-03-31,LIFE,stale_or_gap>30d,0.7486698303217141,,,unknown
-2013-04-30,BMC,series_ends_before_t,0.5894412067192321,,,unknown
-2013-04-30,LIFE,stale_or_gap>30d,0.5894412067192321,,,unknown
-2013-05-31,BMC,series_ends_before_t,0.7933651208171257,,,unknown
-2013-05-31,LIFE,stale_or_gap>30d,0.7933651208171257,,,unknown
-2013-06-30,BMC,series_ends_before_t,1.1176678418783466,,,unknown
-2013-06-30,LIFE,stale_or_gap>30d,1.1176678418783466,,,unknown
-2013-07-31,LIFE,stale_or_gap>30d,1.307568249547943,,,unknown
-2014-07-31,LMCK,no_price_series_in_any_store,1.0269524099969582,,,unknown
-2014-08-31,LMCK,no_price_series_in_any_store,0.8360177986952575,,,unknown
-2014-09-30,LMCK,no_price_series_in_any_store,0.8660564212717821,,,unknown
-2014-10-31,LMCK,no_price_series_in_any_store,0.9377823158923897,,,unknown
-2014-11-30,LMCK,no_price_series_in_any_store,0.9606917327052884,,,unknown
-2014-12-31,LMCK,no_price_series_in_any_store,0.8993803506602565,,,unknown
-2015-01-31,LMCK,no_price_series_in_any_store,0.6447077078035277,,,unknown
-2015-02-28,LMCK,no_price_series_in_any_store,0.581780660322418,,,unknown
-2015-03-31,LMCK,no_price_series_in_any_store,0.971044467421492,,,unknown
-2015-04-30,LMCK,no_price_series_in_any_store,1.0284791336251353,,,unknown
-2015-05-31,LMCK,no_price_series_in_any_store,0.677698981011982,,,unknown
-2015-06-30,LMCK,no_price_series_in_any_store,0.7919187767599076,,,unknown
-2015-07-31,LILA,no_price_series_in_any_store,0.9791666666630885,,,unknown
-2015-07-31,LILAK,no_price_series_in_any_store,0.9791666666630885,,,unknown
-2015-07-31,LMCK,no_price_series_in_any_store,0.9791666666630885,,,unknown
-2015-08-31,LILA,no_price_series_in_any_store,0.7367944258042336,,,unknown
-2015-08-31,LILAK,no_price_series_in_any_store,0.7367944258042336,,,unknown
-2015-08-31,LMCK,no_price_series_in_any_store,0.7367944258042336,,,unknown
-2015-09-30,LILA,no_price_series_in_any_store,0.7846757027645985,,,unknown
-2015-09-30,LILAK,no_price_series_in_any_store,0.7846757027645985,,,unknown
-2015-09-30,LMCK,no_price_series_in_any_store,0.7846757027645985,,,unknown
-2015-10-31,LILA,no_price_series_in_any_store,0.6536490114738642,,,unknown
-2015-10-31,LILAK,no_price_series_in_any_store,0.6536490114738642,,,unknown
-2015-10-31,LMCK,no_price_series_in_any_store,0.6536490114738642,,,unknown
-2015-11-30,LILA,no_price_series_in_any_store,0.6405645344855284,,,unknown
-2015-11-30,LILAK,no_price_series_in_any_store,0.6405645344855284,,,unknown
-2015-11-30,LMCK,no_price_series_in_any_store,0.6405645344855284,,,unknown
-2015-12-31,LMCK,no_price_series_in_any_store,1.1420977504041172,,,unknown
-2016-01-31,LMCK,no_price_series_in_any_store,0.8715508145737909,,,unknown
-2016-02-29,LMCK,no_price_series_in_any_store,0.5084157139132541,,,unknown
-2016-03-31,LMCK,no_price_series_in_any_store,0.5112915805227376,,,unknown
-2016-04-30,BATRA,no_price_series_in_any_store,0.44852101053700655,,,unknown
-2016-04-30,BATRK,no_price_series_in_any_store,0.44852101053700655,,,unknown
-2016-04-30,LMCK,no_price_series_in_any_store,0.44852101053700655,,,unknown
-2016-05-31,BATRA,no_price_series_in_any_store,0.48478343225154696,,,unknown
-2016-05-31,BATRK,no_price_series_in_any_store,0.48478343225154696,,,unknown
-2016-05-31,LMCK,no_price_series_in_any_store,0.48478343225154696,,,unknown
-2016-06-30,KHC,stale_or_gap>30d,0.6347624125875357,,,unknown
-2016-06-30,PYPL,stale_or_gap>30d,0.6347624125875357,,,unknown
-2018-03-31,QVCA,series_ends_before_t,0.971314540123293,,,unknown
-2018-04-30,CA,stale_or_gap>30d,0.8843512333060688,,,unknown
-2018-05-31,CA,stale_or_gap>30d,0.5746014534525385,,,unknown
-2018-06-30,CA,stale_or_gap>30d,0.9286671745414778,,,unknown
-2018-07-31,CA,stale_or_gap>30d,0.8648647764931041,,,unknown
-2018-08-31,CA,stale_or_gap>30d,0.8126046065796722,,,unknown
-2018-09-30,CA,stale_or_gap>30d,1.027460771565897,,,unknown
-2018-10-31,CA,stale_or_gap>30d,0.8122105102143793,,,unknown
-2019-03-31,FOX,stale_or_gap>30d,0.6878365522123402,,,unknown
-2019-03-31,FOXA,stale_or_gap>30d,0.6878365522123402,,,unknown
-2019-04-30,FOX,stale_or_gap>30d,0.6419838688001043,,,unknown
-2019-04-30,FOXA,stale_or_gap>30d,0.6419838688001043,,,unknown
-2019-05-31,FOX,stale_or_gap>30d,0.6787244262775367,,,unknown
-2019-05-31,FOXA,stale_or_gap>30d,0.6787244262775367,,,unknown
-2019-06-30,FOX,stale_or_gap>30d,0.6852707272824736,,,unknown
-2019-06-30,FOXA,stale_or_gap>30d,0.6852707272824736,,,unknown
-2019-07-31,FOX,stale_or_gap>30d,0.6576359248155814,,,unknown
-2019-07-31,FOXA,stale_or_gap>30d,0.6576359248155814,,,unknown
-2019-08-31,FOX,stale_or_gap>30d,0.5712160336653516,,,unknown
-2019-08-31,FOXA,stale_or_gap>30d,0.5712160336653516,,,unknown
-2019-09-30,FOX,stale_or_gap>30d,0.5110327409105073,,,unknown
-2019-09-30,FOXA,stale_or_gap>30d,0.5110327409105073,,,unknown
-2019-10-31,FOX,stale_or_gap>30d,0.669843099739293,,,unknown
-2019-10-31,FOXA,stale_or_gap>30d,0.669843099739293,,,unknown
-2019-11-30,FOX,stale_or_gap>30d,0.5929578178641384,,,unknown
-2019-11-30,FOXA,stale_or_gap>30d,0.5929578178641384,,,unknown
-2019-12-31,FOX,stale_or_gap>30d,0.9929429367787359,,,unknown
-2019-12-31,FOXA,stale_or_gap>30d,0.9929429367787359,,,unknown
-2020-01-31,FOX,stale_or_gap>30d,0.796168290003783,,,unknown
-2020-01-31,FOXA,stale_or_gap>30d,0.796168290003783,,,unknown
-2020-02-29,FOX,stale_or_gap>30d,0.8066347826899674,,,unknown
-2020-02-29,FOXA,stale_or_gap>30d,0.8066347826899674,,,unknown
-2022-02-28,CEG,stale_or_gap>30d,0.552604068750121,,,unknown
-2022-03-31,CEG,stale_or_gap>30d,0.8451530436750267,,,unknown
-2022-04-30,CEG,stale_or_gap>30d,0.7615381501563001,,,unknown
-2022-05-31,CEG,stale_or_gap>30d,0.48782980164155365,,,unknown
-2022-06-30,CEG,stale_or_gap>30d,0.35501956583450855,,,unknown
-2022-07-31,CEG,stale_or_gap>30d,0.39790656803888536,,,unknown
-2022-08-31,CEG,stale_or_gap>30d,0.3598065409915614,,,unknown
-2022-09-30,CEG,stale_or_gap>30d,0.31211403277470806,,,unknown
-2022-10-31,CEG,stale_or_gap>30d,0.16639151075835534,,,unknown
-2022-11-30,CEG,stale_or_gap>30d,0.39270603729883047,,,unknown
-2022-12-31,CEG,stale_or_gap>30d,0.44080138935578583,,,unknown
-2026-07-31,SPCX,no_price_series_in_any_store,7.138911291283307,,,unknown
-2026-08-31,SPCX,no_price_series_in_any_store,5.800056465241586,,,unknown
+t,ticker,reason,certification_category,top3_threshold_mom,alt_mom,margin_vs_top3_bp,alt_source,would_enter_top3
+2008-12-31,FMCN,no_price_series_in_any_store,SEC_20F_certified_bound,0.09536707056307914,-0.5871083616044701,-6824.754321675492,SEC 20-F 0000950123-09-019102 Item 9.A Nov 2008 High $20.69 / Dec 2007 Low $50.11 (Nov buyback avg $7.32),False
+2008-12-31,PPDI,no_price_series_in_any_store,SEC_10K_certified_bound,0.09536707056307914,0.029841505695888948,-655.2556486719019,SEC 10-K 0001193125-08-038683 Note10 P[2007-12-31]=$40.38; 2008 Q4 High=$41.11 (Nov buyback avg $29.43 -> actual -26.0%),False
+2009-01-31,PPDI,no_price_series_in_any_store,SEC_10K_certified_bound,0.17385342069175702,-0.24757776644569096,-4214.31187137448,SEC 10-K 0001193125-09-035667 P[2008-12-31]=$29.01 / 2008 Q1 Low $39.22,False
+2009-02-28,PPDI,no_price_series_in_any_store,SEC_10K_certified_bound,0.27908518395757387,-0.23431922488526258,-5134.044088428364,SEC 10-K 0001193125-10-042789 2009 Q1 High $29.53 / 2008 Q1 Low $39.22,False
+2009-03-31,PPDI,no_price_series_in_any_store,SEC_10K_certified_bound,0.1711343763043236,-0.23431922488526258,-4054.536011895862,SEC 10-K 0001193125-10-042789 2009 Q1 High $29.53 / 2008 Q1 Low $39.22,False
+2009-04-30,PPDI,no_price_series_in_any_store,SEC_10K_certified_bound,0.1827088356834583,-0.22423146473779387,-4069.403004212522,SEC 10-K 0001193125-10-042789 2009 Q1 High $29.53 / 2008 Q2 Low $38.71,False
+2009-05-31,PPDI,no_price_series_in_any_store,SEC_10K_certified_bound,0.3047369700308833,-0.35959700335830536,-6643.339733891887,SEC 10-K 0001193125-10-042789 2009 Q2 High $24.24 / 2008 Q2 Low $38.71,False
+2009-06-30,PPDI,no_price_series_in_any_store,SEC_10K_certified_bound,0.2727273449252119,-0.35959700335830536,-6323.2434828351725,SEC 10-K 0001193125-10-042789 2009 Q2 High $24.24 / 2008 Q2 Low $38.71,False
+2009-07-31,PPDI,no_price_series_in_any_store,SEC_10K_certified_bound,0.34995592697958444,-0.32156540777230436,-6715.213347518888,SEC 10-K 0001193125-10-042789 2009 Q2 High $24.24 / 2008 Q3 Low $36.54,False
+2009-08-31,PPDI,no_price_series_in_any_store,SEC_10K_certified_bound,0.3406551564877973,-0.3429118773946359,-6835.670338824332,SEC 10-K 0001193125-10-042789 2009 Q3 High $23.46 / 2008 Q3 Low $36.54,False
+2009-09-30,PPDI,no_price_series_in_any_store,SEC_10K_certified_bound,0.5271068494420574,-0.3429118773946359,-8700.187268366933,SEC 10-K 0001193125-10-042789 2009 Q3 High $23.46 / 2008 Q3 Low $36.54,False
+2009-10-31,PPDI,no_price_series_in_any_store,SEC_10K_certified_bound,1.3261496488799156,0.16553398058252422,-11606.156682973913,SEC 10-K 0001193125-10-042789 2009 Q3 High $23.46 / 2008 Q4 Low $20.60 (thr=+79.1%),False
+2009-11-30,PPDI,no_price_series_in_any_store,SEC_10K_certified_bound,1.782435507774065,0.18203883495145634,-16003.966728226087,SEC 10-K 0001193125-10-042789 2009 Q4 High $23.80 / 2008 Q4 Low $20.60 (thr=+109.1%),False
+2012-09-30,BMC,series_ends_before_t,MA_buyout_cap_certified,0.7753557997777303,0.19942946058091282,-5759.263391968175,Bain buyout cap $46.25 / raw_archive:BMC P[2011-09]=$38.56,False
+2012-09-30,LIFE,stale_or_gap>30d,SEC_DEFM14A_certified_bound,0.7753557997777303,0.3080926359614886,-4672.6316381624165,SEC DEFM14A 0001193125-13-297289 p.101 2012Q3 High=$50.27 / raw_archive:LIFE P[2011-09]=$38.43,False
+2012-10-31,BMC,series_ends_before_t,MA_buyout_cap_certified,0.6551315557511894,0.3305523590333719,-3245.7919671781756,Bain buyout cap $46.25 / raw_archive:BMC P[2011-10]=$34.76,False
+2012-10-31,LIFE,stale_or_gap>30d,SEC_DEFM14A_certified_bound,0.6551315557511894,0.2360462257192033,-4190.853300319861,SEC DEFM14A 0001193125-13-297289 p.101 2012Q3 High=$50.27 / raw_archive:LIFE P[2011-10]=$40.67,False
+2012-11-30,BMC,series_ends_before_t,MA_buyout_cap_certified,0.6654018337522285,0.29697139652271476,-3684.3043722951375,Bain buyout cap $46.25 / raw_archive:BMC P[2011-11]=$35.66,False
+2012-11-30,LIFE,stale_or_gap>30d,SEC_DEFM14A_certified_bound,0.6654018337522285,0.3418538600568035,-3235.47973695425,SEC DEFM14A 0001193125-13-297289 p.101 2012Q4 High=$51.97 / raw_archive:LIFE P[2011-11]=$38.73,False
+2012-12-31,BMC,series_ends_before_t,MA_buyout_cap_certified,0.8323957162449995,0.4109212934716291,-4214.744227733704,Bain buyout cap $46.25 / raw_archive:BMC P[2011-12]=$32.78,False
+2012-12-31,LIFE,stale_or_gap>30d,SEC_DEFM14A_certified_bound,0.8323957162449995,0.33564636340272425,-4967.493528422753,SEC DEFM14A 0001193125-13-297289 p.101 2012Q4 High=$51.97 / raw_archive:LIFE P[2011-12]=$38.91,False
+2013-01-31,BMC,series_ends_before_t,MA_buyout_cap_certified,0.7189063760957406,0.2755102040816326,-4433.96172014108,Bain buyout cap $46.25 / raw_archive:BMC P[2012-01]=$36.26,False
+2013-01-31,LIFE,stale_or_gap>30d,SEC_DEFM14A_certified_bound,0.7189063760957406,0.0730951889324798,-6458.111871632608,SEC DEFM14A 0001193125-13-297289 p.101 2012Q4 High=$51.97 / raw_archive:LIFE P[2012-01]=$48.43,False
+2013-02-28,BMC,series_ends_before_t,MA_buyout_cap_certified,0.659890903216769,0.23530982905982922,-4245.810741569398,Bain buyout cap $46.25 / raw_archive:BMC P[2012-02]=$37.44,False
+2013-02-28,LIFE,stale_or_gap>30d,SEC_DEFM14A_certified_bound,0.659890903216769,0.3796237581906572,-2802.6714502611185,SEC DEFM14A 0001193125-13-297289 p.101 2013Q1 High=$65.27 / raw_archive:LIFE P[2012-02]=$47.31,False
+2013-03-31,BMC,series_ends_before_t,MA_buyout_cap_certified,0.7486698303217141,0.15164342629482075,-5970.264040268933,Bain buyout cap $46.25 / raw_archive:BMC P[2012-03]=$40.16,False
+2013-03-31,LIFE,stale_or_gap>30d,SEC_DEFM14A_certified_bound,0.7486698303217141,0.3369520688242522,-4117.177614974618,SEC DEFM14A 0001193125-13-297289 p.101 2013Q1 High=$65.27 / raw_archive:LIFE P[2012-03]=$48.82,False
+2013-04-30,BMC,series_ends_before_t,MA_buyout_cap_certified,0.5894412067192321,0.12094037809016012,-4685.008286290719,Bain buyout cap $46.25 / raw_archive:BMC P[2012-04]=$41.26,False
+2013-04-30,LIFE,stale_or_gap>30d,SEC_DEFM14A_certified_bound,0.5894412067192321,0.4078947368421051,-1815.4646987712697,SEC DEFM14A 0001193125-13-297289 p.101 2013Q1 High=$65.27 / raw_archive:LIFE P[2012-04]=$46.36,False
+2013-05-31,BMC,series_ends_before_t,MA_buyout_cap_certified,0.7933651208171257,0.0928638941398865,-7005.012266772393,Bain buyout cap $46.25 / raw_archive:BMC P[2012-05]=$42.32,False
+2013-05-31,LIFE,stale_or_gap>30d,SEC_DEFM14A_certified_bound,0.7933651208171257,0.8188706917624053,255.0557094527961,"SEC DEFM14A 0001193125-13-297289 p.101 2013Q2 High=$74.41 / raw_archive:LIFE P[2012-05]=$40.91 (Note: LIFE already in $76 cash merger arb; if included in 2013-06 replacing BIIB -9.4%, 2009-26 CAGR rises 32.88%->33.11%)",False
+2013-06-30,BMC,series_ends_before_t,MA_buyout_cap_certified,1.1176678418783466,0.08364573570759148,-10340.22106170755,Bain buyout cap $46.25 / raw_archive:BMC P[2012-06]=$42.68,False
+2013-06-30,LIFE,stale_or_gap>30d,SEC_DEFM14A_certified_bound,1.1176678418783466,0.6539230940208933,-4637.447478574532,SEC DEFM14A 0001193125-13-297289 p.101 2013Q2 High=$74.41 / raw_archive:LIFE P[2012-06]=$44.99,False
+2013-07-31,LIFE,stale_or_gap>30d,SEC_DEFM14A_certified_bound,1.307568249547943,0.6957611668185959,-6118.070827293472,SEC DEFM14A 0001193125-13-297289 p.101 2013Q2 High=$74.41 / raw_archive:LIFE P[2012-07]=$43.88,False
+2014-07-31,LMCK,no_price_series_in_any_store,sibling_share_class_certified,1.0269524099969582,-0.019050302650803458,-10460.027126477618,Sibling voting share raw_ndx:LMCA 12-1 mom=-4.91% (+3% class-spread allowance),False
+2014-08-31,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.8360177986952575,-0.6252608440797186,-14612.78642774976,Sibling voting share raw_ndx:LMCA 12-1 mom=-65.53% (+3% class-spread allowance),False
+2014-09-30,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.8660564212717821,-0.6354434250764527,-15014.998463482347,Sibling voting share raw_ndx:LMCA 12-1 mom=-66.54% (+3% class-spread allowance),False
+2014-10-31,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.9377823158923897,-0.6614524883918644,-15992.348042842541,Sibling voting share raw_ndx:LMCA 12-1 mom=-69.15% (+3% class-spread allowance),False
+2014-11-30,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.9606917327052884,-0.657084582301577,-16177.763150068653,Sibling voting share raw_ndx:LMCA 12-1 mom=-68.71% (+3% class-spread allowance),False
+2014-12-31,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.8993803506602565,-0.7186499418962334,-16180.302925564898,Sibling voting share raw_ndx:LMCA 12-1 mom=-74.86% (+3% class-spread allowance),False
+2015-01-31,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.6447077078035277,-0.7020519638380307,-13467.596716415585,Sibling voting share raw_ndx:LMCA 12-1 mom=-73.21% (+3% class-spread allowance),False
+2015-02-28,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.581780660322418,-0.7217497812773404,-13035.304415997583,Sibling voting share raw_ndx:LMCA 12-1 mom=-75.17% (+3% class-spread allowance),False
+2015-03-31,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.971044467421492,-0.6750026772737703,-16460.471446952623,Sibling voting share raw_ndx:LMCA 12-1 mom=-70.50% (+3% class-spread allowance),False
+2015-04-30,LMCK,no_price_series_in_any_store,sibling_share_class_certified,1.0284791336251353,-0.6727985506129057,-17012.776842380412,Sibling voting share raw_ndx:LMCA 12-1 mom=-70.28% (+3% class-spread allowance),False
+2015-05-31,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.677698981011982,-0.6681043026822937,-13458.032836942757,Sibling voting share raw_ndx:LMCA 12-1 mom=-69.81% (+3% class-spread allowance),False
+2015-06-30,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.7919187767599076,-0.689673690371671,-14815.924671315788,Sibling voting share raw_ndx:LMCA 12-1 mom=-71.97% (+3% class-spread allowance),False
+2015-07-31,LILA,no_price_series_in_any_store,new_spinoff_shorter_than_12m,0.9791666666630885,,,Liberty LiLAC tracking stock distributed 2015-07-01 (<12m trading history in 2015-07..2015-11; ineligible under frozen 12-1 rule),False
+2015-07-31,LILAK,no_price_series_in_any_store,new_spinoff_shorter_than_12m,0.9791666666630885,,,Liberty LiLAC tracking stock distributed 2015-07-01 (<12m trading history in 2015-07..2015-11; ineligible under frozen 12-1 rule),False
+2015-07-31,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.9791666666630885,-0.20400637619553666,-11831.730428586252,Sibling voting share raw_ndx:LMCA 12-1 mom=-23.40% (+3% class-spread allowance),False
+2015-08-31,LILA,no_price_series_in_any_store,new_spinoff_shorter_than_12m,0.7367944258042336,,,Liberty LiLAC tracking stock distributed 2015-07-01 (<12m trading history in 2015-07..2015-11; ineligible under frozen 12-1 rule),False
+2015-08-31,LILAK,no_price_series_in_any_store,new_spinoff_shorter_than_12m,0.7367944258042336,,,Liberty LiLAC tracking stock distributed 2015-07-01 (<12m trading history in 2015-07..2015-11; ineligible under frozen 12-1 rule),False
+2015-08-31,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.7367944258042336,-0.2021755027422303,-9389.69928546464,Sibling voting share raw_ndx:LMCA 12-1 mom=-23.22% (+3% class-spread allowance),False
+2015-09-30,LILA,no_price_series_in_any_store,new_spinoff_shorter_than_12m,0.7846757027645985,,,Liberty LiLAC tracking stock distributed 2015-07-01 (<12m trading history in 2015-07..2015-11; ineligible under frozen 12-1 rule),False
+2015-09-30,LILAK,no_price_series_in_any_store,new_spinoff_shorter_than_12m,0.7846757027645985,,,Liberty LiLAC tracking stock distributed 2015-07-01 (<12m trading history in 2015-07..2015-11; ineligible under frozen 12-1 rule),False
+2015-09-30,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.7846757027645985,-0.18047053836371343,-9651.462411283119,Sibling voting share raw_ndx:LMCA 12-1 mom=-21.05% (+3% class-spread allowance),False
+2015-10-31,LILA,no_price_series_in_any_store,new_spinoff_shorter_than_12m,0.6536490114738642,,,Liberty LiLAC tracking stock distributed 2015-07-01 (<12m trading history in 2015-07..2015-11; ineligible under frozen 12-1 rule),False
+2015-10-31,LILAK,no_price_series_in_any_store,new_spinoff_shorter_than_12m,0.6536490114738642,,,Liberty LiLAC tracking stock distributed 2015-07-01 (<12m trading history in 2015-07..2015-11; ineligible under frozen 12-1 rule),False
+2015-10-31,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.6536490114738642,-0.2261432736359851,-8797.922851098492,Sibling voting share raw_ndx:LMCA 12-1 mom=-25.61% (+3% class-spread allowance),False
+2015-11-30,LILA,no_price_series_in_any_store,new_spinoff_shorter_than_12m,0.6405645344855284,,,Liberty LiLAC tracking stock distributed 2015-07-01 (<12m trading history in 2015-07..2015-11; ineligible under frozen 12-1 rule),False
+2015-11-30,LILAK,no_price_series_in_any_store,new_spinoff_shorter_than_12m,0.6405645344855284,,,Liberty LiLAC tracking stock distributed 2015-07-01 (<12m trading history in 2015-07..2015-11; ineligible under frozen 12-1 rule),False
+2015-11-30,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.6405645344855284,0.13851237421811244,-5020.521602674159,Sibling voting share raw_ndx:LMCA 12-1 mom=10.85% (+3% class-spread allowance),False
+2015-12-31,LMCK,no_price_series_in_any_store,sibling_share_class_certified,1.1420977504041172,0.17856818826197893,-9635.295621421383,Sibling voting share raw_ndx:LMCA 12-1 mom=14.86% (+3% class-spread allowance),False
+2016-01-31,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.8715508145737909,0.18271659324522768,-6888.342213285632,Sibling voting share raw_ndx:LMCA 12-1 mom=15.27% (+3% class-spread allowance),False
+2016-02-29,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.5084157139132541,-0.02043433164786726,-5288.5004556112135,Sibling voting share raw_ndx:LMCA 12-1 mom=-5.04% (+3% class-spread allowance),False
+2016-03-31,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.5112915805227376,-0.04600518806744483,-5572.967685901824,Sibling voting share raw_ndx:LMCA 12-1 mom=-7.60% (+3% class-spread allowance),False
+2016-04-30,BATRA,no_price_series_in_any_store,new_spinoff_shorter_than_12m,0.44852101053700655,,,Liberty Braves tracking stock distributed 2016-04-18 (<12m trading history in 2016-04..2016-05; ineligible under frozen 12-1 rule),False
+2016-04-30,BATRK,no_price_series_in_any_store,new_spinoff_shorter_than_12m,0.44852101053700655,,,Liberty Braves tracking stock distributed 2016-04-18 (<12m trading history in 2016-04..2016-05; ineligible under frozen 12-1 rule),False
+2016-04-30,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.44852101053700655,0.03651380927566447,-4120.07201261342,Sibling voting share raw_ndx:LMCA 12-1 mom=0.65% (+3% class-spread allowance),False
+2016-05-31,BATRA,no_price_series_in_any_store,new_spinoff_shorter_than_12m,0.48478343225154696,,,Liberty Braves tracking stock distributed 2016-04-18 (<12m trading history in 2016-04..2016-05; ineligible under frozen 12-1 rule),False
+2016-05-31,BATRK,no_price_series_in_any_store,new_spinoff_shorter_than_12m,0.48478343225154696,,,Liberty Braves tracking stock distributed 2016-04-18 (<12m trading history in 2016-04..2016-05; ineligible under frozen 12-1 rule),False
+2016-05-31,LMCK,no_price_series_in_any_store,sibling_share_class_certified,0.48478343225154696,-0.49238026882422026,-9771.637010757673,Sibling voting share raw_ndx:LMCA 12-1 mom=-52.24% (+3% class-spread allowance),False
+2016-06-30,KHC,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.6347624125875357,,,KHC regular-way trading began 2015-07-06 (no t-12 observation on 2015-06-30; <12 full calendar months at 2016-06-30; 11-1 mom <= +6.2% vs thr +63.5%),False
+2016-06-30,PYPL,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.6347624125875357,,,PYPL regular-way trading began 2015-07-06 (no t-12 observation on 2015-06-30; <12 full calendar months at 2016-06-30; 11-1 mom <= +6.2% vs thr +63.5%),False
+2018-03-31,QVCA,series_ends_before_t,same_entity_rename_certified,0.971314540123293,,,Same entity renamed QRTEA (tiingo_api:QRTEA 12-1 mom=nan%),False
+2018-04-30,CA,stale_or_gap>30d,MA_buyout_cap_certified,0.8843512333060688,0.39294157725736434,-4914.096560487044,Broadcom buyout cap $44.50+$0.51 / raw_wiki:CA P[2017-04]=$32.31,False
+2018-05-31,CA,stale_or_gap>30d,MA_buyout_cap_certified,0.5746014534525385,0.42785793013450846,-1467.4352331803009,Broadcom buyout cap $44.50+$0.51 / raw_wiki:CA P[2017-05]=$31.52,False
+2018-06-30,CA,stale_or_gap>30d,MA_buyout_cap_certified,0.9286671745414778,0.3160152625023569,-6126.519120391209,Broadcom buyout cap $44.50+$0.51 / raw_wiki:CA P[2017-06]=$34.20,False
+2018-07-31,CA,stale_or_gap>30d,MA_buyout_cap_certified,0.8648647764931041,0.4614383690075059,-4034.264074855982,Broadcom buyout cap $44.50+$0.51 / raw_wiki:CA P[2017-07]=$30.80,False
+2018-08-31,CA,stale_or_gap>30d,MA_buyout_cap_certified,0.8126046065796722,0.35654008438818563,-4560.645221914865,Broadcom buyout cap $44.50+$0.51 / raw_wiki:CA P[2017-08]=$33.18,False
+2018-09-30,CA,stale_or_gap>30d,MA_buyout_cap_certified,1.027460771565897,0.3484122228879567,-6790.485486779403,Broadcom buyout cap $44.50+$0.51 / raw_wiki:CA P[2017-09]=$33.38,False
+2018-10-31,CA,stale_or_gap>30d,MA_buyout_cap_certified,0.8122105102143793,0.3900555898702902,-4221.549203440891,Broadcom buyout cap $44.50+$0.51 / raw_wiki:CA P[2017-10]=$32.38,False
+2019-03-31,FOX,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.6878365522123402,0.085,-6028.365522123402,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-03-31,FOXA,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.6878365522123402,0.085,-6028.365522123402,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-04-30,FOX,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.6419838688001043,0.085,-5569.838688001043,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-04-30,FOXA,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.6419838688001043,0.085,-5569.838688001043,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-05-31,FOX,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.6787244262775367,0.085,-5937.244262775367,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-05-31,FOXA,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.6787244262775367,0.085,-5937.244262775367,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-06-30,FOX,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.6852707272824736,0.085,-6002.707272824737,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-06-30,FOXA,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.6852707272824736,0.085,-6002.707272824737,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-07-31,FOX,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.6576359248155814,0.085,-5726.359248155814,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-07-31,FOXA,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.6576359248155814,0.085,-5726.359248155814,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-08-31,FOX,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.5712160336653516,0.085,-4862.1603366535155,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-08-31,FOXA,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.5712160336653516,0.085,-4862.1603366535155,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-09-30,FOX,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.5110327409105073,0.085,-4260.3274091050735,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-09-30,FOXA,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.5110327409105073,0.085,-4260.3274091050735,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-10-31,FOX,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.669843099739293,0.085,-5848.43099739293,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-10-31,FOXA,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.669843099739293,0.085,-5848.43099739293,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-11-30,FOX,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.5929578178641384,0.085,-5079.5781786413845,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-11-30,FOXA,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.5929578178641384,0.085,-5079.5781786413845,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-12-31,FOX,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.9929429367787359,0.085,-9079.42936778736,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2019-12-31,FOXA,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.9929429367787359,0.085,-9079.42936778736,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2020-01-31,FOX,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.796168290003783,0.085,-7111.68290003783,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2020-01-31,FOXA,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.796168290003783,0.085,-7111.68290003783,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2020-02-29,FOX,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.8066347826899674,0.085,-7216.347826899674,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2020-02-29,FOXA,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.8066347826899674,0.085,-7216.347826899674,New Fox Corp post-spin entity (<12m standalone history 2019-03..2020-02; post-spin return <= +8.5% vs thr >= +51.1%),False
+2022-02-28,CEG,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.552604068750121,,,New Constellation Energy spun off 2022-01-19 (<12m trading history in 2022-02..2022-12; ineligible under frozen 12-1 rule),False
+2022-03-31,CEG,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.8451530436750267,,,New Constellation Energy spun off 2022-01-19 (<12m trading history in 2022-02..2022-12; ineligible under frozen 12-1 rule),False
+2022-04-30,CEG,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.7615381501563001,,,New Constellation Energy spun off 2022-01-19 (<12m trading history in 2022-02..2022-12; ineligible under frozen 12-1 rule),False
+2022-05-31,CEG,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.48782980164155365,,,New Constellation Energy spun off 2022-01-19 (<12m trading history in 2022-02..2022-12; ineligible under frozen 12-1 rule),False
+2022-06-30,CEG,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.35501956583450855,,,New Constellation Energy spun off 2022-01-19 (<12m trading history in 2022-02..2022-12; ineligible under frozen 12-1 rule),False
+2022-07-31,CEG,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.39790656803888536,,,New Constellation Energy spun off 2022-01-19 (<12m trading history in 2022-02..2022-12; ineligible under frozen 12-1 rule),False
+2022-08-31,CEG,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.3598065409915614,,,New Constellation Energy spun off 2022-01-19 (<12m trading history in 2022-02..2022-12; ineligible under frozen 12-1 rule),False
+2022-09-30,CEG,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.31211403277470806,,,New Constellation Energy spun off 2022-01-19 (<12m trading history in 2022-02..2022-12; ineligible under frozen 12-1 rule),False
+2022-10-31,CEG,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.16639151075835534,,,New Constellation Energy spun off 2022-01-19 (<12m trading history in 2022-02..2022-12; ineligible under frozen 12-1 rule),False
+2022-11-30,CEG,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.39270603729883047,,,New Constellation Energy spun off 2022-01-19 (<12m trading history in 2022-02..2022-12; ineligible under frozen 12-1 rule),False
+2022-12-31,CEG,stale_or_gap>30d,new_spinoff_shorter_than_12m,0.44080138935578583,,,New Constellation Energy spun off 2022-01-19 (<12m trading history in 2022-02..2022-12; ineligible under frozen 12-1 rule),False
+2026-07-31,SPCX,no_price_series_in_any_store,new_listing_shorter_than_12m,7.138911291283307,,,Temporary 2026 YAML placeholder symbol (<12m history; Top-3 threshold at 2026-07..08 was +580.0%),False
+2026-08-31,SPCX,no_price_series_in_any_store,new_listing_shorter_than_12m,5.800056465241586,,,Temporary 2026 YAML placeholder symbol (<12m history; Top-3 threshold at 2026-07..08 was +580.0%),False

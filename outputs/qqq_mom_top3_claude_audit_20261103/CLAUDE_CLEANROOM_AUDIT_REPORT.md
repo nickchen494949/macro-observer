@@ -68,6 +68,29 @@ Every script in `outputs/qqq_mom_top3_claude_audit_20261103/` was written from s
   - **`118`** are non-new-listing vendor gaps across `17` tickers (`BATRA, BATRK, BMC, CA, CEG, FMCN, FOX, FOXA, KHC, LIFE, LILA, LILAK, LMCK, PPDI, PYPL, QVCA, SPCX`).
   - Notably, our Tiingo EOD fetch (`a0_fetch_tiingo.py`) recovered `TFCF` and `TFCFA` (`2007-01-03 .. 2019-03-20`), filling `22` constituent-months (`11` months each for `FOX` and `FOXA` from `2018-04-30` to `2019-02-28`) that were missing in the original backtest! As a result, Twenty-First Century Fox (`FOX` via `TFCF`) legitimately entered the Top-3 in `2018-11` (`#2`, `+81.65%` 12-1 momentum during the Disney/Comcast acquisition bidding war) and `2018-12` (`#3`, `+46.34%`).
 
+### 3.2b Challenger Certification of All 118 Gap Rows & All 106 Wikipedia-Only Rows (`a8c_challenger_certification.py`)
+To eliminate any residual uncertainty from `g_gap_impact.csv` (`118` rows) and `u_wiki_vs_yaml_disagreements.csv` (`106` `in_wiki_not_yaml` rows), `a8c_challenger_certification.py` performs an exhaustive challenger certification (`0 / 118` unknown in `g_gap_impact.csv`, `0 / 106` uncertified in `g_wiki_challenger_certification.csv`):
+
+1. **`PPDI` (`12` months, `2008-12-31 .. 2009-11-30`) — Certified via SEC Form 10-K (`CIK 0001003124`)**:
+   - Why a naive Q4 high/low check (`$41.11 / $35.17 - 1 = +16.9%`) seemed to exceed `2008-12-31`'s Top-3 threshold (`+9.54%`): the denominator of `12-1` momentum at `t = 2008-12-31` is specifically **$P[\text{2007-12-31}]$**, not the Q4 2007 intraday low.
+   - In `PPDI`'s **2007 Form 10-K (Accession `0001193125-08-038683`, Note 10, p. F-25)**, `6,024k` options outstanding at `2007-12-31` had WAEP `$26.01` and aggregate intrinsic value `$86,543k` ($\implies P[\text{2007-12-31}] = \$26.01 + \$86,543/6,024 = \mathbf{\$40.38}$; cross-checked by `3,054k` exercisable options with WAEP `$20.78` and intrinsic value `$59,851k` $\implies \mathbf{\$40.38}$).
+   - Even against the entire Q4 2008 intraday high of `$41.11` (`+$0.475` dividends), `PPDI`'s maximum mathematically possible `12-1` momentum at `2008-12-31` is **`+2.98%`**, strictly below `+9.54%` (`-655 bp` margin). Moreover, per the 2008 Form 10-K Item 5 share-repurchase table (p. 34), `PPDI` repurchased `274,300` shares in November 2008 at an average price of `$29.43` (`actual 12-1 mom ≈ -26.0%`).
+   - All remaining 11 months (`2009-01-31 .. 2009-11-30`) are strictly below their respective Top-3 thresholds using the 2008 and 2009 Form 10-K Item 5 quarterly High/Low tables (`-26.0% .. +18.2%` vs thresholds `+9.5% .. +109.1%`).
+2. **`FMCN` (`1` month, `2008-12-31`) — Certified via SEC Form 20-F (`CIK 0001330017`, Accession `0000950123-09-019102`, Item 9.A, p. 99)**:
+   - Monthly ADS trading prices in November 2008 were High `$20.69` / Low `$6.24` (November 2008 repurchase average `$7.32`, Item 16E p. 116) vs December 2007 Low `$50.11` $\implies$ max possible `12-1` momentum **`-58.71%`** vs Top-3 threshold **`+9.54%`**.
+3. **`BMC` (`10` months), `CA` (`7` months), `LIFE` (`11` months) — Certified via M&A Proxy (`DEFM14A`) & Buyout Caps**:
+   - `BMC`: `$46.25/sh` Bain Capital buyout cap over `raw_archive:BMC` $P[t-12]$ yields max `+41.1%` vs Top-3 threshold `+58.9%..+116.5%`.
+   - `CA`: `$44.50/sh` Broadcom buyout cap over `raw_wiki:CA` $P[t-12]$ yields max `+46.1%` vs Top-3 threshold `+57.5%..+134.8%`.
+   - `LIFE`: SEC `DEFM14A` (`0001193125-13-297289`, p. 101) quarterly High closing prices (`2012 Q3 $50.27`, `2012 Q4 $51.97`, `2013 Q1 $65.27`, `2013 Q2 $74.41`, `2013 Q3 $74.65`) over `raw_archive:LIFE` $P[t-12]$ eliminate 10 of 11 months outright (`margin -535 bp .. -4,600 bp`); in the single month (`2013-05-31`) where Q2 High `$74.41` slightly exceeds the `#3` threshold (`+81.9%` vs `+79.3%`), `LIFE` was already locked in Thermo Fisher's `$76/sh` cash merger arb (`+0.3%` in June 2013 vs `#3 BIIB -9.4%`), so including `LIFE` would **raise** `2009–2026` CAGR from `32.88%` to `33.11%`.
+4. **`LMCK` (`23` months) & `QVCA` (`1` month)**:
+   - `LMCK` is the non-voting Class C share of `LMCA` (`raw_ndx:LMCA` max 12-1 mom `+18.3%` vs threshold `+44.9%..+113%`); `QVCA` is `QRTEA` (`tiingo_api:QRTEA` mom `+31.8%` vs `+97.1%`).
+5. **`CEG` (`11m`), `FOX/FOXA` (`24m`), `LILA/LILAK` (`10m`), `BATRA/BATRK` (`4m`), `KHC` (`1m`), `PYPL` (`1m`), `SPCX` (`2m`)**:
+   - All `53` stock-months are post-spin-off / new-listing entities with `<12` full calendar months of standalone trading history (labeled `stale_or_gap` only because an older pre-spin entity or 360-day series existed in the store).
+6. **All `106` `in_wiki_not_yaml` Challenger Rows (`g_wiki_challenger_certification.csv`)**:
+   - **`72 / 106`** are directly priced in our stores strictly below the Top-3 threshold (`would_change_top3 = False`).
+   - **`1 / 106`** (`2012-02-29 HANS`) is Monster Beverage (`MNST`, renamed `2012-01-05`), which was **already in the YAML roster as `MNST` and already held in our Top-3**.
+   - **`33 / 106`** are Wikipedia editor removal lags after M&A delisting (`VMED, BMC, LIFE, DELL, LVNTA, TFCF, TFCFA`), spin-off discontinuities (`STRZA` after spinning off `LMCA` in Jan 2013), `<12m` spin-offs (`BATRA, BATRK, SOLS`), sibling share classes (`LMCK`), or `2017` `LILA/LILAK` (which fell `-40%` vs `+79.8%..+125.0%` threshold). **Zero rows (`0 / 106`) alter any Top-3 pick.**
+
 ### 3.3 Execution Price Coverage & Corporate-Action Audit (`l_SPEC_top3.csv`, `v_position_crosscheck.csv`, `v_extreme_positions.csv`)
 - Out of `639` total position-months (`213` months $\times$ `3` stocks):
   - **`634 / 639` (`99.22%`)** are executed using genuine `open_to_open` prices (`Open[t+1, d1] -> Open[t+2, d1]`).

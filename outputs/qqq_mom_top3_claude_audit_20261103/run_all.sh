@@ -16,4 +16,5 @@ python3 a7b_jump_scan.py
 python3 a5_stats_stress.py --rebuild
 python3 a8_gaps_mt_vendor.py
 python3 a8b_membership_doubt.py
+python3 a8c_challenger_certification.py
 python3 a9_report_tables.py

@@ -1,0 +1,107 @@
+t,ticker,status,mom_or_bound,top3_threshold_mom,would_change_top3,evidence
+2009-07-31,JAVA,priced_below_top3,-0.1326434619002822,0.34995592697958444,False,Priced in raw_archive:JAVA with 12-1 mom=-13.26% < Top-3 threshold 35.00%
+2009-08-31,JAVA,priced_below_top3,0.018888888888888955,0.3406551564877973,False,Priced in raw_archive:JAVA with 12-1 mom=1.89% < Top-3 threshold 34.07%
+2012-01-31,HANS,priced_below_top3,0.6267658003080652,0.6431395334454966,False,Priced in yahoo:MNST with 12-1 mom=62.68% < Top-3 threshold 64.31%
+2012-02-29,HANS,rename_already_in_top3,0.8159855941675112,0.7238776206016395,False,HANS renamed MNST on 2012-01-05; MNST (mom=81.60%) is ALREADY in YAML roster and picked in Top-3 (MNST|BIIB|STX)
+2012-10-31,KFT,priced_below_top3,0.21155439296428047,0.6551315557511894,False,Priced in yahoo:MDLZ with 12-1 mom=21.16% < Top-3 threshold 65.51%
+2012-11-30,KFT,priced_below_top3,0.13554840291875458,0.6654018337522285,False,Priced in yahoo:MDLZ with 12-1 mom=13.55% < Top-3 threshold 66.54%
+2013-03-31,STRZA,removed_pre_month_and_spinoff_artifact,,0.7486698303217141,False,Liberty Media (LMCA) spun off from Starz (STRZA) on 2013-01-11 and replaced STRZA in NDX on 2013-01-18; wikibulk STRZA has unadjusted spin-off jump
+2013-06-30,VMED,delisted_before_month_end,,1.1176678418783466,False,VMED completed merger and ceased trading prior to 2013-06-30 (Wikipedia editor removal lag)
+2013-06-30,PRGO,priced_below_top3,-0.014629069352422364,1.1176678418783466,False,Priced in yahoo:PRGO with 12-1 mom=-1.46% < Top-3 threshold 111.77%
+2013-07-31,BMC,delisted_buyout_cap_below_top3,0.137,1.307568249547943,False,Removed from NDX 2013-07-15 ahead of $46.25 Bain buyout; max mom +13.7% < Top-3 threshold 130.76%
+2013-08-31,BMC,delisted_buyout_cap_below_top3,0.137,2.175647881525943,False,Removed from NDX 2013-07-15 ahead of $46.25 Bain buyout; max mom +13.7% < Top-3 threshold 217.56%
+2013-08-31,LIFE,removed_buyout_cap_below_top3,0.62,2.175647881525943,False,Removed from NDX 2013-08-22 (replaced by TSLA) under $76 Thermo Fisher buyout; max mom +62% < Top-3 threshold 217.56%
+2013-10-31,DELL,priced_below_top3,0.48809523809523814,2.2173108770951395,False,Priced in raw_wiki:DELL with 12-1 mom=48.81% < Top-3 threshold 221.73%
+2013-11-30,DELL,delisted_buyout_cap_below_top3,0.45,1.9614751329813052,False,Delisted 2013-10-29 in $13.75/sh Silver Lake buyout; max mom +45% < Top-3 threshold 196.15%
+2014-11-30,LVNTA,priced_below_top3,0.16006976126401873,0.9606917327052884,False,Priced in wikibulk:LVNTA with 12-1 mom=16.01% < Top-3 threshold 96.07%
+2014-12-31,CMCSK,priced_below_top3,0.15380990747434398,0.8993803506602565,False,Priced in raw_tiingo:CMCSK with 12-1 mom=15.38% < Top-3 threshold 89.94%
+2014-12-31,LVNTA,priced_below_top3,0.20069409048793352,0.8993803506602565,False,Priced in wikibulk:LVNTA with 12-1 mom=20.07% < Top-3 threshold 89.94%
+2015-01-31,CMCSK,priced_below_top3,0.11398088406538442,0.6447077078035277,False,Priced in raw_tiingo:CMCSK with 12-1 mom=11.40% < Top-3 threshold 64.47%
+2015-01-31,LVNTA,priced_below_top3,0.3063081850003724,0.6447077078035277,False,Priced in wikibulk:LVNTA with 12-1 mom=30.63% < Top-3 threshold 64.47%
+2015-02-28,CMCSK,priced_below_top3,0.07842297209289795,0.581780660322418,False,Priced in raw_tiingo:CMCSK with 12-1 mom=7.84% < Top-3 threshold 58.18%
+2015-02-28,LVNTA,priced_below_top3,0.05287598323970455,0.581780660322418,False,Priced in wikibulk:LVNTA with 12-1 mom=5.29% < Top-3 threshold 58.18%
+2015-03-31,CMCSK,priced_below_top3,0.2237302592317596,0.971044467421492,False,Priced in raw_tiingo:CMCSK with 12-1 mom=22.37% < Top-3 threshold 97.10%
+2015-03-31,LVNTA,priced_below_top3,0.2385042189795996,0.971044467421492,False,Priced in wikibulk:LVNTA with 12-1 mom=23.85% < Top-3 threshold 97.10%
+2015-04-30,CMCSK,priced_below_top3,0.11711763100176764,1.0284791336251353,False,Priced in raw_tiingo:CMCSK with 12-1 mom=11.71% < Top-3 threshold 102.85%
+2015-04-30,LVNTA,priced_below_top3,0.4538755576328528,1.0284791336251353,False,Priced in wikibulk:LVNTA with 12-1 mom=45.39% < Top-3 threshold 102.85%
+2015-05-31,CMCSK,priced_below_top3,0.12979548875202784,0.677698981011982,False,Priced in raw_tiingo:CMCSK with 12-1 mom=12.98% < Top-3 threshold 67.77%
+2015-05-31,LVNTA,priced_below_top3,0.26084467459470684,0.677698981011982,False,Priced in wikibulk:LVNTA with 12-1 mom=26.08% < Top-3 threshold 67.77%
+2015-06-30,CMCSK,priced_below_top3,0.10140163288118575,0.7919187767599076,False,Priced in raw_tiingo:CMCSK with 12-1 mom=10.14% < Top-3 threshold 79.19%
+2015-06-30,LVNTA,priced_below_top3,0.12951939454599737,0.7919187767599076,False,Priced in wikibulk:LVNTA with 12-1 mom=12.95% < Top-3 threshold 79.19%
+2015-07-31,CMCSK,priced_below_top3,0.14001302849529274,0.9791666666630885,False,Priced in raw_tiingo:CMCSK with 12-1 mom=14.00% < Top-3 threshold 97.92%
+2015-07-31,LVNTA,priced_below_top3,0.14012091723274267,0.9791666666630885,False,Priced in wikibulk:LVNTA with 12-1 mom=14.01% < Top-3 threshold 97.92%
+2015-08-31,CMCSK,priced_below_top3,0.16112082091200342,0.7367944258042336,False,Priced in raw_tiingo:CMCSK with 12-1 mom=16.11% < Top-3 threshold 73.68%
+2015-08-31,LVNTA,priced_below_top3,0.08899973746390111,0.7367944258042336,False,Priced in wikibulk:LVNTA with 12-1 mom=8.90% < Top-3 threshold 73.68%
+2015-09-30,CMCSK,priced_below_top3,0.08352920274053255,0.7846757027645985,False,Priced in raw_tiingo:CMCSK with 12-1 mom=8.35% < Top-3 threshold 78.47%
+2015-09-30,LVNTA,priced_below_top3,0.04662802950474165,0.7846757027645985,False,Priced in wikibulk:LVNTA with 12-1 mom=4.66% < Top-3 threshold 78.47%
+2015-10-31,CMCSK,priced_below_top3,0.0513023650012554,0.6536490114738642,False,Priced in raw_tiingo:CMCSK with 12-1 mom=5.13% < Top-3 threshold 65.36%
+2015-10-31,LVNTA,priced_below_top3,0.14957264957264949,0.6536490114738642,False,Priced in wikibulk:LVNTA with 12-1 mom=14.96% < Top-3 threshold 65.36%
+2015-11-30,CMCSK,priced_below_top3,0.12255852694544145,0.6405645344855284,False,Priced in raw_tiingo:CMCSK with 12-1 mom=12.26% < Top-3 threshold 64.06%
+2015-11-30,LVNTA,priced_below_top3,0.1891375545851528,0.6405645344855284,False,Priced in wikibulk:LVNTA with 12-1 mom=18.91% < Top-3 threshold 64.06%
+2015-12-31,LVNTA,priced_below_top3,0.1402439024390243,1.1420977504041172,False,Priced in wikibulk:LVNTA with 12-1 mom=14.02% < Top-3 threshold 114.21%
+2016-01-31,LVNTA,priced_below_top3,0.2077643908969209,0.8715508145737909,False,Priced in wikibulk:LVNTA with 12-1 mom=20.78% < Top-3 threshold 87.16%
+2016-02-29,LVNTA,priced_below_top3,-0.021154803384768606,0.5084157139132541,False,Priced in wikibulk:LVNTA with 12-1 mom=-2.12% < Top-3 threshold 50.84%
+2016-03-31,LVNTA,priced_below_top3,-0.1266365151154487,0.5112915805227376,False,Priced in wikibulk:LVNTA with 12-1 mom=-12.66% < Top-3 threshold 51.13%
+2016-04-30,LVNTA,priced_below_top3,-0.06142034548944342,0.44852101053700655,False,Priced in wikibulk:LVNTA with 12-1 mom=-6.14% < Top-3 threshold 44.85%
+2016-05-31,LVNTA,priced_below_top3,-0.03614457831325302,0.48478343225154696,False,Priced in wikibulk:LVNTA with 12-1 mom=-3.61% < Top-3 threshold 48.48%
+2016-06-30,LVNTA,priced_below_top3,-0.04991087344028522,0.6347624125875357,False,Priced in wikibulk:LVNTA with 12-1 mom=-4.99% < Top-3 threshold 63.48%
+2016-07-31,LVNTA,priced_below_top3,-0.10631629701060741,0.4674456494667465,False,Priced in wikibulk:LVNTA with 12-1 mom=-10.63% < Top-3 threshold 46.74%
+2016-08-31,LMCK,sibling_share_below_top3,-0.39060402684563755,0.65932972722482,False,Removed from NDX 2016-06-20; sibling LMCA 12-1 mom=-39.06% < Top-3 threshold 65.93%
+2016-08-31,ENDP,priced_below_top3,-0.7745454545454545,0.65932972722482,False,Priced in raw_wiki:ENDP with 12-1 mom=-77.45% < Top-3 threshold 65.93%
+2016-08-31,BATRA,removed_and_shorter_than_12m,,0.65932972722482,False,Removed from NDX 2016-06-20 and spun off 2016-04-18 (<12m trading history in Aug-Oct 2016)
+2016-08-31,BATRK,removed_and_shorter_than_12m,,0.65932972722482,False,Removed from NDX 2016-06-20 and spun off 2016-04-18 (<12m trading history in Aug-Oct 2016)
+2016-08-31,LMCA,priced_below_top3,-0.39060402684563755,0.65932972722482,False,Priced in raw_ndx:LMCA with 12-1 mom=-39.06% < Top-3 threshold 65.93%
+2016-08-31,LVNTA,priced_below_top3,-0.05084319154291461,0.65932972722482,False,Priced in wikibulk:LVNTA with 12-1 mom=-5.08% < Top-3 threshold 65.93%
+2016-09-30,LMCK,sibling_share_below_top3,-0.4008958566629339,0.7930350626534117,False,Removed from NDX 2016-06-20; sibling LMCA 12-1 mom=-40.09% < Top-3 threshold 79.30%
+2016-09-30,ENDP,priced_below_top3,-0.7012124711316398,0.7930350626534117,False,Priced in raw_wiki:ENDP with 12-1 mom=-70.12% < Top-3 threshold 79.30%
+2016-09-30,BATRA,removed_and_shorter_than_12m,,0.7930350626534117,False,Removed from NDX 2016-06-20 and spun off 2016-04-18 (<12m trading history in Aug-Oct 2016)
+2016-09-30,BATRK,removed_and_shorter_than_12m,,0.7930350626534117,False,Removed from NDX 2016-06-20 and spun off 2016-04-18 (<12m trading history in Aug-Oct 2016)
+2016-09-30,LMCA,priced_below_top3,-0.4008958566629339,0.7930350626534117,False,Priced in raw_ndx:LMCA with 12-1 mom=-40.09% < Top-3 threshold 79.30%
+2016-09-30,LVNTA,priced_below_top3,-0.04485749690210661,0.7930350626534117,False,Priced in wikibulk:LVNTA with 12-1 mom=-4.49% < Top-3 threshold 79.30%
+2016-10-31,LLTC,priced_below_top3,0.3717438483813016,0.692747236220485,False,Priced in raw_wiki:LLTC with 12-1 mom=37.17% < Top-3 threshold 69.27%
+2016-10-31,LMCK,sibling_share_below_top3,-0.2971050049067714,0.692747236220485,False,Removed from NDX 2016-06-20; sibling LMCA 12-1 mom=-29.71% < Top-3 threshold 69.27%
+2016-10-31,BATRA,removed_and_shorter_than_12m,,0.692747236220485,False,Removed from NDX 2016-06-20 and spun off 2016-04-18 (<12m trading history in Aug-Oct 2016)
+2016-10-31,BATRK,removed_and_shorter_than_12m,,0.692747236220485,False,Removed from NDX 2016-06-20 and spun off 2016-04-18 (<12m trading history in Aug-Oct 2016)
+2016-10-31,LMCA,priced_below_top3,-0.2971050049067714,0.692747236220485,False,Priced in raw_ndx:LMCA with 12-1 mom=-29.71% < Top-3 threshold 69.27%
+2016-10-31,LVNTA,priced_below_top3,-0.08492081707596977,0.692747236220485,False,Priced in wikibulk:LVNTA with 12-1 mom=-8.49% < Top-3 threshold 69.27%
+2016-10-31,ENDP,priced_below_top3,-0.6641106851141858,0.692747236220485,False,Priced in raw_wiki:ENDP with 12-1 mom=-66.41% < Top-3 threshold 69.27%
+2016-11-30,LVNTA,priced_below_top3,-0.07230876540339459,0.5698775753819576,False,Priced in wikibulk:LVNTA with 12-1 mom=-7.23% < Top-3 threshold 56.99%
+2016-12-31,LVNTA,priced_below_top3,-0.1350033252050542,0.5036045242016387,False,Priced in wikibulk:LVNTA with 12-1 mom=-13.50% < Top-3 threshold 50.36%
+2017-01-31,LVNTA,priced_below_top3,-0.06254767353165525,0.8585636166826163,False,Priced in wikibulk:LVNTA with 12-1 mom=-6.25% < Top-3 threshold 85.86%
+2017-02-28,NXPI,priced_below_top3,0.3735259681070726,0.9576415234245015,False,Priced in yahoo:NXPI with 12-1 mom=37.35% < Top-3 threshold 95.76%
+2017-02-28,LVNTA,priced_below_top3,0.1896974652493868,0.9576415234245015,False,Priced in wikibulk:LVNTA with 12-1 mom=18.97% < Top-3 threshold 95.76%
+2017-03-31,NXPI,priced_below_top3,0.2681633308198428,1.1490353334428463,False,Priced in yahoo:NXPI with 12-1 mom=26.82% < Top-3 threshold 114.90%
+2017-03-31,SBAC,priced_below_top3,0.15573488967668903,1.1490353334428463,False,Priced in yahoo:SBAC with 12-1 mom=15.57% < Top-3 threshold 114.90%
+2017-03-31,LVNTA,priced_below_top3,0.12116564417177922,1.1490353334428463,False,Priced in wikibulk:LVNTA with 12-1 mom=12.12% < Top-3 threshold 114.90%
+2017-04-30,LVNTA,priced_below_top3,0.11199999999999988,1.2837344624723133,False,Priced in wikibulk:LVNTA with 12-1 mom=11.20% < Top-3 threshold 128.37%
+2017-05-31,LVNTA,priced_below_top3,0.4433127847761993,0.9786577738433326,False,Priced in wikibulk:LVNTA with 12-1 mom=44.33% < Top-3 threshold 97.87%
+2017-06-30,LILA,removed_and_negative_return,-0.3,1.1169609829533806,False,Removed from NDX 2017-06-19 (Wikipedia lag); 2016->2017 price fell from ~$38 to ~$21 (mom <= -30%) vs Top-3 threshold 111.70%
+2017-06-30,LILAK,removed_and_negative_return,-0.3,1.1169609829533806,False,Removed from NDX 2017-06-19 (Wikipedia lag); 2016->2017 price fell from ~$38 to ~$21 (mom <= -30%) vs Top-3 threshold 111.70%
+2017-06-30,LVNTA,priced_below_top3,0.45373617480442396,1.1169609829533806,False,Priced in wikibulk:LVNTA with 12-1 mom=45.37% < Top-3 threshold 111.70%
+2017-07-31,LILA,removed_and_negative_return,-0.3,0.9628611428111817,False,Removed from NDX 2017-06-19 (Wikipedia lag); 2016->2017 price fell from ~$38 to ~$21 (mom <= -30%) vs Top-3 threshold 96.29%
+2017-07-31,LILAK,removed_and_negative_return,-0.3,0.9628611428111817,False,Removed from NDX 2017-06-19 (Wikipedia lag); 2016->2017 price fell from ~$38 to ~$21 (mom <= -30%) vs Top-3 threshold 96.29%
+2017-07-31,LVNTA,priced_below_top3,0.3866348448687351,0.9628611428111817,False,Priced in wikibulk:LVNTA with 12-1 mom=38.66% < Top-3 threshold 96.29%
+2017-08-31,LILA,removed_and_negative_return,-0.3,0.8641355135499555,False,Removed from NDX 2017-06-19 (Wikipedia lag); 2016->2017 price fell from ~$38 to ~$21 (mom <= -30%) vs Top-3 threshold 86.41%
+2017-08-31,LILAK,removed_and_negative_return,-0.3,0.8641355135499555,False,Removed from NDX 2017-06-19 (Wikipedia lag); 2016->2017 price fell from ~$38 to ~$21 (mom <= -30%) vs Top-3 threshold 86.41%
+2017-08-31,LVNTA,priced_below_top3,0.5718733783082512,0.8641355135499555,False,Priced in wikibulk:LVNTA with 12-1 mom=57.19% < Top-3 threshold 86.41%
+2017-09-30,LILA,removed_and_negative_return,-0.3,0.7980875915042993,False,Removed from NDX 2017-06-19 (Wikipedia lag); 2016->2017 price fell from ~$38 to ~$21 (mom <= -30%) vs Top-3 threshold 79.81%
+2017-09-30,LILAK,removed_and_negative_return,-0.3,0.7980875915042993,False,Removed from NDX 2017-06-19 (Wikipedia lag); 2016->2017 price fell from ~$38 to ~$21 (mom <= -30%) vs Top-3 threshold 79.81%
+2017-09-30,LVNTA,priced_below_top3,0.544018058690745,0.7980875915042993,False,Priced in wikibulk:LVNTA with 12-1 mom=54.40% < Top-3 threshold 79.81%
+2017-10-31,LILA,removed_and_negative_return,-0.3,1.1679470233017981,False,Removed from NDX 2017-06-19 (Wikipedia lag); 2016->2017 price fell from ~$38 to ~$21 (mom <= -30%) vs Top-3 threshold 116.79%
+2017-10-31,LILAK,removed_and_negative_return,-0.3,1.1679470233017981,False,Removed from NDX 2017-06-19 (Wikipedia lag); 2016->2017 price fell from ~$38 to ~$21 (mom <= -30%) vs Top-3 threshold 116.79%
+2017-10-31,LVNTA,priced_below_top3,0.4423558897243107,1.1679470233017981,False,Priced in wikibulk:LVNTA with 12-1 mom=44.24% < Top-3 threshold 116.79%
+2017-11-30,LILA,removed_and_negative_return,-0.3,1.2502339650283854,False,Removed from NDX 2017-06-19 (Wikipedia lag); 2016->2017 price fell from ~$38 to ~$21 (mom <= -30%) vs Top-3 threshold 125.02%
+2017-11-30,LILAK,removed_and_negative_return,-0.3,1.2502339650283854,False,Removed from NDX 2017-06-19 (Wikipedia lag); 2016->2017 price fell from ~$38 to ~$21 (mom <= -30%) vs Top-3 threshold 125.02%
+2017-11-30,LVNTA,priced_below_top3,0.4597642234751409,1.2502339650283854,False,Priced in wikibulk:LVNTA with 12-1 mom=45.98% < Top-3 threshold 125.02%
+2017-12-31,LILA,removed_and_negative_return,-0.3,0.9585991159554079,False,Removed from NDX 2017-06-19 (Wikipedia lag); 2016->2017 price fell from ~$38 to ~$21 (mom <= -30%) vs Top-3 threshold 95.86%
+2017-12-31,LILAK,removed_and_negative_return,-0.3,0.9585991159554079,False,Removed from NDX 2017-06-19 (Wikipedia lag); 2016->2017 price fell from ~$38 to ~$21 (mom <= -30%) vs Top-3 threshold 95.86%
+2017-12-31,LVNTA,priced_below_top3,0.5136967724437214,0.9585991159554079,False,Priced in wikibulk:LVNTA with 12-1 mom=51.37% < Top-3 threshold 95.86%
+2018-01-31,LVNTA,priced_below_top3,0.24261168384879728,0.8506787207466093,False,Priced in wikibulk:LVNTA with 12-1 mom=24.26% < Top-3 threshold 85.07%
+2018-02-28,PCLN,priced_below_top3,0.10899410137286614,1.2230607087852183,False,Priced in wikibulk:PCLN with 12-1 mom=10.90% < Top-3 threshold 122.31%
+2018-02-28,LVNTA,priced_below_top3,0.3435932512539899,1.2230607087852183,False,Priced in wikibulk:LVNTA with 12-1 mom=34.36% < Top-3 threshold 122.31%
+2018-03-31,LVNTA,delisted_before_month_end,,0.971314540123293,False,LVNTA completed merger and ceased trading prior to 2018-03-31 (Wikipedia editor removal lag)
+2019-03-31,TFCFA,delisted_before_month_end,,0.6878365522123402,False,TFCFA completed merger and ceased trading prior to 2019-03-31 (Wikipedia editor removal lag)
+2019-03-31,TFCF,delisted_before_month_end,,0.6878365522123402,False,TFCF completed merger and ceased trading prior to 2019-03-31 (Wikipedia editor removal lag)
+2020-06-30,UAL,priced_below_top3,-0.6797258716375982,1.5247597891386828,False,Priced in yahoo:UAL with 12-1 mom=-67.97% < Top-3 threshold 152.48%
+2020-07-31,CSGP,priced_below_top3,0.15480988439248322,2.3296597061098225,False,Priced in yahoo:CSGP with 12-1 mom=15.48% < Top-3 threshold 232.97%
+2025-11-30,SOLS,new_spinoff_shorter_than_12m,,1.2940712584096352,False,Honeywell spin-off Oct 2025 (<12m trading history at 2025-11-30)
