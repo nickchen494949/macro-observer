@@ -428,7 +428,8 @@ def run_walk_forward(
     for Y in TEST_YEARS:
         tr_start = pd.Timestamp(f"{max(2011, Y - 8)}-01-31") if train_mode == "rolling6y" else pd.Timestamp("2011-01-31")
         tr_end = pd.Timestamp(f"{Y - 3}-11-30")  # 1-month embargo before validation
-        val = D[(D.t.dt.year >= Y - 2) & (D.t.dt.year <= Y - 1) & D.ret_oo.notna()]
+        val_end = pd.Timestamp(f"{Y - 1}-11-30")  # 1-month embargo before test (Dec Y-1 exits in early Feb Y)
+        val = D[(D.t >= pd.Timestamp(f"{Y - 2}-01-31")) & (D.t <= val_end) & D.ret_oo.notna()]
         tr = D[(D.t >= tr_start) & (D.t <= tr_end) & D.ret_oo.notna()]
         te = D[D.t.dt.year == Y]
         if te.empty or tr.empty:

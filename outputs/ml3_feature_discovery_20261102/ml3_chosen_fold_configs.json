@@ -5,84 +5,84 @@
         "num_leaves": 15
       },
       "n_features": 18,
-      "val_metric": 0.3895789336626607
+      "val_metric": 0.3577771089752022
     },
     "2016": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 18,
-      "val_metric": 0.07129194728070942
+      "val_metric": 0.17675198657899727
     },
     "2017": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 18,
-      "val_metric": 0.04987853679287957
+      "val_metric": 0.06910866449028163
     },
     "2018": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 18,
-      "val_metric": 0.006916954820967769
+      "val_metric": -0.0673018488847208
     },
     "2019": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 18,
-      "val_metric": 0.3194094464494921
+      "val_metric": 0.164358767731821
     },
     "2020": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 18,
-      "val_metric": -0.08003728407108013
+      "val_metric": -0.06321600233868097
     },
     "2021": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 18,
-      "val_metric": 0.08193718166854858
+      "val_metric": 0.03303780317010774
     },
     "2022": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 18,
-      "val_metric": 0.01439884826825577
+      "val_metric": 0.13857826434212028
     },
     "2023": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 18,
-      "val_metric": 0.4979513637415569
+      "val_metric": 0.34539837170352605
     },
     "2024": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 18,
-      "val_metric": 0.004953051677479392
+      "val_metric": 0.015217424379146083
     },
     "2025": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 18,
-      "val_metric": 0.06381907263550657
+      "val_metric": 0.0026518192411990604
     },
     "2026": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 18,
-      "val_metric": 0.04764457118124077
+      "val_metric": 0.04252584511858104
     }
   },
   "PoolA_Top50__T1_SetA_Price_Only__lgbm__Top3": {
@@ -91,84 +91,84 @@
         "num_leaves": 15
       },
       "n_features": 18,
-      "val_metric": 0.2262269999122577
+      "val_metric": 0.26626184067932535
     },
     "2016": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 18,
-      "val_metric": 0.12513991477984887
+      "val_metric": 0.1447714990734379
     },
     "2017": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 18,
-      "val_metric": 0.04561289385461054
+      "val_metric": 0.042383622402969445
     },
     "2018": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 18,
-      "val_metric": 0.25619959846810936
+      "val_metric": 0.18317424609029942
     },
     "2019": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 18,
-      "val_metric": 0.1357955915297211
+      "val_metric": 0.10869590286383746
     },
     "2020": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 18,
-      "val_metric": -0.05688877976892115
+      "val_metric": -0.0571129532149145
     },
     "2021": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 18,
-      "val_metric": 0.10164577709501477
+      "val_metric": 0.08911425095269321
     },
     "2022": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 18,
-      "val_metric": 0.2539113337652308
+      "val_metric": 0.38213960797613167
     },
     "2023": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 18,
-      "val_metric": 0.13242914779130155
+      "val_metric": 0.04944742377310063
     },
     "2024": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 18,
-      "val_metric": 0.07393126649793658
+      "val_metric": 0.0669352279521862
     },
     "2025": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 18,
-      "val_metric": 0.19555064153039692
+      "val_metric": 0.10676236221378477
     },
     "2026": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 18,
-      "val_metric": 0.4915829370343574
+      "val_metric": 0.40803967328461566
     }
   },
   "PoolA_Top50__T2_SetB_Price_Plus_Snapshot__lgbm__Top1": {
@@ -177,84 +177,84 @@
         "num_leaves": 7
       },
       "n_features": 39,
-      "val_metric": 0.10979464513070902
+      "val_metric": 0.13190291317978442
     },
     "2016": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 39,
-      "val_metric": 0.0837658579766023
+      "val_metric": 0.0249785523415047
     },
     "2017": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 39,
-      "val_metric": -0.17870052679803838
+      "val_metric": -0.2693047752483708
     },
     "2018": {
       "params": {
-        "num_leaves": 7
+        "num_leaves": 15
       },
       "n_features": 39,
-      "val_metric": 0.34636165545383024
+      "val_metric": 0.263265028540707
     },
     "2019": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 39,
-      "val_metric": 0.2740028238312109
+      "val_metric": 0.09478330963963377
     },
     "2020": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 39,
-      "val_metric": 0.44842989515907616
+      "val_metric": 0.5043104305154629
     },
     "2021": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 39,
-      "val_metric": 0.5500392250163371
+      "val_metric": 0.5648005322824428
     },
     "2022": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 39,
-      "val_metric": 0.1126174110826792
+      "val_metric": 0.22424802679995226
     },
     "2023": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 39,
-      "val_metric": -0.02128782857176459
+      "val_metric": 0.08445882459046294
     },
     "2024": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 39,
-      "val_metric": 0.1624586629886844
+      "val_metric": 0.18178919337077448
     },
     "2025": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 39,
-      "val_metric": -0.10970612995875606
+      "val_metric": -0.16813801821125218
     },
     "2026": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 39,
-      "val_metric": 0.11124690220335354
+      "val_metric": 0.011499620236139707
     }
   },
   "PoolA_Top50__T2_SetB_Price_Plus_Snapshot__lgbm__Top3": {
@@ -263,84 +263,84 @@
         "num_leaves": 7
       },
       "n_features": 39,
-      "val_metric": 0.34910416089059315
+      "val_metric": 0.37602539561280834
     },
     "2016": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 39,
-      "val_metric": 0.15421363884129025
+      "val_metric": 0.16458632531553308
     },
     "2017": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 39,
-      "val_metric": -0.0971340083379596
+      "val_metric": -0.12416048662210932
     },
     "2018": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 39,
-      "val_metric": 0.21080383449863538
+      "val_metric": 0.22943581848560357
     },
     "2019": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 39,
-      "val_metric": 0.29805307220872446
+      "val_metric": 0.18972039485512981
     },
     "2020": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 39,
-      "val_metric": 0.22957871958295706
+      "val_metric": 0.2739097266097701
     },
     "2021": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 39,
-      "val_metric": 0.265105620150796
+      "val_metric": 0.2549283139170666
     },
     "2022": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 39,
-      "val_metric": 0.1024916480623208
+      "val_metric": 0.17998891897804814
     },
     "2023": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 39,
-      "val_metric": 0.053732462783533164
+      "val_metric": 0.0431313072497328
     },
     "2024": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 39,
-      "val_metric": 0.19412416634881358
+      "val_metric": 0.17003237932867798
     },
     "2025": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 39,
-      "val_metric": -0.03838932806671658
+      "val_metric": -0.07420253485091644
     },
     "2026": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 39,
-      "val_metric": 0.30289061754313273
+      "val_metric": 0.2498770619251809
     }
   },
   "PoolA_Top50__T3a_SetC4_Trajectory_Core__lgbm__Top1": {
@@ -349,84 +349,84 @@
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.5556375911683595
+      "val_metric": 0.5670258164133
     },
     "2016": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.19298443509765173
+      "val_metric": 0.13299267911198442
     },
     "2017": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": -0.3585365982141214
+      "val_metric": -0.33083746966323246
     },
     "2018": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.45719374471646934
+      "val_metric": 0.37165234187685603
     },
     "2019": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.7770840862551913
+      "val_metric": 0.670703627576372
     },
     "2020": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.5757762893405873
+      "val_metric": 0.5815814869287264
     },
     "2021": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.1882334714428171
+      "val_metric": 0.18576576861682126
     },
     "2022": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.1111816995488657
+      "val_metric": 0.22259962922143162
     },
     "2023": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.11635620706375138
+      "val_metric": 0.2440721164206956
     },
     "2024": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.19824831838692858
+      "val_metric": 0.22295324521596482
     },
     "2025": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.2197756374759774
+      "val_metric": 0.1564995475582791
     },
     "2026": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.21930426118253488
+      "val_metric": 0.22137799397603253
     }
   },
   "PoolA_Top50__T3a_SetC4_Trajectory_Core__lgbm__Top3": {
@@ -435,84 +435,84 @@
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.3812209823792141
+      "val_metric": 0.4095496003092851
     },
     "2016": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.23349050816514794
+      "val_metric": 0.22430008163067572
     },
     "2017": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": -0.025658682400916732
+      "val_metric": -0.019316254532294908
     },
     "2018": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.31696184524309423
+      "val_metric": 0.24365527786277186
     },
     "2019": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.40940374926059775
+      "val_metric": 0.3535873868695827
     },
     "2020": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.23262842547134266
+      "val_metric": 0.2293169069985106
     },
     "2021": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.46063256066867675
+      "val_metric": 0.45675582536264425
     },
     "2022": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.14553246768520256
+      "val_metric": 0.2577246022302804
     },
     "2023": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.05857143913775387
+      "val_metric": 0.0368213047281063
     },
     "2024": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.12763022592368478
+      "val_metric": 0.13650334423773125
     },
     "2025": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.1219208411436814
+      "val_metric": 0.03575253644430321
     },
     "2026": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.34826495797056856
+      "val_metric": 0.3998647148084533
     }
   },
   "PoolA_Top50__T3b_SetC8_Summary_Slopes_68__lgbm__Top1": {
@@ -521,84 +521,84 @@
         "num_leaves": 7
       },
       "n_features": 68,
-      "val_metric": 0.6955398636284733
+      "val_metric": 0.7903359563120871
     },
     "2016": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 68,
-      "val_metric": 0.6447368430848983
+      "val_metric": 0.583989494563224
     },
     "2017": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 68,
-      "val_metric": -0.3919702823174782
+      "val_metric": -0.3671893271609825
     },
     "2018": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 68,
-      "val_metric": 0.3593690500777684
+      "val_metric": 0.353738038895657
     },
     "2019": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 68,
-      "val_metric": 0.9596028121042246
+      "val_metric": 0.8501442149053231
     },
     "2020": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 68,
-      "val_metric": 0.29026526243572537
+      "val_metric": 0.2838119886756838
     },
     "2021": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 68,
-      "val_metric": 0.4743196833812857
+      "val_metric": 0.4851224518075494
     },
     "2022": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 68,
-      "val_metric": 0.44781287122847124
+      "val_metric": 0.6114189040604274
     },
     "2023": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 68,
-      "val_metric": 0.39102440404912997
+      "val_metric": 0.24534460771474875
     },
     "2024": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 68,
-      "val_metric": -0.11515908974340372
+      "val_metric": -0.13229535086898925
     },
     "2025": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 68,
-      "val_metric": 0.19759896903704322
+      "val_metric": 0.134567835597593
     },
     "2026": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 68,
-      "val_metric": 0.08569715728642668
+      "val_metric": 0.13648610121974225
     }
   },
   "PoolA_Top50__T3b_SetC8_Summary_Slopes_68__lgbm__Top3": {
@@ -607,84 +607,84 @@
         "num_leaves": 7
       },
       "n_features": 68,
-      "val_metric": 0.4024756237363476
+      "val_metric": 0.43219077391316296
     },
     "2016": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 68,
-      "val_metric": 0.24613077615188983
+      "val_metric": 0.2336203452797312
     },
     "2017": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 68,
-      "val_metric": 0.03454293865626834
+      "val_metric": -0.030187532057186495
     },
     "2018": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 68,
-      "val_metric": 0.18364981874989517
+      "val_metric": 0.17264666426901698
     },
     "2019": {
       "params": {
-        "num_leaves": 15
+        "num_leaves": 7
       },
       "n_features": 68,
-      "val_metric": 0.5233088073947139
+      "val_metric": 0.4528587975059546
     },
     "2020": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 68,
-      "val_metric": 0.3558788605734342
+      "val_metric": 0.3567904207752042
     },
     "2021": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 68,
-      "val_metric": 0.3237465393202068
+      "val_metric": 0.3423546097395631
     },
     "2022": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 68,
-      "val_metric": 0.24608372921723531
+      "val_metric": 0.3375512264094518
     },
     "2023": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 68,
-      "val_metric": 0.06908056034295607
+      "val_metric": 0.047564339225180774
     },
     "2024": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 68,
-      "val_metric": 0.1012410696638466
+      "val_metric": 0.06301159273866297
     },
     "2025": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 68,
-      "val_metric": 0.1620917892285827
+      "val_metric": 0.07445966256578407
     },
     "2026": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 68,
-      "val_metric": 0.36366840033885706
+      "val_metric": 0.34926393588671045
     }
   },
   "PoolA_Top50__T3c_SetC8_KitchenSink_78__lgbm__Top1": {
@@ -693,84 +693,84 @@
         "num_leaves": 15
       },
       "n_features": 78,
-      "val_metric": 0.36375498196277145
+      "val_metric": 0.3658981911675059
     },
     "2016": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 78,
-      "val_metric": 0.4549228543391701
+      "val_metric": 0.5031267730574895
     },
     "2017": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 78,
-      "val_metric": -0.16642819772900241
+      "val_metric": -0.12047271332554155
     },
     "2018": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 78,
-      "val_metric": 0.15587627503336687
+      "val_metric": 0.14184931966394698
     },
     "2019": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 78,
-      "val_metric": 0.9352517176698485
+      "val_metric": 0.914338877900015
     },
     "2020": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 78,
-      "val_metric": 0.42364193148372076
+      "val_metric": 0.4225929795303027
     },
     "2021": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 78,
-      "val_metric": 0.7413068928256816
+      "val_metric": 0.7668052729787596
     },
     "2022": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 78,
-      "val_metric": 0.23827121122479578
+      "val_metric": 0.3688623180464137
     },
     "2023": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 78,
-      "val_metric": -0.12878971593633792
+      "val_metric": -0.03952950577068848
     },
     "2024": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 78,
-      "val_metric": 0.0007018185624501072
+      "val_metric": -0.012410910279265108
     },
     "2025": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 78,
-      "val_metric": -0.17118720469301396
+      "val_metric": -0.2272744272372017
     },
     "2026": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 78,
-      "val_metric": -0.02719147051884896
+      "val_metric": 0.013467197435988565
     }
   },
   "PoolA_Top50__T3c_SetC8_KitchenSink_78__lgbm__Top3": {
@@ -779,84 +779,84 @@
         "num_leaves": 15
       },
       "n_features": 78,
-      "val_metric": 0.34973317106794033
+      "val_metric": 0.3603387839406422
     },
     "2016": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 78,
-      "val_metric": 0.1444431294736186
+      "val_metric": 0.1318356806901937
     },
     "2017": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 78,
-      "val_metric": 0.15364184848923035
+      "val_metric": 0.17581507721021827
     },
     "2018": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 78,
-      "val_metric": 0.0708800357999404
+      "val_metric": 0.11311126391496584
     },
     "2019": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 78,
-      "val_metric": 0.20879990317103458
+      "val_metric": 0.17304814740381969
     },
     "2020": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 78,
-      "val_metric": 0.15258025143311582
+      "val_metric": 0.17077414184021888
     },
     "2021": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 78,
-      "val_metric": 0.46890822012674405
+      "val_metric": 0.4963109596505879
     },
     "2022": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 78,
-      "val_metric": 0.2498517819723174
+      "val_metric": 0.341772000421368
     },
     "2023": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 78,
-      "val_metric": 0.015316812690648884
+      "val_metric": -0.03667592749779458
     },
     "2024": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 78,
-      "val_metric": -0.08431623150844347
+      "val_metric": -0.07792276630021033
     },
     "2025": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 78,
-      "val_metric": 0.20718081375343145
+      "val_metric": 0.13607688967972753
     },
     "2026": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 78,
-      "val_metric": 0.16453275697198366
+      "val_metric": 0.2009982977217517
     }
   },
   "PoolA_Top50__T3S_InSample_Feature_Discovery__lgbm__Top1": {
@@ -865,170 +865,170 @@
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.5556375911683595
+      "val_metric": 0.5670258164133
     },
     "2016": {
       "params": {
-        "num_leaves": 15
+        "num_leaves": 7
       },
       "n_features": 50,
-      "val_metric": 0.3613806741330374
+      "val_metric": 0.37713158946506686
     },
     "2017": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 50,
-      "val_metric": -0.003642357939311003
+      "val_metric": 0.14393362209314775
     },
     "2018": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.45719374471646934
+      "val_metric": 0.37165234187685603
     },
     "2019": {
       "params": {
         "num_leaves": 15
       },
-      "n_features": 60,
-      "val_metric": 1.5287239293683617
+      "n_features": 50,
+      "val_metric": 1.4724306038570725
     },
     "2020": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.5757762893405873
+      "val_metric": 0.5815814869287264
     },
     "2021": {
       "params": {
-        "num_leaves": 15
+        "num_leaves": 7
       },
       "n_features": 60,
-      "val_metric": 0.8678265502546836
+      "val_metric": 0.4690515933207029
     },
     "2022": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 60,
-      "val_metric": 0.48384897477242106
+      "val_metric": 0.4586022778357359
     },
     "2023": {
       "params": {
-        "num_leaves": 7
+        "num_leaves": 15
       },
-      "n_features": 57,
-      "val_metric": 0.11635620706375138
+      "n_features": 60,
+      "val_metric": 0.2668495560421773
     },
     "2024": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.19824831838692858
+      "val_metric": 0.22295324521596482
     },
     "2025": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.2197756374759774
+      "val_metric": 0.1564995475582791
     },
     "2026": {
       "params": {
-        "num_leaves": 15
+        "num_leaves": 7
       },
       "n_features": 50,
-      "val_metric": 0.2895179718381431
+      "val_metric": 0.6547738447693732
     }
   },
   "PoolA_Top50__T3S_InSample_Feature_Discovery__lgbm__Top3": {
     "2015": {
       "params": {
-        "num_leaves": 7
+        "num_leaves": 15
       },
-      "n_features": 57,
-      "val_metric": 0.3812209823792141
+      "n_features": 60,
+      "val_metric": 0.4323267921397931
     },
     "2016": {
       "params": {
         "num_leaves": 15
       },
-      "n_features": 57,
-      "val_metric": 0.23349050816514794
+      "n_features": 50,
+      "val_metric": 0.2348863050375809
     },
     "2017": {
       "params": {
-        "num_leaves": 15
+        "num_leaves": 7
       },
       "n_features": 50,
-      "val_metric": 0.054053746965075256
+      "val_metric": 0.12397527901290784
     },
     "2018": {
       "params": {
-        "num_leaves": 15
+        "num_leaves": 7
       },
-      "n_features": 57,
-      "val_metric": 0.31696184524309423
+      "n_features": 60,
+      "val_metric": 0.318085934315695
     },
     "2019": {
       "params": {
-        "num_leaves": 15
+        "num_leaves": 7
       },
-      "n_features": 60,
-      "val_metric": 0.5727719912171716
+      "n_features": 50,
+      "val_metric": 0.5829355792325954
     },
     "2020": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 60,
-      "val_metric": 0.2802676841158227
+      "val_metric": 0.28213351840026557
     },
     "2021": {
-      "params": {
-        "num_leaves": 15
-      },
-      "n_features": 60,
-      "val_metric": 0.5285015777183941
-    },
-    "2022": {
-      "params": {
-        "num_leaves": 15
-      },
-      "n_features": 50,
-      "val_metric": 0.3554498175678005
-    },
-    "2023": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 50,
-      "val_metric": 0.09321174506828944
+      "val_metric": 0.4937621269956054
+    },
+    "2022": {
+      "params": {
+        "num_leaves": 7
+      },
+      "n_features": 60,
+      "val_metric": 0.3630251156107558
+    },
+    "2023": {
+      "params": {
+        "num_leaves": 15
+      },
+      "n_features": 60,
+      "val_metric": 0.11208777772248402
     },
     "2024": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.12763022592368478
+      "val_metric": 0.13650334423773125
     },
     "2025": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 50,
-      "val_metric": 0.22426166707751083
+      "val_metric": 0.14483820581092832
     },
     "2026": {
       "params": {
-        "num_leaves": 7
+        "num_leaves": 15
       },
-      "n_features": 57,
-      "val_metric": 0.34826495797056856
+      "n_features": 60,
+      "val_metric": 0.4427143778091631
     }
   },
   "PoolA_Top50__T3a_SetC4_ZeroCAGRPeek_RankVal__lgbm__Top1": {
@@ -1037,84 +1037,84 @@
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.005833333333333331
+      "val_metric": 0.010956521739130429
     },
     "2016": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.023333333333333334
+      "val_metric": 0.019304347826086955
     },
     "2017": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.04066666666666666
+      "val_metric": 0.036
     },
     "2018": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.012999999999999992
+      "val_metric": 0.014782608695652165
     },
     "2019": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.05583333333333334
+      "val_metric": 0.04852173913043478
     },
     "2020": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.03233333333333333
+      "val_metric": 0.03269565217391304
     },
     "2021": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.04983333333333333
+      "val_metric": 0.05043478260869564
     },
     "2022": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.020666666666666673
+      "val_metric": 0.02904347826086957
     },
     "2023": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": -0.023666666666666666
+      "val_metric": -0.02191304347826086
     },
     "2024": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.00833333333333333
+      "val_metric": 0.011652173913043478
     },
     "2025": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": -0.005500000000000001
+      "val_metric": -0.017739130434782605
     },
     "2026": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.04216666666666667
+      "val_metric": 0.044521739130434786
     }
   },
   "PoolA_Top50__T3a_SetC4_ZeroCAGRPeek_RankVal__lgbm__Top3": {
@@ -1123,84 +1123,84 @@
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.005833333333333331
+      "val_metric": 0.010956521739130429
     },
     "2016": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.023333333333333334
+      "val_metric": 0.019304347826086955
     },
     "2017": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.04066666666666666
+      "val_metric": 0.036
     },
     "2018": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.012999999999999992
+      "val_metric": 0.014782608695652165
     },
     "2019": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.05583333333333334
+      "val_metric": 0.04852173913043478
     },
     "2020": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.03233333333333333
+      "val_metric": 0.03269565217391304
     },
     "2021": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.04983333333333333
+      "val_metric": 0.05043478260869564
     },
     "2022": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.020666666666666673
+      "val_metric": 0.02904347826086957
     },
     "2023": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": -0.023666666666666666
+      "val_metric": -0.02191304347826086
     },
     "2024": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.00833333333333333
+      "val_metric": 0.011652173913043478
     },
     "2025": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": -0.005500000000000001
+      "val_metric": -0.017739130434782605
     },
     "2026": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.04216666666666667
+      "val_metric": 0.044521739130434786
     }
   },
   "PoolA_Top50__T3a_SetC4_ZeroTune_FixedNL7__lgbm__Top1": {
@@ -1381,84 +1381,84 @@
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.5556375911683595
+      "val_metric": 0.5670258164133
     },
     "2016": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.19298443509765173
+      "val_metric": 0.13299267911198442
     },
     "2017": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": -0.3585365982141214
+      "val_metric": -0.33083746966323246
     },
     "2018": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.45719374471646934
+      "val_metric": 0.37165234187685603
     },
     "2019": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.7770840862551913
+      "val_metric": 0.670703627576372
     },
     "2020": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.14599029863409285
+      "val_metric": 0.13439503447812617
     },
     "2021": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.4699439315103493
+      "val_metric": 0.48052329047743814
     },
     "2022": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.07405385327507563
+      "val_metric": 0.15974352809128445
     },
     "2023": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.02467392425687609
+      "val_metric": -0.09474948336739386
     },
     "2024": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": -0.14234524978536367
+      "val_metric": -0.16864895204799912
     },
     "2025": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": -0.054542337784318495
+      "val_metric": -0.11346220358764836
     },
     "2026": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.37744080481327247
+      "val_metric": 0.4568756006131056
     }
   },
   "PoolA_Top50__T3a_SetC4_Rolling6Y_Train__lgbm__Top3": {
@@ -1467,84 +1467,84 @@
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.3812209823792141
+      "val_metric": 0.4095496003092851
     },
     "2016": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.23349050816514794
+      "val_metric": 0.22430008163067572
     },
     "2017": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": -0.025658682400916732
+      "val_metric": -0.019316254532294908
     },
     "2018": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.31696184524309423
+      "val_metric": 0.24365527786277186
     },
     "2019": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.40940374926059775
+      "val_metric": 0.3535873868695827
     },
     "2020": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.0419527871228782
+      "val_metric": 0.05687508701207378
     },
     "2021": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.23931412889063752
+      "val_metric": 0.28353688499584084
     },
     "2022": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": 0.15518895736092886
+      "val_metric": 0.26778444839691784
     },
     "2023": {
       "params": {
         "num_leaves": 7
       },
       "n_features": 57,
-      "val_metric": -0.10761952174395972
+      "val_metric": -0.15805470591338022
     },
     "2024": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": -0.0885626250644116
+      "val_metric": -0.13224065505791738
     },
     "2025": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.17969019871355374
+      "val_metric": 0.12473460472978792
     },
     "2026": {
       "params": {
         "num_leaves": 15
       },
       "n_features": 57,
-      "val_metric": 0.39705814664660943
+      "val_metric": 0.4412631965383613
     }
   },
   "PoolA_Top50__T1_SetA_Price_Only__ridge__Top1": {
@@ -1553,84 +1553,84 @@
         "alpha": 100.0
       },
       "n_features": 18,
-      "val_metric": 0.12532216580634326
+      "val_metric": 0.04182138894633791
     },
     "2016": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 18,
-      "val_metric": -0.025108416305331338
+      "val_metric": 0.04040071221470143
     },
     "2017": {
       "params": {
-        "alpha": 100.0
+        "alpha": 10.0
       },
       "n_features": 18,
-      "val_metric": 0.24199018034469533
+      "val_metric": 0.14337698420668854
     },
     "2018": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 18,
-      "val_metric": 0.35061971254124624
+      "val_metric": 0.259020438720154
     },
     "2019": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 18,
-      "val_metric": 0.20950891584136477
+      "val_metric": 0.11824082144962711
     },
     "2020": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 18,
-      "val_metric": 0.1250195769314566
+      "val_metric": 0.12782237328938972
     },
     "2021": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 18,
-      "val_metric": 0.0014386106024739664
+      "val_metric": 0.05225592168450155
     },
     "2022": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 18,
-      "val_metric": -0.046274927050879544
+      "val_metric": -0.0273599760224843
     },
     "2023": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 18,
-      "val_metric": -0.04539775645375621
+      "val_metric": -0.12332888801484587
     },
     "2024": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 18,
-      "val_metric": -0.08708372823256583
+      "val_metric": -0.11267654353221579
     },
     "2025": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 18,
-      "val_metric": -0.08131809893127118
+      "val_metric": -0.14584728947657233
     },
     "2026": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 18,
-      "val_metric": 0.33737373442895824
+      "val_metric": 0.304189957494557
     }
   },
   "PoolA_Top50__T1_SetA_Price_Only__ridge__Top3": {
@@ -1639,84 +1639,84 @@
         "alpha": 1.0
       },
       "n_features": 18,
-      "val_metric": 0.20985924042238713
+      "val_metric": 0.18171640559490698
     },
     "2016": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 18,
-      "val_metric": 0.12644713424906118
+      "val_metric": 0.2354098396216211
     },
     "2017": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 18,
-      "val_metric": 0.48861993483702415
+      "val_metric": 0.4357938254872915
     },
     "2018": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 18,
-      "val_metric": 0.2781111676185273
+      "val_metric": 0.25120137783248664
     },
     "2019": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 18,
-      "val_metric": 0.17762235153990957
+      "val_metric": 0.107780578599324
     },
     "2020": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 18,
-      "val_metric": 0.10777714848325304
+      "val_metric": 0.1322213292505927
     },
     "2021": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 18,
-      "val_metric": 0.20798519327822773
+      "val_metric": 0.23259038938627197
     },
     "2022": {
       "params": {
-        "alpha": 1.0
+        "alpha": 100.0
       },
       "n_features": 18,
-      "val_metric": -0.025808056422704007
+      "val_metric": 0.058618623440098716
     },
     "2023": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 18,
-      "val_metric": 0.025870680014800973
+      "val_metric": -0.010907586085209364
     },
     "2024": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 18,
-      "val_metric": -0.10934056778273127
+      "val_metric": -0.1279346901605316
     },
     "2025": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 18,
-      "val_metric": 0.19393216226853438
+      "val_metric": 0.13084668984256043
     },
     "2026": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 18,
-      "val_metric": 0.34567817329373285
+      "val_metric": 0.2618717568192659
     }
   },
   "PoolA_Top50__T2_SetB_Price_Plus_Snapshot__ridge__Top1": {
@@ -1725,84 +1725,84 @@
         "alpha": 10.0
       },
       "n_features": 39,
-      "val_metric": 0.36451257232942047
+      "val_metric": 0.4042538147165189
     },
     "2016": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 39,
-      "val_metric": -0.08556615231490039
+      "val_metric": -0.0994892098603799
     },
     "2017": {
       "params": {
-        "alpha": 100.0
+        "alpha": 10.0
       },
       "n_features": 39,
-      "val_metric": -0.04160791106169004
+      "val_metric": -0.04411295619420741
     },
     "2018": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 39,
-      "val_metric": 0.417227349589506
+      "val_metric": 0.47647450126564084
     },
     "2019": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 39,
-      "val_metric": 0.05256552441042017
+      "val_metric": 0.11495175366047539
     },
     "2020": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 39,
-      "val_metric": -0.01266814394340432
+      "val_metric": -0.028969864320147254
     },
     "2021": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 39,
-      "val_metric": 0.2566225007944809
+      "val_metric": 0.3334845472017258
     },
     "2022": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 39,
-      "val_metric": -0.09331080158418126
+      "val_metric": -0.01117979309550976
     },
     "2023": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 39,
-      "val_metric": 0.14003277323188157
+      "val_metric": 0.05507548749960467
     },
     "2024": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 39,
-      "val_metric": 0.20682924535925618
+      "val_metric": 0.20075386050770327
     },
     "2025": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 39,
-      "val_metric": -0.05110835605666686
+      "val_metric": -0.1165175674429123
     },
     "2026": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 39,
-      "val_metric": 0.34741903387137096
+      "val_metric": 0.23786148938348073
     }
   },
   "PoolA_Top50__T2_SetB_Price_Plus_Snapshot__ridge__Top3": {
@@ -1811,84 +1811,84 @@
         "alpha": 10.0
       },
       "n_features": 39,
-      "val_metric": 0.4066460547593056
+      "val_metric": 0.4466189087073007
     },
     "2016": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 39,
-      "val_metric": 0.06733181090200735
+      "val_metric": 0.08235463028824341
     },
     "2017": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 39,
-      "val_metric": 0.12339406709066858
+      "val_metric": 0.0944674222926234
     },
     "2018": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 39,
-      "val_metric": 0.2495827202634031
+      "val_metric": 0.24158126930115675
     },
     "2019": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 39,
-      "val_metric": 0.14617806720068582
+      "val_metric": 0.133033131231429
     },
     "2020": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 39,
-      "val_metric": 0.06939347973956145
+      "val_metric": 0.07020600211129291
     },
     "2021": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 39,
-      "val_metric": 0.2914390722675775
+      "val_metric": 0.3075864332395304
     },
     "2022": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 39,
-      "val_metric": 0.13447083312961827
+      "val_metric": 0.15476481096328
     },
     "2023": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 39,
-      "val_metric": -0.007353993401292835
+      "val_metric": -0.021622541746311397
     },
     "2024": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 39,
-      "val_metric": 0.1773075210617261
+      "val_metric": 0.15611513211325856
     },
     "2025": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 39,
-      "val_metric": 0.3391136066125786
+      "val_metric": 0.28814523138459314
     },
     "2026": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 39,
-      "val_metric": 0.1895613390766817
+      "val_metric": 0.15821250855173163
     }
   },
   "PoolA_Top50__T3a_SetC4_Trajectory_Core__ridge__Top1": {
@@ -1897,84 +1897,84 @@
         "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": 0.5034206182985965
+      "val_metric": 0.5554146574416559
     },
     "2016": {
       "params": {
-        "alpha": 10.0
+        "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": 0.18683706643342202
+      "val_metric": 0.23866123384697735
     },
     "2017": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": -0.00889390663920464
+      "val_metric": -0.04730180080629087
     },
     "2018": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": 0.024742469279688928
+      "val_metric": 0.051484076826223246
     },
     "2019": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 57,
-      "val_metric": 0.3198248045055212
+      "val_metric": 0.13503535901669772
     },
     "2020": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 57,
-      "val_metric": -0.07534497857486833
+      "val_metric": -0.0713045253233634
     },
     "2021": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": 0.4124639745797227
+      "val_metric": 0.5047708427960063
     },
     "2022": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": 0.21686235903129436
+      "val_metric": 0.3195117516177546
     },
     "2023": {
       "params": {
-        "alpha": 100.0
+        "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": -0.12332215738673957
+      "val_metric": -0.17235101586075574
     },
     "2024": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 57,
-      "val_metric": 0.08395105232327005
+      "val_metric": 0.07347065804620478
     },
     "2025": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": 0.10111045070391
+      "val_metric": 0.03186170837530278
     },
     "2026": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 57,
-      "val_metric": 0.20190280184720955
+      "val_metric": 0.0987041140450331
     }
   },
   "PoolA_Top50__T3a_SetC4_Trajectory_Core__ridge__Top3": {
@@ -1983,84 +1983,84 @@
         "alpha": 10.0
       },
       "n_features": 57,
-      "val_metric": 0.33467178366530725
+      "val_metric": 0.3699202356096971
     },
     "2016": {
-      "params": {
-        "alpha": 100.0
-      },
-      "n_features": 57,
-      "val_metric": 0.05865665064827885
-    },
-    "2017": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": -0.01834700733860417
+      "val_metric": 0.06241932503397529
+    },
+    "2017": {
+      "params": {
+        "alpha": 100.0
+      },
+      "n_features": 57,
+      "val_metric": 0.029177855309709955
     },
     "2018": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": 0.14647134318845545
+      "val_metric": 0.14880505430171276
     },
     "2019": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": 0.32329552357784697
+      "val_metric": 0.19537299206951775
     },
     "2020": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": 0.13464337874004473
+      "val_metric": 0.17245261227412678
     },
     "2021": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 57,
-      "val_metric": 0.41632144305814967
+      "val_metric": 0.46491529462071046
     },
     "2022": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 57,
-      "val_metric": 0.23069891691197641
+      "val_metric": 0.3538595018865929
     },
     "2023": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": -0.09023856187062929
+      "val_metric": -0.15531260129323532
     },
     "2024": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": 0.12503625560439913
+      "val_metric": 0.08126152260839103
     },
     "2025": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 57,
-      "val_metric": 0.22658067025581796
+      "val_metric": 0.16446209907900333
     },
     "2026": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 57,
-      "val_metric": 0.20363246859242046
+      "val_metric": 0.16757014873135767
     }
   },
   "PoolA_Top50__T3a_SetC4_Trajectory_Core__elasticnet__Top1": {
@@ -2069,84 +2069,84 @@
         "alpha": 0.1
       },
       "n_features": 57,
-      "val_metric": 0.5067374542867125
+      "val_metric": 0.4880593036509655
     },
     "2016": {
       "params": {
         "alpha": 0.005
       },
       "n_features": 57,
-      "val_metric": 0.018477688144950433
+      "val_metric": 0.04938548231540185
     },
     "2017": {
       "params": {
         "alpha": 0.005
       },
       "n_features": 57,
-      "val_metric": 0.11671935548501633
+      "val_metric": 0.1800678615207043
     },
     "2018": {
       "params": {
         "alpha": 0.02
       },
       "n_features": 57,
-      "val_metric": 0.3801306215834812
+      "val_metric": 0.3409970511377802
     },
     "2019": {
       "params": {
         "alpha": 0.02
       },
       "n_features": 57,
-      "val_metric": 0.1258457072124819
+      "val_metric": 0.1177746943734348
     },
     "2020": {
       "params": {
         "alpha": 0.005
       },
       "n_features": 57,
-      "val_metric": 0.27372674868522373
+      "val_metric": 0.31549513690518793
     },
     "2021": {
       "params": {
         "alpha": 0.02
       },
       "n_features": 57,
-      "val_metric": 0.4081083391426328
+      "val_metric": 0.42793495812032134
     },
     "2022": {
       "params": {
         "alpha": 0.02
       },
       "n_features": 57,
-      "val_metric": 0.3551985326955125
+      "val_metric": 0.40182509629250696
     },
     "2023": {
       "params": {
         "alpha": 0.005
       },
       "n_features": 57,
-      "val_metric": -0.027502022393319225
+      "val_metric": -0.07045237854131658
     },
     "2024": {
       "params": {
         "alpha": 0.02
       },
       "n_features": 57,
-      "val_metric": -0.12034396006604109
+      "val_metric": -0.1164895197641761
     },
     "2025": {
       "params": {
         "alpha": 0.005
       },
       "n_features": 57,
-      "val_metric": 0.3587911000587112
+      "val_metric": 0.28503163382573526
     },
     "2026": {
       "params": {
-        "alpha": 0.02
+        "alpha": 0.005
       },
       "n_features": 57,
-      "val_metric": 0.057035902297249086
+      "val_metric": 0.014617009424171767
     }
   },
   "PoolA_Top50__T3a_SetC4_Trajectory_Core__elasticnet__Top3": {
@@ -2155,84 +2155,84 @@
         "alpha": 0.005
       },
       "n_features": 57,
-      "val_metric": 0.33708764475264363
+      "val_metric": 0.3600029264138245
     },
     "2016": {
       "params": {
-        "alpha": 0.005
+        "alpha": 0.02
       },
       "n_features": 57,
-      "val_metric": 0.06915742765220179
+      "val_metric": 0.12325092202186139
     },
     "2017": {
       "params": {
         "alpha": 0.005
       },
       "n_features": 57,
-      "val_metric": 0.0893224223358915
+      "val_metric": 0.11039513714270854
     },
     "2018": {
       "params": {
         "alpha": 0.02
       },
       "n_features": 57,
-      "val_metric": 0.46358813014472444
+      "val_metric": 0.39837330746314725
     },
     "2019": {
       "params": {
         "alpha": 0.02
       },
       "n_features": 57,
-      "val_metric": 0.3308867742109407
+      "val_metric": 0.30359471039462527
     },
     "2020": {
       "params": {
         "alpha": 0.005
       },
       "n_features": 57,
-      "val_metric": 0.21102219489503793
+      "val_metric": 0.25321689925321955
     },
     "2021": {
       "params": {
         "alpha": 0.02
       },
       "n_features": 57,
-      "val_metric": 0.2384554226202904
+      "val_metric": 0.2493768445056579
     },
     "2022": {
       "params": {
         "alpha": 0.005
       },
       "n_features": 57,
-      "val_metric": 0.12338503413663293
+      "val_metric": 0.3190879065435044
     },
     "2023": {
       "params": {
         "alpha": 0.005
       },
       "n_features": 57,
-      "val_metric": 0.08124778933826082
+      "val_metric": 0.05268548029494924
     },
     "2024": {
       "params": {
         "alpha": 0.02
       },
       "n_features": 57,
-      "val_metric": 0.01322209359594595
+      "val_metric": -0.00444423792047921
     },
     "2025": {
       "params": {
         "alpha": 0.02
       },
       "n_features": 57,
-      "val_metric": 0.2648806544729838
+      "val_metric": 0.26925585276406383
     },
     "2026": {
       "params": {
         "alpha": 0.02
       },
       "n_features": 57,
-      "val_metric": 0.33570732193903563
+      "val_metric": 0.25836444133923786
     }
   },
   "PoolB_FullSP500__T1_SetA_Price_Only__lgbm__Top1": {
@@ -2242,7 +2242,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": 0.05014132458989029
+      "val_metric": 0.09111425736746814
     },
     "2016": {
       "params": {
@@ -2250,7 +2250,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": 0.2786888460167054
+      "val_metric": 0.4483076236460537
     },
     "2017": {
       "params": {
@@ -2258,7 +2258,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": 0.039518159565696154
+      "val_metric": 0.0013082570869753507
     },
     "2018": {
       "params": {
@@ -2266,7 +2266,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": 0.3754744637882754
+      "val_metric": 0.34303801257159705
     },
     "2019": {
       "params": {
@@ -2274,7 +2274,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": -0.07610252947937257
+      "val_metric": -0.11379344811381154
     },
     "2020": {
       "params": {
@@ -2282,7 +2282,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": 0.12222262776162385
+      "val_metric": 0.24830519613786706
     },
     "2021": {
       "params": {
@@ -2290,7 +2290,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": -0.010304037100213437
+      "val_metric": -0.05725131863820343
     },
     "2022": {
       "params": {
@@ -2298,7 +2298,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": -0.18619390659595203
+      "val_metric": -0.19024372095124975
     },
     "2023": {
       "params": {
@@ -2306,7 +2306,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": -0.04558284033602045
+      "val_metric": -0.1455883534550757
     },
     "2024": {
       "params": {
@@ -2314,7 +2314,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": -0.05624394759127771
+      "val_metric": -0.06613220623565896
     },
     "2025": {
       "params": {
@@ -2322,7 +2322,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": 0.23301599023738406
+      "val_metric": 0.16116984181890737
     },
     "2026": {
       "params": {
@@ -2330,7 +2330,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": -0.09789632055996755
+      "val_metric": -0.09763344778382732
     }
   },
   "PoolB_FullSP500__T1_SetA_Price_Only__lgbm__Top3": {
@@ -2340,7 +2340,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": 0.09248410842367716
+      "val_metric": 0.11510906666684417
     },
     "2016": {
       "params": {
@@ -2348,7 +2348,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": 0.024219003385591575
+      "val_metric": 0.08919920420851346
     },
     "2017": {
       "params": {
@@ -2356,15 +2356,15 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": -0.020237026845809636
+      "val_metric": -0.02552069839500415
     },
     "2018": {
       "params": {
-        "num_leaves": 7,
+        "num_leaves": 15,
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": 0.27202513016415986
+      "val_metric": 0.222511587233722
     },
     "2019": {
       "params": {
@@ -2372,7 +2372,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": -0.05847880957521934
+      "val_metric": -0.09537513104689288
     },
     "2020": {
       "params": {
@@ -2380,7 +2380,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": 0.2057506469218633
+      "val_metric": 0.2375244392225222
     },
     "2021": {
       "params": {
@@ -2388,7 +2388,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": 0.3565867526503974
+      "val_metric": 0.3261264283106551
     },
     "2022": {
       "params": {
@@ -2396,7 +2396,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": 0.06643133761885478
+      "val_metric": 0.0562362060224082
     },
     "2023": {
       "params": {
@@ -2404,7 +2404,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": -0.053643795751788126
+      "val_metric": -0.1507570330148743
     },
     "2024": {
       "params": {
@@ -2412,7 +2412,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": 0.09042558710209159
+      "val_metric": 0.06607569020536541
     },
     "2025": {
       "params": {
@@ -2420,7 +2420,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": -0.05752808997112335
+      "val_metric": -0.09388838070456029
     },
     "2026": {
       "params": {
@@ -2428,7 +2428,7 @@
         "min_child_samples": 250
       },
       "n_features": 18,
-      "val_metric": 0.20686294499021396
+      "val_metric": 0.2214971864691182
     }
   },
   "PoolB_FullSP500__T2_SetB_Price_Plus_Snapshot__lgbm__Top1": {
@@ -2438,7 +2438,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": 0.10441737677425844
+      "val_metric": 0.19535752731885014
     },
     "2016": {
       "params": {
@@ -2446,7 +2446,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": -0.16552625918655195
+      "val_metric": -0.14025804584581447
     },
     "2017": {
       "params": {
@@ -2454,7 +2454,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": -0.20876242478632256
+      "val_metric": -0.2536701677556802
     },
     "2018": {
       "params": {
@@ -2462,7 +2462,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": 0.21983784196910894
+      "val_metric": 0.2766137639474209
     },
     "2019": {
       "params": {
@@ -2470,7 +2470,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": -0.08952226268622065
+      "val_metric": -0.15253283603232237
     },
     "2020": {
       "params": {
@@ -2478,7 +2478,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": -0.03386048820077203
+      "val_metric": 0.03241069765746407
     },
     "2021": {
       "params": {
@@ -2486,7 +2486,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": 0.34780711468022263
+      "val_metric": 0.4017696396790589
     },
     "2022": {
       "params": {
@@ -2494,7 +2494,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": -0.2589233098101045
+      "val_metric": -0.2588629052094603
     },
     "2023": {
       "params": {
@@ -2502,7 +2502,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": 0.016912708254723352
+      "val_metric": -0.06582567204980927
     },
     "2024": {
       "params": {
@@ -2510,7 +2510,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": 0.13127814258058823
+      "val_metric": 0.12015693235407165
     },
     "2025": {
       "params": {
@@ -2518,7 +2518,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": -0.0842482125564229
+      "val_metric": -0.10343193900533543
     },
     "2026": {
       "params": {
@@ -2526,7 +2526,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": 0.05843730124148938
+      "val_metric": 0.08625301866174451
     }
   },
   "PoolB_FullSP500__T2_SetB_Price_Plus_Snapshot__lgbm__Top3": {
@@ -2536,7 +2536,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": 0.3009814805963642
+      "val_metric": 0.3493793472959903
     },
     "2016": {
       "params": {
@@ -2544,7 +2544,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": -0.11685573110930403
+      "val_metric": -0.056006897636048714
     },
     "2017": {
       "params": {
@@ -2552,7 +2552,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": -0.1633800430607113
+      "val_metric": -0.16705897721543916
     },
     "2018": {
       "params": {
@@ -2560,7 +2560,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": 0.1335588877402023
+      "val_metric": 0.15076262432423793
     },
     "2019": {
       "params": {
@@ -2568,7 +2568,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": 0.11068371094588136
+      "val_metric": 0.04137680354386797
     },
     "2020": {
       "params": {
@@ -2576,7 +2576,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": 0.14251714440822738
+      "val_metric": 0.16338846382250916
     },
     "2021": {
       "params": {
@@ -2584,7 +2584,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": 0.17000477034525985
+      "val_metric": 0.1683638472903619
     },
     "2022": {
       "params": {
@@ -2592,7 +2592,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": 0.1309600770919508
+      "val_metric": 0.17142171609126766
     },
     "2023": {
       "params": {
@@ -2600,7 +2600,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": -0.06151700433316376
+      "val_metric": -0.11931912031192915
     },
     "2024": {
       "params": {
@@ -2608,7 +2608,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": 0.02846847538920394
+      "val_metric": 0.042321397690925355
     },
     "2025": {
       "params": {
@@ -2616,7 +2616,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": 0.14063977011886575
+      "val_metric": 0.11616509926332785
     },
     "2026": {
       "params": {
@@ -2624,7 +2624,7 @@
         "min_child_samples": 250
       },
       "n_features": 39,
-      "val_metric": 0.23734713370526261
+      "val_metric": 0.25577127708529934
     }
   },
   "PoolB_FullSP500__T3a_SetC4_Trajectory_Core__lgbm__Top1": {
@@ -2634,7 +2634,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.026542326039450836
+      "val_metric": 0.08453683419875024
     },
     "2016": {
       "params": {
@@ -2642,7 +2642,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.037131322922846266
+      "val_metric": 0.16406213737821185
     },
     "2017": {
       "params": {
@@ -2650,15 +2650,15 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": -0.07535588032521878
+      "val_metric": -0.11300748801681526
     },
     "2018": {
       "params": {
-        "num_leaves": 15,
+        "num_leaves": 7,
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.2715950816402466
+      "val_metric": 0.3081517294946887
     },
     "2019": {
       "params": {
@@ -2666,7 +2666,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": -0.1361786737945595
+      "val_metric": -0.20365818224946486
     },
     "2020": {
       "params": {
@@ -2674,7 +2674,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.2234629608868861
+      "val_metric": 0.4123039585167749
     },
     "2021": {
       "params": {
@@ -2682,7 +2682,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.20811656481374197
+      "val_metric": 0.23074991840825665
     },
     "2022": {
       "params": {
@@ -2690,7 +2690,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": -0.23181747446686263
+      "val_metric": -0.19380013986404843
     },
     "2023": {
       "params": {
@@ -2698,23 +2698,23 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": -0.09735094296700075
+      "val_metric": -0.165874543971406
     },
     "2024": {
-      "params": {
-        "num_leaves": 7,
-        "min_child_samples": 250
-      },
-      "n_features": 57,
-      "val_metric": -0.11690196306827605
-    },
-    "2025": {
       "params": {
         "num_leaves": 15,
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": -0.08821652685728176
+      "val_metric": -0.12499750019336708
+    },
+    "2025": {
+      "params": {
+        "num_leaves": 7,
+        "min_child_samples": 250
+      },
+      "n_features": 57,
+      "val_metric": -0.12687454234270135
     },
     "2026": {
       "params": {
@@ -2722,7 +2722,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.1768303879260138
+      "val_metric": 0.2791676928927014
     }
   },
   "PoolB_FullSP500__T3a_SetC4_Trajectory_Core__lgbm__Top3": {
@@ -2732,7 +2732,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.14510609665403562
+      "val_metric": 0.17548573557152491
     },
     "2016": {
       "params": {
@@ -2740,7 +2740,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": -0.013016235212981786
+      "val_metric": 0.08924597923662425
     },
     "2017": {
       "params": {
@@ -2748,7 +2748,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": -0.08676546866563328
+      "val_metric": -0.08560118378629578
     },
     "2018": {
       "params": {
@@ -2756,7 +2756,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.30840374513065716
+      "val_metric": 0.33219323727617955
     },
     "2019": {
       "params": {
@@ -2764,15 +2764,15 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.040013881080070535
+      "val_metric": -0.040749820092212286
     },
     "2020": {
       "params": {
-        "num_leaves": 15,
+        "num_leaves": 7,
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.0777319734523465
+      "val_metric": 0.18052908463430306
     },
     "2021": {
       "params": {
@@ -2780,7 +2780,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": -0.0023097352291083784
+      "val_metric": -0.006216251644573401
     },
     "2022": {
       "params": {
@@ -2788,7 +2788,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.021543405256734482
+      "val_metric": 0.04165309907596604
     },
     "2023": {
       "params": {
@@ -2796,7 +2796,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.18185011729261902
+      "val_metric": 0.11826682286343382
     },
     "2024": {
       "params": {
@@ -2804,7 +2804,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.036849835087773064
+      "val_metric": 0.025826836239226214
     },
     "2025": {
       "params": {
@@ -2812,7 +2812,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.2039671376164125
+      "val_metric": 0.18642306814707066
     },
     "2026": {
       "params": {
@@ -2820,7 +2820,7 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.30898608723531407
+      "val_metric": 0.3798926111475107
     }
   },
   "PoolB_FullSP500__T3S_InSample_Feature_Discovery__lgbm__Top1": {
@@ -2830,23 +2830,23 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.01614884569895108
+      "val_metric": 0.019877568575216515
     },
     "2016": {
-      "params": {
-        "num_leaves": 7,
-        "min_child_samples": 250
-      },
-      "n_features": 60,
-      "val_metric": -0.014396924197479836
-    },
-    "2017": {
       "params": {
         "num_leaves": 15,
         "min_child_samples": 250
       },
+      "n_features": 60,
+      "val_metric": -0.0035736260390609575
+    },
+    "2017": {
+      "params": {
+        "num_leaves": 7,
+        "min_child_samples": 250
+      },
       "n_features": 50,
-      "val_metric": 0.0044075175781450315
+      "val_metric": -0.008302310228857183
     },
     "2018": {
       "params": {
@@ -2854,7 +2854,7 @@
         "min_child_samples": 250
       },
       "n_features": 50,
-      "val_metric": 0.012872430686751571
+      "val_metric": -0.0028202831756686223
     },
     "2019": {
       "params": {
@@ -2862,63 +2862,63 @@
         "min_child_samples": 250
       },
       "n_features": 50,
-      "val_metric": 0.03716377983727991
+      "val_metric": 0.03655310563465729
     },
     "2020": {
       "params": {
         "num_leaves": 7,
         "min_child_samples": 250
       },
-      "n_features": 57,
-      "val_metric": 0.00445785967209033
+      "n_features": 60,
+      "val_metric": 0.025660035628264286
     },
     "2021": {
       "params": {
-        "num_leaves": 7,
+        "num_leaves": 15,
         "min_child_samples": 250
       },
-      "n_features": 50,
-      "val_metric": 0.0029839093140118208
+      "n_features": 60,
+      "val_metric": -0.013407560814304314
     },
     "2022": {
       "params": {
-        "num_leaves": 7,
+        "num_leaves": 15,
         "min_child_samples": 250
       },
-      "n_features": 60,
-      "val_metric": 0.04177937761365156
+      "n_features": 50,
+      "val_metric": 0.05040333363578654
     },
     "2023": {
       "params": {
-        "num_leaves": 7,
+        "num_leaves": 15,
         "min_child_samples": 250
       },
       "n_features": 60,
-      "val_metric": 0.01938973844073854
+      "val_metric": 0.004764650323236205
     },
     "2024": {
       "params": {
         "num_leaves": 15,
         "min_child_samples": 250
       },
-      "n_features": 57,
-      "val_metric": 0.004054375839993322
+      "n_features": 60,
+      "val_metric": 0.006513846448610868
     },
     "2025": {
       "params": {
-        "num_leaves": 7,
+        "num_leaves": 15,
         "min_child_samples": 250
       },
       "n_features": 50,
-      "val_metric": 0.006434235414571023
+      "val_metric": 0.0032730136878170663
     },
     "2026": {
       "params": {
-        "num_leaves": 7,
+        "num_leaves": 15,
         "min_child_samples": 250
       },
-      "n_features": 50,
-      "val_metric": 0.013119920205243638
+      "n_features": 60,
+      "val_metric": 0.0048421709743189925
     }
   },
   "PoolB_FullSP500__T3S_InSample_Feature_Discovery__lgbm__Top3": {
@@ -2928,23 +2928,23 @@
         "min_child_samples": 250
       },
       "n_features": 57,
-      "val_metric": 0.01614884569895108
+      "val_metric": 0.019877568575216515
     },
     "2016": {
-      "params": {
-        "num_leaves": 7,
-        "min_child_samples": 250
-      },
-      "n_features": 60,
-      "val_metric": -0.014396924197479836
-    },
-    "2017": {
       "params": {
         "num_leaves": 15,
         "min_child_samples": 250
       },
+      "n_features": 60,
+      "val_metric": -0.0035736260390609575
+    },
+    "2017": {
+      "params": {
+        "num_leaves": 7,
+        "min_child_samples": 250
+      },
       "n_features": 50,
-      "val_metric": 0.0044075175781450315
+      "val_metric": -0.008302310228857183
     },
     "2018": {
       "params": {
@@ -2952,7 +2952,7 @@
         "min_child_samples": 250
       },
       "n_features": 50,
-      "val_metric": 0.012872430686751571
+      "val_metric": -0.0028202831756686223
     },
     "2019": {
       "params": {
@@ -2960,63 +2960,63 @@
         "min_child_samples": 250
       },
       "n_features": 50,
-      "val_metric": 0.03716377983727991
+      "val_metric": 0.03655310563465729
     },
     "2020": {
       "params": {
         "num_leaves": 7,
         "min_child_samples": 250
       },
-      "n_features": 57,
-      "val_metric": 0.00445785967209033
+      "n_features": 60,
+      "val_metric": 0.025660035628264286
     },
     "2021": {
       "params": {
-        "num_leaves": 7,
+        "num_leaves": 15,
         "min_child_samples": 250
       },
-      "n_features": 50,
-      "val_metric": 0.0029839093140118208
+      "n_features": 60,
+      "val_metric": -0.013407560814304314
     },
     "2022": {
       "params": {
-        "num_leaves": 7,
+        "num_leaves": 15,
         "min_child_samples": 250
       },
-      "n_features": 60,
-      "val_metric": 0.04177937761365156
+      "n_features": 50,
+      "val_metric": 0.05040333363578654
     },
     "2023": {
       "params": {
-        "num_leaves": 7,
+        "num_leaves": 15,
         "min_child_samples": 250
       },
       "n_features": 60,
-      "val_metric": 0.01938973844073854
+      "val_metric": 0.004764650323236205
     },
     "2024": {
       "params": {
         "num_leaves": 15,
         "min_child_samples": 250
       },
-      "n_features": 57,
-      "val_metric": 0.004054375839993322
+      "n_features": 60,
+      "val_metric": 0.006513846448610868
     },
     "2025": {
       "params": {
-        "num_leaves": 7,
+        "num_leaves": 15,
         "min_child_samples": 250
       },
       "n_features": 50,
-      "val_metric": 0.006434235414571023
+      "val_metric": 0.0032730136878170663
     },
     "2026": {
       "params": {
-        "num_leaves": 7,
+        "num_leaves": 15,
         "min_child_samples": 250
       },
-      "n_features": 50,
-      "val_metric": 0.013119920205243638
+      "n_features": 60,
+      "val_metric": 0.0048421709743189925
     }
   },
   "PoolB_FullSP500__T3a_SetC4_Trajectory_Core__ridge__Top1": {
@@ -3025,84 +3025,84 @@
         "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": 0.45292564271216307
+      "val_metric": 0.4852164169514799
     },
     "2016": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": 0.11584876994491022
+      "val_metric": 0.11977655455301517
     },
     "2017": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": -0.06204069933603762
+      "val_metric": -0.06429767691466715
     },
     "2018": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": 0.21238360522465127
+      "val_metric": 0.1980150036532211
     },
     "2019": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": 0.12968937113229861
+      "val_metric": 0.031076693483022666
     },
     "2020": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": 0.09724464389211485
+      "val_metric": 0.11198070926133719
     },
     "2021": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": 0.4056084714173642
+      "val_metric": 0.4629520125040756
     },
     "2022": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": 0.25107610774325373
+      "val_metric": 0.24962439708417894
     },
     "2023": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 57,
-      "val_metric": 0.17471218821465628
+      "val_metric": 0.10975791197810447
     },
     "2024": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 57,
-      "val_metric": 0.1365755668220041
+      "val_metric": 0.15434500753535452
     },
     "2025": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": -0.06159037051695759
+      "val_metric": -0.06959228382850913
     },
     "2026": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": 0.1465111625966058
+      "val_metric": 0.1408509137965721
     }
   },
   "PoolB_FullSP500__T3a_SetC4_Trajectory_Core__ridge__Top3": {
@@ -3111,84 +3111,84 @@
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": 0.3063440869067109
+      "val_metric": 0.3318556534396413
     },
     "2016": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": -0.07155379335714929
+      "val_metric": -0.012314424591379658
     },
     "2017": {
       "params": {
         "alpha": 1.0
       },
       "n_features": 57,
-      "val_metric": -0.04704136155605332
+      "val_metric": -0.029269080299663464
     },
     "2018": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": 0.25671176682116736
+      "val_metric": 0.23752383453108106
     },
     "2019": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 57,
-      "val_metric": 0.1247578051511895
+      "val_metric": 0.04081615731486932
     },
     "2020": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": 0.09196771893626865
+      "val_metric": 0.12628265244373327
     },
     "2021": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 57,
-      "val_metric": 0.2858884701783906
+      "val_metric": 0.31395765499417494
     },
     "2022": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": 0.1563105884525
+      "val_metric": 0.22267708750008253
     },
     "2023": {
       "params": {
         "alpha": 10.0
       },
       "n_features": 57,
-      "val_metric": 0.13533257413505617
+      "val_metric": 0.07974135379404945
     },
     "2024": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": 0.0346291520034141
+      "val_metric": 0.033637944718082124
     },
     "2025": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": 0.1425946277720771
+      "val_metric": 0.12693012141614646
     },
     "2026": {
       "params": {
         "alpha": 100.0
       },
       "n_features": 57,
-      "val_metric": 0.009788435434139098
+      "val_metric": 0.047935559708784936
     }
   }
 }

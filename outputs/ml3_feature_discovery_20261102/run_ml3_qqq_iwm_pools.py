@@ -657,7 +657,8 @@ def run_pool_walk_forward(
     for Y in TEST_YEARS:
         tr_start = pd.Timestamp("2011-01-31")
         tr_end = pd.Timestamp(f"{Y - 3}-11-30")
-        val = D_src[(D_src.t.dt.year >= Y - 2) & (D_src.t.dt.year <= Y - 1) & D_src.ret_oo.notna()]
+        val_end = pd.Timestamp(f"{Y - 1}-11-30")  # 1-month embargo before test (Dec Y-1 exits in early Feb Y)
+        val = D_src[(D_src.t >= pd.Timestamp(f"{Y - 2}-01-31")) & (D_src.t <= val_end) & D_src.ret_oo.notna()]
         tr = D_src[(D_src.t >= tr_start) & (D_src.t <= tr_end) & D_src.ret_oo.notna()]
         te = D[D.t.dt.year == Y]
         if te.empty or tr.empty:
@@ -835,6 +836,65 @@ def main():
         "Win_Rate_pct", "Stress_m30_CAGR_pct", "Stress_m100_CAGR_pct",
     ]]
     df_qqq_sum.to_csv(OUT_DIR / "ml3_qqq_summary_table.csv", index=False)
+
+    # Paired comparisons + Holm-Bonferroni across QQQ model family
+    qqq_comp_specs = [
+        ("QQQ_Full100 Top1: T1_Price_LGBM vs QQQ_Pure_Mom_Top1", "QQQ_Full100__T1_SetA_Price_Only__lgbm__Top1", "QQQ__T0_Pure_Momentum_12_1__Top1"),
+        ("QQQ_Full100 Top1: T2_Snapshot_LGBM vs QQQ_Pure_Mom_Top1", "QQQ_Full100__T2_SetB_Price_Plus_Snapshot__lgbm__Top1", "QQQ__T0_Pure_Momentum_12_1__Top1"),
+        ("QQQ_Full100 Top1: T3a_Trajectory_LGBM vs QQQ_Pure_Mom_Top1", "QQQ_Full100__T3a_SetC4_Trajectory_Core__lgbm__Top1", "QQQ__T0_Pure_Momentum_12_1__Top1"),
+        ("QQQ_Full100 Top1: T3S_Discovery_LGBM vs QQQ_Pure_Mom_Top1", "QQQ_Full100__T3S_InSample_Feature_Discovery__lgbm__Top1", "QQQ__T0_Pure_Momentum_12_1__Top1"),
+        ("QQQ_Full100 Top3: T1_Price_LGBM vs QQQ_Pure_Mom_Top3", "QQQ_Full100__T1_SetA_Price_Only__lgbm__Top3", "QQQ__T0_Pure_Momentum_12_1__Top3"),
+        ("QQQ_Full100 Top3: T3a_Trajectory_LGBM vs QQQ_Pure_Mom_Top3", "QQQ_Full100__T3a_SetC4_Trajectory_Core__lgbm__Top3", "QQQ__T0_Pure_Momentum_12_1__Top3"),
+        ("QQQ_Top30 Top3: T3a_Trajectory_LGBM vs T2_Snapshot_LGBM", "QQQ_Top30__T3a_SetC4_Trajectory_Core__lgbm__Top3", "QQQ_Top30__T2_SetB_Price_Plus_Snapshot__lgbm__Top3"),
+        ("QQQ_Top30 Top3: T3a_RankVal_LGBM vs QQQ_Pure_Mom_Top3", "QQQ_Top30__T3a_SetC4_ZeroCAGRPeek_RankVal__lgbm__Top3", "QQQ__T0_Pure_Momentum_12_1__Top3"),
+        ("QQQ_Top50 Top3: T3a_Trajectory_LGBM vs T2_Snapshot_LGBM", "QQQ_Top50__T3a_SetC4_Trajectory_Core__lgbm__Top3", "QQQ_Top50__T2_SetB_Price_Plus_Snapshot__lgbm__Top3"),
+        ("QQQ_Top50 Top3: T3a_FixedNL7_LGBM vs QQQ_Pure_Mom_Top3", "QQQ_Top50__T3a_SetC4_ZeroTune_FixedNL7__lgbm__Top3", "QQQ__T0_Pure_Momentum_12_1__Top3"),
+        ("SP500_Union_QQQ_Top50 Top3: T3a_Trajectory_LGBM vs T2_Snapshot_LGBM", "SP500_Union_QQQ_Top50__T3a_SetC4_Trajectory_Core__lgbm__Top3", "SP500_Union_QQQ_Top50__T2_SetB_Price_Plus_Snapshot__lgbm__Top3"),
+        ("SP500_Union_QQQ_Top50 Top3: T3a_Trajectory_LGBM vs Union_Pure_Mom_Top3", "SP500_Union_QQQ_Top50__T3a_SetC4_Trajectory_Core__lgbm__Top3", "SP500_Union_QQQ__T0_Pure_Momentum_12_1__Top3"),
+    ]
+    qqq_comp_frames = []
+    for w_label, s_dt, e_dt in [
+        ("OOS_2019_2026.09 (93m)", "2019-01-31", "2026-09-30"),
+        ("OOS_2015_2026.09 (141m)", "2015-01-31", "2026-09-30"),
+    ]:
+        w_recs = []
+        for c_label, s_x, s_b in qqq_comp_specs:
+            rx = qqq_ledgers[s_x].loc[s_dt:e_dt].net.dropna()
+            rb = qqq_ledgers[s_b].loc[s_dt:e_dt].net.dropna()
+            j = pd.concat([rx, rb], axis=1, keys=["x", "b"]).dropna()
+            cx = float((1.0 + j["x"]).prod() ** (12.0 / len(j)) - 1.0)
+            cb = float((1.0 + j["b"]).prod() ** (12.0 / len(j)) - 1.0)
+            diff_m = j["x"] - j["b"]
+            se, _ = fs.nw_se(diff_m.values, lag=3)
+            t_nw = float(diff_m.mean() / se) if se and se > 0 else 0.0
+            p_raw = float(2.0 * (1.0 - norm.cdf(abs(t_nw))))
+            bs = bt.paired_bootstrap([j["x"].rename("x"), j["b"].rename("b")], S_union["rf"], n=2000)
+            yd = (1.0 + j["x"]).groupby(j.index.year).prod() - (1.0 + j["b"]).groupby(j.index.year).prod()
+            w_recs.append({
+                "window": w_label,
+                "comparison": c_label,
+                "CAGR_Model_pct": round(cx * 100, 2),
+                "CAGR_Base_pct": round(cb * 100, 2),
+                "CAGR_Diff_pct": round((cx - cb) * 100, 2),
+                "Ann_Arith_Diff_pct": round(float(diff_m.mean() * 12 * 100), 2),
+                "t_NW_HAC": round(t_nw, 2),
+                "p_raw_two_sided": round(p_raw, 4),
+                "Bootstrap_CAGR_Diff_p5_p50_p95": bs.get("x minus b: CAGR diff p5/p50/p95"),
+                "Bootstrap_Share_Diff_le_0": round(float(bs.get("x minus b: share of resamples with CAGR diff <= 0", np.nan)), 4),
+                "Months_Model_Beats_Base": f"{int((diff_m > 0).sum())}/{int(len(diff_m))} ({round(float((diff_m > 0).mean()*100), 1)}%)",
+                "Years_Better": f"{int((yd > 0).sum())}/{int(len(yd))}",
+            })
+        df_w = pd.DataFrame(w_recs)
+        order = df_w["p_raw_two_sided"].argsort().values
+        holm = np.zeros(len(df_w))
+        prev = 0.0
+        for rank_idx, row_idx in enumerate(order):
+            val_h = min(1.0, (len(df_w) - rank_idx) * df_w.loc[row_idx, "p_raw_two_sided"])
+            prev = max(prev, val_h)
+            holm[row_idx] = round(prev, 4)
+        df_w["p_Holm_Bonferroni"] = holm
+        qqq_comp_frames.append(df_w)
+    pd.concat(qqq_comp_frames, ignore_index=True).to_csv(OUT_DIR / "ml3_qqq_paired_comparisons.csv", index=False)
 
     print("\n==================================================================", flush=True)
     print("PART 2: IWM (SMALL/MID-CAP PIT UNIVERSE) ML3 TEST", flush=True)
