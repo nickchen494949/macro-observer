@@ -31,10 +31,25 @@
    - Inside the **full S&P 500 (`SPY`) across all 11 sectors**, dividing by volatility heavily penalizes high-beta Tech/Semis and over-selects low-volatility defensive sectors (`Health Care` distributors `MCK`/`ABC`, `Consumer Staples` `KR`/`HRL`, `Utilities` `ETR`/`AWK`, `Industrials`), reducing IT picks from `41.8%` to `25.4%` of months and cutting standalone CAGR from `37.64%` to `22.67%`.
 
 4. **The Most Robust All-Weather Architecture: 3-Sleeve `G1` (`50% QQQ [Hold<=5] + 25% XLK + 25% SPY Raw`)**:
-   - While `G1_SPY_2d` (`50% QQQ[Hold<=5] + 50% SPY Raw[Hold<=2]`) achieves the highest headline CAGR (`51.60%`), the **Leave-One-Winner-Out (`No NVDA`)** audit reveals a crucial trade-off: when `NVDA` is banned, `G1_SPY_2d` drops to `33.91%` (vs `38.30%` for `G1 Control QQQ+XLK`), because without `NVDA` in 2023–2024 `XLK` immediately rotates into #2 S&P 500 Tech winners (`ANET`, `AMD`, `SMCI`, `AVGO`) whereas `SPY` sometimes drifts into non-Tech cyclicals.
+   - While `G1_SPY_2d` (`50% QQQ[Hold<=5] + 50% SPY Raw[Hold<=2]`) and `G1_SPY_2e` (`50% QQQ[Hold<=5] + 50% SPY Raw[Hold<=3]`) achieve the highest 2-sleeve CAGRs (`51.60%` and `50.23%`), the **Leave-One-Winner-Out (`No NVDA`)** audit reveals a crucial trade-off: when `NVDA` is banned, `G1_SPY_2d`/`2e` drop to `33.91%`/`34.44%` (vs `38.30%` for `G1 Control QQQ+XLK`), because without `NVDA` in 2023–2024 `XLK` immediately rotates into #2 S&P 500 Tech winners (`ANET`, `AMD`, `SMCI`, `AVGO`) whereas `SPY` sometimes drifts into non-Tech cyclicals.
    - By combining **all three sleeves (`50% QQQ [Hold<=5] + 25% XLK Hard Top-1 + 25% SPY Raw [Hard Top-1 or Hold<=3]`)**:
-     - **`3S_G1_1a` (`50% QQQ[Hold<=5] + 25% XLK[Hard] + 25% SPY Raw[Hard]`)**: **`48.67%` CAGR** (Tiingo: `48.30%`), Sharpe **`1.22`**, Monthly MaxDD **`-30.37%`**, True Daily MaxDD **`-41.96%`**, **`No NVDA = 38.86%`** (beats both `QQQ+XLK` and `QQQ+SPY`!), **`No SNDK = 46.45%`**, **`No Top-3 Winners = 31.25%`**, and **Cumulative DSR = `0.9463`** (highest across all 524 cumulative trials).
-     - **`3S_G1_1k` (`50% QQQ[Hold<=5] + 25% XLK[Hard] + 25% SPY Raw[Hold<=3]`)**: **`49.68%` CAGR**, Sharpe **`1.26`**, **Monthly MaxDD `-25.19%`**, **True Daily MaxDD `-41.10%`**, `2009–2018 = 35.29%`, `2022 = +6.91%`, and **Cumulative DSR = `0.9609` (`> 0.95` significance threshold!)**.
+     - **`3S_G1_1a` (`50% QQQ[Hold<=5] + 25% XLK[Hard] + 25% SPY Raw[Hard]`)**: **`48.67%` CAGR** (Tiingo: `48.30%`), Excess Sharpe **`1.225`**, Monthly MaxDD **`-30.37%`**, True Daily MaxDD **`-41.96%`**, **`No NVDA = 38.86%`** (beats both `QQQ+XLK` and `QQQ+SPY`!), **`No SNDK = 46.45%`**, **`No Top-3 Winners = 31.25%`**.
+     - **`3S_G1_1k` (`50% QQQ[Hold<=5] + 25% XLK[Hard] + 25% SPY Raw[Hold<=3]`)**: **`49.96%` CAGR** (Tiingo: `49.58%`), Excess Sharpe **`1.294`** (`Raw Sharpe = 1.334`), **Monthly MaxDD `-22.61%`**, **True Daily MaxDD `-40.19%`**, `2009–2018 = 35.82%`, `2022 = +8.13%`.
+
+### Official 3-Tier Strategy Hierarchy & Honest Statistical Assessment
+
+| Tier | Role | Strategy Specification | `2009–2026` CAGR | `2009–2018` CAGR | Monthly MaxDD | True Daily MaxDD (`5651ec2`) | Excess Sharpe | NW $t$ vs `Core3` | NW $t$ vs `G1` | Pooled `DSR` ($N=878$ Ex / Raw) |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| **1** | **Official Frozen Benchmark** | **`Core3`** (`50% QQQ Sharpe Top-2 Hard + 50% Tech Raw Top-1 Hard`) | `43.75%` | `24.79%` | `-36.65%` | `-46.96%` | `1.077` | `+0.00` | `-1.00` | `0.7078` / `0.7489` |
+| **2** | **First Challenger** | **`G1 Control`** (`50% QQQ Sharpe [Buy 2, Hold<=5] + 50% Tech Hard Top-1`) | `48.02%` | `30.99%` | `-27.70%` | `-41.96%` | `1.194` | `+1.00` | `+0.00` | `0.8657` / `0.8932` |
+| **3A** | **Strongest 3-Sleeve Challenger** | **`3S_G1_1k`** (`50% QQQ [Hold<=5] + 25% Tech [Hard] + 25% SPY Raw [Buy 1, Hold<=3]`) | **`49.96%`** | **`35.82%`** | **`-22.61%`** | **`-40.19%`** | **`1.294`** | `+0.69` | **`+0.21`** | **`0.9434`** / `0.9588` |
+| **3B** | **Strongest 2-Sleeve `QQQ+SPY` Challenger** | **`G1_SPY_2e`** (`50% QQQ [Hold<=5] + 50% SPY Raw [Buy 1, Hold<=3]`) | **`50.23%`** | **`39.31%`** | `-27.12%` | **`-40.30%`** | `1.280` | `+0.52` | **`+0.21`** | **`0.9284`** / `0.9461` |
+
+> [!IMPORTANT]
+> **Three Mandatory Statistical & Risk Guardrails (Why We Do Not Claim a Formal 95% Statistical Pass Over `G1`)**:
+> 1. **Corrected Cumulative DSR (`N = 878` Canonical / `N = 999` Exhaustive Grid Rows)**: After fixing the prior-trial counter (`789 + 89 = 878` canonical trials across all 7 audit rounds, or `999` including all sensitivity grid rows) and pooling the **actual realized monthly Sharpe ratios of all `878`/`999` historical trials** (`08b_master_all_trials_sharpe_registry.csv`), the expected maximum null Excess Sharpe is $E[\max SR_0] = 0.959$ (`0.964` for $N=999$). Under consistent Excess Sharpe, `G1_SPY_2e` achieves **`DSR = 0.9284`** (`0.9251` at $N=999$) and `3S_G1_1k` achieves **`DSR = 0.9434`** (`0.9406` at $N=999$) — both **below the strict `0.95` threshold** (only `3S_G1_1k` under unadjusted Raw Sharpe reaches `0.9588`).
+> 2. **Insignificant Paired $t$-Statistic Relative to `G1 Control`**: Relative to `G1 Control` (`48.02%` CAGR), the paired Newey-West $t$-statistic (`lag=6`) is only **`+0.21`** for both `G1_SPY_2e` and `3S_G1_1k` (`+0.60` for `G1_SPY_2d` and `3S_G1_1j`). Thus, while adding the `SPY Raw [Buy 1, Hold<=3]` sleeve improves `2009–2018` CAGR (`30.99%` $\to$ `35.82%`–`39.31%`) and reduces Monthly MaxDD (`-27.70%` $\to$ `-22.61%`–`-27.12%`), **the ~2pp full-sample CAGR gain over `G1` is not statistically distinguishable from sample noise on its own**.
+> 3. **True Daily MaxDD Remains `~ -40.2%`**: Although month-end MaxDD drops to `-22.61%` (`3S_G1_1k`) and `-27.12%` (`G1_SPY_2e`), **True Daily MaxDD (`5651ec2` daily path) is still `-40.19%` and `-40.30%`** (compared to `-46.96%` for `Core3` and `-41.96%` for `G1`). It has not solved the `-25%` to `-30%` daily drawdown problem.
 
 ---
 
@@ -242,18 +257,33 @@
 
 ### 6.3 Cumulative Multiple-Testing Deflated Sharpe Ratio (`DSR`, Bailey & López de Prado 2014)
 
-| Portfolio Variant | New Trials This Round | Cumulative Trials ($N_{\text{cum}}$) | Expected Max Null Sharpe ($E[\max SR_0]$) | Cumulative DSR ($p$-value) |
-|---|---:|---:|---:|---:|
-| 00a. Core3 Control: 50% QQQ Sharpe Top-2 [Hard] + 50% XLK Raw Top-1 [Hard] | `89` | `523` | `0.924` | **`0.8089`** |
-| 00b. G1 Control: 50% QQQ (Buy 2, Hold<=5) + 50% XLK Raw Top-1 [Hard] | `89` | `523` | `0.924` | **`0.9265`** |
-| C3_SPY_1a. Core3 + SPY Raw Mom Top-1 (50% QQQ Hard Top-2 + 50% SPY Raw Top-1) | `89` | `523` | `0.924` | **`0.7867`** |
-| C3_SPY_1c. Core3 + SPY Sharpe-Mom Top-1 (50% QQQ Hard Top-2 + 50% SPY Sharpe Top-1) | `89` | `523` | `0.924` | **`0.6883`** |
-| G1_SPY_1a. G1 QQQ(Hold<=5) + SPY Raw Mom Hard Top-1 (50/50) | `89` | `523` | `0.924` | **`0.9023`** |
-| G1_SPY_1c. G1 QQQ(Hold<=5) + SPY Sharpe-Mom Hard Top-1 (50/50) | `89` | `523` | `0.924` | **`0.8592`** |
-| G1_SPY_2d. G1-Both: QQQ(Hold<=5) + SPY Raw (Buy 1, Hold<=2) | `89` | `523` | `0.924` | **`0.9365`** |
-| G1_SPY_2e. G1-Both: QQQ(Hold<=5) + SPY Raw (Buy 1, Hold<=3) | `89` | `523` | `0.924` | **`0.9647`** |
-| 3S_G1_1a. G1 3-Sleeve (50% QQQ[Hold<=5] + 25% XLK + 25% SPY Raw Top-1) | `89` | `523` | `0.924` | **`0.9434`** |
-| 3S_G1_1j. G1 3-Sleeve (50% QQQ[Hold<=5] + 25% XLK + 25% SPY Raw[Hold<=2]) | `89` | `523` | `0.924` | **`0.9592`** |
-| 3S_G1_1k. G1 3-Sleeve (50% QQQ[Hold<=5] + 25% XLK + 25% SPY Raw[Hold<=3]) | `89` | `523` | `0.924` | **`0.9741`** |
-| 3S_G1_1d. G1 3-Sleeve (50% QQQ[Hold<=5] + 25% XLK + 25% SPY Ex-IT Raw Top-1) | `89` | `523` | `0.924` | **`0.8545`** |
+#### 6.3.1 Master Historical Trial Registry (`08b_master_all_trials_sharpe_registry.csv`)
+
+| Audit Round | Description | Exhaustive Grid Rows | Canonical Cumulative Trials ($N_{\text{cum}}$) | Mean Excess SR (Ann) | Std Excess SR (Ann) | Mean Raw SR (Ann) |
+|---:|---|---:|---:|---:|---:|---:|
+| `1` | Round 1 (`m_repo_trials.csv` pre-Core3 repo ledgers) | `481` (cum `481`) | **`481`** (cum **`481`**) | `0.572` | `0.266` | `0.627` |
+| `2` | Round 2 (`alpha_core_regime_experiment_20261103` A/B/C) | `39` (cum `520`) | **`39`** (cum **`520`**) | `0.951` | `0.085` | `0.984` |
+| `3` | Round 3 (`core3_adversarial_audit_20261103` grid/stress) | `147` (cum `667`) | **`59`** (cum **`579`**) | `0.938` | `0.155` | `0.977` |
+| `4` | Round 4 (`core3_tech_risk_controls_20261103` technical brakes) | `67` (cum `734`) | **`65`** (cum **`644`**) | `0.945` | `0.145` | `0.983` |
+| `5` | Round 5 (`core3_stock_selection_audit_20261103` A/B/C/D + A5 grid) | `101` (cum `835`) | **`70`** (cum **`714`**) | `0.891` | `0.138` | `0.931` |
+| `6` | Round 6 (`core3_structural_blindspots_audit_20261103` E/F/G/H/I) | `75` (cum `910`) | **`75`** (cum **`789`**) | `1.044` | `0.065` | `1.084` |
+| `7` | Round 7 (`core3_qqq_spy_g1_audit_20261103` QQQ+SPY+XLK) | `89` (cum `999`) | **`89`** (cum **`878`**) | `0.910` | `0.301` | `0.951` |
+| **All 1–7** | **Pooled All-History Empirical Distribution** | **`999`** | **`878`** | **`0.741`** | **`0.2981`** | **`0.789`** |
+
+#### 6.3.2 Corrected Cumulative DSR & Paired Significance Table (`08_multiple_testing_dsr.csv`)
+
+| Portfolio Variant | Excess SR | Raw SR | $E[\max SR_0]$ ($N=878$ Ex) | **DSR ($N=878$ Excess)** | **DSR ($N=999$ All-Grid Ex)** | DSR ($N=878$ Raw) | DSR ($N=397$ Post-Core3) | DSR ($N=89$ Round 7) | NW $t$ vs `Core3` | NW $t$ vs `G1` |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 00a. Core3 Control: 50% QQQ Sharpe Top-2 [Hard] + 50% XLK Raw Top-1 [Hard] | `1.077` | `1.112` | `0.959` | **`0.7078`** | **`0.6997`** | `0.7489` | `0.9923` | `0.9359` | `+0.00` | **`-1.00`** |
+| 00b. G1 Control: 50% QQQ (Buy 2, Hold<=5) + 50% XLK Raw Top-1 [Hard] | `1.194` | `1.230` | `0.959` | **`0.8657`** | **`0.8604`** | `0.8932` | `0.9987` | `0.9821` | `+1.00` | **`+0.00`** |
+| C3_SPY_1a. Core3 + SPY Raw Mom Top-1 (50% QQQ Hard Top-2 + 50% SPY Raw Top-1) | `1.066` | `1.100` | `0.959` | **`0.6845`** | **`0.6763`** | `0.7251` | `0.9894` | `0.9232` | `+0.09` | **`-0.36`** |
+| C3_SPY_1c. Core3 + SPY Sharpe-Mom Top-1 (50% QQQ Hard Top-2 + 50% SPY Sharpe Top-1) | `0.996` | `1.035` | `0.959` | **`0.5638`** | **`0.5549`** | `0.6171` | `0.9745` | `0.8621` | `-1.38` | **`-1.86`** |
+| G1_SPY_1a. G1 QQQ(Hold<=5) + SPY Raw Mom Hard Top-1 (50/50) | `1.172` | `1.208` | `0.959` | **`0.8332`** | **`0.8273`** | `0.8633` | `0.9975` | `0.9728` | `+0.50` | **`+0.09`** |
+| G1_SPY_1c. G1 QQQ(Hold<=5) + SPY Sharpe-Mom Hard Top-1 (50/50) | `1.125` | `1.167` | `0.959` | **`0.7680`** | **`0.7611`** | `0.8114` | `0.9942` | `0.9518` | `-0.79` | **`-1.38`** |
+| G1_SPY_2d. G1-Both: QQQ(Hold<=5) + SPY Raw (Buy 1, Hold<=2) | `1.221` | `1.256` | `0.959` | **`0.8847`** | **`0.8801`** | `0.9075` | `0.9989` | `0.9847` | `+0.87` | **`+0.60`** |
+| G1_SPY_2e. G1-Both: QQQ(Hold<=5) + SPY Raw (Buy 1, Hold<=3) | `1.280` | `1.319` | `0.959` | **`0.9284`** | **`0.9251`** | `0.9461` | `0.9995` | `0.9923` | `+0.52` | **`+0.21`** |
+| 3S_G1_1a. G1 3-Sleeve (50% QQQ[Hold<=5] + 25% XLK + 25% SPY Raw Top-1) | `1.225` | `1.262` | `0.959` | **`0.8924`** | **`0.8879`** | `0.9161` | `0.9991` | `0.9868` | `+0.73` | **`+0.09`** |
+| 3S_G1_1j. G1 3-Sleeve (50% QQQ[Hold<=5] + 25% XLK + 25% SPY Raw[Hold<=2]) | `1.257` | `1.295` | `0.959` | **`0.9187`** | **`0.9150`** | `0.9378` | `0.9995` | `0.9914` | `+0.99` | **`+0.60`** |
+| 3S_G1_1k. G1 3-Sleeve (50% QQQ[Hold<=5] + 25% XLK + 25% SPY Raw[Hold<=3]) | `1.294` | `1.334` | `0.959` | **`0.9434`** | **`0.9406`** | `0.9588` | `0.9998` | `0.9950` | `+0.69` | **`+0.21`** |
+| 3S_G1_1d. G1 3-Sleeve (50% QQQ[Hold<=5] + 25% XLK + 25% SPY Ex-IT Raw Top-1) | `1.122` | `1.166` | `0.959` | **`0.7606`** | **`0.7537`** | `0.8066` | `0.9933` | `0.9478` | `-1.32` | **`-2.21`** |
 
