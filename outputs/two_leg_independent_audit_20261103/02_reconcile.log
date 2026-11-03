@@ -1,0 +1,19 @@
+QQQ leg identical picks: 213 / 213
+SPY leg identical picks: 213 / 213
+Both identical: 213 | max |ret diff| when identical: 0.0541951958744467
+CAGR claimed 0.5022563364462835  independent 0.49974352892196827
+Empty DataFrame
+Columns: [qqq_picks, qqq_picks_ind, spy_pick, spy_pick_ind, port_net, net, diff]
+Index: []
+
+Identical picks but return diff > 5bp: 8
+         qqq_picks qqq_picks_ind spy_pick spy_pick_ind  port_net       net      diff
+ym                                                                                  
+2009-01  AMGN|CELG     AMGN|CELG      FDO          FDO  0.001217  0.001747  0.000530
+2010-07  BIDU|SNDK     BIDU|SNDK     TGNA         TGNA  0.073330  0.068517 -0.004813
+2011-09  ALXN|CERN     ALXN|CERN      COG          COG -0.079814 -0.067108  0.012706
+2011-10  ALXN|GMCR     ALXN|GMCR      COG          COG  0.096774  0.042579 -0.054195
+2011-11  ALXN|GMCR     ALXN|GMCR      COG          COG  0.028744  0.064295  0.035551
+2011-12  ALXN|BIIB     ALXN|BIIB      COG          COG -0.045808 -0.047491 -0.001683
+2012-01  ALXN|BIIB     ALXN|BIIB      COG          COG -0.044693 -0.057236 -0.012543
+2012-02  ALXN|BIIB     ALXN|BIIB      COG          COG  0.070182  0.062820 -0.007362

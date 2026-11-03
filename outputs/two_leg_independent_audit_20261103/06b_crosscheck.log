@@ -1,0 +1,44 @@
+
+Return flags of all pick-months:
+ flag
+open_open              620
+open_open_via_alias     10
+close_proxy              6
+delist_last_close        3
+
+Pick-months with >=2 vendors: 484 / 639; max vendor spread 0.00912; spread > 50bp: 2
+         t leg ticker  ret_used      flag  yahoo_oo  tiingo_oo   wiki_oo  n_vendors  vendor_spread
+2015-01-31 spy    LUV -0.037828 open_open -0.037828        NaN -0.029150          2       0.008678
+2015-02-28 spy    LUV  0.020580 open_open  0.020580        NaN  0.011463          2       0.009117
+
+Pick-months with |ret| > 30%: 29
+         t leg ticker  ret_used      flag  yahoo_oo  tiingo_oo   wiki_oo  n_vendors  vendor_spread
+2009-10-31 qqq   PCLN  0.366072 open_open       NaN        NaN  0.366072          1   0.000000e+00
+2011-09-30 qqq   GMCR -0.304770 open_open       NaN  -0.304770 -0.304770          2   4.619638e-13
+2017-04-30 qqq   NVDA  0.385743 open_open  0.385743   0.385710  0.385710          3   3.296700e-05
+2017-04-30 spy   NVDA  0.385743 open_open  0.385743   0.385710  0.385710          3   3.296700e-05
+2018-04-30 qqq   ALGN  0.336905 open_open  0.336905   0.336905       NaN          2   1.786419e-08
+2018-05-31 spy   NKTR -0.391091 open_open -0.391091        NaN       NaN          1   0.000000e+00
+2018-12-31 spy    AMD  0.366463 open_open  0.366463   0.366463       NaN          2   1.652376e-08
+2020-03-31 qqq   TSLA  0.498016 open_open  0.498016   0.498016       NaN          2   3.018626e-08
+2020-06-30 qqq   TSLA  0.338135 open_open  0.338135   0.338135       NaN          2   7.487708e-08
+2020-07-31 qqq   TSLA  0.732473 open_open  0.732473   0.732473       NaN          2   2.682532e-08
+2020-10-31 qqq   TSLA  0.516726 open_open  0.516726   0.516726       NaN          2   8.817216e-08
+2021-03-31 qqq   MRNA  0.391074 open_open  0.391074   0.391074       NaN          2   1.405669e-08
+2022-04-30 spy    DVN  0.329156 open_open  0.329156        NaN       NaN          1   0.000000e+00
+2024-04-30 qqq   NVDA  0.335508 open_open  0.335508   0.335508       NaN          2   6.541705e-08
+2024-04-30 spy   NVDA  0.335508 open_open  0.335508   0.335508       NaN          2   6.541705e-08
+2024-08-31 qqq    CEG  0.325320 open_open  0.325320   0.325320       NaN          2   7.384804e-08
+2025-03-31 qqq   PLTR  0.430921 open_open  0.430921   0.430921       NaN          2   2.132426e-08
+2025-03-31 spy   PLTR  0.430921 open_open  0.430921   0.430921       NaN          2   2.132426e-08
+2025-04-30 qqq    APP  0.391170 open_open  0.391170   0.391170       NaN          2   8.657469e-09
+2025-08-31 qqq    APP  0.540593 open_open  0.540593   0.540593       NaN          2   4.735486e-08
+2025-12-31 qqq    WDC  0.375621 open_open  0.375621   0.375593       NaN          2   2.823842e-05
+2025-12-31 qqq    STX  0.427457 open_open  0.427457   0.427457       NaN          2   1.801940e-08
+2025-12-31 spy    WDC  0.375621 open_open  0.375621   0.375593       NaN          2   2.823842e-05
+2026-03-31 qqq    WDC  0.448200 open_open  0.448200   0.448200       NaN          2   3.076793e-08
+2026-03-31 qqq    STX  0.682287 open_open  0.682287   0.682287       NaN          2   1.343111e-08
+2026-03-31 spy    WDC  0.448200 open_open  0.448200   0.448200       NaN          2   3.076793e-08
+2026-04-30 qqq    WDC  0.319482 open_open  0.319482   0.319482       NaN          2   7.294842e-08
+2026-04-30 qqq    STX  0.327311 open_open  0.327311   0.327311       NaN          2   7.497429e-09
+2026-04-30 spy    WDC  0.319482 open_open  0.319482   0.319482       NaN          2   7.294842e-08

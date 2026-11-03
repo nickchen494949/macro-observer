@@ -1,0 +1,16 @@
+
+=== formation 2026-09-30 (holding 2026-10) ===
+QQQ leg top-6: [('SNDK', 10.928, 1), ('MU', 5.65, 2), ('LITE', 4.639, 3), ('WDC', 3.346, 4), ('STX', 3.293, 5), ('AMD', 2.568, 6)]
+SPY leg top-4: [('SNDK', 12.963), ('MU', 4.739), ('LITE', 4.622), ('MRNA', 4.433)]
+previous holdings  QQQ ['WDC', 'STX'] SPY ['WDC'] -> ranks {'WDC': 4, 'STX': 5} {'WDC': 5}
+NEW HOLDINGS       QQQ ['WDC', 'STX']  SPY ['SNDK']
+October weights {'WDC': 0.25, 'STX': 0.25, 'SNDK': 0.5}  est. turnover 1.0
+Oct MTM path (last 5): {Timestamp('2026-10-23 00:00:00'): 957.4822, Timestamp('2026-10-26 00:00:00'): 978.3852, Timestamp('2026-10-27 00:00:00'): 1024.1059, Timestamp('2026-10-28 00:00:00'): 1084.832, Timestamp('2026-10-29 00:00:00'): 1064.8458}
+October return to 2026-10-29: -0.2002
+Peak NAV date 2026-06-18 | LIVE drawdown at 2026-10-29: -0.4709 | max daily DD incl. live: -0.5243 on 2026-10-23
+
+=== formation 2026-10-31 (holding 2026-11) ===
+QQQ leg top-6: [('SNDK', 6.706, 1), ('MU', 4.499, 2), ('LITE', 3.811, 3), ('STX', 3.555, 4), ('MRNA', 3.025, 5), ('WDC', 2.52, 6)]
+SPY leg top-4: [('SNDK', 7.729), ('MRNA', 6.09), ('LITE', 3.819), ('MU', 3.764)]
+previous holdings  QQQ ['WDC', 'STX'] SPY ['SNDK'] -> ranks {'WDC': 6, 'STX': 4} {'SNDK': 1}
+NEW HOLDINGS       QQQ ['STX', 'SNDK']  SPY ['SNDK']

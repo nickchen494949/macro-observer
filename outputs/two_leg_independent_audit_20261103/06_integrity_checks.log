@@ -1,0 +1,47 @@
+{'cutoff': datetime.date(2012, 12, 31), 'months': 49, 'NDX_picks_identical': True, 'SPX_picks_identical': True, 'NDX_max_abs_score_diff': 0.0, 'SPX_max_abs_score_diff': 0.0, 'NDX_rows_valid_full_vs_cut': '4617/4617', 'SPX_rows_valid_full_vs_cut': '24044/24044'}
+{'cutoff': datetime.date(2018, 6, 30), 'months': 115, 'NDX_picks_identical': True, 'SPX_picks_identical': True, 'NDX_max_abs_score_diff': 0.0, 'SPX_max_abs_score_diff': 0.0, 'NDX_rows_valid_full_vs_cut': '11268/11268', 'SPX_rows_valid_full_vs_cut': '56655/56655'}
+{'cutoff': datetime.date(2022, 12, 31), 'months': 169, 'NDX_picks_identical': True, 'SPX_picks_identical': True, 'NDX_max_abs_score_diff': 0.0, 'SPX_max_abs_score_diff': 0.0, 'NDX_rows_valid_full_vs_cut': '16663/16663', 'SPX_rows_valid_full_vs_cut': '82624/82624'}
+
+Return flags of all pick-months:
+ flag
+open_open              620
+open_open_via_alias     10
+close_proxy              6
+delist_last_close        3
+
+Pick-months with >=2 vendors: 110 / 639; max vendor spread 0.00063; spread > 50bp: 0
+Empty DataFrame
+Columns: [t, leg, ticker, ret_used, flag, yahoo_oo, tiingo_oo, wiki_oo, n_vendors, vendor_spread]
+Index: []
+
+Pick-months with |ret| > 30%: 29
+         t leg ticker  ret_used      flag  yahoo_oo  tiingo_oo   wiki_oo  n_vendors  vendor_spread
+2009-10-31 qqq   PCLN  0.366072 open_open       NaN        NaN  0.366072          1   0.000000e+00
+2011-09-30 qqq   GMCR -0.304770 open_open       NaN   -0.30477 -0.304770          2   4.619638e-13
+2017-04-30 qqq   NVDA  0.385743 open_open       NaN        NaN       NaN          0            NaN
+2017-04-30 spy   NVDA  0.385743 open_open       NaN        NaN       NaN          0            NaN
+2018-04-30 qqq   ALGN  0.336905 open_open       NaN        NaN       NaN          0            NaN
+2018-05-31 spy   NKTR -0.391091 open_open       NaN        NaN       NaN          0            NaN
+2018-12-31 spy    AMD  0.366463 open_open       NaN        NaN       NaN          0            NaN
+2020-03-31 qqq   TSLA  0.498016 open_open       NaN        NaN       NaN          0            NaN
+2020-06-30 qqq   TSLA  0.338135 open_open       NaN        NaN       NaN          0            NaN
+2020-07-31 qqq   TSLA  0.732473 open_open       NaN        NaN       NaN          0            NaN
+2020-10-31 qqq   TSLA  0.516726 open_open       NaN        NaN       NaN          0            NaN
+2021-03-31 qqq   MRNA  0.391074 open_open       NaN        NaN       NaN          0            NaN
+2022-04-30 spy    DVN  0.329156 open_open       NaN        NaN       NaN          0            NaN
+2024-04-30 qqq   NVDA  0.335508 open_open       NaN        NaN       NaN          0            NaN
+2024-04-30 spy   NVDA  0.335508 open_open       NaN        NaN       NaN          0            NaN
+2024-08-31 qqq    CEG  0.325320 open_open       NaN        NaN       NaN          0            NaN
+2025-03-31 qqq   PLTR  0.430921 open_open       NaN        NaN       NaN          0            NaN
+2025-03-31 spy   PLTR  0.430921 open_open       NaN        NaN       NaN          0            NaN
+2025-04-30 qqq    APP  0.391170 open_open       NaN        NaN       NaN          0            NaN
+2025-08-31 qqq    APP  0.540593 open_open       NaN        NaN       NaN          0            NaN
+2025-12-31 qqq    WDC  0.375621 open_open       NaN        NaN       NaN          0            NaN
+2025-12-31 qqq    STX  0.427457 open_open       NaN        NaN       NaN          0            NaN
+2025-12-31 spy    WDC  0.375621 open_open       NaN        NaN       NaN          0            NaN
+2026-03-31 qqq    WDC  0.448200 open_open       NaN        NaN       NaN          0            NaN
+2026-03-31 qqq    STX  0.682287 open_open       NaN        NaN       NaN          0            NaN
+2026-03-31 spy    WDC  0.448200 open_open       NaN        NaN       NaN          0            NaN
+2026-04-30 qqq    WDC  0.319482 open_open       NaN        NaN       NaN          0            NaN
+2026-04-30 qqq    STX  0.327311 open_open       NaN        NaN       NaN          0            NaN
+2026-04-30 spy    WDC  0.319482 open_open       NaN        NaN       NaN          0            NaN

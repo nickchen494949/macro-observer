@@ -1,0 +1,5 @@
+{'cutoff': datetime.date(2012, 12, 31), 'months': 49, 'NDX_picks_identical': True, 'SPX_picks_identical': True, 'NDX_max_abs_score_diff': 0.0, 'SPX_max_abs_score_diff': 0.0, 'NDX_rows_valid_full_vs_cut': '4617/4617', 'SPX_rows_valid_full_vs_cut': '24044/24044'}
+{'cutoff': datetime.date(2018, 6, 30), 'months': 115, 'NDX_picks_identical': True, 'SPX_picks_identical': True, 'NDX_max_abs_score_diff': 0.0, 'SPX_max_abs_score_diff': 0.0, 'NDX_rows_valid_full_vs_cut': '11268/11268', 'SPX_rows_valid_full_vs_cut': '56655/56655'}
+{'cutoff': datetime.date(2022, 12, 31), 'months': 169, 'NDX_picks_identical': True, 'SPX_picks_identical': True, 'NDX_max_abs_score_diff': 0.0, 'SPX_max_abs_score_diff': 0.0, 'NDX_rows_valid_full_vs_cut': '16663/16663', 'SPX_rows_valid_full_vs_cut': '82624/82624'}
+
+Return flags of all pick-months:

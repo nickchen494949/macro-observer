@@ -1,0 +1,214 @@
+t,spy_pick,wiki_status,wiki_events
+2008-12-31,FDO,member(added before wiki log coverage),2015-07-08:remove
+2009-01-31,FDO,member(added before wiki log coverage),2015-07-08:remove
+2009-02-28,FDO,member(added before wiki log coverage),2015-07-08:remove
+2009-03-31,FDO,member(added before wiki log coverage),2015-07-08:remove
+2009-04-30,FDO,member(added before wiki log coverage),2015-07-08:remove
+2009-05-31,FDO,member(added before wiki log coverage),2015-07-08:remove
+2009-06-30,FHN,member(added before wiki log coverage),2013-06-21:remove
+2009-07-31,FHN,member(added before wiki log coverage),2013-06-21:remove
+2009-08-31,AN,NOT_MEMBER_per_wiki,1998-12-11:remove;2017-08-08:remove
+2009-09-30,AN,NOT_MEMBER_per_wiki,1998-12-11:remove;2017-08-08:remove
+2009-10-31,F,no_wiki_event(long-standing member),
+2009-11-30,GNW,member(added before wiki log coverage),2015-11-18:remove
+2009-12-31,XL,member(added before wiki log coverage),2018-09-14:remove
+2010-01-31,XL,member(added before wiki log coverage),2018-09-14:remove
+2010-02-28,GNW,member(added before wiki log coverage),2015-11-18:remove
+2010-03-31,GNW,member(added before wiki log coverage),2015-11-18:remove
+2010-04-30,GNW,member(added before wiki log coverage),2015-11-18:remove
+2010-05-31,GNW,member(added before wiki log coverage),2015-11-18:remove
+2010-06-30,TGNA,member(added before wiki log coverage),2017-06-02:remove
+2010-07-31,AIG,no_wiki_event(long-standing member),
+2010-08-31,TIE,member(added before wiki log coverage),2012-12-21:remove
+2010-09-30,AKAM,no_wiki_event(long-standing member),
+2010-10-31,AKAM,no_wiki_event(long-standing member),
+2010-11-30,AKAM,no_wiki_event(long-standing member),
+2010-12-31,NFLX,member,2010-12-17:add
+2011-01-31,NFLX,member,2010-12-17:add
+2011-02-28,NFLX,member,2010-12-17:add
+2011-03-31,NFLX,member,2010-12-17:add
+2011-04-30,NFLX,member,2010-12-17:add
+2011-05-31,NFLX,member,2010-12-17:add
+2011-06-30,NFLX,member,2010-12-17:add
+2011-07-31,NFLX,member,2010-12-17:add
+2011-08-31,COG,member,2008-06-23:add
+2011-09-30,COG,member,2008-06-23:add
+2011-10-31,COG,member,2008-06-23:add
+2011-11-30,COG,member,2008-06-23:add
+2011-12-31,COG,member,2008-06-23:add
+2012-01-31,COG,member,2008-06-23:add
+2012-02-29,BIIB,no_wiki_event(long-standing member),
+2012-03-31,MA,no_wiki_event(long-standing member),
+2012-04-30,AAPL,no_wiki_event(long-standing member),
+2012-05-31,AAPL,no_wiki_event(long-standing member),
+2012-06-30,AAPL,no_wiki_event(long-standing member),
+2012-07-31,STX,member,2012-07-02:add
+2012-08-31,STX,member,2012-07-02:add
+2012-09-30,STX,member,2012-07-02:add
+2012-10-31,PHM,no_wiki_event(long-standing member),
+2012-11-30,PHM,no_wiki_event(long-standing member),
+2012-12-31,PHM,no_wiki_event(long-standing member),
+2013-01-31,PHM,no_wiki_event(long-standing member),
+2013-02-28,PHM,no_wiki_event(long-standing member),
+2013-03-31,PHM,no_wiki_event(long-standing member),
+2013-04-30,ANDV,member(added before wiki log coverage),2018-10-01:remove
+2013-05-31,FSLR,member(added before wiki log coverage),2017-03-20:remove;2022-12-19:add
+2013-06-30,FSLR,member(added before wiki log coverage),2017-03-20:remove;2022-12-19:add
+2013-07-31,FSLR,member(added before wiki log coverage),2017-03-20:remove;2022-12-19:add
+2013-08-31,FSLR,member(added before wiki log coverage),2017-03-20:remove;2022-12-19:add
+2013-09-30,NFLX,member,2010-12-17:add
+2013-10-31,NFLX,member,2010-12-17:add
+2013-11-30,NFLX,member,2010-12-17:add
+2013-12-31,NFLX,member,2010-12-17:add
+2014-01-31,NFLX,member,2010-12-17:add
+2014-02-28,MU,no_wiki_event(long-standing member),
+2014-03-31,MU,no_wiki_event(long-standing member),
+2014-04-30,MU,no_wiki_event(long-standing member),
+2014-05-31,MU,no_wiki_event(long-standing member),
+2014-06-30,FB,member,2013-12-23:add
+2014-07-31,MU,no_wiki_event(long-standing member),
+2014-08-31,MU,no_wiki_event(long-standing member),
+2014-09-30,LUV,no_wiki_event(long-standing member),
+2014-10-31,LUV,no_wiki_event(long-standing member),
+2014-11-30,LUV,no_wiki_event(long-standing member),
+2014-12-31,LUV,no_wiki_event(long-standing member),
+2015-01-31,LUV,no_wiki_event(long-standing member),
+2015-02-28,LUV,no_wiki_event(long-standing member),
+2015-03-31,SWKS,member,2015-03-12:add
+2015-04-30,SWKS,member,2015-03-12:add
+2015-05-31,SWKS,member,2015-03-12:add
+2015-06-30,SWKS,member,2015-03-12:add
+2015-07-31,SWKS,member,2015-03-12:add
+2015-08-31,SWKS,member,2015-03-12:add
+2015-09-30,EA,member(added before wiki log coverage),2026-08-05:remove
+2015-10-31,NFLX,member,2010-12-17:add
+2015-11-30,NFLX,member,2010-12-17:add
+2015-12-31,NFLX,member,2010-12-17:add
+2016-01-31,NFLX,member,2010-12-17:add
+2016-02-29,CVC,member,2010-12-17:add;2016-06-22:remove
+2016-03-31,CVC,member,2010-12-17:add;2016-06-22:remove
+2016-04-30,CVC,member,2010-12-17:add;2016-06-22:remove
+2016-05-31,EW,member,2011-03-31:add
+2016-06-30,NVDA,no_wiki_event(long-standing member),
+2016-07-31,NVDA,no_wiki_event(long-standing member),
+2016-08-31,NVDA,no_wiki_event(long-standing member),
+2016-09-30,NVDA,no_wiki_event(long-standing member),
+2016-10-31,NVDA,no_wiki_event(long-standing member),
+2016-11-30,NVDA,no_wiki_event(long-standing member),
+2016-12-31,NVDA,no_wiki_event(long-standing member),
+2017-01-31,NVDA,no_wiki_event(long-standing member),
+2017-02-28,NVDA,no_wiki_event(long-standing member),
+2017-03-31,NVDA,no_wiki_event(long-standing member),
+2017-04-30,NVDA,no_wiki_event(long-standing member),
+2017-05-31,NVDA,no_wiki_event(long-standing member),
+2017-06-30,NVDA,no_wiki_event(long-standing member),
+2017-07-31,NVDA,no_wiki_event(long-standing member),
+2017-08-31,NVDA,no_wiki_event(long-standing member),
+2017-09-30,NVDA,no_wiki_event(long-standing member),
+2017-10-31,NVDA,no_wiki_event(long-standing member),
+2017-11-30,NVDA,no_wiki_event(long-standing member),
+2017-12-31,ALGN,member,2017-06-19:add
+2018-01-31,ALGN,member,2017-06-19:add
+2018-02-28,ALGN,member,2017-06-19:add
+2018-03-31,ALGN,member,2017-06-19:add
+2018-04-30,NKTR,member,2018-03-19:add;2019-10-03:remove
+2018-05-31,NKTR,member,2018-03-19:add;2019-10-03:remove
+2018-06-30,NKTR,member,2018-03-19:add;2019-10-03:remove
+2018-07-31,ABMD,member,2018-05-31:add;2022-12-22:remove
+2018-08-31,ABMD,member,2018-05-31:add;2022-12-22:remove
+2018-09-30,ABMD,member,2018-05-31:add;2022-12-22:remove
+2018-10-31,AMD,member,2013-09-20:remove;2017-03-20:add
+2018-11-30,FTNT,member,2018-10-11:add
+2018-12-31,AMD,member,2013-09-20:remove;2017-03-20:add
+2019-01-31,TRIP,member,2011-12-20:add;2019-12-23:remove
+2019-02-28,AMD,member,2013-09-20:remove;2017-03-20:add
+2019-03-31,AMD,member,2013-09-20:remove;2017-03-20:add
+2019-04-30,AMD,member,2013-09-20:remove;2017-03-20:add
+2019-05-31,AMD,member,2013-09-20:remove;2017-03-20:add
+2019-06-30,AMD,member,2013-09-20:remove;2017-03-20:add
+2019-07-31,BLL,no_wiki_event(long-standing member),
+2019-08-31,BLL,no_wiki_event(long-standing member),
+2019-09-30,BLL,no_wiki_event(long-standing member),
+2019-10-31,CMG,member,2011-04-27:add
+2019-11-30,LRCX,member,2012-06-05:add
+2019-12-31,LRCX,member,2012-06-05:add
+2020-01-31,AMD,member,2013-09-20:remove;2017-03-20:add
+2020-02-29,AMD,member,2013-09-20:remove;2017-03-20:add
+2020-03-31,AMD,member,2013-09-20:remove;2017-03-20:add
+2020-04-30,AMD,member,2013-09-20:remove;2017-03-20:add
+2020-05-31,DXCM,member,2020-05-12:add
+2020-06-30,DXCM,member,2020-05-12:add
+2020-07-31,DXCM,member,2020-05-12:add
+2020-08-31,DXCM,member,2020-05-12:add
+2020-09-30,DXCM,member,2020-05-12:add
+2020-10-31,DXCM,member,2020-05-12:add
+2020-11-30,ETSY,member,2020-09-21:add;2024-09-23:remove
+2020-12-31,ETSY,member,2020-09-21:add;2024-09-23:remove
+2021-01-31,ETSY,member,2020-09-21:add;2024-09-23:remove
+2021-02-28,ETSY,member,2020-09-21:add;2024-09-23:remove
+2021-03-31,PENN,member,2021-03-22:add;2022-09-19:remove
+2021-04-30,PENN,member,2021-03-22:add;2022-09-19:remove
+2021-05-31,TSLA,member,2020-12-21:add
+2021-06-30,LB,no_wiki_event(long-standing member),
+2021-07-31,CZR,member,2021-03-22:add;2025-09-22:remove
+2021-08-31,MRNA,member,2021-07-21:add
+2021-09-30,MRNA,member,2021-07-21:add
+2021-10-31,MRNA,member,2021-07-21:add
+2021-11-30,DVN,no_wiki_event(long-standing member),
+2021-12-31,DVN,no_wiki_event(long-standing member),
+2022-01-31,DVN,no_wiki_event(long-standing member),
+2022-02-28,DVN,no_wiki_event(long-standing member),
+2022-03-31,DVN,no_wiki_event(long-standing member),
+2022-04-30,DVN,no_wiki_event(long-standing member),
+2022-05-31,DVN,no_wiki_event(long-standing member),
+2022-06-30,DVN,no_wiki_event(long-standing member),
+2022-07-31,DVN,no_wiki_event(long-standing member),
+2022-08-31,DVN,no_wiki_event(long-standing member),
+2022-09-30,DVN,no_wiki_event(long-standing member),
+2022-10-31,EQT,member,2018-11-13:remove;2022-10-03:add
+2022-11-30,EQT,member,2018-11-13:remove;2022-10-03:add
+2022-12-31,EQT,member,2018-11-13:remove;2022-10-03:add
+2023-01-31,FSLR,member,2017-03-20:remove;2022-12-19:add
+2023-02-28,FSLR,member,2017-03-20:remove;2022-12-19:add
+2023-03-31,FSLR,member,2017-03-20:remove;2022-12-19:add
+2023-04-30,FSLR,member,2017-03-20:remove;2022-12-19:add
+2023-05-31,FSLR,member,2017-03-20:remove;2022-12-19:add
+2023-06-30,FSLR,member,2017-03-20:remove;2022-12-19:add
+2023-07-31,RCL,member,2014-12-05:add
+2023-08-31,RCL,member,2014-12-05:add
+2023-09-30,RCL,member,2014-12-05:add
+2023-10-31,NVDA,no_wiki_event(long-standing member),
+2023-11-30,NVDA,no_wiki_event(long-standing member),
+2023-12-31,NVDA,no_wiki_event(long-standing member),
+2024-01-31,NVDA,no_wiki_event(long-standing member),
+2024-02-29,NVDA,no_wiki_event(long-standing member),
+2024-03-31,NVDA,no_wiki_event(long-standing member),
+2024-04-30,NVDA,no_wiki_event(long-standing member),
+2024-05-31,NVDA,no_wiki_event(long-standing member),
+2024-06-30,NVDA,no_wiki_event(long-standing member),
+2024-07-31,NVDA,no_wiki_event(long-standing member),
+2024-08-31,NVDA,no_wiki_event(long-standing member),
+2024-09-30,NVDA,no_wiki_event(long-standing member),
+2024-10-31,NVDA,no_wiki_event(long-standing member),
+2024-11-30,NVDA,no_wiki_event(long-standing member),
+2024-12-31,VST,member,2024-05-08:add
+2025-01-31,VST,member,2024-05-08:add
+2025-02-28,VST,member,2024-05-08:add
+2025-03-31,PLTR,member,2024-09-23:add
+2025-04-30,PLTR,member,2024-09-23:add
+2025-05-31,PLTR,member,2024-09-23:add
+2025-06-30,PLTR,member,2024-09-23:add
+2025-07-31,PLTR,member,2024-09-23:add
+2025-08-31,PLTR,member,2024-09-23:add
+2025-09-30,PLTR,member,2024-09-23:add
+2025-10-31,PLTR,member,2024-09-23:add
+2025-11-30,PLTR,member,2024-09-23:add
+2025-12-31,WDC,no_wiki_event(long-standing member),
+2026-01-31,WDC,no_wiki_event(long-standing member),
+2026-02-28,WDC,no_wiki_event(long-standing member),
+2026-03-31,WDC,no_wiki_event(long-standing member),
+2026-04-30,WDC,no_wiki_event(long-standing member),
+2026-05-31,WDC,no_wiki_event(long-standing member),
+2026-06-30,WDC,no_wiki_event(long-standing member),
+2026-07-31,WDC,no_wiki_event(long-standing member),
+2026-08-31,WDC,no_wiki_event(long-standing member),

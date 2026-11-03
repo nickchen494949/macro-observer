@@ -1,0 +1,4 @@
+cutoff,months,NDX_picks_identical,SPX_picks_identical,NDX_max_abs_score_diff,SPX_max_abs_score_diff,NDX_rows_valid_full_vs_cut,SPX_rows_valid_full_vs_cut
+2012-12-31,49,True,True,0.0,0.0,4617/4617,24044/24044
+2018-06-30,115,True,True,0.0,0.0,11268/11268,56655/56655
+2022-12-31,169,True,True,0.0,0.0,16663/16663,82624/82624
