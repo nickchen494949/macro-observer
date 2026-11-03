@@ -1,0 +1,28 @@
+month_end,raw_ndx_ticker,status,reason
+2013-01-31,STRZA,skip_ineligible,Starz spun off 2013-01-11; member only 2013-01..02 → never 12 months of history while a member
+2013-02-28,STRZA,skip_ineligible,Starz spun off 2013-01-11; member only 2013-01..02 → never 12 months of history while a member
+2015-07-31,LILA,skip_ineligible,listed 2015-07-02; member only 2015-07..11 → never 12 months of history while a member
+2015-07-31,LILAK,skip_ineligible,listed 2015-07-02; member only 2015-07..11 → never 12 months of history while a member
+2015-08-31,LILA,skip_ineligible,listed 2015-07-02; member only 2015-07..11 → never 12 months of history while a member
+2015-08-31,LILAK,skip_ineligible,listed 2015-07-02; member only 2015-07..11 → never 12 months of history while a member
+2015-09-30,LILA,skip_ineligible,listed 2015-07-02; member only 2015-07..11 → never 12 months of history while a member
+2015-09-30,LILAK,skip_ineligible,listed 2015-07-02; member only 2015-07..11 → never 12 months of history while a member
+2015-10-31,LILA,skip_ineligible,listed 2015-07-02; member only 2015-07..11 → never 12 months of history while a member
+2015-10-31,LILAK,skip_ineligible,listed 2015-07-02; member only 2015-07..11 → never 12 months of history while a member
+2015-11-30,LILA,skip_ineligible,listed 2015-07-02; member only 2015-07..11 → never 12 months of history while a member
+2015-11-30,LILAK,skip_ineligible,listed 2015-07-02; member only 2015-07..11 → never 12 months of history while a member
+2016-04-30,BATRA,skip_ineligible,listed 2016-04-18; NDX member only 2016-04..05 → never has the 12-month price history required by every strategy
+2016-04-30,BATRK,skip_ineligible,listed 2016-04-18; NDX member only 2016-04..05 → never 12 months of history while a member
+2016-05-31,BATRA,skip_ineligible,listed 2016-04-18; NDX member only 2016-04..05 → never has the 12-month price history required by every strategy
+2016-05-31,BATRK,skip_ineligible,listed 2016-04-18; NDX member only 2016-04..05 → never 12 months of history while a member
+2018-04-30,QRTEA,gap,Qurate Retail 2018-04..2018-12: Tiingo QRTEA is an unrelated 2026 listing; WIKI frozen 2018-03-27; Yahoo QVCGA could carry it (Yahoo only in safe hours) → open gap
+2018-05-31,QRTEA,gap,Qurate Retail 2018-04..2018-12: Tiingo QRTEA is an unrelated 2026 listing; WIKI frozen 2018-03-27; Yahoo QVCGA could carry it (Yahoo only in safe hours) → open gap
+2018-06-30,QRTEA,gap,Qurate Retail 2018-04..2018-12: Tiingo QRTEA is an unrelated 2026 listing; WIKI frozen 2018-03-27; Yahoo QVCGA could carry it (Yahoo only in safe hours) → open gap
+2018-07-31,QRTEA,gap,Qurate Retail 2018-04..2018-12: Tiingo QRTEA is an unrelated 2026 listing; WIKI frozen 2018-03-27; Yahoo QVCGA could carry it (Yahoo only in safe hours) → open gap
+2018-08-31,QRTEA,gap,Qurate Retail 2018-04..2018-12: Tiingo QRTEA is an unrelated 2026 listing; WIKI frozen 2018-03-27; Yahoo QVCGA could carry it (Yahoo only in safe hours) → open gap
+2018-09-30,QRTEA,gap,Qurate Retail 2018-04..2018-12: Tiingo QRTEA is an unrelated 2026 listing; WIKI frozen 2018-03-27; Yahoo QVCGA could carry it (Yahoo only in safe hours) → open gap
+2018-10-31,QRTEA,gap,Qurate Retail 2018-04..2018-12: Tiingo QRTEA is an unrelated 2026 listing; WIKI frozen 2018-03-27; Yahoo QVCGA could carry it (Yahoo only in safe hours) → open gap
+2018-11-30,QRTEA,gap,Qurate Retail 2018-04..2018-12: Tiingo QRTEA is an unrelated 2026 listing; WIKI frozen 2018-03-27; Yahoo QVCGA could carry it (Yahoo only in safe hours) → open gap
+2026-07-31,SPCX,skip_ineligible,listed 2026-06-12; member 2026-07..09 → never 12 months of history while a member
+2026-08-31,SPCX,skip_ineligible,listed 2026-06-12; member 2026-07..09 → never 12 months of history while a member
+2026-09-30,SPCX,skip_ineligible,listed 2026-06-12; member 2026-07..09 → never 12 months of history while a member

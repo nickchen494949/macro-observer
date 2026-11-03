@@ -1,0 +1,60 @@
+category,scenario,CAGR_2019_2026_pct,Sharpe_2019_2026,MaxDD_Monthly_2019_2026_pct,MaxDD_Daily_2019_2026_pct,CAGR_2015_2026_pct,Sharpe_2015_2026,MaxDD_Monthly_2015_2026_pct,MaxDD_Daily_2015_2026_pct,Return_2022_pct,notes
+0_Baseline_And_Purge,Baseline_ModeA1_Repro_Purged_Nov30 (10bp/side),62.31,0.97,-65.51,-66.76,50.28,0.92,-65.51,-66.76,12.52,"Exact reproduction of commit a455ed7 (val<=Nov30, refit<=Nov30)"
+0_Baseline_And_Purge,Unpurged_Val_Dec31_ModeA2 (commit 20d6cbf),62.31,0.97,-65.51,-66.76,50.28,0.92,-65.51,-66.76,12.52,Val includes Y-1-12-31; refit<=Nov30 (zero pick change on QQQ Full100 Top-1)
+0_Baseline_And_Purge,Unpurged_Val_And_Refit_Dec31_ModeA3,48.14,0.86,-77.69,-79.81,31.33,0.7,-77.69,-79.81,-21.13,Both val and refit include cross-year Y-1-12-31 label
+0_Baseline_And_Purge,Pure_Standalone_QQQ_Purged_Nov30_ModeB1,48.36,0.92,-38.63,-56.26,27.16,0.67,-45.89,-56.26,-21.67,Sector mom strictly inside QQQ + uniform dv_ratio
+1_Transaction_Costs,Cost_20bp_per_side (ModeA1),59.13,0.94,-65.91,-67.13,47.3,0.88,-65.91,-67.13,10.74,20 bps/side (~80 bps round-trip turnover)
+1_Transaction_Costs,Cost_30bp_per_side (ModeA1),55.99,0.91,-66.3,-67.49,44.38,0.85,-66.3,-67.49,8.97,30 bps/side (~120 bps round-trip turnover)
+1_Transaction_Costs,Cost_50bp_per_side (ModeA1),49.9,0.85,-67.07,-68.21,38.68,0.78,-67.07,-68.21,5.51,50 bps/side (~200 bps round-trip turnover)
+2_Open_Slippage,"Open_Slippage_+25bp_per_side (Total 35bp/side, ModeA1)",54.45,0.89,-66.49,-67.68,42.94,0.83,-66.49,-67.68,8.1,10bp fee + 25bp adverse open slippage per side
+2_Open_Slippage,"Open_Slippage_+25bp_per_side (Total 35bp/side, ModeB1_PureQQQ)",40.64,0.82,-45.99,-57.72,20.55,0.56,-51.22,-58.93,-25.65,Pure QQQ + 10bp fee + 25bp open slippage per side
+2_Open_Slippage,"Open_Slippage_+50bp_per_side (Total 60bp/side, ModeA1)",46.93,0.82,-67.45,-68.57,35.91,0.75,-67.45,-68.57,3.82,10bp fee + 50bp adverse open slippage per side
+2_Open_Slippage,"Open_Slippage_+50bp_per_side (Total 60bp/side, ModeB1_PureQQQ)",33.29,0.72,-55.98,-65.48,14.26,0.45,-56.05,-65.48,-29.45,Pure QQQ + 10bp fee + 50bp open slippage per side
+3_Execution_Lag,Exec_T+1_Close_to_Close (ModeA1),49.25,0.88,-62.49,-63.29,44.27,0.89,-62.49,-63.29,10.48,Enter & exit at first trading day Close (T+1 Close)
+3_Execution_Lag,Exec_T+2_Close_to_Close (ModeA1),64.75,1.0,-60.99,-63.77,55.04,0.99,-60.99,-63.77,17.75,Enter & exit at second trading day Close (T+2 Close)
+3_Execution_Lag,Exec_T+1_Close_to_Close (ModeB1_PureQQQ),32.45,0.74,-44.12,-58.87,18.48,0.54,-44.12,-58.87,-21.13,Pure QQQ + T+1 Close execution
+3_Execution_Lag,Exec_T+2_Close_to_Close (ModeB1_PureQQQ),33.03,0.74,-49.88,-62.63,22.23,0.61,-49.88,-62.63,-22.42,Pure QQQ + T+2 Close execution
+4_Hyperparameter_And_Val,Fixed_num_leaves=7_ZeroValTune (ModeA1),44.52,0.82,-66.13,-71.83,37.11,0.78,-66.13,-71.83,-6.3,Zero validation tuning: num_leaves=7 frozen in all folds
+4_Hyperparameter_And_Val,Fixed_num_leaves=15_ZeroValTune (ModeA1),62.31,0.97,-65.51,-66.76,50.29,0.92,-65.51,-66.76,12.52,Zero validation tuning: num_leaves=15 frozen in all folds
+4_Hyperparameter_And_Val,ZeroCAGRPeek_RankVal (ModeA1),48.28,0.86,-66.13,-71.83,39.47,0.82,-66.13,-71.83,-6.3,"Selects num_leaves by validation Top-5 mean rank, never computing CAGR"
+4_Hyperparameter_And_Val,Fixed_num_leaves=7_ZeroValTune (ModeB1_PureQQQ),48.32,0.91,-43.45,-56.26,29.64,0.71,-45.89,-56.26,-21.67,Pure QQQ + fixed num_leaves=7
+4_Hyperparameter_And_Val,Fixed_num_leaves=15_ZeroValTune (ModeB1_PureQQQ),28.51,0.67,-49.61,-60.64,17.41,0.52,-49.61,-60.64,-21.67,Pure QQQ + fixed num_leaves=15
+4_Hyperparameter_And_Val,ZeroCAGRPeek_RankVal (ModeB1_PureQQQ),47.33,0.9,-43.45,-56.26,26.85,0.67,-45.89,-56.26,-21.67,Pure QQQ + Rank-IC validation
+4b_Feature_Purity,Drop_dv_ratio_17feats (PureQQQ),20.01,0.52,-87.57,-89.2,15.54,0.47,-87.57,-89.2,-47.28,Removes volume ratio feature (17 pure price features)
+4b_Feature_Purity,Drop_sector_mom_17feats (PureQQQ),62.5,1.03,-46.96,-56.88,41.73,0.86,-46.96,-56.88,-14.06,Removes sector momentum feature (17 features)
+4b_Feature_Purity,Drop_Both_dv_ratio_and_sector_mom_16feats,25.65,0.59,-75.05,-79.41,20.1,0.54,-75.05,-79.41,-37.62,100% stock-level + SPY-context price features only (16 features)
+5_Random_Seed_Sensitivity,Seed_1 (ModeA1),69.5,1.07,-67.12,-72.56,49.74,0.94,-67.12,-72.56,56.0,LightGBM subsample/colsample random_state=1
+5_Random_Seed_Sensitivity,Seed_7 (ModeA1),62.31,0.97,-65.51,-66.76,50.28,0.92,-65.51,-66.76,12.52,LightGBM subsample/colsample random_state=7
+5_Random_Seed_Sensitivity,Seed_13 (ModeA1),51.44,0.88,-74.08,-79.12,33.24,0.72,-74.08,-79.12,39.25,LightGBM subsample/colsample random_state=13
+5_Random_Seed_Sensitivity,Seed_21 (ModeA1),63.32,1.04,-60.21,-65.39,31.36,0.71,-60.21,-65.39,38.79,LightGBM subsample/colsample random_state=21
+5_Random_Seed_Sensitivity,Seed_42 (ModeA1),61.26,1.01,-70.13,-74.87,51.79,1.0,-70.13,-74.87,-6.95,LightGBM subsample/colsample random_state=42
+5_Random_Seed_Sensitivity,Seed_77 (ModeA1),47.8,0.86,-76.35,-81.46,35.85,0.77,-76.35,-81.46,-39.77,LightGBM subsample/colsample random_state=77
+5_Random_Seed_Sensitivity,Seed_100 (ModeA1),40.05,0.8,-65.13,-68.38,27.24,0.67,-65.13,-68.38,-28.9,LightGBM subsample/colsample random_state=100
+5_Random_Seed_Sensitivity,Seed_256 (ModeA1),102.32,1.35,-56.79,-58.6,62.31,1.08,-56.79,-58.6,45.41,LightGBM subsample/colsample random_state=256
+5_Random_Seed_Sensitivity,Seed_999 (ModeA1),65.81,1.03,-58.58,-63.97,45.8,0.89,-58.58,-63.97,-21.86,LightGBM subsample/colsample random_state=999
+5_Random_Seed_Sensitivity,Seed_2026 (ModeA1),59.63,0.97,-77.52,-80.96,47.77,0.92,-77.52,-80.96,-39.77,LightGBM subsample/colsample random_state=2026
+6_Remove_SuperWinners,Drop_SNDK (ModeA1),47.41,0.84,-65.51,-66.76,40.97,0.83,-65.51,-66.76,12.52,Excludes ['SNDK'] from eligible picks
+6_Remove_SuperWinners,Drop_MRNA (ModeA1),54.05,0.92,-53.29,-60.81,45.16,0.89,-53.29,-60.81,12.52,Excludes ['MRNA'] from eligible picks
+6_Remove_SuperWinners,Drop_TSLA (ModeA1),40.6,0.77,-65.51,-66.76,35.19,0.75,-65.51,-66.76,12.52,Excludes ['TSLA'] from eligible picks
+6_Remove_SuperWinners,Drop_NVDA (ModeA1),63.63,0.98,-65.51,-66.76,52.75,0.95,-65.51,-66.76,12.52,Excludes ['NVDA'] from eligible picks
+6_Remove_SuperWinners,Drop_PDD (ModeA1),52.31,0.88,-65.51,-66.76,44.06,0.86,-65.51,-66.76,-32.66,Excludes ['PDD'] from eligible picks
+6_Remove_SuperWinners,Drop_PLTR (ModeA1),67.06,1.0,-65.51,-66.76,53.19,0.95,-65.51,-66.76,12.52,Excludes ['PLTR'] from eligible picks
+6_Remove_SuperWinners,Drop_AMD (ModeA1),61.93,0.97,-65.51,-66.76,50.04,0.92,-65.51,-66.76,12.52,Excludes ['AMD'] from eligible picks
+6_Remove_SuperWinners,Drop_SMCI (ModeA1),67.23,1.01,-65.51,-66.76,53.29,0.95,-65.51,-66.76,12.52,Excludes ['SMCI'] from eligible picks
+6_Remove_SuperWinners,"Drop_All_6_SuperWinners (SNDK,MRNA,TSLA,NVDA,PDD,PLTR) (ModeA1)",17.7,0.51,-58.33,-64.37,21.46,0.6,-58.33,-64.37,-32.66,"Excludes ['MRNA', 'NVDA', 'PDD', 'PLTR', 'SNDK', 'TSLA'] from eligible picks"
+7_Remove_Best_Months,"Remove_Best_3_Months (set to 0% return, ModeA1)",35.37,0.73,-65.51,-66.76,33.21,0.75,-65.51,-66.76,-27.49,Replaces the 3 highest-return months in each window with 0.0%
+7_Remove_Best_Months,"Remove_Best_5_Months (set to 0% return, ModeA1)",21.54,0.56,-72.06,-78.78,24.01,0.63,-72.06,-78.78,-27.49,Replaces the 5 highest-return months in each window with 0.0%
+7_Remove_Best_Months,"Remove_Best_10_Months (set to 0% return, ModeA1)",-4.28,0.04,-84.43,-87.12,5.81,0.29,-84.43,-87.12,-51.35,Replaces the 10 highest-return months in each window with 0.0%
+8_Rank_Neighborhood,Rank_#1_Alone (ModeA1),62.31,0.97,-65.51,-66.76,50.28,0.92,-65.51,-66.76,12.52,Buys ONLY the #1 predicted stock each month
+8_Rank_Neighborhood,Rank_#2_Alone (ModeA1),9.48,0.36,-58.05,-63.16,7.47,0.32,-58.05,-63.16,-24.42,Buys ONLY the #2 predicted stock each month
+8_Rank_Neighborhood,Rank_#3_Alone (ModeA1),18.56,0.53,-63.65,-69.15,18.38,0.56,-63.65,-69.15,-41.5,Buys ONLY the #3 predicted stock each month
+8_Rank_Neighborhood,Rank_#4_Alone (ModeA1),4.4,0.23,-76.23,-79.24,1.94,0.2,-87.34,-89.0,-51.69,Buys ONLY the #4 predicted stock each month
+8_Rank_Neighborhood,Rank_#5_Alone (ModeA1),-12.65,-0.19,-80.06,-82.8,-1.74,0.09,-80.06,-82.8,-63.54,Buys ONLY the #5 predicted stock each month
+8_Rank_Neighborhood,Top_2_EqualWeight (ModeA1_Score),41.36,0.92,-44.37,-53.73,32.95,0.85,-44.37,-53.73,1.09,Equal-weight Top-2 from Top-1 model scores
+8_Rank_Neighborhood,Top_3_EqualWeight (ModeA1_Score),37.74,0.94,-35.81,-49.7,31.11,0.9,-35.81,-49.7,-11.55,Equal-weight Top-3 from Top-1 model scores
+8_Rank_Neighborhood,Top_5_EqualWeight (ModeA1_Score),22.54,0.71,-44.99,-47.86,20.93,0.74,-44.99,-47.86,-31.56,Equal-weight Top-5 from Top-1 model scores
+8_Rank_Neighborhood,Top_3_EqualWeight (Dedicated_Top3_Val_Model_A1),36.73,0.91,-47.24,-53.74,31.39,0.9,-47.24,-53.74,-27.14,Dedicated k=3 validation model
+8_Rank_Neighborhood,Top_3_EqualWeight (Dedicated_Top3_Val_Model_B1_PureQQQ),45.03,1.12,-29.4,-45.87,34.1,1.0,-29.4,-45.87,-11.85,Pure QQQ dedicated k=3 validation model
+9_Vendor_Substitution,Tiingo_Second_Source_Price_Substitution (88/140 months swapped),59.1,0.95,-65.51,-66.76,48.3,0.91,-65.51,-66.76,-3.79,Replaces primary Yahoo/WIKI holding returns with Tiingo EOD adjOpen/adjClose
+10_Combined_Adversarial_Realistic,Combined_Stress_Top1 (PureQQQ + FixedNL7 + Nov30Purge + 25bp/side cost+slip),43.85,0.85,-43.9,-56.44,25.65,0.65,-49.15,-57.23,-24.08,All-in 25bp/side + Pure QQQ + Fixed NL7 + Nov30 purge
+10_Combined_Adversarial_Realistic,Combined_Stress_Top3 (PureQQQ + Nov30Purge + 25bp/side cost+slip),40.83,1.04,-30.04,-46.19,30.2,0.9,-30.04,-46.19,-14.42,All-in 25bp/side + Pure QQQ Top-3 + Nov30 purge

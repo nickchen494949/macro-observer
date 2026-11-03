@@ -1,0 +1,5 @@
+window,strategy,t_NW_vs_QQQ_PureMom_Top1,p_raw_vs_PureMom_Top1,p_Bonferroni_34_QQQ_trials_vs_PureMom,p_Sidak_34_QQQ_trials_vs_PureMom,p_Bonferroni_AllRepo_vs_PureMom,Passes_HLZ_t3.0_vs_PureMom,t_NW_vs_QQQ_ETF,p_raw_vs_QQQ_ETF,p_Bonferroni_34_QQQ_trials_vs_QQQ_ETF,p_Bonferroni_AllRepo_vs_QQQ_ETF,Passes_HLZ_t3.0_vs_QQQ_ETF,N_Trials_QQQ_Family,DSR_vs_QQQ_Family,Max_Null_Sharpe_QQQ_Family,N_Trials_ML3_AllPools,DSR_vs_ML3_AllPools,N_Trials_Repo_Wide,DSR_vs_Repo_Wide,Max_Null_Sharpe_Repo_Wide
+OOS_2019_2026.09 (93m),QQQ_LGBM_Price_Top1 (ModeA1_Repro),0.49,0.6217,1.0,1.0,1.0,False,1.98,0.048,1.0,1.0,False,56,0.9516,0.49,256,0.7258,376,0.6821,0.86
+OOS_2019_2026.09 (93m),QQQ_LGBM_Price_Top1 (ModeB1_PureQQQ),-0.16,0.8704,1.0,1.0,1.0,False,1.5,0.1328,1.0,1.0,False,56,0.9371,0.49,256,0.6799,376,0.6332,0.86
+OOS_2015_2026.09 (140m),QQQ_LGBM_Price_Top1 (ModeA1_Repro),0.26,0.7955,1.0,1.0,1.0,False,2.24,0.0251,1.0,1.0,False,56,0.9829,0.42,256,0.7851,391,0.7064,0.82
+OOS_2015_2026.09 (140m),QQQ_LGBM_Price_Top1 (ModeB1_PureQQQ),-0.99,0.3239,1.0,1.0,1.0,False,1.07,0.2864,1.0,1.0,False,56,0.8725,0.42,256,0.4395,391,0.3476,0.82

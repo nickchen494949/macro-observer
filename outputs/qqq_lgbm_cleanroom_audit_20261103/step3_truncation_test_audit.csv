@@ -1,0 +1,6 @@
+cutoff_date,n_eligible_full,n_eligible_truncated,exact_roster_match,max_abs_feature_diff_across_18_features,worst_feature,pass
+2015-06-30,103,103,True,0.0,NONE,True
+2018-11-30,100,100,True,0.0,NONE,True
+2020-08-31,103,103,True,0.0,NONE,True
+2022-12-31,100,100,True,0.0,NONE,True
+2025-05-31,101,101,True,0.0,NONE,True

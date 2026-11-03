@@ -1,0 +1,20 @@
+ticker,event_date,event_type,check_month_end,expected_in_ndx,actual_in_yaml_pit,match,wiki_nearest_revid,wiki_nearest_timestamp,evidence_note
+TSLA,2013-07-15,added,2013-07-31,True,True,True,588068691,2013-12-28T13:55:09Z,Tesla Motors replaced Oracle (ORCL moved to NYSE) on 2013-07-15
+NVDA,2007-01-01,member_throughout,2015-01-31,True,True,True,1265020752,2024-12-24T17:38:38Z,NVIDIA continuous Nasdaq-100 member throughout 2007-2026
+AMD,2018-12-24,added,2018-12-31,True,True,True,875257543,2018-12-25T00:35:29Z,AMD added in Dec 2018 annual reconstitution
+MRNA,2020-07-20,added,2020-07-31,True,True,True,997352084,2020-12-31T03:04:32Z,Moderna replaced CoStar/added 2020-07-20; removed 2024-12-23
+MRNA,2024-12-23,removed,2024-12-31,False,False,True,1265020752,2024-12-24T17:38:38Z,Moderna removed in Dec 2024 annual reconstitution
+PDD,2020-08-24,added,2020-08-31,True,True,True,997352084,2020-12-31T03:04:32Z,Pinduoduo ADR added 2020-08-24
+SMCI,2024-07-22,added,2024-07-31,True,True,True,1265020752,2024-12-24T17:38:38Z,Super Micro Computer replaced Walgreens (WBA) on 2024-07-22
+SMCI,2024-12-23,removed,2024-12-31,False,False,True,1265020752,2024-12-24T17:38:38Z,Super Micro Computer removed on 2024-12-23
+APP,2024-11-18,added,2024-11-30,True,True,True,1265020752,2024-12-24T17:38:38Z,AppLovin replaced Dollar Tree (DLTR) on 2024-11-18
+PLTR,2024-12-23,added,2024-12-31,True,True,True,1265020752,2024-12-24T17:38:38Z,Palantir added in Dec 2024 annual reconstitution (after moving to Nasdaq)
+MSTR,2024-12-23,added,2024-12-31,True,True,True,1265020752,2024-12-24T17:38:38Z,MicroStrategy added in Dec 2024 annual reconstitution
+ARM,2024-06-24,added,2024-06-30,True,True,True,1265020752,2024-12-24T17:38:38Z,Arm Holdings replaced SiriusXM (SIRI) on 2024-06-24
+SNDK,2026-04-20,added,2026-04-30,True,True,True,1376446286,2026-09-24T05:04:55Z,Sandisk Corp (2025 WDC spin-off) replaced Atlassian (TEAM) on 2026-04-20
+PCLN,2018-02-27,renamed_BKNG,2018-02-28,True,True,True,875257543,2018-12-25T00:35:29Z,"Priceline Group renamed Booking Holdings (PCLN -> BKNG, CIK 1075531)"
+FB,2022-06-09,renamed_META,2022-06-30,True,True,True,1128627537,2022-12-21T03:37:04Z,Meta Platforms ticker change FB -> META (CIK 1326801)
+SPLK,2024-03-18,removed_MA,2024-03-31,False,False,True,1265020752,2024-12-24T17:38:38Z,Splunk acquired by Cisco ($157/sh cash) -> removed 2024-03-18
+SGEN,2023-12-18,removed_MA,2023-12-31,False,False,True,1265020752,2024-12-24T17:38:38Z,Seagen acquired by Pfizer ($229/sh cash) -> removed Dec 2023
+ATVI,2023-07-17,removed_MA,2023-07-31,False,False,True,1265020752,2024-12-24T17:38:38Z,Activision Blizzard removed ahead of Microsoft acquisition
+XLNX,2022-02-14,removed_MA,2022-02-28,False,False,True,1128627537,2022-12-21T03:37:04Z,Xilinx acquired by AMD (1.7234 AMD shares) on 2022-02-14
