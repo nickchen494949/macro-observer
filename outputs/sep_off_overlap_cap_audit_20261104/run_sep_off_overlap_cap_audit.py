@@ -656,18 +656,58 @@ def main():
         print(f"  {r['Variant']:<46} | Max={r['Max_Single_Stock_Weight']*100:4.1f}% | Cont: {r['Nov_2026_Holdings (Continuing Account)']:<42} | New: {r['Nov_2026_Holdings (New Account)']}")
 
     # -------------------------------------------------------------------------
-    # 5. Multiple-Testing Deflated Sharpe Ratio (DSR: N=902 Main Track & N=1082 All Rounds)
+    # 5. Multiple-Testing Deflated Sharpe Ratio (Cumulative from N=1,058 -> N=1,077 / N=1,082 / N=1,203)
     # -------------------------------------------------------------------------
     reg_r8_path = os.path.join(ROOT, 'outputs', 'consensus_burst_mode_audit_20261104', '06b_master_all_trials_sharpe_registry_r8.csv')
     reg_df = pd.read_csv(reg_r8_path)
-    # Track 1: Main 878 baseline (from commit 39c1af4) + 24 pre-registered rules = 902 trials
-    sr_m_878 = list(reg_df[(reg_df['round_id'] <= 7) & (reg_df['in_canonical_878'] == True)]['sr_excess_monthly'].dropna().values)
-    # Track 2: All rounds including R8 burst/shadow trials + 24 pre-registered rules = 1082 trials
-    sr_m_all = list(reg_df[reg_df['in_canonical_878'] == True]['sr_excess_monthly'].dropna().values)
+
+    # Prior Round 8 canonical registry has exactly N = 1,058 trials (and N = 1,179 exhaustive rows).
+    # In Round 9, 5 of the 24 rows are pre-existing baseline controls already represented in the 1,058 pool:
+    duplicate_control_variants = {
+        '2L_0_Ctrl',
+        '3L_0_Ctrl',
+        '3L_3a_SEPOFF_KillQQQ_50SGOV_Allow50',
+        '3L_3d_SEPOFF_KillQQQ_25SGOV_25ExITRaw_Allow50',
+        '3L_3e_SEPOFF_KillQQQ_25SGOV_25ExITBS_Allow50',
+    }
+
+    dgs = json.load(open(os.path.join(ROOT, 'data', 'fred', 'DGS3MO.json')))['values']
+    rf_s = pd.Series({pd.Timestamp(d): float(v) / 100.0 for d, v in dgs if v not in (None, '.')}).sort_index().resample('ME').last() / 12.0
+    idx_me_213 = pd.DatetimeIndex(months_213) + pd.offsets.MonthEnd(1)
+    rf_al_213 = rf_s.reindex(idx_me_213).ffill().fillna(0.0).values
+    rf_ann_mean = float(np.mean(rf_al_213) * 12.0)
+
+    r9_reg_rows = []
     for row in summary_rows:
-        sr_val_m = float(row['Excess_Sharpe_213']) / np.sqrt(12.0)
-        sr_m_878.append(sr_val_m)
-        sr_m_all.append(sr_val_m)
+        vname = row['Variant']
+        sr_ex_ann = float(row['Excess_Sharpe_213'])
+        sr_ex_m = sr_ex_ann / np.sqrt(12.0)
+        vol_ann = float(row['Ann_Vol_213'])
+        sr_raw_ann = sr_ex_ann + rf_ann_mean / max(vol_ann, 0.05)
+        is_new_unique = (vname not in duplicate_control_variants)
+        r9_reg_rows.append({
+            'round_id': 11,
+            'round_name': 'R9_sep_off_overlap_cap_audit',
+            'source_file': 'outputs/sep_off_overlap_cap_audit_20261104/03_sep_off_overlap_cap_backtest.csv',
+            'trial_name': vname,
+            'in_canonical_878': True,
+            'in_post_core3_397': True,
+            'in_canonical_1077_unique': is_new_unique,
+            'in_canonical_1082_all': True,
+            'sr_excess_monthly': sr_ex_m,
+            'sr_excess_ann': sr_ex_ann,
+            'sr_raw_monthly': sr_raw_ann / np.sqrt(12.0),
+            'sr_raw_ann': sr_raw_ann,
+        })
+
+    reg_df['in_canonical_1077_unique'] = reg_df['in_canonical_878'].astype(bool)
+    reg_df['in_canonical_1082_all'] = reg_df['in_canonical_878'].astype(bool)
+    reg_r9_df = pd.concat([reg_df, pd.DataFrame(r9_reg_rows)], ignore_index=True)
+    reg_r9_df.to_csv(os.path.join(HERE, '05b_master_all_trials_sharpe_registry_r9.csv'), index=False)
+
+    sr_m_1077 = list(reg_r9_df[reg_r9_df['in_canonical_1077_unique'] == True]['sr_excess_monthly'].dropna().values)
+    sr_m_1082 = list(reg_r9_df[reg_r9_df['in_canonical_1082_all'] == True]['sr_excess_monthly'].dropna().values)
+    sr_m_1203 = list(reg_r9_df['sr_excess_monthly'].dropna().values)
 
     def calc_sr0_m(arr_list):
         a = np.array(arr_list, dtype=float)
@@ -678,44 +718,128 @@ def main():
         z_2 = sst.norm.ppf(1.0 - 1.0 / (n_t * np.e))
         return n_t, float(np.sqrt(v_sr) * ((1.0 - eg) * z_1 + eg * z_2))
 
-    N_main, sr0_m_main = calc_sr0_m(sr_m_878)
-    N_tot, sr0_m_tot = calc_sr0_m(sr_m_all)
+    N_1077, sr0_m_1077 = calc_sr0_m(sr_m_1077)
+    N_1082, sr0_m_1082 = calc_sr0_m(sr_m_1082)
+    N_1203, sr0_m_1203 = calc_sr0_m(sr_m_1203)
 
-    dgs = json.load(open(os.path.join(ROOT, 'data', 'fred', 'DGS3MO.json')))['values']
-    rf_s = pd.Series({pd.Timestamp(d): float(v) / 100.0 for d, v in dgs if v not in (None, '.')}).sort_index().resample('ME').last() / 12.0
-    idx_me_213 = pd.DatetimeIndex(months_213) + pd.offsets.MonthEnd(1)
-    rf_al_213 = rf_s.reindex(idx_me_213).ffill().fillna(0.0).values
+    # Control 3L_0_Ctrl moments (unbiased sample moments for T=213)
+    r_ctrl_3l = ledgers['3L_0_Ctrl'].loc[months_213, 'net'].values
+    ex_ctrl_3l = r_ctrl_3l - rf_al_213
+    ctrl_skew = float(sst.skew(ex_ctrl_3l, bias=False))
+    ctrl_kurt = float(sst.kurtosis(ex_ctrl_3l, fisher=False, bias=False))
+
+    def eval_dsr_from_moments(srb, sk, ku, T=213):
+        denom_own = np.sqrt(max(1e-8, 1.0 - sk * srb + ((ku - 1.0) / 4.0) * (srb ** 2)))
+        denom_ctrl = np.sqrt(max(1e-8, 1.0 - ctrl_skew * srb + ((ctrl_kurt - 1.0) / 4.0) * (srb ** 2)))
+        return {
+            'DSR_1077_OwnMoments': float(sst.norm.cdf((srb - sr0_m_1077) * np.sqrt(T - 1.0) / denom_own)),
+            'DSR_1077_CtrlMoments': float(sst.norm.cdf((srb - sr0_m_1077) * np.sqrt(T - 1.0) / denom_ctrl)),
+            'DSR_1082_OwnMoments': float(sst.norm.cdf((srb - sr0_m_1082) * np.sqrt(T - 1.0) / denom_own)),
+            'DSR_1082_CtrlMoments': float(sst.norm.cdf((srb - sr0_m_1082) * np.sqrt(T - 1.0) / denom_ctrl)),
+            'DSR_1203_Exhaustive_Own': float(sst.norm.cdf((srb - sr0_m_1203) * np.sqrt(T - 1.0) / denom_own)),
+            'DSR_1203_Exhaustive_Ctrl': float(sst.norm.cdf((srb - sr0_m_1203) * np.sqrt(T - 1.0) / denom_ctrl)),
+        }
 
     dsr_rows = []
+
+    # 5A. First evaluate the Frozen Master Strategy Family (BestSec + Gate V1 / V2 & Independent Engine Ledgers)
+    cr_14b_path = os.path.join(ROOT, 'outputs', 'consensus_burst_mode_audit_20261104', '14b_clean_room_reconciled_backtests.csv')
+    if os.path.exists(cr_14b_path):
+        df_cr14 = pd.read_csv(cr_14b_path)
+        master_targets = [
+            'CR_ExpABC_3b_BestSec_V1 [Strict PortVol<=55%] (ExIT_BestSec | Conf2=1.25x, Ord3=1.50x, Grp#1=1.75x [100%])',
+            'CR_ExpABC_3b_V1 [Strict PortVol<=55%] (ExIT_Raw | Conf2=1.25x, Ord3=1.50x, Grp#1=1.75x [100%])',
+            'CR_ExpABC_3f_SGOV50_V1 [Strict PortVol<=55%] (50%SGOV | Conf2=1.25x, Ord3=1.50x, Grp#1=1.75x [100%])',
+            'CR_M3_4a_V1 [Round 1 Exact: qqq_vol21<=30% & port_vol<=55%] (All 3Leg=1.50x, 50%SGOV)',
+            'CR_ExpABC_3b_BestSec_V2 [Round 3 Gate: qqq_vol21<=30%] (ExIT_BestSec | Conf2=1.25x, Ord3=1.50x, Grp#1=1.75x [100%])',
+            'CR_ExpABC_3b_V2 [Round 3 Gate: qqq_vol21<=30%] (ExIT_Raw | Conf2=1.25x, Ord3=1.50x, Grp#1=1.75x [100%])',
+        ]
+        for mt in master_targets:
+            sub = df_cr14[df_cr14['Variant'] == mt]
+            if len(sub):
+                r_cr = sub.iloc[0]
+                sr_ann = float(r_cr['Sharpe'])
+                srb = sr_ann / np.sqrt(12.0)
+                sk = float(r_cr['Sample_Skew'])
+                ku = float(r_cr['Sample_Kurt_Pearson'])
+                d_res = eval_dsr_from_moments(srb, sk, ku, T=213)
+                dsr_rows.append({
+                    'Variant': mt,
+                    'Panel': 'Panel 0: Master Strategy (Burst + SEP-OFF)',
+                    'CAGR_213': float(r_cr['CAGR_09_26']),
+                    'Excess_Sharpe_Ann': sr_ann,
+                    'N_Canonical_Unique_1077': N_1077,
+                    'Expected_Max_SR0_1077_Ann': sr0_m_1077 * np.sqrt(12.0),
+                    **d_res,
+                    'N_Canonical_All_1082': N_1082,
+                    'Expected_Max_SR0_1082_Ann': sr0_m_1082 * np.sqrt(12.0),
+                    'N_Exhaustive_1203': N_1203,
+                    'Expected_Max_SR0_1203_Ann': sr0_m_1203 * np.sqrt(12.0),
+                    'Skew': sk,
+                    'Kurtosis': ku,
+                })
+
+    # Also evaluate the Zero-Shared-Code Independent Engine Ledgers from `outputs/expabc_independent_audit_20261104/`
+    for ind_name in ['ExpABC_3b_BestSec', 'ExpABC_3b', 'ExpABC_3f_SGOV50', 'Ref_M3_4a']:
+        ind_p = os.path.join(IND_EXP_DIR, f'02_ind_ledger_{ind_name}.csv')
+        if os.path.exists(ind_p):
+            df_ind = pd.read_csv(ind_p)
+            r_m = df_ind['net'].values[:213]
+            cagr_ind = float((np.prod(1.0 + r_m)) ** (12.0 / len(r_m)) - 1.0)
+            ex = r_m - rf_al_213
+            srb = float(np.mean(ex) / np.std(r_m, ddof=1))
+            sr_ann = srb * np.sqrt(12.0)
+            sk = float(sst.skew(ex, bias=False))
+            ku = float(sst.kurtosis(ex, fisher=False, bias=False))
+            d_res = eval_dsr_from_moments(srb, sk, ku, T=len(r_m))
+            dsr_rows.append({
+                'Variant': f'Ind_{ind_name} (Zero-Shared-Code Engine)',
+                'Panel': 'Panel 0: Master Strategy (Independent Engine)',
+                'CAGR_213': cagr_ind,
+                'Excess_Sharpe_Ann': sr_ann,
+                'N_Canonical_Unique_1077': N_1077,
+                'Expected_Max_SR0_1077_Ann': sr0_m_1077 * np.sqrt(12.0),
+                **d_res,
+                'N_Canonical_All_1082': N_1082,
+                'Expected_Max_SR0_1082_Ann': sr0_m_1082 * np.sqrt(12.0),
+                'N_Exhaustive_1203': N_1203,
+                'Expected_Max_SR0_1203_Ann': sr0_m_1203 * np.sqrt(12.0),
+                'Skew': sk,
+                'Kurtosis': ku,
+            })
+
+    # 5B. Evaluate all 24 Round 9 SEP-OFF Overlap-Cap Variants
     for row in summary_rows:
         vname = row['Variant']
         r_m = ledgers[vname].loc[months_213, 'net'].values
         ex = r_m - rf_al_213
         srb = float(np.mean(ex) / np.std(r_m, ddof=1))
-        sk = float(sst.skew(ex))
-        ku = float(sst.kurtosis(ex, fisher=False))
-        T = len(r_m)
-        denom = np.sqrt(max(1e-8, 1.0 - sk * srb + ((ku - 1.0) / 4.0) * (srb ** 2)))
-        dsr_main = float(sst.norm.cdf((srb - sr0_m_main) * np.sqrt(T - 1.0) / denom))
-        dsr_tot = float(sst.norm.cdf((srb - sr0_m_tot) * np.sqrt(T - 1.0) / denom))
+        sk = float(sst.skew(ex, bias=False))
+        ku = float(sst.kurtosis(ex, fisher=False, bias=False))
+        d_res = eval_dsr_from_moments(srb, sk, ku, T=len(r_m))
         dsr_rows.append({
             'Variant': vname,
             'Panel': row['Panel'],
-            'Excess_Sharpe_Ann': row['Excess_Sharpe_213'],
-            'N_MainTrack_Trials': N_main,
-            'Expected_Max_SR0_MainTrack_Ann': sr0_m_main * np.sqrt(12.0),
-            'DSR_MainTrack_902': dsr_main,
-            'N_AllRounds_Trials': N_tot,
-            'Expected_Max_SR0_AllRounds_Ann': sr0_m_tot * np.sqrt(12.0),
-            'DSR_AllRounds_1082': dsr_tot,
+            'CAGR_213': float(row['CAGR_213 (09-26/09)']),
+            'Excess_Sharpe_Ann': float(row['Excess_Sharpe_213']),
+            'N_Canonical_Unique_1077': N_1077,
+            'Expected_Max_SR0_1077_Ann': sr0_m_1077 * np.sqrt(12.0),
+            **d_res,
+            'N_Canonical_All_1082': N_1082,
+            'Expected_Max_SR0_1082_Ann': sr0_m_1082 * np.sqrt(12.0),
+            'N_Exhaustive_1203': N_1203,
+            'Expected_Max_SR0_1203_Ann': sr0_m_1203 * np.sqrt(12.0),
             'Skew': sk,
             'Kurtosis': ku,
         })
+
     df_dsr = pd.DataFrame(dsr_rows)
     df_dsr.to_csv(os.path.join(HERE, '05_multiple_testing_dsr.csv'), index=False)
-    print(f'\n--- [4] Cumulative Multiple-Testing DSR (MainTrack N={N_main} SR0={sr0_m_main*np.sqrt(12):.3f} | AllRounds N={N_tot} SR0={sr0_m_tot*np.sqrt(12):.3f}) ---')
+    print(f'\n--- [4] Cumulative Multiple-Testing DSR (1,058 -> N_Unique={N_1077} SR0={sr0_m_1077*np.sqrt(12):.3f} | N_All={N_1082} SR0={sr0_m_1082*np.sqrt(12):.3f} | N_Exh={N_1203} SR0={sr0_m_1203*np.sqrt(12):.3f}) ---')
     for _, r in df_dsr.iterrows():
-        print(f"  {r['Variant']:<46} | Sharpe={r['Excess_Sharpe_Ann']:.3f} | DSR_902={r['DSR_MainTrack_902']*100:5.2f}% | DSR_1082={r['DSR_AllRounds_1082']*100:5.2f}%")
+        print(f"  {r['Variant']:<78} | CAGR={r['CAGR_213']*100:6.2f}% | SR={r['Excess_Sharpe_Ann']:.3f} | "
+              f"DSR_1077(Own/Ctrl)={r['DSR_1077_OwnMoments']*100:5.2f}%/{r['DSR_1077_CtrlMoments']*100:5.2f}% | "
+              f"DSR_1082(Own/Ctrl)={r['DSR_1082_OwnMoments']*100:5.2f}%/{r['DSR_1082_CtrlMoments']*100:5.2f}%")
 
 
 if __name__ == '__main__':

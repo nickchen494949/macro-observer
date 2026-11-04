@@ -114,3 +114,33 @@ Because **`SEP = OFF`** in November 2026 (`t = 2026-10-31`) and `QQQ`, `Tech`, a
 | **Rule 3B (`Strict Cap <= 25%, QQQ On`)** | `2L_2a` / `2L_3a` / `3L_2c` (`ExIT_Raw`) | **`25.0%`** | `25% SNDK + 25% STX + 25% MRNA + 25% SGOV` | `25% SNDK + 25% MU + 25% MRNA + 25% SGOV` |
 | **Rule 4A (`Kill QQQ -> 50% SGOV + Cap <= 25%`)** | **`3L_3c_SEPOFF_KillQQQ_50SGOV_Cap25_ExITBS`** | **`25.0%`** | **`25% SNDK + 25% VLO + 50% SGOV`** | **`25% SNDK + 25% VLO + 50% SGOV`** |
 | **Rule 4B (`Kill QQQ -> 25% SGOV + 25% ExIT, Allow 50%`)** | `3L_3e_SEPOFF_KillQQQ_25SGOV_25ExITBS_Allow50` | `50.0%` | `50% SNDK + 25% VLO + 25% SGOV` | `50% SNDK + 25% VLO + 25% SGOV` |
+
+---
+
+## 5. Cumulative Multiple-Testing Deflated Sharpe Ratio (`N = 1,058` $\to$ `1,077` / `1,082` / `1,203`) (`05_multiple_testing_dsr.csv`)
+
+Continuing strictly from the Round 8 cumulative canonical trial registry (**`N = 1,058`** canonical trials / **`1,179`** exhaustive grid rows in `06b_master_all_trials_sharpe_registry_r8.csv`):
+- Round 9 evaluates `24` rows, of which `5` rows (`2L_0_Ctrl`, `3L_0_Ctrl`, `3L_3a`, `3L_3d`, `3L_3e`) are pre-existing baseline controls already included in `1,058`, and **`19` rows** are genuinely new `SEP = OFF` overlap-cap / duplicate-to-ExIT trials.
+- Therefore:
+  - **Strict Non-Duplicate Canonical Registry**: $1,058 + 19 = \mathbf{1,077}$ trials ($E[\max SR_0] = 1.1489$ annualized).
+  - **All-Row Canonical Registry**: $1,058 + 24 = \mathbf{1,082}$ trials ($E[\max SR_0] = 1.1524$ annualized).
+  - **Exhaustive Grid Registry**: $1,179 + 24 = \mathbf{1,203}$ rows ($E[\max SR_0] = 1.1241$ annualized).
+
+| Strategy / Variant | Panel | CAGR (`09–26/09`) | Excess Sharpe | **DSR (`N = 1,077` Unique Canonical)** | **DSR (`N = 1,082` All Canonical)** | **DSR (`N = 1,203` Exhaustive Grid)** |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| **`CR_ExpABC_3b_BestSec_V1` (`BestSec + Gate V1` Master)** | **Master Strategy (`1.25x/1.50x/1.75x`)** | **`70.92%`** | **`1.437`** | **`93.50%`** *(Ctrl: `91.36%`)* | **`93.27%`** *(Ctrl: `91.10%`)* | **`95.00%`** |
+| **`CR_ExpABC_3b_BestSec_V2` (`BestSec + Gate V2`)** | **Master Strategy (`1.25x/1.50x/1.75x`)** | **`76.46%`** | **`1.421`** | **`92.88%`** *(Ctrl: `90.11%`)* | **`92.63%`** *(Ctrl: `89.83%`)* | **`94.53%`** |
+| **`Ind_ExpABC_3b_BestSec` (`ind_engine.py` Zero-Shared-Code)** | **Independent Engine Master** | **`76.18%`** | **`1.420`** | **`92.86%`** *(Ctrl: `90.02%`)* | **`92.61%`** *(Ctrl: `89.73%`)* | **`94.52%`** |
+| **`CR_ExpABC_3f_SGOV50_V1` (`50% SGOV + Gate V1`)** | **Master Strategy (`1.25x/1.50x/1.75x`)** | **`68.90%`** | **`1.419`** | **`92.58%`** *(Ctrl: `89.95%`)* | **`92.32%`** *(Ctrl: `89.66%`)* | **`94.27%`** |
+| **`Ind_ExpABC_3f_SGOV50` (`ind_engine.py` Zero-Shared-Code)** | **Independent Engine Master** | **`74.10%`** | **`1.401`** | **`91.77%`** *(Ctrl: `88.42%`)* | **`91.48%`** *(Ctrl: `88.10%`)* | **`93.65%`** |
+| **`CR_M3_4a_V1` (`Round 1 Exact Gate V1`)** | **Master Strategy (`1.50x 3-Leg`)** | **`60.86%`** | **`1.403`** | **`90.45%`** *(Ctrl: `88.54%`)* | **`90.15%`** *(Ctrl: `88.22%`)* | **`92.45%`** |
+| **`CR_ExpABC_3b_V1` (`ExIT_Raw + Gate V1`)** | **Master Strategy (`1.25x/1.50x/1.75x`)** | **`68.91%`** | **`1.400`** | **`90.38%`** *(Ctrl: `88.28%`)* | **`90.08%`** *(Ctrl: `87.96%`)* | **`92.40%`** |
+| **`3L_3e_SEPOFF_KillQQQ_25SGOV_25ExITBS_Allow50`** | **Unlevered `1.0x` (`BestSec` Base)** | **`54.35%`** | **`1.396`** | **`88.32%`** *(Ctrl: `87.89%`)* | **`87.99%`** *(Ctrl: `87.56%`)* | **`90.50%`** |
+| **`3L_3a_SEPOFF_KillQQQ_50SGOV_Allow50`** | **Unlevered `1.0x` (`50% SGOV` Base)** | **`52.53%`** | **`1.380`** | **`87.13%`** *(Ctrl: `86.29%`)* | **`86.77%`** *(Ctrl: `85.93%`)* | **`89.51%`** |
+| **`3L_3c_SEPOFF_KillQQQ_50SGOV_Cap25_ExITBS`** | **Unlevered `1.0x` (`Cap <=25%`)** | **`51.85%`** | **`1.366`** | **`85.75%`** *(Ctrl: `84.85%`)* | **`85.37%`** *(Ctrl: `84.47%`)* | **`88.33%`** |
+| **`3L_3b_SEPOFF_KillQQQ_50SGOV_Cap25_ExITRaw`** | **Unlevered `1.0x` (`Cap <=25%`)** | **`51.72%`** | **`1.364`** | **`85.47%`** *(Ctrl: `84.56%`)* | **`85.08%`** *(Ctrl: `84.17%`)* | **`88.08%`** |
+| **`2L_2f_SEPOFF_DupToExITBS50`** | **Unlevered `1.0x` 2-Leg** | **`54.50%`** | **`1.374`** | **`84.82%`** *(Ctrl: `85.71%`)* | **`84.45%`** *(Ctrl: `85.34%`)* | **`87.34%`** |
+| **`3L_2d_SEPOFF_Cap25_AllDup_ExITBS_SGOV`** | **Unlevered `1.0x` (`QQQ On, Cap <=25%`)** | **`52.24%`** | **`1.357`** | **`84.15%`** *(Ctrl: `83.74%`)* | **`83.74%`** *(Ctrl: `83.34%`)* | **`86.87%`** |
+| **`3L_0_Ctrl` (Unmodified 3-Leg Control)** | **Unlevered `1.0x` Baseline** | `50.23%` | `1.300` | `76.34%` | `75.84%` | `79.82%` |
+| **`2L_0_Ctrl` (Unmodified 2-Leg Control)** | **Unlevered `1.0x` Baseline** | `49.97%` | `1.274` | `71.56%` | `71.02%` | `75.28%` |
+

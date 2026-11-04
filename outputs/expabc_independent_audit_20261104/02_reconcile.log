@@ -1,0 +1,33 @@
+=== L1 REGIME (213 months) ===
+SEP state mismatches          : 0
+QQQ vol21 max |diff|          : 9.71445146547012e-17
+lowvol (<=30%) flag mismatches: 0
+dm_panic mismatches           : 0
+cash rate max |diff|          : 9.999054535747565e-17
+
+=== L2 LEG PICKS (213 months) ===
+qqq           months differing: 0
+tech          months differing: 2
+spy           months differing: 0
+exit_raw      months differing: 8
+exit_bestsec  months differing: 53
+
+=== L3 CONSENSUS FLAGS (213 months) ===
+is_3leg         mismatches: 0 | independent count (True / non-empty): 43
+is_2leg         mismatches: 0 | independent count (True / non-empty): 82
+ov_tk           mismatches: 0 | independent count (True / non-empty): 125
+is_subind_grp1  mismatches: 1 | independent count (True / non-empty): 58
+is_conf2        mismatches: 3 | independent count (True / non-empty): 52
+3-leg months 43 | 3-leg & Grp#1 months 23 | conf2 months 52
+
+=== L4 LEDGERS ===
+CTRL_3S_G1_1k        weights differ in   2 months | net diff>1bp in   9 months | CAGR ind 50.2011% vs claimed 49.9449% (+0.256 pp)
+ExpB_1a_SGOV50       weights differ in   2 months | net diff>1bp in   9 months | CAGR ind 52.4978% vs claimed 52.2377% (+0.260 pp)
+ExpB_1b_ExITRaw      weights differ in   2 months | net diff>1bp in   9 months | CAGR ind 52.5026% vs claimed 52.2425% (+0.260 pp)
+ExpAB_2a             weights differ in   3 months | net diff>1bp in  10 months | CAGR ind 53.8035% vs claimed 53.7180% (+0.085 pp)
+Ref_M3_4a            weights differ in   2 months | net diff>1bp in   9 months | CAGR ind 63.7902% vs claimed 63.5108% (+0.279 pp)
+ExpABC_3b            weights differ in   6 months | net diff>1bp in  15 months | CAGR ind 74.1067% vs claimed 74.3872% (-0.280 pp)
+ExpABC_3f_SGOV50     weights differ in   6 months | net diff>1bp in  15 months | CAGR ind 74.1012% vs claimed 74.3817% (-0.280 pp)
+ExpABC_3b_BestSec    weights differ in   6 months | net diff>1bp in  15 months | CAGR ind 76.1792% vs claimed 76.4630% (-0.284 pp)
+
+ExpABC_3b: months with |net diff| > 1bp -> 02_ExpABC_3b_month_differences.csv (15 rows)
