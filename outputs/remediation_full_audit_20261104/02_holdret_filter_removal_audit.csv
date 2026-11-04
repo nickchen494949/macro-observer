@@ -1,0 +1,8 @@
+Panel,Formation_Date,Ticker,Signal_Sort_Col,Signal_Value_at_t,Pure_t_Rank_Without_HoldRet_Filter,Would_Be_Picked_Top2_or_Top1
+QQQ_Selection_Panel,2013-09-30,DELL,sharpe_mom_12_1,1.4189164352839758,33,False
+QQQ_Selection_Panel,2015-06-30,DTV,sharpe_mom_12_1,0.6918087089720365,52,False
+QQQ_Selection_Panel,2018-03-31,CA,sharpe_mom_12_1,0.5378072872300079,64,False
+Tech_Selection_Panel,2013-07-31,BMC,mom_12_1,0.13964646464646457,40,False
+Tech_Selection_Panel,2016-01-31,BRCM,mom_12_1,0.37759126000067034,13,False
+Tech_Selection_Panel,2018-03-31,CSRA,mom_12_1,0.39739996721126647,23,False
+Tech_Selection_Panel,2018-03-31,CA,mom_12_1,0.12426504775916358,58,False
