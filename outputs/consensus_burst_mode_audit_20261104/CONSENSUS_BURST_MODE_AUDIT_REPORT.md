@@ -414,3 +414,76 @@
 | `P4_3b_3Leg_PureExIT_SecRot (50% QQQ + 25% XLK + 25% ExIT_BestSec_Top1[<=3])` | `3Leg_Pure_ExIT_Split` | **`42.71%`** | **`1.264`** | `-24.62%` | `-40.03%` | `30.40%` | `60.32%` | `+8.6%` | `45.05%` | `-2.17` |
 | `P4_4a_Dynamic_SEP_OFF_ExIT (SEP ON: 50/25/25 | SEP OFF: 0% QQQ+25% XLK+25% SPY+25% ExIT+25% SGOV)` | `Dynamic_NonTech_Routing` | **`52.24%`** | **`1.340`** | `-22.60%` | `-34.63%` | `35.78%` | `76.47%` | `+39.3%` | `53.05%` | `+1.28` |
 | `P4_4b_Dynamic_SectorLead_Tilt (Tilt 20% to ExIT only when Best Non-IT Sector Mom > Tech + 5%)` | `Dynamic_NonTech_Routing` | **`48.05%`** | **`1.267`** | `-24.44%` | `-40.49%` | `36.01%` | `65.18%` | `+12.6%` | `50.49%` | `-0.91` |
+
+---
+## 11. Round 3 Experiments A & B — Zero-Leverage Conviction Concentration (`75/25 -> 100%`) & `SEP OFF` Non-Tech Champion Routing
+
+### 11.1 Stock-Level Attribution Inside `3-Leg Consensus` Months: `#1 Consensus Stock` (`100%`) vs `75/25 Blend` vs `QQQ #2 Stock`
+
+| Engine | Consensus Slice | Months ($N$) | `75/25` Ann. CAGR | `#1 Consensus Stock` Mean 1M | `#1 Stock` Ann. CAGR | `#1 Stock` Win Rate | `QQQ #2 Stock` Mean 1M | `QQQ #2` Ann. CAGR | `#1 vs #2` Mean Spread |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `3S_G1_1k (QQQ Hold<=5)` | `All 3-Leg Consensus Months` | `43` | `161.5%` | **`+9.55%`** | **`179.5%`** | **`81.4%`** | `+6.84%` | `100.0%` | **`+2.71%`** |
+| `3S_G1_1k (QQQ Hold<=5)` | `3-Leg + SubInd Group #1 (3-Layer Confirm)` | `24` | `240.5%` | **`+12.26%`** | **`273.7%`** | **`87.5%`** | `+8.40%` | `140.9%` | **`+3.86%`** |
+| `3S_G1_1k (QQQ Hold<=5)` | `3-Leg + SubInd Group NOT #1 (Lone Outlier)` | `19` | `87.3%` | **`+6.11%`** | **`93.7%`** | **`73.7%`** | `+4.87%` | `58.0%` | **`+1.24%`** |
+| `3S_G1_1k (QQQ Hold<=5)` | `3-Leg + SOXX_Strict #1 (Pure Semis)` | `29` | `146.6%` | **`+9.31%`** | **`180.4%`** | **`82.8%`** | `+4.47%` | `60.8%` | **`+4.84%`** |
+| `3S_Core3_1a (QQQ Hard Top-2)` | `All 3-Leg Consensus Months` | `42` | `165.8%` | **`+10.41%`** | **`185.6%`** | **`83.3%`** | `+6.59%` | `94.3%` | **`+3.81%`** |
+| `3S_Core3_1a (QQQ Hard Top-2)` | `3-Leg + SubInd Group #1 (3-Layer Confirm)` | `30` | `153.5%` | **`+10.87%`** | **`187.8%`** | **`80.0%`** | `+4.60%` | `56.3%` | **`+6.27%`** |
+| `3S_Core3_1a (QQQ Hard Top-2)` | `3-Leg + SubInd Group NOT #1 (Lone Outlier)` | `12` | `199.0%` | **`+9.25%`** | **`180.3%`** | **`91.7%`** | `+11.59%` | `235.2%` | **`-2.34%`** |
+| `3S_Core3_1a (QQQ Hard Top-2)` | `3-Leg + SOXX_Strict #1 (Pure Semis)` | `23` | `134.8%` | **`+8.43%`** | **`152.7%`** | **`87.0%`** | `+5.29%` | `79.7%` | **`+3.15%`** |
+
+### 11.2 Full-Portfolio Unlevered Backtests (`1.0x` Cap, Zero Margin): Experiment A, Experiment B, and `A + B`
+
+| Variant | Family | Avg Exp | CAGR (`09–26`) | Excess Sharpe | Monthly MaxDD | True Daily MaxDD (`5651ec2`) | `2009–2018` CAGR | `2019–2026` CAGR | `2022` Return | Ex-2022 CAGR | NW $t$ vs Ctrl |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `AB_00_Baseline_3S_G1_1k (50/25/25 Always, 1.0x)` | `Baseline_1x` | `1.00x` | **`49.94%`** | **`1.292`** | `-22.60%` | `-40.19%` | `35.78%` | `70.43%` | `+8.1%` | `52.90%` | `N/A` |
+| `ExpA_1a_3Leg+SubIndGrp#1 -> 100% Consensus Stock (1.0x Always)` | `ExpA_Unlev_Conc` | `1.00x` | **`51.47%`** | **`1.299`** | `-23.95%` | `-38.47%` | `37.46%` | `71.67%` | `+8.1%` | `54.54%` | `+1.36` |
+| `ExpA_1b_All_3Leg -> 100% Consensus Stock (1.0x Always)` | `ExpA_Unlev_Conc` | `1.00x` | **`51.94%`** | **`1.308`** | `-23.95%` | `-38.47%` | `37.63%` | `72.64%` | `+8.1%` | `55.06%` | `+1.37` |
+| `ExpA_1c_3Leg+SOXX#1 -> 100% Consensus Stock (1.0x Always)` | `ExpA_Unlev_Conc` | `1.00x` | **`52.57%`** | **`1.327`** | `-22.60%` | `-40.19%` | `37.88%` | `73.86%` | `+8.1%` | `55.73%` | `+2.11` |
+| `ExpA_1d_3Leg+Grp#1->100% | Other 3Leg->85% (1.0x Always)` | `ExpA_Unlev_Conc` | `1.00x` | **`51.68%`** | **`1.304`** | `-23.95%` | `-38.47%` | `37.53%` | `72.10%` | `+8.1%` | `54.77%` | `+1.42` |
+| `ExpA_1e_Confirmed_2Leg -> 75% Concentration Only (1.0x Always)` | `ExpA_Unlev_Conc` | `1.00x` | **`46.56%`** | **`1.232`** | `-22.41%` | `-38.11%` | `34.36%` | `63.96%` | `+7.1%` | `49.34%` | `-1.26` |
+| `ExpA_1f_3Leg+Grp#1->100% | Confirmed_2Leg->75% (1.0x Always)` | `ExpA_Unlev_Conc` | `1.00x` | **`48.07%`** | **`1.240`** | `-22.41%` | `-38.11%` | `36.03%` | `65.18%` | `+7.1%` | `50.96%` | `-0.52` |
+| `ExpA_1g_All_3Leg->100% | Confirmed_2Leg->75% (1.0x Always)` | `ExpA_Unlev_Conc` | `1.00x` | **`48.54%`** | **`1.249`** | `-22.41%` | `-38.11%` | `36.21%` | `66.11%` | `+7.1%` | `51.47%` | `-0.35` |
+| `ExpB_1a_SEP_OFF -> 50% SGOV + 25% Tech + 25% SPY (M2_1a)` | `ExpB_SEP_OFF` | `0.92x` | **`52.24%`** | **`1.371`** | `-22.60%` | `-34.63%` | `35.78%` | `76.46%` | `+27.1%` | `53.89%` | `+1.14` |
+| `ExpB_1b_SEP_OFF -> 25% SGOV + 25% ExIT_Raw[<=3] + 25% Tech + 25% SPY (P4_4a)` | `ExpB_SEP_OFF` | `0.96x` | **`52.24%`** | **`1.340`** | `-22.60%` | `-34.63%` | `35.78%` | `76.47%` | `+39.3%` | `53.05%` | `+1.28` |
+| `ExpB_1c_SEP_OFF -> 25% SGOV + 25% ExIT_BestSec[<=3] + 25% Tech + 25% SPY` | `ExpB_SEP_OFF` | `0.96x` | **`54.05%`** | **`1.387`** | `-22.60%` | `-34.63%` | `35.78%` | `81.32%` | `+39.9%` | `54.94%` | `+1.75` |
+| `ExpAB_2a_Unlev: SEP_OFF(25%SGOV+25%ExIT) + 3Leg_Grp#1(100% Stock)` | `ExpAB_Unlev_Comb` | `0.96x` | **`53.72%`** | **`1.345`** | `-23.95%` | `-34.63%` | `37.46%` | `77.57%` | `+39.3%` | `54.62%` | `+1.82` |
+| `ExpAB_2b_Unlev: SEP_OFF(25%SGOV+25%ExIT) + 3Leg_Grp#1(100%) + Conf2Leg(75%)` | `ExpAB_Unlev_Comb` | `0.96x` | **`50.56%`** | **`1.294`** | `-22.41%` | `-34.63%` | `36.03%` | `71.61%` | `+39.3%` | `51.25%` | `+0.18` |
+| `ExpAB_2c_Unlev: SEP_OFF(50%SGOV) + 3Leg_Grp#1(100%) + Conf2Leg(75%)` | `ExpAB_Unlev_Comb` | `0.92x` | **`50.55%`** | **`1.322`** | `-22.41%` | `-34.63%` | `36.03%` | `71.60%` | `+27.1%` | `52.08%` | `+0.03` |
+
+---
+## 12. Round 3 Experiment C & `A + B + C` Combined — Tiered Conviction Scaling (`70%–78.8%` CAGR Family)
+
+| Variant | Family | Avg Exp | CAGR (`09–26`) | Excess Sharpe | Monthly MaxDD | True Daily MaxDD (`5651ec2`) | Daily Calmar | `2009–2018` CAGR | `2019–2026` CAGR | `2022` Return | NW $t$ vs Ctrl |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `Ref_M3_4a: SEP_OFF(50%SGOV) | SEP_ON+LowVol: All_3Leg=1.50x` | `Ref_M3_4a` | `1.01x` | **`63.51%`** | **`1.388`** | `-25.57%` | **`-35.19%`** | `1.80` | `43.54%` | `93.44%` | `+27.1%` | `+3.22` |
+| `ExpBC_01: SEP_OFF(25%SGOV+25%ExIT) | SEP_ON+LowVol: All_3Leg=1.50x` | `ExpBC_Base` | `1.05x` | **`63.52%`** | **`1.368`** | `-25.57%` | **`-39.06%`** | `1.63` | `43.54%` | `93.45%` | `+39.3%` | `+3.37` |
+| `ExpC_1a: SEP_OFF(25%SGOV+25%ExIT) | Ord3Leg=1.25x | 3Leg+Grp#1=1.75x` | `ExpC_Tiered3Leg` | `1.06x` | **`65.88%`** | **`1.358`** | `-22.41%` | **`-42.04%`** | `1.57` | `45.76%` | `96.00%` | `+39.3%` | `+3.16` |
+| `ExpC_1b: SEP_OFF(25%SGOV+25%ExIT) | Ord3Leg=1.50x | 3Leg+Grp#1=1.75x` | `ExpC_Tiered3Leg` | `1.08x` | **`67.50%`** | **`1.362`** | `-25.57%` | **`-42.04%`** | `1.61` | `46.58%` | `98.97%` | `+39.3%` | `+3.25` |
+| `ExpC_1c: SEP_OFF(25%SGOV+25%ExIT) | Ord3Leg=1.25x | 3Leg+Grp#1=2.00x` | `ExpC_Tiered3Leg` | `1.08x` | **`69.75%`** | **`1.344`** | `-25.07%` | **`-45.02%`** | `1.55` | `48.73%` | `101.32%` | `+39.3%` | `+3.07` |
+| `ExpC_1d: SEP_OFF(25%SGOV+25%ExIT) | Ord3Leg=1.50x | 3Leg+Grp#1=2.00x` | `ExpC_Tiered3Leg` | `1.10x` | **`71.41%`** | **`1.350`** | `-25.57%` | **`-45.02%`** | `1.59` | `49.57%` | `104.37%` | `+39.3%` | `+3.15` |
+| `ExpBC_2a: SEP_OFF(25%SGOV+25%ExIT) | Conf2=1.25x | Ord3=1.50x | 3Leg+Grp#1=1.50x` | `ExpBC_Conf2_3` | `1.10x` | **`67.37%`** | **`1.404`** | `-25.57%` | **`-39.06%`** | `1.72` | `48.34%` | `95.57%` | `+39.3%` | `+4.34` |
+| `ExpBC_2b: SEP_OFF(25%SGOV+25%ExIT) | Conf2=1.25x | Ord3=1.25x | 3Leg+Grp#1=1.75x` | `ExpBC_Conf2_3` | `1.10x` | **`69.78%`** | **`1.394`** | `-22.50%` | **`-42.04%`** | `1.66` | `50.63%` | `98.14%` | `+39.3%` | `+3.91` |
+| `ExpBC_2c: SEP_OFF(25%SGOV+25%ExIT) | Conf2=1.25x | Ord3=1.50x | 3Leg+Grp#1=1.75x` | `ExpBC_Conf2_3` | `1.12x` | **`71.45%`** | **`1.399`** | `-25.57%` | **`-42.04%`** | `1.70` | `51.48%` | `101.15%` | `+39.3%` | `+3.97` |
+| `ExpBC_2d: SEP_OFF(25%SGOV+25%ExIT) | Conf2=1.25x | Ord3=1.50x | 3Leg+Grp#1=2.00x` | `ExpBC_Conf2_3` | `1.15x` | **`75.45%`** | **`1.387`** | `-25.57%` | **`-45.02%`** | `1.68` | `54.57%` | `106.61%` | `+39.3%` | `+3.72` |
+| `ExpBC_2e: SEP_OFF(50%SGOV) | Conf2=1.25x | Ord3=1.50x | 3Leg+Grp#1=1.75x` | `ExpBC_Conf2_3` | `1.08x` | **`71.44%`** | **`1.416`** | `-25.57%` | **`-38.02%`** | `1.88` | `51.48%` | `101.13%` | `+27.1%` | `+3.81` |
+| `ExpBC_2f: SEP_OFF(50%SGOV) | Conf2=1.25x | Ord3=1.50x | 3Leg+Grp#1=2.00x` | `ExpBC_Conf2_3` | `1.11x` | **`75.44%`** | **`1.401`** | `-25.57%` | **`-41.21%`** | `1.83` | `54.57%` | `106.59%` | `+27.1%` | `+3.59` |
+| `ExpABC_3a: A(100%Grp#1)+B(ExIT)+C(Conf2=1.25x, Ord3=1.50x, Grp#1=1.50x)` | `ExpABC_Full` | `1.10x` | **`69.85%`** | **`1.399`** | `-25.57%` | **`-36.17%`** | `1.93` | `50.88%` | `97.90%` | `+39.3%` | `+3.94` |
+| `ExpABC_3b: A(100%Grp#1)+B(ExIT)+C(Conf2=1.25x, Ord3=1.50x, Grp#1=1.75x)` | `ExpABC_Full` | `1.12x` | **`74.39%`** | **`1.388`** | `-25.57%` | **`-38.66%`** | `1.92` | `54.39%` | `104.06%` | `+39.3%` | `+3.64` |
+| `ExpABC_3c: A(100%Grp#1)+B(ExIT)+C(Conf2=1.25x, Ord3=1.50x, Grp#1=2.00x)` | `ExpABC_Full` | `1.15x` | **`78.84%`** | **`1.370`** | `-27.78%` | **`-41.16%`** | `1.92` | `57.84%` | `110.11%` | `+39.3%` | `+3.44` |
+| `ExpABC_3d: A(100%Grp#1 + 75%Conf2)+B(ExIT)+C(Conf2=1.25x, Ord3=1.50x, Grp#1=1.75x)` | `ExpABC_Full` | `1.12x` | **`69.88%`** | **`1.336`** | `-25.57%` | **`-38.66%`** | `1.81` | `52.21%` | `95.75%` | `+39.3%` | `+2.77` |
+| `ExpABC_3e: A(100%Grp#1 + 75%Conf2)+B(ExIT)+C(Conf2=1.25x, Ord3=1.50x, Grp#1=2.00x)` | `ExpABC_Full` | `1.15x` | **`74.22%`** | **`1.321`** | `-27.78%` | **`-41.16%`** | `1.80` | `55.61%` | `101.56%` | `+39.3%` | `+2.77` |
+| `ExpABC_3f_UncondLev: A(100%Grp#1 + 75%Conf2)+B(ExIT)+C(Conf2=1.25x, Ord3=1.50x, Grp#1=2.00x, NoVolGate)` | `ExpABC_Full` | `1.15x` | **`75.11%`** | **`1.330`** | `-27.78%` | **`-41.16%`** | `1.82` | `55.76%` | `103.66%` | `+39.3%` | `+2.78` |
+
+---
+## 13. Round 3 Experiment D — Single-Stock `2x Daily-Reset ETF` (`Zero Margin Account`, Exact Daily Compounding + Volatility Decay + Swap/Expense Drag)
+
+| Variant | Family | CAGR (`09–26`) | Excess Sharpe | Monthly MaxDD | `2009–2018` CAGR | `2019–2026` CAGR | `2023–2026` CAGR | `2022` Return | NW $t$ vs Ctrl |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `ExpD_1a_StrictPIT_Launch: 3Leg+Grp#1 -> 50% 2xETF (Eff 1.50x, Zero Margin)` | `ExpD_StrictPIT_2xETF` | **`54.85%`** | **`1.319`** | `-22.60%` | `35.78%` | `83.48%` | **`129.83%`** | `+39.3%` | `+1.95` |
+| `ExpD_1b_StrictPIT_Launch: 3Leg+Grp#1 -> 75% 2xETF (Eff 1.75x, Zero Margin)` | `ExpD_StrictPIT_2xETF` | **`56.04%`** | **`1.296`** | `-22.60%` | `35.78%` | `86.73%` | **`138.31%`** | `+39.3%` | `+1.88` |
+| `ExpD_1c_StrictPIT_Launch: 3Leg+Grp#1 -> 100% 2xETF (Eff 2.00x, Zero Margin)` | `ExpD_StrictPIT_2xETF` | **`57.49%`** | **`1.244`** | `-22.60%` | `35.78%` | `90.72%` | **`148.97%`** | `+39.3%` | `+1.71` |
+| `ExpD_1d_StrictPIT_Launch: All_3Leg(75% 2xETF) + Conf2Leg(25% 2xETF)` | `ExpD_StrictPIT_2xETF` | **`59.27%`** | **`1.288`** | `-30.60%` | `35.78%` | `95.69%` | **`162.55%`** | `+39.3%` | `+2.11` |
+| `ExpD_2a_FullSim_DailyReset2x: 3Leg+Grp#1 -> 50% 2xETF (Eff 1.50x, Zero Margin)` | `ExpD_FullSim_2xETF` | **`60.80%`** | **`1.346`** | `-22.41%` | `42.65%` | `87.68%` | **`139.07%`** | `+39.3%` | `+2.94` |
+| `ExpD_2b_FullSim_DailyReset2x: 3Leg+Grp#1 -> 75% 2xETF (Eff 1.75x, Zero Margin)` | `ExpD_FullSim_2xETF` | **`64.89%`** | **`1.329`** | `-22.41%` | `45.97%` | `92.97%` | **`152.44%`** | `+39.3%` | `+2.87` |
+| `ExpD_2c_FullSim_DailyReset2x: 3Leg+Grp#1 -> 100% 2xETF (Eff 2.00x, Zero Margin)` | `ExpD_FullSim_2xETF` | **`70.83%`** | **`1.298`** | `-26.46%` | `50.84%` | `100.60%` | **`169.89%`** | `+39.3%` | `+2.72` |
+| `ExpD_2d_FullSim_DailyReset2x: All_3Leg(75% 2xETF) + Conf2Leg(25% 2xETF)` | `ExpD_FullSim_2xETF` | **`72.22%`** | **`1.359`** | `-30.60%` | `51.83%` | `102.63%` | **`174.59%`** | `+39.3%` | `+3.55` |

@@ -37,6 +37,11 @@ def main():
     df_sleeves = pd.read_csv(os.path.join(HERE, '08_standalone_sector_and_industry_sleeves.csv'))
     df_sh_bt = pd.read_csv(os.path.join(HERE, '09_shadow_confirmer_conviction_backtests.csv'))
     df_arch = pd.read_csv(os.path.join(HERE, '10_nontech_champion_vs_5leg_strawman.csv'))
+    df_11a = pd.read_csv(os.path.join(HERE, '11a_expA_concentration_diagnostic.csv'))
+    df_11b = pd.read_csv(os.path.join(HERE, '11b_expAB_unlevered_concentration_and_sepoff.csv'))
+    df_12 = pd.read_csv(os.path.join(HERE, '12_expC_and_ABC_tiered_burst.csv'))
+    df_13 = pd.read_csv(os.path.join(HERE, '13_expD_single_stock_2x_etf_backtests.csv'))
+    df_13b = pd.read_csv(os.path.join(HERE, '13b_expD_single_stock_2x_etf_monthly_audit.csv'))
 
     lines = []
     lines.append('# Multi-Leg Consensus ("Burst Switch") & 4 Burst Modes — Clean-Room Scientific Audit Report\n')
@@ -216,6 +221,58 @@ def main():
             f"`{fmt_pct(r['Daily_MaxDD_5651ec2'], 2)}` | `{fmt_pct(r['CAGR_2009_2018'], 2)}` | "
             f"`{fmt_pct(r['CAGR_2019_2026'], 2)}` | `{fmt_pct(r['Ret_2022'], 1, True)}` | "
             f"`{fmt_pct(r['CAGR_Ex2022'], 2)}` | `{fmt_num(r['NW_t_vs_Ctrl'], 2, True)}` |"
+        )
+
+    # SECTION 11: EXPERIMENT A & B (UNLEVERED CONCENTRATION + SEP OFF NON-TECH CHAMPION)
+    lines.append('\n---\n## 11. Round 3 Experiments A & B — Zero-Leverage Conviction Concentration (`75/25 -> 100%`) & `SEP OFF` Non-Tech Champion Routing\n')
+    lines.append('### 11.1 Stock-Level Attribution Inside `3-Leg Consensus` Months: `#1 Consensus Stock` (`100%`) vs `75/25 Blend` vs `QQQ #2 Stock`\n')
+    lines.append('| Engine | Consensus Slice | Months ($N$) | `75/25` Ann. CAGR | `#1 Consensus Stock` Mean 1M | `#1 Stock` Ann. CAGR | `#1 Stock` Win Rate | `QQQ #2 Stock` Mean 1M | `QQQ #2` Ann. CAGR | `#1 vs #2` Mean Spread |')
+    lines.append('| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |')
+    for _, r in df_11a.iterrows():
+        lines.append(
+            f"| `{r['Engine']}` | `{r['Slice']}` | `{int(r['Months_N'])}` | "
+            f"`{fmt_pct(r['Standard_75_25_Ann_Compounded'], 1)}` | **`{fmt_pct(r['Consensus_Stock_Mean_1M'], 2, True)}`** | "
+            f"**`{fmt_pct(r['Consensus_Stock_Ann_Compounded (100% Weight)'], 1)}`** | **`{fmt_pct(r['Consensus_Win_Rate'], 1)}`** | "
+            f"`{fmt_pct(r['QQQ_2nd_Stock_Mean_1M'], 2, True)}` | `{fmt_pct(r['QQQ_2nd_Stock_Ann_Compounded'], 1)}` | "
+            f"**`{fmt_pct(r['Spread_Mean_1M (Cons - QQQ2)'], 2, True)}`** |"
+        )
+
+    lines.append('\n### 11.2 Full-Portfolio Unlevered Backtests (`1.0x` Cap, Zero Margin): Experiment A, Experiment B, and `A + B`\n')
+    lines.append('| Variant | Family | Avg Exp | CAGR (`09–26`) | Excess Sharpe | Monthly MaxDD | True Daily MaxDD (`5651ec2`) | `2009–2018` CAGR | `2019–2026` CAGR | `2022` Return | Ex-2022 CAGR | NW $t$ vs Ctrl |')
+    lines.append('| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |')
+    for _, r in df_11b.iterrows():
+        lines.append(
+            f"| `{r['Variant']}` | `{r['Family']}` | `{r['Avg_Gross_Exp']:.2f}x` | **`{fmt_pct(r['CAGR_09_26'], 2)}`** | "
+            f"**`{fmt_num(r['Sharpe'], 3)}`** | `{fmt_pct(r['Monthly_MaxDD'], 2)}` | "
+            f"`{fmt_pct(r['Daily_MaxDD_5651ec2'], 2)}` | `{fmt_pct(r['CAGR_2009_2018'], 2)}` | "
+            f"`{fmt_pct(r['CAGR_2019_2026'], 2)}` | `{fmt_pct(r['Ret_2022'], 1, True)}` | "
+            f"`{fmt_pct(r['CAGR_Ex2022'], 2)}` | `{fmt_num(r['NW_t_vs_Ctrl'], 2, True)}` |"
+        )
+
+    # SECTION 12: EXPERIMENT C & A+B+C COMBINED
+    lines.append('\n---\n## 12. Round 3 Experiment C & `A + B + C` Combined — Tiered Conviction Scaling (`70%–78.8%` CAGR Family)\n')
+    lines.append('| Variant | Family | Avg Exp | CAGR (`09–26`) | Excess Sharpe | Monthly MaxDD | True Daily MaxDD (`5651ec2`) | Daily Calmar | `2009–2018` CAGR | `2019–2026` CAGR | `2022` Return | NW $t$ vs Ctrl |')
+    lines.append('| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |')
+    for _, r in df_12.iterrows():
+        lines.append(
+            f"| `{r['Variant']}` | `{r['Family']}` | `{r['Avg_Gross_Exp']:.2f}x` | **`{fmt_pct(r['CAGR_09_26'], 2)}`** | "
+            f"**`{fmt_num(r['Sharpe'], 3)}`** | `{fmt_pct(r['Monthly_MaxDD'], 2)}` | "
+            f"**`{fmt_pct(r['Daily_MaxDD_5651ec2'], 2)}`** | `{fmt_num(r['Calmar_Daily'], 2)}` | "
+            f"`{fmt_pct(r['CAGR_2009_2018'], 2)}` | `{fmt_pct(r['CAGR_2019_2026'], 2)}` | "
+            f"`{fmt_pct(r['Ret_2022'], 1, True)}` | `{fmt_num(r['NW_t_vs_Ctrl'], 2, True)}` |"
+        )
+
+    # SECTION 13: EXPERIMENT D (2X DAILY-RESET SINGLE-STOCK ETF)
+    lines.append('\n---\n## 13. Round 3 Experiment D — Single-Stock `2x Daily-Reset ETF` (`Zero Margin Account`, Exact Daily Compounding + Volatility Decay + Swap/Expense Drag)\n')
+    lines.append('| Variant | Family | CAGR (`09–26`) | Excess Sharpe | Monthly MaxDD | `2009–2018` CAGR | `2019–2026` CAGR | `2023–2026` CAGR | `2022` Return | NW $t$ vs Ctrl |')
+    lines.append('| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |')
+    for _, r in df_13.iterrows():
+        lines.append(
+            f"| `{r['Variant']}` | `{r['Family']}` | **`{fmt_pct(r['CAGR_09_26'], 2)}`** | "
+            f"**`{fmt_num(r['Sharpe'], 3)}`** | `{fmt_pct(r['Monthly_MaxDD'], 2)}` | "
+            f"`{fmt_pct(r['CAGR_2009_2018'], 2)}` | `{fmt_pct(r['CAGR_2019_2026'], 2)}` | "
+            f"**`{fmt_pct(r['CAGR_2023_2026'], 2)}`** | `{fmt_pct(r['Ret_2022'], 1, True)}` | "
+            f"`{fmt_num(r['NW_t_vs_Ctrl'], 2, True)}` |"
         )
 
     out_md = os.path.join(HERE, 'CONSENSUS_BURST_MODE_AUDIT_REPORT.md')
