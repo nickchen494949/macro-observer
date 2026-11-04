@@ -42,6 +42,9 @@ def main():
     df_12 = pd.read_csv(os.path.join(HERE, '12_expC_and_ABC_tiered_burst.csv'))
     df_13 = pd.read_csv(os.path.join(HERE, '13_expD_single_stock_2x_etf_backtests.csv'))
     df_13b = pd.read_csv(os.path.join(HERE, '13b_expD_single_stock_2x_etf_monthly_audit.csv'))
+    df_14a = pd.read_csv(os.path.join(HERE, '14a_reconciliation_11_portvol_months.csv'))
+    df_14b = pd.read_csv(os.path.join(HERE, '14b_clean_room_reconciled_backtests.csv'))
+    df_14c = pd.read_csv(os.path.join(HERE, '14c_actual_tiingo_2x_etf_vs_simulation.csv'))
 
     lines = []
     lines.append('# Multi-Leg Consensus ("Burst Switch") & 4 Burst Modes — Clean-Room Scientific Audit Report\n')
@@ -150,15 +153,15 @@ def main():
         )
 
     # SECTION 6: DSR
-    lines.append('\n---\n## 6. Cumulative Multiple-Testing Deflated Sharpe Ratio (`N = 946` Canonical Trials Across All 8 Rounds)\n')
-    lines.append('| Variant | Family | CAGR (`09–26`) | Excess Sharpe | Monthly MaxDD | Daily MaxDD (`5651ec2`) | $N_{\\text{cum}}$ | Expected Max $\\text{SR}_0$ (Ann.) | DSR $p$-value |')
-    lines.append('| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |')
-    for _, r in df_dsr.head(30).iterrows():
+    lines.append('\n---\n## 6. Cumulative Multiple-Testing Deflated Sharpe Ratio (`N = 1,058` Canonical Trials Across All 10 Rounds)\n')
+    lines.append('| Variant | Family | CAGR (`09–26`) | Excess Sharpe | Monthly MaxDD | Daily MaxDD (`5651ec2`) | $N_{\\text{cum}}$ | Expected Max $\\text{SR}_0$ (Ann.) | DSR $p$-value (Ctrl Mom) | DSR $p$-value (Own Mom) |')
+    lines.append('| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |')
+    for _, r in df_dsr.head(35).iterrows():
         lines.append(
             f"| `{r['Variant']}` | `{r['Family']}` | `{fmt_pct(r['CAGR_09_26'], 2)}` | "
             f"`{fmt_num(r['Sharpe_Ann'], 3)}` | `{fmt_pct(r['Monthly_MaxDD'], 2)}` | "
             f"`{fmt_pct(r['Daily_MaxDD_5651ec2'], 2)}` | `{int(r['N_Cumulative_Canonical'])}` | "
-            f"`{fmt_num(r['Expected_Max_Ann_SR0'], 3)}` | **`{fmt_num(r['DSR_p_value'], 3)}`** |"
+            f"`{fmt_num(r['Expected_Max_Ann_SR0'], 3)}` | **`{fmt_num(r['DSR_p_value_CtrlMoments'], 3)}`** | **`{fmt_num(r['DSR_p_value_OwnMoments'], 3)}`** |"
         )
 
     # SECTION 7: SHADOW INDUSTRY / SECTOR CONFIRMERS
@@ -273,6 +276,41 @@ def main():
             f"`{fmt_pct(r['CAGR_2009_2018'], 2)}` | `{fmt_pct(r['CAGR_2019_2026'], 2)}` | "
             f"**`{fmt_pct(r['CAGR_2023_2026'], 2)}`** | `{fmt_pct(r['Ret_2022'], 1, True)}` | "
             f"`{fmt_num(r['NW_t_vs_Ctrl'], 2, True)}` |"
+        )
+
+    # SECTION 14: CLEAN-ROOM RECONCILIATION (GATE V1 VS GATE V2, ACTUAL TIINGO ETF, & UPDATED DSR)
+    lines.append('\n---\n## 14. Clean-Room Verification, Discrepancy Reconciliation (`Gate V1` vs `Gate V2`) & Actual Tiingo 2x ETF Audit\n')
+    lines.append('### 14.1 The 11 3-Leg Consensus Months Where `qqq_vol21 <= 30%` (Market Calm) But `port_vol_est > 55%` (Held Stock High Vol)\n')
+    lines.append('| Month (`ym`) | Consensus Pick | `QQQ #2` Pick | `SubInd Group #1` | `QQQ Vol 21d` | `Port Vol 12-1` | Gate V1 (`<=55%`) | Gate V2 (`No Cap`) | `75/25` 1x Ret | `#1 Stock` 1x Ret |')
+    lines.append('| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |')
+    for _, r in df_14a.iterrows():
+        lines.append(
+            f"| `{r['ym']}` | `{r['consensus_ticker']}` | `{r['qqq_2nd_ticker']}` | `{bool(r['subind_group_is_1'])}` | "
+            f"`{fmt_pct(r['qqq_vol21'], 1)}` | **`{fmt_pct(r['port_vol_est'], 1)}`** | `{bool(r['gate_v1_with_portvol55'])}` | "
+            f"`{bool(r['gate_v2_no_portvol55'])}` | `{fmt_pct(r['blend_75_25_1x_ret'], 2, True)}` | **`{fmt_pct(r['consensus_stock_1x_ret'], 2, True)}`** |"
+        )
+
+    lines.append('\n### 14.2 Standalone Clean-Room Backtest & Exact Daily MaxDD Peak-to-Trough Date Audit (`Gate V1` vs `Gate V2`)\n')
+    lines.append('| Clean-Room Variant | Avg Exp | CAGR (`09–26`) | Excess Sharpe | Monthly MaxDD | **True Daily MaxDD (`5651ec2`)** | **Daily DD Peak $\\to$ Trough** | `2009–2018` CAGR | `2019–2026` CAGR | `2022` Return | NW $t$ vs Ctrl |')
+    lines.append('| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |')
+    for _, r in df_14b.iterrows():
+        lines.append(
+            f"| `{r['Variant']}` | `{r['Avg_Gross_Exp']:.2f}x` | **`{fmt_pct(r['CAGR_09_26'], 2)}`** | "
+            f"**`{fmt_num(r['Sharpe'], 3)}`** | `{fmt_pct(r['Monthly_MaxDD'], 2)}` | "
+            f"**`{fmt_pct(r['Daily_MaxDD_5651ec2'], 2)}`** | `{r['Daily_DD_Peak_Date']} -> {r['Daily_DD_Trough_Date']}` | "
+            f"`{fmt_pct(r['CAGR_2009_2018'], 2)}` | `{fmt_pct(r['CAGR_2019_2026'], 2)}` | "
+            f"`{fmt_pct(r['Ret_2022'], 1, True)}` | `{fmt_num(r['NW_t_vs_Ctrl'], 2, True)}` |"
+        )
+
+    lines.append('\n### 14.3 Actual Tiingo Market EOD Prices (`NVDL` & `PLTU`) vs Daily-Reset Formula Simulation (`2023-11` – `2025-12`)\n')
+    lines.append('| Holding Month | Underlying Stock | Actual ETF | Holding Window (`T+1 Open -> T\'+1 Open`) | `SubInd Grp #1` | `1x Stock` Ret | `Naive 2x` (Wrong) | `Simulated 2x ETF` | **Actual Tiingo ETF Market Ret** | `Actual - Sim` Diff |')
+    lines.append('| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |')
+    for _, r in df_14c.iterrows():
+        lines.append(
+            f"| `{r['ym']}` | `{r['stock']}` | `{r['etf_ticker']}` | `{r['entry_date']} .. {r['exit_date']}` | "
+            f"`{bool(r['subind_group_is_1'])}` | `{fmt_pct(r['stock_1x_ret'], 2, True)}` | `{fmt_pct(r['naive_2x_ret_wrong'], 2, True)}` | "
+            f"`{fmt_pct(r['simulated_daily_reset_2x_ret'], 2, True)}` | **`{fmt_pct(r['actual_market_etf_ret_tiingo'], 2, True)}`** | "
+            f"`{fmt_pct(r['diff_actual_minus_sim'], 2, True)}` |"
         )
 
     out_md = os.path.join(HERE, 'CONSENSUS_BURST_MODE_AUDIT_REPORT.md')
