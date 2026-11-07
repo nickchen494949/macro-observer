@@ -24,7 +24,7 @@ import numpy as np
 import pandas as pd
 import yaml
 
-ROOT = '/Users/happygolucky/Desktop/宏观观察器'
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 D = os.path.join(ROOT, 'research', 'sector_stock_momentum', 'data')
 TIINGO_DIRS = [os.path.join(ROOT, 'outputs', 'qqq_mom_top3_claude_audit_20261103', 'tiingo'),
                os.path.join(ROOT, 'outputs', 'tech_top1_independent_audit_20261103', 'tiingo'),

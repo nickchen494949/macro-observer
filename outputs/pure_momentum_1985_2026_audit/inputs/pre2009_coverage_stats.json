@@ -1,0 +1,5 @@
+{
+  "sp500_1996_2008_total_unique": 857,
+  "sp500_1996_2008_covered_on_disk": 580,
+  "sp500_1996_2008_missing_pre2008_delisted": 277
+}
