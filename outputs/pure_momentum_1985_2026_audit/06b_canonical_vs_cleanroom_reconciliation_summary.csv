@@ -1,0 +1,4 @@
+Strategy,Months_Compared,Canonical_214M_CAGR,CleanRoom_214M_CAGR,Pick_Mismatches_214m,Max_Weight_Diff,Max_Abs_Return_Diff_bp,Mean_Abs_Return_Diff_bp,Audit_Verdict
+1. Production Baseline 1.35x (BestSec_ModBurst_135_75_25_GateV1),214,0.6096186086607038,0.6096186086607034,0,0.0,3.0531133177191805e-12,4.912550441723572e-13,"PASS (0 pick diffs, 0 weight diffs, 0.0000 bp max return diff)"
+2. A1-RS V0 1.35x (A1-RS_ModBurst_135_75_25_GateV1),214,0.6227534259166245,0.6227534259166245,0,0.0,3.0531133177191805e-12,5.060285653637952e-13,"PASS (0 pick diffs, 0 weight diffs, 0.0000 bp max return diff)"
+3. Frozen Challenger: A1-RS 1.35x + V3 (A1-RS_ModBurst_135_75_25_GateV1_ElectionResetV3),214,0.6495497295016854,0.6495497295016852,0,0.0,3.0531133177191805e-12,4.965240640760252e-13,"PASS (0 pick diffs, 0 weight diffs, 0.0000 bp max return diff)"
