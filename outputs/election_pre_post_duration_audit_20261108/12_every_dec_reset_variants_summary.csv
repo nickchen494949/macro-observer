@@ -1,0 +1,23 @@
+strategy,variant,n_sgov_decs,n_reset_decs,cagr_213_pct,cagr_214_pct,sharpe_213,sharpe_214,mdd_monthly_pct,turnover_2way_yr,mean_17_Dec_ret_pct,mean_17_Jan_ret_pct
+Current_A1RS,00_V0_NoSGOV_NoReset,0,0,62.84,62.28,1.446,1.438,-22.74,8.8,1.67,9.76
+Current_A1RS,01_V1_NoSGOV_Reset_U2D_Midterm_Only (3 yrs),0,3,63.01,62.44,1.447,1.439,-22.74,8.77,1.67,10.1
+Current_A1RS,02_NoSGOV_Reset_All_Midterms (4 yrs),0,4,63.07,62.5,1.451,1.442,-22.74,8.78,1.67,10.4
+Current_A1RS,03_NoSGOV_Reset_All_Elections_EvenYrs (8 yrs),0,8,63.62,63.04,1.454,1.445,-22.74,8.84,1.67,11.06
+Current_A1RS,04_NoSGOV_Reset_EVERY_Dec31_AllYears (17 yrs),0,17,62.09,61.53,1.422,1.414,-28.43,8.88,1.67,9.89
+Current_A1RS,05_Frozen_V3_SGOV_U2D_And_Reset_U2D_Only (3 yrs),3,3,65.54,64.95,1.501,1.492,-22.74,8.99,3.22,10.09
+Current_A1RS,06_SGOV_U2D_And_Reset_All_Midterms (4 yrs),3,4,65.61,65.02,1.505,1.496,-22.74,9.01,3.22,10.39
+Current_A1RS,07_SGOV_U2D_And_Reset_All_Elections_EvenYrs (8 yrs),3,8,66.16,65.57,1.507,1.498,-22.74,9.07,3.22,11.04
+Current_A1RS,08_SGOV_U2D_And_Reset_EVERY_Dec31_AllYears (17 yrs),3,17,64.61,64.03,1.475,1.466,-28.43,9.11,3.22,9.87
+Current_A1RS,09_SGOV_All_Elections_Dec_And_Reset_All_Elections (8y),8,8,63.94,63.36,1.475,1.467,-22.74,9.9,1.7,11.01
+Current_A1RS,10_SGOV_EVERY_Dec_AllYears_And_Reset_EVERY_Dec31 (17y),17,17,59.79,59.25,1.402,1.394,-24.84,10.79,-0.09,9.81
+TechArena_TAC1_A1Sec,00_V0_NoSGOV_NoReset,0,0,65.28,64.97,1.477,1.474,-22.2,8.51,1.82,9.68
+TechArena_TAC1_A1Sec,01_V1_NoSGOV_Reset_U2D_Midterm_Only (3 yrs),0,3,64.91,64.61,1.47,1.467,-22.2,8.52,1.82,9.68
+TechArena_TAC1_A1Sec,02_NoSGOV_Reset_All_Midterms (4 yrs),0,4,64.83,64.53,1.472,1.469,-22.2,8.56,1.82,9.87
+TechArena_TAC1_A1Sec,03_NoSGOV_Reset_All_Elections_EvenYrs (8 yrs),0,8,65.4,65.09,1.476,1.473,-22.2,8.62,1.82,10.52
+TechArena_TAC1_A1Sec,04_NoSGOV_Reset_EVERY_Dec31_AllYears (17 yrs),0,17,64.0,63.7,1.449,1.446,-26.1,8.64,1.82,9.49
+TechArena_TAC1_A1Sec,05_Frozen_V3_SGOV_U2D_And_Reset_U2D_Only (3 yrs),3,3,67.48,67.16,1.524,1.52,-22.2,8.74,3.36,9.67
+TechArena_TAC1_A1Sec,06_SGOV_U2D_And_Reset_All_Midterms (4 yrs),3,4,67.4,67.07,1.526,1.523,-22.2,8.77,3.36,9.86
+TechArena_TAC1_A1Sec,07_SGOV_U2D_And_Reset_All_Elections_EvenYrs (8 yrs),3,8,67.97,67.64,1.529,1.526,-22.2,8.84,3.36,10.51
+TechArena_TAC1_A1Sec,08_SGOV_U2D_And_Reset_EVERY_Dec31_AllYears (17 yrs),3,17,66.55,66.23,1.501,1.498,-26.1,8.86,3.36,9.48
+TechArena_TAC1_A1Sec,09_SGOV_All_Elections_Dec_And_Reset_All_Elections (8y),8,8,65.72,65.41,1.498,1.494,-22.2,9.68,1.85,10.48
+TechArena_TAC1_A1Sec,10_SGOV_EVERY_Dec_AllYears_And_Reset_EVERY_Dec31 (17y),17,17,61.48,61.2,1.427,1.424,-22.2,10.53,-0.09,9.41
