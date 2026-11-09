@@ -1,0 +1,11 @@
+year,turnover_type,transition,Sep_M-2,Oct_M-1_PreElec,Nov_M0_Election,Dec_M+1_PostElec,Jan_M+2_Inaug,Feb_M+3_PostInaug,Mar_M+4
+1988,Re-election (No Turnover),GOP (Reagan) -> GOP (Bush Sr.),5.17,-12.6,2.37,4.6,0.83,-6.21,3.21
+1992,Party Turnover (轮换),GOP (Bush Sr.) -> Dem (Clinton),18.48,16.61,25.68,11.61,4.21,-14.33,1.51
+1996,Re-election (No Turnover),Dem (Clinton) -> Dem (Clinton),12.44,1.27,16.04,-1.01,12.56,5.44,-0.77
+2000,Party Turnover (轮换),Dem (Clinton) -> GOP (Bush Jr.),-2.26,-6.59,-58.5,29.99,-13.44,-16.9,-6.55
+2004,Re-election (No Turnover),GOP (Bush Jr.) -> GOP (Bush Jr.),9.57,8.47,24.0,6.07,-1.6,1.19,-3.46
+2008,Party Turnover (轮换),GOP (Bush Jr.) -> Dem (Obama),-30.74,-25.92,-8.85,1.96,-14.36,-10.56,13.1
+2012,Re-election (No Turnover),Dem (Obama) -> Dem (Obama),-2.31,-12.54,-4.48,18.79,9.02,-6.0,4.07
+2016,Party Turnover (轮换),Dem (Obama) -> GOP (Trump),11.61,4.23,29.15,13.36,5.92,-6.02,4.97
+2020,Party Turnover (轮换),GOP (Trump) -> Dem (Biden),0.33,-14.95,2.2,4.15,5.98,4.24,-7.05
+2024,Party Turnover (轮换),Dem (Biden) -> GOP (Trump),1.03,10.62,3.07,-2.03,8.97,-2.31,-8.31
