@@ -1,0 +1,73 @@
+strategy,pres_rerank_timing,rerank_lookback_duration,cagr_214_pct,sharpe_214,mdd_monthly_pct,2012_post_rerank_pct,2016_post_rerank_pct,2020_post_rerank_pct,2024_post_rerank_pct,mean_4pres_post_rerank_pct
+Current_A1RS_V3,Pres_RerankNov_ForNovRally (Oct 31 close),"12-1M (252d ex 21d, Standard)",64.19,1.482,-22.74,-1.95,33.11,20.66,13.55,16.34
+Current_A1RS_V3,Pres_RerankNov_ForNovRally (Oct 31 close),12-0M (252d inc last 1M),64.49,1.488,-22.74,-1.95,33.11,20.66,13.94,16.44
+Current_A1RS_V3,Pres_RerankNov_ForNovRally (Oct 31 close),9-1M (189d ex 21d),64.88,1.495,-22.74,2.91,27.59,9.94,24.7,16.28
+Current_A1RS_V3,Pres_RerankNov_ForNovRally (Oct 31 close),6-1M (126d ex 21d),63.36,1.49,-22.74,-0.06,15.64,18.29,13.97,11.96
+Current_A1RS_V3,Pres_RerankNov_ForNovRally (Oct 31 close),6-0M (126d inc last 1M),66.16,1.506,-22.74,5.63,28.47,6.26,34.1,18.62
+Current_A1RS_V3,Pres_RerankNov_ForNovRally (Oct 31 close),3-1M (63d ex 21d),64.01,1.498,-22.74,8.58,5.38,15.24,24.79,13.5
+Current_A1RS_V3,Pres_RerankNov_ForNovRally (Oct 31 close),3-0M (63d inc last 1M),63.46,1.485,-22.74,8.61,-5.46,12.22,26.31,10.42
+Current_A1RS_V3,Pres_RerankNov_ForNovRally (Oct 31 close),1-0M (21d Post-Elec 1M),62.54,1.466,-22.74,3.96,-6.54,25.39,14.07,9.22
+Current_A1RS_V3,Pres_RerankNov_ForNovRally (Oct 31 close),Post-Elec Drift (T_elec->t),64.19,1.482,-22.74,-1.95,33.11,20.66,13.55,16.34
+Current_A1RS_V3,Pres_RerankDec_ForDec (Nov 30 close),"12-1M (252d ex 21d, Standard)",65.1,1.497,-22.74,9.52,12.84,1.69,-5.82,4.56
+Current_A1RS_V3,Pres_RerankDec_ForDec (Nov 30 close),12-0M (252d inc last 1M),65.04,1.489,-22.74,2.59,12.84,-2.79,-3.14,2.37
+Current_A1RS_V3,Pres_RerankDec_ForDec (Nov 30 close),9-1M (189d ex 21d),64.18,1.48,-22.74,-0.46,12.84,3.15,-3.14,3.1
+Current_A1RS_V3,Pres_RerankDec_ForDec (Nov 30 close),6-1M (126d ex 21d),65.01,1.498,-22.74,5.42,7.51,-2.43,3.41,3.48
+Current_A1RS_V3,Pres_RerankDec_ForDec (Nov 30 close),6-0M (126d inc last 1M),65.36,1.497,-24.18,3.47,12.84,15.61,3.41,8.83
+Current_A1RS_V3,Pres_RerankDec_ForDec (Nov 30 close),3-1M (63d ex 21d),65.57,1.504,-22.74,6.13,3.52,2.16,0.17,3.0
+Current_A1RS_V3,Pres_RerankDec_ForDec (Nov 30 close),3-0M (63d inc last 1M),65.4,1.498,-22.74,4.95,13.49,3.56,0.17,5.54
+Current_A1RS_V3,Pres_RerankDec_ForDec (Nov 30 close),1-0M (21d Post-Elec 1M),64.84,1.49,-22.74,7.22,8.28,0.68,3.78,4.99
+Current_A1RS_V3,Pres_RerankDec_ForDec (Nov 30 close),Post-Elec Drift (T_elec->t),64.96,1.491,-22.74,8.08,9.68,0.68,-1.2,4.31
+Current_A1RS_V3,Pres_RerankJan_ForInauguration (Dec 31),"12-1M (252d ex 21d, Standard)",65.5,1.494,-22.74,3.35,8.29,20.51,7.6,9.94
+Current_A1RS_V3,Pres_RerankJan_ForInauguration (Dec 31),12-0M (252d inc last 1M),63.07,1.452,-25.55,3.7,8.29,5.6,7.6,6.3
+Current_A1RS_V3,Pres_RerankJan_ForInauguration (Dec 31),9-1M (189d ex 21d),63.38,1.458,-25.55,1.91,8.29,5.71,7.98,5.97
+Current_A1RS_V3,Pres_RerankJan_ForInauguration (Dec 31),6-1M (126d ex 21d),64.64,1.48,-22.74,-1.37,4.09,19.23,2.57,6.13
+Current_A1RS_V3,Pres_RerankJan_ForInauguration (Dec 31),6-0M (126d inc last 1M),62.04,1.434,-25.55,-2.01,4.09,4.22,2.86,2.29
+Current_A1RS_V3,Pres_RerankJan_ForInauguration (Dec 31),3-1M (63d ex 21d),66.33,1.505,-22.74,20.69,5.37,15.16,5.25,11.62
+Current_A1RS_V3,Pres_RerankJan_ForInauguration (Dec 31),3-0M (63d inc last 1M),64.45,1.475,-22.74,20.69,3.8,2.74,2.86,7.52
+Current_A1RS_V3,Pres_RerankJan_ForInauguration (Dec 31),1-0M (21d Post-Elec 1M),62.66,1.449,-22.74,4.59,0.31,5.38,0.5,2.69
+Current_A1RS_V3,Pres_RerankJan_ForInauguration (Dec 31),Post-Elec Drift (T_elec->t),63.29,1.46,-22.74,2.82,3.8,6.58,4.43,4.41
+Current_A1RS_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),"12-1M (252d ex 21d, Standard)",65.84,1.524,-22.74,-1.96,32.8,20.6,13.31,16.19
+Current_A1RS_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),12-0M (252d inc last 1M),66.14,1.53,-22.74,-1.96,32.8,20.6,13.75,16.3
+Current_A1RS_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),9-1M (189d ex 21d),66.56,1.537,-22.74,2.95,27.48,9.88,24.66,16.24
+Current_A1RS_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),6-1M (126d ex 21d),65.03,1.533,-22.74,-0.01,15.62,18.23,13.99,11.96
+Current_A1RS_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),6-0M (126d inc last 1M),67.86,1.547,-22.74,5.68,28.25,6.26,34.13,18.58
+Current_A1RS_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),3-1M (63d ex 21d),65.7,1.541,-22.74,8.62,5.41,15.18,24.75,13.49
+Current_A1RS_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),3-0M (63d inc last 1M),65.15,1.528,-22.74,8.66,-5.43,12.22,26.33,10.45
+Current_A1RS_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),1-0M (21d Post-Elec 1M),64.22,1.509,-22.74,4.0,-6.51,25.39,14.09,9.24
+Current_A1RS_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),Post-Elec Drift (T_elec->t),65.84,1.524,-22.74,-1.96,32.8,20.6,13.31,16.19
+TechArena_TAC1_A1Sec_V3,Pres_RerankNov_ForNovRally (Oct 31 close),"12-1M (252d ex 21d, Standard)",66.39,1.51,-22.2,-1.95,33.11,20.66,13.55,16.34
+TechArena_TAC1_A1Sec_V3,Pres_RerankNov_ForNovRally (Oct 31 close),12-0M (252d inc last 1M),66.68,1.517,-22.2,-1.95,33.11,20.66,13.94,16.44
+TechArena_TAC1_A1Sec_V3,Pres_RerankNov_ForNovRally (Oct 31 close),9-1M (189d ex 21d),65.97,1.515,-22.2,2.91,27.59,9.94,10.34,12.69
+TechArena_TAC1_A1Sec_V3,Pres_RerankNov_ForNovRally (Oct 31 close),6-1M (126d ex 21d),66.05,1.523,-22.2,-0.06,22.03,18.29,13.97,13.56
+TechArena_TAC1_A1Sec_V3,Pres_RerankNov_ForNovRally (Oct 31 close),6-0M (126d inc last 1M),68.41,1.536,-22.2,5.63,28.47,6.26,34.1,18.62
+TechArena_TAC1_A1Sec_V3,Pres_RerankNov_ForNovRally (Oct 31 close),3-1M (63d ex 21d),66.3,1.527,-22.2,8.58,5.97,15.84,24.79,13.79
+TechArena_TAC1_A1Sec_V3,Pres_RerankNov_ForNovRally (Oct 31 close),3-0M (63d inc last 1M),65.56,1.515,-22.2,3.08,0.61,10.08,26.31,10.02
+TechArena_TAC1_A1Sec_V3,Pres_RerankNov_ForNovRally (Oct 31 close),1-0M (21d Post-Elec 1M),64.92,1.496,-22.2,3.96,-6.54,28.22,14.07,9.93
+TechArena_TAC1_A1Sec_V3,Pres_RerankNov_ForNovRally (Oct 31 close),Post-Elec Drift (T_elec->t),66.39,1.51,-22.2,-1.95,33.11,20.66,13.55,16.34
+TechArena_TAC1_A1Sec_V3,Pres_RerankDec_ForDec (Nov 30 close),"12-1M (252d ex 21d, Standard)",67.31,1.525,-22.2,9.52,12.84,1.69,-5.82,4.56
+TechArena_TAC1_A1Sec_V3,Pres_RerankDec_ForDec (Nov 30 close),12-0M (252d inc last 1M),67.24,1.517,-22.2,2.59,12.84,-2.79,-3.14,2.37
+TechArena_TAC1_A1Sec_V3,Pres_RerankDec_ForDec (Nov 30 close),9-1M (189d ex 21d),66.39,1.51,-22.2,-0.46,12.84,3.15,-3.14,3.1
+TechArena_TAC1_A1Sec_V3,Pres_RerankDec_ForDec (Nov 30 close),6-1M (126d ex 21d),67.23,1.528,-22.2,5.42,7.51,-2.43,3.41,3.48
+TechArena_TAC1_A1Sec_V3,Pres_RerankDec_ForDec (Nov 30 close),6-0M (126d inc last 1M),67.62,1.528,-22.2,3.47,12.84,15.61,3.41,8.83
+TechArena_TAC1_A1Sec_V3,Pres_RerankDec_ForDec (Nov 30 close),3-1M (63d ex 21d),68.05,1.537,-22.2,8.14,6.61,-0.14,0.17,3.7
+TechArena_TAC1_A1Sec_V3,Pres_RerankDec_ForDec (Nov 30 close),3-0M (63d inc last 1M),67.79,1.529,-22.2,6.96,13.49,3.56,0.17,6.05
+TechArena_TAC1_A1Sec_V3,Pres_RerankDec_ForDec (Nov 30 close),1-0M (21d Post-Elec 1M),67.05,1.519,-22.2,7.22,8.28,0.68,3.78,4.99
+TechArena_TAC1_A1Sec_V3,Pres_RerankDec_ForDec (Nov 30 close),Post-Elec Drift (T_elec->t),67.11,1.518,-22.2,8.08,9.68,0.68,-1.77,4.17
+TechArena_TAC1_A1Sec_V3,Pres_RerankJan_ForInauguration (Dec 31),"12-1M (252d ex 21d, Standard)",67.72,1.524,-22.2,3.35,8.29,20.51,7.6,9.94
+TechArena_TAC1_A1Sec_V3,Pres_RerankJan_ForInauguration (Dec 31),12-0M (252d inc last 1M),65.3,1.483,-22.46,3.7,8.29,5.6,7.6,6.3
+TechArena_TAC1_A1Sec_V3,Pres_RerankJan_ForInauguration (Dec 31),9-1M (189d ex 21d),65.68,1.491,-22.47,1.91,8.29,6.36,7.98,6.14
+TechArena_TAC1_A1Sec_V3,Pres_RerankJan_ForInauguration (Dec 31),6-1M (126d ex 21d),66.85,1.509,-22.2,-1.37,4.09,19.23,2.57,6.13
+TechArena_TAC1_A1Sec_V3,Pres_RerankJan_ForInauguration (Dec 31),6-0M (126d inc last 1M),64.26,1.466,-22.46,-2.01,4.09,4.22,2.86,2.29
+TechArena_TAC1_A1Sec_V3,Pres_RerankJan_ForInauguration (Dec 31),3-1M (63d ex 21d),69.83,1.533,-22.2,39.67,5.37,13.68,5.25,15.99
+TechArena_TAC1_A1Sec_V3,Pres_RerankJan_ForInauguration (Dec 31),3-0M (63d inc last 1M),68.07,1.506,-22.2,39.67,3.8,2.74,2.86,12.27
+TechArena_TAC1_A1Sec_V3,Pres_RerankJan_ForInauguration (Dec 31),1-0M (21d Post-Elec 1M),64.75,1.478,-22.2,3.16,0.31,5.38,0.5,2.34
+TechArena_TAC1_A1Sec_V3,Pres_RerankJan_ForInauguration (Dec 31),Post-Elec Drift (T_elec->t),65.38,1.489,-22.2,2.82,3.8,6.66,2.93,4.05
+TechArena_TAC1_A1Sec_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),"12-1M (252d ex 21d, Standard)",68.04,1.552,-22.2,-1.96,32.8,20.6,13.31,16.19
+TechArena_TAC1_A1Sec_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),12-0M (252d inc last 1M),68.35,1.559,-22.2,-1.96,32.8,20.6,13.75,16.3
+TechArena_TAC1_A1Sec_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),9-1M (189d ex 21d),67.65,1.557,-22.2,2.95,27.48,9.88,10.25,12.64
+TechArena_TAC1_A1Sec_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),6-1M (126d ex 21d),67.75,1.566,-22.2,-0.01,21.93,18.23,13.99,13.53
+TechArena_TAC1_A1Sec_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),6-0M (126d inc last 1M),70.12,1.577,-22.2,5.68,28.25,6.26,34.13,18.58
+TechArena_TAC1_A1Sec_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),3-1M (63d ex 21d),68.01,1.571,-22.2,8.62,6.0,15.78,24.75,13.79
+TechArena_TAC1_A1Sec_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),3-0M (63d inc last 1M),67.26,1.558,-22.2,3.12,0.65,10.08,26.33,10.05
+TechArena_TAC1_A1Sec_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),1-0M (21d Post-Elec 1M),66.62,1.538,-22.2,4.0,-6.51,28.22,14.09,9.95
+TechArena_TAC1_A1Sec_V3,Pres_AvoidOct_RerankNov (Oct SGOV + Rerank),Post-Elec Drift (T_elec->t),68.04,1.552,-22.2,-1.96,32.8,20.6,13.31,16.19
