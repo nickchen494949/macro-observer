@@ -323,6 +323,76 @@ ARCHIVAL_IT_GICS_SUBIND = {
     "FSLR": "Semiconductors",
     "CDAY": "Application Software",
     "DAY": "Application Software",
+    # Pre-2013-02 initial GICS sub-industries (before Wikipedia added the GICS Sub-Industry column in Feb 2013)
+    "AAPL": "Technology Hardware, Storage & Peripherals",
+    "ACN": "IT Consulting & Other Services",
+    "ACS": "Data Processing & Outsourced Services",
+    "ADBE": "Application Software",
+    "ADI": "Semiconductors",
+    "ADP": "Internet Software & Services",
+    "ADSK": "Application Software",
+    "AKAM": "Internet Services & Infrastructure",
+    "ALTR": "Semiconductors",
+    "AMAT": "Semiconductor Equipment",
+    "AMD": "Semiconductors",
+    "APH": "Electronic Components",
+    "ATVI": "Home Entertainment Software",
+    "BMC": "IT Consulting & Services",
+    "BRCM": "Semiconductors",
+    "CA": "Systems Software",
+    "CIEN": "Communications Equipment",
+    "CRM": "Application Software",
+    "CSCO": "Communications Equipment",
+    "CTSH": "IT Consulting & Other Services",
+    "CTXS": "Internet Software & Services",
+    "DELL": "Technology Hardware, Storage & Peripherals",
+    "DXC": "IT Consulting & Other Services",
+    "EA": "Home Entertainment Software",
+    "EBAY": "Internet Software & Services",
+    "EMC": "IT Consulting & Services",
+    "FFIV": "Communications Equipment",
+    "FIS": "Internet Software & Services",
+    "FISV": "Internet Software & Services",
+    "FLIR": "Electronic Equipment & Instruments",
+    "GLW": "Electronic Components",
+    "GOOGL": "Internet Software & Services",
+    "HPQ": "Technology Hardware, Storage & Peripherals",
+    "HRS": "Telecommunications Equipment",
+    "IBM": "IT Consulting & Other Services",
+    "INTC": "Semiconductors",
+    "INTU": "Application Software",
+    "JAVA": "Technology Hardware Storage & Peripherals",
+    "JBL": "Electronic Manufacturing Services",
+    "JNPR": "Communications Equipment",
+    "KLAC": "Semiconductor Equipment",
+    "LLTC": "Semiconductors",
+    "LRCX": "Semiconductor Equipment",
+    "MA": "Internet Software & Services",
+    "MCHP": "Semiconductors",
+    "MOLX": "Electronic Equipment & Instruments",
+    "MSFT": "Systems Software",
+    "MSI": "Communications Equipment",
+    "MU": "Semiconductors",
+    "NTAP": "Technology Hardware, Storage & Peripherals",
+    "NVDA": "Semiconductors",
+    "ORCL": "Application Software",
+    "PAYX": "Internet Software & Services",
+    "QCOM": "Semiconductors",
+    "ROP": "Electronic Equipment & Instruments",
+    "SNDK": "Computer Storage & Peripherals",
+    "STX": "Technology Hardware, Storage & Peripherals",
+    "SYMC": "Application Software",
+    "TDC": "Application Software",
+    "TDY": "Electronic Equipment & Instruments",
+    "TEL": "Electronic Manufacturing Services",
+    "TER": "Semiconductor Materials & Equipment",
+    "TXN": "Semiconductors",
+    "TYL": "Application Software",
+    "V": "Internet Software & Services",
+    "VIAV": "Communication Equipment",
+    "VRSN": "Internet Services & Infrastructure",
+    "WDC": "Technology Hardware, Storage & Peripherals",
+    "XLNX": "Semiconductors",
 }
 
 MISSING_NON_IT_SECTORS = {
@@ -344,13 +414,19 @@ def build_pit_gics_mappers():
         if sec_s == "Information Technology" and pd.notna(sub_s) and str(sub_s).strip() != "":
             wp_pit_sub[(str(m_str)[:10], str(tk).replace(".", "-"))] = str(sub_s).strip()
 
-    it_wp = wp[wp["sector"] == "Information Technology"]
-    sub_wp_modal = it_wp.dropna(subset=["subindustry"]).groupby("ticker")["subindustry"].agg(lambda x: x.value_counts().index[0]).to_dict()
+    # Strictly causal <= t forward-fill structures (ZERO modal aggregation across time, ZERO t.max() lookahead)
+    it_wp = wp[(wp["sector"] == "Information Technology") & wp["subindustry"].notna()].copy()
+    it_wp["subindustry"] = it_wp["subindustry"].astype(str).str.strip()
+    it_wp = it_wp[it_wp["subindustry"] != ""].sort_values("month")
+    it_wp["tk_norm"] = it_wp["ticker"].astype(str).str.replace(".", "-", regex=False)
+    wp_sub_by_tk_causal = {tk: g.set_index("month")["subindustry"] for tk, g in it_wp.groupby("tk_norm")}
+
     sec_ind = sec_df[sec_df["sector"] == "Information Technology"].set_index("ticker")["industry"].dropna().to_dict()
     ovr_ind = ovr_df[ovr_df["sector"] == "Information Technology"].dropna(subset=["industry"]).groupby("ticker")["industry"].first().to_dict()
 
     sec_map_cl = p_cl.set_index(["t", "ticker"])["sector"].to_dict()
-    last_cl_sec = p_cl[p_cl["t"] == p_cl["t"].max()].set_index("ticker")["sector"].to_dict()
+    p_cl_sorted = p_cl.sort_values("t")
+    cl_sec_by_tk_causal = {tk: g.set_index("t")["sector"] for tk, g in p_cl_sorted.groupby("ticker")}
     base_sec_csv = sec_df.set_index("ticker")["sector"].dropna().to_dict()
     base_ovr_csv = ovr_df.dropna(subset=["sector"]).groupby("ticker")["sector"].first().to_dict()
 
@@ -384,8 +460,8 @@ def build_pit_gics_mappers():
             return "Real Estate"
         if (t, tk) in sec_map_cl:
             sec_out = sec_map_cl[(t, tk)]
-        elif tk in last_cl_sec:
-            sec_out = last_cl_sec[tk]
+        elif tk in cl_sec_by_tk_causal and len(cl_sec_by_tk_causal[tk].loc[:t]) > 0:
+            sec_out = cl_sec_by_tk_causal[tk].loc[:t].iloc[-1]
         elif raw_sec is not None and pd.notna(raw_sec):
             sec_out = raw_sec
         elif tk in base_ovr_csv:
@@ -396,20 +472,21 @@ def build_pit_gics_mappers():
             if tk in ("T", "VZ", "CTL", "LUMN", "FTR", "WIN", "Q", "S", "PCS", "TMUS", "LVLT"):
                 return "Telecommunication Services"
             return "Consumer Discretionary"
+        if sec_out == "Consumer Discretionary" and t >= pd.Timestamp("2018-09-24") and tk in ("CBS", "FOX", "FOXA"):
+            return "Communication Services"
         if sec_out == "Real Estate" and t < pd.Timestamp("2016-09-01"):
             return "Financials"
         return sec_out
 
     def get_pit_it_subindustry(t, tk):
         t_str = pd.Timestamp(t).strftime("%Y-%m-%d")
-        if (t_str, tk) in wp_pit_sub:
-            return wp_pit_sub[(t_str, tk)]
+        tk_n = str(tk).replace(".", "-")
+        if (t_str, tk_n) in wp_pit_sub:
+            return wp_pit_sub[(t_str, tk_n)]
+        if tk_n in wp_sub_by_tk_causal and len(wp_sub_by_tk_causal[tk_n].loc[:t_str]) > 0:
+            return wp_sub_by_tk_causal[tk_n].loc[:t_str].iloc[-1]
         if tk in ARCHIVAL_IT_GICS_SUBIND:
             return ARCHIVAL_IT_GICS_SUBIND[tk]
-        if tk in sub_wp_modal:
-            return sub_wp_modal[tk]
-        if tk.replace("-", ".") in sub_wp_modal:
-            return sub_wp_modal[tk.replace("-", ".")]
         if tk in ovr_ind:
             return ovr_ind[tk]
         if tk in sec_ind:
@@ -519,6 +596,7 @@ if __name__ == "__main__":
     df_bil = load_tiingo_etf("BIL")
     dgs = json.load(open(os.path.join(ROOT, "data", "fred", "DGS3MO.json")))["values"]
     rf_s = pd.Series({pd.Timestamp(d): float(v) / 100.0 for d, v in dgs if v not in (None, ".")}).sort_index()
+    rf_s = rf_s.loc[:pd.Timestamp("2026-11-03")]
     rf_m_s = rf_s.resample("ME").last() / 12.0
 
     # Reconstruct SEP state from ALFRED FOMC SEP medians (`02_sep_alfred_medians.csv`)

@@ -1,0 +1,7 @@
+Strategy_and_Audit_Variant,CAGR_204M_Ex2026_pct,Sharpe_204M_Ex2026,CAGR_213M_StrictOpenOpen_pct,Sharpe_213M_StrictOpenOpen,CAGR_214M_pct,Sharpe_214M_RawSD,Sharpe_214M_ExcessSD,Monthly_MaxDD_pct,Terminal_Multiple_214M
+1. Production Baseline 1.35x (BestSec_ModBurst_135_75_25_GateV1),52.77,1.413,62.46,1.443,60.96,1.414,1.416,-22.42,4859.1
+"2. Core Challenger V0 (A1-RS 1.35x, NO Election Rule)",52.64,1.404,62.84,1.444,62.28,1.435,1.438,-22.74,5617.0
+"3. Frozen Challenger V3 (A1-RS 1.35x + V3 Election Reset, Oct29 Snapshot)",55.28,1.468,65.54,1.498,64.95,1.489,1.492,-22.74,7522.3
+4. Frozen Challenger V3 (Strict 2026-11-02 Open on Month 214),55.28,1.468,65.54,1.498,64.88,1.488,1.49,-22.74,7458.9
+5. Frozen Challenger V3 (Pure Monthly Wikipedia Sector at t),55.13,1.465,65.39,1.495,64.8,1.486,1.489,-24.03,7396.6
+6. Frozen Challenger V3 (3M T-Bill Cash Proxy instead of BIL/SGOV),55.38,1.47,65.64,1.499,65.06,1.491,1.493,-22.74,7605.8

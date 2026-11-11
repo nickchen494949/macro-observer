@@ -1,0 +1,5 @@
+asset,role_in_2026_10,entry_date,snapshot_exit,snapshot_ret_pct,strict_open_exit,strict_open_open_ret_pct
+SNDK,"Tech Leg (25% in A1-RS, 50% in Prod)",2026-10-01 Open,2026-10-29 Close (Yahoo raw_open),-22.2768,2026-11-02 Open (Tiingo adjOpen),-33.2676
+MRNA,Ex-IT Raw Leg (25% in A1-RS Route A1),2026-10-01 Open,2026-10-29 Close (Yahoo raw_open),16.1996,2026-11-02 Open (Tiingo adjOpen),20.1222
+VLO,Ex-IT BestSec Leg (25% in Prod & A1-RS),2026-10-01 Open,2026-10-29 Close (Yahoo raw_open),-2.3163,2026-11-02 Open (Tiingo adjOpen),1.4022
+SGOV,Cash ETF Leg (25% in SEP=OFF),2026-10-01 Open,2026-10-29 Close (Tiingo SGOV),0.2998,2026-11-02 Open (Tiingo adjOpen),0.3477
