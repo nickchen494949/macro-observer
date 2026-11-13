@@ -188,6 +188,9 @@ const ECONOMY_ROWS = [
   { id:'fed', label:'Fed 资产负债表',          series:'WALCL',               unit:'T$',  transform:'M→T', absoluteChanges:true },
   { id:'money_market_funds', label:'Money Market Funds 现金', series:'MMMFFAQ027S',         unit:'T$',  transform:'M→T', absoluteChanges:true },
   { id:'bofa_fms_cash', label:'BofA FMS 基金现金水位',   valuation:'BOFA_FMS_CASH',    unit:'%',   absoluteChanges:true },
+  { id:'finra_margin_yoy', label:'FINRA 融资杠杆同比 (Margin YoY)', valuation:'FINRA_MARGIN_YOY', unit:'%', absoluteChanges:true },
+  { id:'cftc_es_am_net', label:'CFTC 标普期货机构净多 (%OI)', valuation:'CFTC_ES_AM_NET', unit:'%', absoluteChanges:true },
+  { id:'cftc_nq_lev_net', label:'CFTC 纳指期货对冲基金净多 (%OI)', valuation:'CFTC_NQ_LEV_NET', unit:'%', absoluteChanges:true },
   { id:'consumer_sentiment', label:'Consumer Sentiment',      series:'UMCSENT',             unit:'' },
 ];
 
@@ -627,6 +630,36 @@ async function updateBofaFmsCash() {
   });
 }
 
+// ============================================
+// FINRA MARGIN DEBT & CFTC FUTURES POSITIONING
+// ============================================
+async function updateFinraAndCftc() {
+  console.log('  📈 Updating FINRA Margin Debt & CFTC Futures Positioning...');
+  return new Promise((resolve) => {
+    execFile(PYTHON_BIN, [path.join(__dirname, 'update_finra_cftc.py')], { timeout: 35000 }, (err, stdout) => {
+      try {
+        if (err) throw err;
+        const res = JSON.parse((stdout || '').trim());
+        if (res && res.ok) {
+          for (const key of ['FINRA_MARGIN_YOY', 'FINRA_MARGIN_DEBT', 'CFTC_ES_AM_NET', 'CFTC_NQ_LEV_NET']) {
+            const p = path.join(VALUATION_DIR, `${key}.json`);
+            if (fs.existsSync(p)) {
+              const d = JSON.parse(fs.readFileSync(p, 'utf8'));
+              if (d && Array.isArray(d.values)) {
+                store.valuation[key] = d.values.filter(v => v[0] >= VALUATION_CUTOFF);
+              }
+            }
+          }
+          console.log(`  ✅ FINRA & CFTC updated (FINRA YoY: ${res.finra?.lastYoY}%, CFTC ES AM: ${res.cftc_es_am?.lastNetOI}%, NQ Lev: ${res.cftc_nq_lev?.lastNetOI}%)`);
+        }
+      } catch (e) {
+        console.log(`  ⚠️  FINRA/CFTC update failed: ${e.message}`);
+      }
+      resolve();
+    });
+  });
+}
+
 
 // ============================================
 let lastYahooUpdate = 0;
@@ -792,6 +825,8 @@ async function smartUpdate(includeYahoo = false, includeFred = true) {
   await updateSepPath();
   // Update BofA FMS Cash Level
   await updateBofaFmsCash();
+  // Update FINRA Margin Debt & CFTC Futures Positioning
+  await updateFinraAndCftc();
 
   // Update macro news (GDELT + Fed RSS)
   try { await fetchAllNews(); } catch(e) { console.log(`  ⚠️  News update failed: ${e.message}`); }
@@ -1441,10 +1476,33 @@ function buildDashboard() {
     const daysSinceObs = lastObsDate ? Math.floor((Date.now() - new Date(lastObsDate + 'T00:00:00Z').getTime()) / 86400000) : null;
     const freshness = gradeFreshness(daysSinceObs, frequency);
     let dynEconLabel = r.label;
-    if (r.id === 'bofa_fms_cash' && m && m.current != null) {
-      if (m.current <= 4.0) dynEconLabel = `${r.label} 🔴 阶段顶警告(≤4.0%)`;
-      else if (m.current >= 5.3) dynEconLabel = `${r.label} 🟢 铁底抄底区(≥5.3%)`;
-      else dynEconLabel = `${r.label} ⚪ 常态区间`;
+    if (m && m.current != null) {
+      if (r.id === 'bofa_fms_cash') {
+        if (m.current <= 4.0) dynEconLabel = `${r.label} 🔴 阶段顶警告(≤4.0%)`;
+        else if (m.current >= 5.3) dynEconLabel = `${r.label} 🟢 铁底抄底区(≥5.3%)`;
+        else dynEconLabel = `${r.label} ⚪ 常态区间`;
+      } else if (r.id === 'finra_margin_yoy' && vals && vals.length >= 12) {
+        const max12 = Math.max(...vals.slice(-12).map(v => v[1]));
+        if (max12 > 45.0 && m.current <= max12 - 10.0) dynEconLabel = `${r.label} 🔴 狂热见顶回落(12M峰${max12.toFixed(1)}%)`;
+        else if (m.current > 40.0) dynEconLabel = `${r.label} 🟠 杠杆狂热区(>40%)`;
+        else if (m.current <= -15.0) dynEconLabel = `${r.label} 🟢 去杠杆铁底区(≤-15%)`;
+        else dynEconLabel = `${r.label} ⚪ 常态扩张`;
+      } else if ((r.id === 'cftc_es_am_net' || r.id === 'cftc_nq_lev_net') && vals && vals.length >= 52) {
+        const w = vals.slice(-156).map(v => v[1]);
+        const mean = w.reduce((a, b) => a + b, 0) / w.length;
+        const std = Math.sqrt(w.reduce((a, b) => a + (b - mean) ** 2, 0) / w.length) || 1;
+        const z = (m.current - mean) / std;
+        const zStr = `${z >= 0 ? '+' : ''}${z.toFixed(1)}σ`;
+        if (r.id === 'cftc_es_am_net') {
+          if (z >= 1.2) dynEconLabel = `${r.label} 🔴 机构多头拥挤(3Y Z=${zStr})`;
+          else if (z <= -1.2) dynEconLabel = `${r.label} 🟢 机构砍仓铁底(3Y Z=${zStr})`;
+          else dynEconLabel = `${r.label} ⚪ 持仓中性(3Y Z=${zStr})`;
+        } else {
+          if (z >= 1.2) dynEconLabel = `${r.label} 🔴 对冲基金拥挤(3Y Z=${zStr})`;
+          else if (z <= -1.2) dynEconLabel = `${r.label} 🟢 对冲基金极空(3Y Z=${zStr})`;
+          else dynEconLabel = `${r.label} ⚪ 持仓中性(3Y Z=${zStr})`;
+        }
+      }
     }
     return { id: r.id, label: dynEconLabel, unit: r.unit, chartKey: econChartKey, lastObsDate, frequency, daysSinceObs, freshness, ...(m || { current:null, zscore:null, zscoreAll:null, changes:{} }) };
   });
@@ -1567,6 +1625,9 @@ function buildDashboard() {
     { id: 'SHILLER_CAPE',    label: '  └ Shiller CAPE Ratio',          unit: 'x' },
     { id: 'SP500_EPS_GROWTH',label: '  └ S&P 500 EPS Growth (YoY)',    unit: '%', absoluteChanges: true },
     { id: 'BOFA_FMS_CASH',   label: '  └ BofA FMS 基金现金水位',       unit: '%', absoluteChanges: true },
+    { id: 'FINRA_MARGIN_YOY',label: '  └ FINRA 融资杠杆同比 (Margin YoY)', unit: '%', absoluteChanges: true },
+    { id: 'CFTC_ES_AM_NET',  label: '  └ CFTC 标普期货机构净多 (%OI)', unit: '%', absoluteChanges: true },
+    { id: 'CFTC_NQ_LEV_NET', label: '  └ CFTC 纳指期货对冲基金净多 (%OI)', unit: '%', absoluteChanges: true },
   ];
 
   const stocks = STOCK_GROUPS.map(g => {
@@ -1649,10 +1710,33 @@ function buildDashboard() {
           const daysSinceObs = lastObsDate ? Math.floor((Date.now() - new Date(lastObsDate + 'T00:00:00Z').getTime()) / 86400000) : null;
           const isSynthesized = synthVals[vi.id] && synthVals[vi.id] !== store.valuation[vi.id];
           let vLabel = vi.label;
-          if (vi.id === 'BOFA_FMS_CASH' && vm && vm.current != null) {
-            if (vm.current <= 4.0) vLabel = `${vi.label} 🔴 阶段顶警告(≤4.0%)`;
-            else if (vm.current >= 5.3) vLabel = `${vi.label} 🟢 铁底抄底区(≥5.3%)`;
-            else vLabel = `${vi.label} ⚪ 常态区间`;
+          if (vm && vm.current != null) {
+            if (vi.id === 'BOFA_FMS_CASH') {
+              if (vm.current <= 4.0) vLabel = `${vi.label} 🔴 阶段顶警告(≤4.0%)`;
+              else if (vm.current >= 5.3) vLabel = `${vi.label} 🟢 铁底抄底区(≥5.3%)`;
+              else vLabel = `${vi.label} ⚪ 常态区间`;
+            } else if (vi.id === 'FINRA_MARGIN_YOY' && vvals && vvals.length >= 12) {
+              const max12 = Math.max(...vvals.slice(-12).map(v => v[1]));
+              if (max12 > 45.0 && vm.current <= max12 - 10.0) vLabel = `${vi.label} 🔴 狂热见顶回落(12M峰${max12.toFixed(1)}%)`;
+              else if (vm.current > 40.0) vLabel = `${vi.label} 🟠 杠杆狂热区(>40%)`;
+              else if (vm.current <= -15.0) vLabel = `${vi.label} 🟢 去杠杆铁底区(≤-15%)`;
+              else vLabel = `${vi.label} ⚪ 常态扩张`;
+            } else if ((vi.id === 'CFTC_ES_AM_NET' || vi.id === 'CFTC_NQ_LEV_NET') && vvals && vvals.length >= 52) {
+              const w = vvals.slice(-156).map(v => v[1]);
+              const mean = w.reduce((a, b) => a + b, 0) / w.length;
+              const std = Math.sqrt(w.reduce((a, b) => a + (b - mean) ** 2, 0) / w.length) || 1;
+              const z = (vm.current - mean) / std;
+              const zStr = `${z >= 0 ? '+' : ''}${z.toFixed(1)}σ`;
+              if (vi.id === 'CFTC_ES_AM_NET') {
+                if (z >= 1.2) vLabel = `${vi.label} 🔴 机构多头拥挤(3Y Z=${zStr})`;
+                else if (z <= -1.2) vLabel = `${vi.label} 🟢 机构砍仓铁底(3Y Z=${zStr})`;
+                else vLabel = `${vi.label} ⚪ 持仓中性(3Y Z=${zStr})`;
+              } else {
+                if (z >= 1.2) vLabel = `${vi.label} 🔴 对冲基金拥挤(3Y Z=${zStr})`;
+                else if (z <= -1.2) vLabel = `${vi.label} 🟢 对冲基金极空(3Y Z=${zStr})`;
+                else vLabel = `${vi.label} ⚪ 持仓中性(3Y Z=${zStr})`;
+              }
+            }
           }
           items.push({ id: vi.id, label: vLabel, unit, chartKey: 'val:' + vi.id, lastObsDate, daysSinceObs, synthesized: isSynthesized || undefined, ...(vm || { current:null, zscore:null, zscoreAll:null, changes:{} }) });
         }
@@ -3285,9 +3369,10 @@ server.listen(PORT, '127.0.0.1', async () => {
   setTimeout(() => liveTick().catch(e => console.error('Live error:', e)), 20000);
   setInterval(() => liveTick().catch(e => console.error('Live error:', e)), 5 * 60 * 1000);
 
-  // Initial news + BofA FMS Cash fetch: 10s after startup (fast, don't block)
+  // Initial news + BofA FMS Cash + FINRA/CFTC fetch: 10s after startup (fast, don't block)
   setTimeout(() => {
     fetchAllNews().catch(e => console.error('[News] Initial fetch error:', e));
     updateBofaFmsCash().catch(e => console.error('[BofA FMS] Initial fetch error:', e));
+    updateFinraAndCftc().catch(e => console.error('[FINRA/CFTC] Initial fetch error:', e));
   }, 10000);
 });
