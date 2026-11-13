@@ -9,10 +9,20 @@
 - This applies to every new conversation, every task, no exceptions.
 - The README contains critical architecture decisions, data update logic, Yahoo Finance ban rules, BDI workflow, display unit transforms, and the Frozen Strategy Summary that MUST be understood before making any changes.
 
-## Frozen Strategy Context (2026-11-05)
+## Frozen Strategy Context (2026-11-13)
+- **V4 Latest Frozen — Zero-Patch Symmetric Dual-Core (`Symmetric_Sharpe_Top2_V4`, 2026-11-13)**:
+  - **Headline Metrics (`1.0x` Unlevered, `2009-01..2026-10` 214M, `10bp/side`)**:
+    - `V4 Symmetric (Hold <= 5, V0 Core)`: `2009–2025` CAGR **`50.38%`**, `214M` CAGR **`59.65%`**, Sharpe **`1.426`**, Monthly MaxDD **`-27.99%`**, Daily MaxDD **`-37.32%`**, 2026 Live Daily MaxDD **`-18.88%`**, Trade Win Rate **`70.16%`** (`87/124`: `QQQ` `69.23%` [`72/104`], `BestSec` `75.00%` [`15/20`]), Payoff Odds **`3.99:1`**, Profit Factor **`9.39`**.
+    - `V4 Tight-Off (BestSec Hold <= 3, V0 Core)`: `2009–2025` CAGR **`50.93%`**, `214M` CAGR **`59.74%`**, Sharpe **`1.429`**, Trade Win Rate **`71.09%`** (`91/128`: `BestSec` `79.17%` [`19/24`]), Payoff Odds **`3.86:1`**, Profit Factor **`9.50`**.
+    - `V4 + V3 Election Reset (Hold <= 5 / Hold <= 3)`: `2009–2025` CAGR **`51.49%` / `51.92%`**, `214M` CAGR **`60.78%` / `60.74%`**, Sharpe **`1.444` / `1.445`**.
+  - **Symmetric V4 Rules (One Stock-Selection Formula Across All Regimes: `12-1 Sharpe + Buy Top-2 / Hold <= 5`)**:
+    - **`SEP = ON` (180M)**: `50% QQQ #1 + 50% QQQ #2` (`12-1 Sharpe`, `Buy Top-2 / Hold <= 5`).
+    - **`SEP = OFF` (34M)**: `50% SGOV + 25% BestSec #1 + 25% BestSec #2` (`BestSec` = #1 S&P 500 Non-IT GICS sector by equal-weighted `12-1 Raw` mean; inside `BestSec`, select Top-2 stocks by `12-1 Sharpe`, `Buy Top-2 / Hold <= 5` [or `Hold <= 3`]).
+    - **2026-11 Live Holdings (`SEP = OFF`, `BestSec = Energy`, identical under Reset or Follow)**: **`25% VLO + 25% MPC + 50% SGOV`**.
+- **V3 Frozen Levered 3-Leg Challenger (`A1-RS_ModBurst_135_75_25_GateV1_ElectionResetV3`, 2026-11-05)**:
+  - **`A1-RS 1.35x + V3 Election Reset`**, 214M CAGR **`64.95%`**, Sharpe **`1.489`**, Monthly MaxDD **`-22.74%`**, Daily MaxDD **`-34.64%`**, 2026 Live Daily MaxDD **`-25.88%`**, MinMER **`70.6%`**.
 - **Production Baseline**: `BestSec_ModBurst_135_75_25_GateV1` (Original `1.35x`, 214M CAGR `60.96%`, Sharpe `1.414`, Daily MaxDD `-34.63%`, MinMER `70.6%`).
-- **Frozen Forward Challenger (Active Candidate)**: `A1-RS_ModBurst_135_75_25_GateV1_ElectionResetV3` (**`A1-RS 1.35x + V3 Election Reset`**, 214M CAGR **`64.95%`**, Sharpe **`1.489`**, Monthly MaxDD **`-22.74%`**, Daily MaxDD **`-34.64%`**, 2026 Live Daily MaxDD **`-25.88%`**, MinMER **`70.6%`**).
-- **4-Layer Frozen Rules (`A1-RS 1.35x + V3 Election Reset`)**:
+- **4-Layer V3 Frozen Rules (`A1-RS 1.35x + V3 Election Reset`)**:
   1. **Selection & Buffer Layer**: Monthly rebalance at month-end close $t$, execute next month first trading day open ($d_0$ Open).
      - `QQQ` leg: `12-1 Sharpe` momentum, `Buy Top-2 / Hold <= 5`.
      - `Tech` leg (S&P 500 IT): `12-1 Raw` momentum, `Hard Top-1` (`Hold <= 1`, no buffer).
@@ -35,9 +45,10 @@
   - **Stage 5 (`SEP = OFF` Overlap De-duplication → `Route A1`)**: Cross-leg overlap in `SEP = ON` (`107` months) has `+119.53%` annualized return (capping it destroys `-20pp` CAGR), but overlap in `SEP = OFF` (`18` months, e.g., Oct 2026 `50% SNDK`) has `-13.85%` annualized return. `Route A1` de-duplicates `Tech == SPY` strictly in `SEP = OFF` by rotating `SPY` to `Ex-IT Raw`.
   - **Stage 6 (`Hold-3` Buffer Aging Fix → `Sector RS >= -5.0%`, `A1-RS`)**: Solved buffer aging where stalling rank 2–3 stocks (`2026-10 APP` with `RS_sec = -11.2%`, `2022-12 EQT`) blocked fresh Rank 1 leaders (`2026-10 WBD +24.6%`), turning Oct 2026 live return from `-11.72%` into `+1.16%` (`DSR = 0.9998` across `N = 1,112` trials).
   - **Stage 7 (`Unified → Divided` Midterm Flip → `V3 Election Reset`)**: Across all `Unified → Divided` midterms (`2010`, `2018`, `2022`), Dec lost `[-7.4%, -8.5%, -10.5%]` while Jan surged `[+13.7%, +19.9%, +5.9%]`. Testing `V0..V8` proved `V3` (`100% SGOV` in Dec + clear `Hold-3/Hold-5` buffers at Dec close) adds `+2.70pp` CAGR (`64.95%`, Sharpe `1.489`), whereas hiding for 2–3 months (`V7/V8`) misses the Jan surge.
-- **Full Spec, Derivation Tables & 26-Directory Script Index**:
+  - **Stage 8 (Zero-Patch Symmetric Dual-Core → `V4 Latest: Symmetric_Sharpe_Top2_V4`)**: Proved `Pure QQQ Top-2 (12-1 Sharpe, Hold <= 5)` beats 3-Leg `1.0x` in `SEP = ON` (`67.77%` vs `60.61%`, `69.23%` trade WR, `PF = 10.10`), while in `SEP = OFF` ranking the 10 Non-IT sectors by equal-weighted `12-1 Raw` to pick `#1 BestSec` and selecting the Top-2 stocks inside `BestSec` by `12-1 Sharpe` (`25% + 25%`) + `50% SGOV` achieves `75.00%–79.17%` `SEP = OFF` trade win rate and `59.65%–59.74%` unlevered 214M CAGR (`60.78%` with `V3 Election Reset`), requiring zero ad-hoc overlap or RS patches.
+- **Full Spec, Derivation Tables & 27-Directory Script Index**:
   - Master Spec & Genealogy: `/Users/happygolucky/Desktop/宏观观察器/FROZEN_STRATEGY_SPEC.md` (mirrored at `/Users/happygolucky/Desktop/宏观观察器/outputs/sep_off_overlap_cap_audit_20261104/FROZEN_A1_RS_V3_ELECTION_RESET_SPEC.md`)
-  - Standalone Reproducible Engines: `/Users/happygolucky/Desktop/宏观观察器/independent_a1_rs_election_reset_audit.py` and `/Users/happygolucky/Desktop/宏观观察器/outputs/sep_off_overlap_cap_audit_20261104/step_{6902,6975,6983}_audit.py`
+  - Standalone Reproducible Engines: `/Users/happygolucky/Desktop/宏观观察器/independent_v4_symmetric_sharpe_top2_audit.py` (V4 Latest), `/Users/happygolucky/Desktop/宏观观察器/independent_a1_rs_election_reset_audit.py` (V3 Levered), and `/Users/happygolucky/Desktop/宏观观察器/outputs/sep_off_overlap_cap_audit_20261104/step_{6902,6975,6983}_audit.py`
 
 ## Project Context (summary — always verify against README)
 - **Stack**: Node.js server (`server.js`) + vanilla HTML/JS frontend (`index.html`)

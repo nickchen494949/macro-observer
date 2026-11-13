@@ -1,15 +1,22 @@
-# 冻结版规范与完整研发演进总纲：`A1-RS + V3 Election Reset` (2026-11-05)
+# 冻结版规范与完整研发演进总纲：`V4 Symmetric Sharpe Top-2` & `V3 A1-RS + Election Reset` (2026-11-13)
 
-> **本文件用途**：作为项目根目录最高优先级的策略冻结规范与研发溯源档案（与 `.agents/AGENTS.md` 及 `README.md` 联动），确保任何新开启的对话（New Chat）在第一回合即完整掌握**最终冻结规则、全部历史回测数据、8 大推导阶段、被证伪/放弃的分支原因，以及全部 26 个审计目录的脚本索引**。
+> **本文件用途**：作为项目根目录最高优先级的策略冻结规范与研发溯源档案（与 `.agents/AGENTS.md` 及 `README.md` 联动），确保任何新开启的对话（New Chat）在第一回合即完整掌握**最终冻结规则（V4 极简对称版 & V3 三腿杠杆版）、全部历史回测数据、8 大推导阶段、被证伪/放弃的分支原因，以及全部 27 个审计目录的脚本索引**。
 
 ---
 
 ## 一、 策略定位与定级
 
-1. **当前正式主线（Production Baseline）**：
-   - **`BestSec_ModBurst_135_75_25_GateV1`**（原版 `1.35x`）
-2. **第一挑战者 / 暂时冻结新主线候选（Frozen Forward Challenger）**：
-   - **`A1-RS_ModBurst_135_75_25_GateV1_ElectionResetV3`**（简称 **`A1-RS 1.35x + V3 Election Reset`**）
+1. **最新冻结极简对称版（V4 Latest Frozen — 零补丁统一双核架构，2026-11-13）**：
+   - **`Symmetric_Sharpe_Top2_V4`**（无杠杆 `1.0x`：214M CAGR **`59.65%`–`59.74%`**，Sharpe **`1.426`–`1.429`**，全周期逐笔交易胜率 **`70.16%`–`71.09%`**，2026 实盘日频 MaxDD **`-18.88%`**；叠加可选 **`V3 Election Reset` 保险**后 214M CAGR **`60.78%`**，Sharpe **`1.445`**）
+   - **独立复现引擎**：[`independent_v4_symmetric_sharpe_top2_audit.py`](./independent_v4_symmetric_sharpe_top2_audit.py)
+   - **核心极简规则（全天候同一套个股动量公式 `12-1 Sharpe + Buy Top-2 / Hold <= 5`）**：
+     - **`SEP = ON`（顺风期，180 个月）**：**`50% QQQ #1 + 50% QQQ #2`**（Nasdaq-100 成分股，`12-1 Sharpe` 排名，`Buy Top-2 / Hold <= 5`，单笔胜率 `69.23%`，赔率 `4.49:1`）。
+     - **`SEP = OFF`（逆风紧缩期，34 个月）**：**`50% SGOV` + `25% BestSec #1 + 25% BestSec #2`**（先在 S&P 500 的 10 个非科技 GICS 板块中按等权 `12-1 Raw` 动量选出第 1 名板块 `BestSec`，再在该板块内按 **`12-1 Sharpe` 选出前 2 名股票 `Buy Top-2 / Hold <= 5` [或 `Hold <= 3`]**，逆风期单笔胜率高达 **`75.00%`–`79.17%`**，赔率 `2.70:1–2.87:1`）。
+     - **2026 年 11 月实盘持仓（`SEP = OFF`，`BestSec = Energy`，无论 Reset 或 Follow 100% 一致）**：**`25% VLO + 25% MPC + 50% SGOV`**。
+2. **三腿温和杠杆冻结版（V3 Frozen Challenger — 2026-11-05）**：
+   - **`A1-RS_ModBurst_135_75_25_GateV1_ElectionResetV3`**（简称 **`A1-RS 1.35x + V3 Election Reset`**，214M CAGR **`64.95%`**，Sharpe **`1.489`**）
+3. **原版三腿正式主线（Production Baseline）**：
+   - **`BestSec_ModBurst_135_75_25_GateV1`**（原版 `1.35x`，214M CAGR `60.96%`，Sharpe `1.414`）
 
 ---
 
@@ -190,13 +197,38 @@
 | **`V7`. 躲 12月+1月（2个月 `SGOV` + 1月底 Reset）** | 62.22% | 61.66% | 1.446 / 1.438 | -22.74% | `[-0.2%, -0.0%, +0.2%]` | `[+0.0%, +0.2%, +0.4%]` | ❌ 踏空 1月主升浪 (`-0.62pp`) |
 | **`V8`. 躲 12月+1月+2月（3个月 `SGOV`）** | 62.17% | 61.61% | 1.445 / 1.437 | -22.74% | `[-0.2%, -0.0%, +0.2%]` | `[+0.0%, +0.2%, +0.4%]` | ❌ 踏空 1–2月主升浪 (`-0.67pp`) |
 
+### 阶段 8：从三腿打补丁（V3）到第一性原理极简对称双核（`V4 Latest: Symmetric_Sharpe_Top2_V4`）（2026-11-13）
+- **独立复现脚本与台账**：
+  - [`independent_v4_symmetric_sharpe_top2_audit.py`](./independent_v4_symmetric_sharpe_top2_audit.py)
+  - [`outputs/v4_symmetric_sharpe_top2_20261113/`](./outputs/v4_symmetric_sharpe_top2_20261113/)
+- **问题起源与第一性原理解剖**：
+  1. **顺风期（`SEP = ON`，180 个月）为什么不需要 `Tech + SPY` 两条辅助腿？**
+     - 纯 **`QQQ Top-2`（`50% + 50%`，`12-1 Sharpe`，`Buy Top-2 / Hold <= 5`）** 在 180 个 `SEP = ON` 顺风月里的年化收益高达 **`67.77%`**（高于三腿 `1.0x` 的 `60.61%`），104 笔完整交易胜率 **`69.23%`**，平均盈亏比 **`4.49 : 1`**，盈亏总额比（Profit Factor）高达 **`10.10`**。
+     - 双槽位（`Top-2`）不仅在 2010 年后的所有滚动窗口（`2011–2026`、`2012–2026`、`2018–2026`、`2020–2026`）全部跑赢单槽位 `Top-1`，而且完美消除了 `Top-1` 的“单槽位阻塞风险”（如 2020 年 `Top-1` 被 `DXCM` 占坑全年仅赚 `+1.63%`，而 `Top-2` 用第 2 槽位捕获 `TSLA` 全年大赚 **`+172.68%`**）。
+  2. **逆风期（`SEP = OFF`，34 个紧缩月）`QQQ` 表现如何？该如何对称切换？**
+     - 在 34 个 `SEP = OFF` 紧缩月里，纯 `QQQ Top-2` 累计亏损 **`-45.13%`**（年化 **`-19.61%`**，单笔交易胜率跌至 **`24.00%`**），证明紧缩期必须切出 `QQQ`。
+     - **Apple-to-Apple 严格固定股数与缓冲对比（`12-1 Raw` vs `12-1 Sharpe`）**：
+       - 在全市场非科技池（`Ex-IT` 约 400 只股票，跨 10 个周期属性截然不同的行业）直接按 `12-1 Sharpe` 选股，会被公用事业/必需消费等低波慢牛股骗走排名（年化仅 `51.80%`）；
+       - 但如果**第一步先在 10 个非科技板块间按等权 `12-1 Raw` 选出最强顺风行业 `#1 BestSec`（保证行业爆发力），第二步在该行业内部按 `12-1 Sharpe` 选出前 2 名股票 `Buy Top-2 / Hold <= 5`（或 `Hold <= 3`）并配 `50% SGOV`**，则同行业内部比较波动率完全公平，直接剔除了高波动妖股！
+       - 结果：逆风期单笔交易胜率从 `Ex-IT Raw` 的 `53.33%` 跃升至 **`75.00%`（`Hold <= 5`）– `79.17%`（`Hold <= 3`）**，无需任何跨腿去重补丁（Route A1）或 `-5.0%` 板块相对强弱补丁（RS_sec），全周期无杠杆 `1.0x` 214M CAGR 达 **`59.65%`–`59.74%`**（Sharpe **`1.426`–`1.429`**），叠加 `V3 Election Reset` 达 **`60.78%`**（Sharpe **`1.445`**）！
+
+#### `V4 Latest (Symmetric_Sharpe_Top2_V4)` 完整业绩与交易胜率汇总表（无杠杆 `1.0x`，2009-01 至 2026-10）
+
+| 策略变体（无杠杆 `1.0x`，含双边 `10bp` 换手成本） | `2009–2025` CAGR<br>*(17年完整年)* | **214M 全周期 CAGR**<br>*(含26年10月)* | **214M Sharpe** | 月频 MaxDD | **历史日频 MaxDD** | **2026 实盘日频 MaxDD** | **全周期逐笔胜率**<br>*(逆风期 BestSec 胜率)* | **平均盈亏比**<br>*(Profit Factor)* |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **1. `V4 对称核心版 (Hold <= 5, V0)`** 🏆 | **50.38%** | **59.65%** | **1.426** | **-27.99%** | **-37.32%** | **-18.88%** | **70.16%** (`87/124`)<br>*(逆风期 **75.00%** `15/20`)* | **3.99 : 1**<br>*(PF = **9.39**)* |
+| **2. `V4 逆风紧缓冲版 (BestSec Hold <= 3, V0)`** | **50.93%** | **59.74%** | **1.429** | **-27.99%** | **-37.32%** | **-18.88%** | **71.09%** (`91/128`)<br>*(逆风期 **79.17%** `19/24`)* | **3.86 : 1**<br>*(PF = **9.50**)* |
+| **3. `V4 + V3 Election Reset (Hold <= 5)`** | **51.49%** | **60.78%** | **1.444** | **-27.99%** | **-37.32%** | **-18.88%** | **68.50%** (`87/127`)<br>*(逆风期 **75.00%** `15/20`)* | **4.02 : 1**<br>*(PF = **8.75**)* |
+| **4. `V4 + V3 Election Reset (Hold <= 3)`** | **51.92%** | **60.74%** | **1.445** | **-27.99%** | **-37.32%** | **-18.88%** | **69.47%** (`91/131`)<br>*(逆风期 **79.17%** `19/24`)* | **3.89 : 1**<br>*(PF = **8.85**)* |
+
 ---
 
 ## 六、 全部关键回测审计报告与可复现脚本索引（供新对话直接调用）
 
 | 阶段 / 主题 | 核心审计报告 (`.md`) | 零共享代码 / 复现脚本 (`.py`) 与关键结果表 (`.csv`) |
 | :--- | :--- | :--- |
-| **1. 最终冻结版 (`A1-RS + V3 Election Reset`)** | [`FROZEN_STRATEGY_SPEC.md`](./FROZEN_STRATEGY_SPEC.md)<br>[`outputs/sep_off_overlap_cap_audit_20261104/FROZEN_A1_RS_V3_ELECTION_RESET_SPEC.md`](./outputs/sep_off_overlap_cap_audit_20261104/FROZEN_A1_RS_V3_ELECTION_RESET_SPEC.md) | [`independent_a1_rs_election_reset_audit.py`](./independent_a1_rs_election_reset_audit.py)<br>[`outputs/sep_off_overlap_cap_audit_20261104/step_6902_audit.py`](./outputs/sep_off_overlap_cap_audit_20261104/step_6902_audit.py)<br>[`outputs/sep_off_overlap_cap_audit_20261104/step_6983_audit.py`](./outputs/sep_off_overlap_cap_audit_20261104/step_6983_audit.py) |
+| **0. 最新冻结 V4 极简对称版 (`Symmetric_Sharpe_Top2_V4`)** | [`FROZEN_STRATEGY_SPEC.md`](./FROZEN_STRATEGY_SPEC.md) | [`independent_v4_symmetric_sharpe_top2_audit.py`](./independent_v4_symmetric_sharpe_top2_audit.py)<br>[`v4_symmetric_sharpe_top2_h5_v0_214m_ledger.csv`](./outputs/v4_symmetric_sharpe_top2_20261113/v4_symmetric_sharpe_top2_h5_v0_214m_ledger.csv)<br>[`v4_symmetric_sharpe_top2_h5_v3_214m_ledger.csv`](./outputs/v4_symmetric_sharpe_top2_20261113/v4_symmetric_sharpe_top2_h5_v3_214m_ledger.csv)<br>[`v4_symmetric_sharpe_top2_h5_v0_trades.csv`](./outputs/v4_symmetric_sharpe_top2_20261113/v4_symmetric_sharpe_top2_h5_v0_trades.csv) |
+| **1. 三腿杠杆冻结版 (`A1-RS + V3 Election Reset`)** | [`FROZEN_STRATEGY_SPEC.md`](./FROZEN_STRATEGY_SPEC.md)<br>[`outputs/sep_off_overlap_cap_audit_20261104/FROZEN_A1_RS_V3_ELECTION_RESET_SPEC.md`](./outputs/sep_off_overlap_cap_audit_20261104/FROZEN_A1_RS_V3_ELECTION_RESET_SPEC.md) | [`independent_a1_rs_election_reset_audit.py`](./independent_a1_rs_election_reset_audit.py)<br>[`outputs/sep_off_overlap_cap_audit_20261104/step_6902_audit.py`](./outputs/sep_off_overlap_cap_audit_20261104/step_6902_audit.py)<br>[`outputs/sep_off_overlap_cap_audit_20261104/step_6983_audit.py`](./outputs/sep_off_overlap_cap_audit_20261104/step_6983_audit.py) |
 | **2. `SEP = OFF` 重叠去重审计 (Route A1)** | [`outputs/sep_off_overlap_cap_audit_20261104/SEP_OFF_OVERLAP_CAP_AUDIT_REPORT.md`](./outputs/sep_off_overlap_cap_audit_20261104/SEP_OFF_OVERLAP_CAP_AUDIT_REPORT.md) | [`outputs/sep_off_overlap_cap_audit_20261104/run_sep_off_overlap_cap_audit.py`](./outputs/sep_off_overlap_cap_audit_20261104/run_sep_off_overlap_cap_audit.py)<br>[`01_sep_on_vs_off_overlap_diagnostic.csv`](./outputs/sep_off_overlap_cap_audit_20261104/01_sep_on_vs_off_overlap_diagnostic.csv)<br>[`03_sep_off_overlap_cap_backtest.csv`](./outputs/sep_off_overlap_cap_audit_20261104/03_sep_off_overlap_cap_backtest.csv) |
 | **3. 外部审计 8 项强制修复与保证金压力测试** | [`outputs/remediation_full_audit_20261104/FULL_8POINT_REMEDIATION_AUDIT_REPORT.md`](./outputs/remediation_full_audit_20261104/FULL_8POINT_REMEDIATION_AUDIT_REPORT.md) | [`outputs/remediation_full_audit_20261104/run_full_8point_remediation_audit.py`](./outputs/remediation_full_audit_20261104/run_full_8point_remediation_audit.py)<br>[`04_zero_shared_code_gate_v1_v2_summary.csv`](./outputs/remediation_full_audit_20261104/04_zero_shared_code_gate_v1_v2_summary.csv)<br>[`05b_overnight_gap_and_forced_liquidation_stress.csv`](./outputs/remediation_full_audit_20261104/05b_overnight_gap_and_forced_liquidation_stress.csv) |
 | **4. 零共享代码独立引擎 (`ind_engine.py`)** | [`outputs/two_leg_independent_audit_20261103/TWO_LEG_INDEPENDENT_AUDIT_REPORT.md`](./outputs/two_leg_independent_audit_20261103/TWO_LEG_INDEPENDENT_AUDIT_REPORT.md) | [`outputs/expabc_independent_audit_20261104/ind_engine.py`](./outputs/expabc_independent_audit_20261104/ind_engine.py)<br>[`outputs/two_leg_independent_audit_20261103/ind_engine.py`](./outputs/two_leg_independent_audit_20261103/ind_engine.py) |

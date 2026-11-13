@@ -1,5 +1,29 @@
 # 🔭 宏观观察器 — Macro Dashboard
 
+## 🏆 Frozen Strategy Specification (2026-11-13)
+
+> **Full Frozen Spec**: [`FROZEN_STRATEGY_SPEC.md`](./FROZEN_STRATEGY_SPEC.md) & [`outputs/sep_off_overlap_cap_audit_20261104/FROZEN_A1_RS_V3_ELECTION_RESET_SPEC.md`](./outputs/sep_off_overlap_cap_audit_20261104/FROZEN_A1_RS_V3_ELECTION_RESET_SPEC.md)  
+> **Zero-Shared-Code Audit Scripts**: [`independent_v4_symmetric_sharpe_top2_audit.py`](./independent_v4_symmetric_sharpe_top2_audit.py) (V4 Latest) & [`independent_a1_rs_election_reset_audit.py`](./independent_a1_rs_election_reset_audit.py) (V3 Levered)
+
+1. **V4 Latest Frozen — Zero-Patch Symmetric Dual-Core (`Symmetric_Sharpe_Top2_V4`, 2026-11-13)**:
+   - **Unlevered `1.0x` Performance (`2009-01..2026-10`, 214M)**: CAGR **`59.65%`–`59.74%`** (`2009–2025` CAGR **`50.38%`–`50.93%`**), Sharpe **`1.426`–`1.429`**, Monthly MaxDD **`-27.99%`**, Daily MaxDD **`-37.32%`**, 2026 Live Daily MaxDD **`-18.88%`**, Round-Trip Trade Win Rate **`70.16%`–`71.09%`** (`PF = 9.39–9.50`). With optional **`V3 Election Reset`**: 214M CAGR **`60.78%`**, Sharpe **`1.445`**.
+   - **Symmetric Rules (One Stock-Selection Formula Across All Regimes: `12-1 Sharpe + Buy Top-2 / Hold <= 5`)**:
+     - **`SEP = ON` (180M)**: **`50% QQQ #1 + 50% QQQ #2`** (`12-1 Sharpe`, `Buy Top-2 / Hold <= 5`; trade win rate `69.23%`, payoff odds `4.49:1`).
+     - **`SEP = OFF` (34M)**: **`50% SGOV + 25% BestSec #1 + 25% BestSec #2`** (`BestSec` = #1 S&P 500 Non-IT GICS sector by equal-weighted `12-1 Raw` mean; inside `BestSec`, select Top-2 stocks by `12-1 Sharpe`, `Buy Top-2 / Hold <= 5` [or `Hold <= 3`]; `SEP = OFF` trade win rate **`75.00%`–`79.17%`**).
+     - **2026-11 Live Holdings (`SEP = OFF`, `BestSec = Energy`, identical under Reset or Follow)**: **`25% VLO + 25% MPC + 50% SGOV`**.
+2. **V3 Frozen Levered 3-Leg Challenger (`A1-RS_ModBurst_135_75_25_GateV1_ElectionResetV3`, 2026-11-05)**:
+   - **`A1-RS 1.35x + V3 Election Reset`** — 214M CAGR **`64.95%`**, Sharpe **`1.489`**, Monthly MaxDD **`-22.74%`**, Daily MaxDD **`-34.64%`**, 2026 Live Daily MaxDD **`-25.88%`**, MinMER **`70.6%`**.
+   - **Key Rules**:
+     - **Selection & Buffer**: `QQQ` (`12-1 Sharpe`, `Top-2 / Hold<=5`), `Tech` (`12-1 Raw`, `Hard Top-1`), `SPY / Ex-IT Raw / Ex-IT BestSec` (`12-1 Raw`, `Top-1 / Hold<=3 + Sector RS >= -5.0%`).
+     - **`SEP = ON`**: `50% QQQ + 25% Tech + 25% SPY` with `Gate V1` (`1.20x` on 2-Leg, `1.35x` on 3-Leg with `75/25` split, max single stock `101.25%`).
+     - **`SEP = OFF` (Route A1, `1.00x`)**: `25% Tech + 25% SPY + 25% Ex-IT BestSec + 25% SGOV`; if `Tech == SPY` (same IT stock), `SPY`'s `25%` rotates to `Ex-IT Raw`.
+     - **`V3 Election Reset`**: When US Midterm Election flips **`Unified → Divided Government`** (`2010`, `2018`, `2022`), hold **`100% SGOV`** in `YYYY-12`, then **clear all `Hold-3 / Hold-5` buffer memory (`held = []`)** at `YYYY-12` close to enter fresh Rank-1 leaders at `YYYY+1-01` open.
+     - **2026-11 Live Holdings (V3)**: `25% SNDK + 25% VLO + 25% MRNA + 25% SGOV` (`SEP = OFF`).
+3. **Production Baseline (原版三腿正式主线)**:
+   - **`BestSec_ModBurst_135_75_25_GateV1`** (Original `1.35x` — 214M CAGR `60.96%`, Sharpe `1.414`, Daily MaxDD `-34.63%`, MinMER `70.6%`)
+
+---
+
 ## 🌳 Sector Rotation Research Tree
 
 ```text
