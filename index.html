@@ -1318,13 +1318,13 @@ async function checkStatus() {
   }
 }
 
-async function doRefresh() {
+async function doRefresh(force = true) {
   const btn = document.getElementById('refBtn');
   btn.classList.add('spin');
   try {
-    await fetch(API + '/api/refresh');
-    // Poll until update completes (max 120s)
-    for (let i = 0; i < 60; i++) {
+    await fetch(API + (force ? '/api/refresh?force=1' : '/api/refresh'));
+    // Poll until update completes (max 240s)
+    for (let i = 0; i < 120; i++) {
       await new Promise(r => setTimeout(r, 2000));
       try {
         const st = await fetch(API + '/api/status').then(r => r.json());
@@ -1332,6 +1332,7 @@ async function doRefresh() {
       } catch(e) {}
     }
     await fetchData();
+    await loadPremarket();
   } catch(e) { console.error(e); }
   btn.classList.remove('spin');
   nextRefresh = Date.now() + REFRESH_MIN * 60000;
@@ -1343,7 +1344,9 @@ function startAutoRefresh() {
   nextRefresh = Date.now() + REFRESH_MIN * 60000;
 
   refreshTimer = setInterval(async () => {
-    await doRefresh();
+    await fetchData();
+    await loadPremarket();
+    nextRefresh = Date.now() + REFRESH_MIN * 60000;
   }, REFRESH_MIN * 60000);
 
   cdTimer = setInterval(() => {
@@ -2254,6 +2257,29 @@ function renderChart(data) {
     tension: 0.1,
     order: 2,
   }];
+
+  if (chartCurrentLabel && chartCurrentLabel.includes('BofA FMS')) {
+    datasets.push({
+      label: '🟢 5.3% 历史铁底抄底线 (≥5.3%)',
+      data: labels.map(() => 5.3),
+      borderColor: '#10b981',
+      borderWidth: 1.5,
+      borderDash: [6, 4],
+      pointRadius: 0,
+      fill: false,
+      order: 1,
+    });
+    datasets.push({
+      label: '🔴 4.0% 阶段顶警告线 (≤4.0%)',
+      data: labels.map(() => 4.0),
+      borderColor: '#ef4444',
+      borderWidth: 1.5,
+      borderDash: [6, 4],
+      pointRadius: 0,
+      fill: false,
+      order: 1,
+    });
+  }
 
   // Build a date→value lookup for interpolation
   const dateMap = {};

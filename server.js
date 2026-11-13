@@ -187,6 +187,7 @@ const ECONOMY_ROWS = [
   { id:'gov_debt_yoy', label:'Gov Debt 增速 (YoY)',     series:'GFDEBTN',             unit:'%',   transform:'yoy',     absoluteChanges:true },
   { id:'fed', label:'Fed 资产负债表',          series:'WALCL',               unit:'T$',  transform:'M→T', absoluteChanges:true },
   { id:'money_market_funds', label:'Money Market Funds 现金', series:'MMMFFAQ027S',         unit:'T$',  transform:'M→T', absoluteChanges:true },
+  { id:'bofa_fms_cash', label:'BofA FMS 基金现金水位',   valuation:'BOFA_FMS_CASH',    unit:'%',   absoluteChanges:true },
   { id:'consumer_sentiment', label:'Consumer Sentiment',      series:'UMCSENT',             unit:'' },
 ];
 
@@ -345,11 +346,14 @@ async function fetchFred(seriesId, startDate) {
 // ============================================
 // YAHOO FETCH (via Python subprocess — bypasses Node.js TLS block)
 // ============================================
-const FETCH_YAHOO_JS = path.join(__dirname, 'fetch_yahoo.js');
+const PYTHON_BIN = fs.existsSync('/Library/Frameworks/Python.framework/Versions/3.11/bin/python3')
+  ? '/Library/Frameworks/Python.framework/Versions/3.11/bin/python3'
+  : 'python3';
+const FETCH_YAHOO_PY = path.join(__dirname, 'fetch_yahoo.py');
 
 function fetchYahoo(symbol, range = '5d') {
   return new Promise((resolve, reject) => {
-    execFile('node', [FETCH_YAHOO_JS, symbol, range], { timeout: 20000 }, (err, stdout, stderr) => {
+    execFile(PYTHON_BIN, [FETCH_YAHOO_PY, symbol, range], { timeout: 20000 }, (err, stdout, stderr) => {
       if (err) return reject(new Error(err.message || stderr));
       try {
         const result = JSON.parse(stdout.trim());
@@ -577,7 +581,7 @@ try:
 except Exception as e:
     print(json.dumps({"error": str(e)}))
 `;
-    const child = require('child_process').spawn('python3', ['-c', pyScript]);
+    const child = require('child_process').spawn(PYTHON_BIN, ['-c', pyScript]);
     let out = '';
     child.stdout.on('data', d => out += d);
     child.on('close', code => {
@@ -592,6 +596,31 @@ except Exception as e:
         }
       } catch(e) {
         console.log(`  ⚠️  Failed to parse SEP data: ${e.message}`);
+      }
+      resolve();
+    });
+  });
+}
+
+// ============================================
+// BOFA GLOBAL FUND MANAGER SURVEY CASH LEVEL (%)
+// ============================================
+async function updateBofaFmsCash() {
+  console.log('  📈 Updating BofA FMS Cash Level...');
+  return new Promise((resolve) => {
+    execFile(PYTHON_BIN, [path.join(__dirname, 'update_bofa_fms_cash.py')], { timeout: 25000 }, (err, stdout) => {
+      try {
+        if (err) throw err;
+        const res = JSON.parse((stdout || '').trim());
+        if (res && res.ok) {
+          const d = JSON.parse(fs.readFileSync(path.join(VALUATION_DIR, 'BOFA_FMS_CASH.json'), 'utf8'));
+          if (d && Array.isArray(d.values)) {
+            store.valuation['BOFA_FMS_CASH'] = d.values.filter(v => v[0] >= VALUATION_CUTOFF);
+            console.log(`  ✅ BofA FMS Cash Level: ${res.points} months (latest ${res.lastDate}: ${res.lastValue}%)`);
+          }
+        }
+      } catch (e) {
+        console.log(`  ⚠️  BofA FMS Cash update failed: ${e.message}`);
       }
       resolve();
     });
@@ -614,7 +643,7 @@ function dropUnfinishedBar(sym, vals) {
   return vals.filter(v => v[0] < et.date || (v[0] === et.date && et.min >= cutoff));
 }
 
-async function smartUpdate(includeYahoo = false) {
+async function smartUpdate(includeYahoo = false, includeFred = true) {
   if (isUpdating) {
     console.log('  ⏭️  Update already running, skipping.');
     return;
@@ -653,9 +682,10 @@ async function smartUpdate(includeYahoo = false) {
     });
   }
 
-  // FRED: always update (free, no rate limits)
+  // FRED: update when requested
   // Use 90-day lookback to catch monthly data (observation_date may be weeks before publication)
   // MERGE logic: update existing dates (handles BLS revisions) + append new dates
+  if (includeFred) {
   const lookbackDate = new Date();
   lookbackDate.setDate(lookbackDate.getDate() - 90);
   const startStr = lookbackDate.toISOString().split('T')[0];
@@ -700,6 +730,7 @@ async function smartUpdate(includeYahoo = false) {
     }
     await sleep(100);
   }
+  }
 
   // Yahoo: only if requested (hourly)
   if (includeYahoo) {
@@ -715,7 +746,7 @@ async function smartUpdate(includeYahoo = false) {
         break;
       }
       try {
-        let newVals = await fetchYahoo(sym, '5d');
+        let newVals = await fetchYahoo(sym, '1mo');
         newVals = dropUnfinishedBar(sym, newVals);
         if (!newVals.length) { yFail++; continue; }
         const existing = store.yahoo[sym] || [];
@@ -759,6 +790,8 @@ async function smartUpdate(includeYahoo = false) {
   await updateFedPath();
   // Update SEP Path
   await updateSepPath();
+  // Update BofA FMS Cash Level
+  await updateBofaFmsCash();
 
   // Update macro news (GDELT + Fed RSS)
   try { await fetchAllNews(); } catch(e) { console.log(`  ⚠️  News update failed: ${e.message}`); }
@@ -858,7 +891,7 @@ function fillPrevCloseGap(sym, prevClose, sessionDate) {
 
 function runPy(script, arg, timeout) {
   return new Promise((resolve, reject) => {
-    execFile('python3', [path.join(__dirname, script), arg], { timeout }, (err, stdout, stderr) => {
+    execFile(PYTHON_BIN, [path.join(__dirname, script), arg], { timeout }, (err, stdout, stderr) => {
       if (err) return reject(new Error(err.message || stderr));
       try {
         const r = JSON.parse(stdout.trim());
@@ -926,11 +959,11 @@ async function dailyTick() {
   const needYahoo = !updateState.lastYahooSession || sess > updateState.lastYahooSession;
   const needFred = updateState.lastFredDate !== et.date;
   if (!needYahoo && !needFred) return;
-  console.log(`  🗓️  Daily update: ${needYahoo ? 'Yahoo (session ' + sess + ') + ' : ''}FRED`);
+  console.log(`  🗓️  Daily update: ${needYahoo ? 'Yahoo (session ' + sess + ')' : ''}${needYahoo && needFred ? ' + ' : ''}${needFred ? 'FRED' : ''}`);
   lastYahooOk = 0;
-  await smartUpdate(needYahoo);
+  await smartUpdate(needYahoo, needFred);
   if (needYahoo && lastYahooOk > 0) updateState.lastYahooSession = sess;
-  updateState.lastFredDate = et.date;
+  if (needFred) updateState.lastFredDate = et.date;
   try { fs.writeFileSync(UPDATE_STATE_FILE, JSON.stringify(updateState)); } catch (e) {}
 }
 
@@ -1318,7 +1351,9 @@ function buildDashboard() {
 
   const economy = ECONOMY_ROWS.map(r => {
     let vals = [];
-    if (r.computed === 'real_yoy' || r.computed === 'ratio') {
+    if (r.valuation) {
+      vals = store.valuation[r.valuation];
+    } else if (r.computed === 'real_yoy' || r.computed === 'ratio') {
       const dataA = store.fred[r.a];
       const dataB = store.fred[r.b];
       if (dataA && dataB) {
@@ -1334,7 +1369,8 @@ function buildDashboard() {
     } else {
       vals = store.fred[r.series];
     }
-    if (!vals || vals.length === 0) return { id: r.id, label: r.label, unit: r.unit, chartKey: r.series, current:null, zscore:null, zscoreAll:null, changes:{} };
+    const econChartKey = r.valuation ? ('val:' + r.valuation) : r.series;
+    if (!vals || vals.length === 0) return { id: r.id, label: r.label, unit: r.unit, chartKey: econChartKey, current:null, zscore:null, zscoreAll:null, changes:{} };
 
     if (r.transform === 'yoy' || r.computed === 'real_yoy') {
       const yoyVals = [];
@@ -1404,7 +1440,13 @@ function buildDashboard() {
     const frequency = medianGapToFrequency(vals);
     const daysSinceObs = lastObsDate ? Math.floor((Date.now() - new Date(lastObsDate + 'T00:00:00Z').getTime()) / 86400000) : null;
     const freshness = gradeFreshness(daysSinceObs, frequency);
-    return { id: r.id, label: r.label, unit: r.unit, chartKey: r.series, lastObsDate, frequency, daysSinceObs, freshness, ...(m || { current:null, zscore:null, zscoreAll:null, changes:{} }) };
+    let dynEconLabel = r.label;
+    if (r.id === 'bofa_fms_cash' && m && m.current != null) {
+      if (m.current <= 4.0) dynEconLabel = `${r.label} 🔴 阶段顶警告(≤4.0%)`;
+      else if (m.current >= 5.3) dynEconLabel = `${r.label} 🟢 铁底抄底区(≥5.3%)`;
+      else dynEconLabel = `${r.label} ⚪ 常态区间`;
+    }
+    return { id: r.id, label: dynEconLabel, unit: r.unit, chartKey: econChartKey, lastObsDate, frequency, daysSinceObs, freshness, ...(m || { current:null, zscore:null, zscoreAll:null, changes:{} }) };
   });
 
   const macroTransmission = MACRO_TRANSMISSION_ROWS.map(r => {
@@ -1524,6 +1566,7 @@ function buildDashboard() {
     { id: 'SP500_PE',        label: '  └ S&P 500 PE Ratio',           unit: 'x' },
     { id: 'SHILLER_CAPE',    label: '  └ Shiller CAPE Ratio',          unit: 'x' },
     { id: 'SP500_EPS_GROWTH',label: '  └ S&P 500 EPS Growth (YoY)',    unit: '%', absoluteChanges: true },
+    { id: 'BOFA_FMS_CASH',   label: '  └ BofA FMS 基金现金水位',       unit: '%', absoluteChanges: true },
   ];
 
   const stocks = STOCK_GROUPS.map(g => {
@@ -1605,7 +1648,13 @@ function buildDashboard() {
           const lastObsDate = vvals && vvals.length ? vvals[vvals.length - 1][0] : null;
           const daysSinceObs = lastObsDate ? Math.floor((Date.now() - new Date(lastObsDate + 'T00:00:00Z').getTime()) / 86400000) : null;
           const isSynthesized = synthVals[vi.id] && synthVals[vi.id] !== store.valuation[vi.id];
-          items.push({ id: vi.id, label: vi.label, unit, chartKey: 'val:' + vi.id, lastObsDate, daysSinceObs, synthesized: isSynthesized || undefined, ...(vm || { current:null, zscore:null, zscoreAll:null, changes:{} }) });
+          let vLabel = vi.label;
+          if (vi.id === 'BOFA_FMS_CASH' && vm && vm.current != null) {
+            if (vm.current <= 4.0) vLabel = `${vi.label} 🔴 阶段顶警告(≤4.0%)`;
+            else if (vm.current >= 5.3) vLabel = `${vi.label} 🟢 铁底抄底区(≥5.3%)`;
+            else vLabel = `${vi.label} ⚪ 常态区间`;
+          }
+          items.push({ id: vi.id, label: vLabel, unit, chartKey: 'val:' + vi.id, lastObsDate, daysSinceObs, synthesized: isSynthesized || undefined, ...(vm || { current:null, zscore:null, zscoreAll:null, changes:{} }) });
         }
       }
     }
@@ -2877,12 +2926,28 @@ const server = http.createServer(async (req, res) => {
   } else if (p === '/api/data') {
     res.end(JSON.stringify(buildDashboard()));
   } else if (p === '/api/refresh') {
-    if (!requireLocalAdmin(req, res)) return;
-    if (dlStatus.state === 'downloading' || dlStatus.state === 'updating') {
-      res.end(JSON.stringify({ status: 'busy', message: dlStatus.msg }));
+    const isLocal = req.socket.remoteAddress === '127.0.0.1' || req.socket.remoteAddress === '::ffff:127.0.0.1' || req.socket.remoteAddress === '::1';
+    if (!isLocal) {
+      res.writeHead(403);
+      res.end(JSON.stringify({ error: 'Access denied: Local only' }));
+      return;
+    }
+    if (dlStatus.state === 'downloading' || dlStatus.state === 'updating' || isUpdating) {
+      res.end(JSON.stringify({ status: 'busy', message: dlStatus.msg || 'Updating...' }));
     } else {
-      res.end(JSON.stringify({ status:'started' }));
-      smartUpdate(true).catch(e => console.error('Update error:', e));
+      const forceYahoo = u.searchParams.get('force') === '1';
+      res.end(JSON.stringify({ status: 'started' }));
+      if (forceYahoo) {
+        (async () => {
+          lastYahooOk = 0;
+          await smartUpdate(true);
+          if (lastYahooOk > 0) updateState.lastYahooSession = lastCompletedSession();
+          updateState.lastFredDate = etNow().date;
+          try { fs.writeFileSync(UPDATE_STATE_FILE, JSON.stringify(updateState)); } catch (e) {}
+        })().catch(e => console.error('Update error:', e));
+      } else {
+        dailyTick().catch(e => console.error('Update error:', e));
+      }
     }
   } else if (p === '/api/redownload') {
     if (!requireLocalAdmin(req, res)) return;
@@ -3207,7 +3272,7 @@ server.listen(PORT, '127.0.0.1', async () => {
   //   so "Current / 1D Δ" always reflect the last finished session and agree with the live column after the close.
   //   FRED once per New York calendar day. Restarts catch up only what is missing (no repeated Yahoo batches).
   console.log(`\n  ⏰ Yahoo: once per completed session (after 18:15 ET) · FRED: once per day\n`);
-  setTimeout(() => dailyTick().catch(e => console.error('Update error:', e)), 60000);
+  setTimeout(() => dailyTick().catch(e => console.error('Update error:', e)), 5000);
   setInterval(() => dailyTick().catch(e => console.error('Update error:', e)), 5 * 60 * 1000);
 
   // Hourly news refresh (GDELT + Fed RSS)
@@ -3220,8 +3285,9 @@ server.listen(PORT, '127.0.0.1', async () => {
   setTimeout(() => liveTick().catch(e => console.error('Live error:', e)), 20000);
   setInterval(() => liveTick().catch(e => console.error('Live error:', e)), 5 * 60 * 1000);
 
-  // Initial news fetch: 10s after startup (fast, don't block)
+  // Initial news + BofA FMS Cash fetch: 10s after startup (fast, don't block)
   setTimeout(() => {
     fetchAllNews().catch(e => console.error('[News] Initial fetch error:', e));
+    updateBofaFmsCash().catch(e => console.error('[BofA FMS] Initial fetch error:', e));
   }, 10000);
 });
