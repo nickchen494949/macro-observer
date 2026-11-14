@@ -1,0 +1,57 @@
+window,strategy,cagr,sharpe,monthly_maxdd,daily_maxdd,cvar_5pct,dsr_n48,alarms,false_alarm_pct
+Full 190M (2011-01..2026-10),0. Baseline: Original TQQQ + SEP Only,49.84,1.073,-54.16,-71.94,-26.91,0.974,0,0.0
+Full 190M (2011-01..2026-10),Cand A0 (Original Float >0.10 & VIX-QQQ_Vol21>0),54.5,1.174,-51.97,-57.46,-23.72,0.993,10,40.0
+Full 190M (2011-01..2026-10),Cand A1 (Strict >10.0bp [>=11bp] & VIX-QQQ_Vol21>0),55.17,1.184,-51.97,-57.46,-23.72,0.993,9,33.3
+Full 190M (2011-01..2026-10),Cand A_VXN (Matched Nasdaq: >10.0bp & VXN-QQQ_Vol21>0),52.39,1.176,-51.97,-57.46,-22.79,0.992,15,46.7
+Full 190M (2011-01..2026-10),Cand A_SPY (Matched S&P500: >10.0bp & VIX-SPY_Vol21>0),52.35,1.175,-51.97,-57.46,-22.79,0.992,18,44.4
+Full 190M (2011-01..2026-10),Cand A_20Y (Matched 20Y Bond: BAA-20Y>10bp & VXN-QQQ>0),52.03,1.178,-51.97,-57.46,-21.71,0.993,15,53.3
+Full 190M (2011-01..2026-10),Cand A_Qual (Moody BAA-AAA > 5bp & VXN-QQQ_Vol21>0),44.37,1.033,-54.16,-71.94,-25.23,0.963,19,63.2
+Full 190M (2011-01..2026-10),Cand B (Cand A1 + V3 Midterm Flip 2010/18/22 -> BIL/SGOV),59.51,1.268,-38.02,-45.85,-21.52,0.998,10,30.0
+Ex-2018-12 Only (189M),0. Baseline: Original TQQQ + SEP Only,54.42,1.151,-54.16,,-24.84,0.988,0,0.0
+Ex-2018-12 Only (189M),Cand A0 (Original Float >0.10 & VIX-QQQ_Vol21>0),59.25,1.262,-38.02,,-21.52,0.998,10,40.0
+Ex-2018-12 Only (189M),Cand A1 (Strict >10.0bp [>=11bp] & VIX-QQQ_Vol21>0),59.94,1.272,-38.02,,-21.52,0.998,9,33.3
+Ex-2018-12 Only (189M),Cand A_VXN (Matched Nasdaq: >10.0bp & VXN-QQQ_Vol21>0),57.06,1.269,-41.86,,-20.57,0.998,15,46.7
+Ex-2018-12 Only (189M),Cand A_SPY (Matched S&P500: >10.0bp & VIX-SPY_Vol21>0),57.02,1.268,-41.54,,-20.57,0.998,18,44.4
+Ex-2018-12 Only (189M),Cand A_20Y (Matched 20Y Bond: BAA-20Y>10bp & VXN-QQQ>0),56.69,1.272,-38.02,,-19.49,0.998,15,53.3
+Ex-2018-12 Only (189M),Cand A_Qual (Moody BAA-AAA > 5bp & VXN-QQQ_Vol21>0),48.75,1.117,-54.16,,-23.13,0.984,19,63.2
+Ex-2018-12 Only (189M),Cand B (Cand A1 + V3 Midterm Flip 2010/18/22 -> BIL/SGOV),59.9,1.272,-38.02,,-21.52,0.998,10,30.0
+Ex-2020-02 Only (189M),0. Baseline: Original TQQQ + SEP Only,51.91,1.106,-51.97,,-26.91,0.98,0,0.0
+Ex-2020-02 Only (189M),Cand A0 (Original Float >0.10 & VIX-QQQ_Vol21>0),55.39,1.187,-51.97,,-23.72,0.993,10,40.0
+Ex-2020-02 Only (189M),Cand A1 (Strict >10.0bp [>=11bp] & VIX-QQQ_Vol21>0),56.07,1.197,-51.97,,-23.72,0.994,9,33.3
+Ex-2020-02 Only (189M),Cand A_VXN (Matched Nasdaq: >10.0bp & VXN-QQQ_Vol21>0),53.26,1.189,-51.97,,-22.79,0.993,15,46.7
+Ex-2020-02 Only (189M),Cand A_SPY (Matched S&P500: >10.0bp & VIX-SPY_Vol21>0),53.22,1.188,-51.97,,-22.79,0.993,18,44.4
+Ex-2020-02 Only (189M),Cand A_20Y (Matched 20Y Bond: BAA-20Y>10bp & VXN-QQQ>0),52.9,1.191,-51.97,,-21.71,0.994,15,53.3
+Ex-2020-02 Only (189M),Cand A_Qual (Moody BAA-AAA > 5bp & VXN-QQQ_Vol21>0),46.33,1.068,-51.97,,-25.23,0.972,19,63.2
+Ex-2020-02 Only (189M),Cand B (Cand A1 + V3 Midterm Flip 2010/18/22 -> BIL/SGOV),60.45,1.281,-38.02,,-21.52,0.998,10,30.0
+Ex-2020-03 Only (189M),0. Baseline: Original TQQQ + SEP Only,55.97,1.179,-51.97,,-23.79,0.992,0,0.0
+Ex-2020-03 Only (189M),Cand A0 (Original Float >0.10 & VIX-QQQ_Vol21>0),56.05,1.199,-51.97,,-23.72,0.994,10,40.0
+Ex-2020-03 Only (189M),Cand A1 (Strict >10.0bp [>=11bp] & VIX-QQQ_Vol21>0),56.73,1.208,-51.97,,-23.72,0.995,9,33.3
+Ex-2020-03 Only (189M),Cand A_VXN (Matched Nasdaq: >10.0bp & VXN-QQQ_Vol21>0),53.9,1.201,-51.97,,-22.79,0.994,15,46.7
+Ex-2020-03 Only (189M),Cand A_SPY (Matched S&P500: >10.0bp & VIX-SPY_Vol21>0),53.86,1.201,-51.97,,-22.79,0.994,18,44.4
+Ex-2020-03 Only (189M),Cand A_20Y (Matched 20Y Bond: BAA-20Y>10bp & VXN-QQQ>0),53.54,1.203,-51.97,,-21.71,0.995,15,53.3
+Ex-2020-03 Only (189M),Cand A_Qual (Moody BAA-AAA > 5bp & VXN-QQQ_Vol21>0),50.25,1.148,-51.97,,-22.08,0.99,19,63.2
+Ex-2020-03 Only (189M),Cand B (Cand A1 + V3 Midterm Flip 2010/18/22 -> BIL/SGOV),61.13,1.293,-38.02,,-21.52,0.999,10,30.0
+"Ex-[2020-02, 2020-03] (188M)",0. Baseline: Original TQQQ + SEP Only,58.17,1.215,-51.97,,-23.79,0.995,0,0.0
+"Ex-[2020-02, 2020-03] (188M)",Cand A0 (Original Float >0.10 & VIX-QQQ_Vol21>0),56.96,1.211,-51.97,,-23.72,0.995,10,40.0
+"Ex-[2020-02, 2020-03] (188M)",Cand A1 (Strict >10.0bp [>=11bp] & VIX-QQQ_Vol21>0),57.65,1.221,-51.97,,-23.72,0.995,9,33.3
+"Ex-[2020-02, 2020-03] (188M)",Cand A_VXN (Matched Nasdaq: >10.0bp & VXN-QQQ_Vol21>0),54.79,1.215,-51.97,,-22.79,0.995,15,46.7
+"Ex-[2020-02, 2020-03] (188M)",Cand A_SPY (Matched S&P500: >10.0bp & VIX-SPY_Vol21>0),54.75,1.214,-51.97,,-22.79,0.994,18,44.4
+"Ex-[2020-02, 2020-03] (188M)",Cand A_20Y (Matched 20Y Bond: BAA-20Y>10bp & VXN-QQQ>0),54.43,1.217,-51.97,,-21.71,0.995,15,53.3
+"Ex-[2020-02, 2020-03] (188M)",Cand A_Qual (Moody BAA-AAA > 5bp & VXN-QQQ_Vol21>0),52.33,1.186,-51.97,,-21.99,0.993,19,63.2
+"Ex-[2020-02, 2020-03] (188M)",Cand B (Cand A1 + V3 Midterm Flip 2010/18/22 -> BIL/SGOV),62.1,1.307,-38.02,,-21.52,0.999,10,30.0
+"Ex-[2018-12, 2020-02, 2020-03] (187M) [AUDITOR KEY TEST]",0. Baseline: Original TQQQ + SEP Only,63.1,1.303,-38.02,,-21.71,0.998,0,0.0
+"Ex-[2018-12, 2020-02, 2020-03] (187M) [AUDITOR KEY TEST]",Cand A0 (Original Float >0.10 & VIX-QQQ_Vol21>0),61.85,1.302,-38.02,,-21.52,0.999,10,40.0
+"Ex-[2018-12, 2020-02, 2020-03] (187M) [AUDITOR KEY TEST]",Cand A1 (Strict >10.0bp [>=11bp] & VIX-QQQ_Vol21>0),62.56,1.312,-38.02,,-21.52,0.999,9,33.3
+"Ex-[2018-12, 2020-02, 2020-03] (187M) [AUDITOR KEY TEST]",Cand A_VXN (Matched Nasdaq: >10.0bp & VXN-QQQ_Vol21>0),59.6,1.311,-41.86,,-20.57,0.999,15,46.7
+"Ex-[2018-12, 2020-02, 2020-03] (187M) [AUDITOR KEY TEST]",Cand A_SPY (Matched S&P500: >10.0bp & VIX-SPY_Vol21>0),59.56,1.31,-41.54,,-20.57,0.999,18,44.4
+"Ex-[2018-12, 2020-02, 2020-03] (187M) [AUDITOR KEY TEST]",Cand A_20Y (Matched 20Y Bond: BAA-20Y>10bp & VXN-QQQ>0),59.22,1.314,-38.02,,-19.49,0.999,15,53.3
+"Ex-[2018-12, 2020-02, 2020-03] (187M) [AUDITOR KEY TEST]",Cand A_Qual (Moody BAA-AAA > 5bp & VXN-QQQ_Vol21>0),57.05,1.283,-29.97,,-19.77,0.998,19,63.2
+"Ex-[2018-12, 2020-02, 2020-03] (187M) [AUDITOR KEY TEST]",Cand B (Cand A1 + V3 Midterm Flip 2010/18/22 -> BIL/SGOV),62.52,1.311,-38.02,,-21.52,0.999,10,30.0
+"Ex-[2018-12, 2020-02, 2020-03, 2020-09] (186M)",0. Baseline: Original TQQQ + SEP Only,65.6,1.344,-38.02,,-21.5,0.999,0,0.0
+"Ex-[2018-12, 2020-02, 2020-03, 2020-09] (186M)",Cand A0 (Original Float >0.10 & VIX-QQQ_Vol21>0),62.85,1.316,-38.02,,-21.52,0.999,10,40.0
+"Ex-[2018-12, 2020-02, 2020-03, 2020-09] (186M)",Cand A1 (Strict >10.0bp [>=11bp] & VIX-QQQ_Vol21>0),63.57,1.326,-38.02,,-21.52,0.999,9,33.3
+"Ex-[2018-12, 2020-02, 2020-03, 2020-09] (186M)",Cand A_VXN (Matched Nasdaq: >10.0bp & VXN-QQQ_Vol21>0),60.57,1.325,-41.86,,-20.57,0.999,15,46.7
+"Ex-[2018-12, 2020-02, 2020-03, 2020-09] (186M)",Cand A_SPY (Matched S&P500: >10.0bp & VIX-SPY_Vol21>0),60.53,1.324,-41.54,,-20.57,0.999,18,44.4
+"Ex-[2018-12, 2020-02, 2020-03, 2020-09] (186M)",Cand A_20Y (Matched 20Y Bond: BAA-20Y>10bp & VXN-QQQ>0),61.64,1.359,-38.02,,-19.23,0.999,15,53.3
+"Ex-[2018-12, 2020-02, 2020-03, 2020-09] (186M)",Cand A_Qual (Moody BAA-AAA > 5bp & VXN-QQQ_Vol21>0),59.42,1.327,-29.97,,-19.5,0.999,19,63.2
+"Ex-[2018-12, 2020-02, 2020-03, 2020-09] (186M)",Cand B (Cand A1 + V3 Midterm Flip 2010/18/22 -> BIL/SGOV),63.53,1.325,-38.02,,-21.52,0.999,10,30.0
