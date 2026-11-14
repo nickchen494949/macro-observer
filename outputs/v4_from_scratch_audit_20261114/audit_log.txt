@@ -1,0 +1,179 @@
+
+=== PART A: membership rebuild ===
+NDX months with set mismatch: 0 / 215; SPX: 0 / 215
+NDX size range 100..107; latest SPX snapshot used: 2026-08-18
+Note: NDX 'year' file for t.year > last file reuses the last file's Jan-1 list + changes (check last year coverage): 2026 | SPX csv max date: 2026-08-18
+
+=== PART B: recompute 12-1 features and hold returns from raw daily files ===
+NDX: rows=21899 | both-valid=21196 | panel-only=99 | mine-only=0 | |dmom|>1e-6: 8 | |dhold|>1e-6: 722 (max 0.1557)
+SPX(OFF months): rows=19120 | both-valid=18630 | panel-only=0 | mine-only=0 | |dmom|>1e-6: 0 | |dhold|>1e-6: 133 (max 0.0484)
+
+=== PART C: independent re-implementation ===
+My code on panel features vs official ledger: QQQ pick mismatches=0, BestSec pick mismatches=0, max |net diff|=1.40e-06 (months > 1bp: 0)
+  My code 214M: CAGR=60.7764% Sharpe=1.444 MonthlyMDD=-27.99%  (official: 60.78% / 1.444 / -27.99%)
+V4 on features recomputed from raw files (no flat-price filter): CAGR=60.6770% Sharpe=1.441 MDD=-27.99% | ON-month QQQ pick-set differences vs panel: 3
+     ym     panel       raw
+2009-05 AMGN|VRTX AMGN|APOL
+2009-06 AMGN|VRTX AMGN|APOL
+2009-07 ORLY|APOL APOL|ORLY
+
+=== PART D: integrity of every invested position ===
+Invested stock-months: 422 | unique tickers: 82
+ret_flag of invested positions:
+flag
+open_open                  415
+delist_last_close            5
+open_open_via_wiki:SRCL      1
+close_proxy                  1
+Missing hold_ret (silently set to 0 by engine): 0
+Price source of invested positions:
+src
+yahoo     329
+tiingo     75
+wiki       18
+Cross-vendor: positions with >=1 alternative vendor: 297/422; diff > 1%: 0; diff > 5%: 0
+Extreme position-months |r|>30%: 20
+     ym ticker     leg    src      flag  hold_ret
+2011-10   GMCR     QQQ tiingo open_open -0.304770
+2026-05    WDC     QQQ  yahoo open_open  0.319482
+2026-05    STX     QQQ  yahoo open_open  0.327311
+2022-05    DVN BestSec  yahoo open_open  0.329156
+2024-05   NVDA     QQQ  yahoo open_open  0.335508
+2018-05   ALGN     QQQ  yahoo open_open  0.336905
+2020-07   TSLA     QQQ  yahoo open_open  0.338135
+2009-11   PCLN     QQQ   wiki open_open  0.366072
+2026-01    WDC     QQQ  yahoo open_open  0.375621
+2017-05   NVDA     QQQ  yahoo open_open  0.385743
+2021-04   MRNA     QQQ  yahoo open_open  0.391074
+2025-05    APP     QQQ  yahoo open_open  0.391170
+2026-01    STX     QQQ  yahoo open_open  0.427457
+2025-04   PLTR     QQQ  yahoo open_open  0.430921
+2026-04    WDC     QQQ  yahoo open_open  0.448200
+2020-04   TSLA     QQQ  yahoo open_open  0.498016
+2020-11   TSLA     QQQ  yahoo open_open  0.516726
+2025-09    APP     QQQ  yahoo open_open  0.540593
+2026-04    STX     QQQ  yahoo open_open  0.682287
+2020-08   TSLA     QQQ  yahoo open_open  0.732473
+
+=== PART E: open-executed daily NAV (weights set at d0 open, drift daily, exit at next d0 open) ===
+Daily NAV end=4734.2 (monthly ledger wealth=4760.3)
+Daily MaxDD (full)=-37.32% at 2020-03-23 (peak 2020-02-19)
+2026 MaxDD (peak reset 2026-01-01)=-18.88%; 2026 drawdown vs all-time peak=-18.88%
+Daily Sharpe (rf=0)=1.500; daily ann. vol=35.99%
+Worst daily drawdown by year:
+2009    -23.6%
+2010    -22.7%
+2011    -34.0%
+2012    -21.8%
+2013    -20.5%
+2014    -17.9%
+2015    -21.0%
+2016    -30.1%
+2017    -14.6%
+2018    -24.4%
+2019    -18.8%
+2020    -37.3%
+2021    -30.6%
+2022    -17.3%
+2023    -12.1%
+2024    -15.0%
+2025    -27.0%
+2026    -18.9%
+
+=== PART F: benchmarks, alpha, bootstrap, concentration ===
+v4  : CAGR=60.78% Sharpe=1.444 MonthlyMDD=-27.99%
+qqq : CAGR=20.51% Sharpe=1.043 MonthlyMDD=-32.24%
+spy : CAGR=14.79% Sharpe=0.880 MonthlyMDD=-23.31%
+Alpha vs QQQ: 32.46%/yr (NW t=4.33), beta=1.08 (t=5.49)
+Bootstrap 95% CI  CAGR 39.1%..89.4% | Sharpe 1.13..1.76 | CAGR-QQQ 19.7%..67.0% | Sharpe-QQQ -0.01..0.82
+Drop best  5 months -> CAGR of remaining 209 months = 47.48% (best 5 months = 20% of total log-wealth)
+Drop best 10 months -> CAGR of remaining 204 months = 38.56% (best 10 months = 35% of total log-wealth)
+Drop best 20 months -> CAGR of remaining 194 months = 25.27% (best 20 months = 57% of total log-wealth)
+Best 10 months:
+     ym       v4       qqq                      picks
+2026-04 0.565222  0.150788   {"STX": 0.5, "WDC": 0.5}
+2026-01 0.398736 -0.002193   {"STX": 0.5, "WDC": 0.5}
+2025-09 0.369742  0.065112  {"APP": 0.5, "PLTR": 0.5}
+2020-04 0.357094  0.160903 {"CHTR": 0.5, "TSLA": 0.5}
+2020-08 0.346119  0.110241 {"DXCM": 0.5, "TSLA": 0.5}
+2026-05 0.323298  0.101441   {"STX": 0.5, "WDC": 0.5}
+2020-11 0.301893  0.110919 {"DOCU": 0.5, "TSLA": 0.5}
+2024-02 0.269311  0.050407 {"META": 0.5, "NVDA": 0.5}
+2025-04 0.246609  0.034475  {"APP": 0.5, "PLTR": 0.5}
+2024-05 0.245915  0.074253  {"CEG": 0.5, "NVDA": 0.5}
+Top 10 tickers by summed log-contribution (approx):
+ticker
+NVDA    +1.54
+TSLA    +1.15
+BIDU    +0.67
+WDC     +0.66
+STX     +0.57
+ALXN    +0.45
+APP     +0.45
+PLTR    +0.42
+MU      +0.35
+ALGN    +0.26
+Top 5 tickers share of summed log-contribution: 51%
+Calendar-year returns:
+          v4    qqq        n
+year                        
+2009  +21.4% +56.5% +1200.0%
+2010  +30.0% +19.5% +1200.0%
+2011  +45.4%  +4.4% +1200.0%
+2012  +22.8% +18.6% +1200.0%
+2013  +28.7% +32.8% +1200.0%
+2014  +98.1% +20.3% +1200.0%
+2015  +22.1%  +6.5% +1200.0%
+2016  +91.0% +10.2% +1200.0%
+2017  +73.7% +32.4% +1200.0%
+2018  +39.6%  -2.7% +1200.0%
+2019  +29.6% +43.2% +1200.0%
+2020 +172.7% +48.0% +1200.0%
+2021  +24.7% +27.2% +1200.0%
+2022  +28.2% -32.2% +1200.0%
+2023   +2.5% +52.1% +1200.0%
+2024 +105.9% +27.5% +1200.0%
+2025 +140.5% +21.2% +1200.0%
+2026 +308.5% +15.8% +1000.0%
+2009-01..2014-12: V4 CAGR=38.9% Sh=1.30 MDD=-19.4% | QQQ CAGR=24.4% Sh=1.43
+2015-01..2020-12: V4 CAGR=64.7% Sh=1.50 MDD=-28.0% | QQQ CAGR=21.4% Sh=1.08
+2021-01..2026-10: V4 CAGR=82.3% Sh=1.54 MDD=-14.3% | QQQ CAGR=15.7% Sh=0.67
+2009-01..2019-12: V4 CAGR=43.4% Sh=1.40 MDD=-19.4% | QQQ CAGR=20.8% Sh=1.22
+2020-01..2026-10: V4 CAGR=93.3% Sh=1.59 MDD=-28.0% | QQQ CAGR=20.0% Sh=0.83
+
+=== PART G: robustness grid (panel features, my engine) ===
+                                      variant  CAGR  Sharpe    MDD  CAGR_2015+  Sharpe_2015+
+      V4 default (Sharpe, top2, hold5, ER on) 0.608   1.444 -0.280       0.731         1.523
+                       No Election Reset (V0) 0.597   1.426 -0.280       0.716         1.496
+     No regime overlay (always QQQ top2) + ER 0.506   1.219 -0.347       0.569         1.216
+No regime, no ER (pure QQQ Sharpe top2/hold5) 0.493   1.195 -0.408       0.551         1.184
+                         hold<= 2 (both legs) 0.516   1.245 -0.346       0.667         1.392
+                         hold<= 3 (both legs) 0.547   1.296 -0.335       0.691         1.431
+                         hold<= 4 (both legs) 0.576   1.368 -0.342       0.690         1.450
+                         hold<= 6 (both legs) 0.611   1.464 -0.312       0.685         1.455
+                         hold<= 8 (both legs) 0.555   1.416 -0.382       0.601         1.392
+                        hold<= 10 (both legs) 0.507   1.333 -0.384       0.545         1.304
+                             top-1 / hold<= 5 0.682   1.420 -0.365       0.744         1.431
+                             top-3 / hold<= 6 0.526   1.428 -0.274       0.583         1.397
+                             top-4 / hold<= 7 0.482   1.349 -0.266       0.543         1.327
+                             top-5 / hold<= 8 0.381   1.213 -0.242       0.429         1.212
+                   metric = raw 12-1 momentum 0.569   1.146 -0.475       0.780         1.315
+                               cost 25bp/side 0.590   1.415 -0.281       0.713         1.497
+                               cost 50bp/side 0.561   1.366 -0.283       0.683         1.455
+                              cost 100bp/side 0.505   1.266 -0.287       0.624         1.368
+            OFF leg 100% stocks (no 50% cash) 0.652   1.469 -0.280       0.804         1.564
+                OFF leg 0% stocks (100% cash) 0.557   1.361 -0.280       0.649         1.405
+         missing returns = -100% (worst case) 0.608   1.444 -0.280       0.731         1.523
+
+=== PART H: regime overlay sample size and Election Reset permutation ===
+SEP=OFF months: 34; first=2021-10 last=2026-10; years with any OFF: ['2021', '2022', '2023', '2024', '2025', '2026']
+ALFRED SEP medians start 2015-12 => 2009-01..2015-11 regime is ON by construction (no signal).
+Within the 34 OFF months: V4 cumulative=+92.4% vs staying in QQQ-top2=-40.5% vs QQQ ETF=-10.1%
+  OFF episode 2021-10..2023-03 (18m): V4 +47.5% | stay-QQQtop2 -16.7% | QQQ -10.2%
+  OFF episode 2023-07..2023-12 (6m): V4 -2.1% | stay-QQQtop2 +5.5% | QQQ +10.1%
+  OFF episode 2024-07..2024-09 (3m): V4 +10.0% | stay-QQQtop2 +11.7% | QQQ +1.7%
+  OFF episode 2025-01..2025-03 (3m): V4 -1.8% | stay-QQQtop2 -16.1% | QQQ -9.0%
+  OFF episode 2026-07..2026-10 (4m): V4 +23.3% | stay-QQQtop2 -27.8% | QQQ -1.8%
+V0 December returns: 2009:+1.1%, 2010:-2.0%, 2011:+1.3%, 2012:+0.3%, 2013:+10.5%, 2014:+4.3%, 2015:-3.3%, 2016:+7.0%, 2017:-8.2%, 2018:-3.9%, 2019:+10.6%, 2020:+10.3%, 2021:+0.1%, 2022:-3.1%, 2023:+2.4%, 2024:-10.3%, 2025:+12.3%
+Cash-in-December log gain, chosen 3 = +0.096; rank among all C(17,3)=680 sets: top 10.74%  (in-sample: the trigger years were chosen after seeing these months)
+Midterm flip U->D events in sample: 3. Any rule fitted to 3 events has ~zero statistical power.
