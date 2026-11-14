@@ -9,15 +9,16 @@
 - This applies to every new conversation, every task, no exceptions.
 - The README contains critical architecture decisions, data update logic, Yahoo Finance ban rules, BDI workflow, display unit transforms, and the Frozen Strategy Summary that MUST be understood before making any changes.
 
-## Frozen Strategy Context (2026-11-13)
-- **V4 Latest Frozen — Zero-Patch Symmetric Dual-Core (`Symmetric_Sharpe_Top2_V4`, 2026-11-13)**:
+## Frozen Strategy Context (2026-11-14)
+- **V4 Latest Frozen — Zero-Patch Symmetric Dual-Core (`Symmetric_Sharpe_Top2_V4`, 2026-11-14, with `V3 Election Reset` built-in by default)**:
   - **Headline Metrics (`1.0x` Unlevered, `2009-01..2026-10` 214M, `10bp/side`)**:
-    - `V4 Symmetric (Hold <= 5, V0 Core)`: `2009–2025` CAGR **`50.38%`**, `214M` CAGR **`59.65%`**, Sharpe **`1.426`**, Monthly MaxDD **`-27.99%`**, Daily MaxDD **`-37.32%`**, 2026 Live Daily MaxDD **`-18.88%`**, Trade Win Rate **`70.16%`** (`87/124`: `QQQ` `69.23%` [`72/104`], `BestSec` `75.00%` [`15/20`]), Payoff Odds **`3.99:1`**, Profit Factor **`9.39`**.
-    - `V4 Tight-Off (BestSec Hold <= 3, V0 Core)`: `2009–2025` CAGR **`50.93%`**, `214M` CAGR **`59.74%`**, Sharpe **`1.429`**, Trade Win Rate **`71.09%`** (`91/128`: `BestSec` `79.17%` [`19/24`]), Payoff Odds **`3.86:1`**, Profit Factor **`9.50`**.
-    - `V4 + V3 Election Reset (Hold <= 5 / Hold <= 3)`: `2009–2025` CAGR **`51.49%` / `51.92%`**, `214M` CAGR **`60.78%` / `60.74%`**, Sharpe **`1.444` / `1.445`**.
-  - **Symmetric V4 Rules (One Stock-Selection Formula Across All Regimes: `12-1 Sharpe + Buy Top-2 / Hold <= 5`)**:
+    - `V4 Default (Hold <= 5 + V3 Election Reset)`: `2009–2025` CAGR **`51.49%`**, `214M` CAGR **`60.78%`**, Sharpe **`1.444`**, Monthly MaxDD **`-27.99%`**, Daily MaxDD **`-37.32%`**, 2026 Live Daily MaxDD **`-18.88%`**, Trade Win Rate **`70.97%`** (`88/124`: `QQQ` `69.23%` [`72/104`], `BestSec` **`80.00%`** [`16/20`]), Payoff Odds **`3.95:1`**, Profit Factor **`9.67`**.
+    - `V4 Tight-Off Default (BestSec Hold <= 3 + V3 Election Reset)`: `2009–2025` CAGR **`51.92%`**, `214M` CAGR **`60.74%`**, Sharpe **`1.445`**, Trade Win Rate **`71.88%`** (`92/128`: `BestSec` **`83.33%`** [`20/24`]), Payoff Odds **`3.73:1`**, Profit Factor **`9.54`**.
+    - *(Ablation without Election Reset `V0`: `Hold <= 5 / Hold <= 3` `2009–2025` CAGR `50.38% / 50.93%`, `214M` CAGR `59.65% / 59.74%`, Sharpe `1.426 / 1.429`.)*
+  - **Symmetric V4 Rules (One Stock-Selection Formula Across All Regimes: `12-1 Sharpe + Buy Top-2 / Hold <= 5` + Built-In `V3 Election Reset`)**:
     - **`SEP = ON` (180M)**: `50% QQQ #1 + 50% QQQ #2` (`12-1 Sharpe`, `Buy Top-2 / Hold <= 5`).
     - **`SEP = OFF` (34M)**: `50% SGOV + 25% BestSec #1 + 25% BestSec #2` (`BestSec` = #1 S&P 500 Non-IT GICS sector by equal-weighted `12-1 Raw` mean; inside `BestSec`, select Top-2 stocks by `12-1 Sharpe`, `Buy Top-2 / Hold <= 5` [or `Hold <= 3`]).
+    - **Built-In `V3 Election Reset` (Default Part of V4)**: Triggered when US Midterm Election (early Nov) flips **`Unified Government → Divided Government`** (`2010`, `2018`, `2022`). Hold **`100% SGOV`** in `YYYY-12`, and **clear all `Hold <= 5` (or `Hold <= 3`) buffer memory (`held = []`)** at `YYYY-12` close to enter fresh Rank 1–2 leaders at `YYYY+1-01` open.
     - **2026-11 Live Holdings (`SEP = OFF`, `BestSec = Energy`, identical under Reset or Follow)**: **`25% VLO + 25% MPC + 50% SGOV`**.
 - **V3 Frozen Levered 3-Leg Challenger (`A1-RS_ModBurst_135_75_25_GateV1_ElectionResetV3`, 2026-11-05)**:
   - **`A1-RS 1.35x + V3 Election Reset`**, 214M CAGR **`64.95%`**, Sharpe **`1.489`**, Monthly MaxDD **`-22.74%`**, Daily MaxDD **`-34.64%`**, 2026 Live Daily MaxDD **`-25.88%`**, MinMER **`70.6%`**.
