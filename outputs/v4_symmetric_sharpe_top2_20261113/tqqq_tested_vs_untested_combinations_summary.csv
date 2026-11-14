@@ -1,0 +1,10 @@
+status,strategy,n_triggered,crash15_hits,fisher_p,trig_tqqq_mean_pct,trig_tqqq_ex202003_pct,cagr_2010_2026_pct,sharpe_2010_2026,monthly_mdd_pct
+Baseline,0. 原版 Baseline (SEP=ON: 100% TQQQ),0,0/0,,,,51.64,1.082,-54.16
+Tested_Candidate,1. 信用+期权报警 (Type B: BAA_21d>10bp & VRP>0),10,3/10,0.0684,-3.57,1.03,56.42,1.178,-51.97
+Tested_Just_Now,2. 预期亢奋单独逆向 (Type A0: IT_Fwd_YoY>=24%),20,3/20,0.3355,0.57,0.57,53.68,1.149,-54.16
+Untested_New,3a. 预期亢奋 × 实际利率上行 (Type A1: IT_Fwd>=24% & RR_chg_3m>0),11,2/11,0.3131,-1.67,-1.67,54.8,1.156,-54.16
+Untested_New,3b. 预期亢奋 × 准备金收缩 (Type A2: IT_Fwd>=24% & WRES_YoY<0),12,2/12,0.3538,-1.71,-1.71,55.07,1.161,-54.16
+Untested_New,3c. 预期亢奋 × 纳指波动率抬头 (Type A3: IT_Fwd>=24% & VXN>=22),8,1/8,0.587,-2.04,-2.04,54.16,1.139,-54.16
+Untested_New_Combo,4a. 正交双核：Type B (信用+VRP) OR Type A1 (预期亢奋×实际利率上行),21,5/21,0.0445,-2.57,-0.45,59.67,1.263,-38.02
+Untested_New_Combo,4b. 正交双核：Type B (信用+VRP) OR Type A2 (预期亢奋×准备金收缩),21,5/21,0.0445,-2.2,-0.06,59.21,1.256,-38.02
+Untested_New_Combo,4c. 正交双核：Type B (信用+VRP) OR Type A3 (预期亢奋×VXN>=22),17,4/17,0.0776,-2.47,0.18,58.27,1.231,-38.02
