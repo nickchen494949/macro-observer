@@ -1,0 +1,7 @@
+subsample,months,triggers,log_wealth_diff_pct,base_cagr_pct,dual_cagr_pct,cagr_diff_pp,base_sharpe,dual_sharpe,base_daily_maxdd_pct,dual_daily_maxdd_pct
+Full Sample (2011-2026),190,21,72.18,49.85,56.84,6.99,1.073,1.264,-69.92,-44.08
+Leave-Out 2018 Only (ex-2018),178,17,19.01,57.13,59.15,2.03,1.194,1.302,-69.92,-44.08
+Leave-Out 2020 COVID Crash (ex-2020-02/03),188,19,11.69,58.17,59.36,1.18,1.215,1.305,-58.08,-44.08
+Leave-Out Full 2020 (ex-2020),178,18,-1.86,46.59,46.41,-0.18,1.093,1.164,-58.08,-44.08
+Leave-Out Both 2018 & 2020 (Normal Bull Insurance Cost),166,14,-55.04,54.0,47.99,-6.01,1.248,1.2,-44.54,-44.08
+Leave-Out 2026 (ex-2026),180,17,49.82,49.34,54.38,5.04,1.089,1.259,-69.92,-44.08
