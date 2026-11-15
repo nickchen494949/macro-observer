@@ -1,0 +1,27 @@
+Year,Picked_By_Sharpe,Past_Sharpe,Picked_By_Calmar,Past_Calmar
+2001,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.599,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.342
+2002,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.565,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.313
+2003,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.481,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.249
+2004,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.536,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.283
+2005,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.574,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.304
+2006,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.558,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.29
+2007,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.57,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.297
+2008,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.58,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.301
+2009,S2c_SEP_VM + FINRA_Rollover_Guard,0.499,S2c_SEP_VM + FINRA_Rollover_Guard,0.247
+2010,S2c_SEP_VM + FINRA_Rollover_Guard,0.531,S2c_SEP_VM + FINRA_Rollover_Guard,0.258
+2011,S2c_SEP_VM + FINRA_Rollover_Guard,0.537,S2c_SEP_VM + FINRA_Rollover_Guard,0.26
+2012,S2c_SEP_VM + FINRA_Rollover_Guard,0.518,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.247
+2013,S2c_SEP_VM + FINRA_Rollover_Guard,0.543,S2c_SEP_VM + FINRA_Rollover_Guard,0.256
+2014,S2c_SEP_VM + FINRA_Rollover_Guard,0.628,S2c_SEP_VM + FINRA_Rollover_Guard,0.295
+2015,S2c_SEP_VM + FINRA_Rollover_Guard,0.631,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.297
+2016,S2c_SEP_VM + FINRA_Rollover_Guard,0.605,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.29
+2017,S2c_SEP_VM + FINRA_Rollover_Guard,0.602,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.285
+2018,S2c_SEP_VM + FINRA_Rollover_Guard,0.667,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.31
+2019,S2c_SEP_VM + FINRA_Rollover_Guard,0.634,S2c_SEP_VM + FINRA_Rollover_Guard,0.292
+2020,S2c_SEP_VM + FINRA_Rollover_Guard,0.646,S1_SEP_Discrete_VolTiers (3x/2x/0.5x),0.303
+2021,S6b_Golden_TrafficLight (SEP+VM+StructBustSMA+SafePanic),0.633,S6b_Golden_TrafficLight (SEP+VM+StructBustSMA+SafePanic),0.319
+2022,S6b_Golden_TrafficLight (SEP+VM+StructBustSMA+SafePanic),0.628,S6b_Golden_TrafficLight (SEP+VM+StructBustSMA+SafePanic),0.313
+2023,S6b_Golden_TrafficLight (SEP+VM+StructBustSMA+SafePanic),0.619,S6b_Golden_TrafficLight (SEP+VM+StructBustSMA+SafePanic),0.305
+2024,S6b_Golden_TrafficLight (SEP+VM+StructBustSMA+SafePanic),0.631,S6b_Golden_TrafficLight (SEP+VM+StructBustSMA+SafePanic),0.311
+2025,S6b_Golden_TrafficLight (SEP+VM+StructBustSMA+SafePanic),0.647,S6b_Golden_TrafficLight (SEP+VM+StructBustSMA+SafePanic),0.32
+2026,S6b_Golden_TrafficLight (SEP+VM+StructBustSMA+SafePanic),0.668,S6b_Golden_TrafficLight (SEP+VM+StructBustSMA+SafePanic),0.331
