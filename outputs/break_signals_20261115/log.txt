@@ -1,0 +1,57 @@
+Data starts: T10Y3M 1982-01-31, BAA-10Y 1986-01-31, SAHM 1959-12-31, DFF 1954-07-31
+
+=== A. NASDAQ when ON / T-bills when OFF (price index, 1985-2026) ===
+   signal  months_OFF  CAGR_all  MDD_all  CAGR_85-08  MDD_85-08  CAGR_09-26  MDD_09-26
+ BUY&HOLD           0     11.7%   -75.0%        8.0%     -75.0%       16.9%     -33.1%
+    CURVE          58     11.5%   -54.8%       10.3%     -54.8%       13.1%     -32.4%
+   CREDIT         113      8.4%   -57.5%        7.6%     -57.5%        9.5%     -29.5%
+     SAHM          83     10.7%   -60.8%        9.8%     -60.8%       11.8%     -33.1%
+     CUTS          72     11.6%   -58.6%        9.2%     -58.6%       14.9%     -33.1%
+      ANY         227      7.6%   -38.4%        9.8%     -32.9%        4.7%     -38.4%
+SEP_PROXY          75     12.7%   -75.0%        8.7%     -75.0%       18.2%     -18.2%
+PROXY+ANY         294      8.1%   -30.3%       10.5%     -30.3%        4.9%     -23.3%
+
+Share of each crash window spent OFF:
+   signal  OFF%_1987  OFF%_1990  OFF%_2000-02  OFF%_2007-09  OFF%_2020  OFF%_2022
+ BUY&HOLD         0%         0%            0%            0%         0%         0%
+    CURVE         0%         0%           23%            0%        50%         8%
+   CREDIT         0%         0%           58%           94%         0%        25%
+     SAHM         0%         0%           45%           56%         0%         0%
+     CUTS         0%         0%           42%           81%         0%         0%
+      ANY         0%         0%           94%          100%        50%        33%
+SEP_PROXY        75%         0%            0%            0%         0%       100%
+PROXY+ANY        75%         0%           94%          100%        50%       100%
+
+Signal state by hold month (X = OFF):
+  1999-06..2003-03
+    CURVE     ..............XXXXXXX.........................
+    CREDIT    X..........XXXXXXXXXXXXX....XXX.......XXXXXX..
+    SAHM      ..........................XXXXXXXXXXXXXXXXX...
+    CUTS      ....................XXXXXXXXXXXXX..........XX.
+    SEP_PROXY ..............................................
+    NASDAQ    ^---^^^-^-vv^v^vvv-^vv^--vvv^^--v^v-vv-v^^v---   (v = month < -5%, ^ = > +5%)
+  2006-01..2009-06
+    CURVE     ........XXXXXXXXXX........................
+    CREDIT    .....................X.XXXXXXXXXXXXXXXXXXX
+    SAHM      .............................XXXXXXXXXXXXX
+    CUTS      ......................XXXXXXXXX...XXXX....
+    SEP_PROXY XXXXXXXX.........XX.......................
+    NASDAQ    ----v----------------^v-v--^-v--vvv-vv^^--   (v = month < -5%, ^ = > +5%)
+
+OFF months outside crash windows: NASDAQ avg return in those months (annualized) — the cost of false alarms
+  CURVE    :  49 months, NASDAQ +28.0%/yr in them; years: [1989, 1990, 2006, 2007, 2019, 2023, 2024, 2025]
+  CREDIT   :  77 months, NASDAQ +45.7%/yr in them; years: [1986, 1987, 1988, 1989, 1990, 1991, 1992, 1996, 1998, 1999, 2002, 2003, 2007, 2009, 2010, 2011, 2012, 2015, 2016, 2019, 2020]
+  SAHM     :  60 months, NASDAQ +36.2%/yr in them; years: [1991, 1992, 1993, 2002, 2009, 2010, 2020, 2021, 2024]
+  CUTS     :  46 months, NASDAQ +33.3%/yr in them; years: [1985, 1986, 1987, 1989, 1990, 1991, 1992, 1996, 1998, 1999, 2003, 2019, 2020, 2024, 2025, 2026]
+  ANY      : 177 months, NASDAQ +32.0%/yr in them; years: [1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1996, 1998, 1999, 2002, 2003, 2006, 2007, 2009, 2010, 2011, 2012, 2015, 2016, 2019, 2020, 2021, 2023, 2024, 2025, 2026]
+  SEP_PROXY:  60 months, NASDAQ +13.1%/yr in them; years: [1985, 1987, 1988, 1989, 1990, 1993, 1994, 1995, 2004, 2005, 2006, 2007, 2021, 2023, 2025, 2026]
+  PROXY+ANY: 233 months, NASDAQ +27.3%/yr in them; years: [1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1998, 1999, 2002, 2003, 2004, 2005, 2006, 2007, 2009, 2010, 2011, 2012, 2015, 2016, 2019, 2020, 2021, 2023, 2024, 2025, 2026]
+
+=== B. Add each signal as an extra OFF trigger to V4 (2009-01..2026-10) ===
+V4 + extra OFF trigger  OFF_months  CAGR  Sharpe  MonthlyMDD
+        none(SEP only)          34 0.597   1.426      -0.280
+                 CURVE          57 0.479   1.289      -0.194
+                CREDIT          79 0.512   1.386      -0.280
+                  SAHM          67 0.480   1.289      -0.280
+                  CUTS          45 0.529   1.377      -0.280
+                   ANY         121 0.334   1.170      -0.194
