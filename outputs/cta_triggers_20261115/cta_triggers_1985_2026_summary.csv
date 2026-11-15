@@ -1,0 +1,11 @@
+Strategy,85_26_CAGR,85_26_Sh,85_26_MDD,85_09_CAGR,85_09_Sh,85_09_MDD,ETF_10_26_CAGR,ETF_10_26_Sh,ETF_MDD_M,ETF_MDD_D,t_vs_B5(ETF)
+"A1. Pure 3x Buy & Hold (No CTA, No SEP, No VM)",10.1%,0.44,-99.9%,-0.7%,0.30,-99.9%,38.2%,0.84,-79.1%,-81.7%,+1.06
+A2. Pure CTA 200d LT Trigger Only (100% 3x if >=MA200 else Cash),14.9%,0.47,-85.7%,11.3%,0.39,-85.7%,27.3%,0.75,-50.9%,-69.9%,-0.67
+A3. Pure CTA 50d MT Trigger Only (100% 3x if >=MA50 else Cash),10.8%,0.40,-91.6%,13.7%,0.44,-91.6%,13.0%,0.48,-75.1%,-76.9%,-2.62
+"A4. Pure CTA 3-Speed (cnt/3 of 20d+50d+200d, No SEP, No VM)",13.4%,0.44,-88.0%,13.8%,0.43,-88.0%,17.7%,0.59,-63.8%,-66.2%,-2.42
+"A5. Pure CTA 3-Speed + Volatility Management ((cnt/3) * w_vm, No SEP)",9.7%,0.37,-70.9%,9.2%,0.31,-70.9%,17.8%,0.64,-44.9%,-52.5%,-3.33
+B0. Baseline B5: SEP + Volatility Management (w_vm),16.4%,0.58,-61.1%,12.8%,0.42,-61.1%,37.2%,1.02,-34.0%,-45.2%,+0.00
+B1. SEP + VM + Exit when 200d LT Trigger broken (lt == 0),13.3%,0.51,-55.5%,11.1%,0.38,-55.5%,25.6%,0.82,-46.6%,-56.4%,-2.47
+B2. SEP + VM + Exit when 50d MT Trigger broken (mt == 0),12.7%,0.50,-54.3%,13.6%,0.49,-54.3%,19.6%,0.69,-49.0%,-56.0%,-3.16
+B3. SEP + VM * CTA 3-Speed ((cnt/3) * w_vm),12.6%,0.51,-50.4%,12.4%,0.45,-50.4%,20.8%,0.76,-44.9%,-52.5%,-3.34
+"B4. SEP + VM, Halve weight only when ALL 3 CTA lines broken (cnt == 0)",15.3%,0.57,-57.3%,12.6%,0.42,-57.3%,31.8%,0.96,-35.0%,-46.1%,-2.43
