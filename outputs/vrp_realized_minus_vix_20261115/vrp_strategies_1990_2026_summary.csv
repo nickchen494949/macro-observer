@@ -1,0 +1,12 @@
+Strategy,90_26_CAGR,90_26_Sh,90_26_MDD,t_vs_B5(37y),90_09_CAGR,90_09_Sh,90_09_MDD,ETF_10_26_CAGR,ETF_10_26_Sh,ETF_MDD_M,ETF_MDD_D,t_vs_B5(ETF)
+"0a. B3 Raw: SEP Only (100% 3x when SEP=ON, No VM)",15.4%,0.51,-99.8%,+1.96,-2.3%,0.29,-99.8%,49.4%,1.06,-49.1%,-69.9%,+2.39
+"0b. B3 + Exit to Cash when RV21_SPX > VIX (No VM, Only RV>VIX switch)",21.7%,0.59,-95.6%,+2.43,12.5%,0.43,-95.6%,41.2%,0.99,-49.2%,-69.9%,+1.21
+0. B5 Baseline: SEP + RV21 Variance VM (med_RV^2 / RV^2),17.0%,0.65,-47.6%,+0.00,13.1%,0.48,-47.6%,37.4%,1.03,-34.0%,-45.2%,+0.00
+1. V1: SEP + Pure VIX Implied Variance VM (med_VIX^2 / VIX^2),16.2%,0.51,-96.9%,+1.19,4.4%,0.24,-96.9%,39.0%,1.08,-46.8%,-55.6%,+0.33
+2. V2: SEP + 50/50 Blend of RV21_VM and VIX_VM,17.5%,0.58,-83.4%,+1.20,10.0%,0.34,-83.4%,38.4%,1.07,-40.4%,-47.3%,+0.34
+"3. V3: SEP + Conservative min(RV21_VM, VIX_VM) [De-risks on whichever is higher]",17.2%,0.66,-47.6%,+0.14,12.9%,0.48,-47.6%,35.2%,1.05,-34.0%,-39.7%,-1.37
+"4. V4: SEP + Max(RV21_VM, VIX_VM) [Uses VIX when VIX subsides faster than lagged RV21]",16.0%,0.51,-96.9%,+1.19,4.5%,0.25,-96.9%,41.2%,1.06,-46.8%,-55.6%,+1.87
+"5. H1a: SEP + RV21_VM, but 0% Cash when RV21_SPX > VIX (Negative VRP exit)",16.6%,0.64,-47.6%,-0.67,13.3%,0.49,-47.6%,34.4%,0.98,-30.8%,-45.2%,-1.21
+"6. H1b: SEP + RV21_VM, but Halve weight when RV21_SPX > VIX",16.8%,0.64,-47.6%,-0.67,13.2%,0.48,-47.6%,36.0%,1.01,-30.8%,-45.2%,-1.21
+"7. H2: SEP + RV21_VM, but 0% Cash when VIX - RV21_SPX > +6.0 (High Implied Fear exit)",10.8%,0.50,-41.1%,-2.43,7.9%,0.30,-38.8%,22.7%,0.85,-36.3%,-46.0%,-2.31
+"8. H3 (Earlier Combo 1): SEP + RV21_VM, Cut when BAA_21d > 10bp & VIX > RV21",16.1%,0.64,-45.8%,-1.11,11.1%,0.42,-45.8%,37.6%,1.08,-41.0%,-47.2%,-0.33
