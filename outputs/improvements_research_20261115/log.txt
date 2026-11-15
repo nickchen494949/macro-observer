@@ -1,0 +1,28 @@
+=== PART 1: synthetic daily-reset leveraged Nasdaq Composite, month-end decisions ===
+                  variant  CAGR_all  Sh_all  MDD_all  CAGR_85-08  MDD_85-08  CAGR_09-26  MDD_09-26
+           T0 3x buy&hold     10.2%   44.0%   -99.9%       -4.1%     -99.8%       33.0%     -79.3%
+              T1 3x + SEP     16.6%   51.4%   -99.8%       -0.5%     -99.7%       44.4%     -53.8%
+T2 3x + SEP + vol-managed     18.0%   61.4%   -58.0%       12.4%     -58.0%       26.1%     -35.6%
+  T3 3x + SEP + panic-off     17.5%   51.6%   -97.3%        7.5%     -96.3%       32.5%     -53.8%
+              T4 2x + SEP     16.8%   51.6%   -96.7%        6.2%     -96.7%       32.8%     -35.5%
+T5 2x + SEP + vol-managed     13.9%   61.6%   -42.2%       10.3%     -42.2%       19.0%     -24.3%
+       Nasdaq 1x buy&hold     11.7%   47.7%   -75.0%        8.0%     -75.0%       16.9%     -33.1%
+
+Crash windows (cumulative-period CAGR / MDD):
+                  variant  CAGR_00-02  MDD_00-02  CAGR_07-09  MDD_07-09
+           T0 3x buy&hold      -82.6%     -99.7%      -33.4%     -94.4%
+              T1 3x + SEP      -82.6%     -99.7%      -31.0%     -94.4%
+T2 3x + SEP + vol-managed      -14.6%     -40.6%        3.9%     -44.9%
+  T3 3x + SEP + panic-off      -62.0%     -96.2%      -25.7%     -74.0%
+              T4 2x + SEP      -62.3%     -96.7%      -13.7%     -81.8%
+T5 2x + SEP + vol-managed       -8.7%     -27.5%        4.5%     -31.4%
+       Nasdaq 1x buy&hold      -31.0%     -75.0%       -2.1%     -51.8%
+
+Validation 2010-2026: corr(synthetic 3x Composite, actual TQQQ) monthly = 0.986; CAGR synthetic 29.6% vs actual TQQQ 40.3% (Composite is less volatile than NDX)
+
+=== PART 2: V4 overlays (2009-01..2026-10) ===
+                      variant  CAGR  Sharpe  MonthlyMDD  worst_month  avg_stock_exposure  CAGR_09-14  CAGR_15-20  CAGR_21-26
+                           V4 0.597   1.426      -0.280       -0.194               0.921       0.384       0.637       0.802
+   V-RM (Barroso-Santa-Clara) 0.432   1.375      -0.280       -0.194               0.799       0.335       0.477       0.492
+V-DM (Daniel-Moskowitz panic) 0.595   1.431      -0.280       -0.194               0.902       0.388       0.637       0.793
+V-DM panic months: 11 ['2009-02', '2009-04', '2010-06', '2010-07', '2022-10', '2022-12', '2023-01', '2023-02', '2023-03', '2023-05', '2023-11']
