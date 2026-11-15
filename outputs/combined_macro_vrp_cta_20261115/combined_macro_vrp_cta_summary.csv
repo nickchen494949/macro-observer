@@ -1,4 +1,8 @@
 Strategy,90_26_CAGR,90_26_Sh,90_26_MDD_M,90_09_CAGR,90_09_Sh,ETF_10_26_CAGR,ETF_10_26_Sh,ETF_MDD_M,ETF_MDD_D,ETF_Calmar_D,Avg_TQQQ_Wt
+"0a. Pure SEP Only (100% TQQQ when SEP=ON, 0% when OFF; No Vol/VIX/CTA)",15.3%,0.51,-99.8%,-2.3%,0.29,49.1%,1.06,-49.1%,-69.9%,0.70,82%
+"0b. NO SEP: Pure Dual Vol [min(RV21, VIX)] * CTA Baz Trim",15.8%,0.61,-41.3%,12.7%,0.45,30.0%,0.94,-31.5%,-40.0%,0.75,64%
+"0c. NO SEP: CTA Trend Gate (z_comp > 0) + Dual Vol [min(RV21, VIX)] * Baz Trim",13.0%,0.53,-37.4%,9.4%,0.35,28.5%,0.93,-40.3%,-48.1%,0.59,61%
+"0d. NO SEP: Institutional CTA Continuous [psi_long * min(RV21, VIX)]",9.5%,0.43,-36.5%,8.0%,0.32,18.9%,0.75,-32.1%,-37.2%,0.51,51%
 1. B5 Baseline: SEP + Realized Vol (w_rv),17.0%,0.65,-47.6%,13.1%,0.48,37.2%,1.02,-34.0%,-45.2%,0.82,69%
 "2. SEP + Dual Vol [min(RV21, VIX)]",17.2%,0.66,-47.1%,13.0%,0.48,35.0%,1.05,-34.0%,-39.7%,0.88,66%
 3. SEP + RV21 + CTA Baz Overextension Trim (w_rv * baz_trim),16.8%,0.68,-47.6%,13.1%,0.50,35.0%,1.05,-30.0%,-43.9%,0.80,58%

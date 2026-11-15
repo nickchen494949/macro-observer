@@ -173,7 +173,17 @@ rf_synth_ser = pd.Series({t + pd.offsets.MonthEnd(1): synth_m[0][t] for t in T90
 rf_etf_ser = pd.Series({t + pd.offsets.MonthEnd(1): actual_m[0][t] for t in T_etf})
 
 strategies = {
-    # Single & Pair Building Blocks
+    # 0. Pure SEP Alone vs Pure Market Signals Alone (NO SEP)
+    "0a. Pure SEP Only (100% TQQQ when SEP=ON, 0% when OFF; No Vol/VIX/CTA)":
+        lambda s: 1.0 if s["sep_on"] else 0.0,
+    "0b. NO SEP: Pure Dual Vol [min(RV21, VIX)] * CTA Baz Trim":
+        lambda s: s["w_dual_vol"] * s["baz_trim"],
+    "0c. NO SEP: CTA Trend Gate (z_comp > 0) + Dual Vol [min(RV21, VIX)] * Baz Trim":
+        lambda s: (s["w_dual_vol"] * s["baz_trim"]) if s["z_comp"] > 0.0 else 0.0,
+    "0d. NO SEP: Institutional CTA Continuous [psi_long * min(RV21, VIX)]":
+        lambda s: s["psi_long"] * s["w_dual_vol"],
+
+    # Single & Pair Building Blocks with SEP
     "1. B5 Baseline: SEP + Realized Vol (w_rv)":
         lambda s: s["w_rv"] if s["sep_on"] else 0.0,
     "2. SEP + Dual Vol [min(RV21, VIX)]":
