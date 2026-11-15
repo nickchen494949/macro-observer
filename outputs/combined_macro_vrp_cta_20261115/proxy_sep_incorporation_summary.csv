@@ -1,0 +1,12 @@
+Strategy,OFF_m(90-26),90_09_CAGR,90_09_MDD_M,90_26_CAGR,90_26_Sh,90_26_MDD_M,ETF_10_26_CAGR,ETF_10_26_Sh,ETF_MDD_M,ETF_MDD_D,ETF_Calmar
+"A1. Pure Real SEP Only (No pre-2015 Proxy, No Vol/CTA)",35,-3.0%,-99.9%,14.9%,0.50,-99.9%,49.1%,1.06,-49.1%,-69.9%,0.70
+"A2. Pure Proxy SEP Only (2Y+CorePCE 1990-2026, No Vol/CTA)",58,-2.3%,-99.8%,14.2%,0.49,-99.8%,46.2%,1.02,-49.1%,-69.9%,0.66
+"A3. Spliced SEP Only (Proxy pre-2015 + Real SEP 2015+, No Vol/CTA)",68,-2.3%,-99.8%,15.3%,0.51,-99.8%,49.1%,1.06,-49.1%,-69.9%,0.70
+"B0. NO SEP at all: min(RV21, VIX) * CTA Baz Trim",0,12.7%,-41.3%,15.8%,0.61,-41.3%,30.0%,0.94,-31.5%,-40.0%,0.75
+"C1. Real SEP Only (2015+) + min(RV21, VIX) * CTA Baz Trim (No pre-2015 Proxy)",35,12.7%,-41.3%,16.8%,0.66,-41.3%,32.4%,1.08,-28.1%,-35.5%,0.91
+"C2. Pure Proxy SEP (2Y+CorePCE all years) + min(RV21, VIX) * CTA Baz Trim",58,12.9%,-47.1%,16.1%,0.66,-47.1%,29.0%,0.98,-28.1%,-37.8%,0.77
+"C3. Spliced (Proxy pre-2015 + Real SEP 2015+) + min(RV21, VIX) * CTA Baz Trim",68,12.9%,-47.1%,17.0%,0.70,-47.1%,32.4%,1.08,-28.1%,-35.5%,0.91
+C4. Consensus OFF (OFF only if BOTH Real SEP & Proxy SEP are OFF) + Combo,55,12.9%,-47.1%,16.9%,0.68,-47.1%,32.8%,1.04,-28.1%,-37.8%,0.87
+C5. Either OFF (OFF if EITHER Real SEP or Proxy SEP is OFF) + Combo,71,12.9%,-47.1%,16.2%,0.67,-47.1%,28.5%,1.02,-28.1%,-35.5%,0.80
+"C6. Proxy SEP + Credit Filter (CREDIT) + min(RV21, VIX) * CTA Baz Trim",156,9.2%,-48.8%,11.2%,0.50,-48.8%,20.0%,0.80,-36.1%,-46.7%,0.43
+"C7. Proxy SEP + All Break Signals (PROXY+ANY) + min(RV21, VIX) * CTA Baz Trim",253,7.6%,-54.0%,7.6%,0.36,-54.0%,10.9%,0.56,-36.5%,-41.1%,0.26
