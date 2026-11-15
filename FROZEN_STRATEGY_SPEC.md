@@ -24,6 +24,11 @@
    - **`A1-RS_ModBurst_135_75_25_GateV1_ElectionResetV3`**（简称 **`A1-RS 1.35x + V3 Election Reset`**，214M CAGR **`64.95%`**，Sharpe **`1.489`**）
 3. **原版三腿正式主线（Production Baseline）**：
    - **`BestSec_ModBurst_135_75_25_GateV1`**（原版 `1.35x`，214M CAGR `60.96%`，Sharpe `1.414`）
+4. **Frozen V1 TQQQ 指数杠杆策略（`SEP + 1Y Vol + NSL`，2026-11-15 冻结）** — [`frozen_v1_tqqq_strategy.py`](./frozen_v1_tqqq_strategy.py)、[`outputs/v1_tqqq_strategy_20261115/FROZEN_V1_TQQQ_STRATEGY_SPEC.md`](./outputs/v1_tqqq_strategy_20261115/FROZEN_V1_TQQQ_STRATEGY_SPEC.md)：
+   - **核心分工**：**`SEP = OFF` 切 `100% 纯现金 (SGOV)`**（无条件优先，不受 `NSL` 限制）；**`SEP = ON` 时波动率只在 `3x TQQQ` 与 `1x QQQ` 之间切换，并执行 `NSL`（只止盈不割肉）**。
+   - **`V1-Monthly`（月频比例调仓版）**：每月末用 `QQQ` 过去 1 年日收益标准差 $\sigma_{252}$ 与最近 21 天标准差 $\sigma_{21}$ 计算目标比例 $w = \min(1.0, (k \cdot \sigma_{252} / \sigma_{21})^2)$（标准版 $k=1.0$，甜点版 $k=1.1$），配 `w * TQQQ + (1-w) * QQQ`；仅在 `TQQQ` 处于盈利状态时按比例减仓至 `QQQ`（`NSL`）。`2009–2026` CAGR **`55.9%–56.2%`**，日频 MaxDD **`-54.3%`**（纯 SEP 为 `55.7%` / `-69.9%`），Sharpe **`1.16`**，总倍数 **`2,745x–2,841x`**。
+   - **`V1-Daily`（日频 `1年 Vol_Z + NSL` 版）**：日频计算 `QQQ` 的 `Vol_Z = (rvol_20 - mean_252) / std_252`；盈利状态下 `Vol_Z > 1.5`（甜点 `1.2`）切 `1x QQQ`，`Vol_Z < 0.5`（甜点 `0.3`）切回 `3x TQQQ`。`2009–2026` CAGR **`57.6%–57.7%`**，日频 MaxDD **`-48.3%`**，Sharpe **`1.21–1.23`**，总倍数 **`3,361x–3,428x`**（`2010–2026` CAGR **`51.7%–52.7%`**，日频 MaxDD **`-43.5%`**）。
+   - **2026 年 11 月实盘状态**：`SEP = OFF` $\rightarrow$ **`100% SGOV`**。
 
 ---
 
