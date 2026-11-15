@@ -2,7 +2,7 @@
 """
 Zero-Shared-Code Clean-Room Audit Engine for Frozen Strategy V4 Latest (2026-11-14)
 ===================================================================================
-Strategy Name: Symmetric_Sharpe_Top2_V4 (with V3 Election Reset built-in by default)
+Strategy Name: Symmetric_Sharpe_Top2_V4 (V3 Election Reset optional, OFF by default since 2026-11-15)
 
 Core Rules (100% Symmetric Stock Selection Formula, Unlevered 1.0x):
 1. Stock Selection Formula (Identical across all regimes):
@@ -16,7 +16,8 @@ Core Rules (100% Symmetric Stock Selection Formula, Unlevered 1.0x):
      * + 25% BestSec #1 + 25% BestSec #2, where BestSec is the #1 S&P 500 Non-IT GICS sector
        ranked by equal-weighted mean 12-1 Raw momentum, and the 2 stocks inside BestSec are
        selected by 12-1 Sharpe (Buy Top-2 / Hold <= 5, or Hold <= 3 high-win-rate variant).
-3. Built-In Midterm Election Regime Flip Reset (V3 Election Reset, Default Enabled):
+3. Optional Midterm Election Regime Flip Reset (V3 Election Reset, OFF by default; not supported as default by the
+   2026-11-14 from-scratch audit: V4 trigger Decembers were -2.0/-3.9/-3.1%, top 10.7% of random 3-December sets):
    - Triggered ONLY when US Midterm Election flips Unified -> Divided Government (2010, 2018, 2022).
    - Election Year December (YYYY-12): 100% SGOV for 1 month.
    - Next Year January (YYYY+1-01): Reset Hold <= 5 (or Hold <= 3) buffer memory (held = []) at YYYY-12 close.
@@ -99,7 +100,7 @@ def select_bestsec_sharpe_top2(panel_exit, hold_k=5, reset_t_set=None):
     return picks
 
 
-def sim_v4(pk_q, pk_bs, use_election_v3=True, cost_bp=0.0010):
+def sim_v4(pk_q, pk_bs, use_election_v3=False, cost_bp=0.0010):
     prev_drifted_w = {}
     rows = []
     trades_q, trades_bs = [], []
@@ -241,8 +242,8 @@ if __name__ == "__main__":
 
     t_nov26 = months_all[-1]
     print("PASS: independent_v4_symmetric_sharpe_top2_audit.py verified all assertions.")
-    print(f"  1. [DEFAULT] V4 Symmetric Sharpe Top-2 (Hold<=5 + V3 Election Reset): 09-25={c204_3*100:.2f}% | 214M={c214_3*100:.2f}% | SR={sr_3:.3f} | MonMDD={mdd_3*100:.2f}% | TradeWR={wr_3*100:.2f}% ({n_3} trades) | Odds={odds_3:.2f}:1 | PF={pf_3:.2f}")
-    print(f"  2. [DEFAULT] V4 Symmetric Sharpe Top-2 (Hold<=3 + V3 Election Reset): 09-25={c204_4*100:.2f}% | 214M={c214_4*100:.2f}% | SR={sr_4:.3f} | MonMDD={mdd_4*100:.2f}% | TradeWR={wr_4*100:.2f}% ({n_4} trades) | Odds={odds_4:.2f}:1 | PF={pf_4:.2f}")
-    print(f"  3. [V0 ABLATION] V4 Symmetric Sharpe Top-2 (Hold<=5, No Election Reset): 09-25={c204_1*100:.2f}% | 214M={c214_1*100:.2f}% | SR={sr_1:.3f} | MonMDD={mdd_1*100:.2f}% | TradeWR={wr_1*100:.2f}% ({n_1} trades) | Odds={odds_1:.2f}:1 | PF={pf_1:.2f}")
-    print(f"  4. [V0 ABLATION] V4 Symmetric Sharpe Top-2 (Hold<=3, No Election Reset): 09-25={c204_2*100:.2f}% | 214M={c214_2*100:.2f}% | SR={sr_2:.3f} | MonMDD={mdd_2*100:.2f}% | TradeWR={wr_2*100:.2f}% ({n_2} trades) | Odds={odds_2:.2f}:1 | PF={pf_2:.2f}")
+    print(f"  1. [OPTIONAL ER] V4 Symmetric Sharpe Top-2 (Hold<=5 + V3 Election Reset): 09-25={c204_3*100:.2f}% | 214M={c214_3*100:.2f}% | SR={sr_3:.3f} | MonMDD={mdd_3*100:.2f}% | TradeWR={wr_3*100:.2f}% ({n_3} trades) | Odds={odds_3:.2f}:1 | PF={pf_3:.2f}")
+    print(f"  2. [OPTIONAL ER] V4 Symmetric Sharpe Top-2 (Hold<=3 + V3 Election Reset): 09-25={c204_4*100:.2f}% | 214M={c214_4*100:.2f}% | SR={sr_4:.3f} | MonMDD={mdd_4*100:.2f}% | TradeWR={wr_4*100:.2f}% ({n_4} trades) | Odds={odds_4:.2f}:1 | PF={pf_4:.2f}")
+    print(f"  3. [DEFAULT] V4 Symmetric Sharpe Top-2 (Hold<=5, No Election Reset)  : 09-25={c204_1*100:.2f}% | 214M={c214_1*100:.2f}% | SR={sr_1:.3f} | MonMDD={mdd_1*100:.2f}% | TradeWR={wr_1*100:.2f}% ({n_1} trades) | Odds={odds_1:.2f}:1 | PF={pf_1:.2f}")
+    print(f"  4. [DEFAULT] V4 Symmetric Sharpe Top-2 (Hold<=3, No Election Reset)  : 09-25={c204_2*100:.2f}% | 214M={c214_2*100:.2f}% | SR={sr_2:.3f} | MonMDD={mdd_2*100:.2f}% | TradeWR={wr_2*100:.2f}% ({n_2} trades) | Odds={odds_2:.2f}:1 | PF={pf_2:.2f}")
     print(f"  2026-11 Live Holdings (SEP=OFF)                                        : 25% {pk_bs_h5_v3[t_nov26][0]} + 25% {pk_bs_h5_v3[t_nov26][1]} ({pk_bs_h5_v3[t_nov26][2]}) + 50% SGOV")
