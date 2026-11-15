@@ -1,0 +1,59 @@
+1) FMS points 157 first 2001-01-16
+   FMS points per year: {2001: 5, 2002: 4, 2003: 4, 2004: 4, 2005: 4, 2006: 4, 2007: 4, 2008: 4, 2009: 4, 2010: 4, 2011: 4, 2012: 4, 2013: 5, 2014: 4, 2015: 4, 2016: 4, 2017: 4, 2018: 9, 2019: 4, 2020: 8, 2021: 8, 2022: 12, 2023: 12, 2024: 12, 2025: 12, 2026: 10}
+   months with usable FMS 2001+: 269 / 310
+
+2) ETF-era months where S6b != B5: 25
+      t  w_B5  w_S6b  TQQQ_next  excess_gain  panic  bust
+2010-05  0.37    0.8     -0.189      -0.0821   True False
+2011-08  0.17    0.8     -0.143      -0.0901   True False
+2011-09  0.60    0.8      0.315       0.0630   True False
+2011-10  0.54    0.8     -0.101      -0.0269   True False
+2011-11  0.43    0.8     -0.028      -0.0103   True False
+2012-06  0.69    0.8      0.023       0.0025   True False
+2014-04  0.69    0.8      0.135       0.0145   True False
+2015-08  0.27    0.8     -0.081      -0.0432   True False
+2015-09  0.43    0.8      0.372       0.1373   True False
+2015-12  0.68    0.8     -0.211      -0.0264   True False
+2016-01  0.34    0.8     -0.060      -0.0280   True False
+2016-02  0.49    0.8      0.210       0.0654   True False
+2016-06  0.60    0.8      0.225       0.0455   True False
+2018-02  0.27    0.8     -0.134      -0.0714   True False
+2018-03  0.33    0.8     -0.004      -0.0025   True False
+2018-04  0.44    0.8      0.170       0.0612   True False
+2019-05  0.61    0.8      0.230       0.0438   True False
+2019-06  0.70    0.8      0.062       0.0062   True False
+2019-08  0.33    0.8      0.019       0.0082   True False
+2020-03  0.03    0.8      0.465       0.3576   True False
+2020-04  0.14    0.8      0.186       0.1232   True False
+2020-11  0.39    0.8      0.150       0.0617   True False
+2021-01  0.54    0.8     -0.014      -0.0035   True False
+2021-02  0.55    0.8      0.023       0.0057   True False
+2023-03  0.67    0.8     -0.000      -0.0005   True False
+   sum excess gain (arith): 0.611  months positive: 14
+   top-3 months share of total gain: 1.01
+
+3) avg TQQQ weight ETF era: B5 0.693  S6b 0.736
+
+3b) sensitivity / placebo:
+                                                              variant 85-00 CAGR 01-26 CAGR 01-26 Sh 01-26 MDD ETF CAGR ETF Sh ETF MDD_D
+                                                 S2e (no panic boost)      13.2%      19.3%     0.80    -36.7%    37.2%   1.02    -45.2%
+                                         S6b floor0.80 (as published)      13.2%      24.6%     0.84    -36.7%    41.0%   1.05    -45.7%
+PLACEBO: floor0.80 in RANDOM-ish months? -> uniform floor 0.35 always      16.0%      20.9%     0.82    -36.8%    38.8%   1.05    -47.2%
+                                            uniform floor 0.50 always      18.7%      23.5%     0.85    -39.9%    39.5%   1.05    -52.7%
+                                        VM sqrt (less aggressive cut)      18.5%      25.4%     0.87    -39.6%    41.7%   1.06    -54.2%
+                                                     panic floor 0.60      13.2%      22.4%     0.84    -36.7%    39.1%   1.04    -45.2%
+                                                     panic floor 1.00      13.2%      26.1%     0.82    -36.7%    42.6%   1.04    -47.2%
+                                                     panic = FMS only      13.2%      23.8%     0.87    -36.7%    40.2%   1.06    -45.2%
+                                              panic = FINRA<=-15 only      13.2%      20.1%     0.82    -36.7%    38.1%   1.04    -45.2%
+                                                    panic = CFTC only      13.2%      22.3%     0.80    -36.7%    40.0%   1.03    -45.7%
+                              panic = INVERTED (boost when NOT panic)      21.4%      24.2%     0.82    -47.1%    39.0%   1.01    -63.3%
+
+4) ETF 2010-26: mean monthly diff 0.0031, t=1.37, nonzero months=39; block-bootstrap CAGR diff 5/50/95%: -0.007/0.038/0.110, P(diff<=0)=0.10
+
+4) Synth 2001-26: mean monthly diff 0.0060, t=2.47, nonzero months=88; block-bootstrap CAGR diff 5/50/95%: 0.025/0.065/0.120, P(diff<=0)=0.00
+
+5) 1985-1997 months S6b != B5: 4
+
+6) S6b 41y MaxDD -61.1% peak 1989-09-30 trough 1990-10-31
+7) 1-day execution lag B5_3: CAGR 38.1% dailyMDD -47.6%
+7) 1-day execution lag S6b_: CAGR 43.8% dailyMDD -43.9%

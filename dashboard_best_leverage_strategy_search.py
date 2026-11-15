@@ -21,6 +21,13 @@ Tests:
      - Window C: 2010-04..2026-10 (16.6 yrs, actual TQQQ / QLD / QQQ / SGOV + daily MaxDD)
      - Window D: Strict Out-of-Sample (Train 1985..2010 -> Test 2010..2026) & Expanding Walk-Forward (2001..2026)
      - Part E  : Portfolio Combination with V4 & V4.1 Stock Momentum Core (2010-04..2026-10)
+
+POST-HOC DISCLOSURE (added by audit 2026-11-15, see outputs/dashboard_best_leverage_search_20261115/AUDIT_20261115.md):
+  NOT pre-registered. S2e/S4/S6b/S6c were added after seeing the first run, and two patches were made after
+  inspecting which 2010-2011 months triggered: (1) FINRA rollover requires 2Y cumulative growth > 0
+  (removed 2010-06..2011-04 trigger), (2) Sahm must be "active" (removed 2010-07 trigger).
+  S2e ETF-era CAGR moved 33.2% -> 36.2% -> 37.2%, S6b 37.2% -> 40.2% -> 41.0% through these patches.
+  => 2010-2026 is NOT an out-of-sample test for these rules. Treat S6b as a hypothesis, not evidence.
 """
 import json
 import os

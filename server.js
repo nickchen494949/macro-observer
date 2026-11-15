@@ -2169,7 +2169,7 @@ function buildLeverageTrafficLight(capeDailyVals, peDailyVals) {
     const strategies = [
       {
         id: 'tqqq_sep_vm',
-        name: 'TQQQ + 黄金红绿灯 (SEP + VM + 泡沫/衰退破位护栏 + 恐慌抄底)',
+        name: 'TQQQ + SEP + 波动率管理 (3x 纳指核心)',
         regimeBadge: sepOn ? '🟢 SEP=ON 顺风期 · 波动率控仓' : '🔴 SEP=OFF 紧缩防守期 · 100%短债避险',
         status: sepOn ? (vmWeightMe >= 0.8 ? 'green' : 'yellow') : 'red',
         allocationText: sepOn
@@ -2178,7 +2178,7 @@ function buildLeverageTrafficLight(capeDailyVals, peDailyVals) {
         subNote: sepOn
           ? `按月末(${meEntry?.[0]}) 21日波动率 ${qqqVol21Me}% 计算目标仓位 ${targetTqqqWeight}%；若按今日(${liveEntry?.[0]})实时波动率 ${qqqVol21Live}% 则为 ${(vmWeightLive*100).toFixed(1)}% TQQQ`
           : `当前因 FOMC SEP 处于通胀上修/加息紧缩态 (SEP=OFF)，强制 100% SGOV 避险。若 SEP=ON，月末波动率(${qqqVol21Me}%)对应 ${(vmWeightMe*100).toFixed(1)}% TQQQ，今日实时波动率(${qqqVol21Live}%)对应 ${(vmWeightLive*100).toFixed(1)}% TQQQ`,
-        metrics: '2010–2026实盘: CAGR 41.0% (基础版37.2%) · Sharpe 1.05 · 日频MaxDD -45.7% | 2001–2026(25年全指标): CAGR 24.6% (基础版17.5%) · 2000/2008回撤压至 -15.5%/-17.8%'
+        metrics: '2010–2026实盘: CAGR 37.2% · Sharpe 1.02 · 日频MaxDD -45.2% | 2001–2026(合成): CAGR 17.5% · MaxDD -36.9% | 1985–2026: CAGR 16.4% · MaxDD -61.1% (1989–90)'
       },
       {
         id: 'qld_sep_vm',
@@ -2477,7 +2477,7 @@ function buildLeverageTrafficLight(capeDailyVals, peDailyVals) {
         total: thermometers.length,
         warningCount,
         redCount,
-        auditConclusion: '实证结论 (dashboard_best_leverage_strategy_search.py)：① 错误用法（简单投票砍仓）：把高估值/低现金/融资正增长当卖出信号，会使2010–2026年化从37.2%暴跌至22.1%。② 最优黄金法则 (S6b Golden TrafficLight)：在【SEP + 波动率管理】基础上，仅当【(FINRA真泡沫见顶回落≥10pp 或 萨姆衰退≥0.50) 且 跌破10月均线】时切0%现金（将2000–02与2007–09回撤从-33%/-37%砍半至-15.5%/-17.8%，且2010–2026零误伤）；当非衰退期出现【FMS现金≥5.3% 或 融资≤-15% 或 CFTC≤-1.2σ】恐慌洗盘时将仓位底线提至80%抄底（使2001–2026年化从17.5%跃升至24.6%，2010–2026实盘TQQQ年化从37.2%提升至41.0%）。'
+        auditConclusion: '实证结论 (dashboard_best_leverage_strategy_search.py + 审计 AUDIT_20261115.md)：① 把高估值/低现金/融资热做成投票砍仓，2010–2026 年化从 37.2% 降到 22.1%，不可用。② “泡沫/衰退破位护栏 + 恐慌抄底”(S6b) 回测好看，但规则是看过 2000/2008/2010 结果后逐步修补出来的，2010–2026 不是真正样本外；其 2010–2026 超额几乎全部来自 2020年3–4月两个月 (统计 P≈0.10，不显著)。因此自动仓位仍只用【SEP + 波动率管理】；①–⑦ 及“FINRA见顶回落 + 跌破10月线”“FMS≥5.3%恐慌”仅作人工参考。'
       }
     };
   } catch (e) {
