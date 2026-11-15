@@ -1,0 +1,8 @@
+Strategy,90_26_CAGR,90_26_Sh,90_26_MDD_M,90_09_CAGR,90_09_Sh,ETF_10_26_CAGR,ETF_10_26_Sh,ETF_MDD_M,ETF_MDD_D,ETF_Calmar_D,Avg_TQQQ_Wt
+1. B5 Baseline: SEP + Realized Vol (w_rv),17.0%,0.65,-47.6%,13.1%,0.48,37.2%,1.02,-34.0%,-45.2%,0.82,69%
+"2. SEP + Dual Vol [min(RV21, VIX)]",17.2%,0.66,-47.1%,13.0%,0.48,35.0%,1.05,-34.0%,-39.7%,0.88,66%
+3. SEP + RV21 + CTA Baz Overextension Trim (w_rv * baz_trim),16.8%,0.68,-47.6%,13.1%,0.50,35.0%,1.05,-30.0%,-43.9%,0.80,58%
+"4. COMBO A: SEP + Dual Vol [min(RV21, VIX)] * CTA Baz Overextension Trim",17.0%,0.70,-47.1%,12.9%,0.50,32.4%,1.08,-28.1%,-35.5%,0.91,55%
+5. COMBO B: SEP + Blend Vol [0.5*RV21 + 0.5*VIX] * CTA Baz Overextension Trim,17.5%,0.61,-82.0%,10.6%,0.36,35.5%,1.09,-35.2%,-42.7%,0.83,59%
+6. COMBO C: COMBO A + Crowded CTA Cliff Cut (halve on cliff) + Washout Rebound Floor,16.6%,0.68,-51.3%,13.4%,0.50,32.4%,1.08,-28.1%,-35.5%,0.91,55%
+7. COMBO D: COMBO B + VRP Panic Cut (halve if RV21 > VIX + 5) + Credit Stress Cut,15.9%,0.60,-72.6%,10.4%,0.36,29.9%,1.05,-35.2%,-42.7%,0.70,53%
