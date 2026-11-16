@@ -1,8 +1,8 @@
 Strategy_2010_02_11_to_2026_11_03_Real_ETF,CAGR_%,Daily_MaxDD_%,Sharpe,Multiple_x,Switches,Closed_3x_Legs_Win_Rate
-1. V1-Daily Standard (1.5/0.5) | Exact FOMC Open + 10bp/side,53.09,-44.59,1.212,1239.9,31,14/15
-2. V1-Daily Standard (1.5/0.5) | Exact FOMC Open + 10bp/side + OpenLimitNSL,53.74,-44.59,1.221,1331.1,31,15/15
-3. V1-Daily Sweet-Spot (1.2/0.3) | Exact FOMC Open + 10bp/side,54.94,-44.54,1.261,1516.1,35,16/17
-4. V1-Daily Standard (1.5/0.5) | Month-End SEP Delay + Open + 10bp/side,51.25,-44.59,1.182,1012.7,31,14/15
-5. V1-Monthly Equal-Footed Vol_Z (1.5/0.5) | Month-End SEP + Open + 10bp,50.07,-58.08,1.123,888.4,22,11/11
+1. V1-Daily Standard (1.5/0.5) [DEFAULT: Exact FOMC + Open Limit NSL + 10bp],53.74,-44.59,1.221,1331.1,31,15/15
+2. V1-Daily Sweet-Spot (1.2/0.3) [DEFAULT: Exact FOMC + Open Limit NSL + 10bp],54.89,-44.54,1.259,1506.8,33,16/16
+3. V1-Daily Standard (1.5/0.5) | Month-End SEP Delay + Open Limit NSL + 10bp,51.89,-44.59,1.191,1087.2,31,15/15
+4. V1-Monthly Equal-Footed Vol_Z (1.5/0.5) | Month-End SEP + Open Limit NSL,50.07,-58.08,1.123,888.4,22,11/11
+5. [Ref] V1-Daily Standard (1.5/0.5) | Blind Market-on-Open (No Open Limit NSL),53.09,-44.59,1.212,1239.9,31,14/15
 6. Pure SEP Only (No Vol_Z) | Exact FOMC Open + 10bp/side,53.74,-69.92,1.084,1330.8,9,5/5
 7. Pure SEP Only (No Vol_Z) | Month-End SEP Delay + Open + 10bp/side,52.04,-69.92,1.061,1104.5,9,5/5

@@ -152,7 +152,7 @@ def run_v1_audit(
     cost_bp_side=10.0,
     sep_timing="exact_fomc",      # 'exact_fomc' or 'month_end_delay'
     cash_source="sgov_bil",       # 'sgov_bil' or 'sgov_only'
-    open_limit_nsl=False,         # If True, cancel profit-trim at Open if overnight gap pushed eq_open < entry_eq
+    open_limit_nsl=True,          # Default True: enforce NSL at actual Open execution price (post-cost >= entry_eq)
     vol_check_freq="daily",       # 'daily' or 'monthly'
     pure_sep=False,
 ):
@@ -209,8 +209,8 @@ def run_v1_audit(
                     reason = "SEP_ON_HIGH_VOL_TO_1X"
             elif pos == "3x":
                 if can_check_vol and vz > trig and eq >= entry_eq:
-                    if open_limit_nsl and eq_at_open_pre_cost < entry_eq:
-                        # Limit order at entry cost basis: do not execute profit-trim if overnight gap turned it into a loss
+                    if open_limit_nsl and (eq_at_open_pre_cost * cost_mult) < entry_eq:
+                        # Limit order at entry cost basis + fee: never execute a Vol_Z profit-trim at a net loss at the Open
                         target_pos = "3x"
                     else:
                         target_pos = "1x"
@@ -275,13 +275,13 @@ def run_v1_audit(
 
 if __name__ == "__main__":
     configs = [
-        ("1. V1-Daily Standard (1.5/0.5) | Exact FOMC Open + 10bp/side",               dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=False, vol_check_freq="daily")),
-        ("2. V1-Daily Standard (1.5/0.5) | Exact FOMC Open + 10bp/side + OpenLimitNSL", dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=True,  vol_check_freq="daily")),
-        ("3. V1-Daily Sweet-Spot (1.2/0.3) | Exact FOMC Open + 10bp/side",             dict(trig=1.2, rec=0.3, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=False, vol_check_freq="daily")),
-        ("4. V1-Daily Standard (1.5/0.5) | Month-End SEP Delay + Open + 10bp/side",     dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="month_end_delay", open_limit_nsl=False, vol_check_freq="daily")),
-        ("5. V1-Monthly Equal-Footed Vol_Z (1.5/0.5) | Month-End SEP + Open + 10bp",   dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="month_end_delay", open_limit_nsl=False, vol_check_freq="monthly")),
-        ("6. Pure SEP Only (No Vol_Z) | Exact FOMC Open + 10bp/side",                  dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=False, pure_sep=True)),
-        ("7. Pure SEP Only (No Vol_Z) | Month-End SEP Delay + Open + 10bp/side",       dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="month_end_delay", open_limit_nsl=False, pure_sep=True)),
+        ("1. V1-Daily Standard (1.5/0.5) [DEFAULT: Exact FOMC + Open Limit NSL + 10bp]",   dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=True,  vol_check_freq="daily")),
+        ("2. V1-Daily Sweet-Spot (1.2/0.3) [DEFAULT: Exact FOMC + Open Limit NSL + 10bp]", dict(trig=1.2, rec=0.3, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=True,  vol_check_freq="daily")),
+        ("3. V1-Daily Standard (1.5/0.5) | Month-End SEP Delay + Open Limit NSL + 10bp",   dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="month_end_delay", open_limit_nsl=True,  vol_check_freq="daily")),
+        ("4. V1-Monthly Equal-Footed Vol_Z (1.5/0.5) | Month-End SEP + Open Limit NSL",    dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="month_end_delay", open_limit_nsl=True,  vol_check_freq="monthly")),
+        ("5. [Ref] V1-Daily Standard (1.5/0.5) | Blind Market-on-Open (No Open Limit NSL)", dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=False, vol_check_freq="daily")),
+        ("6. Pure SEP Only (No Vol_Z) | Exact FOMC Open + 10bp/side",                      dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=True,  pure_sep=True)),
+        ("7. Pure SEP Only (No Vol_Z) | Month-End SEP Delay + Open + 10bp/side",           dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="month_end_delay", open_limit_nsl=True,  pure_sep=True)),
     ]
 
     sum_rows = []
@@ -298,7 +298,7 @@ if __name__ == "__main__":
         })
         if label.startswith("1."):
             df_tr.to_csv(os.path.join(OUT_DIR, "v1_daily_trade_ledger_2009_2026.csv"), index=False)
-        elif label.startswith("3."):
+        elif label.startswith("2."):
             df_tr.to_csv(os.path.join(OUT_DIR, "v1_daily_sweetspot_trade_ledger_2009_2026.csv"), index=False)
 
     df_sum = pd.DataFrame(sum_rows)
