@@ -1,8 +1,8 @@
-Strategy_100pct_Real_ETF_2010_02_11_to_2026_11_03,CAGR_%,Daily_MaxDD_%,Sharpe,Multiple_x,Rebalance_Events
-"1. V1-Daily Sweet-Spot (1.2/0.3, Next-Day Open + 10bp/side)",53.02290259153028,-44.5368894092123,1.2278725197513352,1230.6920361952343,33
-"2. V1-Daily Standard (1.5/0.5, Next-Day Open + 10bp/side)",51.24948551506285,-44.59047736678724,1.1817953342412408,1012.6885480351332,31
-"3. V1-Monthly Standard (k=1.0, Next-Day Open + 10bp/side)",51.38540116267152,-53.88855653117919,1.1426245841621079,1028.017152132321,201
-"4. V1-Monthly Sweet-Spot (k=1.1, Next-Day Open + 10bp/side)",51.58980292983604,-55.706565374038206,1.1262073559100383,1051.4809125066133,201
-5. Pure SEP Baseline (Next-Day Open + 10bp/side),52.03606504348457,-69.92207352160082,1.0611553866532732,1104.469552013767,9
-"6. [Ref] V1-Daily Sweet-Spot (1.2/0.3, Close-to-Close, 0bp)",52.749469903789105,-44.5368894092123,1.2240456673424338,1194.4233166097174,33
-"7. [Ref] V1-Daily Standard (1.5/0.5, Close-to-Close, 0bp)",52.56939181300731,-43.45390159340978,1.2013018899349481,1171.088827938986,31
+Strategy_2010_02_11_to_2026_11_03_Real_ETF,CAGR_%,Daily_MaxDD_%,Sharpe,Multiple_x,Switches,Closed_3x_Legs_Win_Rate
+1. V1-Daily Standard (1.5/0.5) | Exact FOMC Open + 10bp/side,53.09,-44.59,1.212,1239.9,31,14/15
+2. V1-Daily Standard (1.5/0.5) | Exact FOMC Open + 10bp/side + OpenLimitNSL,53.74,-44.59,1.221,1331.1,31,15/15
+3. V1-Daily Sweet-Spot (1.2/0.3) | Exact FOMC Open + 10bp/side,54.94,-44.54,1.261,1516.1,35,16/17
+4. V1-Daily Standard (1.5/0.5) | Month-End SEP Delay + Open + 10bp/side,51.25,-44.59,1.182,1012.7,31,14/15
+5. V1-Monthly Equal-Footed Vol_Z (1.5/0.5) | Month-End SEP + Open + 10bp,50.07,-58.08,1.123,888.4,22,11/11
+6. Pure SEP Only (No Vol_Z) | Exact FOMC Open + 10bp/side,53.74,-69.92,1.084,1330.8,9,5/5
+7. Pure SEP Only (No Vol_Z) | Month-End SEP Delay + Open + 10bp/side,52.04,-69.92,1.061,1104.5,9,5/5

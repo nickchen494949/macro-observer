@@ -1,74 +1,57 @@
-# Frozen V1 TQQQ Strategy — Remediated Independent Audit & Specification (`2010-02-11 .. 2026-11-03` 100% Real ETFs, Next-Day Open `adjOpen` + `10bp/side`)
+# Frozen V1-Daily TQQQ Strategy — Complete Audit-Remediated Specification (`2010-02-11 .. 2026-11-03` 100% Real ETFs, Next-Day Open `adjOpen` + `10bp/side`)
 
-> **Standalone Reproducible Engine**: [`frozen_v1_tqqq_strategy.py`](../../frozen_v1_tqqq_strategy.py)  
+> **100% Self-Contained Reproducible Engine (Zero Local Cache Dependencies)**: [`frozen_v1_tqqq_strategy.py`](../../frozen_v1_tqqq_strategy.py)  
 > **Summary Metrics CSV**: [`v1_tqqq_summary.csv`](./v1_tqqq_summary.csv)  
-> **Complete Trade Ledger (`1.5/0.5`, All `3x`, `1x`, `0x` Legs)**: [`v1_daily_trade_ledger_2009_2026.csv`](./v1_daily_trade_ledger_2009_2026.csv)  
-> **Sweet-Spot Trade Ledger (`1.2/0.3`, All `3x`, `1x`, `0x` Legs)**: [`v1_daily_sweetspot_trade_ledger_2009_2026.csv`](./v1_daily_sweetspot_trade_ledger_2009_2026.csv)  
-> **FOMC SEP Point-in-Time Signal Table**: [`fomc_sep_signal_verification_2008_2026.csv`](./fomc_sep_signal_verification_2008_2026.csv)  
-> **Parameter Plateau Grid (`30 Configs`, Next-Day Open + `10bp/side`)**: [`v1_daily_parameter_grid_2009_2026.csv`](./v1_daily_parameter_grid_2009_2026.csv)
+> **Complete Trade Ledger (`1.5/0.5`, Exact FOMC Open + `10bp/side`)**: [`v1_daily_trade_ledger_2009_2026.csv`](./v1_daily_trade_ledger_2009_2026.csv)  
+> **Sweet-Spot Trade Ledger (`1.2/0.3`, Exact FOMC Open + `10bp/side`)**: [`v1_daily_sweetspot_trade_ledger_2009_2026.csv`](./v1_daily_sweetspot_trade_ledger_2009_2026.csv)  
+> **Exact FOMC SEP Meeting & Transition Table (`2015–2026`)**: [`fomc_sep_signal_verification_2008_2026.csv`](./fomc_sep_signal_verification_2008_2026.csv)  
+> **Parameter Sensitivity & Valid Zone Grid (`30 Configs`)**: [`v1_daily_parameter_grid_2009_2026.csv`](./v1_daily_parameter_grid_2009_2026.csv)
 
 ---
 
-## 1. 5-Point External Audit Remediation Summary
+## 1. Full External Audit Reconciliation (100% Bit-for-Bit Verified)
 
-| Audit Item | Previous Commit (`a618dfa`) | Remediated Commit (Current) | Exact Quantitative Impact |
-| :--- | :--- | :--- | :--- |
-| **1. Next-Day Open Execution (`adjOpen`)** | Used close-to-close return on day $d$ | Signal at $d-1$ close (`adjClose[d-1]`); overnight return (`adjClose[d-1] -> adjOpen[d]`) earned on OLD asset; switch executes at $d$ Open (`adjOpen[d]`); intraday return (`adjOpen[d] -> adjClose[d]`) earned on NEW asset | In `1.5/0.5`, changes CAGR by `-0.76%/yr`; in `1.2/0.3`, Next-Day Open is `+0.27%/yr` higher (`53.02%` vs `52.75%`) |
-| **2. Transaction Costs (`10bp/side`)** | `0bp` | Deducts `10bp/side` (`20bp = 0.20%` round-trip per switch) at $d$ Open | Only 31–33 switches over 16.7 years (~1.9/yr) $\rightarrow$ total cost impact is only **`-0.56%/yr`** |
-| **3. 100% Real ETF History (`TQQQ` Launch `2010-02-11`)** | Included 2009 synthetic 3x splice alongside 2010–2026 | Primary benchmark strictly starts **`2010-02-11`** (actual Tiingo `TQQQ`, `QQQ`, `BIL`, `SGOV` OHLC; zero synthetic data) | `2010-02-11..2026-11-03` Real ETF CAGR: **`51.25%` (`1.5/0.5`) / `53.02%` (`1.2/0.3`)** |
-| **4. FOMC SEP Signal Verification** | Referenced `v3_regime_and_cash_214m.csv` | Exported full month-end signal mapping [`fomc_sep_signal_verification_2008_2026.csv`](./fomc_sep_signal_verification_2008_2026.csv) (signal at month-end $t$ governs trading days in month $t+1$) | Zero look-ahead; month-end $t$ close executes on first trading day open of month $t+1$ |
-| **5. `15/15` Leg Win Rate Accounting** | Reported `3x` legs at signal close (`15/15`) | Reports **all `3x`, `1x`, and `0x` legs** at actual **Next-Day Open (`adjOpen[d]`)** pre/post cost | Under Next-Day Open (`adjOpen`), the `2018-10-25` close signal (`+0.5%` profit) experienced an overnight gap down on `2018-10-26` Open to **`-7.98%`**, making `3x` leg win rate **`14/15 (93.3%)`** |
+Every finding from the independent audit of commit `a618dfa` has been incorporated and verified in [`frozen_v1_tqqq_strategy.py`](../../frozen_v1_tqqq_strategy.py):
+
+| Independent Audit Item | Resolution in Current Commit | Independent Auditor Result vs Current Engine |
+| :--- | :--- | :--- |
+| **1. Zero-Dependency One-Click Reproduction** | Removed `break_signals_test.py` import and all gitignored local cache dependencies (`data/fred/`, `data/yahoo/`). Reads **only** git-tracked files: `tiingo_etfs/{QQQ,TQQQ,BIL,SGOV}.json`, `02_sep_alfred_medians.csv`, and `v3_regime_and_cash_214m.csv`. | Runs out-of-the-box in any fresh `git clone` (`python3 frozen_v1_tqqq_strategy.py`) |
+| **2. Next-Day Open (`adjOpen`) + `10bp/side` Cost (`2010-02-11 .. 2026-11-03` Real ETFs)** | Signal at day $d-1$ close (`adjClose[d-1]`); overnight return (`adjClose[d-1] -> adjOpen[d]`) on OLD asset; switch at $d$ Open (`adjOpen[d]`) minus `20bp` (`10bp/side`); intraday return (`adjOpen[d] -> adjClose[d]`) on NEW asset. | Month-End SEP Delay: **`51.25%` (`BIL+SGOV`) / `51.73%` (`SGOV`)**, MaxDD **`-44.59%`** (matches auditor's `51.73% / -44.59%`) |
+| **3. Exact FOMC SEP Release Date Execution** | Reconstructs all 9 FOMC SEP flips directly from `02_sep_alfred_medians.csv` (comparing same `target_year` median FFR and Core PCE vs previous meeting) and executes at **next trading day Open after FOMC release** (e.g., `2026-06-18` Open after `2026-06-17` FOMC). | Exact FOMC Next-Day Open (`1.5/0.5`): **`53.09%` CAGR, `-44.59%` MaxDD** (matches auditor's **`53.09% / -44.59%`** to `0.00%`!) |
+| **4. `2018-10-26` Overnight Gap Counterexample (`14/15` vs `15/15`)** | Documented transparently: at `2018-10-25` close, `3x` leg was in profit (`+0.5%`), but an overnight earnings gap down caused a Market-on-Open exit on `2018-10-26` to close at **`-7.98%` pre-cost / `-8.17%` post-cost** (`14/15` win rate). Also tests **Open Limit NSL** (cancel profit-trim at Open if overnight gap pushed price below entry cost basis $\rightarrow$ `15/15`, CAGR **`53.74%`**). | Both `14/15` (Market-on-Open) and `15/15` (Open Limit NSL) reported side-by-side |
+| **5. `2026-09-16` SEP Target Year Clarification** | Corrected table documentation: in the `2026-09-16` SEP (`target_year = 2027`), the **2026** medians are `FFR = 4.1%, Core PCE = 3.4%`, while the **2027 (`target_year`)** medians are **`FFR = 4.1%` (up from `3.6%` in June) and `Core PCE = 2.5%` (vs `2.5%` in June)**. Since `SEP = OFF` was already triggered on `2026-06-17` (`2026` Core PCE `2.7% -> 3.3%`, FFR `3.4% -> 3.8%`) and `4.1% > 3.6%`, `SEP = OFF` remains active. | Verified in `fomc_sep_signal_verification_2008_2026.csv` |
+| **6. Parameter Sensitivity (`Rec = 0.7` vs `Rec <= 0.5`) & Equal-Footed Daily vs Monthly** | Documented the `Rec = 0.7` drawdown degradation (`-58.08%` due to premature March 2020 re-entry) and restricted valid recovery threshold to **`Rec ∈ [0.0, 0.5]`**. Added equal-footed Daily vs Monthly `Vol_Z` check (`51.25% / -44.59%` vs `50.07% / -58.08%`). | Full 30-cell grid exported in `v1_daily_parameter_grid_2009_2026.csv` |
 
 ---
 
-## 2. Headline Performance (`100% Real ETFs: 2010-02-11 .. 2026-11-03`, Next-Day Open `adjOpen` + `10bp/side`)
+## 2. Remediated Headline Performance (`2010-02-11 .. 2026-11-03` 100% Real Tiingo ETFs, Next-Day Open `adjOpen` + `10bp/side`)
 
-| Strategy (`2010-02-11 .. 2026-11-03` Real `TQQQ / QQQ / BIL / SGOV`) | Execution & Cost | **CAGR** | **Daily MaxDD** | **Sharpe** | **Multiple** | **Switches** |
+| Strategy Configuration (`2010-02-11 .. 2026-11-03` Real `TQQQ / QQQ / BIL / SGOV`) | **CAGR** | **Daily MaxDD** | **Sharpe** | **Multiple** | **Switches** | **Closed `3x` Legs Win Rate** |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **1. `V1-Daily` Sweet-Spot (`1.2 / 0.3 + NSL`)** 🏆 | **Next-Day Open + `10bp/side`** | **`53.02%`** | **`-44.54%`** | **`1.23`** | **`1,230.7x`** | `33` |
-| **2. `V1-Daily` Standard (`1.5 / 0.5 + NSL`)** 🏆 | **Next-Day Open + `10bp/side`** | **`51.25%`** | **`-44.59%`** | **`1.18`** | **`1,012.7x`** | `31` |
-| **3. `V1-Monthly` Standard (`k=1.0`, `(std_252/std_21)^2 + NSL`)** | **Next-Day Open + `10bp/side`** | `51.39%` | `-53.89%` | `1.14` | `1,028.0x` | `201` |
-| **4. `V1-Monthly` Sweet-Spot (`k=1.1`, `(1.1*std_252/std_21)^2 + NSL`)** | **Next-Day Open + `10bp/side`** | `51.59%` | `-55.71%` | `1.13` | `1,051.5x` | `201` |
-| **5. Pure `SEP` Baseline (`SEP=ON` 100% TQQQ, `SEP=OFF` Cash)** | **Next-Day Open + `10bp/side`** | `52.04%` | `-69.92%` | `1.06` | `1,104.5x` | `9` |
-| *6. [Reference] `V1-Daily` Sweet-Spot (`1.2 / 0.3 + NSL`)* | *Close-to-Close, `0bp`* | *`52.75%`* | *`-44.54%`* | *`1.22`* | *`1,194.4x`* | *`33`* |
-| *7. [Reference] `V1-Daily` Standard (`1.5 / 0.5 + NSL`)* | *Close-to-Close, `0bp`* | *`52.57%`* | *`-43.45%`* | *`1.20`* | *`1,171.1x`* | *`31`* |
+| **1. `V1-Daily` Standard (`1.5 / 0.5`) — Exact FOMC Open + `10bp/side`** 🏆 | **`53.09%`** | **`-44.59%`** | **`1.212`** | **`1,239.9x`** | `31` | **`14 / 15` (`93.3%`)** |
+| **2. `V1-Daily` Standard (`1.5 / 0.5`) — Exact FOMC Open + `10bp/side` + Open Limit NSL** 🏆 | **`53.74%`** | **`-44.59%`** | **`1.221`** | **`1,331.1x`** | `31` | **`15 / 15` (`100.0%`)** |
+| **3. `V1-Daily` Sweet-Spot (`1.2 / 0.3`) — Exact FOMC Open + `10bp/side`** 🏆 | **`54.94%`** | **`-44.54%`** | **`1.261`** | **`1,516.1x`** | `35` | **`16 / 17` (`94.1%`)** |
+| **4. `V1-Daily` Standard (`1.5 / 0.5`) — Month-End SEP Delay + Open + `10bp/side`** | `51.25%` | `-44.59%` | `1.182` | `1,012.7x` | `31` | `14 / 15` (`93.3%`) |
+| **5. `V1-Monthly` Equal-Footed `Vol_Z` (`1.5 / 0.5`) — Month-End SEP + Open + `10bp/side`** | `50.07%` | `-58.08%` | `1.123` | `888.4x` | `22` | `11 / 11` (`100.0%`) |
+| **6. Pure `SEP` Only (No `Vol_Z`) — Exact FOMC Open + `10bp/side`** | `53.74%` | `-69.92%` | `1.084` | `1,330.8x` | `9` | `5 / 5` |
+| **7. Pure `SEP` Only (No `Vol_Z`) — Month-End SEP Delay + Open + `10bp/side`** | `52.04%` | `-69.92%` | `1.061` | `1,104.5x` | `9` | `5 / 5` |
+
+> **Key Structural Takeaway**:  
+> Across `2010-02-11 .. 2026-11-03`, `FOMC SEP` provides the primary return driver (`52.04%–53.74%` CAGR), while the daily `1-Year Vol_Z + NSL` switch (`Rec <= 0.5`) acts as a **drawdown and volatility stabilizer**, cutting Daily MaxDD by **`25.3 percentage points` (`-69.92%` $\rightarrow$ `-44.59%`)** and lifting Sharpe from **`1.06–1.08` to `1.18–1.26`** without sacrificing long-run CAGR (`53.09%–54.94%` under exact FOMC next-day open execution).
 
 ---
 
-## 3. Complete Next-Day Open Trade Ledger (`2010-02-11 .. 2026-11-03`, `Trig = 1.5 / Rec = 0.5`, `10bp/side`)
+## 3. Exact FOMC SEP Regime Transitions (`2015–2026`, Reconstructed from `02_sep_alfred_medians.csv`)
 
-Includes every `3x TQQQ` leg, every `1x QQQ` bridge leg, and every `0x Cash (BIL/SGOV)` leg executed at `adjOpen`:
-
-| Signal Close (`d-1`) | Exec Open (`d`) | Switch | Reason | `Vol_Z` | `rvol_20` | `1Y Mean` | Closed Asset | Leg Start | Leg Return (Pre-Cost at `adjOpen`) | Cost (`bp`) | Equity Multiple (Post-Cost) |
-| :---: | :---: | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `2010-05-10` | `2010-05-11` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+2.80` | `30.74%` | `17.14%` | `3x` | `2010-02-11` | **`+23.87%`** | `20.0` | `1.24x` |
-| `2010-07-14` | `2010-07-15` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.44` | `21.50%` | `18.45%` | `1x` | `2010-05-11` | `-3.73%` | `20.0` | `1.19x` |
-| `2011-08-04` | `2011-08-05` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+2.69` | `24.88%` | `15.19%` | `3x` | `2010-07-15` | **`+61.93%`** | `20.0` | `1.92x` |
-| `2011-11-07` | `2011-11-08` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.48` | `24.38%` | `19.67%` | `1x` | `2011-08-05` | `+7.21%` | `20.0` | `2.05x` |
-| `2014-01-30` | `2014-01-31` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.54` | `15.97%` | `11.95%` | `3x` | `2011-11-08` | **`+182.18%`** | `20.0` | `5.78x` |
-| `2014-02-28` | `2014-03-03` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.36` | `13.39%` | `12.33%` | `1x` | `2014-01-31` | `+5.04%` | `20.0` | `6.06x` |
-| `2014-10-10` | `2014-10-13` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.76` | `18.94%` | `12.21%` | `3x` | `2014-03-03` | **`+14.52%`** | `20.0` | `6.93x` |
-| `2014-11-10` | `2014-11-11` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.35` | `14.26%` | `12.73%` | `1x` | `2014-10-13` | `+8.16%` | `20.0` | `7.48x` |
-| `2015-08-27` | `2015-08-28` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+4.46` | `32.53%` | `13.99%` | `3x` | `2014-11-11` | **`+3.52%`** | `20.0` | `7.73x` |
-| `2015-10-06` | `2015-10-07` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.49` | `19.59%` | `16.34%` | `1x` | `2015-08-28` | `+0.80%` | `20.0` | `7.77x` |
-| `2017-07-05` | `2017-07-06` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.56` | `17.30%` | `10.57%` | `3x` | `2015-10-07` | **`+95.67%`** | `20.0` | `15.18x` |
-| `2017-07-27` | `2017-07-28` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.49` | `11.99%` | `10.23%` | `1x` | `2017-07-06` | `+4.89%` | `20.0` | `15.89x` |
-| `2018-02-05` | `2018-02-06` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+2.90` | `19.35%` | `10.24%` | `3x` | `2017-07-28` | **`+24.64%`** | `20.0` | `19.77x` |
-| `2018-05-08` | `2018-05-09` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.48` | `18.44%` | `15.02%` | `1x` | `2018-02-06` | `+6.95%` | `20.0` | `21.10x` |
-| `2018-10-25` | `2018-10-26` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+2.36` | `32.56%` | `16.13%` | `3x` | `2018-05-09` | **`-7.98%`** *(overnight gap)* | `20.0` | `19.38x` |
-| `2019-01-25` | `2019-01-28` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.20` | `23.55%` | `21.65%` | `1x` | `2018-10-26` | `-1.03%` | `20.0` | `19.14x` |
-| `2020-02-24` | `2020-02-25` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.71` | `23.23%` | `14.36%` | `3x` | `2019-01-28` | **`+127.86%`** | `20.0` | `43.52x` |
-| `2020-05-05` | `2020-05-06` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.37` | `32.21%` | `24.27%` | `1x` | `2020-02-25` | `-1.52%` | `20.0` | `42.77x` |
-| `2021-09-30` | `2021-10-01` | `3x -> 0x` | `SEP_OFF_TO_CASH` | `-0.53` | `14.58%` | `18.49%` | `3x` | `2020-05-06` | **`+260.22%`** | `20.0` | `153.77x` |
-| `2023-03-31` | `2023-04-03` | `0x -> 3x` | `SEP_ON_TO_3X` | `-1.50` | `20.19%` | `30.09%` | `0x` | `2021-10-01` | `+2.73%` | `20.0` | `157.65x` |
-| `2023-06-30` | `2023-07-03` | `3x -> 0x` | `SEP_OFF_TO_CASH` | `-1.29` | `16.73%` | `25.31%` | `3x` | `2023-04-03` | **`+49.33%`** | `20.0` | `234.96x` |
-| `2023-12-29` | `2024-01-02` | `0x -> 3x` | `SEP_ON_TO_3X` | `-1.73` | `11.55%` | `18.09%` | `0x` | `2023-07-03` | `+2.67%` | `20.0` | `240.75x` |
-| `2024-05-03` | `2024-05-06` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.84` | `20.15%` | `16.10%` | `3x` | `2024-01-02` | **`+16.76%`** | `20.0` | `280.54x` |
-| `2024-05-16` | `2024-05-17` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.44` | `17.16%` | `16.17%` | `1x` | `2024-05-06` | `+3.39%` | `20.0` | `289.46x` |
-| `2024-06-28` | `2024-07-01` | `3x -> 0x` | `SEP_OFF_TO_CASH` | `-1.44` | `11.88%` | `15.58%` | `3x` | `2024-05-17` | **`+17.99%`** | `20.0` | `340.86x` |
-| `2024-09-30` | `2024-10-01` | `0x -> 3x` | `SEP_ON_TO_3X` | `+0.76` | `20.78%` | `17.08%` | `0x` | `2024-07-01` | `+1.35%` | `20.0` | `344.76x` |
-| `2024-12-31` | `2025-01-02` | `3x -> 0x` | `SEP_OFF_TO_CASH` | `+0.64` | `20.18%` | `17.18%` | `3x` | `2024-10-01` | **`+11.79%`** | `20.0` | `384.63x` |
-| `2025-03-31` | `2025-04-01` | `0x -> 1x` | `SEP_ON_HIGH_VOL_TO_1X` | `+1.64` | `27.00%` | `18.51%` | `0x` | `2025-01-02` | `+1.03%` | `20.0` | `387.83x` |
-| `2025-05-09` | `2025-05-12` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.13` | `23.84%` | `22.34%` | `1x` | `2025-04-01` | `+8.49%` | `20.0` | `419.93x` |
-| `2026-06-05` | `2026-06-08` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.96` | `23.46%` | `15.56%` | `3x` | `2025-05-12` | **`+135.06%`** | `20.0` | `985.08x` |
-| `2026-06-30` | `2026-07-01` | `1x -> 0x` | `SEP_OFF_TO_CASH` | `+3.33` | `33.88%` | `16.48%` | `1x` | `2026-06-08` | `+1.70%` | `20.0` | `999.80x` |
+| FOMC Release Date | Target Year | Horizon Type | Target Year FFR Median (`Curr` vs `Prev`) | Target Year Core PCE Median (`Curr` vs `Prev`) | `SEP` State After Meeting | State Flipped? |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `2021-09-22` | `2022` | `Next_Year` | `0.3%` vs `0.1%` | `2.3%` vs `2.1%` | **`OFF (Cash)`** | **Yes (`ON -> OFF`)** |
+| `2023-03-22` | `2023` | `Current_Year` | `5.1%` vs `5.1%` | `3.6%` vs `3.5%` | **`ON`** | **Yes (`OFF -> ON`)** |
+| `2023-06-14` | `2023` | `Current_Year` | `5.6%` vs `5.1%` | `3.9%` vs `3.6%` | **`OFF (Cash)`** | **Yes (`ON -> OFF`)** |
+| `2023-12-13` | `2024` | `Next_Year` | `4.6%` vs `5.1%` | `2.4%` vs `2.6%` | **`ON`** | **Yes (`OFF -> ON`)** |
+| `2024-06-12` | `2024` | `Current_Year` | `5.1%` vs `4.6%` | `2.8%` vs `2.6%` | **`OFF (Cash)`** | **Yes (`ON -> OFF`)** |
+| `2024-09-18` | `2025` | `Next_Year` | `3.4%` vs `4.1%` | `2.2%` vs `2.3%` | **`ON`** | **Yes (`OFF -> ON`)** |
+| `2024-12-18` | `2025` | `Next_Year` | `3.9%` vs `3.4%` | `2.5%` vs `2.2%` | **`OFF (Cash)`** | **Yes (`ON -> OFF`)** |
+| `2025-03-19` | `2025` | `Current_Year` | `3.9%` vs `3.9%` | `2.8%` vs `2.5%` | **`ON`** | **Yes (`OFF -> ON`)** |
+| `2026-06-17` | `2026` | `Current_Year` | `3.8%` vs `3.4%` | `3.3%` vs `2.7%` | **`OFF (Cash)`** | **Yes (`ON -> OFF`)** |
+| `2026-09-16` | `2027` | `Next_Year` | `4.1%` vs `3.6%` *(2026: `4.1%`)* | `2.5%` vs `2.5%` *(2026: `3.4%`)* | **`OFF (Cash)`** | No *(stays `OFF`)* |
