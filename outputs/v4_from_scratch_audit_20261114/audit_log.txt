@@ -37,6 +37,12 @@ True M&A / corporate reorganization exits (3 positions) + sample-end cutoff posi
 2020-01   ANSS     QQQ                close_proxy  0.083747                                                                                                                                                                                                                                                    
 2026-10    MPC BestSec sample_end_cutoff_20261029  0.078063                                                                                                                                                Active S&P 500 constituent; holding period truncated at 2026-10-29 sample cutoff date (NOT delisted)
 2026-10    VLO BestSec sample_end_cutoff_20261029 -0.023163                                                                                                                                                Active S&P 500 constituent; holding period truncated at 2026-10-29 sample cutoff date (NOT delisted)
+Full-Month M&A Post-Merger Holding Simulation (d0 Open -> Merger Conversion -> Hold Basket/Cash to d1 Open):
+     ym ticker    d0_open  mna_close    d1_open  panel_last_close_ret  sim_cash_in_bil_to_d1_ret  sim_cash_spinoff_to_d1_ret  sim_full_merger_basket_to_d1_ret
+2013-06   VMED 2013-06-03 2013-06-07 2013-07-01              +2.7190%                   +2.6966%                    +0.9767%                          +0.9767%
+2019-03    FOX 2019-03-01 2019-03-19 2019-04-01              -1.4893%                   -1.4079%                    -3.3972%                          -2.8961%
+2019-03   FOXA 2019-03-01 2019-03-19 2019-04-01              -1.8566%                   -1.7756%                    -3.7578%                          -3.2595%
+Default V4 (No ER) with Full-Month M&A Basket Held to d1 Open: 214M CAGR=59.4475% Sh=1.421 MDD=-27.99% | Complete 213M CAGR=59.6614% Sh=1.423 (vs baseline 59.6538% / 59.8689%, diff = -0.21pp)
 Missing hold_ret: 0
 Price source of invested positions:
 src
@@ -70,7 +76,9 @@ Extreme position-months |r|>30%: 20
 2020-08   TSLA     QQQ  yahoo open_open  0.732473
 
 === PART E: open-executed daily NAV (weights set at d0 open, drift daily, exit at next d0 open) ===
-Daily NAV end=4734.2 (monthly ledger wealth=4760.3)
+Default V4 (No ER) Daily NAV end=4178.1 | Daily MaxDD=-37.32% | Daily Sharpe (rf=0)=1.480
+Cold-Start Walk-Forward V4 (2012-01..2026-10) Daily NAV end=376.7 | Daily MaxDD=-35.58% | Daily Sharpe (rf=0)=1.372
+V4+ER Daily NAV end=4734.2 (monthly ledger wealth=4760.3)
 Daily MaxDD (full)=-37.32% at 2020-03-23 (peak 2020-02-19)
 2026 MaxDD (peak reset 2026-01-01)=-18.88%; 2026 drawdown vs all-time peak=-18.88%
 Daily Sharpe (rf=0)=1.500; daily ann. vol=35.99%

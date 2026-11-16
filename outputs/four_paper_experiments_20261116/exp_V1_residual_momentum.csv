@@ -1,12 +1,14 @@
-Variant,Full_214M_CAGR_%,Sharpe,Monthly_MaxDD_%,Ex2026_09_25_CAGR_%,Ex2026_Sharpe,DropBest5M_CAGR_%,Trade_WinRate_%
-0. Frozen V4 Baseline (12-1 Total Return Sharpe),59.65,1.426,-27.99,50.38,1.354,46.43,70.16
-V1a-KF. Official Ken French 1-Factor CAPM Residual Sharpe (12-1M Daily),51.18,1.304,-28.74,42.45,1.198,38.76,70.45
-V1b-KF. Official Ken French FF3 (MKT-RF+SMB+HML) 12-1M Daily Residual Sharpe,51.6,1.112,-39.6,42.87,0.997,36.2,68.29
-"V1c-KF-Strict. Official Ken French FF3 36M Daily Beta + 12-1M Residual (Strict >=500d, Zero Fallback)",56.06,1.383,-37.43,49.46,1.289,44.74,66.1
-V1c-KF-FB. Official Ken French FF3 36M Daily Beta + 12-1M Residual (With 12-1M Fallback if <200d),56.33,1.231,-37.43,48.89,1.124,41.99,66.94
-"V1c-KF-Monthly-Blitz. Official Ken French FF3 36M Monthly OLS (Blitz 2011 Eq.2 Pure Residual, >=30M)",31.22,0.99,-35.22,24.0,0.884,21.3,60.29
-"V1c-KF-Monthly-Alpha. Official Ken French FF3 36M Monthly OLS (Alpha+Residual Sharpe, >=30M)",47.54,1.28,-27.28,42.36,1.257,35.52,66.67
-V1d-KF. 50/50 Blend (Total Sharpe + Official Ken French FF3-12M Residual Sharpe),51.8,1.291,-35.18,43.06,1.184,39.96,66.93
-V1e-KF. 50/50 Blend (Total Sharpe + Official Ken French FF3-36M Strict Residual Sharpe),56.78,1.466,-27.99,50.18,1.376,45.85,71.67
-V1f-ETF-Proxy. ETF-Proxy 3-Factor (SPY / IWM-SPY / XLF+XLE-XLK) 36M Residual Sharpe,52.96,1.322,-29.91,43.78,1.239,40.35,68.99
-V1g-ETF-Proxy. 50/50 Blend (Total Sharpe + ETF-Proxy 3-Factor 36M Residual Sharpe),60.79,1.407,-27.99,51.5,1.33,47.41,70.63
+Variant,Full_214M_CAGR_%,Sharpe,Monthly_MaxDD_%,Ex2026_09_25_CAGR_%,Ex2026_Sharpe,True36M_10_26_CAGR_%,True36M_10_25_Ex26_CAGR_%,DropBest5M_CAGR_%,Trade_WinRate_%
+0. Frozen V4 Baseline (12-1 Total Return Sharpe),59.65,1.426,-27.99,50.38,1.354,62.27,52.4,46.43,70.16
+V1a-KF. Official Ken French 1-Factor CAPM Residual Sharpe (12-1M Daily),51.18,1.304,-28.74,42.45,1.198,52.57,43.3,38.76,70.45
+V1b-KF. Official Ken French FF3 (MKT-RF+SMB+HML) 12-1M Daily Residual Sharpe,51.6,1.112,-39.6,42.87,0.997,52.32,43.05,36.2,68.29
+"V1c-KF-True36M. Official Ken French FF3 True 36M Daily Beta (Strict >=720d in 2010-2026, Zero Fallback)",51.01,1.336,-37.43,44.39,1.237,52.14,45.12,40.29,65.25
+"V1c-KF-22to36M. Official Ken French FF3 36M Daily Beta (>=450d in 2009, >=450d in 2010-2026, Zero Fallback)",56.06,1.383,-37.43,49.46,1.289,57.54,50.54,44.74,66.1
+V1c-KF-FB. Official Ken French FF3 36M Daily Beta + 12-1M Residual (With 12-1M Fallback if <200d),56.33,1.231,-37.43,48.89,1.124,57.83,49.93,41.99,66.94
+"V1c-KF-Monthly-Blitz. Official Ken French FF3 True 36M Monthly OLS (Blitz 2011 Eq.2 Pure Residual, >=34M in 2010+)",30.67,0.976,-35.22,23.45,0.868,29.89,22.24,20.77,59.85
+"V1c-KF-Monthly-Alpha. Official Ken French FF3 True 36M Monthly OLS (Alpha+Residual Sharpe, >=34M in 2010+)",47.53,1.289,-27.28,43.02,1.287,46.51,41.71,35.72,64.1
+V1d-KF. 50/50 Blend (Total Sharpe + Official Ken French FF3-12M Residual Sharpe),51.8,1.291,-35.18,43.06,1.184,53.62,44.33,39.96,66.93
+V1e-KF-True36M. 50/50 Blend (Total Sharpe + Official Ken French FF3 True 36M >=720d Residual Sharpe),55.68,1.438,-27.99,49.08,1.346,57.78,50.79,44.74,70.83
+V1e-KF-22to36M. 50/50 Blend (Total Sharpe + Official Ken French FF3 >=450d Residual Sharpe),56.78,1.466,-27.99,50.18,1.376,58.96,51.97,45.85,71.67
+V1f-ETF-Proxy. ETF-Proxy 3-Factor (SPY / IWM-SPY / XLF+XLE-XLK) 36M Residual Sharpe,52.96,1.322,-29.91,43.78,1.239,53.13,43.38,40.35,68.99
+V1g-ETF-Proxy. 50/50 Blend (Total Sharpe + ETF-Proxy 3-Factor 36M Residual Sharpe),60.79,1.407,-27.99,51.5,1.33,63.27,53.39,47.41,70.63

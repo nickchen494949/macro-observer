@@ -417,6 +417,58 @@ say(f"Invested stock-months: {len(POS)} | unique tickers: {POS.ticker.nunique()}
 say("Audited return flag breakdown (separating true M&A delistings from 2026-10-29 sample-end cutoff):\n" + POS["flag"].value_counts().to_string())
 say("True M&A / corporate reorganization exits (3 positions) + sample-end cutoff positions (2 positions):\n" +
     POS[POS["flag"] != "open_open"][["ym", "ticker", "leg", "flag", "hold_ret", "corp_action_note"]].to_string(index=False))
+
+# Full-Month Post-Merger Holding Simulation to d1 Open for the 3 M&A exits (VMED 2013-06, FOX/FOXA 2019-03)
+bil_df = ETFS["BIL"]
+lbtya_df = load("wiki", "LBTYA")
+fox_new_df = load("yahoo", "FOX")
+foxa_new_df = load("yahoo", "FOXA")
+dis_df = load("yahoo", "DIS")
+
+# 1. VMED (2013-06): d0=2013-06-03 open ($49.65), merger close 2013-06-07 ($51.00 = $17.50 cash + $33.50 Liberty Global stock), d1=2013-07-01 open
+vmed_d0_open = 49.65
+vmed_bil_grow = float(bil_df.at[pd.Timestamp("2013-07-01"), "o"] / bil_df.at[pd.Timestamp("2013-06-07"), "c"])
+vmed_lbty_grow = float(lbtya_df.at[pd.Timestamp("2013-07-01"), "o"] / lbtya_df.at[pd.Timestamp("2013-06-07"), "c"])
+vmed_basket_d1 = (17.50 * vmed_bil_grow + 33.50 * vmed_lbty_grow) / vmed_d0_open - 1.0
+vmed_cash_bil_d1 = (51.00 * vmed_bil_grow) / vmed_d0_open - 1.0
+
+# 2. FOX / FOXA (2019-03): d0=2019-03-01 open ($50.36 / $50.63), spin-off + Disney merger 2019-03-19/20, d1=2019-04-01 open
+fox_bil_grow = float(bil_df.at[pd.Timestamp("2019-04-01"), "o"] / bil_df.at[pd.Timestamp("2019-03-19"), "c"])
+dis_grow = float(dis_df.at[pd.Timestamp("2019-04-01"), "o"] / dis_df.at[pd.Timestamp("2019-03-20"), "c"])
+new_fox_grow = float(fox_new_df.at[pd.Timestamp("2019-04-01"), "o"] / fox_new_df.at[pd.Timestamp("2019-03-19"), "c"])
+new_foxa_grow = float(foxa_new_df.at[pd.Timestamp("2019-04-01"), "o"] / foxa_new_df.at[pd.Timestamp("2019-03-19"), "c"])
+# At 2019-03-19 close ($49.61 FOX / $49.69 FOXA), ~$38.00 is Disney stub (51.6% cash $19.61 + 48.4% DIS $18.39) and rest is 1/3 sh new FOX/FOXA
+fox_basket_d1 = (19.61 * fox_bil_grow + 18.39 * dis_grow + (49.61 - 38.00) * new_fox_grow) / 50.36 - 1.0
+foxa_basket_d1 = (19.61 * fox_bil_grow + 18.39 * dis_grow + (49.69 - 38.00) * new_foxa_grow) / 50.63 - 1.0
+fox_cash_spinoff_d1 = (38.00 * fox_bil_grow + (49.61 - 38.00) * new_fox_grow) / 50.36 - 1.0
+foxa_cash_spinoff_d1 = (38.00 * fox_bil_grow + (49.69 - 38.00) * new_foxa_grow) / 50.63 - 1.0
+fox_cash_bil_d1 = (49.61 * fox_bil_grow) / 50.36 - 1.0
+foxa_cash_bil_d1 = (49.69 * fox_bil_grow) / 50.63 - 1.0
+
+mna_sim_df = pd.DataFrame([
+    {"ym": "2013-06", "ticker": "VMED", "d0_open": "2013-06-03", "mna_close": "2013-06-07", "d1_open": "2013-07-01",
+     "panel_last_close_ret": float(POS.loc[(POS.ym == "2013-06") & (POS.ticker == "VMED"), "hold_ret"].iloc[0]),
+     "sim_cash_in_bil_to_d1_ret": vmed_cash_bil_d1, "sim_cash_spinoff_to_d1_ret": vmed_basket_d1, "sim_full_merger_basket_to_d1_ret": vmed_basket_d1},
+    {"ym": "2019-03", "ticker": "FOX", "d0_open": "2019-03-01", "mna_close": "2019-03-19", "d1_open": "2019-04-01",
+     "panel_last_close_ret": float(POS.loc[(POS.ym == "2019-03") & (POS.ticker == "FOX"), "hold_ret"].iloc[0]),
+     "sim_cash_in_bil_to_d1_ret": fox_cash_bil_d1, "sim_cash_spinoff_to_d1_ret": fox_cash_spinoff_d1, "sim_full_merger_basket_to_d1_ret": fox_basket_d1},
+    {"ym": "2019-03", "ticker": "FOXA", "d0_open": "2019-03-01", "mna_close": "2019-03-19", "d1_open": "2019-04-01",
+     "panel_last_close_ret": float(POS.loc[(POS.ym == "2019-03") & (POS.ticker == "FOXA"), "hold_ret"].iloc[0]),
+     "sim_cash_in_bil_to_d1_ret": foxa_cash_bil_d1, "sim_cash_spinoff_to_d1_ret": foxa_cash_spinoff_d1, "sim_full_merger_basket_to_d1_ret": foxa_basket_d1},
+])
+mna_sim_df.to_csv(os.path.join(OUT, "D_mna_full_month_simulation.csv"), index=False)
+say("Full-Month M&A Post-Merger Holding Simulation (d0 Open -> Merger Conversion -> Hold Basket/Cash to d1 Open):\n" +
+    mna_sim_df.to_string(index=False, float_format=lambda v: f"{v:+.4%}"))
+
+# Re-run Default V4 (No ER) with Full-Month Merger Basket returns replacing the 3 delist_last_close returns
+ndx_mna_basket = ndx_cols.copy()
+for t_str, tk_m, r_new in [("2013-05-31", "VMED", vmed_basket_d1), ("2019-02-28", "FOX", fox_basket_d1), ("2019-02-28", "FOXA", foxa_basket_d1)]:
+    ndx_mna_basket.loc[(ndx_mna_basket["t"] == pd.Timestamp(t_str)) & (ndx_mna_basket["ticker"] == tk_m), "hold_ret"] = r_new
+L_v0_mna_basket = run_v4(ndx_mna_basket, spx_off_cols, election=False)
+c_mna_b, s_mna_b, d_mna_b = stats(L_v0_mna_basket["net"], [RF[t] for t in MONTHS])
+c_mna_b213, s_mna_b213, _ = stats(L_v0_mna_basket["net"].iloc[:213], [RF[t] for t in MONTHS[:213]])
+say(f"Default V4 (No ER) with Full-Month M&A Basket Held to d1 Open: 214M CAGR={c_mna_b:.4%} Sh={s_mna_b:.3f} MDD={d_mna_b:.2%} | "
+    f"Complete 213M CAGR={c_mna_b213:.4%} Sh={s_mna_b213:.3f} (vs baseline 59.6538% / 59.8689%, diff = {(c_mna_b - c0)*100:+.2f}pp)")
 say(f"Missing hold_ret: {POS['hold_ret'].isna().sum()}")
 say("Price source of invested positions:\n" + POS["src"].value_counts().to_string())
 
@@ -484,51 +536,72 @@ POS.to_csv(os.path.join(OUT, "D_invested_positions.csv"), index=False)
 
 # ============================================================================= PART E: open-executed daily NAV
 say("\n=== PART E: open-executed daily NAV (weights set at d0 open, drift daily, exit at next d0 open) ===")
-nav, dates, navs = 1.0, [], []
-prev_w = {}
-for r in L_panel.itertuples(index=False):
-    w = json.loads(r.w)
-    t = r.t
-    d0 = next_session(t)
-    d1 = LAST_D1 if t == LAST_T else next_session(t + pd.offsets.MonthEnd(1))
-    nav *= (1 - COST * r.to)
-    series = {}
-    for tk in w:
-        if tk == "CASH":
-            cs = "SGOV" if (d0 >= pd.Timestamp("2020-06-01") and d0 in ETFS["SGOV"].index) else "BIL"
-            series[tk] = ETFS[cs]
-        else:
-            pr = POS[(POS.ym == r.ym) & (POS.ticker == tk)].iloc[0]
-            series[tk] = load(pr.src, pr.sym)
-    days = CAL[(CAL >= d0) & (CAL < d1)] if t != LAST_T else CAL[(CAL >= d0) & (CAL <= d1)]
-    base = {}
-    for tk, df in series.items():
-        o = df.at[d0, "o"] if (d0 in df.index and np.isfinite(df.at[d0, "o"])) else (df.at[d0, "c"] if d0 in df.index else np.nan)
-        base[tk] = o
-    for d in days:
-        v = 0.0
+
+
+def build_daily_nav(ledger_df):
+    nav, dates, navs = 1.0, [], []
+    for r in ledger_df.itertuples(index=False):
+        w = json.loads(r.w)
+        t = pd.Timestamp(r.t)
+        d0 = next_session(t)
+        d1 = LAST_D1 if t == LAST_T else next_session(t + pd.offsets.MonthEnd(1))
+        nav *= (1 - COST * r.to)
+        series = {}
+        for tk in w:
+            if tk in ("CASH", "SGOV"):
+                cs = "SGOV" if (d0 >= pd.Timestamp("2020-06-01") and d0 in ETFS["SGOV"].index) else "BIL"
+                series[tk] = ETFS[cs]
+            else:
+                src_panel = P_NDX if SEP[t] else P_SPX
+                hit = src_panel[(src_panel["t"] == t) & (src_panel["ticker"] == tk)]
+                if len(hit) == 0:
+                    hit = P_NDX[(P_NDX["t"] == t) & (P_NDX["ticker"] == tk)]
+                row = hit.iloc[0]
+                series[tk] = load(row["src"], row["sym"])
+        days = CAL[(CAL >= d0) & (CAL < d1)] if t != LAST_T else CAL[(CAL >= d0) & (CAL <= d1)]
+        base = {}
+        for tk, df in series.items():
+            o = df.at[d0, "o"] if (d0 in df.index and np.isfinite(df.at[d0, "o"])) else (df.at[d0, "c"] if d0 in df.index else np.nan)
+            base[tk] = o
+        for d in days:
+            v = 0.0
+            for tk, wt in w.items():
+                df = series[tk]
+                px = df["c"].loc[:d]
+                v += wt * (float(px.iloc[-1]) / base[tk] if len(px) else 1.0)
+            dates.append(d)
+            navs.append(nav * v)
+        v_end = 0.0
         for tk, wt in w.items():
             df = series[tk]
-            px = df["c"].loc[:d]
-            v += wt * (float(px.iloc[-1]) / base[tk] if len(px) else 1.0)
-        dates.append(d)
-        navs.append(nav * v)
-    # month end value at next open (consistent with monthly ledger)
-    v_end = 0.0
-    for tk, wt in w.items():
-        df = series[tk]
-        if t == LAST_T:
-            v_end += wt * float(df["c"].loc[:d1].iloc[-1]) / base[tk]
-        elif d1 in df.index and np.isfinite(df.at[d1, "o"]):
-            v_end += wt * df.at[d1, "o"] / base[tk]
-        else:
-            v_end += wt * float(df["c"].loc[:d1].iloc[-1]) / base[tk]
-    nav *= v_end
-DN = pd.Series(navs, index=pd.DatetimeIndex(dates))
+            if t == LAST_T:
+                v_end += wt * float(df["c"].loc[:d1].iloc[-1]) / base[tk]
+            elif d1 in df.index and np.isfinite(df.at[d1, "o"]):
+                v_end += wt * df.at[d1, "o"] / base[tk]
+            else:
+                v_end += wt * float(df["c"].loc[:d1].iloc[-1]) / base[tk]
+        nav *= v_end
+    return pd.Series(navs, index=pd.DatetimeIndex(dates))
+
+
+DN = build_daily_nav(L_panel)
 DN.to_csv(os.path.join(OUT, "E_daily_nav.csv"))
+DN_v0 = build_daily_nav(L_panel_v0)
+DN_v0.to_csv(os.path.join(OUT, "E_daily_nav_v0_default.csv"))
+dd_v0 = DN_v0 / DN_v0.cummax() - 1
+dret_v0 = DN_v0.pct_change().dropna()
+say(f"Default V4 (No ER) Daily NAV end={DN_v0.iloc[-1]:.1f} | Daily MaxDD={dd_v0.min():.2%} | Daily Sharpe (rf=0)={dret_v0.mean() / dret_v0.std() * np.sqrt(252):.3f}")
+wf_led_path = os.path.join(ROOT, "outputs", "v4_robust_upgrade_20261115", "walk_forward_stateful_sep_ledger.csv")
+if os.path.exists(wf_led_path):
+    L_wf_cold = pd.read_csv(wf_led_path)
+    DN_wf = build_daily_nav(L_wf_cold)
+    DN_wf.to_csv(os.path.join(OUT, "E_daily_nav_wf_cold_2012.csv"))
+    dd_wf = DN_wf / DN_wf.cummax() - 1
+    dret_wf = DN_wf.pct_change().dropna()
+    say(f"Cold-Start Walk-Forward V4 (2012-01..2026-10) Daily NAV end={DN_wf.iloc[-1]:.1f} | Daily MaxDD={dd_wf.min():.2%} | Daily Sharpe (rf=0)={dret_wf.mean() / dret_wf.std() * np.sqrt(252):.3f}")
 dd = DN / DN.cummax() - 1
 dret = DN.pct_change().dropna()
-say(f"Daily NAV end={DN.iloc[-1]:.1f} (monthly ledger wealth={np.prod(1 + L_panel['net']):.1f})")
+say(f"V4+ER Daily NAV end={DN.iloc[-1]:.1f} (monthly ledger wealth={np.prod(1 + L_panel['net']):.1f})")
 say(f"Daily MaxDD (full)={dd.min():.2%} at {dd.idxmin().date()} (peak {DN.loc[:dd.idxmin()].idxmax().date()})")
 d26 = DN.loc["2026-01-01":]
 dd26 = (d26 / d26.cummax() - 1).min()

@@ -1,0 +1,16 @@
+Common_Window,Strategy,Start_Date,End_Date,Trading_Days,CAGR_%,Daily_MaxDD_%,Monthly_MaxDD_%,Daily_Sharpe_exRF,Daily_Sharpe_rf0,Monthly_Sharpe_exRF,Calmar_DailyMDD
+"1. Common Complete Months (2010-03-01 .. 2026-09-30, Excl. Partial Oct 2026)","Fixed V4 Default (No ER, 1.0x Stocks/SGOV)",2010-03-01,2026-09-30,4173,61.89,-37.32,-23.69,1.471,1.511,1.425,1.66
+"1. Common Complete Months (2010-03-01 .. 2026-09-30, Excl. Partial Oct 2026)",Fixed TQQQ SEP V1-Daily (1.2/0.3 + Open NSL),2010-03-01,2026-09-30,4173,54.36,-44.54,-30.17,1.213,1.249,1.221,1.22
+"1. Common Complete Months (2010-03-01 .. 2026-09-30, Excl. Partial Oct 2026)",50% V4 Default + 50% TQQQ SEP (Annual 50/50 Rebal),2010-03-01,2026-09-30,4173,61.87,-37.26,-23.9,1.509,1.551,1.507,1.66
+"2. Common Full Window (2010-03-01 .. 2026-10-29, Incl. Oct 2026 Cutoff)","Fixed V4 Default (No ER, 1.0x Stocks/SGOV)",2010-03-01,2026-10-29,4194,61.65,-37.32,-23.69,1.467,1.509,1.423,1.65
+"2. Common Full Window (2010-03-01 .. 2026-10-29, Incl. Oct 2026 Cutoff)",Fixed TQQQ SEP V1-Daily (1.2/0.3 + Open NSL),2010-03-01,2026-10-29,4194,54.08,-44.54,-30.17,1.21,1.246,1.217,1.21
+"2. Common Full Window (2010-03-01 .. 2026-10-29, Incl. Oct 2026 Cutoff)",50% V4 Default + 50% TQQQ SEP (Annual 50/50 Rebal),2010-03-01,2026-10-29,4194,61.61,-37.26,-23.9,1.506,1.548,1.504,1.65
+"3. Common Ex-2026 Window (2010-03-01 .. 2025-12-31, 15.8 Years)","Fixed V4 Default (No ER, 1.0x Stocks/SGOV)",2010-03-01,2025-12-31,3986,51.39,-37.32,-23.69,1.342,1.382,1.385,1.38
+"3. Common Ex-2026 Window (2010-03-01 .. 2025-12-31, 15.8 Years)",Fixed TQQQ SEP V1-Daily (1.2/0.3 + Open NSL),2010-03-01,2025-12-31,3986,53.52,-44.54,-30.17,1.204,1.237,1.259,1.2
+"3. Common Ex-2026 Window (2010-03-01 .. 2025-12-31, 15.8 Years)",50% V4 Default + 50% TQQQ SEP (Annual 50/50 Rebal),2010-03-01,2025-12-31,3986,55.07,-37.26,-23.9,1.419,1.459,1.505,1.48
+"4. Walk-Forward Complete Months (2012-01-03 .. 2026-09-30, Cold-Cash Start)","Walk-Forward V4 (2012 Cold-Cash Start, Daily NAV)",2012-01-03,2026-09-30,3707,49.49,-35.58,-28.55,1.32,1.37,1.253,1.39
+"4. Walk-Forward Complete Months (2012-01-03 .. 2026-09-30, Cold-Cash Start)","Walk-Forward TQQQ SEP (2012 Cold-Cash Start, Daily NAV)",2012-01-03,2026-09-30,3707,56.78,-46.29,-30.34,1.256,1.296,1.274,1.23
+"5. Walk-Forward Full Window (2012-01-03 .. 2026-10-29, Cold-Cash Start)","Walk-Forward V4 (2012 Cold-Cash Start, Daily NAV)",2012-01-03,2026-10-29,3728,49.5,-35.58,-28.55,1.322,1.372,1.256,1.39
+"5. Walk-Forward Full Window (2012-01-03 .. 2026-10-29, Cold-Cash Start)","Walk-Forward TQQQ SEP (2012 Cold-Cash Start, Daily NAV)",2012-01-03,2026-10-29,3728,56.44,-46.29,-30.34,1.253,1.293,1.27,1.22
+"6. Walk-Forward Ex-2026 Window (2012-01-03 .. 2025-12-31, Cold-Cash Start)","Walk-Forward V4 (2012 Cold-Cash Start, Daily NAV)",2012-01-03,2025-12-31,3520,39.47,-35.58,-28.55,1.166,1.216,1.214,1.11
+"6. Walk-Forward Ex-2026 Window (2012-01-03 .. 2025-12-31, Cold-Cash Start)","Walk-Forward TQQQ SEP (2012 Cold-Cash Start, Daily NAV)",2012-01-03,2025-12-31,3520,55.94,-46.29,-30.34,1.248,1.286,1.328,1.21
