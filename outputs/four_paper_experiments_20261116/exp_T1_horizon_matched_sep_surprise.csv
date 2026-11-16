@@ -1,0 +1,4 @@
+T1_Variant,Full_10_26_CAGR_%,Daily_MaxDD_%,Sharpe,Ex2026_10_25_CAGR_%,Switches
+0. Frozen Baseline SEP (Same-Target-Year Dot & Core PCE Revision),54.89,-44.54,1.259,54.43,33
+T1a. Horizon-Matched Dot vs Implied Rate (1Y DGS1 / 1Y1Y Fwd 2*DGS2-DGS1),42.5,-62.46,1.021,43.42,28
+T1b. Baseline SEP + Positive Forward-Rate Shock Confirmation,54.2,-44.54,1.243,53.71,33

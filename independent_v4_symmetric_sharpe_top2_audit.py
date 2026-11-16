@@ -51,7 +51,14 @@ reg_map = {r.t: r._asdict() for r in reg_df.itertuples(index=False)}
 ret_lk = {}
 for df_p in (p_spx, p_ndx):
     for r in df_p[["t", "ticker", "hold_ret"]].itertuples(index=False):
-        ret_lk[(r.t, r.ticker)] = 0.0 if pd.isna(r.hold_ret) else float(r.hold_ret)
+        ret_lk[(r.t, r.ticker)] = None if pd.isna(r.hold_ret) else float(r.hold_ret)
+
+
+def get_verified_ret(t, tk):
+    val = ret_lk.get((t, tk))
+    if val is None or pd.isna(val):
+        raise ValueError(f"CRITICAL AUDIT ERROR: Missing hold_ret for invested pick {(t, tk)} — silent 0.0 fill is strictly forbidden!")
+    return float(val)
 
 p_exit = p_spx[p_spx["clean_sector"] != "Information Technology"].copy()
 
@@ -135,7 +142,7 @@ def sim_v4(pk_q, pk_bs, use_election_v3=False, cost_bp=0.0010):
             if tk not in cur_q:
                 trades_q.append(act_q.pop(tk))
         for tk in cur_q:
-            r_tk = ret_lk[(t, tk)]
+            r_tk = get_verified_ret(t, tk)
             if tk not in act_q:
                 act_q[tk] = {"leg": "QQQ_ON", "tk": tk, "sec": "NDX", "start": ym, "end": ym, "months": 1, "cum_ret": (1.0 + r_tk) * (1.0 - 2 * cost_bp) - 1.0}
             else:
@@ -147,7 +154,7 @@ def sim_v4(pk_q, pk_bs, use_election_v3=False, cost_bp=0.0010):
             if tk not in cur_bs:
                 trades_bs.append(act_bs.pop(tk))
         for tk in cur_bs:
-            r_tk = ret_lk[(t, tk)]
+            r_tk = get_verified_ret(t, tk)
             if tk not in act_bs:
                 act_bs[tk] = {"leg": "BestSec_OFF", "tk": tk, "sec": bs_sec, "start": ym, "end": ym, "months": 1, "cum_ret": (1.0 + r_tk) * (1.0 - 2 * cost_bp) - 1.0}
             else:
@@ -159,7 +166,7 @@ def sim_v4(pk_q, pk_bs, use_election_v3=False, cost_bp=0.0010):
         if w_cash > 0:
             w_all["SGOV"] = w_cash
 
-        gross = sum(wt * ret_lk[(t, tk)] for tk, wt in w_stocks.items()) + w_cash * r_cash
+        gross = sum(wt * get_verified_ret(t, tk) for tk, wt in w_stocks.items()) + w_cash * r_cash
         if not prev_drifted_w:
             to = float(sum(abs(v) for v in w_all.values()))
         else:
@@ -168,7 +175,7 @@ def sim_v4(pk_q, pk_bs, use_election_v3=False, cost_bp=0.0010):
 
         net = (1.0 + gross) * ((1.0 - cost_bp) ** to) - 1.0 if to > 0 else gross
         end_eq = 1.0 + gross
-        prev_drifted_w = {tk: wt * (1.0 + ret_lk[(t, tk)]) / end_eq for tk, wt in w_stocks.items() if wt > 0}
+        prev_drifted_w = {tk: wt * (1.0 + get_verified_ret(t, tk)) / end_eq for tk, wt in w_stocks.items() if wt > 0}
         if w_cash > 0:
             prev_drifted_w["SGOV"] = w_cash * (1.0 + r_cash) / end_eq
 

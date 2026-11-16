@@ -1,0 +1,8 @@
+Window_or_Stress_Test,Months,CAGR_%,Sharpe_rf0,Monthly_MaxDD_%
+Full 214 Months (2009-01 .. 2026-10),214,59.65,1.466,-27.99
+Ex-2026: 17 Full Years (2009-01 .. 2025-12),204,50.38,1.394,-27.99
+Pre-2021: 12 Full Years (2009-01 .. 2020-12),144,50.55,1.408,-27.99
+2021-2025 Only (Ex-2026 Tightening/AI Cycle),60,49.98,1.352,-14.32
+"Ex-2020 & Ex-2026 (16 Years, Dropping Both Best Years)",192,44.89,1.387,-19.43
+Drop Best 5 Months (Remaining 209 Months),209,46.43,1.392,-27.99
+Drop Best 10 Months (Remaining 204 Months),204,37.55,1.27,-27.99

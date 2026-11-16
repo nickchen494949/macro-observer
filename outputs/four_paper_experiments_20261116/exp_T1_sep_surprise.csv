@@ -1,0 +1,6 @@
+Experiment_T1_Variant,Full_10_26_CAGR_%,Full_MaxDD_%,Full_Sharpe,Active_SEP_21_26_CAGR_%,Active_SEP_21_26_MaxDD_%,Switches,Verdict
+0. Frozen Baseline SEP (c_rate > p_rate & c_pce > p_pce > 2.0),54.89,-44.54,1.259,50.64,-36.97,33,BASELINE WINNER
+T1a. Dot vs 2Y Treasury Yield Level (c_rate > DGS2 + 15bp),47.19,-58.04,1.08,31.17,-58.04,31,"REJECTED (-7.70% CAGR, +13.5pp MaxDD: 2Y yield prices premature pivot bets in 2022)"
+T1b. Baseline SEP + Stale SEP Decay (re-enter if DGS2 < Dot - 60bp),53.97,-44.54,1.22,48.09,-36.97,33,REJECTED (-0.92% CAGR: bond market dipped below dot before Jackson Hole Aug 2022)
+T1c. NY Fed 2Y Shock Filter (require DGS2 not falling on FOMC),54.89,-44.54,1.259,50.64,-36.97,33,NEUTRAL (0.00% diff: every true SEP hike had positive/flat 2Y reaction)
+T1d. Jarocinski-Karadi (2020) Tightening vs Growth Info Shock,54.2,-44.54,1.24,48.74,-36.97,33,REJECTED (-0.69% CAGR: delaying exit on FOMC-day bounce hurts next month)

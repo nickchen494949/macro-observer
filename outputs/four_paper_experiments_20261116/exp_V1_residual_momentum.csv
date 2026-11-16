@@ -1,0 +1,7 @@
+Experiment_V1_Variant,Full_09_26_CAGR_%,Full_Sharpe,Full_MonthlyMaxDD_%,IS_09_20_CAGR_%,IS_09_20_Sharpe,OOS_21_26_CAGR_%,OOS_21_26_Sharpe,Verdict
+0. Frozen V4 Baseline: Standard 12-1 Sharpe (mom / vol),59.65,1.426,-27.99,50.55,1.392,80.15,1.508,BASELINE WINNER
+"0b. Raw 12-1 Momentum (mom, no vol scaling)",55.72,1.13,-47.46,37.94,0.88,99.83,1.65,"REJECTED (Sharpe drops 1.43 -> 1.13, MaxDD worsens to -47.5%)"
+V1a. Robeco CAPM Market-Residual Sharpe ([r_i - beta*r_m] / idio_vol),45.99,1.07,-29.4,35.56,0.89,70.06,1.48,"REJECTED (-13.66% CAGR, Sharpe drops 1.43 -> 1.07)"
+V1b. Robeco Jensen Alpha Information Ratio (252*alpha / idio_vol),42.27,1.23,-30.34,34.16,1.18,60.52,1.35,"REJECTED (-17.38% CAGR, Sharpe drops 1.43 -> 1.23)"
+V1c. Within-Pool/Sector Residual Sharpe ((mom - pool_mean) / vol),49.03,1.21,-45.07,36.3,1.03,79.08,1.53,"REJECTED (-10.62% CAGR, MaxDD worsens to -45.1%)"
+V1d. 50/50 Blend (Standard 12-1 Sharpe + Market-Residual Sharpe),61.3,1.25,-27.99,47.09,1.08,95.01,1.57,REJECTED on Sharpe (09-20 Sharpe drops 1.39 -> 1.08; Full Sharpe 1.43 -> 1.25)

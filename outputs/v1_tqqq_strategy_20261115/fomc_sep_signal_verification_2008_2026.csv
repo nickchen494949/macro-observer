@@ -1,5 +1,6 @@
 fomc_release_date,target_year,horizon_type,target_ffr_median_%,prev_ffr_median_for_target_yr_%,target_core_pce_median_%,prev_core_pce_median_for_target_yr_%,sep_on_after_meeting,state_flipped
-2015-12-16,2016,Next_Year,1.4,,1.6,,True,False
+2015-09-17,2016,Next_Year,1.4,,1.7,,True,False
+2015-12-16,2016,Next_Year,1.4,1.4,1.6,1.7,True,False
 2016-03-16,2016,Current_Year,0.9,1.4,1.6,1.6,True,False
 2016-06-15,2016,Current_Year,0.9,0.9,1.7,1.6,True,False
 2016-09-21,2017,Next_Year,1.1,1.6,1.8,1.9,True,False
