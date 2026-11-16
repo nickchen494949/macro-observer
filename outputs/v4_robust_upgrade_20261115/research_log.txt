@@ -4,8 +4,8 @@ Months OFF by regime: none=0, SEP=34, trend10m=38, SEP_or_trend=60
 trend10m OFF months by year: {'2009': 4, '2010': 2, '2011': 3, '2012': 2, '2013': 1, '2015': 2, '2016': 3, '2018': 2, '2019': 3, '2020': 1, '2022': 11, '2023': 1, '2025': 2, '2026': 1}
 === 2. Walk-forward parameter selection (expanding window, re-chosen each December) ===
 candidate configs: 42
-[regime=SEP] 2012-01..2026-10 (178m): STATEFUL WF (continuous buffers) CAGR=49.17% Sharpe=1.269 MDD=-27.39% | STATEFUL WF (adopt sleeve + switch cost) CAGR=50.16% Sharpe=1.296 MDD=-27.39% | Spliced approx CAGR=50.21% Sharpe=1.297 MDD=-27.39% | fixed V4 config (hindsight) CAGR=66.17% | V4.1 ensemble CAGR=59.07% Sharpe=1.496 | all-42-config CAGR median=62.32%, 10th pct=52.62%, 90th pct=75.14%
-[regime=none] 2012-01..2026-10 (178m): STATEFUL WF (continuous buffers) CAGR=40.98% Sharpe=1.053 MDD=-40.70% | STATEFUL WF (adopt sleeve + switch cost) CAGR=41.91% Sharpe=1.076 MDD=-40.70% | Spliced approx CAGR=41.97% Sharpe=1.077 MDD=-40.66% | fixed V4 config (hindsight) CAGR=53.25% | V4.1 ensemble CAGR=47.58% Sharpe=1.217 | all-42-config CAGR median=44.39%, 10th pct=36.22%, 90th pct=51.62%
+[regime=SEP] 2012-01..2026-10 (178m): STATEFUL WF (2012 Cold-Cash Start, to[0]=1.0) CAGR=49.16% Sharpe=1.269 MDD=-27.39% | STATEFUL WF (Strict PIT 2009-2011 Warmup) CAGR=49.17% Sharpe=1.269 MDD=-27.39% | STATEFUL WF (Cold-Cash + Adopt Sleeve) CAGR=50.15% Sharpe=1.296 MDD=-27.39% | Spliced approx CAGR=50.21% Sharpe=1.297 MDD=-27.39% | fixed V4 config (hindsight) CAGR=66.17% | V4.1 ensemble CAGR=59.07% Sharpe=1.496
+[regime=none] 2012-01..2026-10 (178m): STATEFUL WF (2012 Cold-Cash Start, to[0]=1.0) CAGR=40.97% Sharpe=1.053 MDD=-40.70% | STATEFUL WF (Strict PIT 2009-2011 Warmup) CAGR=40.98% Sharpe=1.053 MDD=-40.70% | STATEFUL WF (Cold-Cash + Adopt Sleeve) CAGR=41.90% Sharpe=1.075 MDD=-40.70% | Spliced approx CAGR=41.97% Sharpe=1.077 MDD=-40.66% | fixed V4 config (hindsight) CAGR=53.25% | V4.1 ensemble CAGR=47.58% Sharpe=1.217
 Walk-forward chosen configs:
 regime year metric  top_n  hold_k
    SEP 2012 sharpe      1       6

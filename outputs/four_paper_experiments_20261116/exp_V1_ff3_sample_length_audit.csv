@@ -1,0 +1,3 @@
+Pool,Total_Valid_Stock_Months,Daily_12_1M_Min_Obs,Daily_12_1M_Median_Obs,Daily_12_1M_Max_Obs,Daily_12_1M_Fallback_Count(<120d),Daily_36_1M_Min_Obs,Daily_36_1M_10thPct_Obs,Daily_36_1M_Median_Obs,Daily_36_1M_Max_Obs,Daily_36_1M_Count(<200d_Fallback),Daily_36_1M_Count(<500d_ExcludedInStrict),Monthly_36_1M_Min_Months,Monthly_36_1M_Median_Months,Monthly_36_1M_Max_Months,Monthly_36_1M_Count(<30m_ExcludedInStrict)
+NDX_100,21196,223,230,233,0,236,730,734,736,0,190,11,36,36,197
+SPX_BestSec_NonIT,8676,227,230,233,0,240,730,733,736,0,47,11,36,36,49

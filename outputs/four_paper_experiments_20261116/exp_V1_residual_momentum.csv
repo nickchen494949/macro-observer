@@ -1,7 +1,12 @@
 Variant,Full_214M_CAGR_%,Sharpe,Monthly_MaxDD_%,Ex2026_09_25_CAGR_%,Ex2026_Sharpe,DropBest5M_CAGR_%,Trade_WinRate_%
 0. Frozen V4 Baseline (12-1 Total Return Sharpe),59.65,1.426,-27.99,50.38,1.354,46.43,70.16
-V1a. 1-Factor CAPM Residual Sharpe (12-1M Daily OLS),51.25,1.309,-35.59,42.52,1.204,38.82,74.02
-V1b-FF3-12M. 3-Factor (MKT+SMB+HML) 12-1M Residual Sharpe,53.78,1.135,-28.48,44.39,1.046,36.69,70.87
-V1c-FF3-36M. 3-Factor (MKT+SMB+HML) 36M Beta + 12-1M Residual Sharpe (Blitz 2011),52.96,1.322,-29.91,43.78,1.239,40.35,68.99
-V1d. 50/50 Blend (Total Sharpe + FF3-12M Residual Sharpe),52.72,1.257,-34.31,43.04,1.189,39.1,68.99
-V1e. 50/50 Blend (Total Sharpe + FF3-36M Residual Sharpe),60.79,1.407,-27.99,51.5,1.33,47.41,70.63
+V1a-KF. Official Ken French 1-Factor CAPM Residual Sharpe (12-1M Daily),51.18,1.304,-28.74,42.45,1.198,38.76,70.45
+V1b-KF. Official Ken French FF3 (MKT-RF+SMB+HML) 12-1M Daily Residual Sharpe,51.6,1.112,-39.6,42.87,0.997,36.2,68.29
+"V1c-KF-Strict. Official Ken French FF3 36M Daily Beta + 12-1M Residual (Strict >=500d, Zero Fallback)",56.06,1.383,-37.43,49.46,1.289,44.74,66.1
+V1c-KF-FB. Official Ken French FF3 36M Daily Beta + 12-1M Residual (With 12-1M Fallback if <200d),56.33,1.231,-37.43,48.89,1.124,41.99,66.94
+"V1c-KF-Monthly-Blitz. Official Ken French FF3 36M Monthly OLS (Blitz 2011 Eq.2 Pure Residual, >=30M)",31.22,0.99,-35.22,24.0,0.884,21.3,60.29
+"V1c-KF-Monthly-Alpha. Official Ken French FF3 36M Monthly OLS (Alpha+Residual Sharpe, >=30M)",47.54,1.28,-27.28,42.36,1.257,35.52,66.67
+V1d-KF. 50/50 Blend (Total Sharpe + Official Ken French FF3-12M Residual Sharpe),51.8,1.291,-35.18,43.06,1.184,39.96,66.93
+V1e-KF. 50/50 Blend (Total Sharpe + Official Ken French FF3-36M Strict Residual Sharpe),56.78,1.466,-27.99,50.18,1.376,45.85,71.67
+V1f-ETF-Proxy. ETF-Proxy 3-Factor (SPY / IWM-SPY / XLF+XLE-XLK) 36M Residual Sharpe,52.96,1.322,-29.91,43.78,1.239,40.35,68.99
+V1g-ETF-Proxy. 50/50 Blend (Total Sharpe + ETF-Proxy 3-Factor 36M Residual Sharpe),60.79,1.407,-27.99,51.5,1.33,47.41,70.63

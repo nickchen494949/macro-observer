@@ -104,7 +104,7 @@ ym,t,ticker,w,leg,src,sym,flag,panel_raw_flag,corp_action_note,hold_ret,mom,vol
 2013-05,2013-04-30,SBAC,0.5,QQQ,yahoo,SBAC,open_open,open_open,,-0.0868664679736404,0.3385383423264017,0.14383729438925133
 2013-05,2013-04-30,VMED,0.5,QQQ,tiingo,VMED,open_open,open_open,,0.014675376198524326,0.9999679747338894,0.28588122880421907
 2013-06,2013-05-31,SBAC,0.5,QQQ,yahoo,SBAC,open_open,open_open,,-0.007450908860088146,0.5205007868374647,0.1401896030909033
-2013-06,2013-05-31,VMED,0.5,QQQ,tiingo,VMED,delist_mna_last_close,delist_last_close,Virgin Media acquired by Liberty Global (cash+stock merger completed 2013-06-07; exited at last pre-merger close),0.027190332326284095,1.2255217854958067,0.2707229771792386
+2013-06,2013-05-31,VMED,0.5,QQQ,tiingo,VMED,delist_mna_last_close,delist_last_close,"Virgin Media acquired by Liberty Global (completed 2013-06-07: $17.50 cash + 0.2582 LBTYA + 0.1928 LBTYK = ~$51.00/sh deal value; entered 2013-06-03 open $49.65, exited 2013-06-07 close $51.00 = +2.72%)",0.027190332326284095,1.2255217854958067,0.2707229771792386
 2013-07,2013-06-30,CELG,0.5,QQQ,tiingo,CELG,open_open,open_open,,0.2420787929589272,0.9272132169576062,0.26212435689199143
 2013-07,2013-06-30,GILD,0.5,QQQ,yahoo,GILD,open_open,open_open,,0.19395837600412502,1.124805121775251,0.30118311995732244
 2013-08,2013-07-31,CELG,0.5,QQQ,tiingo,CELG,open_open,open_open,,-0.043258199487110294,0.7087350277534328,0.2694314912165949
@@ -239,8 +239,8 @@ ym,t,ticker,w,leg,src,sym,flag,panel_raw_flag,corp_action_note,hold_ret,mom,vol
 2019-01,2018-12-31,FOXA,0.5,QQQ,tiingo,TFCFA,open_open,open_open,,0.03462749213011529,0.4453535930590362,0.21403022992061962
 2019-02,2019-01-31,FOX,0.5,QQQ,tiingo,TFCF,open_open,open_open,,0.02545306454897167,0.3211409606065645,0.2058865382162091
 2019-02,2019-01-31,FOXA,0.5,QQQ,tiingo,TFCFA,open_open,open_open,,0.026977687626774882,0.3156126082409809,0.20208958841454794
-2019-03,2019-02-28,FOX,0.5,QQQ,tiingo,TFCF,delist_mna_last_close,delist_last_close,21st Century Fox acquired by Disney / Fox Corp spin-off (completed 2019-03-19; exited at last pre-close trading session),-0.014892772041302571,0.359140888389738,0.18377945827327832
-2019-03,2019-02-28,FOXA,0.5,QQQ,tiingo,TFCFA,delist_mna_last_close,delist_last_close,21st Century Fox Class A acquired by Disney / Fox Corp spin-off (completed 2019-03-19; exited at last pre-close trading session),-0.018566067548884124,0.35107666375541835,0.1825460858865198
+2019-03,2019-02-28,FOX,0.5,QQQ,tiingo,TFCF,delist_mna_last_close,delist_last_close,21st Century Fox (TFCF) Disney merger + Fox Corp spin-off (completed 2019-03-19/20: 1/3 sh new FOX ~$12.92 + $38.00 Disney consideration = ~$50.92/sh [+1.11% vs $50.36 open]; ledger conservatively uses last pre-close $49.61 = -1.49%),-0.014892772041302571,0.359140888389738,0.18377945827327832
+2019-03,2019-02-28,FOXA,0.5,QQQ,tiingo,TFCFA,delist_mna_last_close,delist_last_close,21st Century Fox Class A (TFCFA) Disney merger + Fox Corp spin-off (completed 2019-03-19/20: 1/3 sh new FOXA ~$12.92 + $38.00 Disney consideration = ~$50.92/sh [+0.57% vs $50.63 open]; ledger conservatively uses last pre-close $49.69 = -1.86%),-0.018566067548884124,0.35107666375541835,0.1825460858865198
 2019-04,2019-03-31,AMD,0.5,QQQ,yahoo,AMD,open_open,open_open,,0.09576081299544059,1.3412935562267863,0.6946060290197579
 2019-04,2019-03-31,XLNX,0.5,QQQ,tiingo,XLNX,open_open,open_open,,-0.06114214773482385,0.7648520949238518,0.41009419375245226
 2019-05,2019-04-30,AMD,0.5,QQQ,yahoo,AMD,open_open,open_open,,-0.006908489038642274,1.3455882526959924,0.6940756645476232

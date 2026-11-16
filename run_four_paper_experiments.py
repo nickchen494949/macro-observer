@@ -156,7 +156,16 @@ def run_walk_forward_volz():
         _, _, _, _, s_eq, _, _ = fv.run_v1_audit(trig=tr, rec=rc, cost_bp_side=10.0, sep_timing="exact_fomc", open_limit_nsl=True)
         cand_rets[(tr, rc)] = s_eq.pct_change().fillna(0.0)
 
-    chosen_by_yr = {}
+    # Strict PIT warmup for 2010 (uninformative prior 1.5/0.5) and 2011 (chosen at 2010-12-31 using 2010 data only)
+    chosen_by_yr = {2010: (1.5, 0.5)}
+    best_sh_2010 = -999.0
+    for cfg, r_ser in cand_rets.items():
+        sub_10 = r_ser.loc[:"2010-12-31"].iloc[1:]
+        sh_10 = float(sub_10.mean() / sub_10.std() * np.sqrt(252)) if sub_10.std() > 0 else 0.0
+        if sh_10 > best_sh_2010:
+            best_sh_2010 = sh_10
+            chosen_by_yr[2011] = cfg
+
     wf_spliced_rets = []
     wf_spliced_idx = []
     chosen_log = []
@@ -176,17 +185,15 @@ def run_walk_forward_volz():
         wf_spliced_rets.extend(sub_oos.values)
         wf_spliced_idx.extend(sub_oos.index)
 
-    # TRUE STATEFUL SINGLE-ACCOUNT WALK-FORWARD SIMULATION:
-    # One continuous live account with its own (pos, eq, entry_eq) across all day and year boundaries,
-    # paying full 10bp/side Open switch costs whenever the active year's (trig, rec) triggers a trade.
+    # TRUE STATEFUL SINGLE-ACCOUNT WALK-FORWARD SIMULATION (Zero Look-Ahead in Initialization):
     assets = {"3x": fv.tqqq.loc[idx_real], "1x": fv.qqq.loc[idx_real], "0x": fv.cash_bil_sgov.loc[idx_real]}
     sep_base = build_horizon_matched_sep("baseline")
     cost_mult = 1.0 - 2.0 * 0.001
 
-    def sim_stateful(start_from_2012=False):
+    def sim_stateful(start_from_2012=True):
         if start_from_2012:
             sub_idx = idx_real[idx_real >= pd.Timestamp("2012-01-01")]
-            eq = 1.0 - 0.001  # 10bp initial entry cost
+            eq = 1.0 - 0.001  # 10bp initial entry cost from 100% cash at 2012-01-03 open
         else:
             sub_idx = idx_real
             eq = 1.0 - 0.001
@@ -198,7 +205,7 @@ def run_walk_forward_volz():
             dt = sub_idx[i]
             prev_dt = sub_idx[i - 1]
             yr = dt.year
-            trig_yr, rec_yr = chosen_by_yr.get(yr, chosen_by_yr[2012])
+            trig_yr, rec_yr = chosen_by_yr[yr]
             s_on = bool(sep_base.loc[prev_dt])
             vz = float(fv.vol_z.loc[prev_dt])
             r_on = assets[pos]["adjOpen"].loc[dt] / assets[pos]["adjClose"].loc[prev_dt] - 1.0
@@ -215,7 +222,8 @@ def run_walk_forward_volz():
             if target_pos == pos:
                 eq *= (1.0 + (assets[pos]["adjClose"].loc[dt] / assets[pos]["adjClose"].loc[prev_dt] - 1.0))
             else:
-                sw_count += 1
+                if dt >= pd.Timestamp("2012-01-01"):
+                    sw_count += 1
                 eq = eq_open_pre * cost_mult
                 if target_pos == "3x":
                     entry_eq = eq
@@ -224,7 +232,7 @@ def run_walk_forward_volz():
             eq_map[dt] = eq
         s_full = pd.Series(eq_map).sort_index()
         s_oos = s_full.loc["2012-01-01":]
-        s_oos = s_oos / float(s_oos.iloc[0])
+        s_oos = s_oos / float(s_oos.iloc[0]) * (1.0 - 0.001 if start_from_2012 else 1.0)
         yrs_oos = (s_oos.index[-1] - s_oos.index[0]).days / 365.25
         cagr_oos = (float(s_oos.iloc[-1]) ** (1.0 / yrs_oos) - 1.0) * 100.0
         mdd_oos = float((s_oos / s_oos.cummax() - 1.0).min()) * 100.0
@@ -232,8 +240,8 @@ def run_walk_forward_volz():
         sh_oos = float(r_oos.mean() / r_oos.std() * np.sqrt(252))
         return round(cagr_oos, 2), round(mdd_oos, 2), round(sh_oos, 3), sw_count, s_oos
 
-    c_state_cont, mdd_state_cont, sh_state_cont, sw_cont, _ = sim_stateful(start_from_2012=False)
     c_state_2012, mdd_state_2012, sh_state_2012, sw_2012, _ = sim_stateful(start_from_2012=True)
+    c_state_pit, mdd_state_pit, sh_state_pit, sw_pit, _ = sim_stateful(start_from_2012=False)
 
     s_sp = (1.0 + pd.Series(wf_spliced_rets, index=wf_spliced_idx)).cumprod()
     yrs_sp = (s_sp.index[-1] - s_sp.index[0]).days / 365.25
@@ -242,61 +250,85 @@ def run_walk_forward_volz():
     sh_sp = round(float(pd.Series(wf_spliced_rets).mean() / pd.Series(wf_spliced_rets).std() * np.sqrt(252)), 3)
 
     return {
-        "stateful_continuous": (c_state_cont, mdd_state_cont, sh_state_cont, sw_cont),
         "stateful_fresh_2012": (c_state_2012, mdd_state_2012, sh_state_2012, sw_2012),
+        "stateful_pit_warmup": (c_state_pit, mdd_state_pit, sh_state_pit, sw_pit),
         "spliced_approx": (c_sp, mdd_sp, sh_sp),
         "chosen_log": chosen_log,
     }
 
+
 # Moreira & Muir (2017) Continuous Variance / Volatility Scaling inside SEP=ON
+# STRICT NEXT-DAY OPEN (adjOpen) EXECUTION + TRUE DAILY WEIGHT DRIFT + 10bp/side TURNOVER COST
 def eval_moreira_muir_continuous(c_target=0.20, mode="inv_var", rebalance="monthly", allow_cash=False):
     assets = {"3x": fv.tqqq.loc[idx_real], "1x": fv.qqq.loc[idx_real], "0x": fv.cash_bil_sgov.loc[idx_real]}
     sep_base = build_horizon_matched_sep("baseline")
-    r_3x = assets["3x"]["adjClose"].pct_change().fillna(0.0)
-    r_1x = assets["1x"]["adjClose"].pct_change().fillna(0.0)
-    r_0x = assets["0x"]["adjClose"].pct_change().fillna(0.0)
     rv20 = fv.rvol_20.loc[idx_real].bfill()
-    eq = 1.0
-    prev_w3, prev_w1, prev_w0 = 1.0, 0.0, 0.0
-    eq_s = [1.0]
-    to_sum = 0.0
+    eq = 1.0 - 0.001  # 10bp initial entry cost at day 0
+    # End-of-day drifted weights at i=0 close
+    w_close = {"3x": 1.0, "1x": 0.0, "0x": 0.0}
+    eq_s = [eq]
+    to_one_way_sum = 0.0
     for i in range(1, len(idx_real)):
         dt = idx_real[i]
         prev_dt = idx_real[i - 1]
+        # 1. Overnight drift from prev_dt Close to dt Open (adjOpen[i] / adjClose[i-1])
+        g_on = {k: float(assets[k]["adjOpen"].iloc[i] / assets[k]["adjClose"].iloc[i - 1]) for k in ("3x", "1x", "0x")}
+        port_g_on = sum(w_close[k] * g_on[k] for k in ("3x", "1x", "0x"))
+        eq_open_pre = eq * port_g_on
+        w_open_pre = {k: (w_close[k] * g_on[k]) / port_g_on for k in ("3x", "1x", "0x")}
+
+        # 2. Check if rebalance is triggered at dt Open (using strictly prev_dt Close signals)
         s_on = bool(sep_base.loc[prev_dt])
-        is_reb = True if rebalance == "daily" else (dt.month != prev_dt.month or (sep_base.loc[prev_dt] != sep_base.iloc[max(0, i - 2)]))
+        sep_flipped = (sep_base.loc[prev_dt] != sep_base.iloc[max(0, i - 2)])
+        is_reb = True if rebalance == "daily" else (dt.month != prev_dt.month or sep_flipped)
+
         if not s_on:
-            w3, w1, w0 = 0.0, 0.0, 1.0
+            if sep_flipped or w_open_pre["0x"] < 0.999999:
+                w_target = {"3x": 0.0, "1x": 0.0, "0x": 1.0}
+                do_trade = True
+            else:
+                w_target = w_open_pre
+                do_trade = False
         elif is_reb:
             v = max(float(rv20.loc[prev_dt]) / 100.0, 0.08)
             lev = min(3.0, max(0.5 if allow_cash else 1.0, (c_target / v) ** 2 if mode == "inv_var" else (c_target / v)))
             if lev >= 1.0:
                 w3 = (lev - 1.0) / 2.0
-                w1 = 1.0 - w3
-                w0 = 0.0
+                w_target = {"3x": w3, "1x": 1.0 - w3, "0x": 0.0}
             else:
-                w3 = 0.0
-                w1 = lev
-                w0 = 1.0 - lev
+                w_target = {"3x": 0.0, "1x": lev, "0x": 1.0 - lev}
+            do_trade = True
         else:
-            w3, w1, w0 = prev_w3, prev_w1, prev_w0
-        to = 0.5 * (abs(w3 - prev_w3) + abs(w1 - prev_w1) + abs(w0 - prev_w0))
-        to_sum += to
-        cost = to * 2.0 * 0.001
-        r_day = w3 * float(r_3x.iloc[i]) + w1 * float(r_1x.iloc[i]) + w0 * float(r_0x.iloc[i]) - cost
-        eq *= (1.0 + r_day)
+            # Non-rebalance day: NO trade at dt Open; weights continue drifting freely!
+            w_target = w_open_pre
+            do_trade = False
+
+        if do_trade:
+            two_way_to = sum(abs(w_target[k] - w_open_pre[k]) for k in ("3x", "1x", "0x"))
+            to_one_way_sum += 0.5 * two_way_to
+            eq_open_post = eq_open_pre * (1.0 - 0.0010 * two_way_to)
+            w_open = w_target
+        else:
+            eq_open_post = eq_open_pre
+            w_open = w_open_pre
+
+        # 3. Intraday drift from dt Open to dt Close (adjClose[i] / adjOpen[i])
+        g_intra = {k: float(assets[k]["adjClose"].iloc[i] / assets[k]["adjOpen"].iloc[i]) for k in ("3x", "1x", "0x")}
+        port_g_intra = sum(w_open[k] * g_intra[k] for k in ("3x", "1x", "0x"))
+        eq = eq_open_post * port_g_intra
+        w_close = {k: (w_open[k] * g_intra[k]) / port_g_intra for k in ("3x", "1x", "0x")}
         eq_s.append(eq)
-        prev_w3, prev_w1, prev_w0 = w3, w1, w0
+
     s_eq = pd.Series(eq_s, index=idx_real)
     yrs = (idx_real[-1] - idx_real[0]).days / 365.25
     cagr = (eq ** (1.0 / yrs) - 1.0) * 100.0
     mdd = float((s_eq / s_eq.cummax() - 1.0).min()) * 100.0
     sh = float(s_eq.pct_change().dropna().mean() / s_eq.pct_change().dropna().std() * np.sqrt(252))
-    return round(cagr, 2), round(mdd, 2), round(sh, 3), round(to_sum / yrs, 1)
+    return round(cagr, 2), round(mdd, 2), round(sh, 3), round(to_one_way_sum / yrs, 1)
 
 
 # ==============================================================================
-# PART 2: EXPERIMENT V1 (ROBECO 3-FACTOR FAMA-FRENCH RESIDUAL MOMENTUM: 12-1M & 36M BLITZ 2011)
+# PART 2: EXPERIMENT V1 (OFFICIAL KENNETH FRENCH FF3 vs ETF-PROXY 3-FACTOR RESIDUAL MOMENTUM)
 # ==============================================================================
 DATA_DIR = os.path.join(ROOT, "research", "sector_stock_momentum", "data")
 TIINGO_ROWS_DIRS = [
@@ -346,132 +378,226 @@ def _load_stock_close_series(src, sym):
     return None
 
 
-def load_or_build_ff3_daily_factors():
-    ff3_csv = os.path.join(OUT_DIR, "ff3_daily_factors_2007_2026.csv")
+def load_official_ken_french_and_etf_proxy_factors():
+    kf_daily_csv = os.path.join(OUT_DIR, "ken_french_ff3_daily.csv")
+    kf_monthly_csv = os.path.join(OUT_DIR, "ken_french_ff3_monthly.csv")
+    etf_proxy_csv = os.path.join(OUT_DIR, "ff3_daily_factors_2007_2026.csv")
 
-    def load_yahoo_s(sym):
-        p = os.path.join(ROOT, "data", "yahoo", f"{sym}.json")
-        if not os.path.exists(p):
-            return None
-        d = json.load(open(p))
-        v = d.get("values", d) if isinstance(d, dict) else d
-        return pd.Series({pd.Timestamp(r[0]): float(r[1]) for r in v if r[1] is not None}).sort_index()
-
-    spy_s = load_yahoo_s("SPY")
-    iwm_s = load_yahoo_s("IWM")
-    xlk_s = load_yahoo_s("XLK")
-    xlf_s = load_yahoo_s("XLF")
-    xle_s = load_yahoo_s("XLE")
-
-    if all(x is not None for x in (spy_s, iwm_s, xlk_s, xlf_s, xle_s)):
-        spy_r = spy_s.pct_change().dropna()
-        iwm_r = iwm_s.pct_change().dropna()
-        xlk_r = xlk_s.pct_change().dropna()
-        xlf_r = xlf_s.pct_change().dropna()
-        xle_r = xle_s.pct_change().dropna()
-        common_f = spy_r.index.intersection(iwm_r.index).intersection(xlk_r.index).intersection(xlf_r.index).intersection(xle_r.index)
-        F_df = pd.DataFrame({
-            "MKT": spy_r.loc[common_f],
-            "SMB": iwm_r.loc[common_f] - spy_r.loc[common_f],
-            "HML": 0.5 * (xlf_r.loc[common_f] + xle_r.loc[common_f]) - xlk_r.loc[common_f],
-        })
-        F_df.index.name = "date"
-        F_df.to_csv(ff3_csv)
-        return F_df
-    elif os.path.exists(ff3_csv):
-        return pd.read_csv(ff3_csv, index_col="date", parse_dates=True)
-    else:
-        raise FileNotFoundError("Missing FF3 factor inputs and cached ff3_daily_factors_2007_2026.csv")
+    kf_d = pd.read_csv(kf_daily_csv, index_col="date", parse_dates=True).sort_index()
+    kf_m = pd.read_csv(kf_monthly_csv, index_col="ym").sort_index()
+    etf_d = pd.read_csv(etf_proxy_csv, index_col="date", parse_dates=True).sort_index()
+    return kf_d, kf_m, etf_d
 
 
 def run_v1_ff3_residual_momentum_experiment(df_v4_base, tr_v4_base):
-    F_df = load_or_build_ff3_daily_factors()
+    kf_d, kf_m, etf_d = load_official_ken_french_and_etf_proxy_factors()
     MONTHS = iv4.months_214
     P_SPX = iv4.p_spx[iv4.p_spx["t"].isin(MONTHS)].copy()
     P_NDX = iv4.p_ndx[iv4.p_ndx["t"].isin(MONTHS)].copy()
     YM = {t: (t + pd.offsets.MonthBegin(1)).strftime("%Y-%m") for t in MONTHS}
 
-    unique_pairs = set(zip(P_SPX["src"], P_SPX["sym"])).union(set(zip(P_NDX["src"], P_NDX["sym"])))
+    p_non_it = P_SPX[(P_SPX["clean_sector"] != "Information Technology") & P_SPX["mom"].notna() & P_SPX["sharpe"].notna()].copy()
+    bsec_by_t = {t: g.groupby("clean_sector")["mom"].mean().sort_index().idxmax() for t, g in p_non_it.groupby("t")}
+    p_bsec_only = p_non_it[p_non_it.apply(lambda r: r["clean_sector"] == bsec_by_t[r["t"]], axis=1)].copy()
+
+    unique_pairs = set(zip(p_bsec_only["src"], p_bsec_only["sym"])).union(set(zip(P_NDX["src"], P_NDX["sym"])))
     ret_cache = {}
+    mret_cache = {}
     for src, sym in unique_pairs:
         if isinstance(src, str) and isinstance(sym, str):
             s_c = _load_stock_close_series(src, sym)
             if s_c is not None and len(s_c) > 30:
-                ret_cache[(src, sym)] = s_c[s_c > 0].pct_change().dropna()
+                s_pos = s_c[s_c > 0]
+                ret_cache[(src, sym)] = s_pos.pct_change(fill_method=None).dropna()
+                ms = s_pos.resample("ME").last().pct_change(fill_method=None).dropna()
+                ms.index = ms.index.strftime("%Y-%m")
+                mret_cache[(src, sym)] = ms
 
-    def add_ff3_residual(panel_df):
-        capm_res_sh = []
-        ff3_res_sh = []
-        ff3_3y_res_sh = []
+    sample_audit_rows = []
+
+    def add_all_residual_factors(panel_df, pool_name):
+        kf_capm_12 = []
+        kf_ff3_12 = []
+        kf_ff3_36_fb = []
+        kf_ff3_36_strict = []
+        kf_ff3_36_monthly_blitz = []
+        kf_ff3_36_monthly_alpha = []
+        etf_3f_36 = []
+
+        n_obs_12d, n_obs_36d, n_obs_36m = [], [], []
+        fb_12d, fb_36d_500, fb_36d_200, fb_36m_30 = 0, 0, 0, 0
+        total_valid_sh = 0
+
         for row in panel_df[["t", "src", "sym", "sharpe"]].itertuples(index=False):
             r_s = ret_cache.get((row.src, row.sym))
+            m_s = mret_cache.get((row.src, row.sym))
             if r_s is None or pd.isna(row.sharpe):
-                capm_res_sh.append(np.nan)
-                ff3_res_sh.append(np.nan)
-                ff3_3y_res_sh.append(np.nan)
+                kf_capm_12.append(np.nan)
+                kf_ff3_12.append(np.nan)
+                kf_ff3_36_fb.append(np.nan)
+                kf_ff3_36_strict.append(np.nan)
+                kf_ff3_36_monthly_blitz.append(np.nan)
+                kf_ff3_36_monthly_alpha.append(np.nan)
+                etf_3f_36.append(np.nan)
                 continue
+
+            total_valid_sh += 1
             t_m1 = row.t - pd.DateOffset(months=1)
             t_m12 = row.t - pd.DateOffset(months=12)
             t_m36 = row.t - pd.DateOffset(months=36)
 
             sub_12 = r_s.loc[(r_s.index > t_m12) & (r_s.index <= t_m1)]
-            idx_12 = sub_12.index.intersection(F_df.index)
-            if len(idx_12) >= 120:
-                y = sub_12.loc[idx_12].values
-                # 1. 1-Factor CAPM daily OLS regression over 12-1M
-                X1 = np.column_stack([np.ones(len(idx_12)), F_df.loc[idx_12, ["MKT"]].values])
-                coef1, _, _, _ = np.linalg.lstsq(X1, y, rcond=None)
-                idio1 = y - X1[:, 1:] @ coef1[1:]
+            sub_36 = r_s.loc[(r_s.index > t_m36) & (r_s.index <= t_m1)]
+
+            # --- A. Official Kenneth French Daily FF3 (MKT_RF, SMB, HML, RF) ---
+            idx_12_kf = sub_12.index.intersection(kf_d.index)
+            idx_36_kf = sub_36.index.intersection(kf_d.index)
+            n_obs_12d.append(len(idx_12_kf))
+            n_obs_36d.append(len(idx_36_kf))
+
+            if len(idx_12_kf) >= 120:
+                y12_ex = sub_12.loc[idx_12_kf].values - kf_d.loc[idx_12_kf, "RF"].values
+                # 1. Official KF 1-Factor CAPM (12-1M Daily)
+                X1 = np.column_stack([np.ones(len(idx_12_kf)), kf_d.loc[idx_12_kf, ["MKT_RF"]].values])
+                c1, _, _, _ = np.linalg.lstsq(X1, y12_ex, rcond=None)
+                idio1 = y12_ex - X1[:, 1:] @ c1[1:]
                 std1 = float(np.std(idio1, ddof=1) * np.sqrt(252))
                 comp1 = float(np.prod(1.0 + np.clip(idio1, -0.95, None)) - 1.0)
-                capm_res_sh.append(comp1 / std1 if std1 > 1e-8 else float(row.sharpe))
+                kf_capm_12.append(comp1 / std1 if std1 > 1e-8 else float(row.sharpe))
 
-                # 2. 3-Factor Fama-French (MKT + SMB + HML) daily OLS regression over 12-1M
-                X = np.column_stack([np.ones(len(idx_12)), F_df.loc[idx_12, ["MKT", "SMB", "HML"]].values])
-                coef, _, _, _ = np.linalg.lstsq(X, y, rcond=None)
-                idio = y - X[:, 1:] @ coef[1:]
-                idio_std = float(np.std(idio, ddof=1) * np.sqrt(252))
-                comp_res = float(np.prod(1.0 + np.clip(idio, -0.95, None)) - 1.0)
-                ff3_res_sh.append(comp_res / idio_std if idio_std > 1e-8 else float(row.sharpe))
+                # 2. Official KF 3-Factor FF3 (12-1M Daily)
+                X3 = np.column_stack([np.ones(len(idx_12_kf)), kf_d.loc[idx_12_kf, ["MKT_RF", "SMB", "HML"]].values])
+                c3, _, _, _ = np.linalg.lstsq(X3, y12_ex, rcond=None)
+                idio3 = y12_ex - X3[:, 1:] @ c3[1:]
+                std3 = float(np.std(idio3, ddof=1) * np.sqrt(252))
+                comp3 = float(np.prod(1.0 + np.clip(idio3, -0.95, None)) - 1.0)
+                val_kf12 = comp3 / std3 if std3 > 1e-8 else float(row.sharpe)
+                kf_ff3_12.append(val_kf12)
             else:
-                capm_res_sh.append(float(row.sharpe))
-                ff3_res_sh.append(float(row.sharpe))
+                fb_12d += 1
+                val_kf12 = float(row.sharpe)
+                kf_capm_12.append(val_kf12)
+                kf_ff3_12.append(val_kf12)
 
-            # 3. 36-month window 3-Factor regression (Blitz, Huij & Martens 2011 36M beta estimation, applied to 12-1 window)
-            sub_36 = r_s.loc[(r_s.index > t_m36) & (r_s.index <= t_m1)]
-            idx_36 = sub_36.index.intersection(F_df.index)
-            if len(idx_36) >= 200 and len(idx_12) >= 120:
-                y36 = sub_36.loc[idx_36].values
-                X36 = np.column_stack([np.ones(len(idx_36)), F_df.loc[idx_36, ["MKT", "SMB", "HML"]].values])
-                coef36, _, _, _ = np.linalg.lstsq(X36, y36, rcond=None)
-                y12 = sub_12.loc[idx_12].values
-                X12_f = F_df.loc[idx_12, ["MKT", "SMB", "HML"]].values
-                idio_36 = y12 - (coef36[0] + X12_f @ coef36[1:]) + coef36[0]
-                std_36 = float(np.std(idio_36, ddof=1) * np.sqrt(252))
-                comp_36 = float(np.prod(1.0 + np.clip(idio_36, -0.95, None)) - 1.0)
-                ff3_3y_res_sh.append(comp_36 / std_36 if std_36 > 1e-8 else float(row.sharpe))
+            # 3. Official KF 3-Factor FF3 (36M Daily Beta -> 12-1M Residual Sharpe)
+            # Note: Tiingo raw files start 2007-01-03 (~480 trading days / 23 months before 2008-11-30 for the 2009-01 formation date).
+            # Thus in 2009, 2-year history (>=450d / >=22m) is the maximum available in Tiingo files; from 2010+ full 36M (>=700d) is available.
+            if len(idx_36_kf) < 450:
+                fb_36d_500 += 1
+            if len(idx_36_kf) < 200:
+                fb_36d_200 += 1
+
+            if len(idx_36_kf) >= 200 and len(idx_12_kf) >= 120:
+                y36_ex = sub_36.loc[idx_36_kf].values - kf_d.loc[idx_36_kf, "RF"].values
+                X36 = np.column_stack([np.ones(len(idx_36_kf)), kf_d.loc[idx_36_kf, ["MKT_RF", "SMB", "HML"]].values])
+                c36, _, _, _ = np.linalg.lstsq(X36, y36_ex, rcond=None)
+                y12_ex = sub_12.loc[idx_12_kf].values - kf_d.loc[idx_12_kf, "RF"].values
+                X12_f = kf_d.loc[idx_12_kf, ["MKT_RF", "SMB", "HML"]].values
+                idio36 = y12_ex - X12_f @ c36[1:]
+                std36 = float(np.std(idio36, ddof=1) * np.sqrt(252))
+                comp36 = float(np.prod(1.0 + np.clip(idio36, -0.95, None)) - 1.0)
+                val_kf36 = comp36 / std36 if std36 > 1e-8 else val_kf12
+                kf_ff3_36_fb.append(val_kf36)
+                # Strict no-fallback requires >= 450 daily observations (~2 years, no fallback to 12-1M; excluded if < 450d)
+                kf_ff3_36_strict.append(val_kf36 if len(idx_36_kf) >= 450 else np.nan)
             else:
-                ff3_3y_res_sh.append(ff3_res_sh[-1])
+                kf_ff3_36_fb.append(val_kf12)
+                kf_ff3_36_strict.append(np.nan)
+
+            # --- B. Exact Blitz, Huij & Martens (2011) Monthly 36M Regression on Official Ken French Monthly FF3 ---
+            ym_end = t_m1.strftime("%Y-%m")
+            ym_start36 = (row.t - pd.DateOffset(months=36)).strftime("%Y-%m")
+            ym_start12 = (row.t - pd.DateOffset(months=12)).strftime("%Y-%m")
+            if m_s is not None:
+                m_sub36 = m_s.loc[(m_s.index >= ym_start36) & (m_s.index <= ym_end)]
+                idx_m36 = m_sub36.index.intersection(kf_m.index)
+            else:
+                idx_m36 = pd.Index([])
+            n_obs_36m.append(len(idx_m36))
+            if len(idx_m36) >= 22:
+                ym36_ex = m_sub36.loc[idx_m36].values - kf_m.loc[idx_m36, "RF"].values
+                Xm36 = np.column_stack([np.ones(len(idx_m36)), kf_m.loc[idx_m36, ["MKT_RF", "SMB", "HML"]].values])
+                cm36, _, _, _ = np.linalg.lstsq(Xm36, ym36_ex, rcond=None)
+                idx_m12 = idx_m36[idx_m36 >= ym_start12]
+                if len(idx_m12) >= 10:
+                    ym12_ex = m_sub36.loc[idx_m12].values - kf_m.loc[idx_m12, "RF"].values
+                    Xm12_f = kf_m.loc[idx_m12, ["MKT_RF", "SMB", "HML"]].values
+                    # 1. Exact Blitz (2011) Eq. (2): pure zero-mean residual e_{i,t} = (R_i - R_f) - alpha_hat - beta_hat * F
+                    eps_blitz = ym12_ex - (cm36[0] + Xm12_f @ cm36[1:])
+                    std_b = float(np.std(eps_blitz, ddof=1))
+                    kf_ff3_36_monthly_blitz.append(float(np.sum(eps_blitz) / std_b) if std_b > 1e-8 else np.nan)
+                    # 2. Alpha-inclusive monthly residual: alpha_hat + e_{i,t} = (R_i - R_f) - beta_hat * F
+                    eps_alpha = ym12_ex - Xm12_f @ cm36[1:]
+                    std_a = float(np.std(eps_alpha, ddof=1) * np.sqrt(12))
+                    comp_a = float(np.prod(1.0 + np.clip(eps_alpha, -0.95, None)) - 1.0)
+                    kf_ff3_36_monthly_alpha.append(comp_a / std_a if std_a > 1e-8 else np.nan)
+                else:
+                    fb_36m_30 += 1
+                    kf_ff3_36_monthly_blitz.append(np.nan)
+                    kf_ff3_36_monthly_alpha.append(np.nan)
+            else:
+                fb_36m_30 += 1
+                kf_ff3_36_monthly_blitz.append(np.nan)
+                kf_ff3_36_monthly_alpha.append(np.nan)
+
+            # --- C. ETF-Proxy 3-Factor (SPY, IWM-SPY, 0.5*(XLF+XLE)-XLK) for reference ---
+            idx_12_etf = sub_12.index.intersection(etf_d.index)
+            idx_36_etf = sub_36.index.intersection(etf_d.index)
+            if len(idx_36_etf) >= 200 and len(idx_12_etf) >= 120:
+                y36_e = sub_36.loc[idx_36_etf].values
+                X36_e = np.column_stack([np.ones(len(idx_36_etf)), etf_d.loc[idx_36_etf, ["MKT", "SMB", "HML"]].values])
+                ce36, _, _, _ = np.linalg.lstsq(X36_e, y36_e, rcond=None)
+                y12_e = sub_12.loc[idx_12_etf].values
+                X12_ef = etf_d.loc[idx_12_etf, ["MKT", "SMB", "HML"]].values
+                idio_e = y12_e - X12_ef @ ce36[1:]
+                std_e = float(np.std(idio_e, ddof=1) * np.sqrt(252))
+                comp_e = float(np.prod(1.0 + np.clip(idio_e, -0.95, None)) - 1.0)
+                etf_3f_36.append(comp_e / std_e if std_e > 1e-8 else float(row.sharpe))
+            else:
+                etf_3f_36.append(float(row.sharpe))
+
+        sample_audit_rows.append({
+            "Pool": pool_name,
+            "Total_Valid_Stock_Months": total_valid_sh,
+            "Daily_12_1M_Min_Obs": int(np.min(n_obs_12d)),
+            "Daily_12_1M_Median_Obs": int(np.median(n_obs_12d)),
+            "Daily_12_1M_Max_Obs": int(np.max(n_obs_12d)),
+            "Daily_12_1M_Fallback_Count(<120d)": fb_12d,
+            "Daily_36_1M_Min_Obs": int(np.min(n_obs_36d)),
+            "Daily_36_1M_10thPct_Obs": int(np.percentile(n_obs_36d, 10)),
+            "Daily_36_1M_Median_Obs": int(np.median(n_obs_36d)),
+            "Daily_36_1M_Max_Obs": int(np.max(n_obs_36d)),
+            "Daily_36_1M_Count(<200d_Fallback)": fb_36d_200,
+            "Daily_36_1M_Count(<500d_ExcludedInStrict)": fb_36d_500,
+            "Monthly_36_1M_Min_Months": int(np.min(n_obs_36m)),
+            "Monthly_36_1M_Median_Months": int(np.median(n_obs_36m)),
+            "Monthly_36_1M_Max_Months": int(np.max(n_obs_36m)),
+            "Monthly_36_1M_Count(<30m_ExcludedInStrict)": fb_36m_30,
+        })
 
         panel_df = panel_df.copy()
-        panel_df["capm_res_sharpe"] = capm_res_sh
-        panel_df["ff3_res_sharpe"] = ff3_res_sh
-        panel_df["ff3_36m_res_sharpe"] = ff3_3y_res_sh
-        panel_df["blend_ff3"] = 0.5 * panel_df["sharpe"] + 0.5 * panel_df["ff3_res_sharpe"]
-        panel_df["blend_ff3_36m"] = 0.5 * panel_df["sharpe"] + 0.5 * panel_df["ff3_36m_res_sharpe"]
+        panel_df["kf_capm_12"] = kf_capm_12
+        panel_df["kf_ff3_12"] = kf_ff3_12
+        panel_df["kf_ff3_36_fb"] = kf_ff3_36_fb
+        panel_df["kf_ff3_36_strict"] = kf_ff3_36_strict
+        panel_df["kf_ff3_36_monthly_blitz"] = kf_ff3_36_monthly_blitz
+        panel_df["kf_ff3_36_monthly_alpha"] = kf_ff3_36_monthly_alpha
+        panel_df["kf_blend_12"] = 0.5 * panel_df["sharpe"] + 0.5 * panel_df["kf_ff3_12"]
+        panel_df["kf_blend_36_strict"] = 0.5 * panel_df["sharpe"] + 0.5 * panel_df["kf_ff3_36_strict"]
+        panel_df["etf_3f_36"] = etf_3f_36
+        panel_df["etf_blend_36"] = 0.5 * panel_df["sharpe"] + 0.5 * panel_df["etf_3f_36"]
         return panel_df
 
-    P_NDX_F = add_ff3_residual(P_NDX)
-    # In V4, BestSec is determined strictly by equal-weighted `mom` across Non-IT sectors; only stocks in each month's #1 BestSec are ranked by Sharpe/Residual Sharpe
-    p_non_it = P_SPX[(P_SPX["clean_sector"] != "Information Technology") & P_SPX["mom"].notna() & P_SPX["sharpe"].notna()].copy()
-    bsec_by_t = {t: g.groupby("clean_sector")["mom"].mean().sort_index().idxmax() for t, g in p_non_it.groupby("t")}
-    p_bsec_only = p_non_it[p_non_it.apply(lambda r: r["clean_sector"] == bsec_by_t[r["t"]], axis=1)].copy()
-    P_SPX_F = add_ff3_residual(p_bsec_only)
+    P_NDX_F = add_all_residual_factors(P_NDX, "NDX_100")
+    P_SPX_F = add_all_residual_factors(p_bsec_only, "SPX_BestSec_NonIT")
+
+    df_sample_audit = pd.DataFrame(sample_audit_rows)
+    df_sample_audit.to_csv(os.path.join(OUT_DIR, "exp_V1_ff3_sample_length_audit.csv"), index=False)
 
     def eval_v4_col(col):
         d_q = P_NDX_F.copy()
         d_q["sharpe"] = d_q[col]
-        d_b = P_SPX_F[P_SPX_F["clean_sector"] != "Information Technology"].copy()
+        d_b = P_SPX_F.copy()
         d_b["sharpe"] = d_b[col]
         pk_q = iv4.select_qqq_sharpe_top2(d_q, hold_k=5, reset_t_set=None)
         pk_b = iv4.select_bestsec_sharpe_top2(d_b, hold_k=5, reset_t_set=None)
@@ -488,18 +614,24 @@ def run_v1_ff3_residual_momentum_experiment(df_v4_base, tr_v4_base):
     v1_rows = []
     for lbl, col in [
         ("0. Frozen V4 Baseline (12-1 Total Return Sharpe)", "sharpe"),
-        ("V1a. 1-Factor CAPM Residual Sharpe (12-1M Daily OLS)", "capm_res_sharpe"),
-        ("V1b-FF3-12M. 3-Factor (MKT+SMB+HML) 12-1M Residual Sharpe", "ff3_res_sharpe"),
-        ("V1c-FF3-36M. 3-Factor (MKT+SMB+HML) 36M Beta + 12-1M Residual Sharpe (Blitz 2011)", "ff3_36m_res_sharpe"),
-        ("V1d. 50/50 Blend (Total Sharpe + FF3-12M Residual Sharpe)", "blend_ff3"),
-        ("V1e. 50/50 Blend (Total Sharpe + FF3-36M Residual Sharpe)", "blend_ff3_36m"),
+        ("V1a-KF. Official Ken French 1-Factor CAPM Residual Sharpe (12-1M Daily)", "kf_capm_12"),
+        ("V1b-KF. Official Ken French FF3 (MKT-RF+SMB+HML) 12-1M Daily Residual Sharpe", "kf_ff3_12"),
+        ("V1c-KF-Strict. Official Ken French FF3 36M Daily Beta + 12-1M Residual (Strict >=500d, Zero Fallback)", "kf_ff3_36_strict"),
+        ("V1c-KF-FB. Official Ken French FF3 36M Daily Beta + 12-1M Residual (With 12-1M Fallback if <200d)", "kf_ff3_36_fb"),
+        ("V1c-KF-Monthly-Blitz. Official Ken French FF3 36M Monthly OLS (Blitz 2011 Eq.2 Pure Residual, >=30M)", "kf_ff3_36_monthly_blitz"),
+        ("V1c-KF-Monthly-Alpha. Official Ken French FF3 36M Monthly OLS (Alpha+Residual Sharpe, >=30M)", "kf_ff3_36_monthly_alpha"),
+        ("V1d-KF. 50/50 Blend (Total Sharpe + Official Ken French FF3-12M Residual Sharpe)", "kf_blend_12"),
+        ("V1e-KF. 50/50 Blend (Total Sharpe + Official Ken French FF3-36M Strict Residual Sharpe)", "kf_blend_36_strict"),
+        ("V1f-ETF-Proxy. ETF-Proxy 3-Factor (SPY / IWM-SPY / XLF+XLE-XLK) 36M Residual Sharpe", "etf_3f_36"),
+        ("V1g-ETF-Proxy. 50/50 Blend (Total Sharpe + ETF-Proxy 3-Factor 36M Residual Sharpe)", "etf_blend_36"),
     ]:
         v1_rows.append((lbl, *eval_v4_col(col)))
-    return pd.DataFrame(v1_rows, columns=["Variant", "Full_214M_CAGR_%", "Sharpe", "Monthly_MaxDD_%", "Ex2026_09_25_CAGR_%", "Ex2026_Sharpe", "DropBest5M_CAGR_%", "Trade_WinRate_%"])
+    return pd.DataFrame(v1_rows, columns=["Variant", "Full_214M_CAGR_%", "Sharpe", "Monthly_MaxDD_%", "Ex2026_09_25_CAGR_%", "Ex2026_Sharpe", "DropBest5M_CAGR_%", "Trade_WinRate_%"]), df_sample_audit
 
 
 # ==============================================================================
 # PART 3: EXPERIMENT V2 (DANIEL & MOSKOWITZ 2016 PANIC OVERLAY + BARROSO 2015)
+# TRUE DRIFTED-WEIGHT PORTFOLIO SIMULATION WITH 10bp/side TURNOVER COST AT OPEN
 # ==============================================================================
 def run_v2_crash_overlay_experiment(df_v4_base, tr_v4_base):
     spy_s = load_etf_close_s("SPY")
@@ -522,46 +654,75 @@ def run_v2_crash_overlay_experiment(df_v4_base, tr_v4_base):
         vq_6m = float(r_qqq.loc[t - pd.DateOffset(months=6):t].std() * np.sqrt(252))
         qqq_vol_scale[ym] = min(1.0, 0.25 / max(vq_6m, 0.10))
 
-    def eval_v2(mode):
+    def sim_v2_stateful(mode):
+        cost_bp = 0.0010
+        prev_drifted_w = {}
         nets = []
-        for ym, row in df_v4_base.iterrows():
-            r_net = float(row["net_ret"])
-            r_cash = float(iv4.reg_map[pd.Timestamp(row["t"])]["ret_sgov_actual"])
-            if mode == "v2a_dm_panic_50cash":
-                nets.append(0.5 * r_net + 0.5 * r_cash if (bool(row["sep_on"]) and ym in dm_panic_months) else r_net)
-            elif mode == "v2b_barroso_vol_target":
-                w = qqq_vol_scale[ym] if bool(row["sep_on"]) else 1.0
-                nets.append(w * r_net + (1.0 - w) * r_cash)
-            elif mode == "v2c_dm_plus_barroso":
-                if bool(row["sep_on"]):
-                    w = min(0.5 if ym in dm_panic_months else 1.0, qqq_vol_scale[ym])
-                    nets.append(w * r_net + (1.0 - w) * r_cash)
-                else:
-                    nets.append(r_net)
+        tos = []
+        for t in MONTHS:
+            ym = (t + pd.offsets.MonthBegin(1)).strftime("%Y-%m")
+            reg = iv4.reg_map[t]
+            sep_on = bool(reg["sep_on"])
+            r_cash = float(reg["ret_sgov_actual"])
+            q1, q2 = pk_q_v0[t]
+            bs1, bs2, _ = pk_bs_h5_v0[t]
+
+            if sep_on:
+                if mode == "baseline":
+                    scale = 1.0
+                elif mode == "v2a_dm_panic_50cash":
+                    scale = 0.5 if ym in dm_panic_months else 1.0
+                elif mode == "v2b_barroso_vol_target":
+                    scale = qqq_vol_scale[ym]
+                elif mode == "v2c_dm_plus_barroso":
+                    scale = min(0.5 if ym in dm_panic_months else 1.0, qqq_vol_scale[ym])
+                w_stocks = {q1: 0.5 * scale, q2: 0.5 * scale}
+                w_cash = 1.0 - scale
+            else:
+                w_stocks = {bs1: 0.25, bs2: 0.25}
+                w_cash = 0.50
+
+            w_all = {k: v for k, v in w_stocks.items() if v > 0}
+            if w_cash > 0:
+                w_all["SGOV"] = w_cash
+
+            gross = sum(wt * iv4.get_verified_ret(t, tk) for tk, wt in w_stocks.items() if wt > 0) + w_cash * r_cash
+            if not prev_drifted_w:
+                to = float(sum(abs(v) for v in w_all.values()))
+            else:
+                all_k = set(w_all.keys()) | set(prev_drifted_w.keys())
+                to = float(sum(abs(w_all.get(k, 0.0) - prev_drifted_w.get(k, 0.0)) for k in all_k))
+
+            net = (1.0 + gross) * ((1.0 - cost_bp) ** to) - 1.0 if to > 0 else gross
+            end_eq = 1.0 + gross
+            prev_drifted_w = {tk: wt * (1.0 + iv4.get_verified_ret(t, tk)) / end_eq for tk, wt in w_stocks.items() if wt > 0}
+            if w_cash > 0:
+                prev_drifted_w["SGOV"] = w_cash * (1.0 + r_cash) / end_eq
+            nets.append(net)
+            tos.append(to)
+
         df_tmp = df_v4_base.copy()
         df_tmp["net_ret"] = nets
         c204, c214, sr214, mdd, _, _, _, _ = iv4.eval_summary(df_tmp, tr_v4_base)
-        return round(c214 * 100, 2), round(sr214, 3), round(mdd * 100, 2), round(c204 * 100, 2)
+        return round(c214 * 100, 2), round(sr214, 3), round(mdd * 100, 2), round(c204 * 100, 2), round(float(np.mean(tos) * 12), 2)
 
-    c204_0, c214_0, sr0, mdd0, _, _, _, _ = iv4.eval_summary(df_v4_base, tr_v4_base)
     v2_rows = [
-        ("0. Frozen V4 Baseline (SEP Routing Only, Zero Patch)", round(c214_0 * 100, 2), round(sr0, 3), round(mdd0 * 100, 2), round(c204_0 * 100, 2)),
-        ("V2a. Daniel & Moskowitz (2016) Panic Overlay (50% Cash in Bear Rebound)", *eval_v2("v2a_dm_panic_50cash")),
-        ("V2b. Barroso & Santa-Clara (2015) Vol-Targeted Momentum (c=25% in SEP=ON)", *eval_v2("v2b_barroso_vol_target")),
-        ("V2c. Combined DM Panic + Barroso Vol Target", *eval_v2("v2c_dm_plus_barroso")),
+        ("0. Frozen V4 Baseline (SEP Routing Only, Zero Patch)", *sim_v2_stateful("baseline")),
+        ("V2a. Daniel & Moskowitz (2016) Panic Overlay (50% Cash in Bear Rebound, Full Turnover Cost)", *sim_v2_stateful("v2a_dm_panic_50cash")),
+        ("V2b. Barroso & Santa-Clara (2015) Vol-Targeted Momentum (c=25% in SEP=ON, Full Turnover Cost)", *sim_v2_stateful("v2b_barroso_vol_target")),
+        ("V2c. Combined DM Panic + Barroso Vol Target (Full Turnover Cost)", *sim_v2_stateful("v2c_dm_plus_barroso")),
     ]
-    return pd.DataFrame(v2_rows, columns=["Variant", "Full_214M_CAGR_%", "Sharpe", "Monthly_MaxDD_%", "Ex2026_09_25_CAGR_%"])
+    return pd.DataFrame(v2_rows, columns=["Variant", "Full_214M_CAGR_%", "Sharpe", "Monthly_MaxDD_%", "Ex2026_09_25_CAGR_%", "Ann_TwoWay_Turnover"])
 
 
 # ==============================================================================
-# PART 4: V4 SUB-PERIODS, EX-2026, DROP-BEST-N-MONTHS, AND MISSING-RETURN CHECK
+# PART 4: V4 SUB-PERIODS, EX-2026, 213 COMPLETE OPEN-TO-OPEN MONTHS, AND OUTLIER REMOVAL
 # ==============================================================================
 pk_q_v0 = iv4.select_qqq_sharpe_top2(iv4.p_ndx, hold_k=5, reset_t_set=None)
 pk_bs_h5_v0 = iv4.select_bestsec_sharpe_top2(iv4.p_exit, hold_k=5, reset_t_set=None)
 df_v4, tr_v4 = iv4.sim_v4(pk_q_v0, pk_bs_h5_v0, use_election_v3=False)
 
 def v4_robustness_breakdown(net_series):
-    # Full 214M (2009-01..2026-10)
     def calc_cagr_sh(s):
         w = (1.0 + s).cumprod()
         cagr = (float(w.iloc[-1]) ** (12.0 / len(s)) - 1.0) * 100.0
@@ -570,18 +731,17 @@ def v4_robustness_breakdown(net_series):
         return round(cagr, 2), round(sh, 3), round(mdd, 2)
 
     s_all = net_series
+    s_213 = net_series.loc[:"2026-09"]  # 213 complete open-to-open months (excluding Oct 2026 partial month)
     s_09_25 = net_series.loc[:"2025-12"]
     s_09_20 = net_series.loc[:"2020-12"]
     s_21_25 = net_series.loc["2021-01":"2025-12"]
-    s_drop1m = net_series.sort_values(ascending=False).iloc[1:]
     s_drop5m = net_series.drop(net_series.nlargest(5).index)
     s_drop10m = net_series.drop(net_series.nlargest(10).index)
-    # Drop best calendar year (2026 or 2020)
-    s_no_2020 = net_series[~net_series.index.str.startswith("2020")]
 
     rows = [
-        ("Full 214 Months (2009-01 .. 2026-10)", len(s_all), *calc_cagr_sh(s_all)),
-        ("Ex-2026: 17 Full Years (2009-01 .. 2025-12)", len(s_09_25), *calc_cagr_sh(s_09_25)),
+        ("Full 214 Months (2009-01 .. 2026-10, Incl. Oct 2026 Cutoff)", len(s_all), *calc_cagr_sh(s_all)),
+        ("Complete 213 Open-to-Open Months (2009-01 .. 2026-09, Excl. Oct 2026)", len(s_213), *calc_cagr_sh(s_213)),
+        ("Ex-2026: 17 Full Calendar Years (2009-01 .. 2025-12)", len(s_09_25), *calc_cagr_sh(s_09_25)),
         ("Pre-2021: 12 Full Years (2009-01 .. 2020-12)", len(s_09_20), *calc_cagr_sh(s_09_20)),
         ("2021-2025 Only (Ex-2026 Tightening/AI Cycle)", len(s_21_25), *calc_cagr_sh(s_21_25)),
         ("Ex-2020 & Ex-2026 (16 Years, Dropping Both Best Years)", len(s_09_25[~s_09_25.index.str.startswith('2020')]), *calc_cagr_sh(s_09_25[~s_09_25.index.str.startswith('2020')])),
@@ -604,7 +764,7 @@ if __name__ == "__main__":
     df_t1 = pd.DataFrame(t1_rows, columns=["T1_Variant", "Full_10_26_CAGR_%", "Daily_MaxDD_%", "Sharpe", "Ex2026_10_25_CAGR_%", "Switches"])
     df_t1.to_csv(os.path.join(OUT_DIR, "exp_T1_horizon_matched_sep_surprise.csv"), index=False)
 
-    # 2. Experiment T2 Table (Discrete Vol_Z + Stateful Walk-Forward + Moreira & Muir 2017 Equal Risk-Budget)
+    # 2. Experiment T2 Table (Discrete Vol_Z + Stateful Walk-Forward + Open-Executed Drifted Moreira & Muir 2017)
     wf_res = run_walk_forward_volz()
     pd.DataFrame(wf_res["chosen_log"]).to_csv(os.path.join(OUT_DIR, "exp_T2_walk_forward_volz_choices.csv"), index=False)
     sep_base = build_horizon_matched_sep("baseline")
@@ -615,23 +775,23 @@ if __name__ == "__main__":
         ("0. Frozen V1-Daily (Discrete Vol_Z 1.2/0.3 + Open NSL, 2010-2026)", c_12_03, mdd_12_03, sh_12_03, round(sw_12_03 / 16.73, 1)),
         ("0b. Conservative Ref (Discrete Vol_Z 1.5/0.5 + Open NSL, 2010-2026)", c_15_05, mdd_15_05, sh_15_05, round(sw_15_05 / 16.73, 1)),
         ("0c. Pure SEP (3x TQQQ in SEP=ON / Cash in SEP=OFF, 2010-2026)", c_pure, mdd_pure, sh_pure, round(sw_pure / 16.73, 1)),
-        ("T2-WF1. TRUE STATEFUL Walk-Forward Vol_Z (2012-2026 Continuous Account)", wf_res["stateful_continuous"][0], wf_res["stateful_continuous"][1], wf_res["stateful_continuous"][2], round(wf_res["stateful_continuous"][3] / 14.84, 1)),
-        ("T2-WF2. TRUE STATEFUL Walk-Forward Vol_Z (2012-2026 Fresh 2012 Start)", wf_res["stateful_fresh_2012"][0], wf_res["stateful_fresh_2012"][1], wf_res["stateful_fresh_2012"][2], round(wf_res["stateful_fresh_2012"][3] / 14.84, 1)),
+        ("T2-WF1. TRUE STATEFUL Walk-Forward Vol_Z (2012-2026 Cold-Cash Start at 2012-01-03 Open)", wf_res["stateful_fresh_2012"][0], wf_res["stateful_fresh_2012"][1], wf_res["stateful_fresh_2012"][2], round(wf_res["stateful_fresh_2012"][3] / 14.84, 1)),
+        ("T2-WF2. TRUE STATEFUL Walk-Forward Vol_Z (2012-2026 Strict PIT 2010-2011 Warmup)", wf_res["stateful_pit_warmup"][0], wf_res["stateful_pit_warmup"][1], wf_res["stateful_pit_warmup"][2], round(wf_res["stateful_pit_warmup"][3] / 14.84, 1)),
         ("T2-WF3. Spliced Approx Walk-Forward Vol_Z (2012-2026 Reference)", wf_res["spliced_approx"][0], wf_res["spliced_approx"][1], wf_res["spliced_approx"][2], np.nan),
-        ("T2a. Moreira & Muir (2017) Continuous Inv-Var (c=20%, Monthly Rebal)", *eval_moreira_muir_continuous(0.20, "inv_var", "monthly")),
-        ("T2b. Moreira & Muir (2017) Continuous Inv-Var (c=20%, Daily Rebal)", *eval_moreira_muir_continuous(0.20, "inv_var", "daily")),
-        ("T2c. Moreira & Muir (2017) Continuous Inv-Vol (c=20%, Monthly Rebal)", *eval_moreira_muir_continuous(0.20, "inv_vol", "monthly")),
-        ("T2d. Equal Risk-Budget Matched Inv-Var (c=38%, MDD Matched ~-42%, Monthly)", *eval_moreira_muir_continuous(0.38, "inv_var", "monthly")),
-        ("T2e. Equal Risk-Budget Matched Inv-Var (c=38%, MDD Matched ~-44%, Daily)", *eval_moreira_muir_continuous(0.38, "inv_var", "daily")),
+        ("T2a. Moreira & Muir (2017) Continuous Inv-Var (c=20%, Monthly Open Rebal + Daily Drift)", *eval_moreira_muir_continuous(0.20, "inv_var", "monthly")),
+        ("T2b. Moreira & Muir (2017) Continuous Inv-Var (c=20%, Daily Open Rebal)", *eval_moreira_muir_continuous(0.20, "inv_var", "daily")),
+        ("T2c. Moreira & Muir (2017) Continuous Inv-Vol (c=20%, Monthly Open Rebal + Daily Drift)", *eval_moreira_muir_continuous(0.20, "inv_vol", "monthly")),
+        ("T2d. Equal Risk-Budget Inv-Var (c=38%, Monthly Open Rebal + Daily Drift)", *eval_moreira_muir_continuous(0.38, "inv_var", "monthly")),
+        ("T2e. Equal Risk-Budget Inv-Var (c=38%, Daily Open Rebal, MDD Matched ~-44%)", *eval_moreira_muir_continuous(0.38, "inv_var", "daily")),
     ]
     df_t2 = pd.DataFrame(t2_rows, columns=["Variant", "CAGR_%", "Daily_MaxDD_%", "Sharpe", "Annual_Turnover_or_Switches"])
     df_t2.to_csv(os.path.join(OUT_DIR, "exp_T2_volatility_managed_tqqq.csv"), index=False)
 
-    # 3. Experiment V1 Table (Robeco FF3 Residual Momentum: 12-1M and 36M Blitz 2011)
-    df_v1 = run_v1_ff3_residual_momentum_experiment(df_v4, tr_v4)
+    # 3. Experiment V1 Table (Official Kenneth French FF3 vs ETF-Proxy 3-Factor Residual Momentum)
+    df_v1, df_sample_audit = run_v1_ff3_residual_momentum_experiment(df_v4, tr_v4)
     df_v1.to_csv(os.path.join(OUT_DIR, "exp_V1_residual_momentum.csv"), index=False)
 
-    # 4. Experiment V2 Table (Daniel & Moskowitz 2016 + Barroso 2015)
+    # 4. Experiment V2 Table (Daniel & Moskowitz 2016 + Barroso 2015 with Full Drifted-Weight Turnover Cost)
     df_v2 = run_v2_crash_overlay_experiment(df_v4, tr_v4)
     df_v2.to_csv(os.path.join(OUT_DIR, "exp_V2_crash_overlay.csv"), index=False)
 
@@ -641,11 +801,13 @@ if __name__ == "__main__":
 
     print("=== 1. EXPERIMENT T1 (HORIZON-MATCHED 1Y / 1Y1Y FORWARD RATE SEP SURPRISE) ===")
     print(df_t1.to_string(index=False))
-    print("\n=== 2. EXPERIMENT T2 (VOLATILITY CONTROL & TRUE STATEFUL WALK-FORWARD VOL_Z) ===")
+    print("\n=== 2. EXPERIMENT T2 (OPEN-EXECUTED VOLATILITY CONTROL & STATEFUL WALK-FORWARD VOL_Z) ===")
     print(df_t2.to_string(index=False))
-    print("\n=== 3. EXPERIMENT V1 (ROBECO 3-FACTOR FAMA-FRENCH RESIDUAL MOMENTUM: 12-1M & 36M BLITZ 2011) ===")
+    print("\n=== 3A. EXPERIMENT V1 (OFFICIAL KENNETH FRENCH FF3 vs ETF-PROXY RESIDUAL MOMENTUM) ===")
     print(df_v1.to_string(index=False))
-    print("\n=== 4. EXPERIMENT V2 (DANIEL & MOSKOWITZ 2016 PANIC OVERLAY & BARROSO 2015) ===")
+    print("\n=== 3B. EXPERIMENT V1 REGRESSION SAMPLE LENGTH & FALLBACK AUDIT ===")
+    print(df_sample_audit.to_string(index=False))
+    print("\n=== 4. EXPERIMENT V2 (DANIEL & MOSKOWITZ 2016 + BARROSO 2015 WITH FULL TURNOVER COST) ===")
     print(df_v2.to_string(index=False))
-    print("\n=== 5. V4 SUB-PERIOD & OUTLIER REMOVAL AUDIT (EX-2026, EX-2020, DROP BEST 5/10 MONTHS) ===")
+    print("\n=== 5. V4 SUB-PERIOD, 213 COMPLETE MONTHS, & OUTLIER REMOVAL AUDIT ===")
     print(df_v4_rob.to_string(index=False))

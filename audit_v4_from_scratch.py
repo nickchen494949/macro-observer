@@ -345,8 +345,10 @@ L_panel = run_v4(ndx_cols, spx_off_cols, election=True)      # V4 + Election Res
 LED["q"] = LED["q1"] + "|" + LED["q2"]
 m0 = L_panel_v0.merge(LED0[["ym", "net_ret", "q1", "q2", "bs1", "bs2", "sep_on"]], on="ym")
 c0, s0, d0_mdd = stats(L_panel_v0["net"], [RF[t] for t in MONTHS])
+c0_213, s0_213, d0_213 = stats(L_panel_v0["net"].iloc[:213], [RF[t] for t in MONTHS[:213]])
+c0_204, s0_204, d0_204 = stats(L_panel_v0["net"].iloc[:204], [RF[t] for t in MONTHS[:204]])
 say(f"My code on panel features vs official Default V4 (No ER) ledger: max |net diff|={(m0['net'] - m0['net_ret']).abs().max():.2e} | "
-    f"214M CAGR={c0:.4%} Sharpe={s0:.3f} MonthlyMDD={d0_mdd:.2%} (official Default V4: 59.65% / 1.426 / -27.99%)")
+    f"214M CAGR={c0:.4%} Sharpe={s0:.3f} MDD={d0_mdd:.2%} | Complete 213M (to 2026-09) CAGR={c0_213:.4%} Sh={s0_213:.3f} | Ex-2026 204M CAGR={c0_204:.4%} Sh={s0_204:.3f}")
 m = L_panel.merge(LED[["ym", "net_ret", "q1", "q2", "bs1", "bs2", "sep_on"]], on="ym")
 used_q = m["sep_on_x"] & ~m["ym"].isin(["2010-12", "2018-12", "2022-12"])
 pick_mismatch = (used_q & (m["q"] != m["q1"] + "|" + m["q2"])).sum()
@@ -366,7 +368,10 @@ spx_x = SX[["t", "ticker", "mom_x", "sharpe_x", "hr_x", "clean_sector"]].rename(
 spx_x = pd.concat([spx_x, spx_off_cols[~spx_off_cols["t"].isin(set(spx_x["t"]))]], ignore_index=True)
 L_raw_v0 = run_v4(ndx_x, spx_x, election=False)
 c0_raw, s0_raw, d0_raw = stats(L_raw_v0["net"], [RF[t] for t in MONTHS])
-say(f"Default V4 (No ER) on features recomputed from raw files: CAGR={c0_raw:.4%} Sharpe={s0_raw:.3f} MDD={d0_raw:.2%}")
+c0_raw_213, s0_raw_213, _ = stats(L_raw_v0["net"].iloc[:213], [RF[t] for t in MONTHS[:213]])
+c0_raw_204, s0_raw_204, _ = stats(L_raw_v0["net"].iloc[:204], [RF[t] for t in MONTHS[:204]])
+say(f"Default V4 (No ER) on features recomputed from raw files: 214M CAGR={c0_raw:.4%} Sh={s0_raw:.3f} MDD={d0_raw:.2%} | "
+    f"Complete 213M CAGR={c0_raw_213:.4%} Sh={s0_raw_213:.3f} | Ex-2026 204M CAGR={c0_raw_204:.4%} Sh={s0_raw_204:.3f}")
 L_raw = run_v4(ndx_x, spx_x, election=True)
 c2, s2, d2 = stats(L_raw["net"], [RF[t] for t in MONTHS])
 diff_q = (L_raw["q"] != L_panel["q"]) & L_panel["sep_on"]
@@ -382,9 +387,9 @@ L_raw.to_csv(os.path.join(OUT, "C_my_ledger_raw_features.csv"), index=False)
 # ============================================================================= PART D: pick-level integrity
 say("\n=== PART D: integrity of every invested position ===")
 MNA_NOTES = {
-    ("2013-06", "VMED"): "Virgin Media acquired by Liberty Global (cash+stock merger completed 2013-06-07; exited at last pre-merger close)",
-    ("2019-03", "FOX"): "21st Century Fox acquired by Disney / Fox Corp spin-off (completed 2019-03-19; exited at last pre-close trading session)",
-    ("2019-03", "FOXA"): "21st Century Fox Class A acquired by Disney / Fox Corp spin-off (completed 2019-03-19; exited at last pre-close trading session)",
+    ("2013-06", "VMED"): "Virgin Media acquired by Liberty Global (completed 2013-06-07: $17.50 cash + 0.2582 LBTYA + 0.1928 LBTYK = ~$51.00/sh deal value; entered 2013-06-03 open $49.65, exited 2013-06-07 close $51.00 = +2.72%)",
+    ("2019-03", "FOX"): "21st Century Fox (TFCF) Disney merger + Fox Corp spin-off (completed 2019-03-19/20: 1/3 sh new FOX ~$12.92 + $38.00 Disney consideration = ~$50.92/sh [+1.11% vs $50.36 open]; ledger conservatively uses last pre-close $49.61 = -1.49%)",
+    ("2019-03", "FOXA"): "21st Century Fox Class A (TFCFA) Disney merger + Fox Corp spin-off (completed 2019-03-19/20: 1/3 sh new FOXA ~$12.92 + $38.00 Disney consideration = ~$50.92/sh [+0.57% vs $50.63 open]; ledger conservatively uses last pre-close $49.69 = -1.86%)",
 }
 pos = []
 for r in L_panel.itertuples(index=False):
@@ -465,6 +470,10 @@ say(f"Cross-vendor Open-to-Open: positions with >=1 alt vendor with open prices:
 say(f"Cross-vendor Close-to-Close: positions with >=1 alt vendor: {(XV.n_alt > 0).sum()}/{len(XV)}; "
     f"min_diff > 1%: {(XV.absdiff > 0.01).sum()}; max_diff (across ALL alt vendors) > 1%: {(XV.max_absdiff_cc > 0.01).sum()}; "
     f"max_diff > 5%: {(XV.max_absdiff_cc > 0.05).sum()}")
+single_oo = XV[XV.n_alt_oo == 0]
+say(f"Breakdown of the {len(single_oo)} positions without a 2nd open-price vendor: "
+    f"{(single_oo.n_alt > 0).sum()} have a verified 2nd close-price vendor (max_diff_cc <= {single_oo.loc[single_oo.n_alt > 0, 'max_absdiff_cc'].max():.4%}); "
+    f"of the remaining {(single_oo.n_alt == 0).sum()} single-vendor positions, {(single_oo.loc[single_oo.n_alt == 0, 'ym'] >= '2018-04').sum()} are in 2018-04..2026-10 (after Quandl WIKI ended in 2018-03).")
 if (XV.max_absdiff_oo > 0.01).any():
     say("Positions with Open-to-Open max vendor diff > 1%:\n" +
         XV[XV.max_absdiff_oo > 0.01][["ym", "ticker", "src", "hold_ret_open_open", "worst_alt_oo", "worst_alt_open_open", "max_absdiff_oo"]].sort_values("max_absdiff_oo", ascending=False).head(15).to_string(index=False))

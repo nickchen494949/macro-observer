@@ -1,6 +1,7 @@
 Window_or_Stress_Test,Months,CAGR_%,Sharpe_rf0,Monthly_MaxDD_%
-Full 214 Months (2009-01 .. 2026-10),214,59.65,1.466,-27.99
-Ex-2026: 17 Full Years (2009-01 .. 2025-12),204,50.38,1.394,-27.99
+"Full 214 Months (2009-01 .. 2026-10, Incl. Oct 2026 Cutoff)",214,59.65,1.466,-27.99
+"Complete 213 Open-to-Open Months (2009-01 .. 2026-09, Excl. Oct 2026)",213,59.87,1.467,-27.99
+Ex-2026: 17 Full Calendar Years (2009-01 .. 2025-12),204,50.38,1.394,-27.99
 Pre-2021: 12 Full Years (2009-01 .. 2020-12),144,50.55,1.408,-27.99
 2021-2025 Only (Ex-2026 Tightening/AI Cycle),60,49.98,1.352,-14.32
 "Ex-2020 & Ex-2026 (16 Years, Dropping Both Best Years)",192,44.89,1.387,-19.43

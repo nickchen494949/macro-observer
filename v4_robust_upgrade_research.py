@@ -223,17 +223,17 @@ CANDS = [(m, n, k) for m in ("sharpe", "mom") for n in (1, 2, 3) for k in range(
 say(f"candidate configs: {len(CANDS)}")
 
 
-def simulate_stateful_wf(chosen_by_year, reg, carry_buffers=True):
+def simulate_stateful_wf(chosen_by_year, reg, init_mode="cold_cash_2012", carry_buffers=True):
     """
-    True stateful single-account walk-forward simulation (2012-01..2026-10):
-    - Maintains a single live portfolio with continuous drifted weights `prev_w` across all month and year boundaries.
-    - Charges full 10bp/side turnover cost whenever config changes at January open.
-    - If carry_buffers=True, carries the live account's own (hq, hb) buffers across year boundaries and applies the new
-      year's (metric, n, k) rule to those live buffers.
-    - If carry_buffers=False, adopts the chosen config's target weights and pays the exact switch turnover vs `prev_w`.
+    True stateful single-account walk-forward simulation (2012-01..2026-10) with ZERO look-ahead in initialization:
+    - init_mode="cold_cash_2012":
+        Account starts from 100% Cash at 2012-01 open (`hq=[], hb=[], prev_w={}`), buys fresh Top-n picks under
+        `chosen_by_year["2012"]` (selected at 2011-12-31), and pays the full 10bp initial entry cost (`to=1.0`).
+    - init_mode="strict_pit_warmup":
+        Account starts from 100% Cash at 2009-01 open with uninformative prior `("sharpe", 2, 5)`, then re-selects
+        at 2009-12-31 (`chosen_by_year["2010"]`), 2010-12-31 (`chosen_by_year["2011"]`), and 2011-12-31 (`chosen_by_year["2012"]`)
+        strictly using past returns available at each year-end.
     """
-    # Warm up buffers on 2009-2011 using the 2012 chosen config so 2012-01 starts from a realistic live state
-    init_m, init_n, init_k = chosen_by_year["2012"]
     hq, hb = [], []
     prev_w = {}
     pre_targets = {c: sleeve_targets(*c, reg) for c in set(chosen_by_year.values())}
@@ -242,7 +242,9 @@ def simulate_stateful_wf(chosen_by_year, reg, carry_buffers=True):
         ym = YM[t]
         year = ym[:4]
         if ym < "2012-01":
-            m, n, k = init_m, init_n, init_k
+            if init_mode == "cold_cash_2012":
+                continue
+            m, n, k = chosen_by_year.get(year, ("sharpe", 2, 5))
         else:
             m, n, k = chosen_by_year[year]
         hq = pick(RANK_Q[(m, t)], hq, k, n)
@@ -281,7 +283,10 @@ for reg_name in ("SEP", "none"):
     reg = REGIMES[reg_name]
     sims = {c: simulate(sleeve_targets(*c, reg))[0].net.values for c in CANDS}
     rf = np.array([RF[t] for t in MONTHS])
-    chosen = {}
+    chosen = {"2009": ("sharpe", 2, 5)}
+    for yr_w in ("2010", "2011"):
+        past_w = [j for j, tt in enumerate(MONTHS) if YM[tt] < f"{yr_w}-01"]
+        chosen[yr_w] = max(CANDS, key=lambda c: (sims[c][past_w] - rf[past_w]).mean() / sims[c][past_w].std(ddof=1))
     wf_ret_spliced = np.full(len(MONTHS), np.nan)
     for i, t in enumerate(MONTHS):
         ym = YM[t]
@@ -297,18 +302,28 @@ for reg_name in ("SEP", "none"):
     mask = ~np.isnan(wf_ret_spliced)
     rr = rf[mask]
 
-    # 1. True stateful single-account (continuous live buffers + full switch turnover cost)
-    df_wf_carry = simulate_stateful_wf(chosen, reg, carry_buffers=True)
-    r_carry = df_wf_carry["net"].values
-    w_carry = np.cumprod(1 + r_carry)
-    c_carry = w_carry[-1] ** (12 / len(r_carry)) - 1
-    s_carry = (r_carry - rr).mean() / r_carry.std(ddof=1) * np.sqrt(12)
-    ww_carry = np.concatenate([[1], w_carry])
-    d_carry = (ww_carry / np.maximum.accumulate(ww_carry) - 1).min()
-    wf_ledgers[f"{reg_name}_carry"] = df_wf_carry
+    # 1. Cold-Start Cash at 2012-01 Open (hq=[], hb=[], prev_w={}, pays full 10bp initial entry cost, continuous buffers)
+    df_wf_cold = simulate_stateful_wf(chosen, reg, init_mode="cold_cash_2012", carry_buffers=True)
+    r_cold = df_wf_cold["net"].values
+    w_cold = np.cumprod(1 + r_cold)
+    c_cold = w_cold[-1] ** (12 / len(r_cold)) - 1
+    s_cold = (r_cold - rr).mean() / r_cold.std(ddof=1) * np.sqrt(12)
+    ww_cold = np.concatenate([[1], w_cold])
+    d_cold = (ww_cold / np.maximum.accumulate(ww_cold) - 1).min()
+    wf_ledgers[f"{reg_name}_cold_cash_2012"] = df_wf_cold
 
-    # 2. True stateful single-account (target sleeve adoption + full switch turnover cost)
-    df_wf_adopt = simulate_stateful_wf(chosen, reg, carry_buffers=False)
+    # 2. Strict Point-in-Time Annual Warmup from 2009-01 (no look-ahead in 2009-2011 warmup, continuous buffers)
+    df_wf_pit = simulate_stateful_wf(chosen, reg, init_mode="strict_pit_warmup", carry_buffers=True)
+    r_pit = df_wf_pit["net"].values
+    w_pit = np.cumprod(1 + r_pit)
+    c_pit = w_pit[-1] ** (12 / len(r_pit)) - 1
+    s_pit = (r_pit - rr).mean() / r_pit.std(ddof=1) * np.sqrt(12)
+    ww_pit = np.concatenate([[1], w_pit])
+    d_pit = (ww_pit / np.maximum.accumulate(ww_pit) - 1).min()
+    wf_ledgers[f"{reg_name}_pit_warmup"] = df_wf_pit
+
+    # 3. Cold-Start Cash at 2012-01 Open + Adopt Target Sleeve at Year-Start (pays full initial + switch turnover costs)
+    df_wf_adopt = simulate_stateful_wf(chosen, reg, init_mode="cold_cash_2012", carry_buffers=False)
     r_adopt = df_wf_adopt["net"].values
     w_adopt = np.cumprod(1 + r_adopt)
     c_adopt = w_adopt[-1] ** (12 / len(r_adopt)) - 1
@@ -316,7 +331,7 @@ for reg_name in ("SEP", "none"):
     ww_adopt = np.concatenate([[1], w_adopt])
     d_adopt = (ww_adopt / np.maximum.accumulate(ww_adopt) - 1).min()
 
-    # 3. Spliced approximation (for reference)
+    # 4. Spliced approximation (for reference)
     r_sp = wf_ret_spliced[mask]
     w_sp = np.cumprod(1 + r_sp)
     c_sp = w_sp[-1] ** (12 / len(r_sp)) - 1
@@ -331,14 +346,15 @@ for reg_name in ("SEP", "none"):
     se = (ens - rr).mean() / ens.std(ddof=1) * np.sqrt(12)
     allc = sorted(np.prod(1 + sims[cc][mask]) ** (12 / mask.sum()) - 1 for cc in CANDS)
     say(f"[regime={reg_name}] 2012-01..2026-10 ({mask.sum()}m): "
-        f"STATEFUL WF (continuous buffers) CAGR={c_carry:.2%} Sharpe={s_carry:.3f} MDD={d_carry:.2%} | "
-        f"STATEFUL WF (adopt sleeve + switch cost) CAGR={c_adopt:.2%} Sharpe={s_adopt:.3f} MDD={d_adopt:.2%} | "
+        f"STATEFUL WF (2012 Cold-Cash Start, to[0]=1.0) CAGR={c_cold:.2%} Sharpe={s_cold:.3f} MDD={d_cold:.2%} | "
+        f"STATEFUL WF (Strict PIT 2009-2011 Warmup) CAGR={c_pit:.2%} Sharpe={s_pit:.3f} MDD={d_pit:.2%} | "
+        f"STATEFUL WF (Cold-Cash + Adopt Sleeve) CAGR={c_adopt:.2%} Sharpe={s_adopt:.3f} MDD={d_adopt:.2%} | "
         f"Spliced approx CAGR={c_sp:.2%} Sharpe={s_sp:.3f} MDD={d_sp:.2%} | "
-        f"fixed V4 config (hindsight) CAGR={cf:.2%} | V4.1 ensemble CAGR={ce:.2%} Sharpe={se:.3f} | "
-        f"all-42-config CAGR median={np.median(allc):.2%}, 10th pct={np.percentile(allc, 10):.2%}, 90th pct={np.percentile(allc, 90):.2%}")
+        f"fixed V4 config (hindsight) CAGR={cf:.2%} | V4.1 ensemble CAGR={ce:.2%} Sharpe={se:.3f}")
 WF = pd.DataFrame(wf_rows)
 WF.to_csv(os.path.join(OUT, "walk_forward_choices.csv"), index=False)
-wf_ledgers["SEP_carry"].to_csv(os.path.join(OUT, "walk_forward_stateful_sep_ledger.csv"), index=False)
+wf_ledgers["SEP_cold_cash_2012"].to_csv(os.path.join(OUT, "walk_forward_stateful_sep_ledger.csv"), index=False)
+wf_ledgers["SEP_pit_warmup"].to_csv(os.path.join(OUT, "walk_forward_stateful_sep_pit_warmup_ledger.csv"), index=False)
 say("Walk-forward chosen configs:\n" + WF.to_string(index=False))
 
 # ---------------------------------------------------------------------------- outputs
