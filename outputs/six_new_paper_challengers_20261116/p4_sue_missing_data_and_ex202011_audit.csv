@@ -1,0 +1,11 @@
+Challenger_Variant,Full_214M_CAGR_%,Ex2020_11_CAGR_%,Ex2026_09_25_CAGR_%,Era2012_26_CAGR_%,Nov2020_Ret_%,Sharpe_214M,Sharpe_Ex2020_11,Sharpe_Ex2026,Daily_MaxDD_%,Monthly_MaxDD_%,DropBest10M_CAGR_%,Ann_TwoWay_Turnover,Trade_WinRate_%
+"0. Frozen V4 Baseline (12-1 Sharpe, Top-2 / Hold<=5)",59.65,57.64,50.38,66.17,30.19,1.426,1.402,1.354,-37.32,-27.99,37.55,7.0,70.16
+P4a-TrueSUE-NaNLast. True Dollar SUE Inside Sharpe Top-5 (Missing SUE = NaN Ranked Last),56.11,54.63,46.2,56.3,22.85,1.375,1.353,1.343,-37.32,-27.99,34.78,7.83,64.54
+P4a-TrueSUE-CSMedian. True Dollar SUE Inside Sharpe Top-5 (Missing SUE = Universe Median),51.3,49.85,41.76,52.36,22.85,1.295,1.272,1.256,-37.32,-27.99,30.94,8.06,64.83
+P4a-TrueSUE-PreFilter. True Dollar SUE Inside Sharpe Top-5 (Pre-Filter Eligible Pool to Valid SUE),48.69,47.25,39.37,52.58,22.85,1.258,1.235,1.22,-37.32,-27.99,28.51,7.33,63.85
+"P4a-TrueSUE-ZeroFill. True Dollar SUE Inside Sharpe Top-5 (Missing SUE = 0.0, Audit Comparison)",56.27,54.79,46.35,56.49,22.85,1.379,1.356,1.347,-37.32,-27.99,34.93,7.82,64.54
+P4a-Old9f84929-BugRef. Old `filed_eps_diluted` Timestamp Bug + 0.0 Fill (Audit Reference Only),65.23,59.0,57.38,72.31,106.22,1.263,1.332,1.221,-37.68,-27.99,37.03,7.48,69.92
+P4b-EAR-3TD-Filing. Exact 3-Trading-Day [tau-1..tau+1] Filing EAR Inside Sharpe Top-5 (NaN Last),59.14,53.11,51.81,63.6,106.22,1.219,1.302,1.19,-34.18,-24.13,33.61,7.8,73.19
+P4b-EAR-3TD-PeakVol. Exact 3-Trading-Day Announcement Peak-Volume EAR Inside Sharpe Top-5 (NaN Last),63.07,56.91,55.8,67.97,106.22,1.242,1.312,1.207,-37.03,-28.48,35.34,7.18,63.78
+P4c-TrueSUE-Blend. 50/50 Rank Blend (12-1 Sharpe + True Dollar PIT SUE),42.39,42.71,35.49,46.35,-1.01,1.07,1.074,1.014,-40.05,-33.48,21.23,6.98,66.67
+P4d-EAR3TD-Blend. 50/50 Rank Blend (12-1 Sharpe + Exact 3-Trading-Day EAR),22.34,18.19,19.77,30.91,87.66,0.698,0.691,0.638,-48.07,-43.76,7.5,8.83,59.49

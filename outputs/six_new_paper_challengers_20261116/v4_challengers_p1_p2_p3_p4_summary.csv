@@ -1,16 +1,21 @@
-Challenger_Variant,Full_214M_CAGR_%,Complete_213M_CAGR_%,Ex2026_09_25_CAGR_%,Pre2021_09_20_CAGR_%,Sharpe_214M,Sharpe_Ex2026,Daily_MaxDD_%,Monthly_MaxDD_%,DropBest5M_CAGR_%,DropBest10M_CAGR_%,Ann_TwoWay_Turnover,Trade_WinRate_%
-"0. Frozen V4 Baseline (12-1 Sharpe, Top-2 / Hold<=5)",59.65,59.87,50.38,50.55,1.426,1.354,-37.32,-27.99,46.43,37.55,7.0,70.16
-P1a-FIP-Top5Tie. Pick Top-2 Most Continuous Daily Winners (%pos-%neg) Inside Sharpe Top-5,45.41,45.4,38.69,42.31,1.247,1.158,-38.85,-34.99,34.7,27.67,7.85,67.14
-P1b-FIP-Blend. 50/50 Rank Blend (12-1 Sharpe + Daily FIP Continuity),28.76,28.68,21.58,20.87,0.956,0.806,-46.31,-38.08,19.92,14.27,7.08,61.9
-P1c-SmoothSharpe. 12-1 Sharpe Excluding Top-5 Largest Daily Jump Spikes,46.41,46.4,38.01,38.53,1.253,1.183,-38.55,-29.32,34.21,26.97,7.25,66.67
-P2a-52WHigh-Top5Tie. Pick Top-2 Closest to 52-Week High (P_t/High_252) Inside Sharpe Top-5,35.47,35.54,27.27,25.51,1.02,0.942,-37.03,-28.48,24.35,17.87,7.39,65.91
-P2b-52WHigh-Blend. 50/50 Rank Blend (12-1 Sharpe + 52-Week High Proximity),13.06,13.03,8.43,8.74,0.531,0.399,-36.83,-33.05,5.93,1.8,14.19,53.44
-P2c-52WHigh-Pure. Pure 52-Week High Proximity Ranking (George & Hwang 2004),7.47,7.42,5.82,6.91,0.388,0.321,-57.45,-55.06,3.45,0.19,18.54,55.65
-P3a-VolLow-Top5Tie. Pick Top-2 Lowest 3M/12M Volume Ratio (Early Underreaction) Inside Sharpe Top-5,32.34,32.03,29.09,31.75,1.09,1.033,-31.76,-23.83,23.59,17.3,9.86,62.09
-P3b-VolHigh-Top5Tie. Pick Top-2 Highest 3M/12M Volume Ratio (Breakout Volume) Inside Sharpe Top-5,58.79,59.0,48.73,48.78,1.373,1.327,-37.32,-27.99,44.69,36.33,7.44,61.36
-P3c-VolLow-Blend. 50/50 Rank Blend (12-1 Sharpe + Low 3M/12M Volume Ratio),25.09,24.8,22.63,24.05,0.78,0.731,-37.99,-31.1,14.26,8.15,10.62,58.76
-P3d-VolHigh-Blend. 50/50 Rank Blend (12-1 Sharpe + High 3M/12M Volume Ratio),42.6,42.72,35.87,33.75,1.079,1.015,-59.6,-58.56,30.7,22.56,7.59,62.41
-P4a-SUE-Top5Tie. Pick Top-2 Highest PIT Quarterly SUE Inside Sharpe Top-5,65.23,65.47,57.38,56.63,1.263,1.221,-37.68,-27.99,46.46,37.03,7.48,69.92
-P4b-EAR3d-Top5Tie. Pick Top-2 Highest 3-Day Filing Abnormal Return (EAR) Inside Sharpe Top-5,49.38,49.39,39.63,43.57,1.26,1.21,-31.39,-24.46,36.91,29.75,7.59,64.93
-P4c-SUE-Blend. 50/50 Rank Blend (12-1 Sharpe + PIT Quarterly SUE),49.41,49.56,41.77,39.69,1.271,1.175,-40.4,-36.83,38.06,30.01,6.42,65.49
-P4d-EAR3d-Blend. 50/50 Rank Blend (12-1 Sharpe + PIT 3-Day Filing EAR),25.68,25.61,21.5,14.67,0.89,0.804,-45.65,-40.64,17.95,12.29,8.98,60.12
+Challenger_Variant,Full_214M_CAGR_%,Ex2020_11_CAGR_%,Ex2026_09_25_CAGR_%,Era2012_26_CAGR_%,Nov2020_Ret_%,Sharpe_214M,Sharpe_Ex2020_11,Sharpe_Ex2026,Daily_MaxDD_%,Monthly_MaxDD_%,DropBest10M_CAGR_%,Ann_TwoWay_Turnover,Trade_WinRate_%
+"0. Frozen V4 Baseline (12-1 Sharpe, Top-2 / Hold<=5)",59.65,57.64,50.38,66.17,30.19,1.426,1.402,1.354,-37.32,-27.99,37.55,7.0,70.16
+P1a-FIP-Top5Tie. Pick Top-2 Most Continuous Daily Winners (%pos-%neg) Inside Sharpe Top-5,45.41,43.68,38.69,49.43,27.55,1.247,1.221,1.158,-38.85,-34.99,27.67,7.85,67.14
+P1b-FIP-Blend. 50/50 Rank Blend (12-1 Sharpe + Daily FIP Continuity),28.76,27.07,21.58,30.68,29.13,0.956,0.924,0.806,-46.31,-38.08,14.27,7.08,61.9
+P1c-SmoothSharpe. 12-1 Sharpe Excluding Top-5 Largest Daily Jump Spikes,46.41,44.51,38.01,51.85,30.19,1.253,1.227,1.183,-38.55,-29.32,26.97,7.25,66.67
+P2a-52WHigh-Top5Tie. Pick Top-2 Closest to 52-Week High (P_t/High_252) Inside Sharpe Top-5,35.47,33.66,27.27,39.14,30.19,1.02,0.991,0.942,-37.03,-28.48,17.87,7.39,65.91
+P2b-52WHigh-Blend. 50/50 Rank Blend (12-1 Sharpe + 52-Week High Proximity),13.06,12.83,8.43,16.56,4.79,0.531,0.522,0.399,-36.83,-33.05,1.8,14.19,53.44
+P2c-52WHigh-Pure. Pure 52-Week High Proximity Ranking (George & Hwang 2004),7.47,7.02,5.82,4.93,8.38,0.388,0.366,0.321,-57.45,-55.06,0.19,18.54,55.65
+P3a-VolLow-Top5Tie. Pick Top-2 Lowest 3M/12M Volume Ratio (Early Underreaction) Inside Sharpe Top-5,40.79,35.38,33.82,41.17,106.22,1.02,1.131,0.932,-30.57,-22.17,20.37,9.69,62.36
+P3b-VolHigh-Top5Tie. Pick Top-2 Highest 3M/12M Volume Ratio (Breakout Volume) Inside Sharpe Top-5,63.83,57.65,53.69,67.43,106.22,1.274,1.358,1.195,-37.32,-27.99,36.74,7.44,62.12
+P3c-VolLow-Blend. 50/50 Rank Blend (12-1 Sharpe + Low 3M/12M Volume Ratio),20.49,16.75,17.67,21.1,77.75,0.694,0.683,0.629,-41.46,-37.24,6.16,10.92,59.0
+P3d-VolHigh-Blend. 50/50 Rank Blend (12-1 Sharpe + High 3M/12M Volume Ratio),43.79,41.98,37.05,55.21,29.0,1.108,1.081,1.048,-59.6,-58.56,23.62,7.65,63.43
+P4a-TrueSUE-NaNLast. True Dollar SUE Inside Sharpe Top-5 (Missing SUE = NaN Ranked Last),56.11,54.63,46.2,56.3,22.85,1.375,1.353,1.343,-37.32,-27.99,34.78,7.83,64.54
+P4a-TrueSUE-CSMedian. True Dollar SUE Inside Sharpe Top-5 (Missing SUE = Universe Median),51.3,49.85,41.76,52.36,22.85,1.295,1.272,1.256,-37.32,-27.99,30.94,8.06,64.83
+P4a-TrueSUE-PreFilter. True Dollar SUE Inside Sharpe Top-5 (Pre-Filter Eligible Pool to Valid SUE),48.69,47.25,39.37,52.58,22.85,1.258,1.235,1.22,-37.32,-27.99,28.51,7.33,63.85
+"P4a-TrueSUE-ZeroFill. True Dollar SUE Inside Sharpe Top-5 (Missing SUE = 0.0, Audit Comparison)",56.27,54.79,46.35,56.49,22.85,1.379,1.356,1.347,-37.32,-27.99,34.93,7.82,64.54
+P4a-Old9f84929-BugRef. Old `filed_eps_diluted` Timestamp Bug + 0.0 Fill (Audit Reference Only),65.23,59.0,57.38,72.31,106.22,1.263,1.332,1.221,-37.68,-27.99,37.03,7.48,69.92
+P4b-EAR-3TD-Filing. Exact 3-Trading-Day [tau-1..tau+1] Filing EAR Inside Sharpe Top-5 (NaN Last),59.14,53.11,51.81,63.6,106.22,1.219,1.302,1.19,-34.18,-24.13,33.61,7.8,73.19
+P4b-EAR-3TD-PeakVol. Exact 3-Trading-Day Announcement Peak-Volume EAR Inside Sharpe Top-5 (NaN Last),63.07,56.91,55.8,67.97,106.22,1.242,1.312,1.207,-37.03,-28.48,35.34,7.18,63.78
+P4c-TrueSUE-Blend. 50/50 Rank Blend (12-1 Sharpe + True Dollar PIT SUE),42.39,42.71,35.49,46.35,-1.01,1.07,1.074,1.014,-40.05,-33.48,21.23,6.98,66.67
+P4d-EAR3TD-Blend. 50/50 Rank Blend (12-1 Sharpe + Exact 3-Trading-Day EAR),22.34,18.19,19.77,30.91,87.66,0.698,0.691,0.638,-48.07,-43.76,7.5,8.83,59.49

@@ -1,6 +1,10 @@
-TQQQ_Challenger_Variant,Full_10_26_CAGR_%,Ex2026_10_25_CAGR_%,Daily_Sharpe_rf0,Daily_MaxDD_%,Monthly_MaxDD_%,Total_Switches
-0. Frozen V1-Daily Baseline (SEP + Vol_Z 1.2/0.3 + Open NSL),54.89,54.43,1.259,-44.54,-30.17,33
-P5a-EBP. De-lever 3x->1x (NSL) when Lagged Fed EBP > +0.50% or Vol_Z > 1.2,51.82,51.21,1.246,-37.24,-28.36,35
-P5b-EBP. Exit to Cash when Lagged Fed EBP > +0.75% (Severe Credit Freeze),49.87,49.16,1.186,-57.08,-49.75,36
-P6a-VRP. De-lever 3x->1x (NSL) when Bollerslev VRP = IV^2 - RV^2 < -0.015,44.09,43.9,1.16,-44.66,-37.42,61
-P6b-VRP. Faster Re-entry 1x->3x when VRP_Z > +1.0 (High Implied Fear Premium),54.89,54.43,1.259,-44.54,-30.17,33
+TQQQ_Challenger_Variant,Full_10_26_CAGR_%,Ex2026_10_25_CAGR_%,Daily_Sharpe_rf0,Daily_MaxDD_%,LiveEra_16_26_CAGR_%,LiveEra_16_26_Sharpe,LiveEra_16_26_MaxDD_%,Monthly_MaxDD_%,Total_Switches
+0. Frozen V1-Daily Baseline (SEP + Vol_Z 1.2/0.3 + Open NSL),54.89,54.43,1.259,-44.54,64.09,1.434,-37.22,-30.17,33
+P5a-LiveEraOnly. Fed EBP > +0.50% Active ONLY in Live Publication Era (>= 2016-11),52.05,51.45,1.225,-44.54,59.1,1.378,-37.22,-30.17,33
+P5b-BackfilledRef. Fed EBP > +0.50% Using Backfilled 2010-2016 Series (Audit Reference),51.82,51.21,1.246,-37.24,59.1,1.378,-37.22,-28.36,35
+P5c-RealTime-HY-OAS. Unrevised Daily FRED High-Yield OAS Z-Score > 1.2 (2010-2026 Real-Time),54.42,53.94,1.253,-44.54,63.27,1.422,-37.22,-30.17,33
+P6a-VRP-NDX-Matched. Nasdaq-100 Matched VRP = (VXN/100)^2 - RV21_QQQ^2 < -0.015 (with NSL),51.82,50.82,1.172,-44.94,59.63,1.323,-44.66,-35.02,36
+P6b-VRP-NDX-ZScore. Nasdaq-100 Matched VRP_NDX_Z < -1.2 De-lever / > -0.3 Re-lever (with NSL),49.84,48.68,1.047,-67.4,60.54,1.174,-67.4,-48.71,51
+P6c-VRP-SPX-Matched. S&P 500 Matched VRP = (VIX/100)^2 - RV21_SPY^2 < -0.015 (with NSL),47.41,46.21,1.04,-69.92,61.98,1.212,-69.92,-49.12,37
+P6d-VRP-SPX-ZScore. S&P 500 Matched VRP_SPX_Z < -1.2 De-lever / > -0.3 Re-lever (with NSL),50.89,49.69,1.075,-67.4,60.97,1.17,-67.4,-48.71,34
+P6e-VRP-NDX-Reentry. Standard Vol_Z > 1.2 Exit + Faster Re-entry when VRP_NDX_Z > +1.0,55.12,54.67,1.243,-44.54,64.09,1.434,-37.22,-30.17,33
