@@ -1,0 +1,5 @@
+Variant,Full_214M_CAGR_%,Sharpe,Monthly_MaxDD_%,Ex2026_09_25_CAGR_%
+"0. Frozen V4 Baseline (SEP Routing Only, Zero Patch)",59.65,1.426,-27.99,50.38
+V2a. Daniel & Moskowitz (2016) Panic Overlay (50% Cash in Bear Rebound),60.11,1.441,-27.99,50.83
+V2b. Barroso & Santa-Clara (2015) Vol-Targeted Momentum (c=25% in SEP=ON),55.98,1.425,-27.99,46.75
+V2c. Combined DM Panic + Barroso Vol Target,56.58,1.442,-27.99,47.35

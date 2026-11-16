@@ -8,10 +8,12 @@ Note: NDX 'year' file for t.year > last file reuses the last file's Jan-1 list +
 NDX: rows=21899 | both-valid=21196 | panel-only=99 | mine-only=0 | |dmom|>1e-6: 8 | |dhold|>1e-6: 722 (max 0.1557)
 SPX(OFF months): rows=19120 | both-valid=18630 | panel-only=0 | mine-only=0 | |dmom|>1e-6: 0 | |dhold|>1e-6: 133 (max 0.0484)
 
-=== PART C: independent re-implementation ===
-My code on panel features vs official ledger: QQQ pick mismatches=0, BestSec pick mismatches=0, max |net diff|=1.40e-06 (months > 1bp: 0)
-  My code 214M: CAGR=60.7764% Sharpe=1.444 MonthlyMDD=-27.99%  (official: 60.78% / 1.444 / -27.99%)
-V4 on features recomputed from raw files (no flat-price filter): CAGR=60.6770% Sharpe=1.441 MDD=-27.99% | ON-month QQQ pick-set differences vs panel: 3
+=== PART C: independent re-implementation (Default V4 No-ER and V4 + ER) ===
+My code on panel features vs official Default V4 (No ER) ledger: max |net diff|=1.40e-06 | 214M CAGR=59.6538% Sharpe=1.426 MonthlyMDD=-27.99% (official Default V4: 59.65% / 1.426 / -27.99%)
+My code on panel features vs official V4+ER ledger: QQQ pick mismatches=0, BestSec pick mismatches=0, max |net diff|=1.40e-06 (months > 1bp: 0)
+  My code V4+ER 214M: CAGR=60.7764% Sharpe=1.444 MonthlyMDD=-27.99%  (official V4+ER: 60.78% / 1.444 / -27.99%)
+Default V4 (No ER) on features recomputed from raw files: CAGR=59.5551% Sharpe=1.423 MDD=-27.99%
+V4+ER on features recomputed from raw files (no flat-price filter): CAGR=60.6770% Sharpe=1.441 MDD=-27.99% | ON-month QQQ pick-set differences vs panel: 3
      ym     panel       raw
 2009-05 AMGN|VRTX AMGN|APOL
 2009-06 AMGN|VRTX AMGN|APOL
@@ -19,19 +21,30 @@ V4 on features recomputed from raw files (no flat-price filter): CAGR=60.6770% S
 
 === PART D: integrity of every invested position ===
 Invested stock-months: 422 | unique tickers: 82
-ret_flag of invested positions:
+Audited return flag breakdown (separating true M&A delistings from 2026-10-29 sample-end cutoff):
 flag
-open_open                  415
-delist_last_close            5
-open_open_via_wiki:SRCL      1
-close_proxy                  1
-Missing hold_ret (silently set to 0 by engine): 0
+open_open                     415
+delist_mna_last_close           3
+sample_end_cutoff_20261029      2
+open_open_via_wiki:SRCL         1
+close_proxy                     1
+True M&A / corporate reorganization exits (3 positions) + sample-end cutoff positions (2 positions):
+     ym ticker     leg                       flag  hold_ret                                                                                                                 corp_action_note
+2010-10   SRCL     QQQ    open_open_via_wiki:SRCL  0.022114                                                                                                                                 
+2013-06   VMED     QQQ      delist_mna_last_close  0.027190                Virgin Media acquired by Liberty Global (cash+stock merger completed 2013-06-07; exited at last pre-merger close)
+2019-03    FOX     QQQ      delist_mna_last_close -0.014893         21st Century Fox acquired by Disney / Fox Corp spin-off (completed 2019-03-19; exited at last pre-close trading session)
+2019-03   FOXA     QQQ      delist_mna_last_close -0.018566 21st Century Fox Class A acquired by Disney / Fox Corp spin-off (completed 2019-03-19; exited at last pre-close trading session)
+2020-01   ANSS     QQQ                close_proxy  0.083747                                                                                                                                 
+2026-10    MPC BestSec sample_end_cutoff_20261029  0.078063                             Active S&P 500 constituent; holding period truncated at 2026-10-29 sample cutoff date (NOT delisted)
+2026-10    VLO BestSec sample_end_cutoff_20261029 -0.023163                             Active S&P 500 constituent; holding period truncated at 2026-10-29 sample cutoff date (NOT delisted)
+Missing hold_ret: 0
 Price source of invested positions:
 src
 yahoo     329
 tiingo     75
 wiki       18
-Cross-vendor: positions with >=1 alternative vendor: 297/422; diff > 1%: 0; diff > 5%: 0
+Cross-vendor Open-to-Open: positions with >=1 alt vendor with open prices: 288/422; min_diff > 1%: 0; max_diff (across ALL alt vendors) > 1%: 0; max_diff > 5%: 0
+Cross-vendor Close-to-Close: positions with >=1 alt vendor: 297/422; min_diff > 1%: 0; max_diff (across ALL alt vendors) > 1%: 0; max_diff > 5%: 0
 Extreme position-months |r|>30%: 20
      ym ticker     leg    src      flag  hold_ret
 2011-10   GMCR     QQQ tiingo open_open -0.304770

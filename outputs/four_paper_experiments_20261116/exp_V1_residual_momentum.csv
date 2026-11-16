@@ -1,7 +1,7 @@
-Experiment_V1_Variant,Full_09_26_CAGR_%,Full_Sharpe,Full_MonthlyMaxDD_%,IS_09_20_CAGR_%,IS_09_20_Sharpe,OOS_21_26_CAGR_%,OOS_21_26_Sharpe,Verdict
-0. Frozen V4 Baseline: Standard 12-1 Sharpe (mom / vol),59.65,1.426,-27.99,50.55,1.392,80.15,1.508,BASELINE WINNER
-"0b. Raw 12-1 Momentum (mom, no vol scaling)",55.72,1.13,-47.46,37.94,0.88,99.83,1.65,"REJECTED (Sharpe drops 1.43 -> 1.13, MaxDD worsens to -47.5%)"
-V1a. Robeco CAPM Market-Residual Sharpe ([r_i - beta*r_m] / idio_vol),45.99,1.07,-29.4,35.56,0.89,70.06,1.48,"REJECTED (-13.66% CAGR, Sharpe drops 1.43 -> 1.07)"
-V1b. Robeco Jensen Alpha Information Ratio (252*alpha / idio_vol),42.27,1.23,-30.34,34.16,1.18,60.52,1.35,"REJECTED (-17.38% CAGR, Sharpe drops 1.43 -> 1.23)"
-V1c. Within-Pool/Sector Residual Sharpe ((mom - pool_mean) / vol),49.03,1.21,-45.07,36.3,1.03,79.08,1.53,"REJECTED (-10.62% CAGR, MaxDD worsens to -45.1%)"
-V1d. 50/50 Blend (Standard 12-1 Sharpe + Market-Residual Sharpe),61.3,1.25,-27.99,47.09,1.08,95.01,1.57,REJECTED on Sharpe (09-20 Sharpe drops 1.39 -> 1.08; Full Sharpe 1.43 -> 1.25)
+Variant,Full_214M_CAGR_%,Sharpe,Monthly_MaxDD_%,Ex2026_09_25_CAGR_%,Ex2026_Sharpe,DropBest5M_CAGR_%,Trade_WinRate_%
+0. Frozen V4 Baseline (12-1 Total Return Sharpe),59.65,1.426,-27.99,50.38,1.354,46.43,70.16
+V1a. 1-Factor CAPM Residual Sharpe (12-1M Daily OLS),51.25,1.309,-35.59,42.52,1.204,38.82,74.02
+V1b-FF3-12M. 3-Factor (MKT+SMB+HML) 12-1M Residual Sharpe,53.78,1.135,-28.48,44.39,1.046,36.69,70.87
+V1c-FF3-36M. 3-Factor (MKT+SMB+HML) 36M Beta + 12-1M Residual Sharpe (Blitz 2011),52.96,1.322,-29.91,43.78,1.239,40.35,68.99
+V1d. 50/50 Blend (Total Sharpe + FF3-12M Residual Sharpe),52.72,1.257,-34.31,43.04,1.189,39.1,68.99
+V1e. 50/50 Blend (Total Sharpe + FF3-36M Residual Sharpe),60.79,1.407,-27.99,51.5,1.33,47.41,70.63

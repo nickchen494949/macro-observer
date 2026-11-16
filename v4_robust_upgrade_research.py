@@ -147,7 +147,8 @@ def simulate(targets, cost=COST):
             else:
                 if (t, k_) not in RET:
                     missing += 1
-                rl[k_] = RET.get((t, k_), 0.0)
+                    raise ValueError(f"Missing hold_ret for invested stock {k_} at {t}")
+                rl[k_] = RET[(t, k_)]
         gross = sum(w[k_] * rl[k_] for k_ in w)
         keys = set(w) | set(prev)
         to = sum(abs(w.get(k_, 0) - prev.get(k_, 0)) for k_ in keys) if prev else sum(w.values())
@@ -216,17 +217,72 @@ for name, reg in REGIMES.items():
 say("Months OFF by regime: " + ", ".join(f"{k}={sum(not v[t] for t in MONTHS)}" for k, v in REGIMES.items()))
 say("trend10m OFF months by year: " + str(pd.Series([YM[t][:4] for t in MONTHS if not TREND_ON[t]]).value_counts().sort_index().to_dict()))
 
-# ---------------------------------------------------------------------------- 2. walk-forward
+# ---------------------------------------------------------------------------- 2. walk-forward (stateful single-account + spliced comparison)
 say("=== 2. Walk-forward parameter selection (expanding window, re-chosen each December) ===")
 CANDS = [(m, n, k) for m in ("sharpe", "mom") for n in (1, 2, 3) for k in range(n, 9)]
 say(f"candidate configs: {len(CANDS)}")
+
+
+def simulate_stateful_wf(chosen_by_year, reg, carry_buffers=True):
+    """
+    True stateful single-account walk-forward simulation (2012-01..2026-10):
+    - Maintains a single live portfolio with continuous drifted weights `prev_w` across all month and year boundaries.
+    - Charges full 10bp/side turnover cost whenever config changes at January open.
+    - If carry_buffers=True, carries the live account's own (hq, hb) buffers across year boundaries and applies the new
+      year's (metric, n, k) rule to those live buffers.
+    - If carry_buffers=False, adopts the chosen config's target weights and pays the exact switch turnover vs `prev_w`.
+    """
+    # Warm up buffers on 2009-2011 using the 2012 chosen config so 2012-01 starts from a realistic live state
+    init_m, init_n, init_k = chosen_by_year["2012"]
+    hq, hb = [], []
+    prev_w = {}
+    pre_targets = {c: sleeve_targets(*c, reg) for c in set(chosen_by_year.values())}
+    rows_wf = []
+    for t in MONTHS:
+        ym = YM[t]
+        year = ym[:4]
+        if ym < "2012-01":
+            m, n, k = init_m, init_n, init_k
+        else:
+            m, n, k = chosen_by_year[year]
+        hq = pick(RANK_Q[(m, t)], hq, k, n)
+        hb = pick(RANK_B[(m, t)], hb, k, n)
+        if carry_buffers or ym < "2012-01":
+            if reg[t]:
+                w = {tk: 1.0 / n for tk in hq}
+            else:
+                w = {tk: 0.5 / n for tk in hb}
+                w["CASH"] = 0.5
+        else:
+            w = pre_targets[(m, n, k)][t]
+        rl = {}
+        for k_ in w:
+            if k_ == "CASH":
+                rl[k_] = CASH[t]
+            else:
+                if (t, k_) not in RET:
+                    raise ValueError(f"Missing hold_ret for invested stock {k_} at {t}")
+                rl[k_] = RET[(t, k_)]
+        gross = sum(w[k_] * rl[k_] for k_ in w)
+        keys = set(w) | set(prev_w)
+        to = sum(abs(w.get(k_, 0) - prev_w.get(k_, 0)) for k_ in keys) if prev_w else sum(w.values())
+        net = (1 + gross) * (1 - COST * to) - 1
+        eq = 1 + gross
+        prev_w = {k_: w[k_] * (1 + rl[k_]) / eq for k_ in w}
+        if ym >= "2012-01":
+            rows_wf.append({"t": t, "ym": ym, "year": year, "cfg": f"{m}_top{n}_hold{k}",
+                            "gross": gross, "net": net, "to": to, "w": json.dumps(w)})
+    return pd.DataFrame(rows_wf)
+
+
 wf_rows = []
+wf_ledgers = {}
 for reg_name in ("SEP", "none"):
     reg = REGIMES[reg_name]
     sims = {c: simulate(sleeve_targets(*c, reg))[0].net.values for c in CANDS}
     rf = np.array([RF[t] for t in MONTHS])
     chosen = {}
-    wf_ret = np.full(len(MONTHS), np.nan)
+    wf_ret_spliced = np.full(len(MONTHS), np.nan)
     for i, t in enumerate(MONTHS):
         ym = YM[t]
         if ym < "2012-01":
@@ -237,28 +293,52 @@ for reg_name in ("SEP", "none"):
             best = max(CANDS, key=lambda c: (sims[c][past] - rf[past]).mean() / sims[c][past].std(ddof=1))
             chosen[year] = best
             wf_rows.append({"regime": reg_name, "year": year, "metric": best[0], "top_n": best[1], "hold_k": best[2]})
-        wf_ret[i] = sims[chosen[year]][i]
-    # note: switching configs at year-start ignores the one-off extra turnover of changing sleeves (small, 1x/yr)
-    mask = ~np.isnan(wf_ret)
-    r = wf_ret[mask]
+        wf_ret_spliced[i] = sims[chosen[year]][i]
+    mask = ~np.isnan(wf_ret_spliced)
     rr = rf[mask]
-    w = np.cumprod(1 + r)
-    c = w[-1] ** (12 / len(r)) - 1
-    s = (r - rr).mean() / r.std(ddof=1) * np.sqrt(12)
-    ww = np.concatenate([[1], w])
-    d = (ww / np.maximum.accumulate(ww) - 1).min()
+
+    # 1. True stateful single-account (continuous live buffers + full switch turnover cost)
+    df_wf_carry = simulate_stateful_wf(chosen, reg, carry_buffers=True)
+    r_carry = df_wf_carry["net"].values
+    w_carry = np.cumprod(1 + r_carry)
+    c_carry = w_carry[-1] ** (12 / len(r_carry)) - 1
+    s_carry = (r_carry - rr).mean() / r_carry.std(ddof=1) * np.sqrt(12)
+    ww_carry = np.concatenate([[1], w_carry])
+    d_carry = (ww_carry / np.maximum.accumulate(ww_carry) - 1).min()
+    wf_ledgers[f"{reg_name}_carry"] = df_wf_carry
+
+    # 2. True stateful single-account (target sleeve adoption + full switch turnover cost)
+    df_wf_adopt = simulate_stateful_wf(chosen, reg, carry_buffers=False)
+    r_adopt = df_wf_adopt["net"].values
+    w_adopt = np.cumprod(1 + r_adopt)
+    c_adopt = w_adopt[-1] ** (12 / len(r_adopt)) - 1
+    s_adopt = (r_adopt - rr).mean() / r_adopt.std(ddof=1) * np.sqrt(12)
+    ww_adopt = np.concatenate([[1], w_adopt])
+    d_adopt = (ww_adopt / np.maximum.accumulate(ww_adopt) - 1).min()
+
+    # 3. Spliced approximation (for reference)
+    r_sp = wf_ret_spliced[mask]
+    w_sp = np.cumprod(1 + r_sp)
+    c_sp = w_sp[-1] ** (12 / len(r_sp)) - 1
+    s_sp = (r_sp - rr).mean() / r_sp.std(ddof=1) * np.sqrt(12)
+    ww_sp = np.concatenate([[1], w_sp])
+    d_sp = (ww_sp / np.maximum.accumulate(ww_sp) - 1).min()
+
     fixed = sims[("sharpe", 2, 5)][mask]
     cf = np.prod(1 + fixed) ** (12 / len(fixed)) - 1
     ens = simulate(ens_targets[reg_name])[0].net.values[mask]
     ce = np.prod(1 + ens) ** (12 / len(ens)) - 1
     se = (ens - rr).mean() / ens.std(ddof=1) * np.sqrt(12)
-    # median over all candidate configs (what a random reasonable pick would give)
     allc = sorted(np.prod(1 + sims[cc][mask]) ** (12 / mask.sum()) - 1 for cc in CANDS)
-    say(f"[regime={reg_name}] 2012-01..2026-10 ({mask.sum()}m): WALK-FORWARD CAGR={c:.2%} Sharpe={s:.3f} MDD={d:.2%} | "
+    say(f"[regime={reg_name}] 2012-01..2026-10 ({mask.sum()}m): "
+        f"STATEFUL WF (continuous buffers) CAGR={c_carry:.2%} Sharpe={s_carry:.3f} MDD={d_carry:.2%} | "
+        f"STATEFUL WF (adopt sleeve + switch cost) CAGR={c_adopt:.2%} Sharpe={s_adopt:.3f} MDD={d_adopt:.2%} | "
+        f"Spliced approx CAGR={c_sp:.2%} Sharpe={s_sp:.3f} MDD={d_sp:.2%} | "
         f"fixed V4 config (hindsight) CAGR={cf:.2%} | V4.1 ensemble CAGR={ce:.2%} Sharpe={se:.3f} | "
         f"all-42-config CAGR median={np.median(allc):.2%}, 10th pct={np.percentile(allc, 10):.2%}, 90th pct={np.percentile(allc, 90):.2%}")
 WF = pd.DataFrame(wf_rows)
 WF.to_csv(os.path.join(OUT, "walk_forward_choices.csv"), index=False)
+wf_ledgers["SEP_carry"].to_csv(os.path.join(OUT, "walk_forward_stateful_sep_ledger.csv"), index=False)
 say("Walk-forward chosen configs:\n" + WF.to_string(index=False))
 
 # ---------------------------------------------------------------------------- outputs

@@ -1,0 +1,12 @@
+Variant,CAGR_%,Daily_MaxDD_%,Sharpe,Annual_Turnover_or_Switches
+"0. Frozen V1-Daily (Discrete Vol_Z 1.2/0.3 + Open NSL, 2010-2026)",54.89,-44.54,1.259,2.0
+"0b. Conservative Ref (Discrete Vol_Z 1.5/0.5 + Open NSL, 2010-2026)",53.74,-44.59,1.221,1.9
+"0c. Pure SEP (3x TQQQ in SEP=ON / Cash in SEP=OFF, 2010-2026)",53.74,-69.92,1.084,0.5
+T2-WF1. TRUE STATEFUL Walk-Forward Vol_Z (2012-2026 Continuous Account),56.38,-46.29,1.293,2.5
+T2-WF2. TRUE STATEFUL Walk-Forward Vol_Z (2012-2026 Fresh 2012 Start),56.38,-46.29,1.293,2.2
+T2-WF3. Spliced Approx Walk-Forward Vol_Z (2012-2026 Reference),56.97,-46.29,1.301,
+"T2a. Moreira & Muir (2017) Continuous Inv-Var (c=20%, Monthly Rebal)",30.76,-39.08,1.022,4.1
+"T2b. Moreira & Muir (2017) Continuous Inv-Var (c=20%, Daily Rebal)",28.5,-34.0,1.026,8.3
+"T2c. Moreira & Muir (2017) Continuous Inv-Vol (c=20%, Monthly Rebal)",26.83,-32.45,1.11,2.8
+"T2d. Equal Risk-Budget Matched Inv-Var (c=38%, MDD Matched ~-42%, Monthly)",52.39,-54.86,1.164,1.8
+"T2e. Equal Risk-Budget Matched Inv-Var (c=38%, MDD Matched ~-44%, Daily)",50.85,-43.96,1.18,3.1

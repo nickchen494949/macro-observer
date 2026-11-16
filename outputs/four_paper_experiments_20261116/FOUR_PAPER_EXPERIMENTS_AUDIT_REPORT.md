@@ -1,50 +1,65 @@
-# Complete Independent Audit Response: 4 Academic Paper Experiments (`T1`, `T2`, `V1`, `V2`) & Out-of-Sample / Outlier-Removal Verification (2026-11-16)
+# Complete Independent Audit Response: 4 Academic Paper Experiments (`T1`, `T2`, `V1`, `V2`), Stateful Walk-Forward, and Raw-Data Verification (2026-11-16)
 
-> **Standalone Scripts (Live on `main`)**:
-> - Four Paper Experiments & Sub-Period / Walk-Forward Audit: [`run_four_paper_experiments.py`](../../run_four_paper_experiments.py)
-> - From-Scratch Raw-Data V4 Rebuild (Zero Shared Panel Code): [`audit_v4_from_scratch.py`](../../audit_v4_from_scratch.py)
-> - Walk-Forward V4 & Pre-Registered 12-Sleeve Ensemble (`V4.1`): [`v4_robust_upgrade_research.py`](../../v4_robust_upgrade_research.py)
+> **Standalone Reproducible Scripts (Committed on `main`)**:
+> - Four Paper Experiments (`T1`, `T2`, `V1` FF3-12M/36M, `V2`) & Stateful Walk-Forward Audit: [`run_four_paper_experiments.py`](../../run_four_paper_experiments.py)
+> - Committed Daily FF3 Factor Series (`MKT`, `SMB`, `HML` for Clean Clone Reproducibility): [`ff3_daily_factors_2007_2026.csv`](./ff3_daily_factors_2007_2026.csv)
+> - From-Scratch Raw-Data V4 Rebuild (Both Default `No-ER` & `+ER`, Cross-Vendor `Open-to-Open` & `Max-Diff`): [`audit_v4_from_scratch.py`](../../audit_v4_from_scratch.py)
+> - Stateful Walk-Forward V4 & Pre-Registered 12-Sleeve Ensemble (`V4.1`): [`v4_robust_upgrade_research.py`](../../v4_robust_upgrade_research.py)
 > - Self-Contained V1-Daily TQQQ Engine: [`frozen_v1_tqqq_strategy.py`](../../frozen_v1_tqqq_strategy.py)
 > - V4 Independent Engine (Hard Error on Missing `hold_ret`): [`independent_v4_symmetric_sharpe_top2_audit.py`](../../independent_v4_symmetric_sharpe_top2_audit.py)
 
 ---
 
-## 1. Point-by-Point Remediation of the 5 Audit Findings
+## 1. Point-by-Point Remediation of All 6 Follow-Up Audit Items
 
-### Finding 1: Official FOMC SEP Timeline (`2012-01-25` Dots, `2015-09-17` Medians)
-- **Correction Applied**: Added the official **`2015-09-17`** FOMC SEP median projections (`2016` target year: `FFR = 1.4%`, `Core PCE = 1.7%`) to [`02_sep_alfred_medians.csv`](../expabc_independent_audit_20261104/02_sep_alfred_medians.csv).
-- **Verification**: Because Core PCE in both `2015-09-17` (`1.7%`) and `2015-12-16` (`1.6%`) was below `2.0%`, `SEP = ON` remained unchanged. All 9 historical `SEP` state transitions (`2021-09-22` to `2026-06-17`) rely strictly on real-time 2:00 PM ET FOMC SEP releases.
+### Item 1: Full Reproducible `FF3` (`12-1M` & `36M` Blitz 2011) Code & CSV in `run_four_paper_experiments.py`
+- **Fix Applied**: Embedded the complete per-stock daily OLS regression (`add_ff3_residual`) for **1-Factor CAPM**, **3-Factor Fama-French (`MKT + SMB + HML`, `12-1M` window)**, **3-Factor 36-Month Rolling Regression (`V1c-FF3-36M`, Blitz, Huij & Martens 2011)**, and **50/50 Blends (`V1d`, `V1e`)** directly inside [`run_four_paper_experiments.py`](../../run_four_paper_experiments.py), exported the factor series [`ff3_daily_factors_2007_2026.csv`](./ff3_daily_factors_2007_2026.csv), and regenerated [`exp_V1_residual_momentum.csv`](./exp_V1_residual_momentum.csv).
 
-### Finding 2: Removal of Silent `0.0` Fallback in `independent_v4_symmetric_sharpe_top2_audit.py` & Raw-Data Rebuild
-- **Code Fix**: Replaced `0.0 if pd.isna(r.hold_ret) else float(r.hold_ret)` in [`independent_v4_symmetric_sharpe_top2_audit.py`](../../independent_v4_symmetric_sharpe_top2_audit.py) with `get_verified_ret(t, tk)`, which **immediately raises a `ValueError` if any invested stock has a missing `hold_ret`**.
-- **From-Scratch Raw-Data Verification ([`audit_v4_from_scratch.py`](../../audit_v4_from_scratch.py))**: Rebuilt NDX/SPX membership from raw `nasdaq100_src/*.yaml` and `sp500_hist_components.csv` and recomputed `12-1` momentum, volatility, Sharpe, and open-to-open holding returns directly from raw vendor JSON/parquet files:
-  - Total invested stock-months (`2009-01 .. 2026-10`): **`422`** (`82` unique tickers).
-  - Missing `hold_ret` count among invested positions: **`0 / 422`** (`415` `open_open`, `5` `delist_last_close`, `1` `open_open_via_wiki:SRCL`, `1` `close_proxy`).
-  - Cross-vendor verification (`297 / 422` positions with $\ge 2$ independent data vendors): **`0` positions differ by `> 1%`**.
+### Item 2: True Stateful Single-Account Walk-Forward for `V1-Daily TQQQ` (`run_four_paper_experiments.py`)
+- **Fix Applied**: Replaced spliced annual return slices with a **true stateful single-account simulation** (`sim_stateful` inside `run_walk_forward_volz()`) that maintains one continuous live account state `(pos, eq, entry_eq)` across all day and year boundaries (`2012-01-03 .. 2026-11-03`) and charges the full `10bp/side` (`20bp` round-trip) Open switch cost whenever the newly selected year's `(trig, rec)` triggers a position switch:
+  - **True Stateful Walk-Forward (`2012–2026`, Continuous Account from 2010 Warmup)**: **CAGR = `56.38%`, Daily MaxDD = `-46.29%`, Sharpe = `1.293`** (`2.5` switches/yr).
+  - **True Stateful Walk-Forward (`2012–2026`, Fresh Account Start at `2012-01-03`)**: **CAGR = `56.38%`, Daily MaxDD = `-46.29%`, Sharpe = `1.293`** (`2.2` switches/yr).
+  - **Spliced Approximation (Reference)**: CAGR = `56.97%`, Daily MaxDD = `-46.29%`, Sharpe = `1.301` (`-0.59pp/yr` difference from true stateful execution).
 
-### Finding 3: V4 Concentration Analysis — Excluding 2026, Excluding 2020, and Dropping Best 5 / 10 Months
-Exported in [`v4_subperiod_and_outlier_removal_audit.csv`](./v4_subperiod_and_outlier_removal_audit.csv):
+### Item 3: True Stateful Single-Account Walk-Forward for `V4` (`v4_robust_upgrade_research.py`)
+- **Fix Applied**: Added `simulate_stateful_wf()` in [`v4_robust_upgrade_research.py`](../../v4_robust_upgrade_research.py) (exported to [`walk_forward_stateful_sep_ledger.csv`](../v4_robust_upgrade_20261115/walk_forward_stateful_sep_ledger.csv)), which maintains a single continuous live portfolio's drifted weights `prev_w` and buffers `(hq, hb)` across all month and year boundaries (`2012-01 .. 2026-10`) and charges the full `10bp/side` turnover cost when parameters change each January:
+  - **With `SEP` Overlay (`2012-01 .. 2026-10`, 178 Months)**:
+    - **Stateful Walk-Forward (Continuous Live Buffers + Switch Turnover Cost)**: **CAGR = `49.17%`, Sharpe = `1.269`, Monthly MaxDD = `-27.39%`**.
+    - **Stateful Walk-Forward (Adopt Target Sleeve + Full Switch Turnover Cost)**: **CAGR = `50.16%`, Sharpe = `1.296`, Monthly MaxDD = `-27.39%`**.
+    - **Spliced Approximation (Reference)**: CAGR = `50.21%`, Sharpe = `1.297`, Monthly MaxDD = `-27.39%`.
+  - **Without `SEP` Overlay (`regime=none`, `2012-01 .. 2026-10`, 178 Months)**:
+    - **Stateful Walk-Forward (Continuous Live Buffers)**: **CAGR = `40.98%`, Sharpe = `1.053`, Monthly MaxDD = `-40.70%`**.
+    - **Stateful Walk-Forward (Adopt Target Sleeve + Switch Cost)**: **CAGR = `41.91%`, Sharpe = `1.076`, Monthly MaxDD = `-40.70%`**.
 
-| Evaluation Window / Stress Test (`V4 Default: Hold <= 5, No Election Reset`) | Months | **CAGR** | **Sharpe** | **Monthly MaxDD** |
-| :--- | :---: | :---: | :---: | :---: |
-| **1. Full 214 Months (`2009-01 .. 2026-10`)** | `214` | **`59.65%`** | `1.466` *(rf=0)* / `1.426` *(ex-rf)* | `-27.99%` |
-| **2. Ex-2026: 17 Full Calendar Years (`2009-01 .. 2025-12`)** | `204` | **`50.38%`** | `1.394` | `-27.99%` |
-| **3. Pre-2021: First 12 Full Years (`2009-01 .. 2020-12`)** | `144` | **`50.55%`** | `1.408` | `-27.99%` |
-| **4. Post-2020 Ex-2026: 5 Full Years (`2021-01 .. 2025-12`)** | `60` | **`49.98%`** | `1.352` | **`-14.32%`** |
-| **5. Ex-2020 & Ex-2026 (16 Years, Dropping Both Best Years)** | `192` | **`44.89%`** | `1.387` | **`-19.43%`** |
-| **6. Drop Best 5 Months (Remaining 209 Months in Chronological Order)** | `209` | **`46.43%`** | `1.392` | `-27.99%` |
-| **7. Drop Best 10 Months (Remaining 204 Months in Chronological Order)** | `204` | **`37.55%`** | `1.270` | `-27.99%` |
-| **8. Walk-Forward Expanding-Window Parameter Selection (`2012-01 .. 2026-10`, 42 Configs)** | `178` | **`50.21%`** | `1.297` | `-27.39%` |
+### Item 4: Explicit Separation of True M&A Delistings (`3`) vs `2026-10-29` Sample-End Cutoff (`2`) in `audit_v4_from_scratch.py`
+- **Fix Applied**: Updated `hold_return()` and Part D in [`audit_v4_from_scratch.py`](../../audit_v4_from_scratch.py) (exported to [`D_invested_positions.csv`](../v4_from_scratch_audit_20261114/D_invested_positions.csv)) so that the `2026-10` positions (`MPC` and `VLO`, which are active S&P 500 constituents whose Oct 2026 holding period ended at the `2026-10-29` sample cutoff date `LAST_D1`) are explicitly flagged as `sample_end_cutoff_20261029`, separate from the `3` historical M&A/reorganization exits (`delist_mna_last_close`):
 
-> **Key Takeaway on Realistic V4 Expectations**:  
-> Excluding 2026 (`+308.5%` YTD driven by `WDC`/`STX`), `V4` delivered a remarkably consistent **`50.55%` CAGR in `2009–2020`** and **`49.98%` CAGR in `2021–2025`** (**`50.38%` across `2009–2025`**), and **`50.21%` under expanding-window walk-forward selection (`2012–2026`)**. Therefore, **`~45%–50%` (not `60%`)** is the realistic historical baseline before the 2026 outlier run.
+| Holding Month | Ticker | Leg | Audited Flag | Holding Return | Verified Corporate Action / Cutoff Reason |
+| :---: | :---: | :---: | :---: | :---: | :--- |
+| `2013-06` | `VMED` | `QQQ` | `delist_mna_last_close` | `+2.72%` | Virgin Media acquired by Liberty Global (cash+stock merger completed `2013-06-07`; exited at last pre-merger close) |
+| `2019-03` | `FOX` | `QQQ` | `delist_mna_last_close` | `-1.49%` | 21st Century Fox acquired by Disney / Fox Corp spin-off (completed `2019-03-19`; exited at last pre-close session) |
+| `2019-03` | `FOXA` | `QQQ` | `delist_mna_last_close` | `-1.86%` | 21st Century Fox Class A acquired by Disney / Fox Corp spin-off (completed `2019-03-19`; exited at last pre-close session) |
+| `2026-10` | `MPC` | `BestSec` | `sample_end_cutoff_20261029` | `+7.81%` | Active S&P 500 constituent; holding period truncated at `2026-10-29` sample cutoff (`NOT delisted`) |
+| `2026-10` | `VLO` | `BestSec` | `sample_end_cutoff_20261029` | `-2.32%` | Active S&P 500 constituent; holding period truncated at `2026-10-29` sample cutoff (`NOT delisted`) |
+
+### Item 5: Cross-Vendor `Open-to-Open` & `Max-Diff` Check + Default `V4 (No-ER)` in `audit_v4_from_scratch.py`
+- **Default `V4 (No Election Reset)` vs `V4 + ER` in Part C of [`audit_v4_from_scratch.py`](../../audit_v4_from_scratch.py)**:
+  - **Default `V4 (No ER)` on Panel Features**: **CAGR = `59.6538%`, Sharpe = `1.426`, Monthly MaxDD = `-27.99%`** (`0` pick mismatches, max `|net diff| = 1.40e-06` vs [`v4_symmetric_sharpe_top2_h5_v0_214m_ledger.csv`](../v4_symmetric_sharpe_top2_20261113/v4_symmetric_sharpe_top2_h5_v0_214m_ledger.csv)).
+  - **Default `V4 (No ER)` on Raw Recomputed Features**: **CAGR = `59.5551%`, Sharpe = `1.423`, Monthly MaxDD = `-27.99%`** (exported to [`C_my_ledger_v0_raw_features.csv`](../v4_from_scratch_audit_20261114/C_my_ledger_v0_raw_features.csv)).
+  - **`V4 + ER` on Panel / Raw Features**: **CAGR = `60.7764%` (panel) / `60.6770%` (raw), Sharpe = `1.444` / `1.441`**.
+- **Cross-Vendor `Open-to-Open` & Worst-Case `Max-Diff` Check ([`D_cross_vendor_check.csv`](../v4_from_scratch_audit_20261114/D_cross_vendor_check.csv))**:
+  - **Open-to-Open (`288 / 422` positions with $\ge 1$ alternative vendor having Open prices)**: `min_absdiff_oo > 1%`: **`0`**; **`max_absdiff_oo` (worst-case across ALL alternative vendors) `> 1%`**: **`0`** (`> 5%`: **`0`**).
+  - **Close-to-Close (`297 / 422` positions with $\ge 1$ alternative vendor)**: `min_absdiff > 1%`: **`0`**; **`max_absdiff_cc` (worst-case across ALL alternative vendors) `> 1%`**: **`0`** (`> 5%`: **`0`**).
+
+### Item 6: Removal of All Remaining `0.0` Fallbacks in `audit_v4_from_scratch.py` and `v4_robust_upgrade_research.py`
+- In [`audit_v4_from_scratch.py`](../../audit_v4_from_scratch.py), changed `run_v4(..., nan_ret=None)` default so any missing `hold_ret` immediately raises `ValueError`.
+- In [`v4_robust_upgrade_research.py`](../../v4_robust_upgrade_research.py), replaced `RET.get((t, k_), 0.0)` with a strict check that raises `ValueError` if `(t, k_) not in RET`. Both scripts execute with **`0` missing returns across all variants**.
 
 ---
 
-## 2. Remediated 4 Paper Experiments (`T1`, `T2`, `V1`, `V2`)
+## 2. Updated Summary Tables for All 4 Paper Experiments (`T1`, `T2`, `V1`, `V2`) & Sub-Periods
 
-### Experiment `T1`: Horizon-Matched `SEP Surprise` (`1Y Treasury DGS1` for Current-Year Dot, `1Y1Y Forward Rate 2*DGS2 - DGS1` for Next-Year Dot)
-Exported in [`exp_T1_horizon_matched_sep_surprise.csv`](./exp_T1_horizon_matched_sep_surprise.csv):
+### Experiment `T1`: Horizon-Matched `SEP Surprise` ([`exp_T1_horizon_matched_sep_surprise.csv`](./exp_T1_horizon_matched_sep_surprise.csv))
 
 | `T1` Variant (`2010-02-11 .. 2026-11-03` Real ETF, Next-Day Open + `10bp/side`) | Full `2010–2026` CAGR | Ex-2026 (`2010–2025`) CAGR | Daily MaxDD | Sharpe | Switches |
 | :--- | :---: | :---: | :---: | :---: | :---: |
@@ -52,21 +67,38 @@ Exported in [`exp_T1_horizon_matched_sep_surprise.csv`](./exp_T1_horizon_matched
 | **`T1a`. Horizon-Matched Dot vs Implied Rate (`DGS1` / `1Y1Y Fwd 2*DGS2-DGS1`)** | `42.50%` | `43.42%` | `-62.46%` | `1.021` | `28` |
 | **`T1b`. Baseline `SEP` + Positive Horizon-Matched Forward Rate Shock** | `54.20%` | `53.71%` | `-44.54%` | `1.243` | `33` |
 
-### Experiment `T2`: Out-of-Sample Walk-Forward `Vol_Z` Parameter Selection (`2012–2026`)
-- To eliminate hindsight bias in choosing `(1.2, 0.3)` vs `(1.5, 0.5)`, `run_walk_forward_volz()` re-selects `(Trig, Rec)` from the 24-cell grid (`Trig ∈ [1.0..2.0], Rec ∈ [0.0..0.5]`) at each December close (`2011–2025`) using **only expanding-window past Sharpe**, and holds that parameter pair for the following calendar year (`2012–2026`):
-  - **Out-of-Sample Walk-Forward `Vol_Z` (`2012–2026`)**: **CAGR = `56.97%`, Daily MaxDD = `-46.29%`, Sharpe = `1.301`** (confirming that `Vol_Z + NSL`'s drawdown reduction is not an artifact of picking `1.2/0.3` ex-post).
+### Experiment `T2`: Volatility Control, Equal Risk-Budget Scaling & Stateful Walk-Forward `Vol_Z` ([`exp_T2_volatility_managed_tqqq.csv`](./exp_T2_volatility_managed_tqqq.csv))
 
-### Experiment `V1`: Robeco 3-Factor Fama-French (`MKT + SMB + HML`, `12-1M` & `36M` Rolling Regression) Residual Momentum
-Exported in [`exp_V1_residual_momentum.csv`](./exp_V1_residual_momentum.csv):
+| `T2` Variant (`Next-Day Open + 10bp/side`) | CAGR | Daily MaxDD | Sharpe | Annual Switches / Turnover |
+| :--- | :---: | :---: | :---: | :---: |
+| **0. Frozen `V1-Daily` (`Discrete Vol_Z 1.2/0.3 + Open NSL`, `2010–2026`)** 🏆 | **`54.89%`** | **`-44.54%`** | **`1.259`** | `2.0 / yr` |
+| **0b. Conservative Ref (`Discrete Vol_Z 1.5/0.5 + Open NSL`, `2010–2026`)** | **`53.74%`** | **`-44.59%`** | **`1.221`** | `1.9 / yr` |
+| **0c. Pure `SEP` (`3x TQQQ` in `SEP=ON` / Cash in `SEP=OFF`, `2010–2026`)** | `53.74%` | `-69.92%` | `1.084` | `0.5 / yr` |
+| **`T2-WF1`. TRUE STATEFUL Walk-Forward `Vol_Z` (`2012–2026` Continuous Account)** | **`56.38%`** | **`-46.29%`** | **`1.293`** | `2.5 / yr` |
+| **`T2-WF2`. TRUE STATEFUL Walk-Forward `Vol_Z` (`2012–2026` Fresh 2012 Start)** | **`56.38%`** | **`-46.29%`** | **`1.293`** | `2.2 / yr` |
+| **`T2-WF3`. Spliced Approx Walk-Forward `Vol_Z` (`2012–2026` Reference)** | `56.97%` | `-46.29%` | `1.301` | — |
+| **`T2a`. Moreira & Muir (2017) Continuous Inv-Var (`c=20%`, Monthly Rebal)** | `30.76%` | `-39.08%` | `1.022` | `4.1x / yr` |
+| **`T2b`. Moreira & Muir (2017) Continuous Inv-Var (`c=20%`, Daily Rebal)** | `28.50%` | `-34.00%` | `1.026` | `8.3x / yr` |
+| **`T2c`. Moreira & Muir (2017) Continuous Inv-Vol (`c=20%`, Monthly Rebal)** | `26.83%` | `-32.45%` | `1.110` | `2.8x / yr` |
+| **`T2d`. Equal Risk-Budget Matched Inv-Var (`c=38%`, Monthly Rebal)** | `52.39%` | `-54.86%` | `1.164` | `1.8x / yr` |
+| **`T2e`. Equal Risk-Budget Matched Inv-Var (`c=38%`, Daily Rebal, MDD Matched `-43.96%`)** | `50.85%` | `-43.96%` | `1.180` | `3.1x / yr` |
 
-| `V1` Ranking Factor (`V4` Architecture Fixed: `Top-2 / Hold <= 5`, `SEP`, Open + `10bp/side`) | Full `2009–2026` CAGR | **Ex-2026 (`2009–2025`) CAGR** | **Full Sharpe (`09–25` Sharpe)** | **Monthly MaxDD** | **Drop-Best-5M CAGR** |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **0. Frozen `V4` Baseline (`12-1 Sharpe = mom / vol`)** 🏆 | **`59.65%`** | **`50.38%`** | **`1.426` (`1.350`)** | **`-27.99%`** | **`46.43%`** |
-| **`V1-CAPM` (`12-1M` Single-Factor Market-Residual Sharpe)** | `45.99%` | `39.12%` | `1.070` (`1.010`) | `-29.40%` | `35.10%` |
-| **`V1-FF3` (`12-1M` 3-Factor `MKT+SMB+HML` Residual Sharpe)** | `53.78%` | `44.39%` | `1.140` (`1.050`) | `-28.48%` | `36.69%` |
-| **`V1-FF3-36M` (`36M` 3-Factor Beta + `12-1M` Residual Sharpe, Blitz 2011)** | `52.96%` | `43.78%` | `1.320` (`1.240`) | `-29.91%` | `40.35%` |
-| **`V1-Blend-FF3` (`50% Standard 12-1 Sharpe + 50% FF3 Residual Sharpe`)** | `52.72%` | `43.03%` | `1.260` (`1.190`) | `-34.31%` | `39.10%` |
-| **`V1-Blend-CAPM` (`50% Standard 12-1 Sharpe + 50% CAPM Residual Sharpe`)** | `61.30%` | `48.15%` | `1.250` (`1.140`) | `-27.99%` | `44.12%` |
+### Experiment `V1`: Robeco 3-Factor Fama-French (`MKT + SMB + HML`, `12-1M` & `36M` Blitz 2011) Residual Momentum ([`exp_V1_residual_momentum.csv`](./exp_V1_residual_momentum.csv))
 
-> **Why `V1-FF3-36M` (Exact Blitz, Huij & Martens 2011 3-Factor 36M Regression) Beats 1-Factor CAPM (`52.96%` / Sharpe `1.32` vs `45.99%` / Sharpe `1.07`), Yet Still Trails `12-1 Sharpe` (`59.65%` / Sharpe `1.43`, or `50.38%` vs `43.78%` Ex-2026)**:  
-> Adding `SMB` and `HML` with a 36-month estimation window (`V1-FF3-36M`) significantly improves Residual Momentum compared to 1-factor CAPM (`Sharpe` rises from `1.07` to `1.32`), confirming the auditor's point that multi-factor specification matters! However, in a concentrated **Long-Only Top-2** portfolio during `SEP = ON` bull markets, stripping out Market and Growth factor returns still penalizes secular mega-cap compounders (`NVDA`, `TSLA`, `AVGO`), trailing standard `12-1 Sharpe` by `-6.6pp/yr` both in `2009–2025` (`43.78%` vs `50.38%`) and `2009–2026` (`52.96%` vs `59.65%`). Even `V1-Blend-CAPM` (`61.30%` full period) trails `V4` in `2009–2025` (`48.15%` vs `50.38%`) with lower Sharpe (`1.25` vs `1.43`).
+| `V1` Ranking Factor (`V4` Architecture Fixed: `Top-2 / Hold <= 5`, `SEP`, Open + `10bp/side`) | Full `2009–2026` CAGR | **Ex-2026 (`2009–2025`) CAGR** | **Full Sharpe (`09–25` Sharpe)** | **Monthly MaxDD** | **Drop-Best-5M CAGR** | **Trade Win Rate** |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **0. Frozen `V4` Baseline (`12-1 Total Return Sharpe`)** 🏆 | **`59.65%`** | **`50.38%`** | **`1.426` (`1.354`)** | **`-27.99%`** | **`46.43%`** | `70.16%` |
+| **`V1a`. 1-Factor CAPM Residual Sharpe (`12-1M` Daily OLS)** | `51.25%` | `42.52%` | `1.309` (`1.204`) | `-35.59%` | `38.82%` | `74.02%` |
+| **`V1b-FF3-12M`. 3-Factor (`MKT+SMB+HML`) `12-1M` Residual Sharpe** | `53.78%` | `44.39%` | `1.135` (`1.046`) | `-28.48%` | `36.69%` | `70.87%` |
+| **`V1c-FF3-36M`. 3-Factor (`MKT+SMB+HML`) `36M` Beta + `12-1M` Residual Sharpe (Blitz 2011)** | **`52.96%`** | **`43.78%`** | **`1.322` (`1.239`)** | **`-29.91%`** | **`40.35%`** | `68.99%` |
+| **`V1d`. 50/50 Blend (`Total Sharpe + FF3-12M Residual Sharpe`)** | `52.72%` | `43.04%` | `1.257` (`1.189`) | `-34.31%` | `39.10%` | `68.99%` |
+| **`V1e`. 50/50 Blend (`Total Sharpe + FF3-36M Residual Sharpe`)** | `60.79%` | `51.50%` | `1.407` (`1.330`) | `-27.99%` | `47.41%` | `70.63%` |
+
+### Experiment `V2`: Crash & Volatility Overlays on `V4` ([`exp_V2_crash_overlay.csv`](./exp_V2_crash_overlay.csv))
+
+| `V2` Variant (`2009-01 .. 2026-10`, Open + `10bp/side`) | Full `2009–2026` CAGR | Ex-2026 (`2009–2025`) CAGR | Sharpe | Monthly MaxDD |
+| :--- | :---: | :---: | :---: | :---: |
+| **0. Frozen `V4` Baseline (`SEP` Routing Only, Zero Patch)** 🏆 | **`59.65%`** | **`50.38%`** | **`1.426`** | **`-27.99%`** |
+| **`V2a`. Daniel & Moskowitz (2016) Panic Overlay (`50%` Cash in Bear Rebound)** | `60.11%` | `50.83%` | `1.441` | `-27.99%` |
+| **`V2b`. Barroso & Santa-Clara (2015) Vol-Targeted Momentum (`c=25%` in `SEP=ON`)** | `55.98%` | `46.75%` | `1.425` | `-27.99%` |
+| **`V2c`. Combined DM Panic + Barroso Vol Target** | `56.58%` | `47.35%` | `1.442` | `-27.99%` |

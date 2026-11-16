@@ -30,6 +30,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(ROOT, "research", "sector_stock_momentum", "data")
 INP = os.path.join(ROOT, "outputs", "pure_momentum_1985_2026_audit", "inputs")
 ETF = os.path.join(ROOT, "outputs", "remediation_full_audit_20261104", "tiingo_etfs")
+LEDGER_V0 = os.path.join(ROOT, "outputs", "v4_symmetric_sharpe_top2_20261113", "v4_symmetric_sharpe_top2_h5_v0_214m_ledger.csv")
 LEDGER_V3 = os.path.join(ROOT, "outputs", "v4_symmetric_sharpe_top2_20261113", "v4_symmetric_sharpe_top2_h5_v3_214m_ledger.csv")
 OUT = os.path.join(ROOT, "outputs", "v4_from_scratch_audit_20261114")
 os.makedirs(OUT, exist_ok=True)
@@ -144,14 +145,16 @@ def hold_return(df, t, d1_override=None):
     if d1 is not None and d1 in df.index:
         o0, o1 = df.at[d0, "o"], df.at[d1, "o"]
         if d1_override is not None and np.isfinite(o0):
-            return df.at[d1, "c"] / o0 - 1.0, "open_to_close_partial"
+            return df.at[d1, "c"] / o0 - 1.0, "sample_end_cutoff"
         if np.isfinite(o0) and np.isfinite(o1):
             return o1 / o0 - 1.0, "open_open"
         return df.at[d1, "c"] / df.at[d0, "c"] - 1.0, "close_close"
     seg = df["c"].loc[d0:]
     if len(seg) and (d1 is None or df.index.max() < d1):
         base = df.at[d0, "o"] if np.isfinite(df.at[d0, "o"]) else df.at[d0, "c"]
-        return seg.iloc[-1] / base - 1.0, "delisted_last_close"
+        if d1_override is not None:
+            return seg.iloc[-1] / base - 1.0, "sample_end_cutoff"
+        return seg.iloc[-1] / base - 1.0, "delist_mna_last_close"
     return np.nan, "unpriced"
 
 
@@ -258,7 +261,7 @@ def rank_pick(cands, held, k_hold, n_pick=2):
 
 
 def run_v4(ndx, spx, *, metric="sharpe", k_on=5, k_off=5, n_on=2, n_off=2, w_off_stock=0.50, cost=COST,
-           election=True, regime=True, sec_metric="mom", ret_col="hold_ret", nan_ret=0.0, start=None):
+           election=True, regime=True, sec_metric="mom", ret_col="hold_ret", nan_ret=None, start=None):
     """Monthly sim. ndx/spx: frames with t,ticker,<metric>,mom,<ret_col>,(clean_sector). Returns ledger DataFrame."""
     gq = {t: g for t, g in ndx.groupby("t")}
     gs = {t: g for t, g in spx.groupby("t")}
@@ -303,6 +306,8 @@ def run_v4(ndx, spx, *, metric="sharpe", k_on=5, k_off=5, n_on=2, n_off=2, w_off
                             v = hit.iloc[0]
                             break
                 if pd.isna(v):
+                    if nan_ret is None:
+                        raise ValueError(f"Missing hold_ret for invested stock {tk} at {t}")
                     v = nan_ret
                 rl[tk] = float(v)
         gross = sum(w[k] * rl[k] for k in w)
@@ -331,40 +336,56 @@ def stats(r, rf=None):
     return cagr, sh, mdd
 
 
-say("\n=== PART C: independent re-implementation ===")
+say("\n=== PART C: independent re-implementation (Default V4 No-ER and V4 + ER) ===")
 spx_off_cols = P_SPX[["t", "ticker", "mom", "sharpe", "hold_ret", "clean_sector"]]
 ndx_cols = P_NDX[["t", "ticker", "mom", "sharpe", "hold_ret"]]
-L_panel = run_v4(ndx_cols, spx_off_cols)  # panel features, my code
+LED0 = pd.read_csv(LEDGER_V0)
+L_panel_v0 = run_v4(ndx_cols, spx_off_cols, election=False)  # Default V4 (No Election Reset)
+L_panel = run_v4(ndx_cols, spx_off_cols, election=True)      # V4 + Election Reset
 LED["q"] = LED["q1"] + "|" + LED["q2"]
+m0 = L_panel_v0.merge(LED0[["ym", "net_ret", "q1", "q2", "bs1", "bs2", "sep_on"]], on="ym")
+c0, s0, d0_mdd = stats(L_panel_v0["net"], [RF[t] for t in MONTHS])
+say(f"My code on panel features vs official Default V4 (No ER) ledger: max |net diff|={(m0['net'] - m0['net_ret']).abs().max():.2e} | "
+    f"214M CAGR={c0:.4%} Sharpe={s0:.3f} MonthlyMDD={d0_mdd:.2%} (official Default V4: 59.65% / 1.426 / -27.99%)")
 m = L_panel.merge(LED[["ym", "net_ret", "q1", "q2", "bs1", "bs2", "sep_on"]], on="ym")
 used_q = m["sep_on_x"] & ~m["ym"].isin(["2010-12", "2018-12", "2022-12"])
 pick_mismatch = (used_q & (m["q"] != m["q1"] + "|" + m["q2"])).sum()
 off_m = ~m["sep_on_x"] & ~m["ym"].isin(["2010-12", "2018-12", "2022-12"])
 pick_mismatch_b = (off_m & (m["b"] != m["bs1"] + "|" + m["bs2"])).sum()
 ret_gap = (m["net"] - m["net_ret"]).abs()
-say(f"My code on panel features vs official ledger: QQQ pick mismatches={pick_mismatch}, BestSec pick mismatches={pick_mismatch_b}, "
+say(f"My code on panel features vs official V4+ER ledger: QQQ pick mismatches={pick_mismatch}, BestSec pick mismatches={pick_mismatch_b}, "
     f"max |net diff|={ret_gap.max():.2e} (months > 1bp: {(ret_gap > 1e-4).sum()})")
 c, s_, d = stats(L_panel["net"], [RF[t] for t in MONTHS])
-say(f"  My code 214M: CAGR={c:.4%} Sharpe={s_:.3f} MonthlyMDD={d:.2%}  (official: 60.78% / 1.444 / -27.99%)")
+say(f"  My code V4+ER 214M: CAGR={c:.4%} Sharpe={s_:.3f} MonthlyMDD={d:.2%}  (official V4+ER: 60.78% / 1.444 / -27.99%)")
 if (ret_gap > 1e-4).any():
     say("  Months with >1bp net diff:\n" + m.loc[ret_gap > 1e-4, ["ym", "net", "net_ret"]].to_string(index=False))
 
-# Selection on MY recomputed features
+# Selection on MY recomputed features (both Default No-ER and +ER)
 ndx_x = NX[["t", "ticker", "mom_x", "sharpe_x", "hr_x"]].rename(columns={"mom_x": "mom", "sharpe_x": "sharpe", "hr_x": "hold_ret"})
 spx_x = SX[["t", "ticker", "mom_x", "sharpe_x", "hr_x", "clean_sector"]].rename(columns={"mom_x": "mom", "sharpe_x": "sharpe", "hr_x": "hold_ret"})
 spx_x = pd.concat([spx_x, spx_off_cols[~spx_off_cols["t"].isin(set(spx_x["t"]))]], ignore_index=True)
-L_raw = run_v4(ndx_x, spx_x)
+L_raw_v0 = run_v4(ndx_x, spx_x, election=False)
+c0_raw, s0_raw, d0_raw = stats(L_raw_v0["net"], [RF[t] for t in MONTHS])
+say(f"Default V4 (No ER) on features recomputed from raw files: CAGR={c0_raw:.4%} Sharpe={s0_raw:.3f} MDD={d0_raw:.2%}")
+L_raw = run_v4(ndx_x, spx_x, election=True)
 c2, s2, d2 = stats(L_raw["net"], [RF[t] for t in MONTHS])
 diff_q = (L_raw["q"] != L_panel["q"]) & L_panel["sep_on"]
-say(f"V4 on features recomputed from raw files (no flat-price filter): CAGR={c2:.4%} Sharpe={s2:.3f} MDD={d2:.2%} | "
+say(f"V4+ER on features recomputed from raw files (no flat-price filter): CAGR={c2:.4%} Sharpe={s2:.3f} MDD={d2:.2%} | "
     f"ON-month QQQ pick-set differences vs panel: {diff_q.sum()}")
 if diff_q.any():
     say(pd.DataFrame({"ym": L_raw["ym"], "panel": L_panel["q"], "raw": L_raw["q"]})[diff_q].to_string(index=False))
+L_panel_v0.to_csv(os.path.join(OUT, "C_my_ledger_v0_panel_features.csv"), index=False)
+L_raw_v0.to_csv(os.path.join(OUT, "C_my_ledger_v0_raw_features.csv"), index=False)
 L_panel.to_csv(os.path.join(OUT, "C_my_ledger_panel_features.csv"), index=False)
 L_raw.to_csv(os.path.join(OUT, "C_my_ledger_raw_features.csv"), index=False)
 
 # ============================================================================= PART D: pick-level integrity
 say("\n=== PART D: integrity of every invested position ===")
+MNA_NOTES = {
+    ("2013-06", "VMED"): "Virgin Media acquired by Liberty Global (cash+stock merger completed 2013-06-07; exited at last pre-merger close)",
+    ("2019-03", "FOX"): "21st Century Fox acquired by Disney / Fox Corp spin-off (completed 2019-03-19; exited at last pre-close trading session)",
+    ("2019-03", "FOXA"): "21st Century Fox Class A acquired by Disney / Fox Corp spin-off (completed 2019-03-19; exited at last pre-close trading session)",
+}
 pos = []
 for r in L_panel.itertuples(index=False):
     for tk, wt in json.loads(r.w).items():
@@ -372,22 +393,36 @@ for r in L_panel.itertuples(index=False):
             continue
         src_panel = P_NDX if r.sep_on else P_SPX
         row = src_panel[(src_panel["t"] == r.t) & (src_panel["ticker"] == tk)].iloc[0]
+        raw_flag = row["ret_flag"]
+        if r.t == LAST_T:
+            audit_flag = "sample_end_cutoff_20261029"
+            corp_note = "Active S&P 500 constituent; holding period truncated at 2026-10-29 sample cutoff date (NOT delisted)"
+        elif raw_flag == "delist_last_close":
+            audit_flag = "delist_mna_last_close"
+            corp_note = MNA_NOTES.get((r.ym, tk), "Corporate action / delisting exit at last traded close")
+        else:
+            audit_flag = raw_flag
+            corp_note = ""
         pos.append({"ym": r.ym, "t": r.t, "ticker": tk, "w": wt, "leg": "QQQ" if r.sep_on else "BestSec",
-                    "src": row["src"], "sym": row["sym"], "flag": row["ret_flag"], "hold_ret": row["hold_ret"],
+                    "src": row["src"], "sym": row["sym"], "flag": audit_flag, "panel_raw_flag": raw_flag,
+                    "corp_action_note": corp_note, "hold_ret": row["hold_ret"],
                     "mom": row["mom"], "vol": row["vol"]})
 POS = pd.DataFrame(pos)
 say(f"Invested stock-months: {len(POS)} | unique tickers: {POS.ticker.nunique()}")
-say("ret_flag of invested positions:\n" + POS["flag"].value_counts().to_string())
-say(f"Missing hold_ret (silently set to 0 by engine): {POS['hold_ret'].isna().sum()}")
+say("Audited return flag breakdown (separating true M&A delistings from 2026-10-29 sample-end cutoff):\n" + POS["flag"].value_counts().to_string())
+say("True M&A / corporate reorganization exits (3 positions) + sample-end cutoff positions (2 positions):\n" +
+    POS[POS["flag"] != "open_open"][["ym", "ticker", "leg", "flag", "hold_ret", "corp_action_note"]].to_string(index=False))
+say(f"Missing hold_ret: {POS['hold_ret'].isna().sum()}")
 say("Price source of invested positions:\n" + POS["src"].value_counts().to_string())
 
-# cross-vendor check for every invested position: compare against every other available vendor series
+# cross-vendor check for every invested position: compare BOTH open_open and close_close against ALL available alternative vendors
 VENDORS = [("yahoo", None), ("tiingo", None), ("wiki", None), ("raw_ndx", None), ("archive", None)]
 xv = []
 for p in POS.itertuples(index=False):
     d0 = next_session(p.t)
     d1 = LAST_D1 if p.t == LAST_T else next_session(p.t + pd.offsets.MonthEnd(1))
-    alts = {}
+    alts_cc = {}
+    alts_oo = {}
     for src, _ in VENDORS:
         for sym in dict.fromkeys([p.ticker, p.ticker.replace(".", "-"), p.sym]):
             if src == p.src and sym == p.sym:
@@ -395,20 +430,44 @@ for p in POS.itertuples(index=False):
             df = load(src, sym)
             if df is None or d0 not in df.index or d1 not in df.index:
                 continue
-            a = df.at[d1, "c"] / df.at[d0, "c"] - 1
-            alts[f"{src}:{sym}"] = a
+            alts_cc[f"{src}:{sym}"] = float(df.at[d1, "c"] / df.at[d0, "c"] - 1)
+            if p.t == LAST_T and np.isfinite(df.at[d0, "o"]):
+                alts_oo[f"{src}:{sym}"] = float(df.at[d1, "c"] / df.at[d0, "o"] - 1)
+            elif np.isfinite(df.at[d0, "o"]) and np.isfinite(df.at[d1, "o"]):
+                alts_oo[f"{src}:{sym}"] = float(df.at[d1, "o"] / df.at[d0, "o"] - 1)
     own = load(p.src, p.sym)
-    own_cc = own.at[d1, "c"] / own.at[d0, "c"] - 1 if (own is not None and d0 in own.index and d1 in own.index) else np.nan
-    best = min(alts.items(), key=lambda kv: abs(kv[1] - own_cc)) if alts and np.isfinite(own_cc) else (None, np.nan)
-    xv.append({"ym": p.ym, "ticker": p.ticker, "src": f"{p.src}:{p.sym}", "own_close_close": own_cc, "alt": best[0],
-               "alt_close_close": best[1], "n_alt": len(alts), "hold_ret_open_open": p.hold_ret})
+    own_cc = float(own.at[d1, "c"] / own.at[d0, "c"] - 1) if (own is not None and d0 in own.index and d1 in own.index) else np.nan
+    own_oo = float(p.hold_ret)
+    best_cc = min(alts_cc.items(), key=lambda kv: abs(kv[1] - own_cc)) if alts_cc and np.isfinite(own_cc) else (None, np.nan)
+    worst_cc = max(alts_cc.items(), key=lambda kv: abs(kv[1] - own_cc)) if alts_cc and np.isfinite(own_cc) else (None, np.nan)
+    best_oo = min(alts_oo.items(), key=lambda kv: abs(kv[1] - own_oo)) if alts_oo and np.isfinite(own_oo) else (None, np.nan)
+    worst_oo = max(alts_oo.items(), key=lambda kv: abs(kv[1] - own_oo)) if alts_oo and np.isfinite(own_oo) else (None, np.nan)
+    xv.append({
+        "ym": p.ym, "ticker": p.ticker, "src": f"{p.src}:{p.sym}",
+        "hold_ret_open_open": own_oo,
+        "n_alt_oo": len(alts_oo),
+        "closest_alt_oo": best_oo[0], "closest_alt_open_open": best_oo[1],
+        "min_absdiff_oo": abs(own_oo - best_oo[1]) if np.isfinite(best_oo[1]) else np.nan,
+        "worst_alt_oo": worst_oo[0], "worst_alt_open_open": worst_oo[1],
+        "max_absdiff_oo": abs(own_oo - worst_oo[1]) if np.isfinite(worst_oo[1]) else np.nan,
+        "own_close_close": own_cc,
+        "n_alt": len(alts_cc),
+        "alt": best_cc[0], "alt_close_close": best_cc[1],
+        "absdiff": abs(own_cc - best_cc[1]) if np.isfinite(best_cc[1]) else np.nan,
+        "worst_alt_cc": worst_cc[0], "worst_alt_close_close": worst_cc[1],
+        "max_absdiff_cc": abs(own_cc - worst_cc[1]) if np.isfinite(worst_cc[1]) else np.nan,
+    })
 XV = pd.DataFrame(xv)
-XV["absdiff"] = (XV["own_close_close"] - XV["alt_close_close"]).abs()
 XV.to_csv(os.path.join(OUT, "D_cross_vendor_check.csv"), index=False)
-say(f"Cross-vendor: positions with >=1 alternative vendor: {(XV.n_alt > 0).sum()}/{len(XV)}; "
-    f"diff > 1%: {(XV.absdiff > 0.01).sum()}; diff > 5%: {(XV.absdiff > 0.05).sum()}")
-if (XV.absdiff > 0.01).any():
-    say(XV[XV.absdiff > 0.01].sort_values("absdiff", ascending=False).head(15).to_string(index=False))
+say(f"Cross-vendor Open-to-Open: positions with >=1 alt vendor with open prices: {(XV.n_alt_oo > 0).sum()}/{len(XV)}; "
+    f"min_diff > 1%: {(XV.min_absdiff_oo > 0.01).sum()}; max_diff (across ALL alt vendors) > 1%: {(XV.max_absdiff_oo > 0.01).sum()}; "
+    f"max_diff > 5%: {(XV.max_absdiff_oo > 0.05).sum()}")
+say(f"Cross-vendor Close-to-Close: positions with >=1 alt vendor: {(XV.n_alt > 0).sum()}/{len(XV)}; "
+    f"min_diff > 1%: {(XV.absdiff > 0.01).sum()}; max_diff (across ALL alt vendors) > 1%: {(XV.max_absdiff_cc > 0.01).sum()}; "
+    f"max_diff > 5%: {(XV.max_absdiff_cc > 0.05).sum()}")
+if (XV.max_absdiff_oo > 0.01).any():
+    say("Positions with Open-to-Open max vendor diff > 1%:\n" +
+        XV[XV.max_absdiff_oo > 0.01][["ym", "ticker", "src", "hold_ret_open_open", "worst_alt_oo", "worst_alt_open_open", "max_absdiff_oo"]].sort_values("max_absdiff_oo", ascending=False).head(15).to_string(index=False))
 ext = POS[POS["hold_ret"].abs() > 0.30].sort_values("hold_ret")
 say(f"Extreme position-months |r|>30%: {len(ext)}")
 say(ext[["ym", "ticker", "leg", "src", "flag", "hold_ret"]].to_string(index=False))
@@ -590,7 +649,7 @@ say(G.to_string(index=False, float_format=lambda v: f"{v:.3f}"))
 say("\n=== PART H: regime overlay sample size and Election Reset permutation ===")
 off = R[~R.sep_on]
 say(f"SEP=OFF months: {len(off)}; first={off.ym.min()} last={off.ym.max()}; years with any OFF: {sorted(off.ym.str[:4].unique())}")
-say("ALFRED SEP medians start 2015-12 => 2009-01..2015-11 regime is ON by construction (no signal).")
+say("Official FOMC SEP medians start 2015-09-17 (ALFRED archival series 2015-12) => 2009-01..2015-08 regime is ON by construction (no median published).")
 L_noreg = run_v4(ndx_cols, spx_off_cols, regime=False)
 Rm = R.copy()
 Rm["noreg"] = L_noreg["net"].values
