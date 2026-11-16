@@ -28,11 +28,13 @@
      - **2026-11 Live Holdings (V3)**: `25% SNDK + 25% VLO + 25% MRNA + 25% SGOV` (`SEP = OFF`).
 3. **Production Baseline (原版三腿正式主线)**:
    - **`BestSec_ModBurst_135_75_25_GateV1`** (Original `1.35x` — 214M CAGR `60.96%`, Sharpe `1.414`, Daily MaxDD `-34.63%`, MinMER `70.6%`)
-4. **Frozen V1 TQQQ Strategy (`SEP + 1Y Vol + NSL`, 2026-11-15)** — [`frozen_v1_tqqq_strategy.py`](./frozen_v1_tqqq_strategy.py), [`outputs/v1_tqqq_strategy_20261115/FROZEN_V1_TQQQ_STRATEGY_SPEC.md`](./outputs/v1_tqqq_strategy_20261115/FROZEN_V1_TQQQ_STRATEGY_SPEC.md):
-   - **Division of Labor**: `SEP = OFF` $\rightarrow$ **`100% Pure Cash (SGOV)`** (overrides `NSL`); `SEP = ON` $\rightarrow$ volatility switches strictly between **`3x TQQQ` and `1x QQQ`** with **`NSL` (Never Sell in Loss / 只止盈不割肉)**.
-   - **`V1-Monthly` (Monthly Ratio Rebalance)**: At each month-end $t$, target `TQQQ` ratio $w = \min(1.0, (k \cdot \sigma_{252} / \sigma_{21})^2)$ (`k=1.0` standard / `k=1.1` sweet spot) on `QQQ` daily returns, remainder $1-w$ in `1x QQQ`; only reduce `TQQQ` to `QQQ` when `TQQQ` is in profit (`NSL`). `2009–2026` CAGR **`55.9%–56.2%`**, Daily MaxDD **`-54.3%`** (vs Pure SEP `55.7%`, Daily MaxDD `-69.9%`), Sharpe **`1.16`**, **`2,745x–2,841x`**.
-   - **`V1-Daily` (Daily `1Y Vol_Z + NSL`)**: Daily `Vol_Z = (rvol_20 - mean_252) / std_252` on `QQQ`; `Vol_Z > 1.5` (`1.2` sweet spot) in profit $\rightarrow$ `1x QQQ`, `Vol_Z < 0.5` (`0.3` sweet spot) $\rightarrow$ `3x TQQQ`. `2009–2026` CAGR **`57.6%–57.7%`**, Daily MaxDD **`-48.3%`**, Sharpe **`1.21–1.23`**, **`3,361x–3,428x`** (`2010–2026` CAGR **`51.7%–52.7%`**, Daily MaxDD **`-43.5%`**).
-   - **2026-11 Live Holdings (`SEP = OFF`)**: **`100% SGOV`**.
+4. **Frozen V1-Daily TQQQ SEP Strategy (`SEP + Daily 1Y Vol_Z (1.2/0.3) + Open Limit NSL`, 2026-11-16)** — [`frozen_v1_tqqq_strategy.py`](./frozen_v1_tqqq_strategy.py), [`outputs/v1_tqqq_strategy_20261115/FROZEN_V1_TQQQ_STRATEGY_SPEC.md`](./outputs/v1_tqqq_strategy_20261115/FROZEN_V1_TQQQ_STRATEGY_SPEC.md):
+   - **3-Asset Rules (`TQQQ / QQQ / SGOV`, Next-Day Open `adjOpen` Execution + `10bp/side` Cost)**:
+     1. **`FOMC SEP = OFF` $\rightarrow$ `100% Pure Cash (SGOV/BIL)`** on next trading day open after FOMC announcement (overrides `NSL`).
+     2. **`FOMC SEP = ON` + De-lever (`3x TQQQ -> 1x QQQ`)**: When `Vol_Z = (rvol_20 - mean_252) / std_252 > 1.2` (on `QQQ`) **AND** `3x` position is in net profit after fees at Open (`Open Limit NSL`: never sell in loss), switch to `1x QQQ`.
+     3. **`FOMC SEP = ON` + Re-lever (`1x QQQ -> 3x TQQQ`)**: When `Vol_Z < 0.3`, switch `1x QQQ` back to `3x TQQQ` unconditionally on next day open.
+   - **100% Real ETF Performance (`2010-02-11 .. 2026-11-03`, Next-Day Open + `10bp/side`)**: Primary `1.2 / 0.3` achieves CAGR **`54.89%`** (`1,506.8x`, vs Pure SEP `53.74%` / `1,330.8x`), Daily MaxDD **`-44.54%`** (vs Pure SEP **`-69.92%`**, `-25.4pp` reduction), Sharpe **`1.259`** (vs `1.084`), Closed `3x` Legs Win Rate **`16 / 16 (100.0%)`**, sitting in the center of a 15-cell zero-cliff plateau (`Trig ∈ [1.0, 1.3], Rec ∈ [0.0, 0.7]`).
+   - **2026-11 Live Holdings (`SEP = OFF` since `2026-06-18`)**: **`100% SGOV`**.
 
 ---
 

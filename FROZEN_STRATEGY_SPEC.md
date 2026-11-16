@@ -24,11 +24,13 @@
    - **`A1-RS_ModBurst_135_75_25_GateV1_ElectionResetV3`**（简称 **`A1-RS 1.35x + V3 Election Reset`**，214M CAGR **`64.95%`**，Sharpe **`1.489`**）
 3. **原版三腿正式主线（Production Baseline）**：
    - **`BestSec_ModBurst_135_75_25_GateV1`**（原版 `1.35x`，214M CAGR `60.96%`，Sharpe `1.414`）
-4. **Frozen V1 TQQQ 指数杠杆策略（`SEP + 1Y Vol + NSL`，2026-11-15 冻结）** — [`frozen_v1_tqqq_strategy.py`](./frozen_v1_tqqq_strategy.py)、[`outputs/v1_tqqq_strategy_20261115/FROZEN_V1_TQQQ_STRATEGY_SPEC.md`](./outputs/v1_tqqq_strategy_20261115/FROZEN_V1_TQQQ_STRATEGY_SPEC.md)：
-   - **核心分工**：**`SEP = OFF` 切 `100% 纯现金 (SGOV)`**（无条件优先，不受 `NSL` 限制）；**`SEP = ON` 时波动率只在 `3x TQQQ` 与 `1x QQQ` 之间切换，并执行 `NSL`（只止盈不割肉）**。
-   - **`V1-Monthly`（月频比例调仓版）**：每月末用 `QQQ` 过去 1 年日收益标准差 $\sigma_{252}$ 与最近 21 天标准差 $\sigma_{21}$ 计算目标比例 $w = \min(1.0, (k \cdot \sigma_{252} / \sigma_{21})^2)$（标准版 $k=1.0$，甜点版 $k=1.1$），配 `w * TQQQ + (1-w) * QQQ`；仅在 `TQQQ` 处于盈利状态时按比例减仓至 `QQQ`（`NSL`）。`2009–2026` CAGR **`55.9%–56.2%`**，日频 MaxDD **`-54.3%`**（纯 SEP 为 `55.7%` / `-69.9%`），Sharpe **`1.16`**，总倍数 **`2,745x–2,841x`**。
-   - **`V1-Daily`（日频 `1年 Vol_Z + NSL` 版）**：日频计算 `QQQ` 的 `Vol_Z = (rvol_20 - mean_252) / std_252`；盈利状态下 `Vol_Z > 1.5`（甜点 `1.2`）切 `1x QQQ`，`Vol_Z < 0.5`（甜点 `0.3`）切回 `3x TQQQ`。`2009–2026` CAGR **`57.6%–57.7%`**，日频 MaxDD **`-48.3%`**，Sharpe **`1.21–1.23`**，总倍数 **`3,361x–3,428x`**（`2010–2026` CAGR **`51.7%–52.7%`**，日频 MaxDD **`-43.5%`**）。
-   - **2026 年 11 月实盘状态**：`SEP = OFF` $\rightarrow$ **`100% SGOV`**。
+4. **Frozen V1-Daily TQQQ SEP 指数杠杆策略（`SEP + Daily 1Y Vol_Z (1.2/0.3) + Open Limit NSL`，2026-11-16 审计通过冻结）** — [`frozen_v1_tqqq_strategy.py`](./frozen_v1_tqqq_strategy.py)（零外部缓存依赖，一键复现）、[`outputs/v1_tqqq_strategy_20261115/FROZEN_V1_TQQQ_STRATEGY_SPEC.md`](./outputs/v1_tqqq_strategy_20261115/FROZEN_V1_TQQQ_STRATEGY_SPEC.md)：
+   - **三大铁律（仅交易 `TQQQ / QQQ / SGOV`，严格次日开盘价 `adjOpen` 成交 + 双边 `10bp/side` 费用）**：
+     1. **`FOMC SEP = OFF` 切 `100% 纯现金 (SGOV/BIL)`**：FOMC 公布次日开盘执行（无条件优先，不受 `NSL` 限制）。
+     2. **`FOMC SEP = ON` 降杠杆（`3x TQQQ -> 1x QQQ`）**：当 `QQQ` 的 `Vol_Z = (rvol_20 - mean_252) / std_252 > 1.2` **且** `3x` 仓位在次日开盘扣费后仍处于盈利状态（`Open Limit NSL`：只止盈绝不割肉），切至 `1x QQQ`。
+     3. **`FOMC SEP = ON` 加杠杆（`1x QQQ -> 3x TQQQ`）**：当 `Vol_Z < 0.3` 时，不论 `1x QQQ` 盈亏，次日开盘立即换回 `3x TQQQ`。
+   - **100% 真实 ETF 实盘口径业绩（`2010-02-11 .. 2026-11-03`，次日开盘 + `10bp/side`）**：主推 **`1.2 / 0.3`** 年化 **`54.89%`**（总倍数 **`1,506.8x`**，跑赢纯 SEP 的 `53.74%` / `1,330.8x`），日频最大回撤 **`-44.54%`**（比纯 SEP 的 **`-69.92%`** 大幅收窄 `25.4 pp`），Sharpe **`1.259`**（纯 SEP `1.084`），已平仓 `3x` 胜率 **`16 / 16 (100.0%)`**，且位于 `Trig ∈ [1.0, 1.3], Rec ∈ [0.0, 0.7]` 连续 15 格零悬崖高原中心（回撤全部锁定在 `-44.54% ~ -46.29%`）。
+   - **2026 年 11 月实盘状态**：`SEP = OFF`（自 `2026-06-18` 开盘起） $\rightarrow$ **`100% SGOV`**。
 
 ---
 

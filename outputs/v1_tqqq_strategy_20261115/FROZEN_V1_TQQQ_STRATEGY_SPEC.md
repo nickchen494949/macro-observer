@@ -1,26 +1,32 @@
-# Frozen V1-Daily TQQQ Strategy — Complete Audit-Remediated Specification (`2010-02-11 .. 2026-11-03` 100% Real ETFs, Next-Day Open `adjOpen` + `10bp/side` + Open Limit NSL)
+# Frozen V1-Daily TQQQ SEP Strategy — Official Specification & Independent Audit Package (`Trig = 1.2 / Rec = 0.3`, `2010-02-11 .. 2026-11-03` 100% Real ETFs, Next-Day Open `adjOpen` + `10bp/side` + Open Limit NSL)
 
 > **100% Self-Contained Reproducible Engine (Zero Local Cache Dependencies)**: [`frozen_v1_tqqq_strategy.py`](../../frozen_v1_tqqq_strategy.py)  
 > **Summary Metrics CSV**: [`v1_tqqq_summary.csv`](./v1_tqqq_summary.csv)  
-> **Complete Trade Ledger (`1.5/0.5`, Exact FOMC Open + `10bp/side` + Open Limit NSL)**: [`v1_daily_trade_ledger_2009_2026.csv`](./v1_daily_trade_ledger_2009_2026.csv)  
-> **Sweet-Spot Trade Ledger (`1.2/0.3`, Exact FOMC Open + `10bp/side` + Open Limit NSL)**: [`v1_daily_sweetspot_trade_ledger_2009_2026.csv`](./v1_daily_sweetspot_trade_ledger_2009_2026.csv)  
+> **Primary Frozen Trade Ledger (`1.2/0.3`, `16/16 = 100%` Profitable `3x` Legs)**: [`v1_daily_trade_ledger_2009_2026.csv`](./v1_daily_trade_ledger_2009_2026.csv)  
 > **Exact FOMC SEP Meeting & Transition Table (`2015–2026`)**: [`fomc_sep_signal_verification_2008_2026.csv`](./fomc_sep_signal_verification_2008_2026.csv)  
-> **Parameter Sensitivity & Valid Zone Grid (`30 Configs`)**: [`v1_daily_parameter_grid_2009_2026.csv`](./v1_daily_parameter_grid_2009_2026.csv)
+> **30-Cell Parameter Plateau Grid**: [`v1_daily_parameter_grid_2009_2026.csv`](./v1_daily_parameter_grid_2009_2026.csv)
 
 ---
 
-## 1. Full External Audit Reconciliation (100% Bit-for-Bit Verified)
+## 1. Complete Strategy Rules (`Frozen V1-Daily TQQQ SEP Strategy`)
 
-Every finding from the independent audit of commit `a618dfa` has been incorporated and verified in [`frozen_v1_tqqq_strategy.py`](../../frozen_v1_tqqq_strategy.py):
+Only trades 3 ETFs (`TQQQ`, `QQQ`, `SGOV`/`BIL`), with signals evaluated at day $d-1$ close (`adjClose[d-1]`) and executed at day $d$ open (`adjOpen[d]`):
 
-| Independent Audit Item | Resolution in Current Commit | Independent Auditor Result vs Current Engine |
-| :--- | :--- | :--- |
-| **1. Zero-Dependency One-Click Reproduction** | Removed `break_signals_test.py` import and all gitignored local cache dependencies (`data/fred/`, `data/yahoo/`). Reads **only** git-tracked files: `tiingo_etfs/{QQQ,TQQQ,BIL,SGOV}.json`, `02_sep_alfred_medians.csv`, and `v3_regime_and_cash_214m.csv`. | Runs out-of-the-box in any fresh `git clone` (`python3 frozen_v1_tqqq_strategy.py`) |
-| **2. Next-Day Open (`adjOpen`) + `10bp/side` Cost (`2010-02-11 .. 2026-11-03` Real ETFs)** | Signal at day $d-1$ close (`adjClose[d-1]`); overnight return (`adjClose[d-1] -> adjOpen[d]`) on OLD asset; switch at $d$ Open (`adjOpen[d]`) minus `20bp` (`10bp/side`); intraday return (`adjOpen[d] -> adjClose[d]`) on NEW asset. | Blind Market-on-Open matches auditor's `53.09%` (Exact FOMC) and `51.25% / 51.73%` (Month-End SEP), MaxDD `-44.59%` |
-| **3. Exact FOMC SEP Release Date Execution** | Reconstructs all 9 FOMC SEP flips directly from `02_sep_alfred_medians.csv` (comparing same `target_year` median FFR and Core PCE vs previous meeting) and executes at **next trading day Open after FOMC release** (`2026-06-18` Open after `2026-06-17` FOMC). | Exact FOMC Next-Day Open + Open Limit NSL (`1.5/0.5`): **`53.74%` CAGR, `-44.59%` MaxDD, `15/15` Win Rate** |
-| **4. Default `Open Limit NSL` (`15/15 = 100%` Net Profitable `3x` Legs)** | Under `NSL` ("Never Sell in Loss"), a profit-trim order is a **Limit Order floored at cost basis + fee (`eq_at_open_post_cost >= entry_eq`)**. On `2018-10-26`, when an overnight earnings gap pushed the open below cost basis, the limit floor prevented selling at a loss; 4 trading days later on **`2018-11-02` Open**, TQQQ rebounded above cost basis while `Vol_Z = 2.65 > 1.5` and exited at **`+2.36%` net profit after fees** (`15/15 = 100%` in `1.5/0.5`, `16/16 = 100%` in `1.2/0.3`). | Default `Open Limit NSL` (`15/15`, `53.74%`) and reference blind Market-on-Open (`14/15`, `53.09%`) both reported |
-| **5. `2026-09-16` SEP Target Year Clarification** | In the `2026-09-16` SEP (`target_year = 2027`), the **2026** medians are `FFR = 4.1%, Core PCE = 3.4%`, while the **2027 (`target_year`)** medians are **`FFR = 4.1%` (up from `3.6%` in June) and `Core PCE = 2.5%` (vs `2.5%` in June)**. Since `SEP = OFF` was already triggered on `2026-06-17` (`2026` Core PCE `2.7% -> 3.3%`, FFR `3.4% -> 3.8%`) and `4.1% > 3.6%`, `SEP = OFF` remains active. | Verified in `fomc_sep_signal_verification_2008_2026.csv` |
-| **6. Parameter Sensitivity (`Rec <= 0.5` Valid Zone) & Equal-Footed Daily vs Monthly** | Documented the `Rec = 0.7` drawdown degradation (`-58.08%`) and restricted valid recovery threshold to **`Rec ∈ [0.0, 0.5]`**. Equal-footed Daily vs Monthly `Vol_Z` check confirms Daily beats Monthly (`51.89% / -44.59%` vs `50.07% / -58.08%`). | Full 30-cell grid exported in `v1_daily_parameter_grid_2009_2026.csv` |
+1. **Layer 1 — Macro Gate (`FOMC SEP` $\rightarrow$ `100% Pure Cash SGOV`)**:
+   - **Target Horizon**:
+     - **March & June (`month < 9`)**: Compare current-year (`YYYY`) FOMC SEP median Core PCE & Fed Funds Rate projections vs that same `target_year` in the previous SEP meeting.
+     - **September & December (`month >= 9`)**: Compare next-year (`YYYY + 1`) FOMC SEP median Core PCE & Fed Funds Rate projections vs that same `target_year` in the previous SEP meeting.
+   - **`EXIT (SEP = OFF)`**: `(c_rate > p_rate) and (c_pce > p_pce) and (c_pce > 2.0%)` $\rightarrow$ Next trading day open (`adjOpen`), switch **`100%` to Pure Cash (`SGOV`/`BIL`)** (unconditionally overrides `NSL`).
+   - **`ENTER (SEP = ON)`**: `(c_rate <= p_rate)` $\rightarrow$ Next trading day open (`adjOpen`), re-enter equity (`3x TQQQ` if `Vol_Z <= 1.2`, else `1x QQQ`).
+
+2. **Layer 2 — Daily Volatility Switch (`When SEP = ON` $\rightarrow$ `3x TQQQ` vs `1x QQQ`)**:
+   - On `QQQ` daily returns $r_{\text{QQQ}}$, compute 20-day annualized volatility $\text{rvol}_{20}(d)$ and its 252-day rolling mean $\mu_{252}(d)$ and std $\sigma_{252}(d)$:
+     $$\text{Vol\_Z}(d) = \frac{\text{rvol}_{20}(d) - \mu_{252}(d)}{\sigma_{252}(d)}$$
+   - **De-lever (`3x TQQQ` $\rightarrow$ `1x QQQ`, Profit-Only `Open Limit NSL`)**:
+     - When holding `3x TQQQ`, if $\text{Vol\_Z}(d-1) > \mathbf{1.2}$ **AND** the position is in net profit after transaction fees both at $d-1$ close and at $d$ open ($\text{Equity\_Open\_Post\_Fee}(d) \ge \text{Entry\_Equity}$), switch `100%` from `3x TQQQ` to **`1x QQQ`** at day $d$ Open.
+     - If underwater, hold `3x TQQQ` (never lock in a leveraged loss).
+   - **Re-lever (`1x QQQ` $\rightarrow$ `3x TQQQ`, Unconditional on Signal)**:
+     - When holding `1x QQQ`, as soon as $\text{Vol\_Z}(d-1) < \mathbf{0.3}$, switch `100%` from `1x QQQ` back to **`3x TQQQ`** at day $d$ Open (regardless of `1x QQQ` gain/loss, to re-lever at the bottom) and record new $\text{Entry\_Equity}$.
 
 ---
 
@@ -28,50 +34,65 @@ Every finding from the independent audit of commit `a618dfa` has been incorporat
 
 | Strategy Configuration (`2010-02-11 .. 2026-11-03` Real `TQQQ / QQQ / BIL / SGOV`) | **CAGR** | **Daily MaxDD** | **Sharpe** | **Multiple** | **Switches** | **Closed `3x` Legs Win Rate (Post-Cost)** |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **1. `V1-Daily` Standard (`1.5 / 0.5`) [DEFAULT: Exact FOMC + Open Limit NSL + `10bp`]** 🏆 | **`53.74%`** | **`-44.59%`** | **`1.221`** | **`1,331.1x`** | `31` | **`15 / 15` (`100.0%`)** |
-| **2. `V1-Daily` Sweet-Spot (`1.2 / 0.3`) [DEFAULT: Exact FOMC + Open Limit NSL + `10bp`]** 🏆 | **`54.89%`** | **`-44.54%`** | **`1.259`** | **`1,506.8x`** | `33` | **`16 / 16` (`100.0%`)** |
-| **3. `V1-Daily` Standard (`1.5 / 0.5`) — Month-End SEP Delay + Open Limit NSL + `10bp`** | `51.89%` | `-44.59%` | `1.191` | `1,087.2x` | `31` | **`15 / 15` (`100.0%`)** |
-| **4. `V1-Monthly` Equal-Footed `Vol_Z` (`1.5 / 0.5`) — Month-End SEP + Open Limit NSL + `10bp`** | `50.07%` | `-58.08%` | `1.123` | `888.4x` | `22` | `11 / 11` (`100.0%`) |
-| *5. [Ref] `V1-Daily` Standard (`1.5 / 0.5`) — Blind Market-on-Open (No Open Limit NSL)* | *`53.09%`* | *`-44.59%`* | *`1.212`* | *`1,239.9x`* | *`31`* | *`14 / 15` (`93.3%`)* |
+| **1. `V1-Daily` Primary Frozen (`1.2 / 0.3`) [Exact FOMC + Open Limit NSL + `10bp`]** 🏆 | **`54.89%`** | **`-44.54%`** | **`1.259`** | **`1,506.8x`** | `33` | **`16 / 16` (`100.0%`)** |
+| **2. `V1-Daily` Conservative Ref (`1.5 / 0.5`) [Exact FOMC + Open Limit NSL + `10bp`]** | **`53.74%`** | **`-44.59%`** | **`1.221`** | **`1,331.1x`** | `31` | **`15 / 15` (`100.0%`)** |
+| **3. `V1-Daily` Primary Frozen (`1.2 / 0.3`) — Month-End SEP Delay + Open Limit NSL** | `53.02%` | `-44.54%` | `1.228` | `1,230.7x` | `33` | **`16 / 16` (`100.0%`)** |
+| **4. `V1-Monthly` Equal-Footed `Vol_Z` (`1.2 / 0.3`) — Month-End SEP + Open Limit NSL** | `48.57%` | `-58.08%` | `1.104` | `750.7x` | `28` | `14 / 14` (`100.0%`) |
+| *5. [Ref] `V1-Daily` Primary (`1.2 / 0.3`) — Blind Market-on-Open (No Open Limit NSL)* | *`54.94%`* | *`-44.54%`* | *`1.261`* | *`1,516.1x`* | *`35`* | *`16 / 17` (`94.1%`)* |
 | **6. Pure `SEP` Only (No `Vol_Z`) — Exact FOMC Open + `10bp/side`** | `53.74%` | `-69.92%` | `1.084` | `1,330.8x` | `9` | `5 / 5` |
 | **7. Pure `SEP` Only (No `Vol_Z`) — Month-End SEP Delay + Open + `10bp/side`** | `52.04%` | `-69.92%` | `1.061` | `1,104.5x` | `9` | `5 / 5` |
 
 ---
 
-## 3. Complete Next-Day Open Trade Ledger (`2010-02-11 .. 2026-11-03`, Default `1.5/0.5` + Exact FOMC + Open Limit NSL + `10bp/side`)
+## 3. Parameter Plateau Proof: Why `Trig = 1.2 / Rec = 0.3` Has Zero Parameter Cliff
 
-Every single `3x TQQQ` leg (`15 / 15 = 100.0%`) closed in positive net profit **after deducting `20bp` (`10bp/side`) transaction costs at `adjOpen`**:
+Across the entire `Trig ∈ [1.0, 1.3]` × `Rec ∈ [0.0, 0.7]` region (15 contiguous grid cells surrounding `1.2 / 0.3`), Daily MaxDD stays locked between **`-44.54%` and `-46.29%`** (eliminating the `-58.08%` cliff that occurred at `Trig >= 1.5, Rec = 0.7`):
+
+| `Trig` \ `Rec` | **`Rec = 0.0`** | **`Rec = 0.2`** | **`Rec = 0.3`** | **`Rec = 0.5`** | **`Rec = 0.7`** |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| **`Trig = 1.0`** | `55.56%` (`-46.29%`) | `55.61%` (`-46.29%`) | **`57.14%` (`-46.29%`)** | `55.88%` (`-45.38%`) | `58.12%` (`-45.38%`) |
+| **`Trig = 1.2` (Primary)** 🏆 | `53.32%` (**`-44.54%`**) | `53.29%` (**`-44.54%`**) | 🏆 **`54.89%` (`-44.54%`)** | **`54.75%` (`-44.54%`)** | **`57.73%` (`-44.59%`)** |
+| **`Trig = 1.3`** | `52.61%` (**`-44.54%`**) | `52.58%` (**`-44.54%`**) | **`54.17%` (`-44.54%`)** | **`55.19%` (`-44.59%`)** | **`57.21%` (`-44.59%`)** |
+| **`Trig = 1.5`** | `51.13%` (`-51.53%`) | `51.51%` (`-50.90%`) | `53.69%` (`-47.55%`) | `53.74%` (`-44.59%`) | `54.13%` (`-58.08%`) |
+
+---
+
+## 4. Complete Trade Ledger (`2010-02-11 .. 2026-11-03`, Primary Frozen `1.2 / 0.3`, Next-Day Open `adjOpen` + `10bp/side`)
+
+All 16 completed `3x TQQQ` legs (`16 / 16 = 100.0%`) closed in net profit after `20bp` (`10bp/side`) transaction costs:
 
 | Signal Close (`d-1`) | Exec Open (`d`) | Switch | Reason | `Vol_Z` | `rvol_20` | `1Y Mean` | Closed Asset | Leg Start | Leg Return Pre-Cost (`%`) | **Leg Return Post-Cost (`%`)** | Equity Multiple (Post-Cost) |
 | :---: | :---: | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `2010-05-10` | `2010-05-11` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+2.80` | `30.74%` | `17.14%` | `3x` | `2010-02-11` | `+23.87%` | **`+23.62%`** | `1.24x` |
-| `2010-07-14` | `2010-07-15` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.44` | `21.50%` | `18.45%` | `1x` | `2010-05-11` | `-3.73%` | `-3.92%` | `1.19x` |
-| `2011-08-04` | `2011-08-05` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+2.69` | `24.88%` | `15.19%` | `3x` | `2010-07-15` | `+61.93%` | **`+61.61%`** | `1.92x` |
-| `2011-11-07` | `2011-11-08` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.48` | `24.38%` | `19.67%` | `1x` | `2011-08-05` | `+7.21%` | `+6.99%` | `2.05x` |
-| `2014-01-30` | `2014-01-31` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.54` | `15.97%` | `11.95%` | `3x` | `2011-11-08` | `+182.18%` | **`+181.62%`** | `5.78x` |
-| `2014-02-28` | `2014-03-03` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.36` | `13.39%` | `12.33%` | `1x` | `2014-01-31` | `+5.04%` | `+4.83%` | `6.06x` |
-| `2014-10-10` | `2014-10-13` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.76` | `18.94%` | `12.21%` | `3x` | `2014-03-03` | `+14.52%` | **`+14.29%`** | `6.93x` |
-| `2014-11-10` | `2014-11-11` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.35` | `14.26%` | `12.73%` | `1x` | `2014-10-13` | `+8.16%` | `+7.94%` | `7.48x` |
-| `2015-08-27` | `2015-08-28` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+4.46` | `32.53%` | `13.99%` | `3x` | `2014-11-11` | `+3.52%` | **`+3.32%`** | `7.73x` |
-| `2015-10-06` | `2015-10-07` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.49` | `19.59%` | `16.34%` | `1x` | `2015-08-28` | `+0.80%` | `+0.60%` | `7.77x` |
-| `2017-07-05` | `2017-07-06` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.56` | `17.30%` | `10.57%` | `3x` | `2015-10-07` | `+95.67%` | **`+95.28%`** | `15.18x` |
-| `2017-07-27` | `2017-07-28` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.49` | `11.99%` | `10.23%` | `1x` | `2017-07-06` | `+4.89%` | `+4.68%` | `15.89x` |
-| `2018-02-05` | `2018-02-06` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+2.90` | `19.35%` | `10.24%` | `3x` | `2017-07-28` | `+24.64%` | **`+24.39%`** | `19.77x` |
-| `2018-05-08` | `2018-05-09` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.48` | `18.44%` | `15.02%` | `1x` | `2018-02-06` | `+6.95%` | `+6.74%` | `21.10x` |
-| `2018-11-01` | `2018-11-02` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+2.65` | `36.17%` | `16.61%` | `3x` | `2018-05-09` | `+2.57%` | **`+2.36%`** | `21.60x` |
-| `2019-01-25` | `2019-01-28` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.20` | `23.55%` | `21.65%` | `1x` | `2018-11-02` | `-4.68%` | `-4.87%` | `20.54x` |
-| `2020-02-24` | `2020-02-25` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.71` | `23.23%` | `14.36%` | `3x` | `2019-01-28` | `+127.86%` | **`+127.40%`** | `46.72x` |
-| `2020-05-05` | `2020-05-06` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.37` | `32.21%` | `24.27%` | `1x` | `2020-02-25` | `-1.52%` | `-1.71%` | `45.92x` |
-| `2021-09-22` | `2021-09-23` | `3x -> 0x` | `SEP_OFF_TO_CASH` | `-0.91` | `11.92%` | `19.03%` | `3x` | `2020-05-06` | `+299.51%` | **`+298.71%`** | `183.08x` |
-| `2023-03-22` | `2023-03-23` | `0x -> 3x` | `SEP_ON_TO_3X` | `-1.49` | `20.86%` | `30.48%` | `0x` | `2021-09-23` | `+2.64%` | `+2.43%` | `187.54x` |
-| `2023-06-14` | `2023-06-15` | `3x -> 0x` | `SEP_OFF_TO_CASH` | `-1.21` | `17.82%` | `26.23%` | `3x` | `2023-03-23` | `+55.26%` | **`+54.95%`** | `290.60x` |
-| `2023-12-13` | `2023-12-14` | `0x -> 3x` | `SEP_ON_TO_3X` | `-2.29` | `10.00%` | `18.76%` | `0x` | `2023-06-15` | `+2.65%` | `+2.44%` | `297.70x` |
-| `2024-05-03` | `2024-05-06` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.84` | `20.15%` | `16.10%` | `3x` | `2023-12-14` | `+17.53%` | **`+17.30%`** | `349.20x` |
-| `2024-05-16` | `2024-05-17` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.44` | `17.16%` | `16.17%` | `1x` | `2024-05-06` | `+3.39%` | `+3.18%` | `360.30x` |
-| `2024-06-12` | `2024-06-13` | `3x -> 0x` | `SEP_OFF_TO_CASH` | `-1.55` | `11.97%` | `15.83%` | `3x` | `2024-05-17` | `+16.61%` | **`+16.38%`** | `419.31x` |
-| `2024-09-18` | `2024-09-19` | `0x -> 3x` | `SEP_ON_TO_3X` | `+0.82` | `20.85%` | `16.91%` | `0x` | `2024-06-13` | `+1.44%` | `+1.24%` | `424.49x` |
-| `2024-12-18` | `2024-12-19` | `3x -> 0x` | `SEP_OFF_TO_CASH` | `+0.30` | `18.36%` | `16.92%` | `3x` | `2024-09-19` | `+20.26%` | **`+20.02%`** | `509.46x` |
-| `2025-03-19` | `2025-03-20` | `0x -> 1x` | `SEP_ON_HIGH_VOL_TO_1X` | `+1.88` | `27.43%` | `18.16%` | `0x` | `2024-12-19` | `+1.07%` | `+0.87%` | `513.86x` |
-| `2025-05-09` | `2025-05-12` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.13` | `23.84%` | `22.34%` | `1x` | `2025-03-20` | `+6.47%` | `+6.26%` | `546.01x` |
-| `2026-06-05` | `2026-06-08` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.96` | `23.46%` | `15.56%` | `3x` | `2025-05-12` | `+135.06%` | **`+134.59%`** | `1,280.87x` |
-| `2026-06-17` | `2026-06-18` | `1x -> 0x` | `SEP_OFF_TO_CASH` | `+3.00` | `29.22%` | `15.90%` | `1x` | `2026-06-08` | `+2.70%` | `+2.50%` | `1,312.84x` |
+| `2010-05-07` | `2010-05-10` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.34` | `23.53%` | `17.11%` | `3x` | `2010-02-11` | `+24.92%` | **`+24.67%`** | `1.25x` |
+| `2010-07-29` | `2010-07-30` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.29` | `20.48%` | `18.51%` | `1x` | `2010-05-10` | `-4.16%` | `-4.35%` | `1.19x` |
+| `2011-08-02` | `2011-08-03` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.29` | `19.72%` | `15.16%` | `3x` | `2010-07-30` | `+80.25%` | **`+79.89%`** | `2.15x` |
+| `2011-12-27` | `2011-12-28` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.15` | `22.85%` | `21.41%` | `1x` | `2011-08-03` | `+0.12%` | `-0.08%` | `2.14x` |
+| `2014-01-30` | `2014-01-31` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.54` | `15.97%` | `11.95%` | `3x` | `2011-12-28` | `+226.81%` | **`+226.16%`** | `6.99x` |
+| `2014-03-04` | `2014-03-05` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `-0.60` | `10.54%` | `12.31%` | `1x` | `2014-01-31` | `+6.79%` | `+6.57%` | `7.45x` |
+| `2014-10-09` | `2014-10-10` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.27` | `17.01%` | `12.19%` | `3x` | `2014-03-05` | `+16.23%` | **`+15.99%`** | `8.64x` |
+| `2014-11-12` | `2014-11-13` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.19` | `13.59%` | `12.75%` | `1x` | `2014-10-10` | `+6.61%` | `+6.39%` | `9.19x` |
+| `2015-01-08` | `2015-01-09` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.39` | `19.38%` | `13.01%` | `3x` | `2014-11-13` | `+2.76%` | **`+2.55%`** | `9.43x` |
+| `2015-02-20` | `2015-02-23` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.28` | `14.55%` | `13.25%` | `1x` | `2015-01-09` | `+4.56%` | `+4.36%` | `9.84x` |
+| `2017-06-28` | `2017-06-29` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.23` | `16.15%` | `10.65%` | `3x` | `2015-02-23` | `+83.36%` | **`+82.99%`** | `18.01x` |
+| `2017-07-28` | `2017-07-31` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `-0.13` | `9.79%` | `10.24%` | `1x` | `2017-06-29` | `+3.46%` | `+3.25%` | `18.59x` |
+| `2017-08-31` | `2017-09-01` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.21` | `14.88%` | `10.62%` | `3x` | `2017-07-31` | `+3.62%` | **`+3.41%`** | `19.22x` |
+| `2017-09-15` | `2017-09-18` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `-0.07` | `10.56%` | `10.81%` | `1x` | `2017-09-01` | `-0.11%` | `-0.31%` | `19.17x` |
+| `2018-02-05` | `2018-02-06` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+2.90` | `19.35%` | `10.24%` | `3x` | `2017-09-18` | `+18.35%` | **`+18.11%`** | `22.64x` |
+| `2018-05-15` | `2018-05-16` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.28` | `17.20%` | `15.25%` | `1x` | `2018-02-06` | `+8.06%` | `+7.84%` | `24.41x` |
+| `2018-10-16` | `2018-10-17` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.34` | `24.78%` | `15.56%` | `3x` | `2018-05-16` | `+14.08%` | **`+13.85%`** | `27.79x` |
+| `2019-01-25` | `2019-01-28` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.20` | `23.55%` | `21.65%` | `1x` | `2018-10-17` | `-8.19%` | `-8.37%` | `25.47x` |
+| `2020-02-24` | `2020-02-25` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.71` | `23.23%` | `14.36%` | `3x` | `2019-01-28` | `+127.86%` | **`+127.40%`** | `57.91x` |
+| `2020-05-12` | `2020-05-13` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.24` | `29.83%` | `24.64%` | `1x` | `2020-02-25` | `-0.05%` | `-0.25%` | `57.76x` |
+| `2021-09-22` | `2021-09-23` | `3x -> 0x` | `SEP_OFF_TO_CASH` | `-0.91` | `11.92%` | `19.03%` | `3x` | `2020-05-13` | `+282.73%` | **`+281.96%`** | `220.64x` |
+| `2023-03-22` | `2023-03-23` | `0x -> 3x` | `SEP_ON_TO_3X` | `-1.49` | `20.86%` | `30.48%` | `0x` | `2021-09-23` | `+2.64%` | `+2.43%` | `226.00x` |
+| `2023-06-14` | `2023-06-15` | `3x -> 0x` | `SEP_OFF_TO_CASH` | `-1.21` | `17.82%` | `26.23%` | `3x` | `2023-03-23` | `+55.26%` | **`+54.95%`** | `350.20x` |
+| `2023-12-13` | `2023-12-14` | `0x -> 3x` | `SEP_ON_TO_3X` | `-2.29` | `10.00%` | `18.76%` | `0x` | `2023-06-15` | `+2.65%` | `+2.44%` | `358.76x` |
+| `2024-04-30` | `2024-05-01` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.41` | `19.13%` | `16.06%` | `3x` | `2023-12-14` | `+6.75%` | **`+6.53%`** | `382.19x` |
+| `2024-05-17` | `2024-05-20` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `-0.63` | `14.74%` | `16.16%` | `1x` | `2024-05-01` | `+6.81%` | `+6.60%` | `407.42x` |
+| `2024-06-12` | `2024-06-13` | `3x -> 0x` | `SEP_OFF_TO_CASH` | `-1.55` | `11.97%` | `15.83%` | `3x` | `2024-05-20` | `+16.74%` | **`+16.51%`** | `474.67x` |
+| `2024-09-18` | `2024-09-19` | `0x -> 3x` | `SEP_ON_TO_3X` | `+0.82` | `20.85%` | `16.91%` | `0x` | `2024-06-13` | `+1.44%` | `+1.24%` | `480.53x` |
+| `2024-12-18` | `2024-12-19` | `3x -> 0x` | `SEP_OFF_TO_CASH` | `+0.30` | `18.36%` | `16.92%` | `3x` | `2024-09-19` | `+20.26%` | **`+20.02%`** | `576.72x` |
+| `2025-03-19` | `2025-03-20` | `0x -> 1x` | `SEP_ON_HIGH_VOL_TO_1X` | `+1.88` | `27.43%` | `18.16%` | `0x` | `2024-12-19` | `+1.07%` | `+0.87%` | `581.71x` |
+| `2025-05-09` | `2025-05-12` | `1x -> 3x` | `VOL_Z_CALM_REENTER_3X` | `+0.13` | `23.84%` | `22.34%` | `1x` | `2025-03-20` | `+6.47%` | `+6.26%` | `618.10x` |
+| `2026-06-05` | `2026-06-08` | `3x -> 1x` | `VOL_Z_PROFIT_TRIM_TO_1X` | `+1.96` | `23.46%` | `15.56%` | `3x` | `2025-05-12` | `+135.06%` | **`+134.59%`** | `1,449.98x` |
+| `2026-06-17` | `2026-06-18` | `1x -> 0x` | `SEP_OFF_TO_CASH` | `+3.00` | `29.22%` | `15.90%` | `1x` | `2026-06-08` | `+2.70%` | `+2.50%` | `1,486.17x` |

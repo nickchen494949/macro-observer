@@ -147,8 +147,8 @@ std_21 = r_qqq_full.rolling(21).std(ddof=1)
 std_252 = r_qqq_full.rolling(252).std(ddof=1)
 
 def run_v1_audit(
-    trig=1.5,
-    rec=0.5,
+    trig=1.2,
+    rec=0.3,
     cost_bp_side=10.0,
     sep_timing="exact_fomc",      # 'exact_fomc' or 'month_end_delay'
     cash_source="sgov_bil",       # 'sgov_bil' or 'sgov_only'
@@ -275,13 +275,13 @@ def run_v1_audit(
 
 if __name__ == "__main__":
     configs = [
-        ("1. V1-Daily Standard (1.5/0.5) [DEFAULT: Exact FOMC + Open Limit NSL + 10bp]",   dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=True,  vol_check_freq="daily")),
-        ("2. V1-Daily Sweet-Spot (1.2/0.3) [DEFAULT: Exact FOMC + Open Limit NSL + 10bp]", dict(trig=1.2, rec=0.3, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=True,  vol_check_freq="daily")),
-        ("3. V1-Daily Standard (1.5/0.5) | Month-End SEP Delay + Open Limit NSL + 10bp",   dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="month_end_delay", open_limit_nsl=True,  vol_check_freq="daily")),
-        ("4. V1-Monthly Equal-Footed Vol_Z (1.5/0.5) | Month-End SEP + Open Limit NSL",    dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="month_end_delay", open_limit_nsl=True,  vol_check_freq="monthly")),
-        ("5. [Ref] V1-Daily Standard (1.5/0.5) | Blind Market-on-Open (No Open Limit NSL)", dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=False, vol_check_freq="daily")),
-        ("6. Pure SEP Only (No Vol_Z) | Exact FOMC Open + 10bp/side",                      dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=True,  pure_sep=True)),
-        ("7. Pure SEP Only (No Vol_Z) | Month-End SEP Delay + Open + 10bp/side",           dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="month_end_delay", open_limit_nsl=True,  pure_sep=True)),
+        ("1. V1-Daily Primary Frozen (1.2/0.3) [Exact FOMC + Open Limit NSL + 10bp]",   dict(trig=1.2, rec=0.3, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=True,  vol_check_freq="daily")),
+        ("2. V1-Daily Conservative Ref (1.5/0.5) [Exact FOMC + Open Limit NSL + 10bp]", dict(trig=1.5, rec=0.5, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=True,  vol_check_freq="daily")),
+        ("3. V1-Daily Primary Frozen (1.2/0.3) | Month-End SEP Delay + Open Limit NSL", dict(trig=1.2, rec=0.3, cost_bp_side=10.0, sep_timing="month_end_delay", open_limit_nsl=True,  vol_check_freq="daily")),
+        ("4. V1-Monthly Equal-Footed Vol_Z (1.2/0.3) | Month-End SEP + Open Limit NSL", dict(trig=1.2, rec=0.3, cost_bp_side=10.0, sep_timing="month_end_delay", open_limit_nsl=True,  vol_check_freq="monthly")),
+        ("5. [Ref] V1-Daily Primary (1.2/0.3) | Blind Market-on-Open (No OpenLimitNSL)",dict(trig=1.2, rec=0.3, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=False, vol_check_freq="daily")),
+        ("6. Pure SEP Only (No Vol_Z) | Exact FOMC Open + 10bp/side",                   dict(trig=1.2, rec=0.3, cost_bp_side=10.0, sep_timing="exact_fomc",      open_limit_nsl=True,  pure_sep=True)),
+        ("7. Pure SEP Only (No Vol_Z) | Month-End SEP Delay + Open + 10bp/side",        dict(trig=1.2, rec=0.3, cost_bp_side=10.0, sep_timing="month_end_delay", open_limit_nsl=True,  pure_sep=True)),
     ]
 
     sum_rows = []
@@ -298,7 +298,6 @@ if __name__ == "__main__":
         })
         if label.startswith("1."):
             df_tr.to_csv(os.path.join(OUT_DIR, "v1_daily_trade_ledger_2009_2026.csv"), index=False)
-        elif label.startswith("2."):
             df_tr.to_csv(os.path.join(OUT_DIR, "v1_daily_sweetspot_trade_ledger_2009_2026.csv"), index=False)
 
     df_sum = pd.DataFrame(sum_rows)
