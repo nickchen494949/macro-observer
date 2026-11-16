@@ -1,0 +1,6 @@
+TQQQ_Challenger_Variant,Full_10_26_CAGR_%,Ex2026_10_25_CAGR_%,Daily_Sharpe_rf0,Daily_MaxDD_%,Monthly_MaxDD_%,Total_Switches
+0. Frozen V1-Daily Baseline (SEP + Vol_Z 1.2/0.3 + Open NSL),54.89,54.43,1.259,-44.54,-30.17,33
+P5a-EBP. De-lever 3x->1x (NSL) when Lagged Fed EBP > +0.50% or Vol_Z > 1.2,51.82,51.21,1.246,-37.24,-28.36,35
+P5b-EBP. Exit to Cash when Lagged Fed EBP > +0.75% (Severe Credit Freeze),49.87,49.16,1.186,-57.08,-49.75,36
+P6a-VRP. De-lever 3x->1x (NSL) when Bollerslev VRP = IV^2 - RV^2 < -0.015,44.09,43.9,1.16,-44.66,-37.42,61
+P6b-VRP. Faster Re-entry 1x->3x when VRP_Z > +1.0 (High Implied Fear Premium),54.89,54.43,1.259,-44.54,-30.17,33
