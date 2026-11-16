@@ -24,6 +24,13 @@
    - **`A1-RS_ModBurst_135_75_25_GateV1_ElectionResetV3`**（简称 **`A1-RS 1.35x + V3 Election Reset`**，214M CAGR **`64.95%`**，Sharpe **`1.489`**）
 3. **原版三腿正式主线（Production Baseline）**：
    - **`BestSec_ModBurst_135_75_25_GateV1`**（原版 `1.35x`，214M CAGR `60.96%`，Sharpe `1.414`）
+4. **Frozen V1-Daily TQQQ SEP 指数杠杆策略（`SEP + Daily 1Y Vol_Z (1.2/0.3) + Open Limit NSL`，2026-11-16 审计通过冻结）** — [`frozen_v1_tqqq_strategy.py`](./frozen_v1_tqqq_strategy.py)（零外部缓存依赖，一键复现）、[`outputs/v1_tqqq_strategy_20261115/FROZEN_V1_TQQQ_STRATEGY_SPEC.md`](./outputs/v1_tqqq_strategy_20261115/FROZEN_V1_TQQQ_STRATEGY_SPEC.md)：
+   - **三大铁律（仅交易 `TQQQ / QQQ / SGOV`，严格次日开盘价 `adjOpen` 成交 + 双边 `10bp/side` 费用）**：
+     1. **`FOMC SEP = OFF` 切 `100% 纯现金 (SGOV/BIL)`**：FOMC 公布次日开盘执行（无条件优先，不受 `NSL` 限制）。
+     2. **`FOMC SEP = ON` 降杠杆（`3x TQQQ -> 1x QQQ`）**：当 `QQQ` 的 `Vol_Z = (rvol_20 - mean_252) / std_252 > 1.2` **且** `3x` 仓位在次日开盘扣费后仍处于盈利状态（`Open Limit NSL`：只止盈绝不割肉），切至 `1x QQQ`。
+     3. **`FOMC SEP = ON` 加杠杆（`1x QQQ -> 3x TQQQ`）**：当 `Vol_Z < 0.3` 时，不论 `1x QQQ` 盈亏，次日开盘立即换回 `3x TQQQ`。
+   - **100% 真实 ETF 实盘口径业绩（`2010-02-11 .. 2026-11-03`，次日开盘 + `10bp/side`）**：主推 **`1.2 / 0.3`** 年化 **`54.89%`**（总倍数 **`1,506.8x`**，跑赢纯 SEP 的 `53.74%` / `1,330.8x`），日频最大回撤 **`-44.54%`**（比纯 SEP 的 **`-69.92%`** 大幅收窄 `25.4 pp`），Sharpe **`1.259`**（纯 SEP `1.084`），已平仓 `3x` 胜率 **`16 / 16 (100.0%)`**，且位于 `Trig ∈ [1.0, 1.3], Rec ∈ [0.0, 0.7]` 连续 15 格零悬崖高原中心（回撤全部锁定在 `-44.54% ~ -46.29%`）。
+   - **2026 年 11 月实盘状态**：`SEP = OFF`（自 `2026-06-18` 开盘起） $\rightarrow$ **`100% SGOV`**。
 
 ---
 
@@ -234,6 +241,18 @@
 - **滚动前推（42 组参数，每年 12 月只用过去数据选最优）**：2012–2026 CAGR `50.2%`（含 SEP）/ `42.0%`（不含 SEP），对比事后固定 V4 参数 `66.2%` / `53.3%` → 参数选择偏差约 11–16pp。
 - **V4.1 预登记集成版**：12 个子策略等权，214M CAGR `54.1%`，Sharpe `1.438`，月频 MaxDD `-27.5%`，平均持股 `4.1` 只；纳入原始动量子策略（24 个）或 Top-4 扩展后 CAGR `52.6%` / `51.9%`，结论稳定。
 - **被证伪方向（勿重复测试）**：未调参的 QQQ 10 个月均线趋势开关比不用开关更差（V4 单参数 `39.2%` vs `49.3%`；与 SEP 组合也只有 `46.5%`）。
+
+### 阶段 10：10 篇顶级金融学术期刊论文 Challenger 全面实测与证伪（2026-11-16）
+- **脚本与输出**：[`run_four_paper_experiments.py`](./run_four_paper_experiments.py)（`outputs/four_paper_experiments_20261116/`）、[`run_six_new_paper_challengers.py`](./run_six_new_paper_challengers.py)（`outputs/six_new_paper_challengers_20261116/`）
+- **被证伪 / 淘汰方向（严禁重复测试）**：
+  1. **Fama-French 三因子残差动量（Blitz, Huij & Martens 2011）**：使用 Kenneth French 官方三因子数据、严格满 36 个月（`>=720` 交易日，零回退）回归，`2010–2026` 纯残差动量年化 `47.92%`（50/50 混合版 `59.17%`），均跑输同期原版 V4（`59.58%`），因剥离顺风期市场/行业 Beta 削弱了主升浪爆发力。
+  2. **动量崩盘波动率缩放（Barroso & Santa-Clara 2015 / Daniel & Moskowitz 2016）**：在 `SEP` 宏观路由之上叠加波动率目标缩放在牛市主升浪中造成踏空，年化降至 `42%–48%`。
+  3. **温水煮青蛙连续动量（`FIP`，Da, Gurun & Warachka 2014, RFS）**：在 `Sharpe Top-5` 内选连续上涨股（`45.41%` CAGR，Sharpe `1.247`）或剔除前 5 大暴涨日的 `Smooth Sharpe`（`46.41%` CAGR，Sharpe `1.253`）均显著跑输原版 V4（`59.65%` / `1.426`），因大盘科技龙头的核心涨幅恰恰来自季报超预期跳空缺口。
+  4. **52 周最高价距离（George & Hwang 2004, JF）**：`Top-5` 内选 2（`35.47%` CAGR，Sharpe `1.020`）与纯 `P_t / High_252`（`7.47%` CAGR）严重跑输，因月末 $P_t$ 排序重新引入了 1 个月短期反转且偏向低波动防御股。
+  5. **成交量放大/萎缩动量（Lee & Swaminathan 2000, JF）**：缩量 `VolLow Top-5` 仅 `40.79%` CAGR；放量 `VolHigh Top-5` 剔除 `2020-11` 后为 `57.65%` CAGR，但全期 Sharpe（`1.274` vs `1.426`）和剔除最佳 10 个月 CAGR（`36.74%` vs `37.55%`）均落后于纯 `V4`。
+  6. **点位财报惊喜（`SUE`）与披露 3 交易日反应（`EAR`）（Chan, Jegadeesh & Lakonishok 1996, JF）**：使用 SEC EDGAR 真实美元季度 EPS（`eps_diluted_approx_adj` / `eps_diluted`，严格 `available_date <= t`）并测试 4 种非零缺失值规则（`NaN-Last`、`CS-Median`、`Pre-Filter`、`Zero-Fill`），全期 CAGR 为 `48.69%–56.27%`（Sharpe `1.258–1.379`，XBRL 成熟期 `2012–2026` 为 `56.30%` vs 原版 V4 `66.17%`）；精确 3 交易日 `[τ-1, τ, τ+1]` `EAR` 剔除 `2020-11` 后为 `53.11%–56.91%`（Sharpe `1.219–1.242`），全部跑输原版 V4。
+  7. **美联储超额债券溢价（`EBP`，Gilchrist & Zakrajšek 2012, AER）用于 `TQQQ SEP`**：严格限制在 2016 年 10 月美联储首次定期公开之后（`>= 2016-11`），在 `2016-11..2026-11` 真实发布期里与原版 `V1-Daily` 最大回撤完全相同（均为 `-37.22%`，零改善），而年化从 `64.09%` 降至 `59.10%`（`-4.99pp/yr`）；实时无修正 FRED 高收益债利差（`BAMLH0A0HYM2`）全期 `54.42%` / `-44.54%` 亦未超越原版（`54.89%`）。
+  8. **同指数方差风险溢价（`VRP`，Bollerslev, Tauchen & Zhou 2009, RFS）用于 `TQQQ SEP`**：使用 CBOE 官方纳指隐含波动率 `VXN` 配 `QQQ` 21 日实际方差（`VRP_NDX = (VXN/100)^2 - RV21_QQQ^2`）得到 `51.82%` CAGR、Sharpe `1.172`、MaxDD `-44.94%`，跑输原版 `Vol_Z 1.2/0.3`（`54.89%` / `1.259` / `-44.54%`），因暴跌时 `VXN` 与 `RV` 同步飙升使 `VRP` 保持正值而延误降杠杆。
 
 ---
 
