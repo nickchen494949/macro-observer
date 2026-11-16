@@ -1,0 +1,10 @@
+Portfolio_Configuration,Aligned_Window,Full_CAGR_%,Ex2026_CAGR_%,Ann_Daily_Vol_%,Daily_Sharpe_rf0,Daily_Sortino,Calmar_Ratio,Daily_MaxDD_%,Monthly_MaxDD_%
+1a. 100% V4 (Frozen Baseline),2010-02-11..2026-10-29,62.36,52.12,36.25,1.522,2.078,1.671,-37.32,-23.69
+1b. 100% TQQQ SEP (Frozen Baseline),2010-02-11..2026-10-29,54.94,54.43,41.84,1.26,1.507,1.234,-44.54,-30.17
+"1c. 50/50 Blend: V4 + TQQQ SEP (Frozen, Monthly Rebal)",2010-02-11..2026-10-29,60.87,55.29,34.77,1.545,1.984,1.641,-37.1,-23.56
+"1d. 50/50 Blend: V4 + TQQQ SEP (Frozen, Annual Rebal)",2010-02-11..2026-10-29,62.4,55.89,35.04,1.563,2.013,1.675,-37.26,-23.9
+2a. 100% V4 (Stateful Walk-Forward OOS),2012-01-03..2026-10-29,49.5,39.47,33.48,1.372,1.825,1.391,-35.58,-28.55
+2b. 100% TQQQ SEP (Stateful Walk-Forward OOS),2012-01-03..2026-10-29,56.44,55.94,41.37,1.293,1.514,1.219,-46.29,-30.34
+2c. 50/50 Blend: WF V4 + WF TQQQ SEP (Monthly Rebal),2012-01-03..2026-10-29,54.84,49.24,33.33,1.483,1.854,1.368,-40.1,-26.58
+2d. 50/50 Blend: WF V4 + WF TQQQ SEP (Annual Rebal),2012-01-03..2026-10-29,55.47,49.04,33.48,1.49,1.859,1.364,-40.66,-27.59
+2e. [Ref] 50/50 Blend: Frozen V4 + Frozen TQQQ (Same 2012-26 Window),2012-01-03..2026-10-29,62.94,56.67,34.57,1.59,2.025,1.697,-37.1,-23.26
