@@ -1,89 +1,82 @@
-# V4 Entry/Exit Timing Challengers (J Law M.E.T.A., Minervini VCP, O'Neil, Scale-In, Turtle) & Walk-Forward 50/50 Blend Audit Report (2026-11-16)
+# Audited V4 Entry/Exit Timing Challengers & Exact Open-Rebalanced `V4 + TQQQ SEP` Blend Report (2026-11-16 Remediation)
 
 > **Reproducible Script**: [`run_jlaw_vcp_entry_and_blend_audit.py`](../../run_jlaw_vcp_entry_and_blend_audit.py)  
-> **V4 Entry/Exit Timing Summary CSV**: [`v4_entry_exit_timing_challengers.csv`](./v4_entry_exit_timing_challengers.csv)  
-> **V4 + TQQQ SEP 50/50 Blend (Frozen & Walk-Forward) CSV**: [`v4_tqqq_blend_frozen_and_walkforward.csv`](./v4_tqqq_blend_frozen_and_walkforward.csv)  
-> **Simultaneous Drawdown & Co-Loss Months CSV**: [`simultaneous_drawdown_months_audit.csv`](./simultaneous_drawdown_months_audit.csv)  
-> **Immutable Forward Paper-Trading Ledger**: [`FORWARD_PAPER_TRADING_LEDGER.csv`](./FORWARD_PAPER_TRADING_LEDGER.csv)
+> **Table 1 — Audited V4 Entry/Exit Timing Challengers CSV**: [`v4_entry_exit_timing_challengers.csv`](./v4_entry_exit_timing_challengers.csv)  
+> **Trade-by-Trade Open Execution Audit Log (`5,711` Records, `0` Close Fallbacks)**: [`v4_entry_exit_trade_by_trade_audit_log.csv`](./v4_entry_exit_trade_by_trade_audit_log.csv)  
+> **Table 2 — Exact Open-Rebalanced `V4 + TQQQ SEP` Weight Spectrum CSV**: [`v4_tqqq_blend_frozen_and_walkforward.csv`](./v4_tqqq_blend_frozen_and_walkforward.csv)  
+> **Table 3 — Simultaneous Drawdown & Co-Loss Months CSV**: [`simultaneous_drawdown_months_audit.csv`](./simultaneous_drawdown_months_audit.csv)  
+> **Table 4 — `$100,000` Forward Paper-Trading Fills & Share Quantities CSV**: [`FORWARD_PAPER_TRADING_POSITIONS_AND_FILLS.csv`](./FORWARD_PAPER_TRADING_POSITIONS_AND_FILLS.csv)  
+> **Table 5 — `$100,000` Forward Paper-Trading Daily NAV Tracking CSV**: [`FORWARD_PAPER_TRADING_DAILY_NAV.csv`](./FORWARD_PAPER_TRADING_DAILY_NAV.csv)  
+> **Verified Tiingo Supplemental Volume (`VMED, DOCU, ZM, ANSS, XLNX, CEG, FOX, FOXA`)**: [`tiingo_supp_dv_vmed_docu_zm.json`](./tiingo_supp_dv_vmed_docu_zm.json)
 
 ---
 
-## Executive Summary
+## Executive Summary of All 5 External Audit Remediations
 
-1. **V4 Entry & Exit Timing Challengers (`Modes A / B / C / D / E`, Keeping Stock Selection & `SEP` Routing 100% Frozen)**:
-   - **Month-Start Direct Open Entry (`Mode A`, `59.65%` CAGR / `1.426` Sharpe / `-37.32%` Daily MaxDD) beats all Pullback (`Mode B`), Breakout (`Mode C`), Scale-In (`Mode D`), and Mechanical Stop-Exit (`Mode E`) variants on CAGR, Sharpe, and Drop-Best-10M**.
-   - **Why J Law M.E.T.A. Pullback (`B1: 50.40%`, `B2: 47.20%`) Underperforms by `-9.3pp` to `-12.5pp/yr`**:
-     - Adverse Selection (逆向选择): Because `V4` already skips the most recent month (`12-1` momentum), newly selected `Top-2` mega-cap leaders that are genuinely starting a major wave take off immediately from Day 1 Open (`15.3%` to `26.4%` of new entries *never* pull back to `MA20` or dip `-3%` during the entire month, including `18` runaway months in `B2` with an average single-month missed gain of **`+22.5%`**!). Conversely, stocks that quickly drop `-3%` or fall back to `MA20` right after month-start are disproportionately false breakouts that keep falling, so waiting for a pullback buys 100% of the losers while missing the biggest winners.
-   - **What William O'Neil Breakout (`C2: 45.93%` CAGR, `-30.70%` Daily MaxDD) & 50/50 Scale-In (`D1: 55.64%` CAGR, `1.389` Sharpe) Show**:
-     - `C2` (`20-Day High + Volume Breakout`) reduces Daily MaxDD from `-37.32%` to **`-30.70%`** (`-6.62pp` improvement) because it stays in `SGOV` (`39.2%` of new entries) when stocks open weak, but sacrifices `-13.72pp/yr` in CAGR due to delayed entry prices.
-     - `D1` (`50% at d0 Open + 50% Add on +3% Confirmation`) is the **best execution challenger** (`55.64%` CAGR, `1.389` Sharpe, `0` missed runaway stocks), proving that if an investor psychologically prefers scaling in, putting `50%` in at `d0 Open` on new entries only is far superior to waiting `0%` in cash for a pullback (`B1/B2`) or scaling in on already-held winners (`D3: 42.86%`).
-   - **Why Mechanical Intra-Month Stops (`E1: -8% O'Neil Stop`, `E2: Turtle 20d Low`, `E3: 3x ATR`) Destroy `-20pp` to `-33pp` CAGR**:
-     - Consistent with Kaminski & Lo (2014), high-beta momentum leaders (`NVDA`, `TSLA`, `AMD`, `AVGO`) routinely experience `-8%` to `-12%` intra-month shakeouts inside multi-month uptrends; selling to `SGOV` mid-month locks in the dip and misses the subsequent rebound (`E1: 39.48%`, `E2: 31.18%`, `E3: 26.57%`), without materially improving Daily MaxDD (`-35.68%` to `-37.07%` vs `-37.32%`).
+Following the external audit of commit `2bb3847`, all 5 technical findings have been remediated and verified:
 
-2. **Portfolio Combination: `50% V4 + 50% TQQQ SEP` (Both Frozen & Stateful Walk-Forward OOS)**:
-   - **Stateful Walk-Forward Out-of-Sample (`2012-01-03 .. 2026-10-29`, Cold-Cash Start, Zero Hindsight)**:
-     - `100% WF V4`: CAGR **`49.50%`** (`Ex-2026`: `39.47%`), Daily Vol `33.48%`, Daily Sharpe **`1.372`**, Daily MaxDD **`-35.58%`**, Monthly MaxDD **`-28.55%`**.
-     - `100% WF TQQQ SEP`: CAGR **`56.44%`** (`Ex-2026`: `55.94%`), Daily Vol `41.37%`, Daily Sharpe **`1.293`**, Daily MaxDD **`-46.29%`**, Monthly MaxDD **`-30.34%`**.
-     - 🏆 **`50/50 WF Blend (Monthly / Annual Rebal)`**: CAGR **`54.84% / 55.47%`** (`+2.50pp/yr` rebalancing bonus over the average of the two individual CAGRs!), **Daily Vol drops to `33.33%` (lower than EITHER strategy alone!)**, **Daily Sharpe rises to `1.483 / 1.490` (beating BOTH individual strategies!)**, and **Monthly MaxDD drops to `-26.58%` (lower than BOTH `-28.55%` and `-30.34%`!)**.
-   - **Frozen Full Window (`2010-02-11 .. 2026-10-29`)**:
-     - `50/50 Blend (Annual Rebal)` achieves **`62.40%` CAGR** (`Ex-2026`: **`55.89%`**, higher than either `V4` [`52.12%`] or `TQQQ SEP` [`54.43%`] alone in `2010–2025`!), Daily Sharpe **`1.563`**, and Daily MaxDD **`-37.26%`**.
+1. **Remediation #1 — True Multi-Edge J Law M.E.T.A. (`AND` Confluence + Breakout-then-Retest) & True Multi-Stage Minervini VCP (Zero Missing-Volume Pass-Through)**:
+   - **`B1a` (Strict J Law M.E.T.A., `>= 2-of-3` Support Edges Simultaneously Overlapping + Prior Breakout)**: Replaces the previous simplified `OR` condition (`B1c: 44.82%` CAGR) with true multi-edge confluence requiring a prior 20d pivot breakout, Stage-2 uptrend (`C >= MA50`), and at least **2 of 3 support edges overlapping simultaneously** (`Rising MA20` + `Prior 20d Breakout Pivot Retest` + `38.2%-61.8% Fib Retracement / Volume Dry-Up`). Under `B1a`, the new-entry fill rate drops to **`55.0%`**, missed `>= +10%` runaway winners increase to **`26` months (avg `+20.7%` single-month missed gain)**, and CAGR drops to **`41.43%`** (`Ex-2026`: `33.61%`, Sharpe `1.193`, Daily MaxDD `-41.39%`). Requiring all **3 of 3 edges simultaneously (`B1b`)** lowers the fill rate to **`7.2%`** (`97` missed runaway months) and CAGR to **`3.57%`**.
+   - **`C1a` (Strict Minervini VCP Multi-Leg Contraction + Strict Volume Confirmation)**: Requires Stage-2 uptrend (`C > MA50` rising), progressive 2-stage price range contraction (`Range_7d <= 0.80 * Range_prior14d` AND `rstd_5 < rstd_20`), strict volume dry-up during contraction (`MA5_DV < MA20_DV`, strictly `False` when volume is missing — never defaulted to `True`), and pivot breakout on expanding volume (`DV > MA5_DV`). Under `C1a`, the fill rate is **`52.2%`** (`12` missed runaway winners averaging `+22.2%`), **Daily MaxDD drops to `-26.71%` (`Monthly MaxDD -20.14%`)**, and CAGR is **`39.39%`** (`Ex-2026`: `32.04%`, Sharpe `1.178`).
+   - **100% Active-Day Volume Coverage**: By merging verified Tiingo daily dollar volume (`tiingo_supp_dv_vmed_docu_zm.json`) with `daily_dv.parquet`, missing volume days across all 214 months dropped from `326` to **`11`** (those 11 days are solely the post-delisting calendar days of `2013-06 VMED` after its merger closed on June 7/24, 2013).
 
-3. **Simultaneous Drawdown & Crash Co-Movement Anatomy (`V4` vs `TQQQ SEP`)**:
-   - **In `SEP = OFF` (Tightening / Inflation Bear Markets)**: Daily return correlation is **`0.042` (near zero)** because `TQQQ SEP` is `100% SGOV Cash` while `V4` is `50% SGOV + 50% Non-IT BestSec` (combined 50/50 portfolio = `75% SGOV Cash + 25% Non-IT BestSec`).
-   - **In `SEP = ON` (Easing / Normal Regimes)**: Daily return correlation is **`0.611`** because both hold Nasdaq-100 risk (`V4` holds `QQQ Top-2`, `TQQQ SEP` holds `3x TQQQ` or `1x QQQ`).
-   - **All 15 worst simultaneous drawdown months (`Blend <= -8.9%`) occurred in `SEP = ON`** during sudden mid-cycle tech/macro shocks (`2018-10 -18.75%`, `2019-05 -15.86%`, `2020-09 -15.64%`, `2010-08 -14.53%`, `2016-01 -13.56%`, `2024-04 -11.12%`, `2020-03 -10.12%`) before `Vol_Z > 1.2 + NSL` or `SEP = OFF` triggered.
+2. **Remediation #2 — Persistent Original Purchase Price (`orig_entry_px`) & Persistent Multi-Month Peak Close for Stop-Loss / Trailing Exits (`E1a` vs `E1b`, `E3a` vs `E3b`)**:
+   - Continuing holdings (`Hold <= 5`) now carry forward their **original purchase price (`orig_entry_px`)** and **cumulative multi-month peak close (`peak_close_px`)** across month boundaries instead of resetting at `d0 Open` each month.
+   - **Impact on William O'Neil's `-8%` CAN SLIM Stop (`E1a` vs `E1b`)**:
+     - Under the old monthly-reset bug (`E1b`), `-8%` stops triggered **`104` times** and reduced CAGR to **`39.48%`** (`Ex-2026`: `32.18%`, Sharpe `1.042`);
+     - Under **true persistent original entry cost (`E1a`)**, once a stock has gained `+20%..+50%` over prior months, a normal `-8%` monthly pullback no longer triggers a false "initial cost stop": stop triggers drop by nearly half from **`104` to `56`**, **214M CAGR rebounds by `+10.17pp/yr` from `39.48%` to `49.65%` (`Ex-2026`: `40.51%`, Sharpe rises from `1.042` to `1.270`), and Daily MaxDD improves from `-37.32%` to `-34.31%`**!
+     - While `E1a` (`49.65%` CAGR, `1.270` Sharpe) still trails pure `V4` (`59.65%` CAGR, `1.426` Sharpe) by `-10.00pp/yr` due to initial-month shakeouts, fixing the monthly reset removes `-10.17pp/yr` of artificial distortion.
+
+3. **Remediation #3 — Zero Same-Day Close Fallback (`get_strict_exec_open()`) & Complete Trade-by-Trade Open Execution Ledger (`5,711` Records)**:
+   - After adding verified Tiingo `adjOpen` series for `ANSS` and `SRCL` (`outputs/qqq_mom_top3_claude_audit_20261103/tiingo/{ANSS,SRCL}.json`), **every single trade execution (`d0 Open` and intra-month `d_next Open`) enforces `get_strict_exec_open()` which raises a hard `ValueError` if `adjOpen` is missing**.
+   - Across all 14 variants and 214 months, **`5,711` trade execution records are exported in [`v4_entry_exit_trade_by_trade_audit_log.csv`](./v4_entry_exit_trade_by_trade_audit_log.csv) with `0` fallbacks to same-day close**.
+
+4. **Remediation #4 — Exact Open-Executed Rebalance (Splitting Overnight `Close[d-1]->Open[d]` vs Intraday `Open[d]->Close[d]`) Across the `V4 + TQQQ SEP` Weight Spectrum (`100/0, 75/25, 50/50, 25/75, 0/100`)**:
+   - Rebalancing between `V4` and `TQQQ SEP` now strictly accrues the overnight return (`Close[d-1] -> Open[d]`) on the old drifted weights, executes the rebalance (`+ 10bp/side` fee) at `Open[d]`, and accrues the intraday return (`Open[d] -> Close[d]`) on the new target weights.
+   - Across the un-tuned weight spectrum (`100/0, 75/25, 50/50, 25/75, 0/100`) in **Stateful Walk-Forward (`2012–2026`)**:
+     - `100% WF TQQQ SEP` has the highest raw CAGR (`56.44%` Full / **`55.94%` Ex-2026**), but also the deepest Daily MaxDD (**`-46.29%`**) and highest volatility (`41.37%`, Sharpe `1.293`).
+     - `100% WF V4` has the shallowest Daily MaxDD (**`-35.58%`**), with lower Walk-Forward CAGR (`49.50%` Full / **`39.47%` Ex-2026**, Sharpe `1.372`).
+     - **`WF 75/25` (`75% V4 + 25% TQQQ`) and `WF 50/50` (`50% V4 + 50% TQQQ`)** sit on the risk-adjusted frontier: **`WF 75/25` achieves the lowest volatility (`32.27%`), lowest Monthly MaxDD (`-26.08%`), highest Sortino (`1.908`), and highest Calmar (`1.403`)**, while **`WF 50/50-M` achieves the highest Daily Sharpe both Full-Period (`1.484`) and Ex-2026 (`1.399`)**, with `54.88%` Full CAGR (`49.31%` Ex-2026) and `-39.97%` Daily MaxDD (a middle-ground drawdown between `-35.58%` and `-46.29%`).
+
+5. **Remediation #5 — Complete `$100,000` Forward Paper-Trading Fills & Daily NAV Ledger**:
+   - [`FORWARD_PAPER_TRADING_POSITIONS_AND_FILLS.csv`](./FORWARD_PAPER_TRADING_POSITIONS_AND_FILLS.csv) and [`FORWARD_PAPER_TRADING_DAILY_NAV.csv`](./FORWARD_PAPER_TRADING_DAILY_NAV.csv) record the exact `2026-11-02 09:30:00 ET` Open fill prices (`SGOV $100.43`, `VLO $392.05`, `MPC $446.20`), `10bp` entry fees, exact share counts, SHA-256 strategy code hashes, and daily mark-to-market NAVs.
 
 ---
 
-## Table 1: V4 Entry & Exit Timing Challengers (`2009-01 .. 2026-10`, 214M, `10bp/side`)
+## Table 1: Audited V4 Entry & Exit Timing Challengers (`2009-01 .. 2026-10`, 214M, Zero Close Fallback)
 
 | Variant | Full 214M CAGR | Ex-2026 CAGR (`09–25`) | Full Sharpe | Ex-2026 Sharpe | **Daily MaxDD** | Monthly MaxDD | Drop-Best-10M CAGR | **New-Entry Fill Rate** | **Missed `>=+10%` Runaways (Avg Gain)** | Intra-Month Trades | Ann Turnover |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **A. Baseline (`100% d0 Open` Direct Entry)** 🏆 | **59.65%** | **50.38%** | **1.426** | **1.354** | **-37.32%** | **-27.99%** | **37.55%** | **100.0%** | `0` (`0.0%`) | 0 | 7.00x |
-| **B1. J Law M.E.T.A. Pullback (`MA20` / 20d Pivot, `>= MA50`)** | 50.40% | 41.51% | 1.333 | 1.263 | -37.32% | -27.99% | 30.34% | 84.7% | `1` (`+14.1%`) | 47 | 9.01x |
-| **B2. J Law Dip `>= -3%` Pullback (or `MA20` Touch)** | 47.20% | 40.71% | 1.313 | 1.269 | -37.68% | -31.08% | 28.48% | 73.6% | **`18` (`+22.5%`)** | 109 | 11.71x |
-| **B3. J Law M.E.T.A. Pullback + 10-Day Max Wait Cap** | 49.68% | 40.66% | 1.313 | 1.237 | -37.32% | -27.99% | 29.68% | 89.9% | `0` (`0.0%`) | 52 | 9.42x |
-| **C1. Minervini VCP Breakout (`5d/20d` Contraction + `10d` High)** | 49.55% | 41.49% | 1.347 | 1.275 | -37.41% | -30.47% | 30.29% | 85.4% | `0` (`0.0%`) | 95 | 11.57x |
-| **C2. William O'Neil Breakout (`20d` High + Volume Spike)** | 45.93% | 38.04% | 1.322 | 1.259 | **-30.70%** | **-24.70%** | 27.31% | 60.8% | `3` (`+18.7%`) | 81 | 9.68x |
-| **D1. Scale-In 50/50 Breakout (`50% d0 Open + 50% on +3%`)** 🥈 | **55.64%** | **46.98%** | **1.389** | **1.315** | -37.36% | -29.16% | **34.60%** | 100.0% | `0` (`0.0%`) | 114 | 9.77x |
-| **D2. Scale-In 50/50 Hybrid (`50% d0 Open + 50% JLaw/Brk`)** | 55.25% | 46.54% | 1.367 | 1.292 | -37.35% | -28.70% | 34.07% | 100.0% | `0` (`0.0%`) | 116 | 9.72x |
-| **D3. Scale-In 50/50 All Slots Every Month (Stress Test)** | 42.86% | 35.73% | 1.196 | 1.126 | -38.92% | -31.27% | 24.72% | 100.0% | `0` (`0.0%`) | 405 | 24.11x |
-| **E1. [Exit Only] O'Neil `-8%` Hard Stop from Entry Open** | 39.48% | 32.18% | 1.042 | 0.961 | -35.68% | -29.78% | 20.24% | 100.0% | `0` (`0.0%`) | 104 | 15.69x |
+| **B1a. Strict J Law M.E.T.A. (`>=2-of-3` Edges + Prior Brk)** | 41.43% | 33.61% | 1.193 | 1.125 | -41.39% | -34.56% | 22.33% | 55.0% | **`26` (`+20.7%`)** | 79 | 9.23x |
+| **B1b. Ultra-Strict J Law M.E.T.A. (`All 3-of-3` Edges)** | 3.57% | 3.57% | 0.308 | 0.318 | -14.53% | -9.09% | -0.54% | 7.2% | **`97` (`+22.0%`)** | 24 | 2.98x |
+| *B1c. [Ref] Simplified J Law (`MA20` OR Pivot)* | *44.82%* | *36.20%* | *1.244* | *1.162* | *-37.32%* | *-29.78%* | *25.40%* | *78.1%* | *`5` (`+17.5%`)* | *61* | *9.44x* |
+| **B2. J Law Dip `>= -3%` Pullback (or `MA20` Support)** | 46.38% | 39.82% | 1.311 | 1.266 | -37.89% | -31.31% | 27.73% | 66.2% | **`20` (`+22.6%`)** | 100 | 10.76x |
+| **C1a. Strict Minervini VCP (2-Stage Tight + Vol Dry-Up)** | 39.39% | 32.04% | 1.178 | 1.103 | **-26.71%** | **-20.14%** | 21.30% | 52.2% | `12` (`+22.2%`) | 82 | 9.85x |
+| **C2. William O'Neil Breakout (`20d` High + Strict Vol Spike)** | 45.47% | 37.59% | 1.304 | 1.237 | **-30.70%** | **-24.70%** | 26.82% | 67.8% | `1` (`+22.2%`) | 85 | 10.29x |
+| **D1. Scale-In 50/50 Breakout (`50% d0 Open + 50% on +3%`)** 🥈 | **55.64%** | **46.99%** | **1.389** | **1.315** | -37.36% | -29.16% | **34.61%** | 100.0% | `0` (`0.0%`) | 114 | 9.77x |
+| **D2. Scale-In 50/50 Hybrid (`50% d0 Open + 50% Strict JLaw/Brk`)** | 55.37% | 46.66% | 1.381 | 1.309 | -37.35% | -28.70% | 34.18% | 100.0% | `0` (`0.0%`) | 106 | 9.60x |
+| **E1a. [Exit Only] O'Neil `-8%` Stop Below Persistent ORIGINAL Cost** | **49.65%** | **40.51%** | **1.270** | **1.180** | **-34.31%** | -30.76% | **29.74%** | 100.0% | `0` (`0.0%`) | 56 | 11.75x |
+| *E1b. [Exit Ref] O'Neil `-8%` Stop Reset Monthly (Old `2bb3847`)* | *39.48%* | *32.18%* | *1.042* | *0.961* | *-35.68%* | *-29.78%* | *20.24%* | *100.0%* | *`0` (`0.0%`)* | *104* | *15.69x* |
 | **E2. [Exit Only] Turtle `20-Day Low` Trailing Exit** | 31.18% | 23.23% | 0.907 | 0.787 | -36.08% | -27.80% | 13.29% | 100.0% | `0` (`0.0%`) | 206 | 24.29x |
-| **E3. [Exit Only] Chandelier / Turtle `3x ATR_20` Stop** | 26.57% | 20.76% | 0.814 | 0.708 | -37.07% | -32.83% | 9.87% | 100.0% | `0` (`0.0%`) | 292 | 31.77x |
+| **E3a. [Exit Only] Turtle `3x ATR_20` Persistent Peak Stop** | 24.33% | 19.19% | 0.774 | 0.680 | -37.07% | -32.83% | 8.50% | 100.0% | `0` (`0.0%`) | 298 | 32.35x |
+| *E3b. [Exit Ref] Turtle `3x ATR_20` Stop Reset Monthly* | *26.61%* | *20.80%* | *0.814* | *0.709* | *-37.07%* | *-32.83%* | *9.91%* | *100.0%* | *`0` (`0.0%`)* | *291* | *31.71x* |
 
 ---
 
-## Table 2: `V4 + TQQQ SEP` 50/50 Blend — Frozen (`2010–2026`) & Stateful Walk-Forward (`2012–2026`)
+## Table 2: Exact Open-Rebalanced `V4 + TQQQ SEP` Weight Spectrum (`Walk-Forward OOS` & `Frozen`)
 
-| Portfolio Configuration | Aligned Window | Full CAGR | **Ex-2026 CAGR** | **Ann Daily Vol** | **Daily Sharpe** | **Daily Sortino** | Calmar | **Daily MaxDD** | **Monthly MaxDD** |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **1a. `100% V4` (Frozen Baseline)** | `2010-02..2026-10` | 62.36% | 52.12% | 36.25% | 1.522 | 2.078 | 1.671 | -37.32% | -23.69% |
-| **1b. `100% TQQQ SEP` (Frozen Baseline)** | `2010-02..2026-10` | 54.94% | 54.43% | 41.84% | 1.260 | 1.507 | 1.234 | -44.54% | -30.17% |
-| **1c. `50/50 Blend` (Frozen, Monthly Rebal)** 🏆 | `2010-02..2026-10` | **60.87%** | **55.29%** | **34.77%** | **1.545** | 1.984 | 1.641 | **-37.10%** | **-23.56%** |
-| **1d. `50/50 Blend` (Frozen, Annual Rebal)** 🏆 | `2010-02..2026-10` | **62.40%** | **55.89%** | **35.04%** | **1.563** | **2.013** | **1.675** | **-37.26%** | -23.90% |
-| **2a. `100% V4` (Stateful Walk-Forward OOS)** | `2012-01..2026-10` | 49.50% | 39.47% | 33.48% | 1.372 | 1.825 | 1.391 | -35.58% | -28.55% |
-| **2b. `100% TQQQ SEP` (Stateful Walk-Forward OOS)** | `2012-01..2026-10` | 56.44% | 55.94% | 41.37% | 1.293 | 1.514 | 1.219 | -46.29% | -30.34% |
-| **2c. `50/50 Blend: WF V4 + WF TQQQ SEP` (Monthly Rebal)** 🏆 | `2012-01..2026-10` | **54.84%** | **49.24%** | **33.33%** | **1.483** | **1.854** | 1.368 | -40.10% | **-26.58%** |
-| **2d. `50/50 Blend: WF V4 + WF TQQQ SEP` (Annual Rebal)** 🏆 | `2012-01..2026-10` | **55.47%** | **49.04%** | **33.48%** | **1.490** | **1.859** | 1.364 | -40.66% | -27.59% |
-| *2e. [Ref] `50/50 Blend: Frozen V4 + Frozen TQQQ` (`2012–26`)* | `2012-01..2026-10` | *62.94%* | *56.67%* | *34.57%* | *1.590* | *2.025* | *1.697* | *-37.10%* | *-23.26%* |
-
----
-
-## Table 3: Worst Simultaneous Drawdown Months (`V4` vs `TQQQ SEP`, `2010–2026`)
-
-- **Daily Return Correlation**: Full Period = **`0.584`** | When **`SEP = ON`** = **`0.611`** | When **`SEP = OFF`** = **`0.042`**
-- **Monthly Loss Co-occurrence**: Out of `200` common months, `V4` lost in `70` months, `TQQQ SEP` lost in `62` months, and **both lost simultaneously in `35` months (`17.5%` of all months)**.
-
-| Year-Month | Macro Regime | `V4` Monthly Return | `TQQQ SEP` Monthly Return | `50/50 Blend` Monthly Return | Root Cause of Simultaneous Loss |
-| :---: | :---: | :---: | :---: | :---: | :--- |
-| **`2018-10`** | `SEP = ON` | -20.02% | -17.48% | **-18.75%** | Q4 2018 tech/rate selloff; `Vol_Z > 1.2` trimmed `TQQQ` to `1x` mid-month on Oct 17 |
-| **`2019-05`** | `SEP = ON` | -7.68% | -24.01% | **-15.86%** | Sudden US-China tariff shock while `Vol_Z` stayed `< 1.2` |
-| **`2020-09`** | `SEP = ON` | -12.40% | -18.88% | **-15.64%** | Post-summer mega-cap tech valuation pullback (`ZM/TSLA/NVDA`) |
-| **`2010-08`** | `SEP = ON` | -13.93% | -15.12% | **-14.53%** | Summer 2010 double-dip recession scare right after `1x -> 3x` re-entry on Jul 30 |
-| **`2016-01`** | `SEP = ON` | -5.99% | -21.13% | **-13.56%** | Early-2016 China/oil shock; `3x TQQQ` was underwater so `NSL` held `3x` |
-| **`2010-05`** | `SEP = ON` | -10.61% | -15.63% | **-13.12%** | May 2010 Flash Crash; `Vol_Z > 1.2` trimmed `TQQQ` to `1x` on May 10 |
-| **`2015-08`** | `SEP = ON` | -3.52% | -21.28% | **-12.40%** | Aug 2015 RMB devaluation flash crash; `NSL` held underwater `3x` |
-| **`2012-10`** | `SEP = ON` | -9.15% | -15.63% | **-12.39%** | Q3 earnings / fiscal cliff tech pullback |
-| **`2024-04`** | `SEP = ON` | -7.90% | -14.34% | **-11.12%** | April 2024 inflation/rate scare; `Vol_Z > 1.2` trimmed `TQQQ` to `1x` on May 1 |
-| **`2020-03`** | `SEP = ON` | -12.95% | -7.29% | **-10.12%** | COVID crash (`TQQQ` had already de-levered to `1x QQQ` on `2020-02-25`!) |
+| Portfolio Configuration | Aligned Window | Full CAGR | **Ex-2026 CAGR** | **Ann Daily Vol** | **Daily Sharpe (Full)** | **Daily Sharpe (Ex-2026)** | **Daily Sortino** | Calmar | **Daily MaxDD** | **Monthly MaxDD** | Loss Months |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **WF-100/0: `100% V4 + 0% TQQQ`** | `2012-01..2026-10` | 49.50% | 39.47% | 33.48% | 1.372 | 1.216 | 1.825 | 1.391 | **-35.58%** | -28.55% | 65/177 |
+| **WF-75/25: `75% V4 + 25% TQQQ` (Open Monthly)** | `2012-01..2026-10` | 52.66% | 44.76% | **32.27%** | 1.476 | 1.356 | **1.908** | **1.403** | -37.54% | **-26.08%** | 60/177 |
+| **WF-50/50-M: `50% V4 + 50% TQQQ` (Open Monthly)** 🏆 | `2012-01..2026-10` | 54.88% | 49.31% | 33.33% | **1.484** | **1.399** | 1.855 | 1.373 | -39.97% | -26.63% | 64/177 |
+| **WF-50/50-Y: `50% V4 + 50% TQQQ` (Open Annual)** | `2012-01..2026-10` | 55.38% | 48.95% | 33.50% | **1.488** | 1.392 | 1.856 | 1.364 | -40.61% | -27.47% | 64/177 |
+| **WF-25/75: `25% V4 + 75% TQQQ` (Open Monthly)** | `2012-01..2026-10` | 56.15% | 53.05% | 36.50% | 1.408 | 1.362 | 1.710 | 1.306 | -42.98% | -28.12% | 62/177 |
+| **WF-0/100: `0% V4 + 100% TQQQ`** | `2012-01..2026-10` | **56.44%** | **55.94%** | 41.37% | 1.293 | 1.286 | 1.514 | 1.219 | -46.29% | -30.34% | **50/177** |
+| **FRZ-100/0: `100% V4` (Frozen)** | `2010-02..2026-10` | **62.36%** | 52.12% | 36.25% | 1.522 | 1.397 | 2.078 | **1.671** | -37.32% | -24.06% | 70/200 |
+| **FRZ-75/25: `75% V4 + 25% TQQQ` (Open Monthly)** | `2010-02..2026-10` | 62.16% | 54.21% | **34.39%** | **1.581** | **1.479** | **2.104** | 1.669 | -37.24% | **-22.11%** | **60/200** |
+| **FRZ-50/50-M: `50% V4 + 50% TQQQ` (Open Monthly)** | `2010-02..2026-10` | 60.84% | 55.30% | 34.77% | 1.545 | 1.467 | 1.984 | 1.640 | **-37.10%** | -23.55% | 63/200 |
+| **FRZ-50/50-Y: `50% V4 + 50% TQQQ` (Open Annual)** | `2010-02..2026-10` | 62.21% | **55.71%** | 35.02% | 1.561 | 1.473 | 2.009 | 1.668 | -37.31% | -23.90% | 61/200 |
+| **FRZ-25/75: `25% V4 + 75% TQQQ` (Open Monthly)** | `2010-02..2026-10` | 58.42% | 55.37% | 37.36% | 1.423 | 1.377 | 1.769 | 1.447 | -40.38% | -26.01% | 67/200 |
+| **FRZ-0/100: `100% TQQQ SEP` (Frozen)** | `2010-02..2026-10` | 54.94% | 54.43% | 41.84% | 1.260 | 1.252 | 1.507 | 1.234 | -44.54% | -30.17% | 62/200 |
