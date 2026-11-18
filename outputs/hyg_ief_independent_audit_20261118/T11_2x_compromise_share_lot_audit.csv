@@ -3,6 +3,8 @@ Variant,CAGR_%,MaxDD_%,2018_MaxDD_%,2018_Ret_%,Sharpe,Oct29_CostBasis_$,Oct29_Op
 1. HYG/IEF All-or-Nothing (HYG/IEF>SMA200 -> Hold 3x),57.9,-44.54,-39.14,2.58,1.275,4.5728,6.1618,34.62,True
 "2a. 50/50 Compromise - LIFO (Sell Newest Lot First, Static Shares)",56.53,-44.54,-35.26,4.09,1.264,4.5728,6.1618,34.62,True
 2b. 50/50 Compromise - Average Cost Basis (Static Shares),56.53,-44.54,-35.26,4.09,1.264,5.4497,6.1618,12.95,True
-2c. 50/50 Compromise - Whole-Leg Entry Portfolio NAV (Static Shares),56.66,-44.54,-35.26,4.09,1.264,4.5728,6.1618,34.62,True
+2c. 50/50 Compromise - Whole-Leg Entry Portfolio NAV (Static Shares),56.53,-44.54,-35.26,4.09,1.264,4.5728,6.1618,34.62,True
 2d. 50/50 Compromise - Daily Rebalanced back to 50/50 (with Daily Fees),56.29,-44.54,-35.29,4.72,1.26,5.0992,6.1618,20.72,True
 "2e. 50/50 Compromise - FIFO (Sell Oldest 2017 Lot First, Static Shares)",55.9,-44.73,-44.73,-6.59,1.247,6.3266,6.1618,-2.7,False
+2f. 50/50 Compromise - Combined Two-Step Total Leg PnL > 0 (FIFO/LIFO Invariant),56.53,-44.54,-35.26,4.09,1.264,5.4497,6.1618,23.49,True
+"2g. 50/50 Compromise - First-Step NSL Only (3x->2x NSL, 2x->1x Unconditional)",56.16,-44.54,-35.26,4.09,1.269,4.5728,6.1618,34.62,True

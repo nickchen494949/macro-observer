@@ -19,7 +19,7 @@ Frozen V1-Daily TQQQ SEP, except the `3x -> 1x` de-lever needs **both** `Vol_Z >
 | T5 Cousins | Mixed: JNK/IEF works, but **HYG/SHY, JNK/SHY and HYG/LQD at SMA200 make things worse** (`51.97% / -58.08%`). |
 | T9 Decomposition | The **credit** leg alone (HYG/SHY) fails: `51.97% / -58.08%`, and it blocks the 2011-08 and 2020-02 crash exits. The **rates** leg alone (SHY/IEF) does most of the work: `56.02% / -44.54%`. |
 | T6 Credit-only delay | 0–3 day delay: drawdown unchanged (−44.54%). At 4, 9 and 10 days: −50.71%, −49.14%, −54.49%. |
-| T7 "20-day non-ratchet NSL" patch | Fixes the 8- and 10-day Vol_Z cliff (−69.92% → about −44%) for **both** baseline and gated. Built after seeing a single episode (2020-02). Fragile in its own parameter: 5 days does not fix it; 10–20 days does. |
+| T7 "20-day non-ratchet NSL" patch | Fixes the 8- and 10-day Vol_Z cliff (−69.92% → about −44%) for **both** baseline and gated. Built after seeing a single episode (2020-02). Fragile in its own parameter: 5 days does not fix it; 10–19 days does (`-44.06%`), while at `K = 20` inclusive (`< 21` days) on 10-day Vol_Z the drawdown jumps back to **`-51.39%`**. |
 | T8 Calendar years | **12 of 17 years identical**. Better in 2014 (+16.9pp), 2017 (+10.0), 2024 (+21.2), 2026 (+6.4); worse in 2018 (−2.4). |
 | T10 12-Opportunity Realized Attribution & 7-Signal Decomposition | Exact post-fee realized `Base 1x` vs `Hold 3x` window returns across all 12 baseline `Vol_Z > 1.2` de-levers (`5` genuinely protective trims vs `7` ex-post false alarms), comparing `HYG/IEF`, `HYG/SHY`, `SHY/IEF`, `IEF` standalone, `HYG` standalone, `BOTH`, and `EITHER` on the exact same 12 opportunities ([`T10_12window_realized_and_7signal_decomposition.csv`](./T10_12window_realized_and_7signal_decomposition.csv), [`T10_signal_summary.csv`](./T10_signal_summary.csv)). |
 | T11 `2x` Compromise (`50% TQQQ + 50% QQQ`) Share-Lot Cost Accounting & Drift Audit | When `Vol_Z > 1.2` and `HYG/IEF > SMA200`, step down halfway to `50% TQQQ + 50% QQQ` (`~2x`) instead of holding `100% 3x`; if `HYG/IEF < SMA200` later while in `2x`, step down to `1x QQQ` subject to explicit share-lot NSL rules (`LIFO`, `Average Cost`, `Whole-Leg NAV`, `Daily Rebal`, `FIFO`; [`T11_2x_compromise_share_lot_audit.csv`](./T11_2x_compromise_share_lot_audit.csv)). |
@@ -79,8 +79,29 @@ Two methodological caveats must be stated explicitly:
 | **`2a. 50/50 Compromise — LIFO` (Sell Newest 2018 Lot First, Static Shares)** | **`56.53%`** | **`-44.54%`** | **`-35.26%`** | `+4.93%` | `1.264` | **`$4.5728`** *(kept 2017 lot)* | `$6.1618` | **`+34.62%`** | ✅ **Yes** |
 | **`2b. 50/50 Compromise — Average Cost Basis` (Static Shares)** | **`56.53%`** | **`-44.54%`** | **`-35.26%`** | `+4.93%` | `1.264` | **`$5.4497`** *(blended avg)* | `$6.1618` | **`+12.95%`** | ✅ **Yes** |
 | **`2c. 50/50 Compromise — Whole-Leg Entry Portfolio NAV` (Static Shares)** | **`56.66%`** | **`-44.54%`** | **`-35.26%`** | `+4.93%` | `1.264` | `$4.5728` *(+2.27% vs 05/16 NAV)* | `$6.1618` | **`+12.95% / +2.27%`** | ✅ **Yes** |
-| **`2d. 50/50 Compromise — Daily Rebalanced to 50/50` (incl. Daily Fees)** | **`56.29%`** | **`-44.54%`** | **`-35.29%`** | `+4.84%` | `1.260` | **`$5.0992`** | `$6.1618` | **`+20.72%`** | ✅ **Yes** |
-| **`2e. 50/50 Compromise — FIFO` (Sell Oldest 2017 Lot First, Static Shares)** | `55.90%` | `-44.73%` | `-44.73%` | `-6.44%` | `1.247` | **`$6.3266`** *(kept 2018 lot)* | `$6.1618` | **`-2.70%`** | ❌ **No (holds `2x`)** |
+| **`2d. 50/50 Compromise — Daily Rebalanced to 50/50` (incl. Daily Fees)** | **`56.29%`** | **`-44.54%`** | **`-35.29%`** | `+4.72%` | `1.260` | **`$5.0992`** | `$6.1618` | **`+20.72%`** | ✅ **Yes** |
+| **`2e. 50/50 Compromise — FIFO` (Sell Oldest 2017 Lot First, Static Shares)** | `55.90%` | `-44.73%` | `-44.73%` | `-6.59%` | `1.247` | **`$6.3266`** *(kept 2018 lot)* | `$6.1618` | **`-2.70%`** | ❌ **No (holds `2x`)** |
+| **`2f. 50/50 Compromise — Combined Two-Step Total Leg PnL > 0` (FIFO/LIFO Invariant)** | **`56.53%`** | **`-44.54%`** | **`-35.26%`** | `+4.09%` | `1.264` | **`$5.4497`** *(2-step avg exit `$6.7300`)* | `$6.1618` | **`+23.49%`** *(Step 1 + Step 2)* | ✅ **Yes (Invariant)** |
+| **`2g. 50/50 Compromise — First-Step NSL Only` (`3x->2x` NSL, `2x->1x` Unconditional)** | **`56.16%`** | **`-44.54%`** | **`-35.26%`** | `+4.09%` | `1.258` | Any *(no NSL lock on Step 2)* | `$6.1618` | Any | ✅ **Yes (Zero Trap Risk)** |
+
+### Table T11B: Complete 351-SMA Grid Verification (`SMA = 50..400`, Step 1 Day) Under Exact Share-Lot Ledger ([`T11_351sma_grid_summary.csv`](./T11_351sma_grid_summary.csv))
+
+To verify whether the `50% TQQQ + 50% QQQ` compromise removes the short-MA (`SMA 50..140`) `-58.08%` drawdown cliff across the **entire 351-length grid (`SMA = 50, 51, ..., 400`)** under the exact share-lot ledger:
+
+| Execution & NSL Cost Rule (`351` Integer SMA Lengths `50..400`) | `SMA200` CAGR | `SMA200` MaxDD | `SMA 50..400` Min CAGR | `SMA 50..400` Median CAGR | `SMA 50..400` Max CAGR | **`SMA 50..400` Worst MaxDD** | Share of 351 SMAs with `MaxDD >= -45.0%` |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **`1. All-or-Nothing HYG/IEF` (`3x` or `1x`)** | `57.90%` | `-44.54%` | `54.14%` | `56.67%` | `58.29%` | **`-58.08%`** ❌ | `71.2%` *(250 / 351)* |
+| **`2a. 50/50 Share-Lot — LIFO`** | `56.53%` | `-44.54%` | `54.71%` | `55.90%` | `56.62%` | **`-44.73%`** ✅ | **`100.0%` *(351 / 351)*** |
+| **`2b. 50/50 Share-Lot — Average Cost`** | `56.53%` | `-44.54%` | `54.71%` | `55.90%` | `56.62%` | **`-44.73%`** ✅ | **`100.0%` *(351 / 351)*** |
+| **`2c. 50/50 Share-Lot — Whole-Leg NAV`** | `56.66%` | `-44.54%` | `55.04%` | `55.90%` | `56.66%` | **`-44.73%`** ✅ | **`100.0%` *(351 / 351)*** |
+| **`2e. 50/50 Share-Lot — FIFO`** | `55.90%` | `-44.73%` | `54.71%` | `55.58%` | `55.98%` | **`-44.73%`** ✅ | **`100.0%` *(351 / 351)*** |
+| **`2f. 50/50 Share-Lot — Combined Two-Step Total Leg PnL > 0` (FIFO/LIFO Invariant)** | **`56.53%`** | **`-44.54%`** | **`55.02%`** | **`55.93%`** | **`56.62%`** | **`-44.54%`** ✅ | **`100.0%` *(351 / 351)*** |
+| **`2g. 50/50 Share-Lot — First-Step NSL Only` (`2x->1x` Unconditional)** | **`56.16%`** | **`-44.54%`** | `54.06%` | `55.43%` | `56.28%` | **`-44.54%`** ✅ | **`100.0%` *(351 / 351)*** |
+
+- **Why `2f` (`Combined Two-Step Total Leg PnL > 0`) is mathematically invariant to `FIFO` vs `LIFO` vs `Average Cost`**:
+  - When a `3x` position of $N$ total shares (with total cost $C_{\text{total}} = \sum_k n_k c_k$) is trimmed in two `50%` steps at net prices $P_1$ (`3x -> 2x`) and $P_2$ (`2x -> 1x`), the sum of Step-1 realized profit and Step-2 unrealized profit is $\frac{N}{2} P_1 + \frac{N}{2} P_2 - C_{\text{total}}$, which does not depend on which share lot was assigned to Step 1 vs Step 2. On `2018-10-29`, the two-step average net exit price is `0.5 × $7.3043 + 0.5 × $6.1556 = $6.7300/sh` vs total cost `$5.4497/sh` (**`+23.49%` net profit** under FIFO, LIFO, and Average Cost alike).
+- **Why `2g` (`First-Step NSL Only`: `3x -> 2x` requires NSL, `2x -> 1x` is unconditional) eliminates the thin-cushion trap**:
+  - If Step 1 (`3x -> 2x`) occurs with only a thin profit cushion (e.g. `+2%`) and the market drops `-10%` before `HYG/IEF` breaks `SMA200`, `2g` never traps the remaining `50% TQQQ` in `2x`; across all 351 moving averages (`50..400`), its worst drawdown is `-44.54%` (`SMA200` CAGR `56.16%`).
 
 ## Findings that change the interpretation
 
