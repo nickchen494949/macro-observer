@@ -418,6 +418,209 @@ say("\n=== T10B. Summary of 7 Credit/Treasury Decomposition Signals Across the 1
 say(df_sig_sum.to_string(index=False))
 df_sig_sum.to_csv(os.path.join(OUT, "T10_signal_summary.csv"), index=False)
 
+# ----------------------------------------------------------------------------- T11. 2x Compromise (50% TQQQ + 50% QQQ) Share-Lot Cost Accounting & Drift Audit
+say("\n=== T11. 2x Compromise (50% TQQQ + 50% QQQ) Share-Lot Cost Accounting & Drift Audit ===")
+
+
+def run_2x_lot_sim(cost_method="lifo", daily_rebal=False):
+    to, tc = TQQQ["adjOpen"].reindex(IDX), TQQQ["adjClose"].reindex(IDX)
+    qo, qc = QQQ["adjOpen"].reindex(IDX), QQQ["adjClose"].reindex(IDX)
+    co, cc = CASH["adjOpen"].reindex(IDX), CASH["adjClose"].reindex(IDX)
+    pos = "3x"
+    p0 = tc.iloc[0]
+    t_lots = [[1.0 / p0, p0, str(IDX[0].date())]]
+    q_shares, c_shares = 0.0, 0.0
+    leg_entry_nav = 1.0
+    eq = [1.0]
+    sw = 0
+    oct29 = {}
+
+    def t_sh():
+        return sum(lot[0] for lot in t_lots)
+
+    def t_cb():
+        sh = t_sh()
+        return (sum(lot[0] * lot[1] for lot in t_lots) / sh) if sh > 1e-12 else None
+
+    for i in range(1, len(IDX)):
+        d = IDX[i]
+        s_on = bool(SEP.iloc[i - 1])
+        vz = VZ20.iloc[i - 1]
+        g_ok = bool(signals_block_trim["1_HYG_div_IEF_gt_SMA200"].iloc[i - 1])
+        nav_open = t_sh() * to.iloc[i] + q_shares * qo.iloc[i] + c_shares * co.iloc[i]
+        cb = t_cb()
+        if cost_method == "port_nav":
+            in_profit = (leg_entry_nav is not None) and (nav_open * (1.0 - FEE) > leg_entry_nav)
+        else:
+            in_profit = (cb is not None) and (to.iloc[i] * (1.0 - FEE) > cb)
+        if str(d.date()) == "2018-10-29":
+            oct29 = {
+                "Oct29_CostBasis_$": round(float(cb), 4) if cb else None,
+                "Oct29_Open_$": round(float(to.iloc[i]), 4),
+                "Oct29_NetProfit_%": round((to.iloc[i] * (1.0 - FEE) / cb - 1.0) * 100, 2) if cb else None,
+                "Oct29_Pass_NSL": bool(in_profit),
+            }
+        tgt = pos
+        if not s_on:
+            tgt = "0x"
+        else:
+            if pos == "0x":
+                tgt = ("2x" if g_ok else "1x") if (pd.notna(vz) and vz > 1.2) else "3x"
+            elif pos == "3x":
+                if pd.notna(vz) and vz > 1.2 and in_profit:
+                    tgt = "2x" if g_ok else "1x"
+            elif pos == "2x":
+                if pd.notna(vz) and vz < 0.3:
+                    tgt = "3x"
+                elif pd.notna(vz) and vz > 1.2 and (not g_ok) and in_profit:
+                    tgt = "1x"
+            elif pos == "1x":
+                if pd.notna(vz) and vz < 0.3:
+                    tgt = "3x"
+        if tgt != pos:
+            sw += 1
+            if tgt == "0x":
+                proceeds = (t_sh() * to.iloc[i] + q_shares * qo.iloc[i]) * (1.0 - FEE) + c_shares * co.iloc[i]
+                t_lots, q_shares = [], 0.0
+                c_shares = proceeds / co.iloc[i]
+                leg_entry_nav = None
+            elif tgt == "1x":
+                if pos == "0x":
+                    proceeds = c_shares * co.iloc[i] * (1.0 - FEE)
+                    q_shares = proceeds / qo.iloc[i]
+                else:
+                    proceeds = (t_sh() * to.iloc[i]) * (1.0 - FEE) ** 2
+                    q_shares += proceeds / qo.iloc[i]
+                t_lots, c_shares = [], 0.0
+                leg_entry_nav = None
+            elif tgt == "3x":
+                if pos == "0x":
+                    proceeds = c_shares * co.iloc[i] * (1.0 - FEE)
+                    t_lots = [[proceeds / to.iloc[i], to.iloc[i] / (1.0 - FEE), str(d.date())]]
+                    q_shares, c_shares = 0.0, 0.0
+                    leg_entry_nav = proceeds
+                elif pos == "1x":
+                    proceeds = q_shares * qo.iloc[i] * (1.0 - FEE) ** 2
+                    t_lots = [[proceeds / to.iloc[i], to.iloc[i] / (1.0 - FEE), str(d.date())]]
+                    q_shares, c_shares = 0.0, 0.0
+                    leg_entry_nav = proceeds
+                elif pos == "2x":
+                    proceeds = q_shares * qo.iloc[i] * (1.0 - FEE) ** 2
+                    t_lots.append([proceeds / to.iloc[i], to.iloc[i] / (1.0 - FEE), str(d.date())])
+                    q_shares, c_shares = 0.0, 0.0
+                    leg_entry_nav = t_sh() * to.iloc[i]
+            elif tgt == "2x":
+                if pos == "3x":
+                    sh_to_sell = 0.5 * t_sh()
+                    if cost_method == "avg":
+                        avg_c = t_cb()
+                        t_lots = [[t_sh() - sh_to_sell, avg_c, "avg"]]
+                    elif cost_method in ("lifo", "port_nav"):
+                        rem = sh_to_sell
+                        while rem > 1e-12 and t_lots:
+                            if t_lots[-1][0] <= rem + 1e-12:
+                                rem -= t_lots[-1][0]
+                                t_lots.pop()
+                            else:
+                                t_lots[-1][0] -= rem
+                                rem = 0.0
+                    elif cost_method == "fifo":
+                        rem = sh_to_sell
+                        while rem > 1e-12 and t_lots:
+                            if t_lots[0][0] <= rem + 1e-12:
+                                rem -= t_lots[0][0]
+                                t_lots.pop(0)
+                            else:
+                                t_lots[0][0] -= rem
+                                rem = 0.0
+                    proceeds = (sh_to_sell * to.iloc[i]) * (1.0 - FEE) ** 2
+                    q_shares += proceeds / qo.iloc[i]
+                elif pos == "0x":
+                    tot = c_shares * co.iloc[i] * (1.0 - FEE)
+                    t_lots = [[(0.5 * tot) / to.iloc[i], to.iloc[i] / (1.0 - FEE), str(d.date())]]
+                    q_shares = (0.5 * tot) / qo.iloc[i]
+                    c_shares = 0.0
+                    leg_entry_nav = tot
+            pos = tgt
+        elif pos == "2x" and daily_rebal:
+            t_val = t_sh() * to.iloc[i]
+            q_val = q_shares * qo.iloc[i]
+            diff = t_val - 0.5 * (t_val + q_val)
+            if abs(diff) > 1e-9:
+                if diff > 0:
+                    sh_sell = diff / to.iloc[i]
+                    avg_c = t_cb()
+                    t_lots = [[t_sh() - sh_sell, avg_c, "rebal"]]
+                    q_shares += (diff * (1.0 - FEE) ** 2) / qo.iloc[i]
+                else:
+                    q_sell = -diff
+                    q_shares -= q_sell / qo.iloc[i]
+                    t_lots.append([(q_sell * (1.0 - FEE) ** 2) / to.iloc[i], to.iloc[i] / (1.0 - FEE), str(d.date())])
+        eq.append(t_sh() * tc.iloc[i] + q_shares * qc.iloc[i] + c_shares * cc.iloc[i])
+    eq = pd.Series(eq, index=IDX)
+    st = stats(eq)
+    eq18 = eq.loc["2018-01-01":"2018-12-31"]
+    dd18 = round(float(((eq18 / eq18.cummax()) - 1.0).min() * 100), 2)
+    r18 = round(float((eq.loc["2018-12-31"] / eq.loc["2017-12-29"] - 1.0) * 100), 2)
+    return st["CAGR"], st["MaxDD"], dd18, r18, st["Sharpe"], sw, oct29
+
+
+eq18_b = base.loc["2018-01-01":"2018-12-31"]
+dd18_b = round(float(((eq18_b / eq18_b.cummax()) - 1.0).min() * 100), 2)
+r18_b = round(float((base.loc["2018-12-31"] / base.loc["2017-12-29"] - 1.0) * 100), 2)
+
+eq18_g = gated.loc["2018-01-01":"2018-12-31"]
+dd18_g = round(float(((eq18_g / eq18_g.cummax()) - 1.0).min() * 100), 2)
+r18_g = round(float((gated.loc["2018-12-31"] / gated.loc["2017-12-29"] - 1.0) * 100), 2)
+
+t11_rows = [
+    {
+        "Variant": "0. Baseline V1-Daily (Vol_Z>1.2 -> 1x QQQ)",
+        "CAGR_%": stats(base)["CAGR"],
+        "MaxDD_%": stats(base)["MaxDD"],
+        "2018_MaxDD_%": dd18_b,
+        "2018_Ret_%": r18_b,
+        "Sharpe": stats(base)["Sharpe"],
+        "Oct29_CostBasis_$": None,
+        "Oct29_Open_$": 6.1618,
+        "Oct29_NetProfit_%": None,
+        "Oct29_Pass_NSL": True,
+    },
+    {
+        "Variant": "1. HYG/IEF All-or-Nothing (HYG/IEF>SMA200 -> Hold 3x)",
+        "CAGR_%": stats(gated)["CAGR"],
+        "MaxDD_%": stats(gated)["MaxDD"],
+        "2018_MaxDD_%": dd18_g,
+        "2018_Ret_%": r18_g,
+        "Sharpe": stats(gated)["Sharpe"],
+        "Oct29_CostBasis_$": 4.5728,
+        "Oct29_Open_$": 6.1618,
+        "Oct29_NetProfit_%": 34.62,
+        "Oct29_Pass_NSL": True,
+    },
+]
+for cm, dr, lbl in [
+    ("lifo", False, "2a. 50/50 Compromise - LIFO (Sell Newest Lot First, Static Shares)"),
+    ("avg", False, "2b. 50/50 Compromise - Average Cost Basis (Static Shares)"),
+    ("port_nav", False, "2c. 50/50 Compromise - Whole-Leg Entry Portfolio NAV (Static Shares)"),
+    ("lifo", True, "2d. 50/50 Compromise - Daily Rebalanced back to 50/50 (with Daily Fees)"),
+    ("fifo", False, "2e. 50/50 Compromise - FIFO (Sell Oldest 2017 Lot First, Static Shares)"),
+]:
+    cagr, dd, dd18, r18, sh, sw, o29 = run_2x_lot_sim(cm, dr)
+    t11_rows.append({
+        "Variant": lbl,
+        "CAGR_%": cagr,
+        "MaxDD_%": dd,
+        "2018_MaxDD_%": dd18,
+        "2018_Ret_%": r18,
+        "Sharpe": sh,
+        **o29,
+    })
+
+df_t11 = pd.DataFrame(t11_rows)
+say(df_t11.to_string(index=False))
+df_t11.to_csv(os.path.join(OUT, "T11_2x_compromise_share_lot_audit.csv"), index=False)
+
 pd.DataFrame(tr_g, columns=["exec_open", "from", "to", "VolZ_signal"]).to_csv(os.path.join(OUT, "gated_trade_ledger.csv"), index=False)
 pd.DataFrame(tr_b, columns=["exec_open", "from", "to", "VolZ_signal"]).to_csv(os.path.join(OUT, "baseline_trade_ledger.csv"), index=False)
 open(os.path.join(OUT, "audit_log.txt"), "w").write("\n".join(LOG))

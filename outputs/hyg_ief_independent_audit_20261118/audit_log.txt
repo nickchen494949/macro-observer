@@ -162,3 +162,13 @@ rates only: SHY/IEF (yields rising) 56.02 -44.54   1.243                       5
                        5_HYG_gt_SMA200_StandaloneCorp        51.25          50.21           45.29           60.28         -58.08         1.153                                   4                                       5
  6_Require_BOTH_CreditWeak_AND_TreasuryStrong_to_Trim        53.88          52.97           48.41           62.15         -50.71         1.199                                   5                                       5
 7_Require_EITHER_CreditWeak_OR_TreasuryStrong_to_Trim        54.08          53.18           45.12           67.99         -58.08         1.215                                   3                                       1
+
+=== T11. 2x Compromise (50% TQQQ + 50% QQQ) Share-Lot Cost Accounting & Drift Audit ===
+                                                                Variant  CAGR_%  MaxDD_%  2018_MaxDD_%  2018_Ret_%  Sharpe  Oct29_CostBasis_$  Oct29_Open_$  Oct29_NetProfit_%  Oct29_Pass_NSL
+                             0. Baseline V1-Daily (Vol_Z>1.2 -> 1x QQQ)   54.89   -44.54        -31.38        5.00   1.259                NaN        6.1618                NaN            True
+                  1. HYG/IEF All-or-Nothing (HYG/IEF>SMA200 -> Hold 3x)   57.90   -44.54        -39.14        2.58   1.275             4.5728        6.1618              34.62            True
+     2a. 50/50 Compromise - LIFO (Sell Newest Lot First, Static Shares)   56.53   -44.54        -35.26        4.09   1.264             4.5728        6.1618              34.62            True
+              2b. 50/50 Compromise - Average Cost Basis (Static Shares)   56.53   -44.54        -35.26        4.09   1.264             5.4497        6.1618              12.95            True
+   2c. 50/50 Compromise - Whole-Leg Entry Portfolio NAV (Static Shares)   56.66   -44.54        -35.26        4.09   1.264             4.5728        6.1618              34.62            True
+2d. 50/50 Compromise - Daily Rebalanced back to 50/50 (with Daily Fees)   56.29   -44.54        -35.29        4.72   1.260             5.0992        6.1618              20.72            True
+2e. 50/50 Compromise - FIFO (Sell Oldest 2017 Lot First, Static Shares)   55.90   -44.73        -44.73       -6.59   1.247             6.3266        6.1618              -2.70           False

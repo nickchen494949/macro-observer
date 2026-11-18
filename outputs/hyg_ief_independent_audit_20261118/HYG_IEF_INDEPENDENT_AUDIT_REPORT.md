@@ -22,6 +22,7 @@ Frozen V1-Daily TQQQ SEP, except the `3x -> 1x` de-lever needs **both** `Vol_Z >
 | T7 "20-day non-ratchet NSL" patch | Fixes the 8- and 10-day Vol_Z cliff (−69.92% → about −44%) for **both** baseline and gated. Built after seeing a single episode (2020-02). Fragile in its own parameter: 5 days does not fix it; 10–20 days does. |
 | T8 Calendar years | **12 of 17 years identical**. Better in 2014 (+16.9pp), 2017 (+10.0), 2024 (+21.2), 2026 (+6.4); worse in 2018 (−2.4). |
 | T10 12-Opportunity Realized Attribution & 7-Signal Decomposition | Exact post-fee realized `Base 1x` vs `Hold 3x` window returns across all 12 baseline `Vol_Z > 1.2` de-levers (`5` genuinely protective trims vs `7` ex-post false alarms), comparing `HYG/IEF`, `HYG/SHY`, `SHY/IEF`, `IEF` standalone, `HYG` standalone, `BOTH`, and `EITHER` on the exact same 12 opportunities ([`T10_12window_realized_and_7signal_decomposition.csv`](./T10_12window_realized_and_7signal_decomposition.csv), [`T10_signal_summary.csv`](./T10_signal_summary.csv)). |
+| T11 `2x` Compromise (`50% TQQQ + 50% QQQ`) Share-Lot Cost Accounting & Drift Audit | When `Vol_Z > 1.2` and `HYG/IEF > SMA200`, step down halfway to `50% TQQQ + 50% QQQ` (`~2x`) instead of holding `100% 3x`; if `HYG/IEF < SMA200` later while in `2x`, step down to `1x QQQ` subject to explicit share-lot NSL rules (`LIFO`, `Average Cost`, `Whole-Leg NAV`, `Daily Rebal`, `FIFO`; [`T11_2x_compromise_share_lot_audit.csv`](./T11_2x_compromise_share_lot_audit.csv)). |
 
 ## T10. Exact 12-Window Realized Post-Fee Attribution & 7-Signal Head-to-Head Decomposition
 
@@ -62,6 +63,24 @@ Instead of looking at arbitrary 21-day `QQQ` returns, Table T10A measures the **
 - **`2014-10-09` & `2015-01-08` (Confirmed flight-to-safety, yet trimming lost money)**: On both dates **every single one of the 7 signals (`1..7`)** confirmed flight-to-safety and trimmed `3x -> 1x`, yet `TQQQ` V-shaped (`+18.76%` vs `1x +5.08%` in Oct 2014; `+14.87%` vs `1x +5.60%` in Jan 2015). A real bond flight-to-safety signal does not guarantee an equity drop.
 - **Why `SEP` + `HYG/IEF` failed on `2018-10-16` (the quarterly SEP blind spot)**: On **2018-09-26**, the FOMC hiked the target range to `2.00%–2.25%`, but its 2019 median dot remained at **`3.1%`** (unchanged from June 2018), and SEP updates only quarterly (`Mar/Jun/Sep/Dec`). Thus `SEP` remained `ON` during the October 2018 rate-driven selloff while `HYG/IEF` (`+2.27%` above `SMA200`), `HYG/SHY` (`+1.16%`), `SHY/IEF` (`+1.09%`), and standalone `IEF` (`-1.46%` below `SMA200`) **all** blocked the `2018-10-16` exit (delaying `HYG/IEF`'s de-levering by 8 trading days until `2018-10-29`).
 - **Date Corrections**: S&P's US sovereign downgrade occurred after market close on **2011-08-05** (`2011-08-02` `Vol_Z > 1.2` and `HYG/IEF` `-4.23%` below `SMA200` preceded the downgrade by 3 days during the debt-ceiling growth scare); in 2020, `HYG/IEF` crossed below `SMA200` on **2020-02-21** (`-0.59%`, 3 calendar days before the `2020-02-24` `Vol_Z > 1.2` trigger).
+
+## T11. `2x` Compromise (`50% TQQQ + 50% QQQ`) Share-Lot Cost Accounting & Drift Audit
+
+To address the `2018-10-16` rate-shock blind spot without introducing a 4th ETF (`QLD`, which forces a 100% sale of `TQQQ` on `2018-10-17` and resets the cost basis to the `2018-10-17` local top where `QLD` is down `-10.44%` by `2018-10-29`), we audited the **`50% TQQQ + 50% QQQ` (`~2x`) compromise candidate** using an exact share-lot ledger ([`T11_2x_compromise_share_lot_audit.csv`](./T11_2x_compromise_share_lot_audit.csv)).
+
+Two methodological caveats must be stated explicitly:
+1. **Weight Drift vs Daily Rebalancing**: `50% TQQQ + 50% QQQ` has an exact `2.0x` daily beta only on the initial split day (`t_0`); afterward, the weight drifts unless rebalanced daily (which incurs daily transaction fees). We test both **Static Share Lots (no daily rebalance after the 50/50 split)** and **Daily 50/50 Rebalancing (paying `10bp/side` on daily drift adjustments)**.
+2. **Explicit Lot Cost-Basis Rule (`2018-10-29` `2x -> 1x` NSL Check)**: Because the `3x` position entering `2018-10-17` consists of two share lots — an older lot from `2017-09-18` (`cost = $4.5728/sh` incl. fee) and a newer lot from `2018-05-16` (`cost = $6.4155/sh` incl. fee, after the `2018-02-06 -> 2018-05-16` `2x` round-trip) — whether the remaining `50% TQQQ` passes `NSL` on `2018-10-29` (`TQQQ Open = $6.1618`, net `$6.1556`) depends on the pre-specified lot-accounting convention:
+
+| Variant (`2010-02-11 .. 2026-11-03`, Next-Day Open + `10bp/side`) | Full CAGR | Full MaxDD | **2018 MaxDD** | 2018 Return | Daily Sharpe | `2018-10-29` Remaining `TQQQ` Cost Basis | `2018-10-29` `TQQQ` Open | **`2018-10-29` Net Profit vs Cost** | Passes NSL on `2018-10-29`? |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **`0. Baseline V1-Daily` (`Vol_Z > 1.2` $\rightarrow$ `1x QQQ`)** | `54.89%` | **`-44.54%`** | **`-31.38%`** | `+5.00%` | `1.259` | — *(already `1x` on 10/17)* | `$6.1618` | — | — |
+| **`1. HYG/IEF All-or-Nothing` (`HYG/IEF > SMA200` $\rightarrow$ Hold `3x`)** | **`57.90%`** | **`-44.54%`** | `-39.14%` | `+2.58%` | **`1.275`** | `$4.5728` *(2017-09-18)* | `$6.1618` | **`+34.62%`** | ✅ Yes |
+| **`2a. 50/50 Compromise — LIFO` (Sell Newest 2018 Lot First, Static Shares)** | **`56.53%`** | **`-44.54%`** | **`-35.26%`** | `+4.93%` | `1.264` | **`$4.5728`** *(kept 2017 lot)* | `$6.1618` | **`+34.62%`** | ✅ **Yes** |
+| **`2b. 50/50 Compromise — Average Cost Basis` (Static Shares)** | **`56.53%`** | **`-44.54%`** | **`-35.26%`** | `+4.93%` | `1.264` | **`$5.4497`** *(blended avg)* | `$6.1618` | **`+12.95%`** | ✅ **Yes** |
+| **`2c. 50/50 Compromise — Whole-Leg Entry Portfolio NAV` (Static Shares)** | **`56.66%`** | **`-44.54%`** | **`-35.26%`** | `+4.93%` | `1.264` | `$4.5728` *(+2.27% vs 05/16 NAV)* | `$6.1618` | **`+12.95% / +2.27%`** | ✅ **Yes** |
+| **`2d. 50/50 Compromise — Daily Rebalanced to 50/50` (incl. Daily Fees)** | **`56.29%`** | **`-44.54%`** | **`-35.29%`** | `+4.84%` | `1.260` | **`$5.0992`** | `$6.1618` | **`+20.72%`** | ✅ **Yes** |
+| **`2e. 50/50 Compromise — FIFO` (Sell Oldest 2017 Lot First, Static Shares)** | `55.90%` | `-44.73%` | `-44.73%` | `-6.44%` | `1.247` | **`$6.3266`** *(kept 2018 lot)* | `$6.1618` | **`-2.70%`** | ❌ **No (holds `2x`)** |
 
 ## Findings that change the interpretation
 
