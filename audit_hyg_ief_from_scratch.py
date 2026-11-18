@@ -318,6 +318,106 @@ df9 = pd.DataFrame(rows)
 say(df9.to_string(index=False))
 df9.to_csv(os.path.join(OUT, "T9_credit_vs_rates.csv"), index=False)
 
+# ============================================================================= T10 12-Window Realized Post-Fee Attribution & 7-Signal Decomposition
+say("\n=== T10. Exact 12-Window Realized Post-Fee Outcome (TQQQ vs QQQ) & 7-Signal Decomposition ===")
+hyg_c = etf("HYG")["adjClose"]
+ief_c = etf("IEF")["adjClose"]
+shy_c = etf("SHY")["adjClose"]
+
+
+def _above_sma(s, ma=200):
+    s = s.dropna()
+    out = s > s.rolling(ma).mean()
+    out[s.rolling(ma).mean().isna()] = False
+    return out.reindex(IDX).ffill().fillna(False)
+
+
+def _below_sma(s, ma=200):
+    s = s.dropna()
+    out = s < s.rolling(ma).mean()
+    out[s.rolling(ma).mean().isna()] = True
+    return out.reindex(IDX).ffill().fillna(True)
+
+
+# `gate_blocks = True` means BLOCK the 3x->1x trim (keep holding 3x)
+signals_block_trim = {
+    "0_Baseline_NoGate": pd.Series(False, index=IDX),
+    "1_HYG_div_IEF_gt_SMA200": ~_below_sma(hyg_c / ief_c, 200),
+    "2_HYG_div_SHY_gt_SMA200_PureCredit": ~_below_sma(hyg_c / shy_c, 200),
+    "3_SHY_div_IEF_gt_SMA200_PureRates": ~_below_sma(shy_c / ief_c, 200),
+    "4_IEF_lt_SMA200_StandaloneTreasury": ~_above_sma(ief_c, 200),
+    "5_HYG_gt_SMA200_StandaloneCorp": ~_below_sma(hyg_c, 200),
+    "6_Require_BOTH_CreditWeak_AND_TreasuryStrong_to_Trim": ~(
+        _below_sma(hyg_c / shy_c, 200) & _below_sma(shy_c / ief_c, 200)
+    ),
+    "7_Require_EITHER_CreditWeak_OR_TreasuryStrong_to_Trim": ~(
+        _below_sma(hyg_c / shy_c, 200) | _below_sma(shy_c / ief_c, 200)
+    ),
+}
+
+# Identify the 12 baseline 3x->1x de-levering windows [d_sig_close -> d_reconverge_close]
+win_rows = []
+for w_idx, (d_exec, frm, to, v) in enumerate([x for x in tr_b if x[1] == "3x" and x[2] == "1x"], 1):
+    d_start = pd.Timestamp(d_exec)
+    i_sig = IDX.get_loc(d_start) - 1
+    d_sig = IDX[i_sig]
+    # Find when baseline exits 1x (back to 3x or 0x)
+    later = [pd.Timestamp(x[0]) for x in tr_b if pd.Timestamp(x[0]) > d_start]
+    d_end = later[0] if later else IDX[-1]
+    r_base_leg = float(base.loc[d_end] / base.loc[d_sig] - 1.0) * 100.0
+    r_3x_hold = float(TQQQ.loc[d_end, "adjClose"] / TQQQ.loc[d_sig, "adjClose"] - 1.0) * 100.0
+    log_diff = float(np.log(1.0 + r_3x_hold / 100.0) - np.log(1.0 + r_base_leg / 100.0))
+    sub_3x = TQQQ.loc[d_sig:d_end, "adjClose"]
+    mdd_3x_w = float((sub_3x / sub_3x.cummax() - 1.0).min()) * 100.0
+    sub_b = base.loc[d_sig:d_end]
+    mdd_b_w = float((sub_b / sub_b.cummax() - 1.0).min()) * 100.0
+    row_w = {
+        "Episode": w_idx,
+        "Signal_Close": str(d_sig.date()),
+        "Exec_Open": str(d_start.date()),
+        "Reconverge_Date": str(d_end.date()),
+        "Vol_Z": v,
+        "Base_1x_PostFee_Ret_%": round(r_base_leg, 2),
+        "Hold_3x_Ret_%": round(r_3x_hold, 2),
+        "Base_1x_Window_MaxDD_%": round(mdd_b_w, 2),
+        "Hold_3x_Window_MaxDD_%": round(mdd_3x_w, 2),
+        "Log_Advantage_Hold3x_vs_1x": round(log_diff, 4),
+        "True_Outcome": "PROTECTIVE_TRIM (1x beat 3x)" if log_diff < 0 else "FALSE_ALARM (3x beat 1x)",
+    }
+    for k_sig, s_blk in list(signals_block_trim.items())[1:]:
+        row_w[k_sig] = "HOLD_3x" if bool(s_blk.loc[d_sig]) else "TRIM_1x"
+    win_rows.append(row_w)
+
+df_win12 = pd.DataFrame(win_rows)
+say(df_win12.to_string(index=False))
+df_win12.to_csv(os.path.join(OUT, "T10_12window_realized_and_7signal_decomposition.csv"), index=False)
+
+sig_sum_rows = []
+for k_sig, s_blk in signals_block_trim.items():
+    s_nav = sim(s_blk.values)
+    st = stats(s_nav)
+    c_10_19 = sub_cagr(s_nav, "2010-02-11", "2019-12-31")
+    c_20_26 = sub_cagr(s_nav, "2019-12-31", "2026-11-03")
+    c_ex26 = sub_cagr(s_nav, "2010-02-11", "2025-12-31")
+    # Count how many of the 5 protective trims were wrongly blocked vs how many of the 7 false alarms were rightly blocked
+    wrong_blocks = sum(1 for r in win_rows if r["True_Outcome"].startswith("PROTECTIVE") and (k_sig in r and r[k_sig] == "HOLD_3x"))
+    right_blocks = sum(1 for r in win_rows if r["True_Outcome"].startswith("FALSE_ALARM") and (k_sig in r and r[k_sig] == "HOLD_3x"))
+    sig_sum_rows.append({
+        "Signal_Variant": k_sig,
+        "Full_CAGR_%": st["CAGR"],
+        "Ex2026_CAGR_%": c_ex26,
+        "CAGR_2010_19_%": c_10_19,
+        "CAGR_2020_26_%": c_20_26,
+        "Daily_MaxDD_%": st["MaxDD"],
+        "Daily_Sharpe": st["Sharpe"],
+        "Rightly_Blocked_FalseAlarms_(of_7)": right_blocks,
+        "Wrongly_Blocked_ProtectiveTrims_(of_5)": wrong_blocks,
+    })
+df_sig_sum = pd.DataFrame(sig_sum_rows)
+say("\n=== T10B. Summary of 7 Credit/Treasury Decomposition Signals Across the 12 Windows ===")
+say(df_sig_sum.to_string(index=False))
+df_sig_sum.to_csv(os.path.join(OUT, "T10_signal_summary.csv"), index=False)
+
 pd.DataFrame(tr_g, columns=["exec_open", "from", "to", "VolZ_signal"]).to_csv(os.path.join(OUT, "gated_trade_ledger.csv"), index=False)
 pd.DataFrame(tr_b, columns=["exec_open", "from", "to", "VolZ_signal"]).to_csv(os.path.join(OUT, "baseline_trade_ledger.csv"), index=False)
 open(os.path.join(OUT, "audit_log.txt"), "w").write("\n".join(LOG))

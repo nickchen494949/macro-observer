@@ -1,0 +1,9 @@
+Signal_Variant,Full_CAGR_%,Ex2026_CAGR_%,CAGR_2010_19_%,CAGR_2020_26_%,Daily_MaxDD_%,Daily_Sharpe,Rightly_Blocked_FalseAlarms_(of_7),Wrongly_Blocked_ProtectiveTrims_(of_5)
+0_Baseline_NoGate,54.89,54.43,48.94,63.9,-44.54,1.259,0,0
+1_HYG_div_IEF_gt_SMA200,57.9,57.19,51.28,67.99,-44.54,1.275,5,2
+2_HYG_div_SHY_gt_SMA200_PureCredit,51.97,50.97,45.29,62.15,-58.08,1.172,4,5
+3_SHY_div_IEF_gt_SMA200_PureRates,56.02,55.21,48.23,67.99,-44.54,1.243,4,1
+4_IEF_lt_SMA200_StandaloneTreasury,55.64,54.82,48.59,66.43,-44.54,1.245,3,1
+5_HYG_gt_SMA200_StandaloneCorp,51.25,50.21,45.29,60.28,-58.08,1.153,4,5
+6_Require_BOTH_CreditWeak_AND_TreasuryStrong_to_Trim,53.88,52.97,48.41,62.15,-50.71,1.199,5,5
+7_Require_EITHER_CreditWeak_OR_TreasuryStrong_to_Trim,54.08,53.18,45.12,67.99,-58.08,1.215,3,1
