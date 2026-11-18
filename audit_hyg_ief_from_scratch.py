@@ -1,0 +1,323 @@
+#!/usr/bin/env python3
+"""
+audit_hyg_ief_from_scratch.py — Independent from-scratch audit of the TQQQ SEP + HYG/IEF credit gate (2026-11-18)
+
+Rule under audit (Gemini, 2026-11-18, "trim-only gate"):
+  Frozen V1-Daily TQQQ SEP, except the 3x -> 1x de-lever requires BOTH
+      Vol_Z(d-1) > 1.2  AND  HYG/IEF(d-1) < SMA200(HYG/IEF)(d-1)   (plus the usual Open-Limit NSL)
+  Everything else unchanged (SEP=OFF -> cash, 1x -> 3x when Vol_Z < 0.3, next-day open, 10bp/side).
+  Optional add-on: "20-day non-ratchet NSL" (a 1x hedge shorter than 20 trading days does not reset the NSL floor).
+
+This script imports NO strategy code. It rebuilds from raw files:
+  - ETF OHLC (Tiingo adjOpen/adjClose JSON), FOMC SEP state from 02_sep_alfred_medians.csv,
+  - Vol_Z, the HYG/IEF signal, and the open-executed simulation engine.
+Checks:
+  T0 reproduce baseline and the gate; T1 data integrity; T2 gain attribution by episode;
+  T3 signal margin at every baseline trim; T4 placebo (circular-shift) test; T5 alternative credit proxies;
+  T6 credit-signal-only delay; T7 the 20-day non-ratchet NSL patch; T8 calendar-year breakdown.
+"""
+import json
+import os
+
+import numpy as np
+import pandas as pd
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+ETF = os.path.join(ROOT, "outputs", "remediation_full_audit_20261104", "tiingo_etfs")
+SEP_CSV = os.path.join(ROOT, "outputs", "expabc_independent_audit_20261104", "02_sep_alfred_medians.csv")
+OUT = os.path.join(ROOT, "outputs", "hyg_ief_independent_audit_20261118")
+os.makedirs(OUT, exist_ok=True)
+FEE = 0.0010
+LOG = []
+
+
+def say(s=""):
+    print(s)
+    LOG.append(str(s))
+
+
+def etf(sym):
+    df = pd.DataFrame(json.load(open(os.path.join(ETF, f"{sym}.json"))))
+    df["date"] = pd.to_datetime(df["date"].str[:10])
+    df = df.sort_values("date").drop_duplicates("date", keep="last").set_index("date")
+    return df[["adjOpen", "adjClose"]].astype(float)
+
+
+# ----------------------------------------------------------------------------- raw inputs
+QQQ, TQQQ, BIL, SGOV = etf("QQQ"), etf("TQQQ"), etf("BIL"), etf("SGOV")
+CASH = BIL.copy()
+CASH.loc[CASH.index.intersection(SGOV.index)] = SGOV.loc[CASH.index.intersection(SGOV.index)]
+IDX = TQQQ.index.intersection(QQQ.index).intersection(CASH.index)
+IDX = IDX[(IDX >= "2010-02-11") & (IDX <= "2026-11-03")]
+
+# SEP state rebuilt independently (same published rule: exit if rate up & PCE up & PCE>2; re-enter if rate not up)
+sep_raw = pd.read_csv(SEP_CSV)
+sep_raw = sep_raw[sep_raw["has_medians"] == True].reset_index(drop=True)  # noqa: E712
+state, prev_f, prev_p, flips = True, {}, {}, {}
+for _, r in sep_raw.iterrows():
+    dt = pd.Timestamp(r["date"])
+    ty = int(r["target_year"])
+    f = {dt.year + k: float(v) for k, v in enumerate(json.loads(r["ffr_medians"]))}
+    p = {dt.year + k: float(v) for k, v in enumerate(json.loads(r["pce_medians"]))}
+    cr, cp, pr, pp = f.get(ty), p.get(ty), prev_f.get(ty), prev_p.get(ty)
+    if None not in (cr, cp, pr, pp):
+        if state and cr > pr and cp > pp and cp > 2.0:
+            state = False
+        elif (not state) and cr <= pr:
+            state = True
+    flips[dt] = state
+    prev_f, prev_p = f, p
+SEP = pd.Series(True, index=IDX)
+cur = True
+for d in IDX:
+    cur = flips.get(d, cur)
+    SEP.loc[d] = cur
+
+rq = QQQ["adjClose"].pct_change()
+
+
+def volz(win=20):
+    rv = rq.rolling(win).std(ddof=1) * np.sqrt(252) * 100
+    return ((rv - rv.rolling(252).mean()) / rv.rolling(252).std(ddof=1)).reindex(IDX)
+
+
+VZ20 = volz(20)
+
+
+def credit_gate(num, den, ma=200):
+    """True = credit healthy (ratio above its SMA). Computed on the num/den common calendar, then forward-filled
+    onto the trading calendar (no backfill; NaN -> False = 'unhealthy', i.e. never blocks a trim)."""
+    a, b = etf(num)["adjClose"], etf(den)["adjClose"]
+    ratio = (a / b).dropna()
+    ok = (ratio > ratio.rolling(ma).mean())
+    ok[ratio.rolling(ma).mean().isna()] = np.nan
+    return ok.reindex(IDX, method="ffill").astype(float).fillna(0.0).astype(bool), ratio
+
+
+GATE200, RATIO = credit_gate("HYG", "IEF", 200)
+
+A = {k: (v.reindex(IDX)) for k, v in {"3x": TQQQ, "1x": QQQ, "0x": CASH}.items()}
+AO = {k: v["adjOpen"].values for k, v in A.items()}
+AC = {k: v["adjClose"].values for k, v in A.items()}
+SEPV = SEP.values
+
+
+def sim(gate=None, vz=None, trig=1.2, rec=0.3, non_ratchet_days=0, record=False):
+    """Open-executed engine. gate: bool array (True = credit healthy -> block 3x->1x). Signals at d-1 close."""
+    vz = (VZ20 if vz is None else vz).values
+    g = np.zeros(len(IDX), bool) if gate is None else np.asarray(gate, bool)
+    cm = (1 - FEE) ** 2
+    eq, pos, entry, days1x = 1.0, "3x", 1.0, 10 ** 6
+    eqs, trades, pos_s = np.empty(len(IDX)), [], np.empty(len(IDX), dtype=object)
+    eqs[0], pos_s[0] = 1.0, "3x"
+    for i in range(1, len(IDX)):
+        s_on, v, ok = SEPV[i - 1], vz[i - 1], g[i - 1]
+        eq_open = eq * AO[pos][i] / AC[pos][i - 1]
+        can_sell = eq >= entry and eq_open * cm >= entry
+        if pos == "1x":
+            days1x += 1
+        if not s_on:
+            tgt = "0x"
+        elif pos == "0x":
+            tgt = "3x" if v <= trig else "1x"
+        elif pos == "3x":
+            tgt = "1x" if (v > trig and not ok and can_sell) else "3x"
+        else:
+            tgt = "3x" if v < rec else "1x"
+        if tgt == pos:
+            eq *= AC[pos][i] / AC[pos][i - 1]
+        else:
+            if record:
+                trades.append((IDX[i].date(), pos, tgt, round(float(v), 2)))
+            eq = eq_open * cm
+            if tgt == "1x":
+                days1x = 0
+            if tgt == "3x":
+                if non_ratchet_days == 0 or pos == "0x" or days1x >= non_ratchet_days or eq < entry:
+                    entry = eq
+            eq *= AC[tgt][i] / AO[tgt][i]
+            pos = tgt
+        eqs[i], pos_s[i] = eq, pos
+    s = pd.Series(eqs, index=IDX)
+    return (s, trades, pd.Series(pos_s, index=IDX)) if record else s
+
+
+def stats(s):
+    yrs = (s.index[-1] - s.index[0]).days / 365.25
+    cagr = (s.iloc[-1] / s.iloc[0]) ** (1 / yrs) - 1
+    dr = s.pct_change().dropna()
+    return dict(CAGR=round(cagr * 100, 2), MaxDD=round((s / s.cummax() - 1).min() * 100, 2),
+                Sharpe=round(dr.mean() / dr.std() * np.sqrt(252), 3))
+
+
+def sub_cagr(s, a, b):
+    x = s.loc[a:b]
+    return round(((x.iloc[-1] / x.iloc[0]) ** (365.25 / (x.index[-1] - x.index[0]).days) - 1) * 100, 2)
+
+
+# ============================================================================= T0 reproduction
+say("=== T0. Reproduction (independent engine) ===")
+base, tr_b, pos_b = sim(None, record=True)
+gated, tr_g, pos_g = sim(GATE200, record=True)
+say(f"Baseline V1-Daily : {stats(base)} switches={len(tr_b)}   (frozen spec: 54.89% / -44.54% / 33)")
+say(f"+HYG/IEF SMA200   : {stats(gated)} switches={len(tr_g)}   (Gemini claim: 57.90% / -44.54% / 24)")
+say(f"Time credit-healthy (gate=True) on trading days: {GATE200.mean()*100:.1f}%")
+
+# ============================================================================= T1 data integrity
+say("\n=== T1. Data integrity ===")
+hyg, ief = etf("HYG"), etf("IEF")
+miss_h = IDX.difference(hyg.index)
+miss_i = IDX.difference(ief.index)
+say(f"Trading days missing in HYG: {len(miss_h)}, in IEF: {len(miss_i)} (forward-filled, never back-filled)")
+yi = pd.Series({pd.Timestamp(d): v for d, v in json.load(open(os.path.join(ROOT, "data", "yahoo", "IEF.json")))["values"] if v})
+yr = yi.pct_change().dropna()
+tr_ = ief["adjClose"].pct_change().reindex(yr.index).dropna()
+say(f"IEF Tiingo vs local Yahoo daily-return correlation: {yr.reindex(tr_.index).corr(tr_):.4f} on {len(tr_)} days "
+    f"(Yahoo file starts {yi.index.min().date()})")
+say("Look-ahead via dividend adjustment: adjusted prices scale every price <= t by the same later factor, "
+    "so ratio/SMA comparisons at t are unchanged -> no look-ahead. Signal uses d-1 close, executes d open: OK.")
+fred = json.load(open(os.path.join(ROOT, "data", "fred", "BAMLH0A0HYM2.json")))["values"]
+say(f"NOTE: local FRED HY OAS (BAMLH0A0HYM2) starts {fred[0][0]} -> the earlier 'P5c real-time HY OAS' test "
+    f"(2010-2026) used a back-filled constant before {fred[0][0]}; that result is invalid, not evidence either way.")
+
+# ============================================================================= T2 attribution
+say("\n=== T2. Where does the +3pp come from? (episodes where the two strategies hold different assets) ===")
+lr_diff = np.log(gated).diff().fillna(0) - np.log(base).diff().fillna(0)
+differ = (pos_g != pos_b)
+eps, cur_ep = [], None
+for d in IDX:
+    if differ.loc[d]:
+        if cur_ep is None:
+            cur_ep = [d, d]
+        cur_ep[1] = d
+    elif cur_ep is not None:
+        eps.append(cur_ep)
+        cur_ep = None
+if cur_ep:
+    eps.append(cur_ep)
+rows = []
+for a, b in eps:
+    # include the day after the divergence ends (open-to-close of switch day belongs to the episode)
+    j = IDX.get_loc(b) + 1
+    b2 = IDX[min(j, len(IDX) - 1)]
+    g = float(lr_diff.loc[a:b2].sum())
+    rows.append(dict(start=a.date(), end=b.date(), days=int(differ.loc[a:b].sum()),
+                     base_pos=pos_b.loc[a], gated_pos=pos_g.loc[a], log_gain=round(g, 4)))
+df_ep = pd.DataFrame(rows).sort_values("log_gain", ascending=False)
+tot = float(lr_diff.sum())
+df_ep["share_of_total_%"] = (df_ep["log_gain"] / tot * 100).round(1)
+say(f"Total log-wealth advantage of gated vs baseline: {tot:.4f} ({len(df_ep)} divergence episodes)")
+say(df_ep.to_string(index=False))
+df_ep.to_csv(os.path.join(OUT, "T2_divergence_episodes.csv"), index=False)
+top1 = df_ep["log_gain"].iloc[0] / tot * 100
+top2 = df_ep["log_gain"].iloc[:2].sum() / tot * 100
+say(f"Largest episode = {top1:.0f}% of the total gain; largest two = {top2:.0f}%")
+
+# ============================================================================= T3 margin at baseline trims
+say("\n=== T3. Signal margin at every baseline de-lever (3x->1x) signal date ===")
+sma = RATIO.rolling(200).mean()
+marg = (RATIO / sma - 1) * 100
+rows = []
+for d_exec, frm, to, v in tr_b:
+    if frm == "3x" and to == "1x":
+        d_sig = IDX[IDX.get_loc(pd.Timestamp(d_exec)) - 1]
+        m = float(marg.reindex([d_sig], method="ffill").iloc[0])
+        # also margin for the 5 trading days before signal
+        rows.append(dict(signal_close=d_sig.date(), exec_open=d_exec, VolZ=v,
+                         ratio_vs_SMA200_pct=round(m, 2), gate_blocks=bool(GATE200.loc[d_sig])))
+df_m = pd.DataFrame(rows)
+say(df_m.to_string(index=False))
+df_m.to_csv(os.path.join(OUT, "T3_margin_at_baseline_trims.csv"), index=False)
+
+# ============================================================================= T4 placebo
+say("\n=== T4. Placebo: circularly shifted credit signal (same persistence, wrong dates) ===")
+g_arr = GATE200.values
+rng = np.random.default_rng(20261118)
+n = len(g_arr)
+shifts = rng.choice(np.arange(250, n - 250), size=400, replace=False)
+res = []
+for k in shifts:
+    s = sim(np.roll(g_arr, int(k)))
+    st = stats(s)
+    res.append((st["CAGR"], st["MaxDD"]))
+res = np.array(res)
+real = stats(gated)
+p_cagr = (res[:, 0] >= real["CAGR"]).mean()
+p_both = ((res[:, 0] >= real["CAGR"]) & (res[:, 1] >= real["MaxDD"] - 1e-9)).mean()
+say(f"400 shifted placebos: median CAGR {np.median(res[:,0]):.2f}%, 90th pct {np.percentile(res[:,0],90):.2f}%, "
+    f"median MaxDD {np.median(res[:,1]):.2f}%, worst {res[:,1].min():.2f}%")
+say(f"Share of placebos with CAGR >= real ({real['CAGR']}%): {p_cagr*100:.1f}%  |  with CAGR >= real AND MaxDD no worse: {p_both*100:.1f}%")
+say(f"Share of placebos with MaxDD worse than -50%: {(res[:,1] < -50).mean()*100:.1f}%")
+pd.DataFrame(res, columns=["CAGR", "MaxDD"]).assign(shift=shifts).to_csv(os.path.join(OUT, "T4_placebo_shifts.csv"), index=False)
+
+# ============================================================================= T5 alternative proxies
+say("\n=== T5. Same rule with other credit proxies (if the idea is real, cousins should also help) ===")
+rows = [dict(proxy="none (baseline)", **stats(base))]
+for num, den in [("HYG", "IEF"), ("JNK", "IEF"), ("HYG", "SHY"), ("JNK", "SHY"), ("HYG", "LQD"), ("LQD", "IEF")]:
+    for ma in (100, 150, 200, 250):
+        gt, _ = credit_gate(num, den, ma)
+        rows.append(dict(proxy=f"{num}/{den} SMA{ma}", **stats(sim(gt))))
+df5 = pd.DataFrame(rows)
+say(df5.to_string(index=False))
+df5.to_csv(os.path.join(OUT, "T5_alternative_proxies.csv"), index=False)
+
+# ============================================================================= T6 credit-only delay
+say("\n=== T6. Delay ONLY the credit signal (Vol_Z on time) ===")
+rows = []
+for dl in range(0, 11):
+    g = pd.Series(g_arr, index=IDX).shift(dl).fillna(False).astype(bool).values
+    rows.append(dict(credit_delay_days=dl, **stats(sim(g))))
+df6 = pd.DataFrame(rows)
+say(df6.to_string(index=False))
+df6.to_csv(os.path.join(OUT, "T6_credit_only_delay.csv"), index=False)
+
+# ============================================================================= T7 non-ratchet patch
+say("\n=== T7. The '20-day non-ratchet NSL' patch: what does it actually change? ===")
+rows = []
+for w in (8, 10, 12, 15, 20, 25, 30):
+    vz = volz(w)
+    for lab, gt in (("baseline", None), ("HYG/IEF", GATE200)):
+        a0 = stats(sim(gt, vz=vz))
+        a1 = stats(sim(gt, vz=vz, non_ratchet_days=20))
+        rows.append(dict(vol_win=w, variant=lab, CAGR_old=a0["CAGR"], MDD_old=a0["MaxDD"],
+                         CAGR_patch=a1["CAGR"], MDD_patch=a1["MaxDD"]))
+df7 = pd.DataFrame(rows)
+say(df7.to_string(index=False))
+df7.to_csv(os.path.join(OUT, "T7_non_ratchet_patch.csv"), index=False)
+for nd in (5, 10, 15, 20, 30, 40, 60):
+    a = stats(sim(GATE200, vz=volz(10), non_ratchet_days=nd))
+    say(f"  vol_win=10, non_ratchet_days={nd:2d}: {a}")
+
+# ============================================================================= T8 calendar years
+say("\n=== T8. Calendar-year returns: gated minus baseline ===")
+yb = base.resample("YE").last().pct_change()
+yg = gated.resample("YE").last().pct_change()
+yb.iloc[0] = base.resample("YE").last().iloc[0] / base.iloc[0] - 1
+yg.iloc[0] = gated.resample("YE").last().iloc[0] / gated.iloc[0] - 1
+df8 = pd.DataFrame({"base_%": (yb * 100).round(2), "gated_%": (yg * 100).round(2)})
+df8["diff_pp"] = (df8["gated_%"] - df8["base_%"]).round(2)
+df8.index = df8.index.year
+say(df8.to_string())
+say(f"Years better / equal / worse: {(df8.diff_pp>0.05).sum()} / {(df8.diff_pp.abs()<=0.05).sum()} / {(df8.diff_pp<-0.05).sum()}")
+say(f"Sub-periods: 2010-2019 base {sub_cagr(base,'2010-02-11','2019-12-31')}% vs gated {sub_cagr(gated,'2010-02-11','2019-12-31')}% | "
+    f"2020-2026 base {sub_cagr(base,'2019-12-31','2026-11-03')}% vs gated {sub_cagr(gated,'2019-12-31','2026-11-03')}%")
+df8.to_csv(os.path.join(OUT, "T8_calendar_years.csv"))
+
+# ============================================================================= T9 credit vs rates decomposition
+say("\n=== T9. Is HYG/IEF a credit signal or a rates signal? ===")
+say("HYG/IEF = (HYG/SHY) x (SHY/IEF): a pure-credit leg times a pure-duration leg (SHY/IEF rises when yields rise).")
+rows = []
+for lab, (num, den) in {"credit only: HYG/SHY": ("HYG", "SHY"), "rates only: SHY/IEF (yields rising)": ("SHY", "IEF"),
+                        "combined: HYG/IEF": ("HYG", "IEF")}.items():
+    gt, _ = credit_gate(num, den, 200)
+    st = stats(sim(gt))
+    blocks = [str(r["signal_close"]) for _, r in df_m.iterrows()
+              if bool(gt.loc[pd.Timestamp(r["signal_close"])])]
+    rows.append(dict(gate=lab, **st, blocked_baseline_trims=len(blocks), blocks=", ".join(blocks)))
+df9 = pd.DataFrame(rows)
+say(df9.to_string(index=False))
+df9.to_csv(os.path.join(OUT, "T9_credit_vs_rates.csv"), index=False)
+
+pd.DataFrame(tr_g, columns=["exec_open", "from", "to", "VolZ_signal"]).to_csv(os.path.join(OUT, "gated_trade_ledger.csv"), index=False)
+pd.DataFrame(tr_b, columns=["exec_open", "from", "to", "VolZ_signal"]).to_csv(os.path.join(OUT, "baseline_trade_ledger.csv"), index=False)
+open(os.path.join(OUT, "audit_log.txt"), "w").write("\n".join(LOG))
