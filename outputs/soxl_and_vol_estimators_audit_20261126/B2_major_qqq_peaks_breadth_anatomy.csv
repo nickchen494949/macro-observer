@@ -1,0 +1,11 @@
+Peak_Event,Peak_Date,Subsequent_QQQ_DD_pct,Breadth50_at_Peak_pct,Breadth50_40d_Prior_Max_pct,Breadth50_Drop_Before_Peak_pp,Breadth200_at_Peak_pct,EW_minus_CW_20d_pct,EW_minus_CW_60d_pct,Divergence_Present_at_Peak
+2011 Euro Debt Peak,2011-07-22,-16.06,62.8,77.7,-14.9,64.9,-3.98,-2.23,YES
+2015 China/Biotech Peak,2015-07-20,-13.94,57.8,67.0,-9.1,59.8,-4.05,-4.86,YES
+2018 Q4 Rate Hike Peak,2018-08-29,-22.79,68.4,76.5,-8.2,72.4,-2.08,-1.5,NO
+2018 Oct Secondary Peak,2018-10-01,-22.69,58.2,73.5,-15.3,62.2,-0.17,-3.5,NO
+2020 COVID Crash Peak,2020-02-19,-28.56,82.8,91.9,-9.1,84.8,-1.89,-4.23,NO
+2021 Nov All-Time Peak,2021-11-19,-35.06,60.4,76.2,-15.8,65.3,-5.34,-5.16,YES
+2021 Dec Double Top,2021-12-27,-35.06,62.0,76.2,-14.2,69.0,-0.58,-5.95,NO
+2023 Summer Peak,2023-07-18,-10.78,85.1,87.1,-2.0,81.0,-0.57,-8.77,NO
+2024 July Mag-7 Peak,2024-07-10,-13.56,65.3,66.3,-1.0,65.3,-5.08,-9.49,YES
+2025 Feb Tariff Peak,2025-02-19,-22.77,68.3,71.3,-3.0,72.3,1.66,0.01,NO

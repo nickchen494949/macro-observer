@@ -523,17 +523,20 @@ def run_unified_two_sleeve_share_lot_account(
     two_sided_cash_fee=True,
     cash_df=CASH_FIXED,
     update_nsl_on_rebal=True,
+    rebal_respects_nsl=False,
+    vzs_override=None,
+    yearly_schedule=None,
 ):
     """
     True share-lot multi-sleeve account:
       - Sleeve T (target weight w_t): holds actual share lots of TQQQ (3x), QQQ (1x), or CASH (0x).
       - Sleeve S (target weight 1-w_t): holds actual share lots of SOXL (3x), QQQ (1x), or CASH (0x).
-      - When a rebalance moves $M from overweight Sleeve B to underweight Sleeve A at Day i Open:
-          * Sleeve B sells $M of its currently held asset at Open (paying 10bp sell fee).
-            If Sleeve B is in 3x, shares are removed from its share lots according to `cost_rule` (avg_cost / lifo / fifo).
-          * Sleeve A receives $M * (1 - 2*FEE) net of two-sided rebalance fee and buys shares of its currently held asset at Open.
-            If Sleeve A is in 3x and `update_nsl_on_rebal=True`, a new share lot [shares_added, open_px / (1 - FEE)] is appended
-            to Sleeve A's 3x lots, dynamically updating its NSL cost basis!
+      - If `yearly_schedule` is provided ({year: (w_t_yr, trig_t_yr, rec_t_yr, trig_s_yr, rec_s_yr)}),
+        the account runs continuously across all years without resetting or splicing virtual accounts,
+        updating active parameters and target weights at the first trading day of each new year while
+        strictly preserving existing share lots and NSL cost basis!
+      - If `rebal_respects_nsl=True`, a periodic rebalance will NOT trim an overweight 3x sleeve if that
+        3x sleeve is currently underwater net of sell fee (i.e. NSL blocks partial rebalance trims too).
     """
     w_s = round(1.0 - w_t, 6)
     idx = IDX_COMMON
@@ -544,7 +547,7 @@ def run_unified_two_sleeve_share_lot_account(
     co, cc = cash_df["adjOpen"].reindex(idx).values, cash_df["adjClose"].reindex(idx).values
     sep_v = sep_ser.reindex(idx).values
     vzt_v = vz_qqq_c2c.reindex(idx).values
-    vzs_v = vz_soxx_c2c.reindex(idx).values
+    vzs_v = (vzs_override if vzs_override is not None else vz_soxx_c2c).reindex(idx).values
 
     # Initialize on Day 0 Close with total NAV = 1.0 split w_t / w_s
     pos_t = "3x"
@@ -600,6 +603,9 @@ def run_unified_two_sleeve_share_lot_account(
 
     for i in range(1, n):
         d0, d = idx[i - 1], idx[i]
+        if yearly_schedule is not None and d.year in yearly_schedule:
+            w_t, trig_t, rec_t, trig_s, rec_s = yearly_schedule[d.year]
+            w_s = round(1.0 - w_t, 6)
         s_on = bool(sep_v[i - 1])
         vt_z = vzt_v[i - 1]
         vs_z = vzs_v[i - 1]
@@ -697,56 +703,69 @@ def run_unified_two_sleeve_share_lot_account(
         elif freq == "band10":
             do_reb = (abs(wt_cur - w_t) >= 0.10)
 
-        if do_reb and (0.0 < w_t < 1.0) and abs(wt_cur - w_t) > 1e-4:
-            move_gross = abs(val_t_open - w_t * tot_open)
-            # If both sleeves hold the EXACT same asset (e.g. both in 1x QQQ or both in 0x CASH), internal accounting transfer requires 0 market trade!
-            same_asset = (pos_t == pos_s) and (pos_t in ("1x", "0x"))
-            reb_cost = 0.0 if same_asset else (move_gross * 2.0 * FEE)
-            tot_after = tot_open - reb_cost
-            tgt_val_t = w_t * tot_after
-            tgt_val_s = w_s * tot_after
+        if do_reb and (yearly_schedule is not None or (0.0 < w_t < 1.0)) and abs(wt_cur - w_t) > 1e-4:
+            # Check if rebalance partial trim of a 3x sleeve is blocked by NSL when rebal_respects_nsl=True
+            trim_t = (val_t_open > w_t * tot_open) and (pos_t == "3x")
+            trim_s = (val_s_open > w_s * tot_open) and (pos_s == "3x")
+            cb_t_now = cb_avg(lots_t)
+            cb_s_now = cb_avg(lots_s)
+            prof_t_now = (cb_t_now is not None) and (to_t[i] * (1.0 - FEE) > cb_t_now)
+            prof_s_now = (cb_s_now is not None) and (to_s[i] * (1.0 - FEE) > cb_s_now)
+            nsl_blocks_rebal = rebal_respects_nsl and ((trim_t and not prof_t_now) or (trim_s and not prof_s_now))
+            if not nsl_blocks_rebal:
+                move_gross = abs(val_t_open - w_t * tot_open)
+                # If both sleeves hold the EXACT same asset (e.g. both in 1x QQQ or both in 0x CASH), internal accounting transfer requires 0 market trade!
+                same_asset = (pos_t == pos_s) and (pos_t in ("1x", "0x"))
+                reb_cost = 0.0 if same_asset else (move_gross * 2.0 * FEE)
+                tot_after = tot_open - reb_cost
+                tgt_val_t = w_t * tot_after
+                tgt_val_s = w_s * tot_after
 
-            # Adjust Sleeve T shares & lots
-            delta_t = tgt_val_t - val_t_open
-            if pos_t == "3x":
-                if delta_t < -1e-12:
-                    sh_rem = (-delta_t) / to_t[i]
-                    pop_shares(lots_t, sh_rem, cost_rule)
-                    if not update_nsl_on_rebal and floor_nav_t is not None:
-                        floor_nav_t *= (tgt_val_t / val_t_open)
-                    elif update_nsl_on_rebal and floor_nav_t is not None:
-                        floor_nav_t *= (tgt_val_t / val_t_open)
-                elif delta_t > 1e-12:
-                    sh_add = delta_t / to_t[i]
-                    new_cost = (to_t[i] / (1.0 - FEE)) if update_nsl_on_rebal else (cb_avg(lots_t) or to_t[i])
-                    lots_t.append([sh_add, new_cost])
-                    if floor_nav_t is not None:
-                        floor_nav_t = (floor_nav_t + delta_t) if update_nsl_on_rebal else (floor_nav_t * (tgt_val_t / val_t_open))
-            elif pos_t == "1x":
-                q_sh_t = tgt_val_t / qo[i]
-            else:
-                c_sh_t = tgt_val_t / co[i]
+                # Adjust Sleeve T shares & lots
+                delta_t = tgt_val_t - val_t_open
+                if pos_t == "3x":
+                    if delta_t < -1e-12:
+                        sh_rem = (-delta_t) / to_t[i]
+                        pop_shares(lots_t, sh_rem, cost_rule)
+                        if not update_nsl_on_rebal and floor_nav_t is not None and val_t_open > 0:
+                            floor_nav_t *= (tgt_val_t / val_t_open)
+                        elif update_nsl_on_rebal and floor_nav_t is not None and val_t_open > 0:
+                            floor_nav_t *= (tgt_val_t / val_t_open)
+                    elif delta_t > 1e-12:
+                        sh_add = delta_t / to_t[i]
+                        new_cost = (to_t[i] / (1.0 - FEE)) if update_nsl_on_rebal else (cb_avg(lots_t) or (to_t[i] / (1.0 - FEE)))
+                        lots_t.append([sh_add, new_cost])
+                        if floor_nav_t is not None:
+                            floor_nav_t = (floor_nav_t + delta_t) if update_nsl_on_rebal else (floor_nav_t * (tgt_val_t / val_t_open) if val_t_open > 0 else tgt_val_t)
+                        else:
+                            floor_nav_t = tgt_val_t
+                elif pos_t == "1x":
+                    q_sh_t = tgt_val_t / qo[i]
+                else:
+                    c_sh_t = tgt_val_t / co[i]
 
-            # Adjust Sleeve S shares & lots
-            delta_s = tgt_val_s - val_s_open
-            if pos_s == "3x":
-                if delta_s < -1e-12:
-                    sh_rem = (-delta_s) / to_s[i]
-                    pop_shares(lots_s, sh_rem, cost_rule)
-                    if floor_nav_s is not None:
-                        floor_nav_s *= (tgt_val_s / val_s_open)
-                elif delta_s > 1e-12:
-                    sh_add = delta_s / to_s[i]
-                    new_cost = (to_s[i] / (1.0 - FEE)) if update_nsl_on_rebal else (cb_avg(lots_s) or to_s[i])
-                    lots_s.append([sh_add, new_cost])
-                    if floor_nav_s is not None:
-                        floor_nav_s = (floor_nav_s + delta_s) if update_nsl_on_rebal else (floor_nav_s * (tgt_val_s / val_s_open))
-            elif pos_s == "1x":
-                q_sh_s = tgt_val_s / qo[i]
-            else:
-                c_sh_s = tgt_val_s / co[i]
+                # Adjust Sleeve S shares & lots
+                delta_s = tgt_val_s - val_s_open
+                if pos_s == "3x":
+                    if delta_s < -1e-12:
+                        sh_rem = (-delta_s) / to_s[i]
+                        pop_shares(lots_s, sh_rem, cost_rule)
+                        if floor_nav_s is not None and val_s_open > 0:
+                            floor_nav_s *= (tgt_val_s / val_s_open)
+                    elif delta_s > 1e-12:
+                        sh_add = delta_s / to_s[i]
+                        new_cost = (to_s[i] / (1.0 - FEE)) if update_nsl_on_rebal else (cb_avg(lots_s) or (to_s[i] / (1.0 - FEE)))
+                        lots_s.append([sh_add, new_cost])
+                        if floor_nav_s is not None:
+                            floor_nav_s = (floor_nav_s + delta_s) if update_nsl_on_rebal else (floor_nav_s * (tgt_val_s / val_s_open) if val_s_open > 0 else tgt_val_s)
+                        else:
+                            floor_nav_s = tgt_val_s
+                elif pos_s == "1x":
+                    q_sh_s = tgt_val_s / qo[i]
+                else:
+                    c_sh_s = tgt_val_s / co[i]
 
-            reb_cnt += 1
+                reb_cnt += 1
 
         # 4. Mark both sleeves at Day i Close
         val_t_close = sh_sum(lots_t) * tc_t[i] + q_sh_t * qc[i] + c_sh_t * cc[i]
@@ -757,32 +776,41 @@ def run_unified_two_sleeve_share_lot_account(
     return pd.Series(eq, index=idx), pd.Series(ws_track, index=idx), reb_cnt
 
 
+r_soxx_all = SOXX["adjClose"].pct_change()
+r_soxl_all = SOXL["adjClose"].pct_change()
+r_soxl_warm_all = pd.concat([r_soxx_all.loc[r_soxx_all.index < "2010-03-12"] * 3.0, r_soxl_all.loc["2010-03-12":]]).sort_index()
+rv_soxl_w = r_soxl_warm_all.rolling(20).std(ddof=1) * np.sqrt(252) * 100
+vz_soxl_3x_warm = (rv_soxl_w - rv_soxl_w.rolling(252).mean()) / rv_soxl_w.rolling(252).std(ddof=1)
+
 r3_configs = [
-    ("0a. Pure TQQQ V1-Daily (Original 1-Sided Cash Fee, Raw Cash)", 1.0, "never", "avg_cost", SEP_CORE_COMMON, False, CASH_RAW_JUMP, False),
-    ("0b. Pure TQQQ V1-Daily (Remediated: 2-Sided Cash Fee + Return-Chained Cash)", 1.0, "never", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True),
-    ("0c. Pure TQQQ V1-Daily (Headline PCE SEP + Remediated Cash/Fee)", 1.0, "never", "avg_cost", SEP_HEAD_COMMON, True, CASH_FIXED, True),
-    ("1a. Pure SOXL V1-Daily -> 1x QQQ (Original 1-Sided Cash Fee, Raw Cash)", 0.0, "never", "avg_cost", SEP_CORE_COMMON, False, CASH_RAW_JUMP, False),
-    ("1b. Pure SOXL V1-Daily -> 1x QQQ (Remediated: 2-Sided Cash Fee + Return-Chained Cash)", 0.0, "never", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True),
-    ("1c. Pure SOXL V1-Daily -> 1x QQQ (Headline PCE SEP + Remediated Cash/Fee)", 0.0, "never", "avg_cost", SEP_HEAD_COMMON, True, CASH_FIXED, True),
-    ("2a. 75/25 Never Rebalance (Drift -> SOXL hits 64.3% weight)", 0.75, "never", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True),
-    ("2b. 75/25 Annual Rebal — Old Normalized Sleeve NSL (1-Sided Cash Fee)", 0.75, "annual", "avg_cost", SEP_CORE_COMMON, False, CASH_RAW_JUMP, False),
-    ("2c. 75/25 Annual Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.75, "annual", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True),
-    ("2d. 75/25 Annual Rebal — Remediated Dynamic Share-Lot NSL (LIFO)", 0.75, "annual", "lifo", SEP_CORE_COMMON, True, CASH_FIXED, True),
-    ("2e. 75/25 Annual Rebal — Remediated Dynamic Share-Lot NSL (FIFO)", 0.75, "annual", "fifo", SEP_CORE_COMMON, True, CASH_FIXED, True),
-    ("2f. 75/25 Semi-Annual Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.75, "semiannual", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True),
-    ("2g. 75/25 Quarterly Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.75, "quarterly", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True),
-    ("2h. 75/25 Monthly Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.75, "monthly", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True),
-    ("2i. 75/25 On-Switch Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.75, "on_switch", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True),
-    ("2j. 75/25 +/-10% Band Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.75, "band10", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True),
-    ("3a. 80/20 Annual Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.80, "annual", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True),
-    ("3b. 80/20 On-Switch Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.80, "on_switch", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True),
-    ("3c. 50/50 Annual Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.50, "annual", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True),
+    ("0a. Pure TQQQ V1-Daily (Original 1-Sided Cash Fee, Raw Cash)", 1.0, "never", "avg_cost", SEP_CORE_COMMON, False, CASH_RAW_JUMP, False, False, None),
+    ("0b. Pure TQQQ V1-Daily (Remediated: 2-Sided Cash Fee + Return-Chained Cash)", 1.0, "never", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True, False, None),
+    ("0c. Pure TQQQ V1-Daily (Headline PCE SEP + Remediated Cash/Fee)", 1.0, "never", "avg_cost", SEP_HEAD_COMMON, True, CASH_FIXED, True, False, None),
+    ("1a. Pure SOXL V1-Daily -> 1x QQQ (Original 1-Sided Cash Fee, Raw Cash)", 0.0, "never", "avg_cost", SEP_CORE_COMMON, False, CASH_RAW_JUMP, False, False, None),
+    ("1b. Pure SOXL V1-Daily -> 1x QQQ (Remediated: 2-Sided Cash Fee + Return-Chained Cash, SOXX Signal)", 0.0, "never", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True, False, None),
+    ("1c. Pure SOXL V1-Daily -> 1x QQQ (Headline PCE SEP + Remediated Cash/Fee)", 0.0, "never", "avg_cost", SEP_HEAD_COMMON, True, CASH_FIXED, True, False, None),
+    ("1d. Pure SOXL V1-Daily -> 1x QQQ (Remediated: SOXL Self-Signal + 3x SOXX Warmup)", 0.0, "never", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True, False, vz_soxl_3x_warm),
+    ("2a. 75/25 Never Rebalance (Drift -> SOXL hits 65.7% max weight, 59.5% end weight)", 0.75, "never", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True, False, None),
+    ("2b. 75/25 Annual Rebal — Old Normalized Sleeve NSL (1-Sided Cash Fee)", 0.75, "annual", "avg_cost", SEP_CORE_COMMON, False, CASH_RAW_JUMP, False, False, None),
+    ("2c. 75/25 Annual Rebal — Remediated Dynamic Share-Lot NSL (Average Cost, Partial Trim Exempt)", 0.75, "annual", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True, False, None),
+    ("2d. 75/25 Annual Rebal — Remediated Dynamic Share-Lot NSL (LIFO)", 0.75, "annual", "lifo", SEP_CORE_COMMON, True, CASH_FIXED, True, False, None),
+    ("2e. 75/25 Annual Rebal — Remediated Dynamic Share-Lot NSL (FIFO)", 0.75, "annual", "fifo", SEP_CORE_COMMON, True, CASH_FIXED, True, False, None),
+    ("2f. 75/25 Annual Rebal — Partial Trim Also Gated by NSL (rebal_respects_nsl=True)", 0.75, "annual", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True, True, None),
+    ("2g. 75/25 Semi-Annual Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.75, "semiannual", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True, False, None),
+    ("2h. 75/25 Quarterly Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.75, "quarterly", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True, False, None),
+    ("2i. 75/25 Monthly Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.75, "monthly", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True, False, None),
+    ("2j. 75/25 On-Switch Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.75, "on_switch", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True, False, None),
+    ("2k. 75/25 +/-10% Band Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.75, "band10", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True, False, None),
+    ("3a. 80/20 Annual Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.80, "annual", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True, False, None),
+    ("3b. 80/20 On-Switch Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.80, "on_switch", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True, False, None),
+    ("3c. 50/50 Annual Rebal — Remediated Dynamic Share-Lot NSL (Average Cost)", 0.50, "annual", "avg_cost", SEP_CORE_COMMON, True, CASH_FIXED, True, False, None),
 ]
 
 r3_rows = []
-for lbl, wt, fr, cr_m, sep_s, two_f, c_df, upd_nsl in r3_configs:
+for lbl, wt, fr, cr_m, sep_s, two_f, c_df, upd_nsl, reb_nsl, vzs_ov in r3_configs:
     eq_b, ws_b, r_cnt = run_unified_two_sleeve_share_lot_account(
-        w_t=wt, freq=fr, cost_rule=cr_m, sep_ser=sep_s, two_sided_cash_fee=two_f, cash_df=c_df, update_nsl_on_rebal=upd_nsl
+        w_t=wt, freq=fr, cost_rule=cr_m, sep_ser=sep_s, two_sided_cash_fee=two_f, cash_df=c_df,
+        update_nsl_on_rebal=upd_nsl, rebal_respects_nsl=reb_nsl, vzs_override=vzs_ov
     )
     mt_b = calc_metrics_full(eq_b, IDX_COMMON)
     r3_rows.append({
@@ -878,47 +906,33 @@ df_wf_sel.drop(columns=["w_t_pen", "w_t_raw", "t_param", "s_param"]).to_csv(
 )
 
 
-# Stitch OOS annual segments (with annual rebalance cost at each Jan 1st trading day open)
-def stitch_wf_oos(mode="wf_joint_pen"):
-    idx_oos = IDX_COMMON[IDX_COMMON >= "2013-12-31"]
-    eq_oos = pd.Series(index=idx_oos, dtype=float)
-    eq_oos.iloc[0] = 1.0
-    cur_nav = 1.0
-    prev_wt = None
+# True Continuous Stateful Across-Year Walk-Forward Account (preserving actual share lots & NSL cost basis across year boundaries)
+def run_stateful_wf_oos(mode="wf_joint_pen"):
+    sched = {}
     for row in wf_sel_rows:
         yr = row["OOS_Test_Year"]
         if mode == "wf_joint_pen":
-            wt = row["w_t_pen"]
-            tp, sp = row["t_param"], row["s_param"]
-            s_full, _, _ = run_unified_two_sleeve_share_lot_account(
-                w_t=wt, freq="annual", cost_rule="avg_cost", trig_t=tp[0], rec_t=tp[1], trig_s=sp[0], rec_s=sp[1]
-            )
+            sched[yr] = (row["w_t_pen"], row["t_param"][0], row["t_param"][1], row["s_param"][0], row["s_param"][1])
         elif mode == "wf_weight_pen":
-            wt = row["w_t_pen"]
-            s_full = blend_weight_navs[wt]
+            sched[yr] = (row["w_t_pen"], 1.2, 0.3, 1.2, 0.3)
         elif mode == "wf_weight_raw":
-            wt = row["w_t_raw"]
-            s_full = blend_weight_navs[wt]
+            sched[yr] = (row["w_t_raw"], 1.2, 0.3, 1.2, 0.3)
         elif mode == "wf_tqqq_only":
-            wt = 1.0
-            tp = row["t_param"]
-            s_full = tqqq_grid_navs[tp]
+            sched[yr] = (1.0, row["t_param"][0], row["t_param"][1], 1.2, 0.3)
         elif mode == "wf_soxl_only":
-            wt = 0.0
-            sp = row["s_param"]
-            s_full = soxl_grid_navs[sp]
-
-        yr_dates = idx_oos[(idx_oos.year == yr) | (idx_oos == idx_oos[idx_oos.year < yr][-1])]
-        seg = s_full.reindex(yr_dates)
-        seg_rel = seg / seg.iloc[0]
-        # Charge additional weight-change turnover fee if OOS target weight changed at Jan open
-        if prev_wt is not None and abs(wt - prev_wt) > 1e-4:
-            cur_nav *= (1.0 - abs(wt - prev_wt) * 2.0 * FEE)
-        prev_wt = wt
-        for dt_k in yr_dates[1:]:
-            eq_oos.loc[dt_k] = cur_nav * seg_rel.loc[dt_k]
-        cur_nav = eq_oos.loc[yr_dates[-1]]
-    return eq_oos
+            sched[yr] = (0.0, 1.2, 0.3, row["s_param"][0], row["s_param"][1])
+    # For pre-2014 warmup years (2010..2013), use initial 2014 selection so position & NSL cost basis at 2013-12-31 match
+    init_cfg = sched[2014]
+    for y0 in range(2010, 2014):
+        sched[y0] = init_cfg
+    eq_full, _, _ = run_unified_two_sleeve_share_lot_account(
+        w_t=init_cfg[0], freq="annual", cost_rule="avg_cost",
+        trig_t=init_cfg[1], rec_t=init_cfg[2], trig_s=init_cfg[3], rec_s=init_cfg[4],
+        yearly_schedule=sched
+    )
+    idx_oos = IDX_COMMON[IDX_COMMON >= "2013-12-31"]
+    s_oos = eq_full.reindex(idx_oos)
+    return s_oos / s_oos.iloc[0]
 
 
 idx_oos = IDX_COMMON[IDX_COMMON >= "2013-12-31"]
@@ -929,15 +943,15 @@ ens_soxl = sum(s.reindex(idx_oos) / s.reindex(idx_oos).iloc[0] for s in soxl_gri
 r5_summary = []
 for lbl, s_oos in [
     ("1a. Fixed 100% TQQQ V1-Daily (1.2/0.3, Hindsight Fixed)", blend_weight_navs[1.00].reindex(idx_oos)),
-    ("1b. Walk-Forward OOS 100% TQQQ (Expanding-Window Trig/Rec)", stitch_wf_oos("wf_tqqq_only")),
+    ("1b. Walk-Forward OOS 100% TQQQ (Continuous Stateful Share-Lot Account, 16-Cell Grid)", run_stateful_wf_oos("wf_tqqq_only")),
     ("1c. 16-Cell Equal-Weight Ensemble 100% TQQQ (Zero Single-Param Choice)", ens_tqqq),
     ("2a. Fixed 75% TQQQ + 25% SOXL Annual (1.2/0.3, Hindsight Fixed)", blend_weight_navs[0.75].reindex(idx_oos)),
     ("2b. Fixed 80% TQQQ + 20% SOXL Annual (1.2/0.3, Hindsight Fixed)", blend_weight_navs[0.80].reindex(idx_oos)),
-    ("2c. Walk-Forward OOS Blend (Expanding-Window Weight + DD50-Cap Sharpe)", stitch_wf_oos("wf_weight_pen")),
-    ("2d. Walk-Forward OOS Joint (Expanding-Window Trig/Rec + Weight)", stitch_wf_oos("wf_joint_pen")),
-    ("2e. Walk-Forward OOS Blend (Expanding-Window Weight by Raw Sharpe)", stitch_wf_oos("wf_weight_raw")),
+    ("2c. Walk-Forward OOS Blend (Continuous Stateful Account, Expanding-Window Weight + DD50-Cap Sharpe)", run_stateful_wf_oos("wf_weight_pen")),
+    ("2d. Walk-Forward OOS Joint (Continuous Stateful Account, Expanding-Window Trig/Rec + Weight)", run_stateful_wf_oos("wf_joint_pen")),
+    ("2e. Walk-Forward OOS Blend (Continuous Stateful Account, Expanding-Window Weight by Raw Sharpe)", run_stateful_wf_oos("wf_weight_raw")),
     ("3a. Fixed 100% SOXL V1-Daily (1.2/0.3, Hindsight Fixed)", blend_weight_navs[0.00].reindex(idx_oos)),
-    ("3b. Walk-Forward OOS 100% SOXL (Expanding-Window Trig/Rec)", stitch_wf_oos("wf_soxl_only")),
+    ("3b. Walk-Forward OOS 100% SOXL (Continuous Stateful Share-Lot Account, 16-Cell Grid)", run_stateful_wf_oos("wf_soxl_only")),
     ("3c. 16-Cell Equal-Weight Ensemble 100% SOXL (Zero Single-Param Choice)", ens_soxl),
 ]:
     s_norm = s_oos / s_oos.iloc[0]
