@@ -104,3 +104,38 @@ At each year-end $Y \in \{2013 .. 2025\}$, using **only trailing data $[2010 .. 
 ### Critical Takeaway from Walk-Forward OOS (`R5`)
 - **Within-asset `Vol_Z (Trig, Rec)` parameters pass Continuous Stateful Walk-Forward OOS with zero degradation**: On both `TQQQ` (`52.06%` WF OOS vs `50.86%` Fixed) and `SOXL` (`83.38%` WF OOS vs `82.82%` Fixed), selecting `(Trig, Rec)` strictly from past data across the 16-cell (`4×4`) grid in a single continuous across-year account matches or beats the fixed `(1.2, 0.3)` parameters.
 - **However, the `75/25` `SOXL` blend weight does NOT pass pre-2023 Walk-Forward OOS selection**: Because `100% TQQQ` had a higher trailing Sharpe than `75/25` at the end of 10 of the 13 years (`2013..2025`, with `90/10` selected in `2017–2018` and `2021`), an expanding-window investor maximizing trailing Sharpe in a continuous across-year account earned **`50.47%–51.68%`** OOS CAGR instead of the hindsight-fixed `75/25` (`61.47%` / Sharpe `1.273`). This confirms the external auditor's verdict: **`75/25` is a discretionary high-beta semiconductor satellite allocation, NOT an out-of-sample proven optimal weight, and `100% TQQQ V1-Daily` remains the primary frozen baseline.**
+
+---
+
+## Round-3 Addendum: Point-in-Time Nasdaq-100 Market Breadth Divergence Audit (`B0..B5`, Falsified / Not Adopted)
+
+> **Audit Script**: [`audit_breadth_divergence_top_escape.py`](../../audit_breadth_divergence_top_escape.py)  
+> **Output Ledgers & CSVs**:
+> - [`B0_daily_pit_ndx_breadth_and_coverage.csv`](./B0_daily_pit_ndx_breadth_and_coverage.csv) — All 4,189 trading days (`2010-03-11 .. 2026-11-03`) of strictly Point-in-Time Nasdaq-100 constituent coverage (`median 102 YAML members`, `101 priced`, `97.77%` mean coverage, `92.00%` min coverage, zero within-month source look-ahead, zero daily return clipping) and `% > SMA20/50/100/200` breadth series.
+> - [`B1_breadth_divergence_conditional_outcomes.csv`](./B1_breadth_divergence_conditional_outcomes.csv) — Both forward 40-day drawdown definitions (`Drop from Signal Close` vs `True Rolling Peak-to-Trough MaxDD in [t, t+40]`) and **de-clustered independent 40-day episodes**.
+> - [`B2_major_qqq_peaks_breadth_anatomy.csv`](./B2_major_qqq_peaks_breadth_anatomy.csv) — Programmatically detected all 19 objective `QQQ` peaks followed by a $\ge 10\%$ drawdown before making a new high (`2010–2026`).
+> - [`B3_v1_tqqq_breadth_divergence_strategy_tests.csv`](./B3_v1_tqqq_breadth_divergence_strategy_tests.csv) — All 23 breadth variants tested on the **exact frozen `R3` baseline (`53.21%` CAGR, `-44.54%` MaxDD, `1.232` Sharpe, `33` switches)**.
+> - [`B4_baseline_vs_A5_C5_trade_ledger.csv`](./B4_baseline_vs_A5_C5_trade_ledger.csv) — Complete trade-by-trade switch ledger comparing Baseline (`53.21%`), `A1`, `A5`, and `C5`.
+> - [`B5_A5_C5_parameter_sensitivity_grid.csv`](./B5_A5_C5_parameter_sensitivity_grid.csv) — Parameter sensitivity grid across neighboring thresholds for `A5` and `C5`.
+
+### Why Market Breadth Divergence (`A5` / `C5`) Is Falsified & Rejected Upon Round-3 Remediation
+1. **De-Clustering Eliminates the Apparent `31.71%` Crash Probability in `B1`**:
+   - While `31.71%` of raw signal days (`26 / 82` days) with `QQQ at 60d High + Breadth_200 < 55%` saw a $\ge 10\%$ drop from the signal price (and `40.24%` true peak-to-trough MaxDD vs `9.66% / 16.93%` for all 60d-high days), those 82 days are heavily auto-correlated within the same market tops.
+   - Once de-clustered into **independent non-overlapping 40-day episodes** ([`B1`](./B1_breadth_divergence_conditional_outcomes.csv)), the 82 days collapse into **`12` independent episodes**, of which only **`2 / 12 (16.7%)`** had a $\ge 10\%$ drop from the signal day (vs **`11 / 85 (12.9%)`** baseline across all 60d-high episodes) and **`3 / 12 (25.0%)`** had a $\ge 10\%$ true MaxDD (vs **`18 / 85 (21.2%)`** baseline) — statistically indistinguishable from noise.
+2. **Programmatic Objective Peak Detection (`B2`) Shows Low Sensitivity Across All 19 Historical $\ge 10\%$ Drawdown Peaks**:
+   - Across all **19 objectively detected `QQQ` peaks** followed by a $\ge 10\%$ drawdown (`2010–2026`), on the peak day:
+     - `Breadth_50 < 50%` occurred on **`1 / 19 (5.3%)`** peaks (`2026-10-06`);
+     - `Breadth_200 < 55%` occurred on **`0 / 19 (0.0%)`** peaks;
+     - `EW - CW 20d < -3%` occurred on **`6 / 19 (31.6%)`** peaks.
+3. **`A5` (`Breadth_200 < 55%`) Fails the Parameter Sensitivity Plateau Test (`B5`)**:
+   - Under the exact `53.21%` baseline, `Breadth_200 < 55%` yields `54.51%` CAGR / `-38.05%` MaxDD, but **every single neighboring threshold performs worse than the `53.21%` baseline**:
+     - `Breadth_200 < 50%`: `52.31%` CAGR, `-44.15%` MaxDD
+     - `Breadth_200 < 52%`: `52.30%` CAGR, `-44.37%` MaxDD
+     - `Breadth_200 < 55%`: `54.51%` CAGR, `-38.05%` MaxDD *(isolated 1-point spike catching Nov 2015 `53.5%`)*
+     - `Breadth_200 < 57%`: `50.11%` CAGR, `-44.68%` MaxDD
+     - `Breadth_200 < 60%`: `51.02%` CAGR, `-43.58%` MaxDD
+     - `Breadth_200 < 65%`: `46.34%` CAGR, `-56.47%` MaxDD
+4. **`C5` (`EW-CW 20d < -3% -> Vol_Z > 0.8`) Relies on a Single 2011 Trade Across 17 Years (`B4`)**:
+   - Trade-by-trade decomposition ([`B4_baseline_vs_A5_C5_trade_ledger.csv`](./B4_baseline_vs_A5_C5_trade_ledger.csv)) proves that `C5` (`54.41%` vs `53.21%` baseline) triggers only **2 times in 17 years** (`2011-07-20` and `2015-07-20`) and has **0 triggers in the last 11 years (`2015-08 .. 2026-11`)**.
+   - On `2015-07-20`, `C5` de-levered for 13 days and then **re-levered back to `3x TQQQ` on `2015-08-06` (`Vol_Z = -0.072 < 0.3`) right before the August 24, 2015 flash crash**, so its entire `+1.20%/yr` CAGR difference comes from exiting 10 trading days earlier on a single historical event (`2011-07-20` at `Vol_Z = 1.118` vs `2011-08-03` at `Vol_Z = 1.285`).
+   - **Verdict**: In accordance with our anti-overfitting standards (same reason `HYG/IEF` was rejected in Stage 12), **Market Breadth Divergence (`A5 / C5`) is rejected and NOT added to the frozen `V1-Daily` specification.**

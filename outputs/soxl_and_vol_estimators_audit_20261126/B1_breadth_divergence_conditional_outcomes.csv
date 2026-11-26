@@ -1,15 +1,15 @@
-Regime_Condition,Days_Count,Pct_of_Days,Avg_Breadth50_pct,Fwd_20d_Mean_Ret_pct,Fwd_40d_Mean_Ret_pct,Fwd_60d_Mean_Ret_pct,Fwd_40d_WinRate_pct,Fwd_40d_Avg_MaxDD_pct,Prob_40d_DD_gt_5pct,Prob_40d_DD_gt_10pct
-All Trading Days (2010-2026),4168,99.05,58.1,1.54,3.04,4.55,72.0,-4.07,32.1,11.4
-QQQ At High (within 2% of 60d High & > SMA50) — ALL,2174,51.66,71.2,0.98,2.14,3.17,70.7,-3.76,27.6,9.7
-  1. Broad Rally at High: Breadth_50 >= 65%,1498,35.6,77.8,0.96,2.21,3.2,71.7,-3.69,26.8,8.0
-  2. Moderate Breadth at High: 50% <= Breadth_50 < 65%,570,13.55,58.6,0.78,1.55,2.66,65.4,-4.24,31.9,15.1
-  3. Narrow Divergence at High: Breadth_50 < 50% (>50% stocks < SMA50),106,2.52,45.9,2.3,4.3,5.44,85.8,-2.21,14.2,3.8
-  4. Severe Divergence at High: Breadth_50 < 45% (>55% stocks < SMA50),38,0.9,42.2,2.51,5.28,6.52,94.7,-1.79,10.5,0.0
-  5. Extreme Divergence at High: Breadth_50 < 40% (>60% stocks < SMA50),8,0.19,39.0,1.59,4.51,6.91,100.0,-3.22,25.0,0.0
-  6. High + EW lags CW by > 3% over 20d (ew_minus_cw_20d < -3%),196,4.66,61.8,1.04,2.33,2.94,63.8,-4.32,34.7,15.3
-  7. High + EW lags CW by > 5% over 60d (ew_minus_cw_60d < -5%),211,5.01,60.1,0.88,2.18,3.97,60.7,-4.53,35.1,18.0
-  8. High + Breadth_200 < 55% (Long-term breadth weak while QQQ at 60d high),82,1.95,72.0,-0.49,-1.55,-1.24,45.1,-7.09,52.4,31.7
-  9. 52W-High (dd252 >= -2%) + Breadth_50 Drops >= 14pp from 40d Max,798,18.96,62.0,0.44,1.36,2.31,68.8,-4.26,31.7,13.4
- 10. 52W-High (dd252 >= -2%) + Breadth_50 < 60%,394,9.36,53.1,0.78,1.2,1.93,65.2,-4.14,30.7,15.5
- 11. 52W-High (dd252 >= -2%) + EW lags CW by > 5% over 60d,176,4.18,60.4,0.2,0.28,1.23,52.8,-5.17,42.0,21.6
- 12. 52W-High (dd252 >= -2%) + Breadth_200 < 65%,288,6.84,59.3,-0.11,-0.98,-0.35,44.8,-5.79,41.7,28.5
+Regime_Condition,Signal_Days,Independent_40d_Episodes,Fwd_40d_Mean_Ret_pct,Fwd_40d_WinRate_pct,Day_Prob_DropFromSignal_ge_10pct,Day_Prob_TruePeakTroughMaxDD_ge_10pct,Episode_Hit_DropFromSignal_ge_10pct,Episode_Hit_TrueMaxDD_ge_10pct
+All Trading Days (2010-2026),4168,105,3.04,72.0,11.37,19.91,11/105 (10.5%),19/105 (18.1%)
+QQQ At 60d High (dd60 >= -2% & > SMA50) — ALL,2174,85,2.14,70.7,9.66,16.93,11/85 (12.9%),18/85 (21.2%)
+  1. Broad Rally at High: Breadth_50 >= 65%,1498,73,2.21,71.7,8.01,16.49,5/73 (6.8%),12/73 (16.4%)
+  2. Moderate Breadth at High: 50% <= Breadth_50 < 65%,570,56,1.55,65.4,15.09,20.53,11/56 (19.6%),15/56 (26.8%)
+  3. Narrow Divergence at High: Breadth_50 < 50%,106,17,4.3,85.8,3.77,3.77,4/17 (23.5%),4/17 (23.5%)
+  4. Severe Divergence at High: Breadth_50 < 45%,38,8,5.28,94.7,0.0,0.0,0/8 (0.0%),0/8 (0.0%)
+  5. Extreme Divergence at High: Breadth_50 < 40%,8,5,4.51,100.0,0.0,0.0,0/5 (0.0%),0/5 (0.0%)
+  6. High + EW lags CW by > 3% over 20d,197,23,2.38,64.0,15.23,28.43,3/23 (13.0%),4/23 (17.4%)
+  7. High + EW lags CW by > 5% over 60d,211,15,2.18,60.7,18.01,29.38,3/15 (20.0%),4/15 (26.7%)
+  8. High + Breadth_200 < 55% (Long-term breadth weak at 60d high),82,12,-1.55,45.1,31.71,40.24,2/12 (16.7%),3/12 (25.0%)
+  9. 52W-High (dd252 >= -2%) + Breadth_50 Drops >= 14pp from 60d Max,798,58,1.35,68.7,13.53,19.67,7/58 (12.1%),11/58 (19.0%)
+ 10. 52W-High (dd252 >= -2%) + Breadth_50 < 60%,394,41,1.2,65.2,15.48,20.3,8/41 (19.5%),9/41 (22.0%)
+ 11. 52W-High (dd252 >= -2%) + EW lags CW by > 5% over 60d,176,14,0.28,52.8,21.59,35.23,3/14 (21.4%),4/14 (28.6%)
+ 12. 52W-High (dd252 >= -2%) + Breadth_200 < 65%,289,27,-1.01,44.6,28.72,33.56,6/27 (22.2%),7/27 (25.9%)

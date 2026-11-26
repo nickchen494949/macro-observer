@@ -1,25 +1,25 @@
 Strategy_Variant,Full_CAGR_pct,MaxDD_pct,Sharpe,Calmar,PreAI_2010_2022_CAGR_pct,AI_2023_2026_CAGR_pct,Total_Switches,Extra_Breadth_Triggers
-0. Baseline: V1-Daily TQQQ (SEP + Vol_Z 1.2/0.3 + NSL),53.74,-44.54,1.238,1.207,50.23,66.06,34,0
-A1. Direct Escape at High: Breadth_50 < 50% (with NSL),54.47,-37.24,1.27,1.463,52.37,61.69,79,24
-A2. Direct Escape at High: Breadth_50 < 45% (with NSL),53.59,-44.54,1.238,1.203,49.91,66.47,54,11
-A3. Direct Escape at High: Breadth_50 < 40% (with NSL),54.33,-44.54,1.247,1.22,50.24,68.78,42,5
-A4. Direct Escape at High: Breadth_50 < 45% (Override NSL),52.91,-44.54,1.228,1.188,49.28,65.63,64,17
-A5. Direct Escape at High: Breadth_200 < 55% (with NSL),54.95,-38.05,1.274,1.444,52.9,62.0,80,23
-A6. Direct Escape at High: Breadth_200 < 65% (with NSL),45.57,-59.67,1.089,0.764,45.84,44.68,199,85
-A7. Direct Escape at High: Breadth_50 Drops >=14pp from 60d Max (NSL),47.3,-57.43,1.126,0.824,44.35,57.58,446,212
-A8. Direct Escape at High: EW lags CW by >=5% over 60d (NSL),52.2,-44.54,1.217,1.172,50.05,59.59,128,49
-B1. Direct De-lever: Breadth_50 < 40% (with NSL),51.52,-46.29,1.231,1.113,47.14,67.08,66,20
-B2. Direct De-lever: Breadth_50 < 35% (with NSL),47.7,-57.96,1.097,0.823,42.64,65.92,52,13
-B3. Direct De-lever: Breadth_50 < 30% (with NSL),51.61,-44.54,1.22,1.159,47.32,66.84,56,14
-C1. Adaptive Vol_Z: Breadth_50 < 50% -> Vol_Z > 0.8 (else 1.2),52.92,-46.52,1.233,1.138,48.61,68.2,38,7
-C2. Adaptive Vol_Z: Breadth_50 < 50% -> Vol_Z > 0.9 (else 1.2),53.75,-46.52,1.245,1.155,49.66,68.2,36,6
-C3. Adaptive Vol_Z: Breadth_50 < 45% -> Vol_Z > 0.8 (else 1.2),53.03,-46.52,1.234,1.14,48.75,68.2,38,7
-C4. Adaptive Vol_Z: Breadth_50 < 45% -> Vol_Z > 1.0 (else 1.2),54.52,-46.29,1.253,1.178,50.74,67.79,36,6
-C5. Adaptive Vol_Z: EW-CW 20d < -3% -> Vol_Z > 0.8 (else 1.2),54.95,-43.45,1.259,1.265,51.76,66.06,36,2
-C6. Adaptive Vol_Z: Breadth_50 drops >15pp -> Vol_Z > 0.8,54.19,-44.25,1.255,1.225,49.71,70.08,40,12
-D1. Breadth Confirm De-lever: Vol_Z > 1.2 AND Breadth_50 < 55%,53.52,-44.54,1.234,1.202,49.94,66.06,32,0
-D2. Breadth Confirm De-lever: Vol_Z > 1.2 AND Breadth_50 < 50%,53.03,-47.97,1.229,1.106,49.96,63.71,32,0
-D3. Breadth Confirm De-lever: Vol_Z > 1.2 AND Breadth_50 < 45%,52.83,-47.97,1.226,1.101,49.71,63.71,32,0
-E1. Re-lever Gate: Vol_Z < 0.3 AND Breadth_50 >= 45%,53.74,-44.54,1.238,1.207,50.23,66.06,34,0
-E2. Re-lever Gate: Vol_Z < 0.3 AND Breadth_50 >= 50%,53.74,-44.54,1.238,1.207,50.23,66.06,34,0
-E3. Re-lever Gate: Vol_Z < 0.3 AND Breadth_50 >= 55%,53.13,-44.54,1.229,1.193,49.44,66.06,34,0
+0. Exact Frozen R3 Baseline: V1-Daily TQQQ (53.21%),53.21,-44.54,1.232,1.195,50.06,64.17,33,0
+A1. Direct Escape at High: Breadth_50 < 50% (with NSL),53.93,-37.24,1.263,1.448,52.2,59.85,78,24
+A2. Direct Escape at High: Breadth_50 < 45% (with NSL),53.05,-44.54,1.232,1.191,49.75,64.58,53,11
+A3. Direct Escape at High: Breadth_50 < 40% (with NSL),53.79,-44.54,1.241,1.208,50.07,66.86,41,5
+A4. Direct Escape at High: Breadth_50 < 45% (Override NSL),52.37,-44.54,1.222,1.176,49.12,63.74,63,17
+A5. Direct Escape at High: Breadth_200 < 55% (with NSL),54.51,-38.05,1.273,1.433,52.96,59.79,65,16
+A6. Direct Escape at High: Breadth_200 < 65% (with NSL),46.34,-56.47,1.138,0.821,49.05,37.66,137,56
+A7. Direct Escape at High: Breadth_50 Drops >=14pp from 60d Max (NSL),46.62,-57.43,1.118,0.812,43.97,55.79,445,212
+A8. Direct Escape at High: EW lags CW by >=5% over 60d (NSL),51.67,-44.54,1.211,1.16,49.88,57.77,127,49
+B1. Direct De-lever: Breadth_50 < 40% (with NSL),50.99,-46.29,1.224,1.102,46.97,65.18,65,20
+B2. Direct De-lever: Breadth_50 < 35% (with NSL),47.19,-57.96,1.092,0.814,42.48,64.03,51,13
+B3. Direct De-lever: Breadth_50 < 30% (with NSL),51.08,-44.54,1.214,1.147,47.16,64.94,55,14
+C1. Adaptive Vol_Z: Breadth_50 < 50% -> Vol_Z > 0.8 (else 1.2),52.39,-46.52,1.227,1.126,48.44,66.29,37,7
+C2. Adaptive Vol_Z: Breadth_50 < 50% -> Vol_Z > 0.9 (else 1.2),53.21,-46.52,1.238,1.144,49.49,66.29,35,6
+C3. Adaptive Vol_Z: Breadth_50 < 45% -> Vol_Z > 0.8 (else 1.2),52.49,-46.52,1.228,1.128,48.58,66.29,37,7
+C4. Adaptive Vol_Z: Breadth_50 < 45% -> Vol_Z > 1.0 (else 1.2),53.98,-46.29,1.247,1.166,50.57,65.88,35,6
+C5. Adaptive Vol_Z: EW-CW 20d < -3% -> Vol_Z > 0.8 (else 1.2),54.41,-43.45,1.253,1.252,51.59,64.17,35,2
+C6. Adaptive Vol_Z: Breadth_50 drops >15pp -> Vol_Z > 0.8,53.65,-44.25,1.249,1.212,49.55,68.14,39,12
+D1. Breadth Confirm De-lever: Vol_Z > 1.2 AND Breadth_50 < 55%,52.98,-44.54,1.228,1.19,49.78,64.17,31,0
+D2. Breadth Confirm De-lever: Vol_Z > 1.2 AND Breadth_50 < 50%,52.5,-47.97,1.223,1.094,49.8,61.85,31,0
+D3. Breadth Confirm De-lever: Vol_Z > 1.2 AND Breadth_50 < 45%,52.3,-47.97,1.22,1.09,49.54,61.85,31,0
+E1. Re-lever Gate: Vol_Z < 0.3 AND Breadth_50 >= 45%,53.21,-44.54,1.232,1.195,50.06,64.17,33,0
+E2. Re-lever Gate: Vol_Z < 0.3 AND Breadth_50 >= 50%,53.21,-44.54,1.232,1.195,50.06,64.17,33,0
+E3. Re-lever Gate: Vol_Z < 0.3 AND Breadth_50 >= 55%,52.59,-44.54,1.223,1.181,49.28,64.17,33,0
