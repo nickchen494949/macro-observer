@@ -1,0 +1,60 @@
+FOMC_Date,Target_Year,Source,Target_FFR_Median_%,Prev_FFR_Median_%,Target_Core_PCE_Median_JCXFEMD_%,Prev_Core_PCE_Median_%,Target_Headline_PCE_Median_%,Prev_Headline_PCE_Median_%,SEP_ON_Core_PCE_(Official_Spec),SEP_ON_Headline_PCE,Core_vs_Headline_Match
+2012-01-25,2012,Official Fed SEP PDF Table 2 (N=17),0.13,,1.5,,1.5,,True,True,True
+2012-04-25,2012,Official Fed SEP PDF Table 2 (N=17),0.13,0.13,1.9,1.5,2.0,1.5,True,True,True
+2012-06-20,2012,Official Fed SEP PDF Table 2 (N=19),0.13,0.13,1.8,1.9,1.4,2.0,True,True,True
+2012-09-13,2013,Official Fed SEP PDF Table 2 (N=19),0.13,0.13,1.8,1.8,1.8,1.8,True,True,True
+2012-12-12,2013,Official Fed SEP PDF Table 2 (N=19),0.13,0.13,1.7,1.8,1.6,1.8,True,True,True
+2013-03-20,2013,Official Fed SEP PDF Table 2 (N=19),0.13,0.13,1.6,1.7,1.5,1.6,True,True,True
+2013-06-19,2013,Official Fed SEP PDF Table 2 (N=19),0.13,0.13,1.2,1.6,1.0,1.5,True,True,True
+2013-09-18,2014,Official Fed SEP PDF Table 2 (N=17),0.13,0.13,1.6,1.7,1.6,1.6,True,True,True
+2013-12-18,2014,Official Fed SEP PDF Table 2 (N=17),0.13,0.13,1.5,1.6,1.4,1.6,True,True,True
+2014-03-19,2014,Official Fed SEP PDF Table 2 (N=16),0.13,0.13,1.5,1.5,1.5,1.4,True,True,True
+2014-06-18,2014,Official Fed SEP PDF Table 2 (N=16),0.13,0.13,1.5,1.5,1.6,1.5,True,True,True
+2014-09-17,2015,Official Fed SEP PDF Table 2 (N=17),1.38,1.12,1.7,1.7,1.8,1.75,True,True,True
+2014-12-17,2015,Official Fed SEP PDF Table 2 (N=17),1.13,1.38,1.6,1.7,1.2,1.8,True,True,True
+2015-03-18,2015,Official Fed SEP PDF Table 2 (N=17),0.63,1.13,1.3,1.6,0.7,1.2,True,True,True
+2015-06-17,2015,Official Fed SEP PDF Table 2 (N=17),0.63,0.63,1.3,1.3,0.7,0.7,True,True,True
+2015-09-17,2016,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),1.4,1.63,1.7,1.8,1.7,1.8,True,True,True
+2015-12-16,2016,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),1.4,1.4,1.6,1.7,1.6,1.7,True,True,True
+2016-03-16,2016,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),0.9,1.4,1.6,1.6,1.2,1.6,True,True,True
+2016-06-15,2016,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),0.9,0.9,1.7,1.6,1.4,1.2,True,True,True
+2016-09-21,2017,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),1.1,1.6,1.8,1.9,1.9,1.9,True,True,True
+2016-12-14,2017,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),1.4,1.1,1.8,1.8,1.9,1.9,True,True,True
+2017-03-15,2017,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),1.4,1.4,1.9,1.8,1.9,1.9,True,True,True
+2017-06-14,2017,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),1.4,1.4,1.7,1.9,1.6,1.9,True,True,True
+2017-09-20,2018,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),2.1,2.1,1.9,2.0,1.9,2.0,True,True,True
+2017-12-13,2018,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),2.1,2.1,1.9,1.9,1.9,1.9,True,True,True
+2018-03-21,2018,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),2.1,2.1,1.9,1.9,1.9,1.9,True,True,True
+2018-06-13,2018,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),2.4,2.1,2.0,1.9,2.1,1.9,True,False,False
+2018-09-26,2019,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),3.1,3.1,2.1,2.1,2.0,2.1,True,True,True
+2018-12-19,2019,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),2.9,3.1,2.0,2.1,1.9,2.0,True,True,True
+2019-03-20,2019,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),2.4,2.9,2.0,2.0,1.8,1.9,True,True,True
+2019-06-19,2019,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),2.4,2.4,1.8,2.0,1.5,1.8,True,True,True
+2019-09-18,2020,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),1.9,2.1,1.9,1.9,1.9,1.9,True,True,True
+2019-12-11,2020,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),1.6,1.9,1.9,1.9,1.9,1.9,True,True,True
+2020-06-10,2020,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),0.1,1.6,1.0,1.9,0.8,1.9,True,True,True
+2020-09-16,2021,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),0.1,0.1,1.7,1.5,1.7,1.6,True,True,True
+2020-12-16,2021,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),0.1,0.1,1.8,1.7,1.8,1.7,True,True,True
+2021-03-17,2021,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),0.1,0.1,2.2,1.8,2.4,1.8,True,True,True
+2021-06-16,2021,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),0.1,0.1,3.0,2.2,3.4,2.4,True,True,True
+2021-09-22,2022,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),0.3,0.1,2.3,2.1,2.2,2.1,False,False,True
+2021-12-15,2022,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),0.9,0.3,2.7,2.3,2.6,2.2,False,False,True
+2022-03-16,2022,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),1.9,0.9,4.1,2.7,4.3,2.6,False,False,True
+2022-06-15,2022,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),3.4,1.9,4.3,4.1,5.2,4.3,False,False,True
+2022-09-21,2023,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),4.6,3.8,3.1,2.7,2.8,2.6,False,False,True
+2022-12-14,2023,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),5.1,4.6,3.5,3.1,3.1,2.8,False,False,True
+2023-03-22,2023,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),5.1,5.1,3.6,3.5,3.3,3.1,True,True,True
+2023-06-14,2023,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),5.6,5.1,3.9,3.6,3.2,3.3,False,True,False
+2023-09-20,2024,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),5.1,4.6,2.6,2.6,2.5,2.5,False,True,False
+2023-12-13,2024,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),4.6,5.1,2.4,2.6,2.4,2.5,True,True,True
+2024-03-20,2024,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),4.6,4.6,2.6,2.4,2.4,2.4,True,True,True
+2024-06-12,2024,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),5.1,4.6,2.8,2.6,2.6,2.4,False,False,True
+2024-09-18,2025,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),3.4,4.1,2.2,2.3,2.1,2.3,True,True,True
+2024-12-18,2025,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),3.9,3.4,2.5,2.2,2.5,2.1,False,False,True
+2025-03-19,2025,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),3.9,3.9,2.8,2.5,2.7,2.5,True,True,True
+2025-06-18,2025,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),3.9,3.9,3.1,2.8,3.0,2.7,True,True,True
+2025-09-17,2026,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),3.4,3.6,2.6,2.4,2.6,2.4,True,True,True
+2025-12-10,2026,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),3.4,3.4,2.5,2.6,2.4,2.6,True,True,True
+2026-03-18,2026,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),3.4,3.4,2.7,2.5,2.7,2.4,True,True,True
+2026-06-17,2026,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),3.8,3.4,3.3,2.7,3.6,2.7,False,False,True
+2026-09-16,2027,ALFRED FEDTARMD + JCXFEMD (Core PCE) & Fed Table 1 (Headline PCE),4.1,3.6,2.5,2.5,2.3,2.3,False,False,True

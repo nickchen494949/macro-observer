@@ -1,0 +1,9 @@
+Estimator,W20_CAGR_%,W20_MaxDD_%,W20_Sharpe,W20_Switches,Exact_15Cell_(3x5)_Median_CAGR_%,Exact_15Cell_(3x5)_Worst_MaxDD_%,Exact_20Cell_(4x5)_Median_CAGR_%,Exact_20Cell_(4x5)_Worst_MaxDD_%,W10_CAGR_%,W10_MaxDD_%
+1. Close-to-Close (Current Frozen Baseline),54.89,-44.54,1.259,33,55.31,-46.29,55.0,-46.29,50.43,-69.92
+2. Open-to-Close (Intraday Body Only),52.79,-44.54,1.209,32,52.46,-58.56,52.19,-58.56,50.18,-69.92
+3. Parkinson High-Low (Intraday H/L Range Only),52.48,-44.54,1.209,32,52.24,-44.54,52.17,-44.54,55.11,-44.54
+4. True Range RMS (High-Low + Overnight Gap),52.64,-44.54,1.22,31,52.32,-44.54,52.24,-44.54,54.78,-44.54
+5. Classic ATR% (Average True Range / Close),51.94,-44.54,1.21,31,52.28,-44.54,52.27,-44.54,56.33,-44.54
+6. Garman-Klass (Intraday OHLC),50.34,-44.54,1.179,34,51.26,-44.85,50.31,-44.85,54.49,-44.85
+7a. Garman-Klass-Yang-Zhang (GK-YZ Uncentered),53.4,-44.54,1.229,31,52.28,-44.54,52.25,-44.54,50.04,-69.92
+"7b. Exact Original Yang-Zhang (2000, Centered OJ + OC + RS)",52.46,-44.54,1.212,31,51.86,-46.29,52.08,-46.29,49.99,-69.92

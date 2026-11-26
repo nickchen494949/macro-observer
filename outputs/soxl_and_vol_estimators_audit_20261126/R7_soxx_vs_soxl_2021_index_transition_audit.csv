@@ -1,0 +1,5 @@
+Era,Trading_Days,Daily_Return_Corr_(SOXX_vs_SOXL),Vol_Z_Corr_(SOXX_vs_SOXL),Trigger_Agreement_(VolZ>1.2)_%,Recovery_Agreement_(VolZ<0.3)_%
+1. Pre-Transition (Both PHLX SOX: 2010-03-11 .. 2021-06-18),2839,0.9953,0.99777,99.4,98.13
+"2. Transition Mismatch Window (SOXX=ICE, SOXL=PHLX: 2021-06-21 .. 2021-08-25, 47 days)",47,0.99519,0.99698,100.0,100.0
+3. Post-Transition (Both ICE Semiconductor: 2021-08-26 .. 2026-11-03),1303,0.99914,0.99932,99.16,99.0
+4. Full Sample (2010-03-11 .. 2026-11-03),4189,0.99715,0.99831,99.33,98.42
