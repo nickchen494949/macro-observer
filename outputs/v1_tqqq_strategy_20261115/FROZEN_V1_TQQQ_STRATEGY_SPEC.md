@@ -1,10 +1,28 @@
-# Frozen V1-Daily TQQQ SEP Strategy — Official Specification & Independent Audit Package (`Trig = 1.2 / Rec = 0.3`, `2010-02-11 .. 2026-11-03` 100% Real ETFs, Next-Day Open `adjOpen` + `10bp/side` + Open Limit NSL)
+# Frozen V1.1-Daily `75% TQQQ + 25% SOXL` On-Switch Dynamic Rebalance & V1-Daily `100% TQQQ` SEP Strategy — Official Specification & Independent Audit Package (`Trig = 1.2 / Rec = 0.3`, `2010-02-11 .. 2026-11-03` 100% Real ETFs, Next-Day Open `adjOpen` + Two-Sided `10bp/side` + Dynamic Share-Lot NSL)
 
-> **100% Self-Contained Reproducible Engine (Zero Local Cache Dependencies)**: [`frozen_v1_tqqq_strategy.py`](../../frozen_v1_tqqq_strategy.py)  
-> **Summary Metrics CSV**: [`v1_tqqq_summary.csv`](./v1_tqqq_summary.csv)  
+> **100% Self-Contained Reproducible Engines (Zero Local Cache Dependencies)**:
+> - **V1.1 Dual-Sleeve `75% TQQQ + 25% SOXL` On-Switch Dynamic Rebalance Engine (3-Round External Audit Verified)**: [`remediate_soxl_tqqq_7point_audit.py`](../../remediate_soxl_tqqq_7point_audit.py) & [`REMEDIATION_7POINT_AUDIT_REPORT.md`](../soxl_and_vol_estimators_audit_20261126/REMEDIATION_7POINT_AUDIT_REPORT.md)
+> - **V1 Single-Asset `100% TQQQ` Engine**: [`frozen_v1_tqqq_strategy.py`](../../frozen_v1_tqqq_strategy.py)  
+> **Summary Metrics CSVs**: [`R3_true_share_lot_dynamic_nsl_rebalance_audit.csv`](../soxl_and_vol_estimators_audit_20261126/R3_true_share_lot_dynamic_nsl_rebalance_audit.csv) & [`v1_tqqq_summary.csv`](./v1_tqqq_summary.csv)  
 > **Primary Frozen Trade Ledger (`1.2/0.3`, `16/16 = 100%` Profitable `3x` Legs)**: [`v1_daily_trade_ledger_2009_2026.csv`](./v1_daily_trade_ledger_2009_2026.csv)  
-> **Exact FOMC SEP Meeting & Transition Table (`2015–2026`)**: [`fomc_sep_signal_verification_2008_2026.csv`](./fomc_sep_signal_verification_2008_2026.csv)  
+> **Complete 2012–2026 FOMC SEP Meeting & Transition Table (`59 Meetings`)**: [`R1_complete_2012_2026_fomc_sep_core_vs_headline_pce.csv`](../soxl_and_vol_estimators_audit_20261126/R1_complete_2012_2026_fomc_sep_core_vs_headline_pce.csv) & [`fomc_sep_signal_verification_2008_2026.csv`](./fomc_sep_signal_verification_2008_2026.csv)  
 > **30-Cell Parameter Plateau Grid**: [`v1_daily_parameter_grid_2009_2026.csv`](./v1_daily_parameter_grid_2009_2026.csv)
+
+---
+
+## 0. V1.1-Daily Primary Frozen Dual-Sleeve Specification (`75% TQQQ + 25% SOXL On-Switch Dynamic Rebalance`, 2026-11-26)
+
+1. **Dual-Sleeve Target Allocation & Asset Mapping (`75% TQQQ Core Sleeve + 25% SOXL Satellite Sleeve`)**:
+   - **`TQQQ` Core Sleeve (`75%` target weight)**: Trades `3x TQQQ <-> 1x QQQ <-> 0x SGOV/BIL`, driven by **`Vol_Z(QQQ)`** (`Trig = 1.2 / Rec = 0.3`, 20-day Close-to-Close volatility Z-score over 252-day window).
+   - **`SOXL` Satellite Sleeve (`25%` target weight)**: Trades `3x SOXL <-> 1x QQQ <-> 0x SGOV/BIL`, driven by **`Vol_Z(SOXX)`** (`Trig = 1.2 / Rec = 0.3`, 20-day Close-to-Close volatility Z-score over 252-day window). When de-leveraging in `SEP = ON`, `SOXL` **always rotates into `1x QQQ` (NOT `1x SOXX`)**.
+2. **Event-Driven On-Switch Dynamic Rebalance (`75% / 25%`) + Dynamic Share-Lot NSL Cost-Basis Update**:
+   - Whenever **either sleeve executes a state switch (`3x <-> 1x QQQ` or `SEP` transition)** at day $d$ Open (`adjOpen`), simultaneously rebalance total account equity back to the fixed **`75% TQQQ Sleeve / 25% SOXL Sleeve`** target weights at day $d$ Open (charging two-sided `20bp` transaction cost on the rebalanced dollar delta unless both sleeves hold the identical `1x QQQ` or `0x Cash` asset).
+   - When a rebalance purchases additional shares for an active `3x` sleeve (`TQQQ` or `SOXL`), append a new share lot at execution price `adjOpen / (1 - FEE)`, dynamically updating that sleeve's weighted-average `Open Limit NSL` cost basis.
+3. **Audited Performance (`2010-03-11 .. 2026-11-03`, 4,189 Trading Days, Next-Day Open + Two-Sided `10bp/side` + Return-Chained `BIL->SGOV` Cash)**:
+   - **`75/25 On-Switch Dynamic Rebalance (V1.1 Primary Frozen)`**: Full CAGR **`61.06%`** (`2,793.0x`), Daily MaxDD **`-45.87%`**, Daily Sharpe **`1.265`**, Pre-AI (`2010–2022`) CAGR **`51.52%`**, AI Era (`2023–2026`) CAGR **`97.39%`**, `2024–2026` MaxDD **`-37.28%`** (`50` switch-rebalances).
+   - **`75/25 Annual Calendar Rebalance (Calendar Ref)`**: Full CAGR **`59.88%`** (`2,472.2x`, identical across `Average Cost`, `LIFO`, `FIFO`), Daily MaxDD **`-45.93%`**, Daily Sharpe **`1.256`**.
+   - **`80/20 On-Switch / Annual Rebalance (Conservative Satellite Ref)`**: Full CAGR **`59.81% / 58.63%`**, Daily MaxDD **`-44.70%`**, Daily Sharpe **`1.266 / 1.255`**.
+   - **`100% Pure TQQQ V1-Daily (Single-Asset Baseline)`**: `2010-03-11..2026-11-03` CAGR **`53.21%`** (`1,215.3x`; `2010-02-11..2026-11-03` **`54.89%`** / `1,506.8x`), Daily MaxDD **`-44.54%`**, Sharpe **`1.232`** (`1.259` from Feb 2010), Stateful Continuous Walk-Forward OOS (`2014–2026`) **`52.06%`** (`SOXL` WF OOS **`83.38%`**).
 
 ---
 

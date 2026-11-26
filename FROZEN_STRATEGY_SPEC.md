@@ -24,12 +24,19 @@
    - **`A1-RS_ModBurst_135_75_25_GateV1_ElectionResetV3`**（简称 **`A1-RS 1.35x + V3 Election Reset`**，214M CAGR **`64.95%`**，Sharpe **`1.489`**）
 3. **原版三腿正式主线（Production Baseline）**：
    - **`BestSec_ModBurst_135_75_25_GateV1`**（原版 `1.35x`，214M CAGR `60.96%`，Sharpe `1.414`）
-4. **Frozen V1-Daily TQQQ SEP 指数杠杆策略（`SEP + Daily 1Y Vol_Z (1.2/0.3) + Open Limit NSL`，2026-11-16 审计通过冻结）** — [`frozen_v1_tqqq_strategy.py`](./frozen_v1_tqqq_strategy.py)（零外部缓存依赖，一键复现）、[`outputs/v1_tqqq_strategy_20261115/FROZEN_V1_TQQQ_STRATEGY_SPEC.md`](./outputs/v1_tqqq_strategy_20261115/FROZEN_V1_TQQQ_STRATEGY_SPEC.md)：
-   - **三大铁律（仅交易 `TQQQ / QQQ / SGOV`，严格次日开盘价 `adjOpen` 成交 + 双边 `10bp/side` 费用）**：
-     1. **`FOMC SEP = OFF` 切 `100% 纯现金 (SGOV/BIL)`**：FOMC 公布次日开盘执行（无条件优先，不受 `NSL` 限制）。
-     2. **`FOMC SEP = ON` 降杠杆（`3x TQQQ -> 1x QQQ`）**：当 `QQQ` 的 `Vol_Z = (rvol_20 - mean_252) / std_252 > 1.2` **且** `3x` 仓位在次日开盘扣费后仍处于盈利状态（`Open Limit NSL`：只止盈绝不割肉），切至 `1x QQQ`。
-     3. **`FOMC SEP = ON` 加杠杆（`1x QQQ -> 3x TQQQ`）**：当 `Vol_Z < 0.3` 时，不论 `1x QQQ` 盈亏，次日开盘立即换回 `3x TQQQ`。
-   - **100% 真实 ETF 实盘口径业绩（`2010-02-11 .. 2026-11-03`，次日开盘 + `10bp/side`）**：主推 **`1.2 / 0.3`** 年化 **`54.89%`**（总倍数 **`1,506.8x`**，跑赢纯 SEP 的 `53.74%` / `1,330.8x`），日频最大回撤 **`-44.54%`**（比纯 SEP 的 **`-69.92%`** 大幅收窄 `25.4 pp`），Sharpe **`1.259`**（纯 SEP `1.084`），已平仓 `3x` 胜率 **`16 / 16 (100.0%)`**，且位于 `Trig ∈ [1.0, 1.3], Rec ∈ [0.0, 0.7]` 连续 15 格零悬崖高原中心（回撤全部锁定在 `-44.54% ~ -46.29%`）。
+4. **Frozen V1.1-Daily `75% TQQQ + 25% SOXL` 换仓时动态再平衡（On-Switch Dynamic Rebalance）与 V1-Daily `100% TQQQ` 指数杠杆策略（`SEP [Core PCE] + Daily 1Y Vol_Z (1.2/0.3) + Dynamic Share-Lot NSL + On-Switch 75/25 Rebalance`，2026-11-26 三轮独立外部审计复现通过冻结）** — [`remediate_soxl_tqqq_7point_audit.py`](./remediate_soxl_tqqq_7point_audit.py)、[`frozen_v1_tqqq_strategy.py`](./frozen_v1_tqqq_strategy.py)、[`outputs/soxl_and_vol_estimators_audit_20261126/REMEDIATION_7POINT_AUDIT_REPORT.md`](./outputs/soxl_and_vol_estimators_audit_20261126/REMEDIATION_7POINT_AUDIT_REPORT.md)：
+   - **四大铁律（双分仓仅交易 `TQQQ / SOXL / QQQ / SGOV[BIL]`，严格次日开盘价 `adjOpen` 成交 + 全部权益与现金切换双边 `10bp/side` [`20bp` 往返] 费用 + `BIL->SGOV` 收益率无缝链式拼接）**：
+     1. **`FOMC SEP [Core PCE JCXFEMD] = OFF` 切 `100% 纯现金 (SGOV/BIL)`**：FOMC 公布次日开盘两腿同步无条件切入现金（最高优先级，覆盖 `NSL`）。当 `SEP = ON` 恢复时，若对应指数 `Vol_Z <= 1.2` 则买回 `3x`（`TQQQ` 或 `SOXL`），若 `Vol_Z > 1.2` 则先进入 `1x QQQ`。
+     2. **`FOMC SEP = ON` 独立分仓高波止盈降杠杆（`3x -> 1x QQQ`）**：
+        - **`TQQQ` 主仓（目标权重 `75%`）**：看 `QQQ` 的 20 日收盘波动率 `Vol_Z(QQQ) > 1.2` **且** `TQQQ` 真实份额持仓在次日开盘扣费后处于盈利状态（`Open Limit NSL`），次日开盘切至 **`1x QQQ`**。
+        - **`SOXL` 卫星仓（目标权重 `25%`）**：看 `SOXX` 的 20 日收盘波动率 `Vol_Z(SOXX) > 1.2` **且** `SOXL` 真实份额持仓在次日开盘扣费后处于盈利状态（`Open Limit NSL`），次日开盘同样切至 **`1x QQQ`**（绝不退回 `1x SOXX`，规避半导体深度周期回撤并保留纳指反弹 Beta）。
+     3. **`FOMC SEP = ON` 独立分仓低波恢复加杠杆（`1x QQQ -> 3x`）**：当 `Vol_Z(QQQ) < 0.3`（或 `Vol_Z(SOXX) < 0.3`）时，不论 `1x QQQ` 盈亏，次日开盘立即换回 `3x TQQQ`（或 `3x SOXL`）。
+     4. **换仓时动态再平衡（`On-Switch 75/25 Rebalance`）+ 真实份额动态 `NSL` 成本更新**：每当**任意一腿在次日开盘发生状态切换（`3x <-> 1x` 或 `SEP` 切换）**时，顺带在当日开盘将账户总净值重新按 **`75% TQQQ 仓 + 25% SOXL 仓`** 固定目标比例重置（对跨腿调拨差额收取双边 `20bp` 交易费；若两腿当时均持有同一种 `1x QQQ` 或 `0x SGOV` 则零市场换手费），并将增持买入的 `3x` 份额按当日开盘成交价 `adjOpen / (1 - FEE)` 记入份额成本池，动态更新该腿的 `NSL` 加权平均持仓成本线。
+   - **100% 真实 ETF 实盘口径业绩（`2010-03-11 .. 2026-11-03` 共 4,189 个交易日，次日开盘 + 双边 `10bp/side` + 链式现金，三轮外部独立审计复现）**：
+     - **`75/25 换仓时动态再平衡（V1.1 主推冻结版）`**：全期年化 **`61.06%`**（总倍数 **`2,793.0x`**），日频最大回撤 **`-45.87%`**，日频 Sharpe **`1.265`**，`2010–2022（AI 牛市前）`年化 **`51.52%`**，`2023–2026（AI 牛市期）`年化 **`97.39%`**，`2024–2026` 最大回撤 **`-37.28%`**（共 `50` 次换仓再平衡）。
+     - **`75/25 年度再平衡（日历对照版）`**：全期年化 **`59.88%`**（总倍数 **`2,472.2x`**，`均价法 / LIFO / FIFO` 三种份额成本口径完全一致），日频最大回撤 **`-45.93%`**，日频 Sharpe **`1.256`**（`2010–2022` `52.13%`，`2023–2026` `88.69%`）。
+     - **`80/20 换仓时 / 年度再平衡（稳健卫星对照）`**：全期年化 **`59.81%`（换仓时）/ `58.63%`（年度）**，日频最大回撤 **`-44.70%`**，日频 Sharpe **`1.266` / `1.255`**。
+     - **`100% 纯 TQQQ V1-Daily（单资产基准主线）`**：`2010-03-11..2026-11-03` 年化 **`53.21%`**（`1,215.3x`；`2010-02-11..2026-11-03` 为 **`54.89%`** / `1,506.8x`），日频最大回撤 **`-44.54%`**，Sharpe **`1.232`**（2010.02 起 `1.259`），跨年不断仓连续持仓滚动样本外（`2014–2026`）年化 **`52.06%`**（零样本外衰减）。
    - **2026 年 11 月实盘状态**：`SEP = OFF`（自 `2026-06-18` 开盘起） $\rightarrow$ **`100% SGOV`**。
 
 ---
@@ -271,6 +278,16 @@
 - **不采纳原因**：增益只来自 7 次决策（最大 2 次占 80%），17 年中 12 年完全相同、2018 年更差；纯信用腿 `HYG/SHY` 单独使用为 `51.97% / -58.08%`（会挡住 2011-08、2020-02 的崩盘离场），收益主要来自利率腿 `SHY/IEF`，即“收益率上行时不降杠杆”，在 `SEP = ON` 期间的利率驱动型下跌（2018-10 型）存在结构性尾部风险（50–140 日均线版本已出现 `-58.08%`）。
 - **数据警示**：本地 FRED `BAMLH0A0HYM2` 仅从 2023-08-01 开始，此前“P5c 实时 HY OAS 2010–2026”结果使用了回填常数，作废。
 - **“20 日不抬高 NSL 成本线”补丁**：修复 8/10 日 Vol_Z 窗口的 `-69.92%` 悬崖（对原版同样有效），但仅由 2020-02 一个事件拟合，需单独在原版上评估。
+
+### 阶段 13：`V1.1-Daily 75% TQQQ + 25% SOXL` 换仓时动态再平衡（On-Switch Dynamic Rebalance）三轮外部审计与日内波动率 / 动态 Sharpe 配权 / 成分股均线宽度逃顶全面证伪（2026-11-26）
+- **脚本与输出**：[`remediate_soxl_tqqq_7point_audit.py`](./remediate_soxl_tqqq_7point_audit.py)、[`audit_soxl_and_vol_estimators.py`](./audit_soxl_and_vol_estimators.py)、[`audit_breadth_divergence_top_escape.py`](./audit_breadth_divergence_top_escape.py)（[`outputs/soxl_and_vol_estimators_audit_20261126/REMEDIATION_7POINT_AUDIT_REPORT.md`](./outputs/soxl_and_vol_estimators_audit_20261126/REMEDIATION_7POINT_AUDIT_REPORT.md)）
+- **核心确立并冻结规则（`V1.1-Daily 75% TQQQ + 25% SOXL On-Switch Dynamic Rebalance`）**：
+  1. **`SOXL` 降杠杆必须退回 `1x QQQ`（而非 `1x SOXX`）**：`SOXL -> 1x SOXX` 因半导体强周期深跌与波动率提前均值回归在半山腰抄底导致最大回撤高达 `-68.68%`（年化 `61.36%`），而 `SOXL -> 1x QQQ`（用 `SOXX` 算 `Vol_Z 1.2/0.3`）将单腿年化提升至 **`69.87%`**（跨年连续样本外 **`83.38%`**）。
+  2. **换仓时动态再平衡（`On-Switch 75/25 Rebalance`）+ 真实份额动态 `NSL` 成本更新**：每当任一分仓触发 `3x <-> 1x QQQ` 或 `SEP` 状态切换时，在次日开盘顺带将总资产重置回固定 **`75% TQQQ 仓 / 25% SOXL 仓`**，并将增持买入的 `3x` 份额按 `adjOpen / (1 - FEE)` 动态更新该分仓的 `NSL` 持仓成本线（叠加 `BIL->SGOV` 收益率链式拼接与现金切换双边 `20bp` 费用后，全期 `2010-03-11..2026-11-03` 年化 **`61.06%`**，总倍数 **`2,793.0x`**，最大回撤 **`-45.87%`**，Sharpe **`1.265`**；年度再平衡对照为 **`59.88%` / `-45.93%` / `1.256`**，`80/20` 换仓/年度再平衡为 **`59.81% / 58.63%`**、回撤 **`-44.70%`**）。
+- **被证伪 / 淘汰方向（严禁重复测试）**：
+  1. **日内振幅波动率公式（`Open-to-Close`、`Parkinson H/L`、`True Range RMS`、`Classic ATR%`、`Garman-Klass`、`GK-YZ`、原版中心化 `Yang-Zhang 2000`）**：在 `W=20` 及 15 格/20 格高原中位数上全部跑输传统 `Close-to-Close`（`54.89%` vs `50.34%–53.40%`，少赚 `1.5%–4.5%/yr` 且回撤无改善），因牛市大阳线的高低振幅虚增了波动率导致过早止盈。
+  2. **按历史累计 Sharpe 或过去 1 年滚动 Sharpe 动态调整 `TQQQ / SOXL` 权重**：累计历史 Sharpe 动态选权（`R5-2c`）在 13 年中有 10 年选 `0% SOXL`，踏空 2023–2024 AI 牛市（OOS 年化跌至 `50.47%`）；按过去 1 年滚动 Sharpe 动态成比例配权（`59.14%` CAGR，MaxDD `-50.27%`）或 `15%/35%` 倾斜（`59.81%` CAGR，MaxDD `-47.52%`）在半导体周期高点追高、周期低点砍仓，回撤与收益均劣于固定 `75/25` 逆周期再平衡。
+  3. **Nasdaq-100 成分股均线宽度背离逃顶（“龙头撑指数、多数成分股跌破 SMA50/SMA200 均线”，`B0..B5`）**：在 4,189 个交易日严格 PIT 成分股上，去聚类为间隔 $\ge 40$ 日的独立事件后，“高位 + `Breadth_200 < 55%`”后 40 日跌 $\ge 10\%$ 的独立事件命中率仅为 `2 / 12 (16.7%)`（与任意 60 日高位的自然概率 `11 / 85 = 12.9%` 无统计差异）；程序自动识别的 19 次客观 `QQQ >= 10%` 历史顶部中，见顶当日 `Breadth_50 < 50%` 仅 `1/19`、`Breadth_200 < 55%` 为 `0/19`；策略变体 `A5`（`Breadth_200 < 55%`）在邻近阈值 `50%/52%/57%/60%/65%` 全部跑输 `53.21%` 基线（单点参数孤岛），而 `C5`（`EW-CW 20d < -3% -> Vol_Z > 0.8`）17 年仅额外触发 2 次且 2015 年 8 月至今 11 年 `0` 触发，全部超额收益仅来自 `2011-07-20` 一笔提前 10 天的交易。
 
 ---
 
