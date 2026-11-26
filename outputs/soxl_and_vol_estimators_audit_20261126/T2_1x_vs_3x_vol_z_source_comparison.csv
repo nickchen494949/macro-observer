@@ -1,0 +1,7 @@
+Variant,Corr_vs_1x_VolZ,Full_CAGR_%,Total_Mult_x,CAGR_2010_19_%,CAGR_2020_26_%,MaxDD_%,MaxDD_Window,MaxDD_2024_26_%,Ret_2022_%,Daily_Sharpe,Switches,Closed_3x_Wins
+TQQQ Strategy — Vol_Z from 1x QQQ (Frozen Standard),1.0,54.97,1520.5,48.94,64.11,-44.54,2015-07-20->2016-02-09,-36.97,1.58,1.261,33,16/16
+TQQQ Strategy — Vol_Z from 3x TQQQ (with 2009 3x Warm-up),0.9996,55.74,1652.3,50.2,64.11,-44.54,2015-07-20->2016-02-09,-36.97,1.58,1.274,33,16/16
+TQQQ Strategy — Vol_Z from 3x TQQQ (Raw Post-Inception Only),0.9996,54.55,1452.9,48.26,64.11,-44.54,2015-07-20->2016-02-09,-36.97,1.58,1.241,31,15/15
+"SOXL Strategy — Vol_Z from 1x SOXX (Standard, -> 1x SOXX)",1.0,69.62,6616.1,44.39,113.66,-70.83,2024-10-14->2025-04-08,-70.83,1.58,1.119,32,15/16
+"SOXL Strategy — Vol_Z from 3x SOXL (with 2009 3x Warm-up, -> 1x SOXX)",0.99831,68.08,5682.4,43.71,110.38,-70.83,2024-10-14->2025-04-08,-70.83,1.58,1.102,34,16/17
+"SOXL Strategy — Vol_Z from 3x SOXL (Raw Post-Inception Only, -> 1x SOXX)",0.99831,63.89,3734.8,37.69,110.38,-72.61,2011-02-17->2011-10-03,-70.83,1.58,1.05,30,14/15
