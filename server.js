@@ -3613,7 +3613,7 @@ const server = http.createServer(async (req, res) => {
     if (dlStatus.state === 'downloading' || dlStatus.state === 'updating' || isUpdating) {
       res.end(JSON.stringify({ status: 'busy', message: dlStatus.msg || 'Updating...' }));
     } else {
-      const forceYahoo = u.searchParams.get('force') === '1';
+      const forceYahoo = new URL(req.url, 'http://localhost').searchParams.get('force') === '1';
       res.end(JSON.stringify({ status: 'started' }));
       if (forceYahoo) {
         (async () => {
