@@ -9,14 +9,16 @@ Maintains and auto-updates physical luxury market time series in `data/valuation
    - LUX_ROLEX.json      : Subdial Rolex Index (Top 25 Rolex models)
    - LUX_PATEK.json      : Subdial Patek Philippe Index (Ultra-HNW top 0.1% barometer)
    - LUX_ENTRY100.json   : Subdial Entry-Level 100 Index (Mass-affluent watch demand)
+   Note: Subdial's public API serves a rolling 2-year daily window; incremental merge preserves all historical dates on disk.
 
-2. Official Physical Swiss Watch Exports (Federation of the Swiss Watch Industry FH, monthly):
-   - LUX_SWISS_WATCH_EXPORTS.json : World monthly export value (Mil. CHF)
-   - LUX_SWISS_WATCH_YOY.json     : World monthly export YoY % growth
+2. Official Physical Swiss Watch Exports (Swiss National Bank SNB / BAZG cube `ausshawarm`, monthly SA, 2012-01 -> present):
+   - LUX_SWISS_WATCH_EXPORTS.json : Monthly Swiss Watches & Clocks Exports (Mil. CHF, CPA2 C2652)
+   - LUX_SWISS_WATCH_YOY.json     : Monthly YoY % growth (2013-01 -> present, ~165+ consecutive months)
 
 All updates are strictly incremental (merge by date, never erase older cached history).
 """
 
+import csv
 import io
 import json
 import os
@@ -32,12 +34,7 @@ HEADERS = {
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
         "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
     ),
-    "Accept": "application/json,text/html,*/*",
-}
-
-MONTH_MAP = {
-    "Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6,
-    "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12,
+    "Accept": "application/json,text/csv,text/html,*/*",
 }
 
 
@@ -118,6 +115,7 @@ def update_subdial():
                     "ok": True,
                     "points": len(vals),
                     "added": added,
+                    "firstDate": vals[0][0],
                     "lastDate": vals[-1][0],
                     "lastValue": vals[-1][1],
                 }
@@ -128,80 +126,64 @@ def update_subdial():
     return results
 
 
-def update_fh_swiss_watch_exports():
-    """Fetch official monthly Swiss watch exports (World, Mil. CHF) from FH and compute YoY %."""
-    exp_map = load_series("LUX_SWISS_WATCH_EXPORTS")
-    yoy_map = load_series("LUX_SWISS_WATCH_YOY")
+def update_snb_swiss_watch_exports():
+    """Fetch full official monthly Swiss Watches & Clocks Exports (SA, Mil. CHF, 2012-01..present) from SNB API."""
+    url = "https://data.snb.ch/api/cube/ausshawarm/data/csv/en?dimSel=D0(A),D1(C2652)&fromDate=1988-01"
     try:
-        import pypdf
-    except Exception as e:
-        return {"ok": False, "error": f"pypdf_missing: {e}", "cachedPoints": len(yoy_map)}
+        req = urllib.request.Request(url, headers=HEADERS)
+        body = urllib.request.urlopen(req, timeout=20).read().decode("utf-8-sig")
+        exp_map = {}
+        for row in csv.reader(io.StringIO(body), delimiter=";"):
+            if len(row) < 5:
+                continue
+            ym, d0, d1, d2, val_s = row[0], row[1], row[2], row[3], row[4]
+            if d0 == "A" and d1 == "C2652" and d2 == "WMF" and val_s and re.match(r"^\d{4}-\d{2}$", ym):
+                exp_map[f"{ym}-01"] = float(val_s)
 
-    try:
-        req = urllib.request.Request("https://www.fhs.swiss/eng/statistics.html", headers=HEADERS)
-        html = urllib.request.urlopen(req, timeout=15).read().decode("utf-8", errors="ignore")
-        m = re.search(r"(/eng/statistics/pdf/histo_marches_\d+_a\.pdf)", html)
-        if not m:
-            return {"ok": False, "error": "pdf_link_not_found", "cachedPoints": len(yoy_map)}
-        pdf_url = "https://www.fhs.swiss" + m.group(1)
-        pdf_bytes = urllib.request.urlopen(
-            urllib.request.Request(pdf_url, headers=HEADERS), timeout=20
-        ).read()
-        reader = pypdf.PdfReader(io.BytesIO(pdf_bytes))
-        text = reader.pages[0].extract_text() or ""
+        if not exp_map:
+            return {"ok": False, "error": "no_snb_rows"}
 
-        # Parse monthly rows like: "Oct 26 2,456.4 178.2 ..."
-        # First numeric token after "Mon YY" is World total in Mil. CHF.
-        row_re = re.compile(
-            r"^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{2})\s+([\d,]+\.\d)",
-            re.MULTILINE,
+        exp_vals = save_series(
+            "LUX_SWISS_WATCH_EXPORTS",
+            exp_map,
+            {
+                "source": "Swiss National Bank (SNB / BAZG) cube ausshawarm D0=A D1=C2652 D2=WMF",
+                "unit": "Mil CHF (SA)",
+            },
         )
-        parsed = 0
-        for mon_str, yy_str, val_str in row_re.findall(text):
-            year = 2000 + int(yy_str)
-            month = MONTH_MAP[mon_str]
-            dt = f"{year:04d}-{month:02d}-01"
-            val = float(val_str.replace(",", ""))
-            if 500.0 <= val <= 10000.0:  # sanity check for monthly World CHF millions
-                exp_map[dt] = val
-                parsed += 1
+        yoy_map = {}
+        for dt, cur_val in exp_map.items():
+            yr = int(dt[:4]) - 1
+            prev_dt = f"{yr:04d}{dt[4:]}"
+            prev_val = exp_map.get(prev_dt)
+            if prev_val and prev_val > 0:
+                yoy_map[dt] = (cur_val / prev_val - 1.0) * 100.0
 
-        if exp_map:
-            exp_vals = save_series(
-                "LUX_SWISS_WATCH_EXPORTS",
-                exp_map,
-                {"source": "Federation of the Swiss Watch Industry FH", "unit": "Mil CHF", "pdf": pdf_url},
-            )
-            # Compute YoY % wherever (year-1, month) exists
-            for dt, cur_val in exp_map.items():
-                yr = int(dt[:4]) - 1
-                prev_dt = f"{yr:04d}{dt[4:]}"
-                prev_val = exp_map.get(prev_dt)
-                if prev_val and prev_val > 0:
-                    yoy_map[dt] = (cur_val / prev_val - 1.0) * 100.0
-            yoy_vals = save_series(
-                "LUX_SWISS_WATCH_YOY",
-                yoy_map,
-                {"source": "Federation of the Swiss Watch Industry FH", "unit": "%", "pdf": pdf_url},
-            )
-            return {
-                "ok": True,
-                "parsedMonths": parsed,
-                "exportPoints": len(exp_vals),
-                "yoyPoints": len(yoy_vals),
-                "lastDate": yoy_vals[-1][0] if yoy_vals else None,
-                "lastYoY": yoy_vals[-1][1] if yoy_vals else None,
-            }
-        return {"ok": False, "error": "no_monthly_rows_parsed", "cachedPoints": len(yoy_map)}
+        yoy_vals = save_series(
+            "LUX_SWISS_WATCH_YOY",
+            yoy_map,
+            {
+                "source": "Swiss National Bank (SNB / BAZG) cube ausshawarm D0=A D1=C2652 YoY%",
+                "unit": "%",
+            },
+        )
+        return {
+            "ok": True,
+            "exportPoints": len(exp_vals),
+            "yoyPoints": len(yoy_vals),
+            "firstDate": yoy_vals[0][0] if yoy_vals else None,
+            "lastDate": yoy_vals[-1][0] if yoy_vals else None,
+            "lastYoY": yoy_vals[-1][1] if yoy_vals else None,
+        }
     except Exception as e:
-        return {"ok": False, "error": str(e), "cachedPoints": len(yoy_map)}
+        return {"ok": False, "error": str(e)}
 
 
 def main():
     subdial_res = update_subdial()
-    fh_res = update_fh_swiss_watch_exports()
-    any_ok = any(v.get("ok") for v in subdial_res.values()) or fh_res.get("ok")
-    out = {"ok": any_ok, "subdial": subdial_res, "fh_swiss_watches": fh_res}
+    snb_res = update_snb_swiss_watch_exports()
+    any_ok = any(v.get("ok") for v in subdial_res.values()) or snb_res.get("ok")
+    out = {"ok": any_ok, "subdial": subdial_res, "snb_swiss_watches": snb_res}
     print(json.dumps(out))
 
 

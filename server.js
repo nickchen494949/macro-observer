@@ -272,7 +272,7 @@ const LUXURY_GROUPS = [
     { id:'lux_rolex',           label:'Subdial Rolex 25 劳力士二级市场指数',                  valuation:'LUX_ROLEX',          unit:'$' },
     { id:'lux_patek',           label:'Subdial Patek 百达翡丽指数 (顶层富豪)',                valuation:'LUX_PATEK',          unit:'$' },
     { id:'lux_entry100',        label:'Subdial Entry-Level 100 入门名表 (中产需求)',           valuation:'LUX_ENTRY100',       unit:'$' },
-    { id:'lux_swiss_watch_yoy', label:'瑞士手表月度出口同比 (FH 官方实体硬数据 YoY)',          valuation:'LUX_SWISS_WATCH_YOY', unit:'%', absoluteChanges:true },
+    { id:'lux_swiss_watch_yoy', label:'瑞士手表月度出口同比 (SNB 瑞士央行季调 YoY)',        valuation:'LUX_SWISS_WATCH_YOY', unit:'%', absoluteChanges:true },
   ]},
   { name:'👜 纯血奢侈品综合指标 Pure Luxury Composites (零杂质自算)', items:[
     { id:'lux_composite', label:'纯血奢侈品综合指数 Pure Luxury Index (5巨头等权)', computed:'lux_composite', unit:'pt' },
@@ -707,8 +707,8 @@ async function updateLuxuryIndices() {
             }
           }
           const s50 = res.subdial?.LUX_SUBDIAL50;
-          const fh = res.fh_swiss_watches;
-          console.log(`  ✅ Luxury Indices updated (Subdial50: $${s50?.lastValue}, Swiss Watch YoY: ${fh?.lastYoY}%)`);
+          const snb = res.snb_swiss_watches;
+          console.log(`  ✅ Luxury Indices updated (Subdial50: $${s50?.lastValue}, SNB Swiss Watch YoY: ${snb?.lastYoY}%)`);
         }
       } catch (e) {
         console.log(`  ⚠️  Luxury indices update failed: ${e.message}`);
@@ -1247,20 +1247,18 @@ function computeSpread(a, b, mult = 1) {
 
 function computeLuxuryComposite() {
   const maps = [];
-  let startDate = '';
   for (const sym of LUXURY_EQUITY_SYMS) {
     const arr = store.yahoo[sym];
     if (!arr || arr.length < 20) continue;
     maps.push(new Map(arr));
-    if (arr[0][0] > startDate) startDate = arr[0][0];
   }
   if (maps.length < 2) return null;
 
+  // Dynamic equal-weight daily-rebalanced index starting as soon as >=2 luxury titans have data
+  // (2000-01: 4 European titans LVMH/Hermès/Richemont/Kering -> 2015-10: chains in Ferrari RACE seamlessly)
   const dateSet = new Set();
   for (const m of maps) {
-    for (const d of m.keys()) {
-      if (d >= startDate) dateSet.add(d);
-    }
+    for (const d of m.keys()) dateSet.add(d);
   }
   const dates = [...dateSet].sort();
   const prev = new Array(maps.length).fill(null);
@@ -1269,22 +1267,25 @@ function computeLuxuryComposite() {
 
   for (const d of dates) {
     let sumRet = 0;
-    let ready = 0;
+    let activeNow = 0;
+    let activeWithPrev = 0;
     for (let k = 0; k < maps.length; k++) {
       const cur = maps[k].get(d);
       if (cur != null && Number.isFinite(cur) && cur > 0) {
         if (prev[k] != null) {
           sumRet += (cur / prev[k] - 1);
-          ready++;
+          activeWithPrev++;
         }
         prev[k] = cur;
+        activeNow++;
       } else if (prev[k] != null) {
-        ready++; // holiday on one exchange: 0% return, carry last close
+        activeNow++;
+        activeWithPrev++; // exchange holiday: 0% return, carry prior close
       }
     }
-    if (prev.every(v => v != null)) {
-      if (out.length > 0 && ready > 0) {
-        level *= (1 + sumRet / maps.length);
+    if (activeNow >= 2) {
+      if (out.length > 0 && activeWithPrev >= 2) {
+        level *= (1 + sumRet / activeWithPrev);
       }
       out.push([d, +level.toFixed(2)]);
     }
