@@ -491,6 +491,21 @@
     </div>
   </section>
 
+  <section class="card" id="luxurySection">
+    <div class="card-head">
+      <h2>💎 奢侈品市场 Luxury Market</h2>
+      <span style="display:flex;align-items:center;gap:8px">
+        <span class="badge badge-fred">Subdial · FH</span>
+        <span class="badge badge-yahoo">Yahoo Finance</span>
+      </span>
+    </div>
+    <div class="tbl-wrap">
+      <table><thead><tr>
+        <th>Indicator</th><th>Current</th><th>Z %ile (4Y)</th><th>Z %ile (All)</th><th title="五大奢侈品上市巨头的实时涨跌 vs 昨收（自动更新）；二手名表与月度出口为二级市场/实体周期数据。">实时 %</th><th>1D Δ</th><th>1W Δ</th><th>1M Δ</th><th>1Q Δ</th><th>6M Δ</th><th>1Y Δ</th>
+      </tr></thead><tbody id="luxuryBody"></tbody></table>
+    </div>
+  </section>
+
   <section class="card" id="sectorEpsSection">
     <div class="card-head">
       <h2>🏭 板块 EPS Sector EPS (S&amp;P 500, 季度 · Yardeni / LSEG I/B/E/S)</h2>
@@ -587,6 +602,8 @@ function fmtVal(v, unit) {
   if (unit === 'x') return v.toFixed(2) + 'x';
   if (unit === '$B') return '$' + (Math.abs(v) >= 1000 ? (v/1000).toFixed(2) + 'T' : v.toFixed(1) + 'B');
   if (unit === '$') return '$' + (Math.abs(v) >= 1000 ? v.toLocaleString('en',{maximumFractionDigits:2}) : v.toFixed(2));
+  if (unit === '€') return '€' + (Math.abs(v) >= 1000 ? v.toLocaleString('en',{maximumFractionDigits:2}) : v.toFixed(2));
+  if (unit === 'CHF') return 'CHF ' + (Math.abs(v) >= 1000 ? v.toLocaleString('en',{maximumFractionDigits:2}) : v.toFixed(2));
   if (unit === 'T$') return '$' + v.toFixed(2) + 'T';
   if (unit === 'pt') return v.toLocaleString('en', {maximumFractionDigits: 0}) + ' pt';
   if (unit === 'k')  return v.toLocaleString('en', {maximumFractionDigits: 1}) + 'k';
@@ -944,6 +961,8 @@ function render(data) {
 
   window._stocksData = data.stocks;
   renderStockTable();
+  window._luxuryData = data.luxury;
+  renderLuxuryTable();
   try { loadPremarket(); } catch (e) { console.warn('premarket load failed', e); }
   
   // Store current Fed Funds Rate for chart reference dots
@@ -1155,6 +1174,18 @@ function renderStockTable() {
   body.innerHTML = sh;
 }
 
+function renderLuxuryTable() {
+  const luxury = window._luxuryData;
+  const body = document.getElementById('luxuryBody');
+  if (!luxury || !body) return;
+  let lh = '';
+  for (const g of luxury) {
+    lh += groupRow(g.group, 11);
+    lh += g.items.map(i => row(i, preCellFor(i))).join('');
+  }
+  body.innerHTML = lh;
+}
+
 function updatePreStatus(pm) {
   const st = document.getElementById('preStatus');
   if (!st) return;
@@ -1172,6 +1203,7 @@ async function loadPremarket() {
     const pm = await r.json();
     window._premarket = pm;
     renderStockTable();
+    renderLuxuryTable();
     renderComTable();
     updatePreStatus(pm);
   } catch (e) { console.warn('premarket load failed', e); }
@@ -2656,6 +2688,10 @@ function renderChart(data) {
               }
               if (chartCurrentUnit === '%') return v.toFixed(2) + '%';
               if (chartCurrentUnit === 'bp') return v.toFixed(1) + ' bp';
+              if (chartCurrentUnit === 'x') return v.toFixed(2) + 'x';
+              if (chartCurrentUnit === 'pt') return v.toLocaleString('en',{maximumFractionDigits:1}) + ' pt';
+              if (chartCurrentUnit === '€') return '€' + (Math.abs(v) >= 1000 ? v.toLocaleString('en',{maximumFractionDigits:2}) : v.toFixed(2));
+              if (chartCurrentUnit === 'CHF') return 'CHF ' + (Math.abs(v) >= 1000 ? v.toLocaleString('en',{maximumFractionDigits:2}) : v.toFixed(2));
               return '$' + (Math.abs(v) >= 1000 ? v.toLocaleString('en',{maximumFractionDigits:2}) : v.toFixed(2));
             }
           }

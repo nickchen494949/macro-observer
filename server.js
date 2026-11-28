@@ -264,6 +264,29 @@ const STOCK_GROUPS = [
   ]},
 ];
 
+const LUXURY_EQUITY_SYMS = ['MC.PA', 'RMS.PA', 'CFR.SW', 'KER.PA', 'RACE'];
+
+const LUXURY_GROUPS = [
+  { name:'⌚ 二手名表二级市场 Secondary Watch Market (Bloomberg × Subdial · USD)', items:[
+    { id:'lux_subdial50',       label:'Bloomberg × Subdial 50 (迪通拿 / 鹦鹉螺 / 皇家橡树)', valuation:'LUX_SUBDIAL50',      unit:'$' },
+    { id:'lux_rolex',           label:'Subdial Rolex 25 劳力士二级市场指数',                  valuation:'LUX_ROLEX',          unit:'$' },
+    { id:'lux_patek',           label:'Subdial Patek 百达翡丽指数 (顶层富豪)',                valuation:'LUX_PATEK',          unit:'$' },
+    { id:'lux_entry100',        label:'Subdial Entry-Level 100 入门名表 (中产需求)',           valuation:'LUX_ENTRY100',       unit:'$' },
+    { id:'lux_swiss_watch_yoy', label:'瑞士手表月度出口同比 (FH 官方实体硬数据 YoY)',          valuation:'LUX_SWISS_WATCH_YOY', unit:'%', absoluteChanges:true },
+  ]},
+  { name:'👜 纯血奢侈品综合指标 Pure Luxury Composites (零杂质自算)', items:[
+    { id:'lux_composite', label:'纯血奢侈品综合指数 Pure Luxury Index (5巨头等权)', computed:'lux_composite', unit:'pt' },
+    { id:'lux_kshape',    label:'奢侈品 K 型分化比 (爱马仕 RMS / Gucci KER)',        computed:'lux_kshape',    unit:'x' },
+  ]},
+  { name:'🏛️ 全球五大奢侈品巨头 Global Luxury Bellwethers', items:[
+    { id:'lux_lvmh',      label:'LVMH (LV / Dior / Tiffany · 全球总温)', yahoo:'MC.PA',  unit:'€' },
+    { id:'lux_hermes',    label:'Hermès 爱马仕 (Birkin · 顶层 1%)',       yahoo:'RMS.PA', unit:'€' },
+    { id:'lux_richemont', label:'Richemont 历峰 (Cartier / 梵克雅宝 · 硬奢)', yahoo:'CFR.SW', unit:'CHF' },
+    { id:'lux_kering',    label:'Kering 开云 (Gucci / YSL · 中产消费)',   yahoo:'KER.PA', unit:'€' },
+    { id:'lux_ferrari',   label:'Ferrari 法拉利 (超跑硬通货)',            yahoo:'RACE',   unit:'$' },
+  ]},
+];
+
 const CTA_ETF_UPDATE_SYMBOLS = ['SPY', 'QQQ', 'IWM', 'IEF', 'USO', 'GLD'];
 
 // World overview tickers (global indices, USD, JPY)
@@ -280,6 +303,7 @@ function allYahooSymbols() {
   for (const r of RATE_ROWS) { if (r.yahoo) s.add(r.yahoo); }
   for (const r of COMMODITY_ROWS) { if (r.yahoo) s.add(r.yahoo); }
   for (const g of STOCK_GROUPS) { for (const i of g.items) { if (i.yahoo) s.add(i.yahoo); } }
+  for (const g of LUXURY_GROUPS) { for (const i of g.items) { if (i.yahoo) s.add(i.yahoo); } }
   for (const sym of CTA_ETF_UPDATE_SYMBOLS) s.add(sym);
   for (const sym of WORLD_YAHOO_SYMBOLS) s.add(sym);
   return [...s];
@@ -662,6 +686,38 @@ async function updateFinraAndCftc() {
   });
 }
 
+// ============================================
+// LUXURY MARKET INDICES (SUBDIAL WATCHES + FH SWISS WATCH EXPORTS)
+// ============================================
+async function updateLuxuryIndices() {
+  console.log('  💎 Updating Luxury Watch & Swiss Export Indices...');
+  return new Promise((resolve) => {
+    execFile(PYTHON_BIN, [path.join(__dirname, 'update_luxury_indices.py')], { timeout: 45000 }, (err, stdout) => {
+      try {
+        if (err) throw err;
+        const res = JSON.parse((stdout || '').trim());
+        if (res && res.ok) {
+          for (const key of ['LUX_SUBDIAL50', 'LUX_ROLEX', 'LUX_PATEK', 'LUX_ENTRY100', 'LUX_SWISS_WATCH_EXPORTS', 'LUX_SWISS_WATCH_YOY']) {
+            const p = path.join(VALUATION_DIR, `${key}.json`);
+            if (fs.existsSync(p)) {
+              const d = JSON.parse(fs.readFileSync(p, 'utf8'));
+              if (d && Array.isArray(d.values)) {
+                store.valuation[key] = d.values.filter(v => v[0] >= VALUATION_CUTOFF);
+              }
+            }
+          }
+          const s50 = res.subdial?.LUX_SUBDIAL50;
+          const fh = res.fh_swiss_watches;
+          console.log(`  ✅ Luxury Indices updated (Subdial50: $${s50?.lastValue}, Swiss Watch YoY: ${fh?.lastYoY}%)`);
+        }
+      } catch (e) {
+        console.log(`  ⚠️  Luxury indices update failed: ${e.message}`);
+      }
+      resolve();
+    });
+  });
+}
+
 
 // ============================================
 let lastYahooUpdate = 0;
@@ -671,7 +727,10 @@ let isUpdating = false; // lock to prevent concurrent updates
 // The daily store only keeps COMPLETED sessions, so "Current"/"1D Δ" always mean the last finished day
 // (today's live move lives in the 实时 % column). A bar dated today (New York date) is dropped until the
 // symbol's session is over: US stocks/ETFs/futures/VIX/FX after 18:00 ET, Asia/Europe indices earlier.
-const BAR_COMPLETE_AFTER_ET_MIN = { '^N225': 180, '000001.SS': 240, '^STOXX': 720 };
+const BAR_COMPLETE_AFTER_ET_MIN = {
+  '^N225': 180, '000001.SS': 240, '^STOXX': 720,
+  'MC.PA': 720, 'RMS.PA': 720, 'CFR.SW': 720, 'KER.PA': 720,
+};
 function dropUnfinishedBar(sym, vals) {
   const et = etNow();
   const cutoff = BAR_COMPLETE_AFTER_ET_MIN[sym] ?? 18 * 60;
@@ -829,6 +888,8 @@ async function smartUpdate(includeYahoo = false, includeFred = true) {
   await updateBofaFmsCash();
   // Update FINRA Margin Debt & CFTC Futures Positioning
   await updateFinraAndCftc();
+  // Update Luxury Secondary Watch & Swiss Watch Export Indices
+  await updateLuxuryIndices();
 
   // Update macro news (GDELT + Fed RSS)
   try { await fetchAllNews(); } catch(e) { console.log(`  ⚠️  News update failed: ${e.message}`); }
@@ -869,7 +930,9 @@ function premarketSymbols() {
   }
   // commodity futures trade ~23h/day → included in every spark call (no extra requests)
   const commods = COMMODITY_ROWS.filter(r => r.yahoo).map(r => r.yahoo);
-  return { etfs, indices, commods, futures: Object.values(PREMARKET_FUTURES) };
+  // luxury equities included in batched spark calls only (zero extra single-symbol pre-market calls)
+  const luxury = LUXURY_EQUITY_SYMS.slice();
+  return { etfs, indices, commods, luxury, futures: Object.values(PREMARKET_FUTURES) };
 }
 
 // ---- New York clock + NYSE calendar (data/nyse_calendar.json; falls back to weekdays if not covered)
@@ -1018,13 +1081,13 @@ async function liveTick() {
   if (!dueFut && !duePreEtf && !dueSpark && !dueClose) return;
 
   isUpdating = true; premarket.updating = true;
-  const { etfs, indices, commods, futures } = premarketSymbols();
+  const { etfs, indices, commods, luxury, futures } = premarketSymbols();
   if (premarket.session !== et.date) { premarket.session = et.date; premarket.items = {}; premarket.closeDoneFor = null; }
   const items = premarket.items;
   try {
     if (dueSpark || dueClose) {
       const kind = dueClose ? 'close' : 'regular';
-      const data = await fetchYahooSpark([...etfs, ...indices, ...commods]);
+      const data = await fetchYahooSpark([...etfs, ...indices, ...commods, ...luxury]);
       for (const [sym, r] of Object.entries(data)) {
         items[sym] = { price: r.price, prev: r.prev, pct: pct(r.price, r.prev), ts: r.ts, kind };
         try { fillPrevCloseGap(sym, r.prev, et.date); } catch (e) { console.log(`  ⚠️  gap-fill ${sym}: ${e.message}`); }
@@ -1180,6 +1243,68 @@ function computeSpread(a, b, mult = 1) {
   if (!da || !db) return null;
   const mapB = new Map(db);
   return da.filter(([d]) => mapB.has(d)).map(([d, v]) => [d, (v - mapB.get(d)) * mult]);
+}
+
+function computeLuxuryComposite() {
+  const maps = [];
+  let startDate = '';
+  for (const sym of LUXURY_EQUITY_SYMS) {
+    const arr = store.yahoo[sym];
+    if (!arr || arr.length < 20) continue;
+    maps.push(new Map(arr));
+    if (arr[0][0] > startDate) startDate = arr[0][0];
+  }
+  if (maps.length < 2) return null;
+
+  const dateSet = new Set();
+  for (const m of maps) {
+    for (const d of m.keys()) {
+      if (d >= startDate) dateSet.add(d);
+    }
+  }
+  const dates = [...dateSet].sort();
+  const prev = new Array(maps.length).fill(null);
+  let level = 100.0;
+  const out = [];
+
+  for (const d of dates) {
+    let sumRet = 0;
+    let ready = 0;
+    for (let k = 0; k < maps.length; k++) {
+      const cur = maps[k].get(d);
+      if (cur != null && Number.isFinite(cur) && cur > 0) {
+        if (prev[k] != null) {
+          sumRet += (cur / prev[k] - 1);
+          ready++;
+        }
+        prev[k] = cur;
+      } else if (prev[k] != null) {
+        ready++; // holiday on one exchange: 0% return, carry last close
+      }
+    }
+    if (prev.every(v => v != null)) {
+      if (out.length > 0 && ready > 0) {
+        level *= (1 + sumRet / maps.length);
+      }
+      out.push([d, +level.toFixed(2)]);
+    }
+  }
+  return out.length >= 5 ? out : null;
+}
+
+function computeLuxuryKShape() {
+  const hermes = store.yahoo['RMS.PA'];
+  const kering = store.yahoo['KER.PA'];
+  if (!hermes || !kering) return null;
+  const mapK = new Map(kering);
+  const out = [];
+  for (const [d, vH] of hermes) {
+    const vK = mapK.get(d);
+    if (vH != null && vK != null && vK > 0) {
+      out.push([d, +(vH / vK).toFixed(4)]);
+    }
+  }
+  return out.length >= 5 ? out : null;
 }
 
 function medianGapToFrequency(vals) {
@@ -1753,6 +1878,41 @@ function buildDashboard() {
   });
 
   const valItems = stocks.flatMap(g => g.items).filter(i => i.id && VALUATION_ITEMS.some(vi => vi.id === i.id));
+
+  // Luxury Market section (Secondary Watch Market + Pure Luxury Composites + Global Bellwethers)
+  const luxury = LUXURY_GROUPS.map(g => {
+    const items = g.items.map(i => {
+      let vals = null;
+      let chartKey = '';
+      if (i.valuation) {
+        vals = store.valuation[i.valuation];
+        chartKey = 'val:' + i.valuation;
+      } else if (i.computed === 'lux_composite') {
+        vals = computeLuxuryComposite();
+        chartKey = 'lux:composite';
+      } else if (i.computed === 'lux_kshape') {
+        vals = computeLuxuryKShape();
+        chartKey = 'lux:kshape';
+      } else if (i.yahoo) {
+        vals = store.yahoo[i.yahoo];
+        chartKey = i.yahoo;
+      }
+      const m = calcMetrics(vals, !!i.absoluteChanges);
+      const lastObsDate = vals && vals.length ? vals[vals.length - 1][0] : null;
+      const daysSinceObs = lastObsDate ? Math.floor((Date.now() - new Date(lastObsDate + 'T00:00:00Z').getTime()) / 86400000) : null;
+      return {
+        id: i.id,
+        label: i.label,
+        unit: i.unit || '$',
+        chartKey,
+        absoluteChanges: !!i.absoluteChanges,
+        lastObsDate,
+        daysSinceObs,
+        ...(m || { current:null, zscore:null, zscoreAll:null, changes:{} }),
+      };
+    });
+    return { group: g.name, items };
+  });
   
   // Bank Equity Stress Injection (SP500 vs KRE outperformance over 6M)
   const sp500Item = stocks.flatMap(g => g.items).find(i => i.label === 'S&P 500');
@@ -1799,7 +1959,7 @@ function buildDashboard() {
     updated: new Date().toISOString(),
     fredLoaded: Object.keys(store.fred).length,
     yahooLoaded: Object.keys(store.yahoo).length,
-    rates, commodities, stocks,
+    rates, commodities, stocks, luxury,
     fedPathHistory: store.valuation['FED_PATH_HISTORY'] || [],
     yieldCurveHistory: buildYieldCurveHistory(),
     sepHistory: (store.valuation['SEP_HISTORY'] || []).filter(([_d, curve]) => curve.length >= 3),
@@ -2994,6 +3154,10 @@ const server = http.createServer(async (req, res) => {
     if (key.startsWith('spread:')) {
       const [, a, b] = key.split(':');
       data = computeSpread(a, b, key.includes('_pct') ? 100 : 1);
+    } else if (key === 'lux:composite') {
+      data = computeLuxuryComposite();
+    } else if (key === 'lux:kshape') {
+      data = computeLuxuryKShape();
     } else {
       const y = store.yahoo[key];
       const f = store.fred[key];
